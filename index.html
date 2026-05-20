@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personal</title>
+<link rel="stylesheet" href="assets/site-nav.css" />
+<script src="assets/site-nav.js" defer></script>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #1a2238;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #1d4ed8;
+    --accent-light: #dbeafe;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+  }  .page-hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+    color: #ffffff;
+    padding: 42px 24px;
+  }
+  .page-hero-inner,
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .page-hero h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+  }
+  .page-hero p {
+    margin: 0;
+    max-width: 680px;
+    opacity: 0.9;
+  }
+  main {
+    padding: 24px;
+  }
+  .page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .page-card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .page-card:hover {
+    border-color: #bfdbfe;
+    box-shadow: 0 6px 18px rgba(29, 78, 216, 0.08);
+  }
+  .page-card h2 {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+  }
+  .page-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+  @media (max-width: 640px) {
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="home"></site-nav>
+
+<header class="page-hero">
+  <div class="page-hero-inner">
+    <h1>Personal</h1>
+    <p>A small personal website for study tools, notes, and future pages.</p>
+  </div>
+</header>
+
+<main>
+  <div class="page-grid">
+    <a class="page-card" href="citizenship-interview-prep.html">
+      <h2>U.S. Citizenship Interview Prep</h2>
+      <p>Practice the official civics questions with Chinese translations, progress tracking, vocabulary, and audio tools.</p>
+    </a>
+    <a class="page-card" href="resources.html">
+      <h2>Resources</h2>
+      <p>A placeholder page ready for links, documents, notes, or new sections as the site grows.</p>
+    </a>
+  </div>
+</main>
+</body>
+</html>

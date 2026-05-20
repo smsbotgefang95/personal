@@ -1,0 +1,3254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>U.S. Citizenship Interview Prep | 美国公民入籍面试备考</title>
+<link rel="stylesheet" href="assets/site-nav.css" />
+<script src="assets/site-nav.js" defer></script>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #1a2238;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #1d4ed8;
+    --accent-light: #dbeafe;
+
+    --learned: #16a34a;
+    --learned-bg: #dcfce7;
+    --learning: #d97706;
+    --learning-bg: #fef3c7;
+    --tolearn: #6b7280;
+    --tolearn-bg: #f3f4f6;
+    --review: #9333ea;
+    --review-bg: #f3e8ff;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+    color: #fff;
+    padding: 28px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  header h1 {
+    margin: 0 0 6px 0;
+    font-size: 1.6rem;
+  }
+  header .sub-zh {
+    font-size: 1.05rem;
+    opacity: 0.95;
+    margin: 0 0 6px 0;
+  }
+  header p {
+    margin: 0;
+    opacity: 0.85;
+    font-size: 0.9rem;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--border);
+  }
+  .tab {
+    padding: 10px 18px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab:hover { color: var(--accent); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* Progress summary */
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat .num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .stat .label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .stat .label-zh {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--learning), var(--learned));
+    transition: width 0.4s ease;
+  }
+
+  /* Controls */
+  .controls {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .controls input[type="text"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+  }
+  .controls input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { background: var(--bg); }
+  .filter-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .reset-btn {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+  .reset-btn:hover { color: #dc2626; }
+
+  /* Question cards */
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .question.jump-highlight {
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .q-num {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .q-text-en {
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 0 4px 0;
+    flex: 1;
+  }
+  .q-text-zh {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+  .q-head-text { flex: 1; }
+
+  .q-answer {
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 10px 0;
+    display: none;
+  }
+  .q-answer.open { display: block; }
+  .q-answer .ans-en {
+    font-size: 0.93rem;
+    white-space: pre-line;
+    margin: 0 0 8px 0;
+  }
+  .q-answer .ans-zh {
+    font-size: 0.9rem;
+    white-space: pre-line;
+    color: var(--muted);
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+    margin: 0;
+  }
+
+  .q-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    align-items: center;
+  }
+  .reveal-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  .reveal-btn:hover { background: var(--bg); }
+
+  /* Audio buttons */
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--accent);
+    transition: all 0.15s;
+  }
+  .audio-btn:hover { background: var(--accent-light); }
+  .audio-btn.playing {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .audio-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .q-head-audio {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .yt-time-panel {
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #f8fafc;
+    display: none;
+    gap: 7px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .yt-time-panel.open { display: flex; }
+  .yt-time-panel label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  .yt-time-panel input {
+    width: 78px;
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.78rem;
+  }
+  .yt-time-panel .time-status {
+    font-size: 0.76rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .yt-time-panel .time-status.saved { color: var(--learned); }
+  .yt-time-panel .time-status.estimated { color: var(--review); }
+  .yt-time-panel .time-status.needs-time { color: #b91c1c; }
+
+  #yt-audio-player {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    left: -9999px;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .audio-controls {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    font-size: 0.88rem;
+  }
+  .audio-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .loop-progress {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .vocab-loop-controls {
+    margin-bottom: 14px;
+  }
+  .audio-seek {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 260px;
+    flex: 1;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .audio-seek input[type="range"] {
+    flex: 1;
+    min-width: 160px;
+  }
+  .localhost-notice {
+    display: none;
+    width: 100%;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .localhost-notice.open { display: flex; }
+  .localhost-notice a,
+  .localhost-notice button {
+    margin-left: auto;
+    color: #1d4ed8;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .localhost-notice button {
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    background: #eff6ff;
+    cursor: pointer;
+    padding: 6px 10px;
+  }
+  .localhost-notice a:hover,
+  .localhost-notice button:hover { text-decoration: underline; }
+  .restore-url {
+    width: 100%;
+    border: 1px solid #fed7aa;
+    border-radius: 6px;
+    color: #7c2d12;
+    background: #fff;
+    padding: 7px 9px;
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status-group {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+  .status-btn {
+    padding: 5px 11px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.15s;
+  }
+  .status-btn:hover { background: var(--bg); }
+
+  .status-btn.active.auto       { background: var(--tolearn-bg); color: var(--tolearn); border-color: var(--tolearn); font-weight: 600; }
+  .status-btn.active.tolearn    { background: var(--accent-light); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+  .status-btn.active.learned    { background: var(--learned-bg);  color: var(--learned);  border-color: var(--learned);  font-weight: 600; }
+  .status-btn.active.learning   { background: var(--learning-bg); color: var(--learning); border-color: var(--learning); font-weight: 600; }
+  .status-btn.active.review     { background: var(--review-bg);   color: var(--review);   border-color: var(--review);   font-weight: 600; }
+
+  .question[data-status="learned"]  { border-left: 4px solid var(--learned); }
+  .question[data-status="learning"] { border-left: 4px solid var(--learning); }
+  .question[data-status="review"]   { border-left: 4px solid var(--review); }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
+  }
+
+  .category {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  /* Section headers */
+  .section-head {
+    margin: 14px 0 14px 0;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(29, 78, 216, 0.15);
+    cursor: pointer;
+    user-select: none;
+    transition: box-shadow 0.15s;
+  }
+  .section-head:hover { box-shadow: 0 4px 10px rgba(29, 78, 216, 0.25); }
+  .section-head .sh-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .section-head .sh-title-zh {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 2px 0 0 0;
+    font-weight: 400;
+  }
+  .section-head .sh-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-head .sh-count {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .section-head .sh-chevron {
+    transition: transform 0.25s;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .section-head.collapsed .sh-chevron { transform: rotate(-90deg); }
+  .section-head .sh-chevron svg { width: 14px; height: 14px; }
+
+  .section-body {
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+  }
+  .section-body.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .super-section {
+    margin: 28px 0 8px 0;
+    padding: 8px 4px 8px 4px;
+    border-bottom: 2px solid var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .super-section:first-child { margin-top: 0; }
+  .super-section:hover { background: var(--accent-light); }
+  .super-section .ss-title-wrap { display: flex; align-items: baseline; }
+  .super-section .ss-zh {
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-weight: 500;
+    margin-left: 8px;
+  }
+  .super-section .ss-chevron {
+    transition: transform 0.25s;
+    color: var(--accent);
+  }
+  .super-section.collapsed .ss-chevron { transform: rotate(-90deg); }
+  .super-section .ss-chevron svg { width: 16px; height: 16px; }
+
+  .expand-all-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .expand-all-bar button {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .expand-all-bar button:hover { background: var(--bg); color: var(--text); }
+
+  /* Word frequency view */
+  .freq-intro {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .freq-intro strong { color: var(--text); }
+
+  table.freq-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .freq-table th, .freq-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  .freq-table th {
+    background: var(--bg);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .freq-table tr:last-child td { border-bottom: none; }
+  .freq-table tr.jump-highlight {
+    box-shadow: inset 0 0 0 3px var(--accent-light);
+  }
+  .freq-rank {
+    font-weight: 700;
+    color: var(--accent);
+    width: 50px;
+  }
+  .freq-word {
+    font-weight: 600;
+    min-width: 230px;
+  }
+  .freq-word-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .word-audio-btn {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .word-audio-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+  .word-edit-input,
+  .meaning-edit-input {
+    width: 100%;
+    min-width: 90px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 4px 6px;
+    outline: none;
+  }
+  .word-edit-input {
+    width: 18ch;
+    min-width: 18ch;
+    max-width: none;
+    font-weight: 600;
+  }
+  .meaning-edit-input {
+    min-width: 120px;
+  }
+  .word-edit-input:hover,
+  .meaning-edit-input:hover {
+    border-color: var(--border);
+    background: var(--bg);
+  }
+  .word-edit-input:focus,
+  .meaning-edit-input:focus {
+    border-color: var(--accent);
+    background: var(--card);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .freq-count { text-align: right; color: var(--muted); width: 80px; }
+  .freq-bar {
+    background: var(--border);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 120px;
+  }
+  .freq-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #60a5fa);
+  }
+  .word-status-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  .word-status-btn {
+    padding: 4px 9px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    color: var(--muted);
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .word-status-btn:hover { background: var(--bg); }
+  .word-status-btn.active.auto       { background: var(--tolearn-bg); color: var(--tolearn); border-color: var(--tolearn); font-weight: 600; }
+  .word-status-btn.active.tolearn  { background: var(--accent-light); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+  .word-status-btn.active.learning { background: var(--learning-bg);  color: var(--learning); border-color: var(--learning); font-weight: 600; }
+  .word-status-btn.active.review   { background: var(--review-bg);    color: var(--review);   border-color: var(--review);   font-weight: 600; }
+  .word-status-btn.active.learned  { background: var(--learned-bg);   color: var(--learned);  border-color: var(--learned);  font-weight: 600; }
+  .freq-summary {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0 16px;
+  }
+  .freq-summary .stat {
+    padding: 12px 10px;
+  }
+  .freq-summary .stat .num {
+    font-size: 1.35rem;
+  }
+  .stat .pct {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Exam pace tracker */
+  .pace-tracker {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+  }
+  .pace-info { min-width: 0; }
+  .pace-title {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .pace-meta {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .pace-bars { display: flex; flex-direction: column; gap: 6px; }
+  .pace-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 44px;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .pace-row .pace-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .pace-row .pace-bar > div {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.4s ease;
+  }
+  .pace-time-fill { background: var(--accent); }
+  .pace-learned-fill { background: linear-gradient(90deg, var(--learning), var(--learned)); }
+  .pace-row .pace-pct { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+
+  .pace-status {
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+    min-width: 170px;
+    line-height: 1.3;
+  }
+  .pace-status .pace-sub {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+  .pace-status.ontrack { background: var(--learned-bg); color: var(--learned); }
+  .pace-status.ahead   { background: var(--accent-light); color: var(--accent); }
+  .pace-status.behind  { background: #fee2e2; color: #dc2626; }
+
+  .pace-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .pace-metric {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .pace-metric .pm-label {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .pace-metric .pm-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+  .pace-metric .pm-sub {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+  .pace-metric.gap-behind .pm-value { color: #dc2626; }
+  .pace-metric.gap-ok    .pm-value { color: var(--learned); }
+  .pace-metric.gap-ahead .pm-value { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .freq-summary { grid-template-columns: repeat(2, 1fr); }
+    .freq-word { min-width: 260px; }
+    .word-edit-input {
+      width: 20ch;
+      min-width: 20ch;
+    }
+    .controls { flex-direction: column; align-items: stretch; }
+    .reset-btn { margin-left: 0; text-align: center; }
+    .q-header { flex-direction: column; }
+    .status-group { margin-left: 0; }
+    .pace-tracker { grid-template-columns: 1fr; }
+    .pace-row { grid-template-columns: 90px 1fr 44px; }
+  }
+</style>
+</head>
+<body>
+
+<site-nav active-page="citizenship"></site-nav>
+
+<header>
+  <h1>U.S. Citizenship Interview Prep</h1>
+  <div class="sub-zh">美国公民入籍面试备考</div>
+  <p>Official USCIS civics test questions with Chinese translations · 100 道官方公民考题（中英对照）</p>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab active" data-view="questions">Questions 题目</button>
+    <button class="tab" data-view="frequency">Word Frequency 高频词汇</button>
+  </div>
+
+  <!-- Questions View -->
+  <section class="view active" id="view-questions">
+    <div class="summary">
+      <div class="stat"><p class="num" id="stat-total">0</p><div class="label">Total</div><div class="label-zh">全部</div></div>
+      <div class="stat"><p class="num" style="color: var(--tolearn);" id="stat-tolearn">0</p><div class="label">To Learn</div><div class="label-zh">待学习</div></div>
+      <div class="stat"><p class="num" style="color: var(--learning);" id="stat-learning">0</p><div class="label">Learning</div><div class="label-zh">学习中</div></div>
+      <div class="stat"><p class="num" style="color: var(--review);" id="stat-review">0</p><div class="label">Review</div><div class="label-zh">需复习</div></div>
+      <div class="stat"><p class="num" style="color: var(--learned);" id="stat-learned">0</p><div class="label">Learned</div><div class="label-zh">已学会</div></div>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+    <div class="pace-tracker">
+      <div class="pace-info">
+        <div class="pace-title">Exam Pace 备考进度 · August 2029</div>
+        <div class="pace-meta" id="pace-meta">— days until exam</div>
+        <div class="pace-bars">
+          <div class="pace-row">
+            <span>Time elapsed 时间</span>
+            <div class="pace-bar"><div class="pace-time-fill" id="pace-time-fill" style="width:0%"></div></div>
+            <span class="pace-pct" id="pace-time-pct">0%</span>
+          </div>
+          <div class="pace-row">
+            <span>Learned 已学会</span>
+            <div class="pace-bar"><div class="pace-learned-fill" id="pace-learned-fill" style="width:0%"></div></div>
+            <span class="pace-pct" id="pace-learned-pct">0%</span>
+          </div>
+        </div>
+        <div class="pace-metrics">
+          <div class="pace-metric">
+            <div class="pm-label">Need 目标</div>
+            <div class="pm-value" id="pm-required">— /wk</div>
+            <div class="pm-sub">questions / week</div>
+          </div>
+          <div class="pace-metric" id="pm-actual-card">
+            <div class="pm-label">Your pace 当前</div>
+            <div class="pm-value" id="pm-actual">— /wk</div>
+            <div class="pm-sub" id="pm-actual-sub">0 learned</div>
+          </div>
+          <div class="pace-metric" id="pm-gap-card">
+            <div class="pm-label">Gap 差距</div>
+            <div class="pm-value" id="pm-gap">—</div>
+            <div class="pm-sub" id="pm-gap-sub">to stay on pace</div>
+          </div>
+        </div>
+      </div>
+      <div class="pace-status ontrack" id="pace-status">On track<span class="pace-sub">进度正常</span></div>
+    </div>
+
+    <div class="audio-controls">
+      <div class="localhost-notice" id="localhost-notice">
+        YouTube audio works from localhost, not this file page. YouTube 原声需要用本地服务器打开。
+        <a href="http://127.0.0.1:8765/citizenship-interview-prep.html" id="localhost-open-link">Open localhost 打开</a>
+        <button type="button" id="copy-ipad-url-btn">Copy iPad progress URL 复制 iPad 进度链接</button>
+      </div>
+      <div class="localhost-notice" id="restore-file-notice">
+        Missing old progress? Copy this file URL, paste it into Chrome's address bar, then click the file page's localhost link. 之前的进度不见了？复制下面的文件地址到地址栏打开，再点旧页面里的 localhost 链接迁移。
+        <button type="button" id="copy-file-url-btn">Copy file URL 复制</button>
+        <div class="restore-url" id="restore-file-url">file:///Users/gefang95/Library/Application%20Support/Claude/local-agent-mode-sessions/0ed9d73e-1dac-4c2d-852f-b5e34e25ec34/d2a47b2b-4752-483a-a5c4-33050bd2def4/local_75634218-98bc-425f-86d4-d75689a9a181/outputs/citizenship-interview-prep.html</div>
+      </div>
+      <div class="localhost-notice" id="ipad-sync-notice">
+        Need this progress on iPad? Copy the progress URL, then open it on the iPad. 需要把当前进度同步到 iPad？复制进度链接，在 iPad 上打开。
+        <button type="button" id="copy-server-ipad-url-btn">Copy iPad progress URL 复制 iPad 进度链接</button>
+        <div class="restore-url" id="ipad-sync-url"></div>
+      </div>
+      <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for Learning, Review, and Learned questions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        Loop Learning + Review + Learned 循环复习
+      </button>
+      <button class="audio-btn" id="loop-pause-btn" title="Pause or resume loop playback" disabled>
+        Pause 暂停
+      </button>
+      <button class="audio-btn" id="prev-question-btn" title="Go to previous visible question">Previous 上一题</button>
+      <button class="audio-btn" id="next-question-btn" title="Go to next visible question">Next 下一题</button>
+      <span class="loop-progress" id="loop-progress">0 / 0</span>
+      <div class="audio-seek">
+        <span id="audio-elapsed">0:00:00</span>
+        <input type="range" id="audio-seek-bar" min="0" max="1000" value="0" disabled aria-label="Audio progress" />
+        <span id="audio-total">0:00:00</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search in English or Chinese... 中英文搜索" />
+        <div class="filter-group" id="filter-group">
+          <button class="filter-btn active" data-filter="all">All 全部</button>
+          <button class="filter-btn" data-filter="auto">Auto 自动</button>
+          <button class="filter-btn" data-filter="tolearn">To Learn 待学</button>
+          <button class="filter-btn" data-filter="learning">Learning 学习中</button>
+        <button class="filter-btn" data-filter="review">Review 复习</button>
+        <button class="filter-btn" data-filter="learned">Learned 已学会</button>
+      </div>
+      <button class="reset-btn" id="reset-btn" title="Reset all progress">Reset 重置</button>
+    </div>
+
+    <div class="expand-all-bar">
+      <button id="expand-all-btn">Expand all 全部展开</button>
+      <button id="collapse-all-btn">Collapse all 全部折叠</button>
+    </div>
+
+    <div id="question-list"></div>
+  </section>
+
+  <!-- Word Frequency View -->
+  <section class="view" id="view-frequency">
+    <div class="freq-intro">
+      <strong>Every unique word across all 100 questions and answers, with your mastery status.</strong><br>
+      全部 100 道题目与答案中出现的所有独立单词，并根据你已学会的题目自动推断掌握状态。Common stopwords (the, a, of, etc.) 已过滤常用虚词。
+    </div>
+    <div class="freq-summary">
+      <div class="stat"><p class="num" id="freq-stat-total">0</p><div class="label">Unique words</div><div class="label-zh">独立单词</div><div class="pct" id="freq-pct-total">100%</div></div>
+      <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-auto">0</p><div class="label">Auto</div><div class="label-zh">自动</div><div class="pct" id="freq-pct-auto">0%</div></div>
+      <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-tolearn">0</p><div class="label">To Learn</div><div class="label-zh">待学</div><div class="pct" id="freq-pct-tolearn">0%</div></div>
+      <div class="stat"><p class="num" style="color: var(--learning);" id="freq-stat-learning">0</p><div class="label">Learning</div><div class="label-zh">学习中</div><div class="pct" id="freq-pct-learning">0%</div></div>
+      <div class="stat"><p class="num" style="color: var(--review);" id="freq-stat-review">0</p><div class="label">Review</div><div class="label-zh">复习</div><div class="pct" id="freq-pct-review">0%</div></div>
+      <div class="stat"><p class="num" style="color: var(--learned);" id="freq-stat-learned">0</p><div class="label">Learned</div><div class="label-zh">已学会</div><div class="pct" id="freq-pct-learned">0%</div></div>
+    </div>
+    <div class="audio-controls vocab-loop-controls">
+      <button class="audio-btn" id="loop-vocab-btn" title="Loop Learning, Review, and Learned vocabulary with Chinese first, then English">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        Loop Learning + Review + Learned Vocab 循环词汇
+      </button>
+      <span class="loop-progress" id="vocab-loop-progress">0 / 0</span>
+    </div>
+    <div class="filter-group" id="word-filter-group" style="margin-bottom: 14px;">
+      <button class="filter-btn active" data-wfilter="all">All 全部</button>
+      <button class="filter-btn" data-wfilter="auto">Auto 自动</button>
+      <button class="filter-btn" data-wfilter="tolearn">To Learn 待学</button>
+      <button class="filter-btn" data-wfilter="learning">Learning 学习中</button>
+      <button class="filter-btn" data-wfilter="review">Review 复习</button>
+      <button class="filter-btn" data-wfilter="learned">Learned 已学会</button>
+      <button class="filter-btn" data-wfilter="override">Edited ✎</button>
+    </div>
+    <table class="freq-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Word 单词</th>
+          <th>Meaning 含义</th>
+          <th>Status 状态</th>
+          <th style="text-align:right;">Count 次数</th>
+          <th>Frequency 频率</th>
+        </tr>
+      </thead>
+      <tbody id="freq-body"></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="yt-audio-player" aria-hidden="true"></div>
+
+<script>
+  // USCIS 100 Civics Questions with Chinese translations
+  const QUESTIONS = [
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What is the supreme law of the land?",
+      qZh: "美国的最高法律是什么？",
+      a: "The Constitution",
+      aZh: "《宪法》" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What does the Constitution do?",
+      qZh: "《宪法》的作用是什么？",
+      a: "• Sets up the government\n• Defines the government\n• Protects basic rights of Americans",
+      aZh: "• 建立政府\n• 规定政府职能\n• 保护美国人的基本权利" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "The idea of self-government is in the first three words of the Constitution. What are these words?",
+      qZh: "自治的理念体现在《宪法》的前三个词中，这三个词是什么？",
+      a: "We the People",
+      aZh: "我们人民（We the People）" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What is an amendment?",
+      qZh: "什么是修正案？",
+      a: "• A change (to the Constitution)\n• An addition (to the Constitution)",
+      aZh: "• 对宪法的修改\n• 对宪法的补充" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What do we call the first ten amendments to the Constitution?",
+      qZh: "《宪法》的前十条修正案被称作什么？",
+      a: "The Bill of Rights",
+      aZh: "《权利法案》" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What is one right or freedom from the First Amendment?",
+      qZh: "第一修正案规定的权利或自由之一是什么？",
+      a: "• Speech\n• Religion\n• Assembly\n• Press\n• Petition the government",
+      aZh: "• 言论自由\n• 宗教自由\n• 集会自由\n• 新闻自由\n• 向政府请愿的权利" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "How many amendments does the Constitution have?",
+      qZh: "《宪法》共有多少条修正案？",
+      a: "Twenty-seven (27)",
+      aZh: "二十七（27）条" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What did the Declaration of Independence do?",
+      qZh: "《独立宣言》的作用是什么？",
+      a: "• Announced our independence (from Great Britain)\n• Declared our independence (from Great Britain)\n• Said that the United States is free (from Great Britain)",
+      aZh: "• 宣布美国（脱离英国）独立\n• 声明美国自由" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What are two rights in the Declaration of Independence?",
+      qZh: "《独立宣言》中提到的两项权利是什么？",
+      a: "• Life\n• Liberty\n• Pursuit of happiness",
+      aZh: "• 生命\n• 自由\n• 追求幸福" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What is freedom of religion?",
+      qZh: "什么是宗教自由？",
+      a: "You can practice any religion, or not practice a religion.",
+      aZh: "你可以信仰任何宗教，也可以不信仰任何宗教。" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What is the economic system in the United States?",
+      qZh: "美国的经济体制是什么？",
+      a: "• Capitalist economy\n• Market economy",
+      aZh: "• 资本主义经济\n• 市场经济" },
+    { c: "Principles of American Democracy", cZh: "美国民主原则",
+      q: "What is the \"rule of law\"?",
+      qZh: "什么是「法治」？",
+      a: "• Everyone must follow the law.\n• Leaders must obey the law.\n• Government must obey the law.\n• No one is above the law.",
+      aZh: "• 每个人都必须遵守法律\n• 领导人必须遵守法律\n• 政府必须遵守法律\n• 任何人都不能凌驾于法律之上" },
+
+    { c: "System of Government", cZh: "政府体制",
+      q: "Name one branch or part of the government.",
+      qZh: "说出政府的一个分支。",
+      a: "• Congress / Legislative\n• President / Executive\n• The courts / Judicial",
+      aZh: "• 国会 / 立法\n• 总统 / 行政\n• 法院 / 司法" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What stops one branch of government from becoming too powerful?",
+      qZh: "是什么阻止政府中的一个分支权力过大？",
+      a: "• Checks and balances\n• Separation of powers",
+      aZh: "• 制衡（Checks and balances）\n• 三权分立" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who is in charge of the executive branch?",
+      qZh: "谁是行政部门的最高负责人？",
+      a: "The President",
+      aZh: "总统" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who makes federal laws?",
+      qZh: "谁制定联邦法律？",
+      a: "• Congress\n• Senate and House (of Representatives)\n• (U.S. or national) legislature",
+      aZh: "• 国会\n• 参议院和众议院\n• 美国立法机构" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What are the two parts of the U.S. Congress?",
+      qZh: "美国国会由哪两部分组成？",
+      a: "The Senate and House (of Representatives)",
+      aZh: "参议院和众议院" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "How many U.S. Senators are there?",
+      qZh: "美国共有多少名参议员？",
+      a: "One hundred (100)",
+      aZh: "一百（100）名" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "We elect a U.S. Senator for how many years?",
+      qZh: "美国参议员每届任期多少年？",
+      a: "Six (6)",
+      aZh: "六（6）年" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who is one of your state's U.S. Senators now?",
+      qZh: "你所在州现任的一位联邦参议员是谁？",
+      a: "Answers will vary. [Look up your state's senators at senate.gov]",
+      aZh: "答案因州而异。请在 senate.gov 查询本州参议员。" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "The House of Representatives has how many voting members?",
+      qZh: "众议院共有多少名有表决权的议员？",
+      a: "Four hundred thirty-five (435)",
+      aZh: "四百三十五（435）名" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "We elect a U.S. Representative for how many years?",
+      qZh: "美国众议员每届任期多少年？",
+      a: "Two (2)",
+      aZh: "两（2）年" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Name your U.S. Representative.",
+      qZh: "说出你所在选区的联邦众议员姓名。",
+      a: "Answers will vary. [Look up at house.gov]",
+      aZh: "答案因选区而异。请在 house.gov 查询。" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who does a U.S. Senator represent?",
+      qZh: "参议员代表谁？",
+      a: "All people of the state",
+      aZh: "该州的全体人民" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Why do some states have more Representatives than other states?",
+      qZh: "为什么有些州的众议员比其他州多？",
+      a: "• (Because of) the state's population\n• (Because) they have more people",
+      aZh: "• 因为该州的人口\n• 因为该州人口更多" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "We elect a President for how many years?",
+      qZh: "总统每届任期多少年？",
+      a: "Four (4)",
+      aZh: "四（4）年" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "In what month do we vote for President?",
+      qZh: "我们在哪个月份选举总统？",
+      a: "November",
+      aZh: "十一月" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What is the name of the President of the United States now?",
+      qZh: "现任美国总统叫什么名字？",
+      a: "Visit uscis.gov/citizenship/testupdates for the current President.",
+      aZh: "请访问 uscis.gov/citizenship/testupdates 查询现任总统。" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What is the name of the Vice President of the United States now?",
+      qZh: "现任美国副总统叫什么名字？",
+      a: "Visit uscis.gov/citizenship/testupdates for the current Vice President.",
+      aZh: "请访问 uscis.gov/citizenship/testupdates 查询现任副总统。" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "If the President can no longer serve, who becomes President?",
+      qZh: "如果总统无法继续任职，谁将担任总统？",
+      a: "The Vice President",
+      aZh: "副总统" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "If both the President and the Vice President can no longer serve, who becomes President?",
+      qZh: "如果总统和副总统都无法继续任职，谁将担任总统？",
+      a: "The Speaker of the House",
+      aZh: "众议院议长" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who is the Commander in Chief of the military?",
+      qZh: "谁是军队的总司令？",
+      a: "The President",
+      aZh: "总统" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who signs bills to become laws?",
+      qZh: "谁签署法案使其成为法律？",
+      a: "The President",
+      aZh: "总统" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who vetoes bills?",
+      qZh: "谁有权否决法案？",
+      a: "The President",
+      aZh: "总统" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What does the President's Cabinet do?",
+      qZh: "总统内阁的职责是什么？",
+      a: "Advises the President",
+      aZh: "为总统提供咨询建议" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What are two Cabinet-level positions?",
+      qZh: "两个内阁级别的职位是什么？",
+      a: "• Secretary of State\n• Secretary of Defense\n• Secretary of the Treasury\n• Attorney General\n• Secretary of Labor\n• Secretary of Education\n• (and other Cabinet Secretaries)\n• Vice President",
+      aZh: "• 国务卿\n• 国防部长\n• 财政部长\n• 司法部长\n• 劳工部长\n• 教育部长\n• （及其他内阁部长）\n• 副总统" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What does the judicial branch do?",
+      qZh: "司法部门的职责是什么？",
+      a: "• Reviews laws\n• Explains laws\n• Resolves disputes (disagreements)\n• Decides if a law goes against the Constitution",
+      aZh: "• 审查法律\n• 解释法律\n• 裁决争端\n• 判定法律是否违宪" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What is the highest court in the United States?",
+      qZh: "美国最高法院是哪一家？",
+      a: "The Supreme Court",
+      aZh: "联邦最高法院" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "How many justices are on the Supreme Court?",
+      qZh: "最高法院有多少位大法官？",
+      a: "Nine (9)",
+      aZh: "九（9）位" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who is the Chief Justice of the United States now?",
+      qZh: "现任美国首席大法官是谁？",
+      a: "Visit uscis.gov/citizenship/testupdates for the current Chief Justice.",
+      aZh: "请访问 uscis.gov/citizenship/testupdates 查询现任首席大法官。" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Under our Constitution, some powers belong to the federal government. What is one power of the federal government?",
+      qZh: "根据《宪法》，某些权力属于联邦政府。联邦政府的一项权力是什么？",
+      a: "• To print money\n• To declare war\n• To create an army\n• To make treaties",
+      aZh: "• 印制货币\n• 宣战\n• 建立军队\n• 签订条约" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Under our Constitution, some powers belong to the states. What is one power of the states?",
+      qZh: "根据《宪法》，某些权力属于各州。各州的一项权力是什么？",
+      a: "• Provide schooling and education\n• Provide protection (police)\n• Provide safety (fire departments)\n• Give a driver's license\n• Approve zoning and land use",
+      aZh: "• 提供教育\n• 提供治安保护（警察）\n• 提供安全（消防）\n• 颁发驾照\n• 批准土地使用与分区" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "Who is the Governor of your state now?",
+      qZh: "你所在州的现任州长是谁？",
+      a: "Answers will vary. [D.C. residents: \"We don't have a Governor.\"]",
+      aZh: "答案因州而异。[华盛顿特区居民回答：「我们没有州长。」]" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What is the capital of your state?",
+      qZh: "你所在州的首府是哪里？",
+      a: "Answers will vary. [D.C.: \"D.C. is not a state and does not have a capital.\"]",
+      aZh: "答案因州而异。[华盛顿特区：「特区不是州，没有州首府。」]" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What are the two major political parties in the United States?",
+      qZh: "美国的两大主要政党是哪两个？",
+      a: "Democratic and Republican",
+      aZh: "民主党和共和党" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What is the political party of the President now?",
+      qZh: "现任总统所属的政党是哪一个？",
+      a: "Visit uscis.gov/citizenship/testupdates for current info.",
+      aZh: "请访问 uscis.gov/citizenship/testupdates 查询最新信息。" },
+    { c: "System of Government", cZh: "政府体制",
+      q: "What is the name of the Speaker of the House of Representatives now?",
+      qZh: "现任众议院议长叫什么名字？",
+      a: "Visit uscis.gov/citizenship/testupdates for the current Speaker.",
+      aZh: "请访问 uscis.gov/citizenship/testupdates 查询现任议长。" },
+
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "There are four amendments to the Constitution about who can vote. Describe one of them.",
+      qZh: "《宪法》有四条关于谁可以投票的修正案。描述其中一条。",
+      a: "• Citizens eighteen (18) and older (can vote).\n• You don't have to pay (a poll tax) to vote.\n• Any citizen can vote. (Women and men can vote.)\n• A male citizen of any race (can vote).",
+      aZh: "• 年满 18 岁的公民可以投票\n• 投票不必缴纳人头税\n• 任何公民都可以投票（男女均可）\n• 任何种族的男性公民可以投票" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "What is one responsibility that is only for United States citizens?",
+      qZh: "只属于美国公民的一项责任是什么？",
+      a: "• Serve on a jury\n• Vote in a federal election",
+      aZh: "• 担任陪审员\n• 在联邦选举中投票" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "Name one right only for United States citizens.",
+      qZh: "只属于美国公民的一项权利是什么？",
+      a: "• Vote in a federal election\n• Run for federal office",
+      aZh: "• 在联邦选举中投票\n• 竞选联邦公职" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "What are two rights of everyone living in the United States?",
+      qZh: "居住在美国的每个人享有的两项权利是什么？",
+      a: "• Freedom of expression / speech\n• Freedom of assembly\n• Freedom to petition the government\n• Freedom of religion\n• The right to bear arms",
+      aZh: "• 言论自由\n• 集会自由\n• 向政府请愿的自由\n• 宗教自由\n• 持有武器的权利" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "What do we show loyalty to when we say the Pledge of Allegiance?",
+      qZh: "宣读效忠誓词时，我们是在向什么表达忠诚？",
+      a: "• The United States\n• The flag",
+      aZh: "• 美国\n• 美国国旗" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "What is one promise you make when you become a United States citizen?",
+      qZh: "成为美国公民时你要做出的一项承诺是什么？",
+      a: "• Give up loyalty to other countries\n• Defend the Constitution and laws of the United States\n• Obey the laws of the United States\n• Serve in the U.S. military (if needed)\n• Serve (do important work for) the nation (if needed)\n• Be loyal to the United States",
+      aZh: "• 放弃对其他国家的忠诚\n• 捍卫美国宪法和法律\n• 遵守美国法律\n• 必要时在美军服役\n• 必要时为国家服务\n• 忠于美国" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "How old do citizens have to be to vote for President?",
+      qZh: "公民多少岁才可以投票选总统？",
+      a: "Eighteen (18) and older",
+      aZh: "年满 18 岁" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "What are two ways that Americans can participate in their democracy?",
+      qZh: "美国人参与民主的两种方式是什么？",
+      a: "• Vote\n• Join a political party\n• Help with a campaign\n• Join a civic / community group\n• Give an elected official your opinion\n• Call Senators and Representatives\n• Publicly support or oppose an issue\n• Run for office\n• Write to a newspaper",
+      aZh: "• 投票\n• 加入政党\n• 参与竞选活动\n• 加入公民或社区团体\n• 向民选官员表达意见\n• 致电参议员和众议员\n• 公开表态支持或反对某议题\n• 竞选公职\n• 给报纸投稿" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "When is the last day you can send in federal income tax forms?",
+      qZh: "联邦所得税申报的最后期限是哪一天？",
+      a: "April 15",
+      aZh: "4 月 15 日" },
+    { c: "Rights and Responsibilities", cZh: "权利与责任",
+      q: "When must all men register for the Selective Service?",
+      qZh: "所有男性公民必须在什么时候进行兵役登记？",
+      a: "• At age eighteen (18)\n• Between eighteen (18) and twenty-six (26)",
+      aZh: "• 年满 18 岁时\n• 18 至 26 岁之间" },
+
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "What is one reason colonists came to America?",
+      qZh: "殖民者来到美洲的原因之一是什么？",
+      a: "• Freedom\n• Political liberty\n• Religious freedom\n• Economic opportunity\n• Practice their religion\n• Escape persecution",
+      aZh: "• 追求自由\n• 政治自由\n• 宗教自由\n• 经济机会\n• 实践自己的宗教\n• 逃离迫害" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "Who lived in America before the Europeans arrived?",
+      qZh: "欧洲人到来之前，是谁住在美洲？",
+      a: "• American Indians\n• Native Americans",
+      aZh: "• 美洲印第安人\n• 美洲原住民" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "What group of people was taken to America and sold as slaves?",
+      qZh: "哪一群人被带到美洲并作为奴隶出售？",
+      a: "• Africans\n• People from Africa",
+      aZh: "• 非洲人\n• 来自非洲的人" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "Why did the colonists fight the British?",
+      qZh: "殖民者为什么与英国人作战？",
+      a: "• Because of high taxes (taxation without representation)\n• Because the British army stayed in their houses (boarding, quartering)\n• Because they didn't have self-government",
+      aZh: "• 因为高额税收（无代表不纳税）\n• 因为英军强行住在他们的房子里\n• 因为他们没有自治权" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "Who wrote the Declaration of Independence?",
+      qZh: "《独立宣言》是谁写的？",
+      a: "(Thomas) Jefferson",
+      aZh: "（托马斯·）杰斐逊" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "When was the Declaration of Independence adopted?",
+      qZh: "《独立宣言》是何时通过的？",
+      a: "July 4, 1776",
+      aZh: "1776 年 7 月 4 日" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "There were 13 original states. Name three.",
+      qZh: "美国最初有 13 个州。说出其中三个。",
+      a: "New Hampshire, Massachusetts, Rhode Island, Connecticut, New York, New Jersey, Pennsylvania, Delaware, Maryland, Virginia, North Carolina, South Carolina, Georgia",
+      aZh: "新罕布什尔、马萨诸塞、罗得岛、康涅狄格、纽约、新泽西、宾夕法尼亚、特拉华、马里兰、弗吉尼亚、北卡罗来纳、南卡罗来纳、佐治亚" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "What happened at the Constitutional Convention?",
+      qZh: "制宪会议上发生了什么？",
+      a: "• The Constitution was written.\n• The Founding Fathers wrote the Constitution.",
+      aZh: "• 宪法被撰写出来\n• 开国元勋撰写了宪法" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "When was the Constitution written?",
+      qZh: "《宪法》是何时撰写的？",
+      a: "1787",
+      aZh: "1787 年" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.",
+      qZh: "《联邦党人文集》支持通过《美国宪法》。说出其作者之一。",
+      a: "• (James) Madison\n• (Alexander) Hamilton\n• (John) Jay\n• Publius",
+      aZh: "• 麦迪逊\n• 汉密尔顿\n• 杰伊\n• 普布利乌斯（笔名）" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "What is one thing Benjamin Franklin is famous for?",
+      qZh: "本杰明·富兰克林以什么闻名？",
+      a: "• U.S. diplomat\n• Oldest member of the Constitutional Convention\n• First Postmaster General of the United States\n• Writer of \"Poor Richard's Almanac\"\n• Started the first free libraries",
+      aZh: "• 美国外交家\n• 制宪会议中年纪最长的成员\n• 美国首任邮政总长\n• 《穷理查年鉴》的作者\n• 创办了第一批免费图书馆" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "Who is the \"Father of Our Country\"?",
+      qZh: "谁被称为「国父」？",
+      a: "(George) Washington",
+      aZh: "（乔治·）华盛顿" },
+    { c: "Colonial Period and Independence", cZh: "殖民时期与独立",
+      q: "Who was the first President?",
+      qZh: "谁是美国第一任总统？",
+      a: "(George) Washington",
+      aZh: "（乔治·）华盛顿" },
+
+    { c: "1800s", cZh: "19 世纪",
+      q: "What territory did the United States buy from France in 1803?",
+      qZh: "美国在 1803 年从法国购买了哪块领土？",
+      a: "• The Louisiana Territory\n• Louisiana",
+      aZh: "• 路易斯安那领地\n• 路易斯安那" },
+    { c: "1800s", cZh: "19 世纪",
+      q: "Name one war fought by the United States in the 1800s.",
+      qZh: "说出美国在 19 世纪参与的一场战争。",
+      a: "• War of 1812\n• Mexican-American War\n• Civil War\n• Spanish-American War",
+      aZh: "• 1812 年战争\n• 美墨战争\n• 南北战争（内战）\n• 美西战争" },
+    { c: "1800s", cZh: "19 世纪",
+      q: "Name the U.S. war between the North and the South.",
+      qZh: "美国南北之间的战争叫什么？",
+      a: "• The Civil War\n• The War between the States",
+      aZh: "• 南北战争\n• 内战" },
+    { c: "1800s", cZh: "19 世纪",
+      q: "Name one problem that led to the Civil War.",
+      qZh: "导致南北战争的一个问题是什么？",
+      a: "• Slavery\n• Economic reasons\n• States' rights",
+      aZh: "• 奴隶制\n• 经济原因\n• 州权之争" },
+    { c: "1800s", cZh: "19 世纪",
+      q: "What was one important thing that Abraham Lincoln did?",
+      qZh: "亚伯拉罕·林肯所做的一件重要的事是什么？",
+      a: "• Freed the slaves (Emancipation Proclamation)\n• Saved (or preserved) the Union\n• Led the United States during the Civil War",
+      aZh: "• 解放了奴隶（《解放奴隶宣言》）\n• 维护了联邦的统一\n• 在南北战争期间领导美国" },
+    { c: "1800s", cZh: "19 世纪",
+      q: "What did the Emancipation Proclamation do?",
+      qZh: "《解放奴隶宣言》有什么作用？",
+      a: "• Freed the slaves\n• Freed slaves in the Confederacy",
+      aZh: "• 解放了奴隶\n• 解放了邦联各州的奴隶" },
+    { c: "1800s", cZh: "19 世纪",
+      q: "What did Susan B. Anthony do?",
+      qZh: "苏珊·B·安东尼做了什么？",
+      a: "• Fought for women's rights\n• Fought for civil rights",
+      aZh: "• 为女性权利而奋斗\n• 为民权而奋斗" },
+
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "Name one war fought by the United States in the 1900s.",
+      qZh: "说出美国在 20 世纪参与的一场战争。",
+      a: "• World War I\n• World War II\n• Korean War\n• Vietnam War\n• (Persian) Gulf War",
+      aZh: "• 第一次世界大战\n• 第二次世界大战\n• 朝鲜战争\n• 越南战争\n• 海湾战争" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "Who was President during World War I?",
+      qZh: "第一次世界大战期间的美国总统是谁？",
+      a: "(Woodrow) Wilson",
+      aZh: "（伍德罗·）威尔逊" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "Who was President during the Great Depression and World War II?",
+      qZh: "大萧条和二战期间的美国总统是谁？",
+      a: "(Franklin) Roosevelt",
+      aZh: "（富兰克林·）罗斯福" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "Who did the United States fight in World War II?",
+      qZh: "美国在二战中与谁作战？",
+      a: "Japan, Germany, and Italy",
+      aZh: "日本、德国和意大利" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "Before he was President, Eisenhower was a general. What war was he in?",
+      qZh: "艾森豪威尔当选总统前是一名将军。他参加了哪场战争？",
+      a: "World War II",
+      aZh: "第二次世界大战" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "During the Cold War, what was the main concern of the United States?",
+      qZh: "冷战期间美国主要担忧的是什么？",
+      a: "Communism",
+      aZh: "共产主义" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "What movement tried to end racial discrimination?",
+      qZh: "什么运动致力于终结种族歧视？",
+      a: "Civil rights (movement)",
+      aZh: "民权运动" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "What did Martin Luther King, Jr. do?",
+      qZh: "小马丁·路德·金做了什么？",
+      a: "• Fought for civil rights\n• Worked for equality for all Americans",
+      aZh: "• 为民权而奋斗\n• 为所有美国人的平等而努力" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "What major event happened on September 11, 2001, in the United States?",
+      qZh: "2001 年 9 月 11 日美国发生了什么重大事件？",
+      a: "Terrorists attacked the United States.",
+      aZh: "恐怖分子袭击了美国。" },
+    { c: "Recent American History", cZh: "近代美国历史",
+      q: "Name one American Indian tribe in the United States.",
+      qZh: "说出美国的一个印第安部落。",
+      a: "Cherokee, Navajo, Sioux, Chippewa, Choctaw, Pueblo, Apache, Iroquois, Creek, Blackfeet, Seminole, Cheyenne, Arawak, Shawnee, Mohegan, Huron, Oneida, Lakota, Crow, Teton, Hopi, Inuit",
+      aZh: "切罗基、纳瓦霍、苏族、奇珀瓦、乔克托、普韦布洛、阿帕奇、易洛魁、克里克、黑脚、塞米诺尔、夏延、阿拉瓦克、肖尼、莫西干、休伦、奥奈达、拉科塔、克罗、特顿、霍皮、因纽特等" },
+
+    { c: "Geography", cZh: "地理",
+      q: "Name one of the two longest rivers in the United States.",
+      qZh: "说出美国两条最长河流之一。",
+      a: "• Missouri (River)\n• Mississippi (River)",
+      aZh: "• 密苏里河\n• 密西西比河" },
+    { c: "Geography", cZh: "地理",
+      q: "What ocean is on the West Coast of the United States?",
+      qZh: "美国西海岸临哪个大洋？",
+      a: "Pacific (Ocean)",
+      aZh: "太平洋" },
+    { c: "Geography", cZh: "地理",
+      q: "What ocean is on the East Coast of the United States?",
+      qZh: "美国东海岸临哪个大洋？",
+      a: "Atlantic (Ocean)",
+      aZh: "大西洋" },
+    { c: "Geography", cZh: "地理",
+      q: "Name one U.S. territory.",
+      qZh: "说出一个美国属地。",
+      a: "• Puerto Rico\n• U.S. Virgin Islands\n• American Samoa\n• Northern Mariana Islands\n• Guam",
+      aZh: "• 波多黎各\n• 美属维尔京群岛\n• 美属萨摩亚\n• 北马里亚纳群岛\n• 关岛" },
+    { c: "Geography", cZh: "地理",
+      q: "Name one state that borders Canada.",
+      qZh: "说出一个与加拿大接壤的州。",
+      a: "Maine, New Hampshire, Vermont, New York, Pennsylvania, Ohio, Michigan, Minnesota, North Dakota, Montana, Idaho, Washington, Alaska",
+      aZh: "缅因、新罕布什尔、佛蒙特、纽约、宾夕法尼亚、俄亥俄、密歇根、明尼苏达、北达科他、蒙大拿、爱达荷、华盛顿、阿拉斯加" },
+    { c: "Geography", cZh: "地理",
+      q: "Name one state that borders Mexico.",
+      qZh: "说出一个与墨西哥接壤的州。",
+      a: "California, Arizona, New Mexico, Texas",
+      aZh: "加利福尼亚、亚利桑那、新墨西哥、得克萨斯" },
+    { c: "Geography", cZh: "地理",
+      q: "What is the capital of the United States?",
+      qZh: "美国的首都是哪里？",
+      a: "Washington, D.C.",
+      aZh: "华盛顿特区（Washington, D.C.）" },
+    { c: "Geography", cZh: "地理",
+      q: "Where is the Statue of Liberty?",
+      qZh: "自由女神像位于何处？",
+      a: "• New York (Harbor)\n• Liberty Island\n• (Also acceptable: New Jersey, near New York City, and on the Hudson River.)",
+      aZh: "• 纽约港\n• 自由岛\n• （也可接受：新泽西、临近纽约市、哈德逊河上）" },
+
+    { c: "Symbols", cZh: "国家象征",
+      q: "Why does the flag have 13 stripes?",
+      qZh: "为什么美国国旗有 13 条横纹？",
+      a: "• Because there were 13 original colonies\n• Because the stripes represent the original colonies",
+      aZh: "• 因为最初有 13 个殖民地\n• 横纹代表最初的殖民地" },
+    { c: "Symbols", cZh: "国家象征",
+      q: "Why does the flag have 50 stars?",
+      qZh: "为什么美国国旗有 50 颗星？",
+      a: "• Because there is one star for each state\n• Because there are 50 states",
+      aZh: "• 每颗星代表一个州\n• 美国有 50 个州" },
+    { c: "Symbols", cZh: "国家象征",
+      q: "What is the name of the national anthem?",
+      qZh: "美国国歌叫什么名字？",
+      a: "The Star-Spangled Banner",
+      aZh: "《星条旗》（The Star-Spangled Banner）" },
+
+    { c: "Holidays", cZh: "节日",
+      q: "When do we celebrate Independence Day?",
+      qZh: "我们在哪一天庆祝独立日？",
+      a: "July 4",
+      aZh: "7 月 4 日" },
+    { c: "Holidays", cZh: "节日",
+      q: "Name two national U.S. holidays.",
+      qZh: "说出两个美国法定节日。",
+      a: "New Year's Day, Martin Luther King Jr. Day, Presidents' Day, Memorial Day, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving, Christmas",
+      aZh: "元旦、马丁·路德·金日、总统日、阵亡将士纪念日、独立日、劳动节、哥伦布日、退伍军人节、感恩节、圣诞节" }
+  ];
+
+  const STATUSES = ["auto", "tolearn", "learning", "review", "learned"];
+  const STATUS_LABELS = {
+    auto:     "Auto 自动",
+    tolearn:  "To Learn 待学",
+    learning: "Learning 学习中",
+    review:   "Review 复习",
+    learned:  "Learned 已学会"
+  };
+
+  const CIVICS_VIDEO_ID = "NOgIOIFBPB0";
+  const CIVICS_VIDEO_STOP_PADDING_SECONDS = 0.35;
+  const DEFAULT_QUESTION_VIDEO_DURATION_SECONDS = 5;
+  const LOCALHOST_PAGE_URL = "http://127.0.0.1:8765/citizenship-interview-prep.html";
+  const IPAD_PAGE_URL = "http://192.168.1.169:8765/citizenship-interview-prep.html";
+  const YT_TIMING_KEY = "citizenship-prep-youtube-timings-v1";
+  const DEFAULT_YOUTUBE_TIMINGS = {"0":{"start":26,"duration":17},"1":{"start":65,"duration":13},"2":{"start":113,"duration":18},"3":{"start":150,"duration":28},"4":{"start":194,"duration":26},"5":{"start":238,"duration":20},"6":{"start":275,"duration":21},"7":{"start":312,"duration":30},"8":{"start":363,"duration":28},"9":{"start":409,"duration":32},"10":{"start":464,"duration":22},"11":{"start":501,"duration":27},"12":{"start":548,"duration":21},"13":{"start":585,"duration":26},"14":{"start":627,"duration":20},"15":{"start":659,"duration":18},"16":{"start":696,"duration":21},"17":{"start":735,"duration":18},"18":{"start":767,"duration":22},"19":{"start":804,"duration":15},"20":{"start":838,"duration":25},"21":{"start":882,"duration":20},"22":{"start":915,"duration":15},"23":{"start":942,"duration":24},"24":{"start":983,"duration":25},"25":{"start":1028,"duration":19},"26":{"start":1070,"duration":18},"27":{"start":1107,"duration":14},"28":{"start":1136,"duration":22},"29":{"start":1176,"duration":23},"30":{"start":1237,"duration":29},"31":{"start":1283,"duration":20},"32":{"start":1316,"duration":18},"33":{"start":1344,"duration":14},"34":{"start":1369,"duration":25},"35":{"start":1412,"duration":29},"36":{"start":1462,"duration":23},"37":{"start":1501,"duration":23},"38":{"start":1539,"duration":21},"39":{"start":1574,"duration":22},"40":{"start":1617,"duration":34},"41":{"start":1676,"duration":33},"42":{"start":1730,"duration":13},"43":{"start":1757,"duration":11},"44":{"start":1780,"duration":28},"45":{"start":1827,"duration":19},"46":{"start":1861,"duration":26},"47":{"start":1908,"duration":35},"48":{"start":1965,"duration":30},"49":{"start":2018,"duration":27},"50":{"start":2067,"duration":25},"51":{"start":2128,"duration":26},"52":{"start":2172,"duration":30},"53":{"start":2222,"duration":24},"54":{"start":2264,"duration":28},"55":{"start":2327,"duration":27},"56":{"start":2373,"duration":27},"57":{"start":2417,"duration":22},"58":{"start":2455,"duration":23},"59":{"start":2495,"duration":21},"60":{"start":2534,"duration":24},"61":{"start":2577,"duration":19},"62":{"start":2611,"duration":29},"63":{"start":2663,"duration":37},"64":{"start":2727,"duration":25},"65":{"start":2769,"duration":23},"66":{"start":2809,"duration":30},"67":{"start":2861,"duration":26},"68":{"start":2904,"duration":19},"69":{"start":2936,"duration":16},"70":{"start":2969,"duration":27},"71":{"start":3015,"duration":24},"72":{"start":3057,"duration":23},"73":{"start":3096,"duration":21},"74":{"start":3132,"duration":31},"75":{"start":3180,"duration":24},"76":{"start":3222,"duration":23},"77":{"start":3263,"duration":26},"78":{"start":3307,"duration":21},"79":{"start":3345,"duration":23},"80":{"start":3389,"duration":31},"81":{"start":3447,"duration":27},"82":{"start":3490,"duration":22},"83":{"start":3528,"duration":26},"84":{"start":3571,"duration":24},"85":{"start":3614,"duration":33},"86":{"start":3668,"duration":20},"87":{"start":3702,"duration":19},"88":{"start":3744,"duration":20},"89":{"start":3778,"duration":22},"90":{"start":3816,"duration":15},"91":{"start":3846,"duration":19},"92":{"start":3879,"duration":20},"93":{"start":3913,"duration":22},"94":{"start":3950,"duration":20},"95":{"start":3987,"duration":27},"96":{"start":4033,"duration":23},"97":{"start":4075,"duration":23},"98":{"start":4115,"duration":21},"99":{"start":4150,"duration":26}};
+
+  function loadYouTubeTimings() {
+    try {
+      const saved = localStorage.getItem(YT_TIMING_KEY);
+      if (saved) return JSON.parse(saved) || {};
+      localStorage.setItem(YT_TIMING_KEY, JSON.stringify(DEFAULT_YOUTUBE_TIMINGS));
+    } catch (e) {}
+    return { ...DEFAULT_YOUTUBE_TIMINGS };
+  }
+  function saveYouTubeTimings(timings) {
+    localStorage.setItem(YT_TIMING_KEY, JSON.stringify(timings));
+  }
+  let youtubeTimings = loadYouTubeTimings();
+
+  function getSavedQuestionTiming(idx) {
+    const timing = youtubeTimings[idx];
+    if (!timing || typeof timing !== "object") return null;
+    const start = Number(timing.start);
+    const duration = Number(timing.duration);
+    if (!Number.isFinite(start) || start < 0) return null;
+    if (!Number.isFinite(duration) || duration <= 0) return null;
+    return { start, duration };
+  }
+
+  function formatTime(seconds) {
+    const safe = Math.max(0, Number(seconds) || 0);
+    const whole = Math.floor(safe);
+    const hours = Math.floor(whole / 3600);
+    const mins = Math.floor((whole % 3600) / 60);
+    const secs = whole % 60;
+    return hours + ":" + String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+  }
+
+  function parseTime(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return NaN;
+    if (!raw.includes(":")) return Number(raw);
+    const parts = raw.split(":").map(part => Number(part));
+    if (parts.some(part => !Number.isFinite(part))) return NaN;
+    return parts.reduce((total, part) => (total * 60) + part, 0);
+  }
+
+  function getTimingPanelValues(idx) {
+    const startInput = listEl.querySelector(`[data-yt-start="${idx}"]`);
+    const endInput = listEl.querySelector(`[data-yt-end="${idx}"]`);
+    const start = parseTime(startInput ? startInput.value : "");
+    const end = parseTime(endInput ? endInput.value : "");
+    if (!Number.isFinite(start) || start < 0) throw new Error("Enter a valid start time.");
+    if (!Number.isFinite(end) || end <= start) throw new Error("Enter an end time after the start time.");
+    return { start, duration: end - start };
+  }
+
+  function refreshTimingPanel(idx) {
+    const saved = getSavedQuestionTiming(idx);
+    const startInput = listEl.querySelector(`[data-yt-start="${idx}"]`);
+    const endInput = listEl.querySelector(`[data-yt-end="${idx}"]`);
+    const statusEl = listEl.querySelector(`[data-yt-time-status="${idx}"]`);
+    const timing = saved || { start: null, duration: DEFAULT_QUESTION_VIDEO_DURATION_SECONDS };
+    if (startInput) startInput.value = timing.start === null ? "" : formatTime(timing.start);
+    if (endInput) endInput.value = timing.start === null ? "" : formatTime(timing.start + timing.duration);
+    if (statusEl) {
+      statusEl.textContent = saved ? "Saved 已保存" : "Set this question's time 设置这一题时间";
+      statusEl.classList.toggle("saved", Boolean(saved));
+      statusEl.classList.toggle("estimated", !saved);
+      statusEl.classList.remove("needs-time");
+    }
+  }
+
+  function saveQuestionTiming(idx) {
+    try {
+      const timing = getTimingPanelValues(idx);
+      youtubeTimings[idx] = timing;
+      saveYouTubeTimings(youtubeTimings);
+      refreshTimingPanel(idx);
+    } catch (err) {
+      alert((err && err.message) || "Invalid YouTube timing. 时间无效。");
+    }
+  }
+
+  function resetQuestionTiming(idx) {
+    delete youtubeTimings[idx];
+    saveYouTubeTimings(youtubeTimings);
+    refreshTimingPanel(idx);
+  }
+
+  const STORAGE_KEY = "citizenship-prep-progress-v2";
+  const DEFAULT_PROGRESS = {"1":"review","27":"learned","28":"learned","42":"review","50":"learning","68":"tolearn","69":"tolearn","91":"tolearn","92":"tolearn","93":"tolearn","99":"review"};
+  const LEGACY_TO_LEARN_PROGRESS = {"68":"tolearn","69":"tolearn","91":"tolearn","92":"tolearn","93":"tolearn"};
+  const START_DATE = new Date(2026, 3, 1); // April 1, 2026
+  const EXAM_DATE = new Date(2029, 7, 1);  // August 1, 2029
+
+  function updatePace(learnedCount, total) {
+    const now = new Date();
+    const start = START_DATE;
+    const totalMs = Math.max(1, EXAM_DATE - start);
+    const elapsedMs = Math.max(0, now - start);
+    const timeFrac = Math.min(1, elapsedMs / totalMs);
+    const timePct = Math.round(timeFrac * 100);
+    const learnedPct = Math.round((learnedCount / total) * 100);
+    const daysLeft = Math.max(0, Math.ceil((EXAM_DATE - now) / 86400000));
+
+    document.getElementById("pace-time-fill").style.width = timePct + "%";
+    document.getElementById("pace-learned-fill").style.width = learnedPct + "%";
+    document.getElementById("pace-time-pct").textContent = timePct + "%";
+    document.getElementById("pace-learned-pct").textContent = learnedPct + "%";
+
+    const examLabel = "Aug 1, 2029";
+    const MS_PER_WEEK_META = 7 * 86400000;
+    const weeksElapsedMeta = elapsedMs / MS_PER_WEEK_META;
+    const weeksLeftMeta = Math.max(0, (EXAM_DATE - now) / MS_PER_WEEK_META);
+    document.getElementById("pace-meta").textContent =
+      "Week " + weeksElapsedMeta.toFixed(1) + " / " + (weeksElapsedMeta + weeksLeftMeta).toFixed(0) +
+      " · " + weeksLeftMeta.toFixed(1) + " weeks (" + daysLeft + " days) until exam " + examLabel +
+      " · " + learnedCount + "/" + total + " learned 已学会";
+
+    // Speed metrics — required vs. actual pace per week
+    const MS_PER_WEEK = 7 * 86400000;
+    const weeksElapsed = elapsedMs / MS_PER_WEEK;
+    const weeksRemaining = Math.max(0, (EXAM_DATE - now) / MS_PER_WEEK);
+    const remainingQs = Math.max(0, total - learnedCount);
+    const requiredPace = weeksRemaining > 0 ? remainingQs / weeksRemaining : 0;
+    const actualPace = weeksElapsed > 0 ? learnedCount / weeksElapsed : 0;
+    const paceGap = requiredPace - actualPace; // positive = need to speed up
+
+    const fmtPace = (v) => (v < 1 ? v.toFixed(2) : v.toFixed(1));
+    document.getElementById("pm-required").textContent = fmtPace(requiredPace) + " /wk";
+    document.getElementById("pm-actual").textContent = fmtPace(actualPace) + " /wk";
+    document.getElementById("pm-actual-sub").textContent =
+      learnedCount + " learned in " + (weeksElapsed >= 1 ? weeksElapsed.toFixed(1) + " wks" : Math.max(0, Math.floor(elapsedMs / 86400000)) + " days");
+
+    const gapCard = document.getElementById("pm-gap-card");
+    const gapEl = document.getElementById("pm-gap");
+    const gapSub = document.getElementById("pm-gap-sub");
+    gapCard.classList.remove("gap-behind", "gap-ok", "gap-ahead");
+    if (remainingQs === 0) {
+      gapEl.textContent = "Done!";
+      gapSub.textContent = "all 100 learned 全部完成";
+      gapCard.classList.add("gap-ok");
+    } else if (paceGap > 0.01) {
+      gapEl.textContent = "+" + fmtPace(paceGap) + " /wk";
+      gapSub.textContent = "speed up to catch up 加快";
+      gapCard.classList.add("gap-behind");
+    } else if (paceGap < -0.01) {
+      gapEl.textContent = fmtPace(Math.abs(paceGap)) + " /wk ahead";
+      gapSub.textContent = "ahead of needed pace 领先";
+      gapCard.classList.add("gap-ahead");
+    } else {
+      gapEl.textContent = "On pace";
+      gapSub.textContent = "matching the goal 持平";
+      gapCard.classList.add("gap-ok");
+    }
+
+    const expectedLearnedFloat = timeFrac * total;
+    const diffFloat = learnedCount - expectedLearnedFloat;
+    const statusEl = document.getElementById("pace-status");
+    statusEl.classList.remove("ontrack", "ahead", "behind");
+    if (diffFloat >= 3) {
+      statusEl.classList.add("ahead");
+      statusEl.innerHTML = "🎯 Ahead of pace<span class=\"pace-sub\">领先 " + diffFloat.toFixed(1) + " 题</span>";
+    } else if (diffFloat >= -0.05) {
+      statusEl.classList.add("ontrack");
+      statusEl.innerHTML = "✓ On track<span class=\"pace-sub\">进度正常</span>";
+    } else {
+      statusEl.classList.add("behind");
+      statusEl.innerHTML = "⚠ Behind pace<span class=\"pace-sub\">落后 " + Math.abs(diffFloat).toFixed(1) + " 题</span>";
+    }
+  }
+
+  function loadProgress() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved !== null) {
+        const parsed = JSON.parse(saved) || {};
+        let changed = false;
+        Object.keys(LEGACY_TO_LEARN_PROGRESS).forEach(key => {
+          if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+            parsed[key] = LEGACY_TO_LEARN_PROGRESS[key];
+            changed = true;
+          }
+        });
+        if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+        return parsed;
+      }
+    } catch (e) {}
+    return { ...DEFAULT_PROGRESS };
+  }
+  function getProgressForMigration() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved !== null ? JSON.parse(saved) || {} : { ...DEFAULT_PROGRESS };
+    } catch (e) {
+      return { ...DEFAULT_PROGRESS };
+    }
+  }
+  function saveProgress(p) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
+  }
+
+  function encodeProgressForMigration() {
+    const saved = JSON.stringify(getProgressForMigration());
+    if (saved === "{}") return "";
+    return btoa(unescape(encodeURIComponent(saved)));
+  }
+
+  function buildLocalhostUrlWithProgress() {
+    const encoded = encodeProgressForMigration();
+    return encoded ? `${LOCALHOST_PAGE_URL}#progress=${encodeURIComponent(encoded)}` : LOCALHOST_PAGE_URL;
+  }
+  function buildIpadUrlWithProgress() {
+    const encoded = encodeProgressForMigration();
+    return encoded ? `${IPAD_PAGE_URL}#progress=${encodeURIComponent(encoded)}` : IPAD_PAGE_URL;
+  }
+
+  function importProgressFromHash() {
+    const match = location.hash.match(/(?:^#|&)progress=([^&]+)/);
+    if (!match) return false;
+    try {
+      const json = decodeURIComponent(escape(atob(decodeURIComponent(match[1]))));
+      const imported = JSON.parse(json);
+      if (!imported || typeof imported !== "object" || Array.isArray(imported)) return false;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(imported));
+      window.__citizenshipProgressImported = true;
+      try { sessionStorage.setItem("citizenship-prep-progress-imported", "1"); } catch (e) {}
+      history.replaceState(null, "", location.pathname + location.search);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  const importedProgressThisLoad = importProgressFromHash();
+  let progress = loadProgress();
+  let activeFilter = "all";
+  let searchTerm = "";
+
+  window.addEventListener("hashchange", () => {
+    if (!importProgressFromHash()) return;
+    progress = loadProgress();
+    const ipadSyncNotice = document.getElementById("ipad-sync-notice");
+    if (ipadSyncNotice) ipadSyncNotice.classList.remove("open");
+    const restoreFileNotice = document.getElementById("restore-file-notice");
+    if (restoreFileNotice) restoreFileNotice.classList.remove("open");
+    render();
+    renderFrequency();
+  });
+
+  // Collapsed state for sections — persisted separately
+  const COLLAPSE_KEY = "citizenship-prep-collapsed-v1";
+  function loadCollapsed() {
+    try { return JSON.parse(localStorage.getItem(COLLAPSE_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+  function saveCollapsed(c) {
+    localStorage.setItem(COLLAPSE_KEY, JSON.stringify(c));
+  }
+  let collapsed = loadCollapsed();
+
+  const listEl = document.getElementById("question-list");
+  const searchEl = document.getElementById("search");
+  const filterGroupEl = document.getElementById("filter-group");
+  const resetBtn = document.getElementById("reset-btn");
+
+  function getStoredStatus(idx) {
+    const stored = progress[idx];
+    if (stored === "notstarted") return "tolearn";
+    return STATUSES.includes(stored) ? stored : "auto";
+  }
+  function getQuestionWords(idx) {
+    const item = QUESTIONS[idx];
+    if (!item) return [];
+    const TOKEN_RE = /[A-Za-z][A-Za-z'’]*[A-Za-z]|[A-Za-z]/g;
+    const words = new Set();
+    const text = item.q + " " + item.a;
+    let m;
+    while ((m = TOKEN_RE.exec(text)) !== null) {
+      let w = m[0].replace(/’/g, "'").toLowerCase();
+      if (w.endsWith("'s")) w = w.slice(0, -2);
+      if (STOPWORDS.has(w) || TRIBE_NAMES.has(w) || w.length < 3) continue;
+      if (FORM_ALIASES[w]) {
+        w = FORM_ALIASES[w];
+      } else if (!NO_LEMMATIZE.has(w)) {
+        const candidates = getSingularCandidates(w);
+        if (candidates[0]) w = candidates[0];
+      }
+      words.add(w);
+    }
+    return Array.from(words);
+  }
+  function getManualWordOverrideStatus(w) {
+    const override = wordOverrides[w];
+    if (override === "mastered") return "learned";
+    if (override === "partial") return "learning";
+    if (override === "notstarted") return "tolearn";
+    return override || "";
+  }
+  function getQuestionAutoStatus(idx) {
+    const words = getQuestionWords(idx);
+    if (!words.length) return "tolearn";
+    let learnedCount = 0;
+    let hasLearning = false;
+    let hasReview = false;
+    words.forEach(w => {
+      const status = getManualWordOverrideStatus(w);
+      if (status === "learned") learnedCount++;
+      else if (status === "review") hasReview = true;
+      else if (status === "learning") hasLearning = true;
+    });
+    if (learnedCount === words.length) return "learned";
+    if (hasReview) return "review";
+    if (hasLearning || learnedCount > 0) return "learning";
+    return "tolearn";
+  }
+  function getStatus(idx) {
+    const stored = getStoredStatus(idx);
+    return stored === "auto" ? getQuestionAutoStatus(idx) : stored;
+  }
+  function setStatus(idx, status) {
+    if (status === "auto") delete progress[idx];
+    else progress[idx] = status;
+    saveProgress(progress);
+    render();
+  }
+
+  function render() {
+    const counts = { learned: 0, learning: 0, review: 0, tolearn: 0 };
+    QUESTIONS.forEach((_, i) => {
+      const storedStatus = getStoredStatus(i);
+      if (counts[storedStatus] !== undefined) counts[storedStatus]++;
+    });
+    document.getElementById("stat-total").textContent = QUESTIONS.length;
+    document.getElementById("stat-learned").textContent = counts.learned;
+    document.getElementById("stat-learning").textContent = counts.learning;
+    document.getElementById("stat-review").textContent = counts.review;
+    document.getElementById("stat-tolearn").textContent = counts.tolearn;
+
+    const pct = Math.round((counts.learned / QUESTIONS.length) * 100);
+    document.getElementById("progress-fill").style.width = pct + "%";
+
+    updatePace(counts.learned, QUESTIONS.length);
+
+    listEl.innerHTML = "";
+    const term = searchTerm.toLowerCase().trim();
+    let shown = 0;
+
+    // Super-section mapping: group categories into three official USCIS top-level sections
+    const SUPER_SECTIONS = {
+      "Principles of American Democracy": { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
+      "System of Government":              { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
+      "Rights and Responsibilities":       { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
+      "Colonial Period and Independence":  { key: "hist", title: "AMERICAN HISTORY",    titleZh: "美国历史" },
+      "1800s":                             { key: "hist", title: "AMERICAN HISTORY",    titleZh: "美国历史" },
+      "Recent American History":           { key: "hist", title: "AMERICAN HISTORY",    titleZh: "美国历史" },
+      "Geography":                         { key: "civ",  title: "INTEGRATED CIVICS",   titleZh: "综合公民常识" },
+      "Symbols":                           { key: "civ",  title: "INTEGRATED CIVICS",   titleZh: "综合公民常识" },
+      "Holidays":                          { key: "civ",  title: "INTEGRATED CIVICS",   titleZh: "综合公民常识" }
+    };
+
+    // First, figure out which questions pass the filters
+    const visibleIdx = [];
+    QUESTIONS.forEach((item, idx) => {
+      const status = getStoredStatus(idx);
+      if (activeFilter !== "all" && status !== activeFilter) return;
+      if (term) {
+        const haystack = (item.q + " " + item.a + " " + item.c + " " + item.qZh + " " + item.aZh + " " + item.cZh).toLowerCase();
+        if (!haystack.includes(term)) return;
+      }
+      visibleIdx.push(idx);
+    });
+    shown = visibleIdx.length;
+
+    // Count per category among visible
+    const catCounts = {};
+    visibleIdx.forEach(i => {
+      const c = QUESTIONS[i].c;
+      catCounts[c] = (catCounts[c] || 0) + 1;
+    });
+
+    // Render in original question order, inserting collapsible section headers on changes
+    const chevronSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+
+    let lastSuper = null;
+    let lastCat = null;
+    let currentSuperBody = null; // container for sub-sections under a super-section
+    let currentSectionBody = null; // container for questions under a sub-section
+
+    visibleIdx.forEach(idx => {
+      const item = QUESTIONS[idx];
+      const storedStatus = getStoredStatus(idx);
+      const superSec = SUPER_SECTIONS[item.c];
+
+      // Super-section header
+      if (!lastSuper || lastSuper.key !== superSec.key) {
+        const superEl = document.createElement("h2");
+        superEl.className = "super-section";
+        superEl.dataset.collapseKey = "super:" + superSec.key;
+        superEl.innerHTML = `
+          <div class="ss-title-wrap">
+            <span>${escapeHtml(superSec.title)}</span>
+            <span class="ss-zh">${escapeHtml(superSec.titleZh)}</span>
+          </div>
+          <span class="ss-chevron">${chevronSvg}</span>
+        `;
+        listEl.appendChild(superEl);
+
+        currentSuperBody = document.createElement("div");
+        currentSuperBody.className = "section-body super-body";
+        currentSuperBody.dataset.collapseBody = "super:" + superSec.key;
+        listEl.appendChild(currentSuperBody);
+
+        lastSuper = superSec;
+        lastCat = null;
+      }
+
+      // Sub-section header
+      if (lastCat !== item.c) {
+        const head = document.createElement("div");
+        head.className = "section-head";
+        head.dataset.collapseKey = "cat:" + item.c;
+        head.innerHTML = `
+          <div>
+            <p class="sh-title">${escapeHtml(item.c)}</p>
+            <p class="sh-title-zh">${escapeHtml(item.cZh)}</p>
+          </div>
+          <div class="sh-right">
+            <span class="sh-count">${catCounts[item.c]} ${catCounts[item.c] === 1 ? 'question' : 'questions'}</span>
+            <span class="sh-chevron">${chevronSvg}</span>
+          </div>
+        `;
+        currentSuperBody.appendChild(head);
+
+        currentSectionBody = document.createElement("div");
+        currentSectionBody.className = "section-body cat-body";
+        currentSectionBody.dataset.collapseBody = "cat:" + item.c;
+        currentSuperBody.appendChild(currentSectionBody);
+
+        lastCat = item.c;
+      }
+
+      const card = document.createElement("div");
+      card.className = "question";
+      card.setAttribute("data-status", storedStatus);
+      card.dataset.questionIdx = String(idx);
+      const revealId = "ans-" + idx;
+
+      const speakerSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+
+      card.innerHTML = `
+        <div class="q-header">
+          <span class="q-num">Q${idx + 1}</span>
+          <div class="q-head-text">
+            <p class="q-text-en">${escapeHtml(item.q)}</p>
+            <p class="q-text-zh">${escapeHtml(item.qZh)}</p>
+            <div class="q-head-audio">
+              <button class="audio-btn" data-yt-q="${idx}" title="Play question from YouTube">${speakerSvg}YouTube Q 题目原声</button>
+              <button class="audio-btn" data-yt-edit="${idx}" title="Edit YouTube clip timing">Time 时间</button>
+              <div class="yt-time-panel" data-yt-panel="${idx}">
+                <span class="time-status ${getSavedQuestionTiming(idx) ? 'saved' : 'estimated'}" data-yt-time-status="${idx}">
+                  ${getSavedQuestionTiming(idx) ? "Saved 已保存" : "Set this question's time 设置这一题时间"}
+                </span>
+                <label>Start 开始 <input type="text" data-yt-start="${idx}" placeholder="hh:mm:ss" /></label>
+                <label>End 结束 <input type="text" data-yt-end="${idx}" placeholder="hh:mm:ss" /></label>
+                <button class="audio-btn" data-yt-test="${idx}">${speakerSvg}Test 试听</button>
+                <button class="audio-btn" data-yt-save="${idx}">Save 保存</button>
+                <button class="audio-btn" data-yt-reset="${idx}">Reset 重置</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="q-answer" id="${revealId}">
+          <div class="ans-en">${escapeHtml(item.a)}</div>
+          <div class="ans-zh">${escapeHtml(item.aZh)}</div>
+        </div>
+        <div class="q-actions">
+          <button class="reveal-btn" data-reveal="${revealId}">Show answer 查看答案</button>
+          <div class="status-group">
+            ${STATUSES.map(s => `
+              <button class="status-btn ${s} ${storedStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
+                ${STATUS_LABELS[s]}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+      currentSectionBody.appendChild(card);
+    });
+
+    // Apply collapsed state and wire up toggles
+    applyCollapsedState();
+    wireCollapsibles();
+
+    if (shown === 0) {
+      listEl.innerHTML = '<div class="empty">No questions match. 没有匹配的题目。</div>';
+    }
+
+    listEl.querySelectorAll(".status-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        const s = btn.dataset.status;
+        setStatus(idx, getStoredStatus(idx) === s ? "auto" : s);
+      });
+    });
+    listEl.querySelectorAll(".reveal-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = document.getElementById(btn.dataset.reveal);
+        target.classList.toggle("open");
+        btn.textContent = target.classList.contains("open") ? "Hide answer 隐藏答案" : "Show answer 查看答案";
+      });
+    });
+    listEl.querySelectorAll("[data-yt-q]").forEach(btn => {
+      btn.addEventListener("click", () => playYouTubeQuestion(parseInt(btn.dataset.ytQ, 10), btn));
+    });
+    listEl.querySelectorAll("[data-yt-edit]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.ytEdit, 10);
+        const panel = listEl.querySelector(`[data-yt-panel="${idx}"]`);
+        if (!panel) return;
+        panel.classList.toggle("open");
+        if (panel.classList.contains("open")) refreshTimingPanel(idx);
+      });
+    });
+    listEl.querySelectorAll("[data-yt-test]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (currentYouTubeBtn === btn) {
+          stopAllAudio();
+          return;
+        }
+        const idx = parseInt(btn.dataset.ytTest, 10);
+        try {
+          const timing = getTimingPanelValues(idx);
+          playYouTubeSegment(idx, btn, null, timing);
+        } catch (err) {
+          alert((err && err.message) || "Invalid YouTube timing. 时间无效。");
+        }
+      });
+    });
+    listEl.querySelectorAll("[data-yt-save]").forEach(btn => {
+      btn.addEventListener("click", () => saveQuestionTiming(parseInt(btn.dataset.ytSave, 10)));
+    });
+    listEl.querySelectorAll("[data-yt-reset]").forEach(btn => {
+      btn.addEventListener("click", () => resetQuestionTiming(parseInt(btn.dataset.ytReset, 10)));
+    });
+  }
+
+  // --- YouTube audio clips ---
+  let ytAudioPlayer = null;
+  let ytAudioReady = false;
+  let ytAudioReadyPromise = null;
+  let ytAudioStopTimer = null;
+  let currentYouTubeBtn = null;
+  let reviewLoopActive = false;
+  let reviewLoopPaused = false;
+  let reviewLoopIndices = [];
+  let reviewLoopPos = 0;
+  let reviewLoopBtn = null;
+  let reviewLoopCurrentDisplay = 0;
+  let vocabLoopActive = false;
+  let vocabLoopItems = [];
+  let vocabLoopPos = 0;
+  let vocabLoopBtn = null;
+  let vocabLoopProgressEl = null;
+  let currentSegmentOnComplete = null;
+  let currentSegmentTimerEnd = 0;
+  let currentSegmentStart = 0;
+  let currentSegmentDuration = 0;
+  let currentSegmentEnd = 0;
+  let pausedSegmentRemainingMs = 0;
+  let audioSeekTimer = null;
+
+  const loopPauseBtn = document.getElementById("loop-pause-btn");
+  const loopProgressEl = document.getElementById("loop-progress");
+  const audioSeekBar = document.getElementById("audio-seek-bar");
+  const audioElapsedEl = document.getElementById("audio-elapsed");
+  const audioTotalEl = document.getElementById("audio-total");
+  const prevQuestionBtn = document.getElementById("prev-question-btn");
+  const nextQuestionBtn = document.getElementById("next-question-btn");
+  vocabLoopProgressEl = document.getElementById("vocab-loop-progress");
+
+  function ensureYouTubeAudioPlayer() {
+    if (location.protocol === "file:") {
+      location.href = buildLocalhostUrlWithProgress();
+      return Promise.reject(new Error("YouTube player blocked on file:// pages."));
+    }
+    if (ytAudioReady) return Promise.resolve();
+    if (ytAudioReadyPromise) return ytAudioReadyPromise;
+
+    ytAudioReadyPromise = new Promise((resolve, reject) => {
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof previousReady === "function") previousReady();
+        ytAudioPlayer = new YT.Player("yt-audio-player", {
+          width: "1",
+          height: "1",
+          videoId: CIVICS_VIDEO_ID,
+          playerVars: {
+            controls: 0,
+            disablekb: 1,
+            modestbranding: 1,
+            origin: location.origin,
+            playsinline: 1,
+            rel: 0
+          },
+          events: {
+            onReady: () => {
+              ytAudioReady = true;
+              resolve();
+            },
+            onError: () => {
+              reject(new Error("YouTube player could not load."));
+            }
+          }
+        });
+      };
+
+      if (window.YT && window.YT.Player) {
+        window.onYouTubeIframeAPIReady();
+        return;
+      }
+
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.onerror = () => reject(new Error("YouTube API could not load."));
+      document.head.appendChild(tag);
+    });
+
+    return ytAudioReadyPromise;
+  }
+
+  function stopYouTubeAudio() {
+    if (ytAudioStopTimer) {
+      clearTimeout(ytAudioStopTimer);
+      ytAudioStopTimer = null;
+    }
+    if (audioSeekTimer) {
+      clearInterval(audioSeekTimer);
+      audioSeekTimer = null;
+    }
+    currentSegmentOnComplete = null;
+    currentSegmentTimerEnd = 0;
+    currentSegmentStart = 0;
+    currentSegmentDuration = 0;
+    currentSegmentEnd = 0;
+    pausedSegmentRemainingMs = 0;
+    updateAudioSeekBar(0);
+    if (audioSeekBar) audioSeekBar.disabled = true;
+    if (audioElapsedEl) audioElapsedEl.textContent = "0:00:00";
+    if (audioTotalEl) audioTotalEl.textContent = "0:00:00";
+    if (ytAudioPlayer && ytAudioReady && typeof ytAudioPlayer.stopVideo === "function") {
+      ytAudioPlayer.stopVideo();
+    }
+    if (currentYouTubeBtn) {
+      currentYouTubeBtn.classList.remove("playing");
+      currentYouTubeBtn = null;
+    }
+  }
+
+  function updateAudioSeekBar(elapsedSeconds) {
+    const duration = Math.max(0, currentSegmentDuration);
+    const elapsed = Math.min(duration, Math.max(0, elapsedSeconds || 0));
+    if (audioSeekBar) {
+      audioSeekBar.value = duration > 0 ? String(Math.round((elapsed / duration) * 1000)) : "0";
+      audioSeekBar.disabled = duration <= 0;
+    }
+    if (audioElapsedEl) audioElapsedEl.textContent = formatTime(elapsed);
+    if (audioTotalEl) audioTotalEl.textContent = formatTime(duration);
+  }
+
+  function startAudioSeekUpdates() {
+    if (audioSeekTimer) clearInterval(audioSeekTimer);
+    updateAudioSeekBar(0);
+    audioSeekTimer = setInterval(() => {
+      if (!ytAudioPlayer || !ytAudioReady || !currentSegmentDuration || reviewLoopPaused) return;
+      const current = typeof ytAudioPlayer.getCurrentTime === "function" ? ytAudioPlayer.getCurrentTime() : currentSegmentStart;
+      updateAudioSeekBar(current - currentSegmentStart);
+    }, 250);
+  }
+
+  function scheduleSegmentStop(remainingMs) {
+    if (ytAudioStopTimer) clearTimeout(ytAudioStopTimer);
+    currentSegmentTimerEnd = Date.now() + remainingMs;
+    const onComplete = currentSegmentOnComplete;
+    ytAudioStopTimer = setTimeout(() => {
+      stopYouTubeAudio();
+      if (onComplete) onComplete();
+    }, remainingMs);
+  }
+
+  function seekCurrentAudio() {
+    if (!audioSeekBar || !ytAudioPlayer || !ytAudioReady || !currentSegmentDuration) return;
+    const pct = Number(audioSeekBar.value) / 1000;
+    const elapsed = Math.min(currentSegmentDuration, Math.max(0, currentSegmentDuration * pct));
+    const target = currentSegmentStart + elapsed;
+    if (typeof ytAudioPlayer.seekTo === "function") ytAudioPlayer.seekTo(target, true);
+    updateAudioSeekBar(elapsed);
+    const remainingMs = Math.max(250, ((currentSegmentDuration - elapsed) + 0.75) * 1000);
+    if (reviewLoopPaused) {
+      pausedSegmentRemainingMs = remainingMs;
+      if (typeof ytAudioPlayer.pauseVideo === "function") ytAudioPlayer.pauseVideo();
+    } else {
+      scheduleSegmentStop(remainingMs);
+    }
+  }
+
+  async function playYouTubeSegment(idx, btn, onComplete, overrideTiming) {
+    try {
+      const timing = overrideTiming || getSavedQuestionTiming(idx);
+      if (!timing) {
+        alert("No saved YouTube timestamp for this question. 这一题还没有保存的 YouTube 时间。");
+        if (onComplete) onComplete(new Error("Missing saved YouTube time."));
+        return;
+      }
+      await ensureYouTubeAudioPlayer();
+      stopYouTubeAudio();
+      const start = timing.start;
+      const duration = Math.max(1, timing.duration - CIVICS_VIDEO_STOP_PADDING_SECONDS);
+      const end = start + duration;
+      currentSegmentStart = start;
+      currentSegmentDuration = duration;
+      currentSegmentEnd = end;
+      currentYouTubeBtn = btn;
+      if (btn) btn.classList.add("playing");
+      ytAudioPlayer.loadVideoById({
+        videoId: CIVICS_VIDEO_ID,
+        startSeconds: Math.max(0, start),
+        endSeconds: end
+      });
+      currentSegmentOnComplete = onComplete;
+      startAudioSeekUpdates();
+      scheduleSegmentStop((duration + 0.75) * 1000);
+    } catch (err) {
+      if (btn) btn.classList.remove("playing");
+      if (onComplete) onComplete(err);
+    }
+  }
+
+  async function playYouTubeQuestion(idx, btn) {
+    if (currentYouTubeBtn === btn) {
+      stopAllAudio();
+      return;
+    }
+    stopAllAudio();
+    await playYouTubeSegment(idx, btn);
+  }
+
+  function getVisibleQuestionCards() {
+    return Array.from(listEl.querySelectorAll(".question"))
+      .filter(card => card.offsetParent !== null);
+  }
+
+  function getCurrentQuestionCard(cards) {
+    const currentAudioCard = currentYouTubeBtn ? currentYouTubeBtn.closest(".question") : null;
+    if (currentAudioCard && cards.includes(currentAudioCard)) return currentAudioCard;
+
+    const viewportAnchor = window.scrollY + 120;
+    return cards.find(card => card.offsetTop + card.offsetHeight > viewportAnchor) || cards[0] || null;
+  }
+
+  function jumpToQuestion(direction) {
+    const cards = getVisibleQuestionCards();
+    if (!cards.length) return;
+    const current = getCurrentQuestionCard(cards);
+    const currentIndex = Math.max(0, cards.indexOf(current));
+    const nextIndex = Math.min(cards.length - 1, Math.max(0, currentIndex + direction));
+    const target = cards[nextIndex];
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.classList.add("jump-highlight");
+    setTimeout(() => target.classList.remove("jump-highlight"), 900);
+  }
+
+  function getReviewLoopIndices() {
+    return QUESTIONS
+      .map((_, idx) => idx)
+      .filter(idx => ["learning", "review", "learned"].includes(getStoredStatus(idx)));
+  }
+
+  function updateLoopControls() {
+    if (loopPauseBtn) {
+      loopPauseBtn.disabled = !reviewLoopActive;
+      loopPauseBtn.textContent = reviewLoopPaused ? "Resume 继续" : "Pause 暂停";
+    }
+    if (loopProgressEl) {
+      if (!reviewLoopActive || !reviewLoopIndices.length) {
+        loopProgressEl.textContent = "0 / 0";
+      } else {
+        const idx = reviewLoopIndices[Math.max(0, reviewLoopCurrentDisplay - 1)];
+        const prefix = reviewLoopPaused ? "Paused 暂停" : "Playing 播放";
+        loopProgressEl.textContent = `${prefix} ${reviewLoopCurrentDisplay} / ${reviewLoopIndices.length} · Q${idx + 1}`;
+      }
+    }
+  }
+
+  function toggleLoopPause() {
+    if (!reviewLoopActive) return;
+    if (reviewLoopPaused) {
+      reviewLoopPaused = false;
+      if (ytAudioPlayer && ytAudioReady && typeof ytAudioPlayer.playVideo === "function") {
+        ytAudioPlayer.playVideo();
+      }
+      const remaining = Math.max(250, pausedSegmentRemainingMs || 250);
+      scheduleSegmentStop(remaining);
+      updateLoopControls();
+      return;
+    }
+
+    reviewLoopPaused = true;
+    pausedSegmentRemainingMs = Math.max(250, currentSegmentTimerEnd - Date.now());
+    if (ytAudioStopTimer) {
+      clearTimeout(ytAudioStopTimer);
+      ytAudioStopTimer = null;
+    }
+    if (ytAudioPlayer && ytAudioReady && typeof ytAudioPlayer.pauseVideo === "function") {
+      ytAudioPlayer.pauseVideo();
+    }
+    updateLoopControls();
+  }
+
+  function playNextReviewLoopClip() {
+    if (!reviewLoopActive || !reviewLoopIndices.length) return;
+    const idx = reviewLoopIndices[reviewLoopPos % reviewLoopIndices.length];
+    reviewLoopCurrentDisplay = (reviewLoopPos % reviewLoopIndices.length) + 1;
+    reviewLoopPos += 1;
+    updateLoopControls();
+    const btn = listEl.querySelector(`[data-yt-q="${idx}"]`);
+    const timing = getSavedQuestionTiming(idx);
+    if (timing) {
+      playYouTubeSegment(idx, btn, () => {
+        if (reviewLoopActive) playNextReviewLoopClip();
+      }, timing);
+      return;
+    }
+
+    stopYouTubeAudio();
+    const card = listEl.querySelector(`[data-question-idx="${idx}"]`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("jump-highlight");
+      setTimeout(() => card.classList.remove("jump-highlight"), 900);
+    }
+    currentSegmentDuration = DEFAULT_QUESTION_VIDEO_DURATION_SECONDS;
+    updateAudioSeekBar(0);
+    if (audioSeekBar) audioSeekBar.disabled = true;
+    currentSegmentTimerEnd = Date.now() + (DEFAULT_QUESTION_VIDEO_DURATION_SECONDS * 1000);
+    ytAudioStopTimer = setTimeout(() => {
+      if (reviewLoopActive) playNextReviewLoopClip();
+    }, DEFAULT_QUESTION_VIDEO_DURATION_SECONDS * 1000);
+  }
+
+  function playReviewLearnedLoop(btn) {
+    if (reviewLoopActive && reviewLoopBtn === btn) {
+      stopAllAudio();
+      return;
+    }
+    stopAllAudio();
+    reviewLoopIndices = getReviewLoopIndices();
+    if (!reviewLoopIndices.length) {
+      alert("Mark at least one question as Learning, Review, or Learned first. 请先标记至少一道题。");
+      return;
+    }
+    reviewLoopActive = true;
+    reviewLoopPaused = false;
+    reviewLoopPos = 0;
+    reviewLoopCurrentDisplay = 0;
+    reviewLoopBtn = btn;
+    btn.classList.add("playing");
+    updateLoopControls();
+    playNextReviewLoopClip();
+  }
+
+  function stopAllAudio() {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+    if (activeWordAudioBtn) {
+      activeWordAudioBtn.classList.remove("playing");
+      activeWordAudioBtn = null;
+    }
+    reviewLoopActive = false;
+    reviewLoopPaused = false;
+    reviewLoopIndices = [];
+    reviewLoopPos = 0;
+    reviewLoopCurrentDisplay = 0;
+    if (reviewLoopBtn) {
+      reviewLoopBtn.classList.remove("playing");
+      reviewLoopBtn = null;
+    }
+    vocabLoopActive = false;
+    vocabLoopItems = [];
+    vocabLoopPos = 0;
+    if (vocabLoopBtn) {
+      vocabLoopBtn.classList.remove("playing");
+      vocabLoopBtn = null;
+    }
+    updateVocabLoopControls();
+    stopYouTubeAudio();
+    updateLoopControls();
+  }
+
+  document.getElementById("loop-review-learned-btn").addEventListener("click", (e) => {
+    playReviewLearnedLoop(e.currentTarget);
+  });
+  document.getElementById("loop-vocab-btn").addEventListener("click", (e) => {
+    toggleVocabLoop(e.currentTarget);
+  });
+  if (loopPauseBtn) {
+    loopPauseBtn.addEventListener("click", toggleLoopPause);
+  }
+  if (audioSeekBar) {
+    audioSeekBar.addEventListener("input", seekCurrentAudio);
+  }
+  if (prevQuestionBtn) {
+    prevQuestionBtn.addEventListener("click", () => jumpToQuestion(-1));
+  }
+  if (nextQuestionBtn) {
+    nextQuestionBtn.addEventListener("click", () => jumpToQuestion(1));
+  }
+
+  // Stop audio when switching tabs or leaving page
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopAllAudio();
+  });
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  // --- Collapsible sections ---
+  function applyCollapsedState() {
+    listEl.querySelectorAll("[data-collapse-key]").forEach(header => {
+      const key = header.dataset.collapseKey;
+      const body = listEl.querySelector(`[data-collapse-body="${CSS.escape(key)}"]`);
+      if (!body) return;
+      if (collapsed[key]) {
+        header.classList.add("collapsed");
+        body.classList.add("collapsed");
+        body.style.maxHeight = "0px";
+      } else {
+        header.classList.remove("collapsed");
+        body.classList.remove("collapsed");
+        body.style.maxHeight = "none";
+      }
+    });
+  }
+
+  function toggleSection(key) {
+    const header = listEl.querySelector(`[data-collapse-key="${CSS.escape(key)}"]`);
+    const body = listEl.querySelector(`[data-collapse-body="${CSS.escape(key)}"]`);
+    if (!header || !body) return;
+    const isCollapsed = header.classList.toggle("collapsed");
+    if (isCollapsed) {
+      // set explicit height first to animate
+      body.style.maxHeight = body.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        body.classList.add("collapsed");
+        body.style.maxHeight = "0px";
+      });
+      collapsed[key] = true;
+    } else {
+      body.classList.remove("collapsed");
+      body.style.maxHeight = body.scrollHeight + "px";
+      // clear after transition so nested expansions aren't clipped
+      setTimeout(() => { if (!header.classList.contains("collapsed")) body.style.maxHeight = "none"; }, 320);
+      delete collapsed[key];
+    }
+    saveCollapsed(collapsed);
+  }
+
+  function wireCollapsibles() {
+    listEl.querySelectorAll("[data-collapse-key]").forEach(header => {
+      header.addEventListener("click", () => toggleSection(header.dataset.collapseKey));
+    });
+  }
+
+  function setAllCollapsed(state) {
+    const keys = Array.from(listEl.querySelectorAll("[data-collapse-key]")).map(h => h.dataset.collapseKey);
+    if (state) {
+      keys.forEach(k => collapsed[k] = true);
+    } else {
+      keys.forEach(k => delete collapsed[k]);
+    }
+    saveCollapsed(collapsed);
+    applyCollapsedState();
+  }
+
+  // --- Word frequency analysis ---
+  // Native American tribe names from Q87 — proper nouns, excluded from vocabulary list.
+  const TRIBE_NAMES = new Set([
+    "cherokee","navajo","sioux","chippewa","choctaw","pueblo","apache","iroquois",
+    "creek","blackfeet","seminole","cheyenne","arawak","shawnee","mohegan","huron",
+    "oneida","lakota","crow","teton","hopi","inuit"
+  ]);
+
+  const STOPWORDS = new Set([
+    "the","a","an","and","or","of","to","in","on","at","for","with","by","from","as",
+    "is","are","was","were","be","been","being","am",
+    "do","does","did","done","doing","have","has","had","having",
+    "it","its","this","that","these","those","there","here",
+    "what","who","whom","whose","where","when","why","how","which",
+    "we","us","our","ours","you","your","yours","he","him","his","she","her","hers","they","them","their","theirs","i","me","my",
+    "not","no","yes","so","if","than","then","too","very","can","could","would","should","may","might","must","will","shall",
+    "one","two","three","four","five","six","seven","eight","nine","ten",
+    "some","any","all","each","every","other","another",
+    "s","t","also","name","named","names","named"
+  ]);
+
+  // Word meanings (Chinese) for the top frequent words seen in civics questions.
+  // Provided for reference; unknown words fall back to an em dash.
+  const SPEAKER_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+
+  const MEANING = {
+    "united": "联合的", "states": "州 / 各州", "u.s": "美国",
+    "president": "总统", "vice": "副的", "constitution": "宪法", "amendment": "修正案", "amendments": "修正案",
+    "government": "政府", "federal": "联邦的", "state": "州", "laws": "法律", "law": "法律",
+    "american": "美国的", "americans": "美国人", "america": "美国",
+    "rights": "权利", "right": "权利", "freedom": "自由",
+    "war": "战争", "world": "世界", "civil": "民事的／民权的", "independence": "独立",
+    "citizens": "公民", "citizen": "公民", "vote": "投票", "elect": "选举", "election": "选举",
+    "senate": "参议院", "house": "众议院", "representatives": "众议员", "representative": "众议员",
+    "senator": "参议员", "senators": "参议员",
+    "congress": "国会", "court": "法院", "courts": "法院", "supreme": "最高的", "justice": "大法官", "justices": "大法官",
+    "declaration": "宣言", "party": "政党", "political": "政治的",
+    "power": "权力", "powers": "权力", "people": "人民", "country": "国家",
+    "democracy": "民主", "republic": "共和国", "colonies": "殖民地", "colonists": "殖民者",
+    "slaves": "奴隶", "slavery": "奴隶制",
+    "first": "第一", "second": "第二", "third": "第三", "fourth": "第四",
+    "new": "新的", "north": "北方", "south": "南方", "east": "东方", "west": "西方",
+    "lincoln": "林肯", "washington": "华盛顿", "jefferson": "杰斐逊",
+    "british": "英国的", "africa": "非洲", "europeans": "欧洲人",
+    "national": "全国的／国家的", "holidays": "节日", "day": "日／节日",
+    "cabinet": "内阁", "speaker": "议长", "chief": "首席",
+    "territory": "领地", "ocean": "海洋", "river": "河流",
+    "make": "制定／做", "made": "制定／做", "makes": "制定／做",
+    "signs": "签署", "vetoes": "否决", "serve": "服务／服役",
+    "become": "成为", "becomes": "成为", "fight": "作战", "fought": "作战",
+    "flag": "国旗", "star": "星", "stars": "星", "stripes": "条纹",
+    "religion": "宗教", "speech": "言论", "press": "新闻", "assembly": "集会",
+    "pay": "支付", "tax": "税", "taxes": "税",
+    "visit": "访问", "current": "现任的", "answers": "答案", "vary": "不同",
+    "many": "许多", "long": "长", "longest": "最长的",
+    "group": "团体", "groups": "团体", "political parties": "政党",
+    "bills": "法案", "bill": "法案", "branch": "分支", "branches": "分支",
+    "public": "公众的", "officials": "官员", "official": "官员",
+    "military": "军队", "commander": "司令",
+    "discrimination": "歧视", "racial": "种族的", "civil rights": "民权",
+    "years": "年", "year": "年", "age": "年龄", "old": "年龄／旧的",
+    "bought": "购买", "buy": "购买", "sold": "出售",
+    "lived": "居住", "arrived": "到达",
+    "problem": "问题", "problems": "问题",
+    "high": "高", "main": "主要的", "important": "重要的",
+    "anthem": "国歌", "pledge": "效忠誓词", "allegiance": "忠诚",
+    "loyalty": "忠诚", "promise": "承诺", "obey": "遵守",
+    "defend": "捍卫", "nation": "国家",
+    "economic": "经济的", "economy": "经济",
+    "capital": "首都／首府", "state's": "州的",
+    "borders": "与…接壤", "territory": "领地", "indian": "印第安的", "tribe": "部落",
+    "register": "登记", "selective": "选择性的", "service": "服务",
+    "emancipation": "解放", "proclamation": "宣告／宣言",
+    "freed": "解放了", "women": "女性", "men": "男性",
+    "paper": "文件", "papers": "文件", "federalist": "联邦党人",
+    "franklin": "富兰克林", "roosevelt": "罗斯福", "wilson": "威尔逊", "eisenhower": "艾森豪威尔",
+    "king": "金／国王", "martin": "马丁", "luther": "路德",
+    "attack": "袭击", "attacked": "袭击", "terrorists": "恐怖分子",
+    "communism": "共产主义", "cold": "冷的", "movement": "运动",
+    "equality": "平等", "worked": "工作",
+    "general": "将军", "before": "之前", "during": "期间",
+    "japan": "日本", "germany": "德国", "italy": "意大利",
+    "mexico": "墨西哥", "canada": "加拿大",
+    "pacific": "太平洋的", "atlantic": "大西洋的",
+    "statue": "雕像", "liberty": "自由",
+    "september": "九月", "july": "七月", "november": "十一月", "april": "四月",
+    "major": "重要的", "event": "事件",
+    "review": "审查", "reviews": "审查", "explains": "解释", "decides": "决定",
+    "resolves": "解决", "disputes": "争端", "goes": "违反／前往",
+    "print": "印刷", "money": "货币", "declare": "宣告", "treaties": "条约", "army": "军队",
+    "schooling": "学校教育", "education": "教育",
+    "protection": "保护", "police": "警察", "safety": "安全",
+    "driver's": "驾驶员的", "license": "执照", "approve": "批准",
+    "zoning": "分区", "land": "土地", "use": "使用",
+    "democrat": "民主党人", "democratic": "民主党的", "republican": "共和党的",
+    "jury": "陪审团", "federal election": "联邦选举", "run": "竞选",
+    "office": "公职", "participate": "参与",
+    "join": "加入", "campaign": "竞选活动", "opinion": "意见", "call": "致电",
+    "publicly": "公开地", "support": "支持", "oppose": "反对", "issue": "议题",
+    "newspaper": "报纸", "write": "写", "written": "书写的",
+    "founding": "建国的", "fathers": "元勋", "father": "父亲／国父",
+    "convention": "大会", "constitutional": "宪法的",
+    "famous": "著名的", "diplomat": "外交家", "oldest": "最年长的", "member": "成员",
+    "postmaster": "邮政局长", "almanac": "年鉴", "started": "创立",
+    "free": "自由的／免费的", "libraries": "图书馆",
+    "end": "结束", "ended": "结束",
+    "holiday": "节日", "celebrate": "庆祝",
+    "hundred": "一百", "thousand": "一千",
+    "practice": "实践", "escape": "逃离", "persecution": "迫害",
+    "liberty": "自由", "life": "生命", "happiness": "幸福", "pursuit": "追求",
+    "religious": "宗教的", "opportunity": "机会",
+    "capitalist": "资本主义的", "market": "市场",
+    "follow": "遵循", "above": "在…之上", "leaders": "领导人",
+    "checks": "制衡", "balances": "制衡",
+    "separation": "分立",
+    "bear": "持有", "arms": "武器",
+    "bill of rights": "权利法案",
+    "bill of rights": "权利法案"
+  };
+
+  function getMeaning(w) {
+    return wordMeaningOverrides[w] || MEANING[w] || MEANING[w.replace(/'s$/, "")] || "—";
+  }
+
+  const WORD_LABEL_KEY = "citizenship-prep-word-label-v1";
+  const WORD_MEANING_KEY = "citizenship-prep-word-meaning-v1";
+
+  function loadJsonMap(key) {
+    try {
+      return JSON.parse(localStorage.getItem(key) || "{}") || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveJsonMap(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  let wordLabelOverrides = loadJsonMap(WORD_LABEL_KEY);
+  let wordMeaningOverrides = loadJsonMap(WORD_MEANING_KEY);
+
+  function getDisplayWord(w, displayForm) {
+    return wordLabelOverrides[w] || displayForm[w] || w;
+  }
+
+  let activeWordAudioBtn = null;
+
+  function playWordAudio(word, btn) {
+    if (!("speechSynthesis" in window)) return;
+    stopAllAudio();
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.85;
+    activeWordAudioBtn = btn || null;
+    if (activeWordAudioBtn) activeWordAudioBtn.classList.add("playing");
+    utterance.onend = utterance.onerror = () => {
+      if (activeWordAudioBtn) activeWordAudioBtn.classList.remove("playing");
+      activeWordAudioBtn = null;
+    };
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function speakText(text, lang, rate, onDone) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = rate;
+    utterance.onend = utterance.onerror = () => {
+      if (onDone) onDone();
+    };
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function getVocabLoopItems() {
+    const { counts, displayForm } = computeFrequency();
+    const statusOrder = { learned: 0, review: 1, learning: 2 };
+    return Object.entries(counts)
+      .map(([w, n]) => ({ key: w, count: n, status: getSelectedWordStatus(w) }))
+      .filter(item => Object.prototype.hasOwnProperty.call(statusOrder, item.status))
+      .sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || b.count - a.count)
+      .map(item => item.key)
+      .map(w => ({
+        key: w,
+        word: getDisplayWord(w, displayForm),
+        meaning: getMeaning(w)
+      }));
+  }
+
+  function updateVocabLoopControls() {
+    if (vocabLoopProgressEl) {
+      if (!vocabLoopActive || !vocabLoopItems.length) {
+        vocabLoopProgressEl.textContent = "0 / 0";
+      } else {
+        const pos = ((vocabLoopPos - 1 + vocabLoopItems.length) % vocabLoopItems.length) + 1;
+        const current = vocabLoopItems[pos - 1];
+        vocabLoopProgressEl.textContent = `Playing 播放 ${pos} / ${vocabLoopItems.length} · ${current.word}`;
+      }
+    }
+  }
+
+  function playNextVocabLoopItem() {
+    if (!vocabLoopActive || !vocabLoopItems.length) return;
+    if (!("speechSynthesis" in window)) {
+      stopAllAudio();
+      alert("This browser does not support vocabulary audio. 当前浏览器不支持词汇朗读。");
+      return;
+    }
+
+    const item = vocabLoopItems[vocabLoopPos % vocabLoopItems.length];
+    vocabLoopPos += 1;
+    updateVocabLoopControls();
+
+    const row = Array.from(document.querySelectorAll("[data-word-label]"))
+      .find(el => el.dataset.wordLabel === item.key)
+      ?.closest("tr");
+    if (row) {
+      row.scrollIntoView({ behavior: "smooth", block: "center" });
+      row.classList.add("jump-highlight");
+      setTimeout(() => row.classList.remove("jump-highlight"), 900);
+    }
+
+    const meaning = item.meaning && item.meaning !== "—" ? item.meaning : "";
+    const speakEnglish = () => {
+      if (!vocabLoopActive) return;
+      speakText(item.word, "en-US", 0.85, () => {
+        if (!vocabLoopActive) return;
+        setTimeout(playNextVocabLoopItem, 450);
+      });
+    };
+
+    window.speechSynthesis.cancel();
+    if (meaning) {
+      speakText(meaning, "zh-CN", 0.9, speakEnglish);
+    } else {
+      speakEnglish();
+    }
+  }
+
+  function toggleVocabLoop(btn) {
+    if (vocabLoopActive && vocabLoopBtn === btn) {
+      stopAllAudio();
+      return;
+    }
+    stopAllAudio();
+    if (!("speechSynthesis" in window)) {
+      alert("This browser does not support vocabulary audio. 当前浏览器不支持词汇朗读。");
+      return;
+    }
+    vocabLoopItems = getVocabLoopItems();
+    if (!vocabLoopItems.length) {
+      alert("Mark at least one vocabulary word as Learning, Review, or Learned first. 请先把至少一个词汇标记为学习中、复习或已学会。");
+      return;
+    }
+    vocabLoopActive = true;
+    vocabLoopPos = 0;
+    vocabLoopBtn = btn;
+    btn.classList.add("playing");
+    updateVocabLoopControls();
+    playNextVocabLoopItem();
+  }
+
+  // Manual overrides — collapses inflected forms to a base lemma even when the
+  // base form doesn't appear in the corpus.
+  const FORM_ALIASES = {
+    // Irregular plurals
+    "men": "man", "women": "woman", "children": "child", "people": "people",
+    "geese": "goose", "feet": "foot", "teeth": "tooth", "mice": "mouse",
+    "lives": "life", "leaves": "leaf", "wives": "wife", "knives": "knife",
+    // Verbs whose base form isn't in the corpus
+    "stops": "stop", "stopped": "stop", "stopping": "stop",
+    "goes": "go", "went": "go", "going": "go", "gone": "go",
+    "lived": "live", "lives": "live", "living": "live",
+    "made": "make", "makes": "make", "making": "make",
+    "took": "take", "takes": "take", "taking": "take", "taken": "take",
+    "fought": "fight", "fights": "fight", "fighting": "fight",
+    "became": "become", "becomes": "become", "becoming": "become",
+    "held": "hold", "holds": "hold", "holding": "hold",
+    "led": "lead", "leads": "lead", "leading": "lead",
+    "had": "have", "has": "have", "having": "have",
+    "ran": "run", "runs": "run", "running": "run",
+    "wrote": "write", "writes": "write", "writing": "write", "written": "write",
+    "freed": "free", "frees": "free", "freeing": "free"
+  };
+
+  // Words that end in -s/-es but aren't plurals; never lemmatize.
+  const NO_LEMMATIZE = new Set([
+    "always", "perhaps", "across", "civics", "ethics", "politics",
+    "physics", "mathematics", "economics", "news", "series", "species"
+  ]);
+
+  // Return possible base forms for a plural / 3rd-person / past / gerund word.
+  // Listed in confidence order — first item is the best guess.
+  function getSingularCandidates(w) {
+    const c = [];
+    // -ies / -ied → -y (parties → party, tried → try)
+    if (w.length > 4 && w.endsWith("ies")) c.push(w.slice(0, -3) + "y");
+    if (w.length > 4 && w.endsWith("ied")) c.push(w.slice(0, -3) + "y");
+    // Past tense / past participle (-ed)
+    if (w.length > 3 && w.endsWith("ed")) {
+      if (w.length > 4 && w[w.length - 3] === w[w.length - 4]) c.push(w.slice(0, -3)); // stopped → stop
+      if (/[vczgsbm]ed$/.test(w)) c.push(w.slice(0, -1));                              // saved → save, lived → live (silent-e patterns)
+      c.push(w.slice(0, -2));                                                          // worked → work, started → start
+      c.push(w.slice(0, -1));                                                          // fallback: drop d only
+    }
+    // Gerund / present participle (-ing)
+    if (w.length > 4 && w.endsWith("ing")) {
+      if (w.length > 5 && w[w.length - 4] === w[w.length - 5]) c.push(w.slice(0, -4)); // stopping → stop
+      c.push(w.slice(0, -3));                                                          // working → work
+      c.push(w.slice(0, -3) + "e");                                                    // living → live
+    }
+    // Plurals / 3rd-person singular
+    if (w.length > 4 && (w.endsWith("ses") || w.endsWith("xes") ||
+                         w.endsWith("ches") || w.endsWith("shes") ||
+                         w.endsWith("oes"))) c.push(w.slice(0, -2));                   // vetoes → veto, goes → go
+    if (w.length > 3 && w.endsWith("es")) c.push(w.slice(0, -1));                      // advises → advise
+    if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss") && !w.endsWith("us")) c.push(w.slice(0, -1)); // presidents → president, holidays → holiday
+    return c;
+  }
+
+  function computeFrequency() {
+    const rawCounts = {};
+    const rawWordToQs = {};
+    const caseStats = {}; // lowercase word -> { allcaps, titleMid, lower, forms: { exactCase: count } }
+    const TOKEN_RE = /[A-Za-z][A-Za-z'’]*[A-Za-z]|[A-Za-z]/g;
+    QUESTIONS.forEach((item, idx) => {
+      const text = item.q + " " + item.a; // keep original case
+      let m;
+      const re = new RegExp(TOKEN_RE.source, "g");
+      while ((m = re.exec(text)) !== null) {
+        const orig = m[0];
+        const pos = m.index;
+
+        // Detect sentence-initial position so "Because the..." doesn't promote "because" to proper noun.
+        let isSentenceStart = pos === 0;
+        if (!isSentenceStart) {
+          let i = pos - 1;
+          while (i >= 0 && /[\s"'(\[]/.test(text[i])) i--;
+          if (i < 0 || /[.!?:\n•]/.test(text[i])) isSentenceStart = true;
+        }
+
+        let cleaned = orig.replace(/’/g, "'");
+        let w = cleaned.toLowerCase();
+        if (w.endsWith("'s")) {
+          w = w.slice(0, -2);
+          cleaned = cleaned.slice(0, -2);
+        }
+        if (STOPWORDS.has(w)) continue;
+        if (TRIBE_NAMES.has(w)) continue;
+        if (w.length < 3) continue;
+        rawCounts[w] = (rawCounts[w] || 0) + 1;
+        if (!rawWordToQs[w]) rawWordToQs[w] = new Set();
+        rawWordToQs[w].add(idx);
+
+        if (!caseStats[w]) caseStats[w] = { allcaps: 0, titleMid: 0, lower: 0, forms: {} };
+        const s = caseStats[w];
+        s.forms[cleaned] = (s.forms[cleaned] || 0) + 1;
+        const isAllCaps = cleaned === cleaned.toUpperCase() && /[A-Z]/.test(cleaned) && cleaned.length >= 2;
+        const firstUpper = cleaned[0] === cleaned[0].toUpperCase() && cleaned[0] !== cleaned[0].toLowerCase();
+        const restLower = cleaned.slice(1) === cleaned.slice(1).toLowerCase();
+        if (isAllCaps) s.allcaps++;
+        else if (firstUpper && restLower && !isSentenceStart) s.titleMid++;
+        else if (!firstUpper) s.lower++;
+        // else: title-case at sentence start → ambiguous, ignored for case detection
+      }
+    });
+
+    // Manual capitalization overrides for words that *always* appear at sentence start
+    // (so the heuristic can't tell they're not proper nouns) or vice versa.
+    const CAP_OVERRIDE = {
+      "u.s": "U.S.", "us": "U.S.",
+      "uscis": "USCIS"
+    };
+
+    // Pick best display form for each word
+    const displayForm = {};
+    Object.keys(caseStats).forEach(w => {
+      if (CAP_OVERRIDE[w]) { displayForm[w] = CAP_OVERRIDE[w]; return; }
+      const s = caseStats[w];
+      if (s.allcaps > 0 && s.allcaps >= s.titleMid + s.lower) {
+        const ucForm = Object.keys(s.forms).find(f => f === f.toUpperCase());
+        displayForm[w] = ucForm || w.toUpperCase();
+      } else if (s.titleMid > 0 && s.lower === 0) {
+        // Capitalized mid-sentence with no lowercase usage → proper noun (American, Lincoln, ...)
+        displayForm[w] = w.charAt(0).toUpperCase() + w.slice(1);
+      } else {
+        displayForm[w] = w;
+      }
+    });
+
+    // Collapse inflected forms to their base lemma. Priority:
+    //   1. FORM_ALIASES (manual irregulars, always wins)
+    //   2. NO_LEMMATIZE (skip)
+    //   3. Candidate that appears in the corpus
+    //   4. Best-guess candidate (force-lemmatize even when base isn't in corpus)
+    const wordSet = new Set(Object.keys(rawCounts));
+    const counts = {};
+    const wordToQs = {};
+    const mergedDisplay = {};
+    Object.keys(rawCounts).forEach(w => {
+      let target = w;
+      if (FORM_ALIASES[w]) {
+        target = FORM_ALIASES[w];
+      } else if (!NO_LEMMATIZE.has(w)) {
+        const cands = getSingularCandidates(w);
+        const inCorpus = cands.find(c => wordSet.has(c) && c !== w);
+        target = inCorpus || cands[0] || w;
+      }
+      counts[target] = (counts[target] || 0) + rawCounts[w];
+      if (!wordToQs[target]) wordToQs[target] = new Set();
+      rawWordToQs[w].forEach(i => wordToQs[target].add(i));
+      if (!mergedDisplay[target]) mergedDisplay[target] = displayForm[target] || target;
+    });
+
+    return { counts, wordToQs, displayForm: mergedDisplay };
+  }
+
+  function getWordStatus(qIndices) {
+    let hasLearned = false;
+    let hasLearning = false;
+    let hasReview = false;
+    let hasNotLearned = false;
+    qIndices.forEach(idx => {
+      const status = getStatus(idx);
+      if (status === "learned") hasLearned = true;
+      if (status === "learning") hasLearning = true;
+      if (status === "review") hasReview = true;
+      if (status !== "learned") hasNotLearned = true;
+    });
+    if (!qIndices.size) return "tolearn";
+    if (!hasNotLearned) return "learned";
+    if (hasReview) return "review";
+    if (hasLearning) return "learning";
+    return "tolearn";
+  }
+
+  function wordAppearsInStatus(qIndices, statusName) {
+    let found = false;
+    qIndices.forEach(idx => {
+      if (getStatus(idx) === statusName) found = true;
+    });
+    return found;
+  }
+
+  // User-overridden word statuses (manual edits override the auto-derived value).
+  const WORD_STATUS_KEY = "citizenship-prep-word-status-v1";
+  const DEFAULT_WORD_OVERRIDES = {"constitution":"mastered","president":"mastered","state":"mastered","unit":"mastered","law":"mastered","new":"mastered","day":"mastered","government":"mastered","american":"mastered","many":"mastered","now":"mastered","first":"mastered","people":"mastered","vice":"mastered","great":"mastered","year":"mastered","york":"mastered","washington":"mastered","make":"mastered","national":"mastered","give":"learned","tax":"review","america":"learned","star":"learned","self":"review","word":"learning","twenty":"review","look":"learned","more":"review","governor":"learned","don't":"learned","woman":"learned","man":"learned","only":"learned","war":"tolearn","right":"learning","citizen":"tolearn","house":"tolearn","because":"tolearn","citizenship":"tolearn"};
+  function loadWordOverrides() {
+    try {
+      const saved = localStorage.getItem(WORD_STATUS_KEY);
+      if (saved !== null) {
+        const parsed = JSON.parse(saved) || {};
+        let changed = false;
+        Object.keys(DEFAULT_WORD_OVERRIDES).forEach(key => {
+          if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+            parsed[key] = DEFAULT_WORD_OVERRIDES[key];
+            changed = true;
+          }
+        });
+        if (changed) localStorage.setItem(WORD_STATUS_KEY, JSON.stringify(parsed));
+        return parsed;
+      }
+      localStorage.setItem(WORD_STATUS_KEY, JSON.stringify(DEFAULT_WORD_OVERRIDES));
+    } catch (e) {}
+    return { ...DEFAULT_WORD_OVERRIDES };
+  }
+  function saveWordOverrides(o) { localStorage.setItem(WORD_STATUS_KEY, JSON.stringify(o)); }
+  let wordOverrides = loadWordOverrides();
+
+  function getEffectiveWordStatus(w, qIndices) {
+    const override = wordOverrides[w];
+    if (override === "mastered") return "learned";
+    if (override === "partial") return "learning";
+    if (override === "notstarted") return "tolearn";
+    if (override) return override;
+    return getWordStatus(qIndices);
+  }
+
+  function getSelectedWordStatus(w) {
+    const override = wordOverrides[w];
+    if (override === "mastered") return "learned";
+    if (override === "partial") return "learning";
+    if (override === "notstarted") return "tolearn";
+    return override || "auto";
+  }
+
+  let wordFilter = "all";
+
+  function renderFrequency() {
+    const { counts, wordToQs, displayForm } = computeFrequency();
+    const allRows = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    if (!allRows.length) return;
+    const max = allRows[0][1];
+
+    const selectedStatusByWord = {};
+    allRows.forEach(([w]) => {
+      selectedStatusByWord[w] = getSelectedWordStatus(w);
+    });
+
+    let auto = 0, tolearn = 0, learning = 0, review = 0, learned = 0;
+    allRows.forEach(([w]) => {
+      const s = selectedStatusByWord[w];
+      if (s === "learned") learned++;
+      else if (s === "review") review++;
+      else if (s === "learning") learning++;
+      else if (s === "tolearn") tolearn++;
+      else auto++;
+    });
+
+    document.getElementById("freq-stat-total").textContent = allRows.length;
+    document.getElementById("freq-stat-auto").textContent = auto;
+    document.getElementById("freq-stat-tolearn").textContent = tolearn;
+    document.getElementById("freq-stat-learning").textContent = learning;
+    document.getElementById("freq-stat-review").textContent = review;
+    document.getElementById("freq-stat-learned").textContent = learned;
+    const totalWords = allRows.length || 1;
+    const formatPct = (n) => {
+      const pct = (n / totalWords) * 100;
+      return pct > 0 && pct < 1 ? pct.toFixed(1) + "%" : Math.round(pct) + "%";
+    };
+    document.getElementById("freq-pct-total").textContent = "100%";
+    document.getElementById("freq-pct-auto").textContent = formatPct(auto);
+    document.getElementById("freq-pct-tolearn").textContent = formatPct(tolearn);
+    document.getElementById("freq-pct-learning").textContent = formatPct(learning);
+    document.getElementById("freq-pct-review").textContent = formatPct(review);
+    document.getElementById("freq-pct-learned").textContent = formatPct(learned);
+
+    const rows = allRows.filter(([w]) => {
+      if (wordFilter === "all") return true;
+      if (wordFilter === "override") return !!wordOverrides[w] || !!wordLabelOverrides[w] || !!wordMeaningOverrides[w];
+      return selectedStatusByWord[w] === wordFilter;
+    });
+
+    const STATUS_LABEL = {
+      auto:     "Auto 自动",
+      tolearn:  "To Learn 待学",
+      learning: "Learning 学习中",
+      review:   "Review 复习",
+      learned:  "Learned 已学会"
+    };
+    const STATUS_OPTIONS = ["auto", "tolearn", "learning", "review", "learned"];
+
+    const body = document.getElementById("freq-body");
+    body.innerHTML = rows.map(([w, n], i) => {
+      const pct = Math.round((n / max) * 100);
+      const current = selectedStatusByWord[w];
+      const wEsc = escapeHtml(w);
+      const displayWord = getDisplayWord(w, displayForm);
+      const meaning = getMeaning(w);
+      const buttons = STATUS_OPTIONS.map(opt => {
+        const active = opt === current ? " active" : "";
+        const cls = opt === "auto" ? "auto" : opt;
+        return `<button class="word-status-btn ${cls}${active}" data-word="${wEsc}" data-status="${opt}">${STATUS_LABEL[opt]}</button>`;
+      }).join("");
+      return `
+        <tr>
+          <td class="freq-rank">${i + 1}</td>
+          <td class="freq-word">
+            <span class="freq-word-wrap">
+              <input class="word-edit-input" type="text" value="${escapeHtml(displayWord)}" data-word-label="${wEsc}" data-original="${escapeHtml(displayForm[w] || w)}" aria-label="Edit word ${escapeHtml(displayForm[w] || w)}" />
+              <button class="audio-btn word-audio-btn" data-word-audio="${escapeHtml(displayWord)}" title="Play word audio" aria-label="Play ${escapeHtml(displayWord)}">${SPEAKER_SVG}</button>
+            </span>
+          </td>
+          <td><input class="meaning-edit-input" type="text" value="${escapeHtml(meaning)}" data-word-meaning="${wEsc}" data-original="${escapeHtml(MEANING[w] || MEANING[w.replace(/'s$/, "")] || "—")}" aria-label="Edit translation for ${escapeHtml(displayWord)}" /></td>
+          <td><div class="word-status-group">${buttons}</div></td>
+          <td class="freq-count">${n}</td>
+          <td><div class="freq-bar"><div class="freq-bar-fill" style="width:${pct}%"></div></div></td>
+        </tr>
+      `;
+    }).join("");
+
+    body.querySelectorAll(".word-status-btn").forEach(el => {
+      el.addEventListener("click", () => {
+        const w = el.dataset.word;
+        const v = el.dataset.status;
+        if (v === "auto") delete wordOverrides[w];
+        else wordOverrides[w] = v;
+        saveWordOverrides(wordOverrides);
+        renderFrequency();
+      });
+    });
+    body.querySelectorAll(".word-audio-btn").forEach(el => {
+      el.addEventListener("click", () => {
+        playWordAudio(el.dataset.wordAudio, el);
+      });
+    });
+    body.querySelectorAll(".word-edit-input").forEach(el => {
+      const save = () => {
+        const w = el.dataset.wordLabel;
+        const original = el.dataset.original || w;
+        const next = el.value.trim();
+        if (!next || next === original) delete wordLabelOverrides[w];
+        else wordLabelOverrides[w] = next;
+        saveJsonMap(WORD_LABEL_KEY, wordLabelOverrides);
+        renderFrequency();
+      };
+      el.addEventListener("change", save);
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") el.blur();
+        if (e.key === "Escape") {
+          el.value = wordLabelOverrides[el.dataset.wordLabel] || el.dataset.original || el.dataset.wordLabel;
+          el.blur();
+        }
+      });
+    });
+    body.querySelectorAll(".meaning-edit-input").forEach(el => {
+      const save = () => {
+        const w = el.dataset.wordMeaning;
+        const original = el.dataset.original || "—";
+        const next = el.value.trim();
+        if (!next || next === original) delete wordMeaningOverrides[w];
+        else wordMeaningOverrides[w] = next;
+        saveJsonMap(WORD_MEANING_KEY, wordMeaningOverrides);
+        renderFrequency();
+      };
+      el.addEventListener("change", save);
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") el.blur();
+        if (e.key === "Escape") {
+          el.value = wordMeaningOverrides[el.dataset.wordMeaning] || el.dataset.original || "—";
+          el.blur();
+        }
+      });
+    });
+  }
+
+  // Tabs
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      stopAllAudio();
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById("view-" + tab.dataset.view).classList.add("active");
+      if (tab.dataset.view === "frequency") renderFrequency();
+    });
+  });
+
+  // Filters
+  filterGroupEl.addEventListener("click", (e) => {
+    if (e.target.classList.contains("filter-btn")) {
+      filterGroupEl.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      activeFilter = e.target.dataset.filter;
+      render();
+    }
+  });
+
+  // Word filter (Word Frequency view)
+  const wordFilterGroup = document.getElementById("word-filter-group");
+  wordFilterGroup.addEventListener("click", (e) => {
+    if (e.target.classList.contains("filter-btn")) {
+      wordFilterGroup.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      wordFilter = e.target.dataset.wfilter;
+      renderFrequency();
+    }
+  });
+
+  searchEl.addEventListener("input", (e) => {
+    searchTerm = e.target.value;
+    render();
+  });
+
+  resetBtn.addEventListener("click", () => {
+    if (confirm("Reset all learning progress? 重置所有学习进度？")) {
+      progress = {};
+      saveProgress(progress);
+      render();
+    }
+  });
+
+  document.getElementById("expand-all-btn").addEventListener("click", () => setAllCollapsed(false));
+  document.getElementById("collapse-all-btn").addEventListener("click", () => setAllCollapsed(true));
+
+  const localhostNotice = document.getElementById("localhost-notice");
+  if (localhostNotice && location.protocol === "file:") {
+    const openLink = document.getElementById("localhost-open-link");
+    if (openLink) openLink.href = buildLocalhostUrlWithProgress();
+    localhostNotice.classList.add("open");
+    const ipadMigrationUrl = buildIpadUrlWithProgress();
+    if (ipadMigrationUrl.includes("#progress=")) {
+      window.setTimeout(() => {
+        window.location.href = ipadMigrationUrl;
+      }, 1200);
+    }
+  }
+  const restoreFileNotice = document.getElementById("restore-file-notice");
+  if (restoreFileNotice && location.protocol !== "file:" && Object.keys(progress).length === 0) {
+    restoreFileNotice.classList.add("open");
+  }
+  const ipadSyncNotice = document.getElementById("ipad-sync-notice");
+  if (ipadSyncNotice) ipadSyncNotice.classList.remove("open");
+  const copyFileUrlBtn = document.getElementById("copy-file-url-btn");
+  if (copyFileUrlBtn) {
+    copyFileUrlBtn.addEventListener("click", async () => {
+      const url = document.getElementById("restore-file-url").textContent.trim();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyFileUrlBtn.textContent = "Copied 已复制";
+      } catch (e) {
+        prompt("Copy this file URL, then paste it into Chrome's address bar:", url);
+      }
+    });
+  }
+  const copyIpadUrlBtn = document.getElementById("copy-ipad-url-btn");
+  if (copyIpadUrlBtn) {
+    copyIpadUrlBtn.addEventListener("click", async () => {
+      const url = buildIpadUrlWithProgress();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyIpadUrlBtn.textContent = "Copied iPad URL 已复制";
+      } catch (e) {
+        prompt("Copy this iPad progress URL, then open it on your iPad:", url);
+      }
+    });
+  }
+  const copyServerIpadUrlBtn = document.getElementById("copy-server-ipad-url-btn");
+  if (copyServerIpadUrlBtn) {
+    copyServerIpadUrlBtn.addEventListener("click", async () => {
+      const url = buildIpadUrlWithProgress();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyServerIpadUrlBtn.textContent = "Copied iPad URL 已复制";
+      } catch (e) {
+        prompt("Copy this iPad progress URL, then open it on your iPad:", url);
+      }
+    });
+  }
+
+  render();
+  renderFrequency();
+</script>
+</body>
+</html>
