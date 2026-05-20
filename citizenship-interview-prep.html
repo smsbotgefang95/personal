@@ -820,9 +820,203 @@
   .pace-metric.gap-ok    .pm-value { color: var(--learned); }
   .pace-metric.gap-ahead .pm-value { color: var(--accent); }
 
+  /* Vocabulary game */
+  .game-shell {
+    display: grid;
+    gap: 16px;
+  }
+  .game-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .game-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .game-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .game-subtitle {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .game-stats {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .game-stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  .game-stat .value {
+    font-weight: 800;
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .game-stat .label {
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .game-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .game-btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 9px 13px;
+    transition: all 0.15s;
+  }
+  .game-btn:hover { background: var(--bg); }
+  .game-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .game-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  .game-message {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: auto;
+  }
+  .game-message.good { color: var(--learned); }
+  .game-message.bad { color: #dc2626; }
+  .game-stage {
+    position: relative;
+    min-height: 440px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
+      repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(29,78,216,0.08) 40px),
+      repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(29,78,216,0.06) 40px);
+  }
+  .game-word-chip {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: var(--text);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .game-empty {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .falling-option {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: min(210px, 42%);
+    min-height: 58px;
+    border: 2px solid #bfdbfe;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 10px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.25;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 8px 18px rgba(29, 78, 216, 0.12);
+    transform: translate3d(0, 0, 0);
+    transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+  .falling-option:hover,
+  .falling-option:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 10px 22px rgba(29, 78, 216, 0.22);
+  }
+  .falling-option.correct {
+    background: var(--learned-bg);
+    border-color: var(--learned);
+    color: var(--learned);
+  }
+  .falling-option.wrong {
+    background: #fee2e2;
+    border-color: #dc2626;
+    color: #b91c1c;
+  }
+  .falling-option.reveal {
+    background: var(--learned-bg);
+    border-color: var(--learned);
+  }
+  .game-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(29,78,216,0.22);
+    color: var(--accent);
+    font-size: 0.72rem;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
   @media (max-width: 640px) {
     .summary { grid-template-columns: repeat(2, 1fr); }
     .freq-summary { grid-template-columns: repeat(2, 1fr); }
+    .game-stats { grid-template-columns: repeat(2, 1fr); }
+    .game-topline { flex-direction: column; }
+    .game-message { margin-left: 0; width: 100%; }
+    .game-stage { min-height: 390px; }
+    .falling-option {
+      width: min(180px, 46%);
+      min-height: 54px;
+      font-size: 0.86rem;
+      padding: 8px;
+    }
     .freq-word { min-width: 260px; }
     .word-edit-input {
       width: 20ch;
@@ -851,6 +1045,7 @@
   <div class="tabs">
     <button class="tab active" data-view="questions">Questions 题目</button>
     <button class="tab" data-view="frequency">Word Frequency 高频词汇</button>
+    <button class="tab" data-view="game">Game 游戏</button>
   </div>
 
   <!-- Questions View -->
@@ -999,6 +1194,43 @@
       </thead>
       <tbody id="freq-body"></tbody>
     </table>
+  </section>
+
+  <!-- Vocabulary Game View -->
+  <section class="view" id="view-game">
+    <div class="game-shell">
+      <div class="game-panel">
+        <div class="game-topline">
+          <div>
+            <h2 class="game-title">Vocabulary Tetris 词汇方块</h2>
+            <p class="game-subtitle">Listen to the English word, then choose the matching Chinese block. 听英文单词，选择对应的中文翻译。</p>
+          </div>
+          <div class="game-message" id="game-message">Ready 准备开始</div>
+        </div>
+
+        <div class="game-stats">
+          <div class="game-stat"><div class="value" id="game-score">0</div><div class="label">Score 分数</div></div>
+          <div class="game-stat"><div class="value" id="game-high-score">0</div><div class="label">Best 最高分</div></div>
+          <div class="game-stat"><div class="value" id="game-lives">3</div><div class="label">Lives 生命</div></div>
+          <div class="game-stat"><div class="value" id="game-streak">0</div><div class="label">Streak 连击</div></div>
+          <div class="game-stat"><div class="value" id="game-correct">0</div><div class="label">Correct 正确</div></div>
+          <div class="game-stat"><div class="value" id="game-wrong">0</div><div class="label">Wrong 错误</div></div>
+        </div>
+
+        <div class="game-actions">
+          <button class="game-btn primary" id="game-start-btn">Start 开始</button>
+          <button class="game-btn" id="game-replay-btn" disabled>Replay 重听</button>
+          <button class="game-btn" id="game-pause-btn" disabled>Pause 暂停</button>
+          <button class="game-btn" id="game-reset-btn">Reset 重置</button>
+        </div>
+
+        <div class="game-stage" id="game-stage" aria-live="polite">
+          <div class="game-empty" id="game-empty">
+            Start the game to practice Learning, Review, and Learned vocabulary. 开始游戏，练习学习中、复习和已学会的词汇。
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -2429,6 +2661,7 @@
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
+    if (typeof pauseGameForAudioStop === "function") pauseGameForAudioStop();
     if (activeWordAudioBtn) {
       activeWordAudioBtn.classList.remove("playing");
       activeWordAudioBtn = null;
@@ -3168,6 +3401,372 @@
     });
   }
 
+  // --- Vocabulary Tetris game ---
+  const GAME_HIGH_SCORE_KEY = "citizenship-prep-game-high-score-v1";
+  const GAME_STATS_KEY = "citizenship-prep-game-stats-v1";
+  const GAME_STATUSES = new Set(["learning", "review", "learned"]);
+  const gameEls = {
+    stage: document.getElementById("game-stage"),
+    empty: document.getElementById("game-empty"),
+    message: document.getElementById("game-message"),
+    score: document.getElementById("game-score"),
+    highScore: document.getElementById("game-high-score"),
+    lives: document.getElementById("game-lives"),
+    streak: document.getElementById("game-streak"),
+    correct: document.getElementById("game-correct"),
+    wrong: document.getElementById("game-wrong"),
+    start: document.getElementById("game-start-btn"),
+    replay: document.getElementById("game-replay-btn"),
+    pause: document.getElementById("game-pause-btn"),
+    reset: document.getElementById("game-reset-btn")
+  };
+  const gameState = {
+    running: false,
+    paused: false,
+    locked: false,
+    score: 0,
+    highScore: Number(localStorage.getItem(GAME_HIGH_SCORE_KEY) || "0") || 0,
+    lives: 3,
+    streak: 0,
+    correct: 0,
+    wrong: 0,
+    pool: [],
+    current: null,
+    options: [],
+    optionEls: [],
+    raf: null,
+    nextTimer: null,
+    lastFrame: 0,
+    y: 0,
+    speed: 21
+  };
+
+  function shuffleGameItems(items) {
+    const copy = items.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function getGamePool() {
+    const { counts, displayForm } = computeFrequency();
+    const seenMeanings = new Set();
+    return Object.keys(counts)
+      .map(key => ({
+        key,
+        word: getDisplayWord(key, displayForm),
+        meaning: getMeaning(key),
+        count: counts[key],
+        status: getSelectedWordStatus(key)
+      }))
+      .filter(item => GAME_STATUSES.has(item.status))
+      .filter(item => item.meaning && item.meaning !== "—")
+      .filter(item => {
+        const normalized = item.meaning.trim();
+        if (seenMeanings.has(normalized)) return false;
+        seenMeanings.add(normalized);
+        return true;
+      })
+      .sort((a, b) => b.count - a.count);
+  }
+
+  function setGameMessage(text, tone) {
+    if (!gameEls.message) return;
+    gameEls.message.textContent = text;
+    gameEls.message.classList.toggle("good", tone === "good");
+    gameEls.message.classList.toggle("bad", tone === "bad");
+  }
+
+  function updateGameHud() {
+    gameEls.score.textContent = gameState.score;
+    gameEls.highScore.textContent = gameState.highScore;
+    gameEls.lives.textContent = gameState.lives;
+    gameEls.streak.textContent = gameState.streak;
+    gameEls.correct.textContent = gameState.correct;
+    gameEls.wrong.textContent = gameState.wrong;
+    gameEls.start.textContent = gameState.running ? "Restart 重新开始" : "Start 开始";
+    gameEls.replay.disabled = !gameState.running || !gameState.current;
+    gameEls.pause.disabled = !gameState.running;
+    gameEls.pause.textContent = gameState.paused ? "Resume 继续" : "Pause 暂停";
+    saveGameStatsSnapshot();
+  }
+
+  function saveGameStatsSnapshot() {
+    const snapshot = {
+      score: gameState.score,
+      highScore: gameState.highScore,
+      lives: gameState.lives,
+      streak: gameState.streak,
+      correct: gameState.correct,
+      wrong: gameState.wrong,
+      running: gameState.running,
+      updatedAt: new Date().toISOString()
+    };
+    try { localStorage.setItem(GAME_STATS_KEY, JSON.stringify(snapshot)); } catch (e) {}
+  }
+
+  function clearGameStage() {
+    if (gameState.raf) {
+      cancelAnimationFrame(gameState.raf);
+      gameState.raf = null;
+    }
+    if (gameState.nextTimer) {
+      window.clearTimeout(gameState.nextTimer);
+      gameState.nextTimer = null;
+    }
+    gameState.optionEls = [];
+    Array.from(gameEls.stage.querySelectorAll(".falling-option, .game-word-chip")).forEach(el => el.remove());
+  }
+
+  function showGameEmpty(text) {
+    gameEls.empty.textContent = text;
+    gameEls.empty.style.display = "grid";
+  }
+
+  function hideGameEmpty() {
+    gameEls.empty.style.display = "none";
+  }
+
+  function speakGameWord() {
+    if (!gameState.current || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(gameState.current.word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function resetGameStats() {
+    gameState.score = 0;
+    gameState.lives = 3;
+    gameState.streak = 0;
+    gameState.correct = 0;
+    gameState.wrong = 0;
+    gameState.current = null;
+    gameState.options = [];
+    gameState.locked = false;
+    gameState.paused = false;
+  }
+
+  function startGame() {
+    const pool = getGamePool();
+    if (pool.length < 4) {
+      gameState.running = false;
+      resetGameStats();
+      clearGameStage();
+      showGameEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+      setGameMessage("Not enough words 词汇不足", "bad");
+      updateGameHud();
+      return;
+    }
+    stopAllAudio();
+    gameState.pool = pool;
+    gameState.running = true;
+    resetGameStats();
+    setGameMessage("Listen and choose 听音选择", "");
+    updateGameHud();
+    nextGameRound();
+  }
+
+  function stopGame() {
+    gameState.running = false;
+    gameState.paused = false;
+    gameState.locked = false;
+    gameState.current = null;
+    clearGameStage();
+    showGameEmpty("Start the game to practice Learning, Review, and Learned vocabulary. 开始游戏，练习学习中、复习和已学会的词汇。");
+    setGameMessage("Ready 准备开始", "");
+    updateGameHud();
+  }
+
+  function pauseGameForAudioStop() {
+    if (!gameState.running || gameState.locked) return;
+    gameState.paused = true;
+    updateGameHud();
+  }
+
+  function toggleGamePause() {
+    if (!gameState.running) return;
+    gameState.paused = !gameState.paused;
+    gameState.lastFrame = performance.now();
+    setGameMessage(gameState.paused ? "Paused 暂停" : "Listen and choose 听音选择", "");
+    updateGameHud();
+    if (gameState.paused && gameState.raf) {
+      cancelAnimationFrame(gameState.raf);
+      gameState.raf = null;
+    }
+    if (!gameState.paused) {
+      speakGameWord();
+      gameState.raf = requestAnimationFrame(animateGame);
+    }
+  }
+
+  function nextGameRound() {
+    clearGameStage();
+    if (!gameState.running || gameState.lives <= 0) {
+      finishGame();
+      return;
+    }
+
+    hideGameEmpty();
+    gameState.locked = false;
+    gameState.paused = false;
+    gameState.current = gameState.pool[Math.floor(Math.random() * gameState.pool.length)];
+    const distractors = shuffleGameItems(gameState.pool.filter(item => item.key !== gameState.current.key)).slice(0, 3);
+    gameState.options = shuffleGameItems([gameState.current, ...distractors]);
+    gameState.y = 64;
+    gameState.speed = Math.min(56, 21 + (gameState.score * 0.16));
+
+    const chip = document.createElement("div");
+    chip.className = "game-word-chip";
+    chip.textContent = "Listen 听";
+    gameEls.stage.appendChild(chip);
+
+    gameState.optionEls = gameState.options.map((item, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "falling-option";
+      btn.dataset.key = item.key;
+      btn.innerHTML = `<span class="game-key">${idx + 1}</span>${escapeHtml(item.meaning)}`;
+      btn.addEventListener("click", () => chooseGameOption(item.key));
+      gameEls.stage.appendChild(btn);
+      return btn;
+    });
+
+    layoutGameOptions();
+    setGameMessage("Listen and choose 听音选择", "");
+    updateGameHud();
+    speakGameWord();
+    gameState.lastFrame = performance.now();
+    gameState.raf = requestAnimationFrame(animateGame);
+  }
+
+  function layoutGameOptions() {
+    const stageWidth = gameEls.stage.clientWidth;
+    const optionWidth = gameState.optionEls[0] ? gameState.optionEls[0].offsetWidth : 190;
+    const columns = gameState.optionEls.length;
+    const gap = Math.max(8, (stageWidth - (optionWidth * columns)) / (columns + 1));
+    gameState.optionEls.forEach((el, idx) => {
+      const fallbackX = gap + idx * (optionWidth + gap);
+      const mobileColumns = stageWidth < 560 ? 2 : 4;
+      const col = idx % mobileColumns;
+      const row = Math.floor(idx / mobileColumns);
+      const mobileGap = Math.max(8, (stageWidth - (optionWidth * mobileColumns)) / (mobileColumns + 1));
+      const x = stageWidth < 560 ? mobileGap + col * (optionWidth + mobileGap) : fallbackX;
+      el.style.transform = `translate3d(${Math.max(8, x)}px, ${gameState.y + row * 72}px, 0)`;
+    });
+  }
+
+  function animateGame(now) {
+    if (!gameState.running || gameState.locked) return;
+    if (gameState.paused) {
+      gameState.raf = null;
+      return;
+    }
+    const delta = Math.min(48, now - gameState.lastFrame);
+    gameState.lastFrame = now;
+    gameState.y += gameState.speed * (delta / 1000);
+    layoutGameOptions();
+    const maxY = gameEls.stage.clientHeight - 76;
+    if (gameState.y >= maxY) {
+      handleGameMiss();
+      return;
+    }
+    gameState.raf = requestAnimationFrame(animateGame);
+  }
+
+  function chooseGameOption(key) {
+    if (!gameState.running || gameState.paused || gameState.locked || !gameState.current) return;
+    const correct = key === gameState.current.key;
+    gameState.locked = true;
+    if (gameState.raf) {
+      cancelAnimationFrame(gameState.raf);
+      gameState.raf = null;
+    }
+
+    gameState.optionEls.forEach(el => {
+      if (el.dataset.key === gameState.current.key) el.classList.add(correct ? "correct" : "reveal");
+      else if (el.dataset.key === key) el.classList.add("wrong");
+      el.disabled = true;
+    });
+
+    if (correct) {
+      gameState.correct += 1;
+      gameState.streak += 1;
+      gameState.score += 10 + (gameState.streak % 3 === 0 ? 5 : 0);
+      setGameMessage("Correct 正确", "good");
+    } else {
+      gameState.wrong += 1;
+      gameState.streak = 0;
+      gameState.lives -= 1;
+      setGameMessage(`Wrong 错误 · ${gameState.current.word} = ${gameState.current.meaning}`, "bad");
+    }
+    saveGameHighScore();
+    updateGameHud();
+    gameState.nextTimer = window.setTimeout(nextGameRound, correct ? 650 : 1150);
+  }
+
+  function handleGameMiss() {
+    if (!gameState.running || gameState.locked) return;
+    gameState.locked = true;
+    gameState.wrong += 1;
+    gameState.streak = 0;
+    gameState.lives -= 1;
+    gameState.optionEls.forEach(el => {
+      if (el.dataset.key === gameState.current.key) el.classList.add("reveal");
+      el.disabled = true;
+    });
+    setGameMessage(`Missed 漏选 · ${gameState.current.word} = ${gameState.current.meaning}`, "bad");
+    updateGameHud();
+    gameState.nextTimer = window.setTimeout(nextGameRound, 1150);
+  }
+
+  function saveGameHighScore() {
+    if (gameState.score <= gameState.highScore) return;
+    gameState.highScore = gameState.score;
+    localStorage.setItem(GAME_HIGH_SCORE_KEY, String(gameState.highScore));
+  }
+
+  function finishGame() {
+    saveGameHighScore();
+    gameState.running = false;
+    gameState.paused = false;
+    gameState.locked = false;
+    clearGameStage();
+    showGameEmpty(`Game over. Final score: ${gameState.score}. 游戏结束，最终分数：${gameState.score}。`);
+    setGameMessage("Game over 游戏结束", "bad");
+    updateGameHud();
+  }
+
+  gameEls.start.addEventListener("click", startGame);
+  gameEls.replay.addEventListener("click", speakGameWord);
+  gameEls.pause.addEventListener("click", toggleGamePause);
+  gameEls.reset.addEventListener("click", () => {
+    resetGameStats();
+    stopGame();
+  });
+  window.addEventListener("resize", () => {
+    if (gameState.running && gameState.optionEls.length) layoutGameOptions();
+  });
+  document.addEventListener("keydown", (e) => {
+    const gameViewActive = document.getElementById("view-game").classList.contains("active");
+    if (!gameViewActive) return;
+    if (e.key >= "1" && e.key <= "4") {
+      const idx = Number(e.key) - 1;
+      const item = gameState.options[idx];
+      if (item) {
+        e.preventDefault();
+        chooseGameOption(item.key);
+      }
+    } else if (e.code === "Space") {
+      e.preventDefault();
+      speakGameWord();
+    }
+  });
+  updateGameHud();
+
   // Tabs
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => {
@@ -3177,6 +3776,12 @@
       tab.classList.add("active");
       document.getElementById("view-" + tab.dataset.view).classList.add("active");
       if (tab.dataset.view === "frequency") renderFrequency();
+      if (tab.dataset.view === "game") {
+        gameState.pool = getGamePool();
+        if (gameState.pool.length < 4) {
+          showGameEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+        }
+      }
     });
   });
 
