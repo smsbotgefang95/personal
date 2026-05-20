@@ -918,9 +918,9 @@
         <button type="button" id="copy-server-ipad-url-btn">Copy iPad progress URL 复制 iPad 进度链接</button>
         <div class="restore-url" id="ipad-sync-url"></div>
       </div>
-      <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for Learning, Review, and Learned questions">
+      <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for all questions">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        Loop Learning + Review + Learned 循环复习
+        Loop All Questions 循环全部题目
       </button>
       <button class="audio-btn" id="loop-pause-btn" title="Pause or resume loop playback" disabled>
         Pause 暂停
@@ -2062,6 +2062,7 @@
         const idx = parseInt(btn.dataset.ytTest, 10);
         try {
           const timing = getTimingPanelValues(idx);
+          stopAllAudio();
           playYouTubeSegment(idx, btn, null, timing);
         } catch (err) {
           alert((err && err.message) || "Invalid YouTube timing. 时间无效。");
@@ -2088,6 +2089,9 @@
   let reviewLoopPos = 0;
   let reviewLoopBtn = null;
   let reviewLoopCurrentDisplay = 0;
+  let questionLoopActive = false;
+  let questionLoopIdx = null;
+  let questionLoopBtn = null;
   let vocabLoopActive = false;
   let vocabLoopItems = [];
   let vocabLoopPos = 0;
@@ -2273,7 +2277,29 @@
       return;
     }
     stopAllAudio();
-    await playYouTubeSegment(idx, btn);
+    questionLoopActive = true;
+    questionLoopIdx = idx;
+    questionLoopBtn = btn;
+    playLoopingYouTubeQuestion(idx, btn);
+  }
+
+  function clearQuestionLoopState() {
+    questionLoopActive = false;
+    questionLoopIdx = null;
+    questionLoopBtn = null;
+  }
+
+  function playLoopingYouTubeQuestion(idx, btn) {
+    if (!questionLoopActive || questionLoopIdx !== idx || questionLoopBtn !== btn) return;
+    playYouTubeSegment(idx, btn, (err) => {
+      if (err) {
+        clearQuestionLoopState();
+        return;
+      }
+      if (questionLoopActive && questionLoopIdx === idx && questionLoopBtn === btn) {
+        playLoopingYouTubeQuestion(idx, btn);
+      }
+    });
   }
 
   function getVisibleQuestionCards() {
@@ -2303,9 +2329,7 @@
   }
 
   function getReviewLoopIndices() {
-    return QUESTIONS
-      .map((_, idx) => idx)
-      .filter(idx => ["learning", "review", "learned"].includes(getStoredStatus(idx)));
+    return QUESTIONS.map((_, idx) => idx);
   }
 
   function updateLoopControls() {
@@ -2388,7 +2412,7 @@
     stopAllAudio();
     reviewLoopIndices = getReviewLoopIndices();
     if (!reviewLoopIndices.length) {
-      alert("Mark at least one question as Learning, Review, or Learned first. 请先标记至少一道题。");
+      alert("No questions are available to loop. 没有可循环播放的题目。");
       return;
     }
     reviewLoopActive = true;
@@ -2418,6 +2442,7 @@
       reviewLoopBtn.classList.remove("playing");
       reviewLoopBtn = null;
     }
+    clearQuestionLoopState();
     vocabLoopActive = false;
     vocabLoopItems = [];
     vocabLoopPos = 0;
@@ -2536,7 +2561,7 @@
     "not","no","yes","so","if","than","then","too","very","can","could","would","should","may","might","must","will","shall",
     "one","two","three","four","five","six","seven","eight","nine","ten",
     "some","any","all","each","every","other","another",
-    "s","t","gov","usci","uscis","also","name","named","names","named"
+    "s","t","gov","usci","uscis","testupdate","testupdates","also","name","named","names","named"
   ]);
 
   // Word meanings (Chinese) for the top frequent words seen in civics questions.
