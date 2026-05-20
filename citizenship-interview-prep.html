@@ -848,6 +848,32 @@
     color: var(--muted);
     font-size: 0.9rem;
   }
+  .game-mode-switch {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+  }
+  .game-mode-btn {
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 800;
+    padding: 8px 12px;
+  }
+  .game-mode-btn.active {
+    background: var(--card);
+    color: var(--accent);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  }
   .game-stats {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -920,6 +946,7 @@
       repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(29,78,216,0.08) 40px),
       repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(29,78,216,0.06) 40px);
   }
+  .game-stage[hidden] { display: none; }
   .game-word-chip {
     position: absolute;
     top: 14px;
@@ -1003,6 +1030,81 @@
     margin-right: 6px;
     flex-shrink: 0;
   }
+  .target-stage {
+    background:
+      radial-gradient(circle at 22% 22%, rgba(22, 163, 74, 0.09), transparent 28%),
+      radial-gradient(circle at 78% 30%, rgba(217, 119, 6, 0.1), transparent 30%),
+      linear-gradient(rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
+      repeating-linear-gradient(0deg, transparent 0, transparent 55px, rgba(29,78,216,0.07) 56px),
+      repeating-linear-gradient(90deg, transparent 0, transparent 55px, rgba(29,78,216,0.05) 56px);
+  }
+  .target-timer {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 3;
+    min-width: 72px;
+    border-radius: 8px;
+    background: var(--text);
+    color: #fff;
+    padding: 7px 10px;
+    font-weight: 900;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .target-option {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: clamp(128px, 24%, 190px);
+    min-height: 92px;
+    border: 3px solid #bfdbfe;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px;
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 900;
+    line-height: 1.24;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 12px 24px rgba(29, 78, 216, 0.14);
+    transform: translate3d(0, 0, 0);
+    transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+  .target-option::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 2px solid rgba(29,78,216,0.18);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .target-option:hover,
+  .target-option:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 14px 28px rgba(29, 78, 216, 0.22);
+  }
+  .target-option.correct {
+    background: var(--learned-bg);
+    border-color: var(--learned);
+    color: var(--learned);
+  }
+  .target-option.wrong {
+    background: #fee2e2;
+    border-color: #dc2626;
+    color: #b91c1c;
+  }
+  .target-option.reveal {
+    background: var(--learned-bg);
+    border-color: var(--learned);
+  }
 
   @media (max-width: 640px) {
     .summary { grid-template-columns: repeat(2, 1fr); }
@@ -1011,11 +1113,19 @@
     .game-topline { flex-direction: column; }
     .game-message { margin-left: 0; width: 100%; }
     .game-stage { min-height: 390px; }
+    .game-mode-switch { width: 100%; }
+    .game-mode-btn { flex: 1 1 140px; }
     .falling-option {
       width: min(180px, 46%);
       min-height: 54px;
       font-size: 0.86rem;
       padding: 8px;
+    }
+    .target-option {
+      width: clamp(118px, 39%, 160px);
+      min-height: 84px;
+      font-size: 0.82rem;
+      padding: 10px;
     }
     .freq-word { min-width: 260px; }
     .word-edit-input {
@@ -1208,6 +1318,11 @@
           <div class="game-message" id="game-message">Ready 准备开始</div>
         </div>
 
+        <div class="game-mode-switch" role="group" aria-label="Game mode">
+          <button class="game-mode-btn active" data-game-mode="blocks" type="button">Blocks 方块</button>
+          <button class="game-mode-btn" data-game-mode="targets" type="button">Targets 打靶</button>
+        </div>
+
         <div class="game-stats">
           <div class="game-stat"><div class="value" id="game-score">0</div><div class="label">Score 分数</div></div>
           <div class="game-stat"><div class="value" id="game-high-score">0</div><div class="label">Best 最高分</div></div>
@@ -1227,6 +1342,12 @@
         <div class="game-stage" id="game-stage" aria-live="polite">
           <div class="game-empty" id="game-empty">
             Start the game to practice Learning, Review, and Learned vocabulary. 开始游戏，练习学习中、复习和已学会的词汇。
+          </div>
+        </div>
+
+        <div class="game-stage target-stage" id="target-stage" aria-live="polite" hidden>
+          <div class="game-empty" id="target-empty">
+            Start target practice to hear a word and tap the matching Chinese target. 开始打靶，听英文单词后点击正确中文靶子。
           </div>
         </div>
       </div>
@@ -3404,7 +3525,27 @@
   // --- Vocabulary Tetris game ---
   const GAME_HIGH_SCORE_KEY = "citizenship-prep-game-high-score-v1";
   const GAME_STATS_KEY = "citizenship-prep-game-stats-v1";
+  const TARGET_HIGH_SCORE_KEY = "citizenship-prep-target-game-high-score-v1";
+  const TARGET_STATS_KEY = "citizenship-prep-target-game-stats-v1";
   const GAME_STATUSES = new Set(["learning", "review", "learned"]);
+  let activeGameMode = "blocks";
+  const gameModeCopy = {
+    blocks: {
+      title: "Vocabulary Tetris 词汇方块",
+      subtitle: "Listen to the English word, then choose the matching Chinese block. 听英文单词，选择对应的中文翻译。"
+    },
+    targets: {
+      title: "听音打靶",
+      subtitle: "Listen to the English word, then tap the matching Chinese target. 听英文单词，点击正确中文靶子。"
+    }
+  };
+  const modeEls = {
+    buttons: Array.from(document.querySelectorAll(".game-mode-btn")),
+    title: document.querySelector(".game-title"),
+    subtitle: document.querySelector(".game-subtitle"),
+    targetStage: document.getElementById("target-stage"),
+    targetEmpty: document.getElementById("target-empty")
+  };
   const gameEls = {
     stage: document.getElementById("game-stage"),
     empty: document.getElementById("game-empty"),
@@ -3439,6 +3580,29 @@
     lastFrame: 0,
     y: 0,
     speed: 21
+  };
+  const targetState = {
+    running: false,
+    paused: false,
+    locked: false,
+    score: 0,
+    highScore: Number(localStorage.getItem(TARGET_HIGH_SCORE_KEY) || "0") || 0,
+    lives: 3,
+    streak: 0,
+    correct: 0,
+    wrong: 0,
+    pool: [],
+    current: null,
+    options: [],
+    optionEls: [],
+    raf: null,
+    nextTimer: null,
+    roundStartedAt: 0,
+    pausedRemaining: 8000,
+    timeRemaining: 8000,
+    lastFrame: 0,
+    positions: [],
+    timerEl: null
   };
 
   function shuffleGameItems(items) {
@@ -3480,6 +3644,8 @@
   }
 
   function updateGameHud() {
+    saveGameStatsSnapshot();
+    if (activeGameMode !== "blocks") return;
     gameEls.score.textContent = gameState.score;
     gameEls.highScore.textContent = gameState.highScore;
     gameEls.lives.textContent = gameState.lives;
@@ -3490,7 +3656,6 @@
     gameEls.replay.disabled = !gameState.running || !gameState.current;
     gameEls.pause.disabled = !gameState.running;
     gameEls.pause.textContent = gameState.paused ? "Resume 继续" : "Pause 暂停";
-    saveGameStatsSnapshot();
   }
 
   function saveGameStatsSnapshot() {
@@ -3561,7 +3726,7 @@
       updateGameHud();
       return;
     }
-    stopAllAudio();
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     gameState.pool = pool;
     gameState.running = true;
     resetGameStats();
@@ -3582,9 +3747,15 @@
   }
 
   function pauseGameForAudioStop() {
-    if (!gameState.running || gameState.locked) return;
-    gameState.paused = true;
-    updateGameHud();
+    if (gameState.running && !gameState.locked) {
+      gameState.paused = true;
+      updateGameHud();
+    }
+    if (targetState.running && !targetState.locked) {
+      pauseTargetTimers();
+      targetState.paused = true;
+      updateTargetHud();
+    }
   }
 
   function toggleGamePause() {
@@ -3740,32 +3911,364 @@
     updateGameHud();
   }
 
-  gameEls.start.addEventListener("click", startGame);
-  gameEls.replay.addEventListener("click", speakGameWord);
-  gameEls.pause.addEventListener("click", toggleGamePause);
+  function updateTargetHud() {
+    saveTargetStatsSnapshot();
+    if (activeGameMode !== "targets") return;
+    gameEls.score.textContent = targetState.score;
+    gameEls.highScore.textContent = targetState.highScore;
+    gameEls.lives.textContent = targetState.lives;
+    gameEls.streak.textContent = targetState.streak;
+    gameEls.correct.textContent = targetState.correct;
+    gameEls.wrong.textContent = targetState.wrong;
+    gameEls.start.textContent = targetState.running ? "Restart 重新开始" : "Start 开始";
+    gameEls.replay.disabled = !targetState.running || !targetState.current;
+    gameEls.pause.disabled = !targetState.running;
+    gameEls.pause.textContent = targetState.paused ? "Resume 继续" : "Pause 暂停";
+  }
+
+  function saveTargetStatsSnapshot() {
+    const snapshot = {
+      score: targetState.score,
+      highScore: targetState.highScore,
+      lives: targetState.lives,
+      streak: targetState.streak,
+      correct: targetState.correct,
+      wrong: targetState.wrong,
+      running: targetState.running,
+      updatedAt: new Date().toISOString()
+    };
+    try { localStorage.setItem(TARGET_STATS_KEY, JSON.stringify(snapshot)); } catch (e) {}
+  }
+
+  function saveTargetHighScore() {
+    if (targetState.score <= targetState.highScore) return;
+    targetState.highScore = targetState.score;
+    localStorage.setItem(TARGET_HIGH_SCORE_KEY, String(targetState.highScore));
+  }
+
+  function clearTargetStage() {
+    if (targetState.raf) {
+      cancelAnimationFrame(targetState.raf);
+      targetState.raf = null;
+    }
+    if (targetState.nextTimer) {
+      window.clearTimeout(targetState.nextTimer);
+      targetState.nextTimer = null;
+    }
+    targetState.optionEls = [];
+    targetState.positions = [];
+    targetState.timerEl = null;
+    Array.from(modeEls.targetStage.querySelectorAll(".target-option, .target-timer, .game-word-chip")).forEach(el => el.remove());
+  }
+
+  function showTargetEmpty(text) {
+    modeEls.targetEmpty.textContent = text;
+    modeEls.targetEmpty.style.display = "grid";
+  }
+
+  function hideTargetEmpty() {
+    modeEls.targetEmpty.style.display = "none";
+  }
+
+  function speakTargetWord() {
+    if (!targetState.current || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(targetState.current.word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function resetTargetStats() {
+    targetState.score = 0;
+    targetState.lives = 3;
+    targetState.streak = 0;
+    targetState.correct = 0;
+    targetState.wrong = 0;
+    targetState.current = null;
+    targetState.options = [];
+    targetState.locked = false;
+    targetState.paused = false;
+    targetState.timeRemaining = 8000;
+    targetState.pausedRemaining = 8000;
+  }
+
+  function startTargetGame() {
+    const pool = getGamePool();
+    if (pool.length < 4) {
+      targetState.running = false;
+      resetTargetStats();
+      clearTargetStage();
+      showTargetEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+      setGameMessage("Not enough words 词汇不足", "bad");
+      updateTargetHud();
+      return;
+    }
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    targetState.pool = pool;
+    targetState.running = true;
+    resetTargetStats();
+    setGameMessage("Listen and target 听音打靶", "");
+    updateTargetHud();
+    nextTargetRound();
+  }
+
+  function stopTargetGame() {
+    targetState.running = false;
+    targetState.paused = false;
+    targetState.locked = false;
+    targetState.current = null;
+    clearTargetStage();
+    showTargetEmpty("Start target practice to hear a word and tap the matching Chinese target. 开始打靶，听英文单词后点击正确中文靶子。");
+    setGameMessage("Ready 准备开始", "");
+    updateTargetHud();
+  }
+
+  function pauseTargetTimers() {
+    if (targetState.raf) {
+      cancelAnimationFrame(targetState.raf);
+      targetState.raf = null;
+    }
+    targetState.pausedRemaining = Math.max(0, targetState.timeRemaining);
+  }
+
+  function toggleTargetPause() {
+    if (!targetState.running) return;
+    targetState.paused = !targetState.paused;
+    if (targetState.paused) {
+      pauseTargetTimers();
+      setGameMessage("Paused 暂停", "");
+    } else {
+      targetState.roundStartedAt = performance.now() - (8000 - targetState.pausedRemaining);
+      targetState.lastFrame = performance.now();
+      setGameMessage("Listen and target 听音打靶", "");
+      speakTargetWord();
+      targetState.raf = requestAnimationFrame(animateTargets);
+    }
+    updateTargetHud();
+  }
+
+  function nextTargetRound() {
+    clearTargetStage();
+    if (!targetState.running || targetState.lives <= 0) {
+      finishTargetGame();
+      return;
+    }
+
+    hideTargetEmpty();
+    targetState.locked = false;
+    targetState.paused = false;
+    targetState.current = targetState.pool[Math.floor(Math.random() * targetState.pool.length)];
+    const distractors = shuffleGameItems(targetState.pool.filter(item => item.key !== targetState.current.key)).slice(0, 3);
+    targetState.options = shuffleGameItems([targetState.current, ...distractors]);
+    targetState.timeRemaining = 8000;
+    targetState.pausedRemaining = 8000;
+
+    const chip = document.createElement("div");
+    chip.className = "game-word-chip";
+    chip.textContent = "Listen 听";
+    modeEls.targetStage.appendChild(chip);
+
+    const timer = document.createElement("div");
+    timer.className = "target-timer";
+    timer.textContent = "8.0s";
+    modeEls.targetStage.appendChild(timer);
+    targetState.timerEl = timer;
+
+    targetState.optionEls = targetState.options.map((item, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "target-option";
+      btn.dataset.key = item.key;
+      btn.innerHTML = `<span class="game-key">${idx + 1}</span>${escapeHtml(item.meaning)}`;
+      btn.addEventListener("click", () => chooseTargetOption(item.key));
+      modeEls.targetStage.appendChild(btn);
+      return btn;
+    });
+
+    layoutTargetOptions();
+    setGameMessage("Listen and target 听音打靶", "");
+    updateTargetHud();
+    speakTargetWord();
+    targetState.roundStartedAt = performance.now();
+    targetState.lastFrame = performance.now();
+    targetState.raf = requestAnimationFrame(animateTargets);
+  }
+
+  function layoutTargetOptions() {
+    const stageWidth = modeEls.targetStage.clientWidth;
+    const stageHeight = modeEls.targetStage.clientHeight;
+    const mobile = stageWidth < 560;
+    const lanes = mobile
+      ? [{ x: 0.08, y: 0.22 }, { x: 0.56, y: 0.24 }, { x: 0.1, y: 0.62 }, { x: 0.56, y: 0.64 }]
+      : [{ x: 0.08, y: 0.2 }, { x: 0.38, y: 0.16 }, { x: 0.65, y: 0.38 }, { x: 0.24, y: 0.62 }];
+    targetState.positions = targetState.optionEls.map((el, idx) => {
+      const width = el.offsetWidth || (mobile ? 140 : 170);
+      const height = el.offsetHeight || (mobile ? 88 : 96);
+      const lane = lanes[idx] || lanes[0];
+      return {
+        baseX: Math.min(stageWidth - width - 10, Math.max(10, stageWidth * lane.x)),
+        baseY: Math.min(stageHeight - height - 12, Math.max(58, stageHeight * lane.y)),
+        ampX: mobile ? 10 + idx * 2 : 18 + idx * 3,
+        ampY: mobile ? 8 + idx * 2 : 12 + idx * 2,
+        phase: idx * 1.7,
+        width,
+        height
+      };
+    });
+    positionTargetOptions(performance.now());
+  }
+
+  function positionTargetOptions(now) {
+    const speed = 0.0009 + Math.min(0.0009, targetState.score * 0.000006);
+    targetState.optionEls.forEach((el, idx) => {
+      const pos = targetState.positions[idx];
+      if (!pos) return;
+      const driftX = Math.sin(now * speed + pos.phase) * pos.ampX;
+      const driftY = Math.cos(now * speed * 1.2 + pos.phase) * pos.ampY;
+      el.style.transform = `translate3d(${pos.baseX + driftX}px, ${pos.baseY + driftY}px, 0)`;
+    });
+  }
+
+  function animateTargets(now) {
+    if (!targetState.running || targetState.locked) return;
+    if (targetState.paused) {
+      targetState.raf = null;
+      return;
+    }
+    targetState.timeRemaining = Math.max(0, 8000 - (now - targetState.roundStartedAt));
+    if (targetState.timerEl) {
+      targetState.timerEl.textContent = (targetState.timeRemaining / 1000).toFixed(1) + "s";
+    }
+    positionTargetOptions(now);
+    if (targetState.timeRemaining <= 0) {
+      handleTargetMiss();
+      return;
+    }
+    targetState.raf = requestAnimationFrame(animateTargets);
+  }
+
+  function chooseTargetOption(key) {
+    if (!targetState.running || targetState.paused || targetState.locked || !targetState.current) return;
+    const correct = key === targetState.current.key;
+    targetState.locked = true;
+    if (targetState.raf) {
+      cancelAnimationFrame(targetState.raf);
+      targetState.raf = null;
+    }
+
+    targetState.optionEls.forEach(el => {
+      if (el.dataset.key === targetState.current.key) el.classList.add(correct ? "correct" : "reveal");
+      else if (el.dataset.key === key) el.classList.add("wrong");
+      el.disabled = true;
+    });
+
+    if (correct) {
+      targetState.correct += 1;
+      targetState.streak += 1;
+      targetState.score += 10 + (targetState.streak % 3 === 0 ? 5 : 0);
+      setGameMessage(targetState.streak % 3 === 0 ? "Correct + streak bonus 正确 + 连击奖励" : "Correct 正确", "good");
+    } else {
+      targetState.wrong += 1;
+      targetState.streak = 0;
+      targetState.lives -= 1;
+      setGameMessage(`Wrong 错误 · ${targetState.current.word} = ${targetState.current.meaning}`, "bad");
+    }
+    saveTargetHighScore();
+    updateTargetHud();
+    targetState.nextTimer = window.setTimeout(nextTargetRound, correct ? 750 : 1300);
+  }
+
+  function handleTargetMiss() {
+    if (!targetState.running || targetState.locked) return;
+    targetState.locked = true;
+    targetState.wrong += 1;
+    targetState.streak = 0;
+    targetState.lives -= 1;
+    targetState.optionEls.forEach(el => {
+      if (el.dataset.key === targetState.current.key) el.classList.add("reveal");
+      el.disabled = true;
+    });
+    setGameMessage(`Time out 超时 · ${targetState.current.word} = ${targetState.current.meaning}`, "bad");
+    updateTargetHud();
+    targetState.nextTimer = window.setTimeout(nextTargetRound, 1300);
+  }
+
+  function finishTargetGame() {
+    saveTargetHighScore();
+    targetState.running = false;
+    targetState.paused = false;
+    targetState.locked = false;
+    clearTargetStage();
+    showTargetEmpty(`Game over. Final score: ${targetState.score}. 游戏结束，最终分数：${targetState.score}。`);
+    setGameMessage("Game over 游戏结束", "bad");
+    updateTargetHud();
+  }
+
+  function switchGameMode(mode) {
+    if (mode !== "blocks" && mode !== "targets") return;
+    if (activeGameMode === "blocks" && gameState.running && !gameState.paused) toggleGamePause();
+    if (activeGameMode === "targets" && targetState.running && !targetState.paused) toggleTargetPause();
+    activeGameMode = mode;
+    modeEls.buttons.forEach(btn => btn.classList.toggle("active", btn.dataset.gameMode === mode));
+    modeEls.title.textContent = gameModeCopy[mode].title;
+    modeEls.subtitle.textContent = gameModeCopy[mode].subtitle;
+    gameEls.stage.hidden = mode !== "blocks";
+    modeEls.targetStage.hidden = mode !== "targets";
+    if (mode === "blocks") {
+      setGameMessage(gameState.paused ? "Paused 暂停" : "Ready 准备开始", "");
+      updateGameHud();
+      if (!gameState.running) {
+        gameState.pool = getGamePool();
+        if (gameState.pool.length < 4) showGameEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+      }
+    } else {
+      setGameMessage(targetState.paused ? "Paused 暂停" : "Ready 准备开始", "");
+      updateTargetHud();
+      if (!targetState.running) {
+        targetState.pool = getGamePool();
+        if (targetState.pool.length < 4) showTargetEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+      }
+    }
+  }
+
+  modeEls.buttons.forEach(btn => btn.addEventListener("click", () => switchGameMode(btn.dataset.gameMode)));
+  gameEls.start.addEventListener("click", () => activeGameMode === "targets" ? startTargetGame() : startGame());
+  gameEls.replay.addEventListener("click", () => activeGameMode === "targets" ? speakTargetWord() : speakGameWord());
+  gameEls.pause.addEventListener("click", () => activeGameMode === "targets" ? toggleTargetPause() : toggleGamePause());
   gameEls.reset.addEventListener("click", () => {
-    resetGameStats();
-    stopGame();
+    if (activeGameMode === "targets") {
+      resetTargetStats();
+      stopTargetGame();
+    } else {
+      resetGameStats();
+      stopGame();
+    }
   });
   window.addEventListener("resize", () => {
     if (gameState.running && gameState.optionEls.length) layoutGameOptions();
+    if (targetState.running && targetState.optionEls.length) layoutTargetOptions();
   });
   document.addEventListener("keydown", (e) => {
     const gameViewActive = document.getElementById("view-game").classList.contains("active");
     if (!gameViewActive) return;
     if (e.key >= "1" && e.key <= "4") {
       const idx = Number(e.key) - 1;
-      const item = gameState.options[idx];
+      const options = activeGameMode === "targets" ? targetState.options : gameState.options;
+      const item = options[idx];
       if (item) {
         e.preventDefault();
-        chooseGameOption(item.key);
+        if (activeGameMode === "targets") chooseTargetOption(item.key);
+        else chooseGameOption(item.key);
       }
     } else if (e.code === "Space") {
       e.preventDefault();
-      speakGameWord();
+      if (activeGameMode === "targets") speakTargetWord();
+      else speakGameWord();
     }
   });
   updateGameHud();
+  updateTargetHud();
 
   // Tabs
   document.querySelectorAll(".tab").forEach(tab => {
@@ -3777,9 +4280,19 @@
       document.getElementById("view-" + tab.dataset.view).classList.add("active");
       if (tab.dataset.view === "frequency") renderFrequency();
       if (tab.dataset.view === "game") {
-        gameState.pool = getGamePool();
-        if (gameState.pool.length < 4) {
-          showGameEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+        const pool = getGamePool();
+        if (activeGameMode === "targets") {
+          targetState.pool = pool;
+          if (targetState.pool.length < 4) {
+            showTargetEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+          }
+          updateTargetHud();
+        } else {
+          gameState.pool = pool;
+          if (gameState.pool.length < 4) {
+            showGameEmpty("Need at least 4 Learning, Review, or Learned vocabulary words with Chinese meanings. 请先把至少 4 个有中文释义的词标记为学习中、复习或已学会。");
+          }
+          updateGameHud();
         }
       }
     });
