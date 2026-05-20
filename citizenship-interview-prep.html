@@ -918,6 +918,11 @@
     transition: all 0.15s;
   }
   .game-btn:hover { background: var(--bg); }
+  .game-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+  }
   .game-btn.primary {
     background: var(--accent);
     border-color: var(--accent);
@@ -3696,6 +3701,7 @@
 
   function speakGameWord() {
     if (!gameState.current || !("speechSynthesis" in window)) return;
+    stopRecordedGameSfx();
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(gameState.current.word);
     utterance.lang = "en-US";
@@ -3727,6 +3733,7 @@
       return;
     }
     if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    unlockGameSfx();
     gameState.pool = pool;
     gameState.running = true;
     resetGameStats();
@@ -3864,11 +3871,13 @@
     });
 
     if (correct) {
+      playGameSfx("correct");
       gameState.correct += 1;
       gameState.streak += 1;
       gameState.score += 10 + (gameState.streak % 3 === 0 ? 5 : 0);
       setGameMessage("Correct 正确", "good");
     } else {
+      playGameSfx("wrong");
       gameState.wrong += 1;
       gameState.streak = 0;
       gameState.lives -= 1;
@@ -3876,7 +3885,7 @@
     }
     saveGameHighScore();
     updateGameHud();
-    gameState.nextTimer = window.setTimeout(nextGameRound, correct ? 650 : 1150);
+    gameState.nextTimer = window.setTimeout(nextGameRound, getGameSfxNextRoundDelay(correct ? "correct" : "wrong", correct ? 650 : 1150));
   }
 
   function handleGameMiss() {
@@ -3972,11 +3981,343 @@
 
   function speakTargetWord() {
     if (!targetState.current || !("speechSynthesis" in window)) return;
+    stopRecordedGameSfx();
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(targetState.current.word);
     utterance.lang = "en-US";
     utterance.rate = 0.82;
     window.speechSynthesis.speak(utterance);
+  }
+
+  let gameSfxContext = null;
+  let gameSfxUnlocked = false;
+  let selectedGameSfx = "clap_hurray";
+  let selectedWrongGameSfx = "wrong_low";
+  let recordedGameSfxAudio = null;
+  let recordedGameSfxKey = null;
+  let recordedGameSfxTimer = null;
+  const RECORDED_GAME_SFX = {
+    clap_hurray: {
+      url: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Clapping_hurray_%28cropped%29.oga",
+      stopMs: 1800,
+      volume: 0.82
+    }
+  };
+  const gameSfxAudioCache = {};
+  const GAME_SFX_APPLAUSE_VARIANTS = {
+    clap: { length: 0.95, claps: 18, spread: 0.78, body: 0.22, brightness: 0.95 },
+    pop: { length: 0.75, claps: 12, spread: 0.58, body: 0.18, brightness: 1.08 },
+    chime: { length: 1.15, claps: 26, spread: 0.92, body: 0.3, brightness: 0.85 },
+    buzz: { length: 1.25, claps: 34, spread: 1.0, body: 0.34, brightness: 0.75 }
+  };
+  const GAME_SFX_PATTERNS = {
+    clap: [
+      { freq: 900, start: 0, duration: 0.075, volume: 0.5, wave: "noise" },
+      { freq: 1200, start: 0.075, duration: 0.075, volume: 0.44, wave: "noise" },
+      { freq: 700, start: 0.145, duration: 0.08, volume: 0.48, wave: "noise" },
+      { freq: 1400, start: 0.23, duration: 0.075, volume: 0.4, wave: "noise" },
+      { freq: 1000, start: 0.31, duration: 0.08, volume: 0.36, wave: "noise" },
+      { freq: 523.25, start: 0.03, duration: 0.34, volume: 0.16, wave: "sine" },
+      { freq: 659.25, start: 0.03, duration: 0.34, volume: 0.1, wave: "sine" }
+    ],
+    pop: [
+      { freq: 880, start: 0, duration: 0.06, volume: 0.4, wave: "noise" },
+      { freq: 1120, start: 0.065, duration: 0.065, volume: 0.36, wave: "noise" },
+      { freq: 1480, start: 0.13, duration: 0.06, volume: 0.34, wave: "noise" },
+      { freq: 1568, start: 0.02, duration: 0.32, volume: 0.2, wave: "sine" },
+      { freq: 2093, start: 0.08, duration: 0.26, volume: 0.14, wave: "sine" }
+    ],
+    chime: [
+      { freq: 780, start: 0, duration: 0.095, volume: 0.65, wave: "noise" },
+      { freq: 980, start: 0.105, duration: 0.095, volume: 0.58, wave: "noise" },
+      { freq: 650, start: 0.21, duration: 0.1, volume: 0.62, wave: "noise" },
+      { freq: 1180, start: 0.325, duration: 0.095, volume: 0.52, wave: "noise" },
+      { freq: 820, start: 0.44, duration: 0.1, volume: 0.46, wave: "noise" }
+    ],
+    buzz: [
+      { freq: 900, start: 0, duration: 0.07, volume: 0.42, wave: "noise" },
+      { freq: 1300, start: 0.06, duration: 0.065, volume: 0.36, wave: "noise" },
+      { freq: 750, start: 0.12, duration: 0.075, volume: 0.44, wave: "noise" },
+      { freq: 1650, start: 0.19, duration: 0.06, volume: 0.32, wave: "noise" },
+      { freq: 1100, start: 0.25, duration: 0.08, volume: 0.34, wave: "noise" },
+      { freq: 440, start: 0.02, duration: 0.38, volume: 0.16, wave: "sine" },
+      { freq: 660, start: 0.07, duration: 0.32, volume: 0.13, wave: "sine" },
+      { freq: 880, start: 0.13, duration: 0.24, volume: 0.1, wave: "sine" }
+    ],
+    wrong: [
+      { freq: 900, start: 0, duration: 0.07, volume: 0.42, wave: "noise" },
+      { freq: 1300, start: 0.06, duration: 0.065, volume: 0.36, wave: "noise" },
+      { freq: 750, start: 0.12, duration: 0.075, volume: 0.44, wave: "noise" },
+      { freq: 1650, start: 0.19, duration: 0.06, volume: 0.32, wave: "noise" },
+      { freq: 1100, start: 0.25, duration: 0.08, volume: 0.34, wave: "noise" },
+      { freq: 440, start: 0.02, duration: 0.38, volume: 0.16, wave: "sine" },
+      { freq: 660, start: 0.07, duration: 0.32, volume: 0.13, wave: "sine" },
+      { freq: 880, start: 0.13, duration: 0.24, volume: 0.1, wave: "sine" }
+    ],
+    wrong_low: [
+      { freq: 160, start: 0, duration: 0.22, volume: 0.48, wave: "sawtooth" },
+      { freq: 118, start: 0.18, duration: 0.28, volume: 0.46, wave: "sawtooth" },
+      { freq: 88, start: 0.42, duration: 0.22, volume: 0.38, wave: "triangle" },
+      { freq: 320, start: 0.02, duration: 0.08, volume: 0.14, wave: "noise" }
+    ],
+    wrong_beep: [
+      { freq: 330, start: 0, duration: 0.12, volume: 0.4, wave: "square" },
+      { freq: 220, start: 0.15, duration: 0.16, volume: 0.42, wave: "square" },
+      { freq: 185, start: 0.34, duration: 0.18, volume: 0.34, wave: "triangle" }
+    ],
+    wrong_thud: [
+      { freq: 96, start: 0, duration: 0.18, volume: 0.58, wave: "sine" },
+      { freq: 72, start: 0.12, duration: 0.28, volume: 0.42, wave: "triangle" },
+      { freq: 180, start: 0, duration: 0.08, volume: 0.18, wave: "noise" }
+    ],
+    timeout: [
+      { freq: 260, start: 0, duration: 0.16, volume: 0.34, wave: "square" },
+      { freq: 210, start: 0.18, duration: 0.18, volume: 0.34, wave: "square" },
+      { freq: 160, start: 0.39, duration: 0.28, volume: 0.3, wave: "triangle" }
+    ]
+  };
+
+  function ensureGameSfxContext() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!gameSfxContext) gameSfxContext = new AudioContextClass();
+    return gameSfxContext;
+  }
+
+  function unlockGameSfx() {
+    const ctx = ensureGameSfxContext();
+    if (ctx) {
+      if (ctx.state === "suspended") ctx.resume();
+      if (!gameSfxUnlocked) {
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.00001, ctx.currentTime);
+        oscillator.frequency.setValueAtTime(440, ctx.currentTime);
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.02);
+      }
+    } else {
+      playHtmlGameSfx("silent");
+    }
+    gameSfxUnlocked = true;
+  }
+
+  function playGameSfx(type) {
+    const sound = type === "wrong" ? selectedWrongGameSfx : (type === "timeout" || RECORDED_GAME_SFX[type] || GAME_SFX_PATTERNS[type] ? type : selectedGameSfx);
+    if (RECORDED_GAME_SFX[sound] && playRecordedGameSfx(sound)) return;
+    if (playHtmlGameSfx(sound)) return;
+    playWebAudioGameSfx(sound);
+  }
+
+  function getGameSfxNextRoundDelay(type, minDelay) {
+    const sound = type === "wrong" ? selectedWrongGameSfx : (type === "timeout" ? "timeout" : selectedGameSfx);
+    const recordedSound = RECORDED_GAME_SFX[sound];
+    if (recordedSound) return Math.max(minDelay, (recordedSound.stopMs || 0) + 180);
+    const pattern = GAME_SFX_PATTERNS[sound];
+    if (!pattern) return minDelay;
+    const patternMs = Math.max(...pattern.map(tone => tone.start + tone.duration)) * 1000;
+    return Math.max(minDelay, patternMs + 180);
+  }
+
+  function stopRecordedGameSfx() {
+    if (recordedGameSfxTimer) {
+      clearTimeout(recordedGameSfxTimer);
+      recordedGameSfxTimer = null;
+    }
+    if (!recordedGameSfxAudio) return;
+    try {
+      recordedGameSfxAudio.pause();
+      recordedGameSfxAudio.currentTime = 0;
+    } catch (e) {}
+  }
+
+  function playRecordedGameSfx(type) {
+    const sound = RECORDED_GAME_SFX[type];
+    if (!sound) return false;
+    try {
+      if (!recordedGameSfxAudio || recordedGameSfxKey !== type) {
+        recordedGameSfxAudio = new Audio(sound.url);
+        recordedGameSfxAudio.preload = "auto";
+        recordedGameSfxKey = type;
+      }
+      recordedGameSfxAudio.volume = sound.volume || 0.8;
+      if (recordedGameSfxTimer) {
+        clearTimeout(recordedGameSfxTimer);
+        recordedGameSfxTimer = null;
+      }
+      recordedGameSfxAudio.pause();
+      recordedGameSfxAudio.currentTime = 0;
+      recordedGameSfxAudio.play().catch(() => playHtmlGameSfx("clap"));
+      recordedGameSfxTimer = setTimeout(() => {
+        recordedGameSfxAudio.pause();
+        recordedGameSfxAudio.currentTime = 0;
+      }, sound.stopMs || 1400);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function playWebAudioGameSfx(type) {
+    const ctx = ensureGameSfxContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") {
+      ctx.resume().then(() => playWebAudioGameSfx(type)).catch(() => {});
+      return;
+    }
+    const now = ctx.currentTime;
+    (GAME_SFX_PATTERNS[type] || GAME_SFX_PATTERNS.clap).forEach(tone => {
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, now + tone.start);
+      gain.gain.exponentialRampToValueAtTime(tone.volume || 0.24, now + tone.start + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + tone.start + tone.duration);
+      gain.connect(ctx.destination);
+      if (tone.wave === "noise") {
+        const buffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * tone.duration), ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = getGameSfxWaveValue("noise", tone.freq, i / ctx.sampleRate, i);
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(gain);
+        source.start(now + tone.start);
+        source.stop(now + tone.start + tone.duration + 0.02);
+      } else {
+        const oscillator = ctx.createOscillator();
+        oscillator.type = tone.wave || "sine";
+        oscillator.frequency.setValueAtTime(tone.freq, now + tone.start);
+        oscillator.connect(gain);
+        oscillator.start(now + tone.start);
+        oscillator.stop(now + tone.start + tone.duration + 0.02);
+      }
+    });
+  }
+
+  function getGameSfxDataUrl(type) {
+    if (gameSfxAudioCache[type]) return gameSfxAudioCache[type];
+    if (type !== "silent" && GAME_SFX_APPLAUSE_VARIANTS[type]) {
+      gameSfxAudioCache[type] = buildApplauseDataUrl(type);
+      return gameSfxAudioCache[type];
+    }
+    const sampleRate = 44100;
+    const pattern = type === "silent" ? [{ freq: 440, start: 0, duration: 0.02, volume: 0 }] : (GAME_SFX_PATTERNS[type] || GAME_SFX_PATTERNS.clap);
+    const totalSeconds = Math.max(...pattern.map(tone => tone.start + tone.duration)) + 0.02;
+    const sampleCount = Math.ceil(sampleRate * totalSeconds);
+    const bytes = new Uint8Array(44 + sampleCount * 2);
+    const view = new DataView(bytes.buffer);
+    writeAscii(bytes, 0, "RIFF");
+    view.setUint32(4, 36 + sampleCount * 2, true);
+    writeAscii(bytes, 8, "WAVEfmt ");
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    writeAscii(bytes, 36, "data");
+    view.setUint32(40, sampleCount * 2, true);
+    for (let i = 0; i < sampleCount; i++) {
+      const t = i / sampleRate;
+      let value = 0;
+      pattern.forEach(tone => {
+        if (t < tone.start || t > tone.start + tone.duration) return;
+        const localT = t - tone.start;
+        const envelope = Math.min(1, localT / 0.015) * Math.max(0, 1 - (localT / tone.duration));
+        value += getGameSfxWaveValue(tone.wave || "sine", tone.freq, localT, i) * envelope * (tone.volume ?? 0.95);
+      });
+      view.setInt16(44 + i * 2, Math.max(-1, Math.min(1, value)) * 32767, true);
+    }
+    let binary = "";
+    const chunkSize = 8192;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    gameSfxAudioCache[type] = `data:audio/wav;base64,${btoa(binary)}`;
+    return gameSfxAudioCache[type];
+  }
+
+  function buildApplauseDataUrl(type) {
+    const sampleRate = 22050;
+    const variant = GAME_SFX_APPLAUSE_VARIANTS[type] || GAME_SFX_APPLAUSE_VARIANTS.clap;
+    const sampleCount = Math.ceil(sampleRate * variant.length);
+    const bytes = new Uint8Array(44 + sampleCount * 2);
+    const view = new DataView(bytes.buffer);
+    writeAscii(bytes, 0, "RIFF");
+    view.setUint32(4, 36 + sampleCount * 2, true);
+    writeAscii(bytes, 8, "WAVEfmt ");
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    writeAscii(bytes, 36, "data");
+    view.setUint32(40, sampleCount * 2, true);
+
+    for (let i = 0; i < sampleCount; i++) {
+      const t = i / sampleRate;
+      let value = 0;
+      for (let c = 0; c < variant.claps; c++) {
+        const clapStart = 0.02 + seededUnit(type, c, 1) * variant.spread;
+        const clapLength = 0.035 + seededUnit(type, c, 2) * 0.035;
+        const localT = t - clapStart;
+        if (localT < 0 || localT > clapLength) continue;
+        const attack = Math.min(1, localT / 0.004);
+        const decay = Math.pow(Math.max(0, 1 - localT / clapLength), 2.2);
+        const tone = 650 + seededUnit(type, c, 3) * 1700 * variant.brightness;
+        const slap = getGameSfxWaveValue("noise", tone, localT, i + c * 997) * attack * decay;
+        const snap = Math.sin(2 * Math.PI * tone * localT) * 0.18 * attack * decay;
+        value += (slap + snap) * (0.22 + seededUnit(type, c, 4) * 0.18);
+      }
+      const roomNoise = getGameSfxWaveValue("noise", 430, t, i + 101) * variant.body * Math.max(0, 1 - (t / variant.length));
+      const roomTone = Math.sin(2 * Math.PI * 230 * t) * variant.body * 0.08 * Math.max(0, 1 - (t / variant.length));
+      value += roomNoise + roomTone;
+      view.setInt16(44 + i * 2, Math.max(-1, Math.min(1, value)) * 32767, true);
+    }
+
+    let binary = "";
+    const chunkSize = 8192;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    return `data:audio/wav;base64,${btoa(binary)}`;
+  }
+
+  function seededUnit(type, index, salt) {
+    const typeSeed = type.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const seed = Math.sin((typeSeed + index * 37 + salt * 101) * 12.9898) * 43758.5453;
+    return seed - Math.floor(seed);
+  }
+
+  function getGameSfxWaveValue(wave, freq, time, sampleIndex) {
+    if (wave === "noise") {
+      const seed = Math.sin((sampleIndex + 1) * 12.9898 + freq * 78.233) * 43758.5453;
+      return ((seed - Math.floor(seed)) * 2) - 1;
+    }
+    const phase = (freq * time) % 1;
+    if (wave === "square") return phase < 0.5 ? 1 : -1;
+    if (wave === "sawtooth") return (phase * 2) - 1;
+    if (wave === "triangle") return 1 - (4 * Math.abs(phase - 0.5));
+    const fundamental = Math.sin(2 * Math.PI * freq * time);
+    const sparkle = Math.sin(2 * Math.PI * freq * 2 * time) * 0.18;
+    return fundamental + sparkle;
+  }
+
+  function writeAscii(bytes, offset, text) {
+    for (let i = 0; i < text.length; i++) bytes[offset + i] = text.charCodeAt(i);
+  }
+
+  function playHtmlGameSfx(type) {
+    try {
+      const audio = new Audio(getGameSfxDataUrl(type));
+      audio.volume = type === "silent" ? 0 : 1;
+      audio.play().catch(() => {});
+      return true;
+    } catch (e) {}
+    return false;
   }
 
   function resetTargetStats() {
@@ -4005,6 +4346,7 @@
       return;
     }
     if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    unlockGameSfx();
     targetState.pool = pool;
     targetState.running = true;
     resetTargetStats();
@@ -4164,11 +4506,13 @@
     });
 
     if (correct) {
+      playGameSfx("correct");
       targetState.correct += 1;
       targetState.streak += 1;
       targetState.score += 10 + (targetState.streak % 3 === 0 ? 5 : 0);
       setGameMessage(targetState.streak % 3 === 0 ? "Correct + streak bonus 正确 + 连击奖励" : "Correct 正确", "good");
     } else {
+      playGameSfx("wrong");
       targetState.wrong += 1;
       targetState.streak = 0;
       targetState.lives -= 1;
@@ -4176,7 +4520,7 @@
     }
     saveTargetHighScore();
     updateTargetHud();
-    targetState.nextTimer = window.setTimeout(nextTargetRound, correct ? 750 : 1300);
+    targetState.nextTimer = window.setTimeout(nextTargetRound, getGameSfxNextRoundDelay(correct ? "correct" : "wrong", correct ? 750 : 1300));
   }
 
   function handleTargetMiss() {
@@ -4189,9 +4533,10 @@
       if (el.dataset.key === targetState.current.key) el.classList.add("reveal");
       el.disabled = true;
     });
+    playGameSfx("timeout");
     setGameMessage(`Time out 超时 · ${targetState.current.word} = ${targetState.current.meaning}`, "bad");
     updateTargetHud();
-    targetState.nextTimer = window.setTimeout(nextTargetRound, 1300);
+    targetState.nextTimer = window.setTimeout(nextTargetRound, getGameSfxNextRoundDelay("timeout", 1300));
   }
 
   function finishTargetGame() {
