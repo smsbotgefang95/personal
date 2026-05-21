@@ -89,11 +89,71 @@
   .view.active { display: block; }
 
   /* Progress summary */
+  .stat-panel {
+    margin-bottom: 20px;
+  }
+  .stat-toggle {
+    appearance: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
+    display: inline-grid;
+    grid-template-columns: 24px auto;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 11px;
+    margin-bottom: 10px;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .stat-toggle:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 3px;
+  }
+  .stat-chevron {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+  .stat-chevron::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg) translate(-1px, -1px);
+    transition: transform 0.18s ease;
+  }
+  .stat-panel.collapsed .stat-chevron::before {
+    transform: rotate(-45deg) translate(-1px, 1px);
+  }
+  .stat-toggle:hover {
+    border-color: var(--accent);
+  }
+  .stat-toggle:hover .stat-chevron {
+    border-color: var(--accent);
+  }
+  .stat-toggle:hover .stat-chevron::before {
+    border-color: var(--accent);
+  }
+  .stat-panel [hidden] {
+    display: none !important;
+  }
+  #question-stats-panel.collapsed .progress-bar {
+    display: none;
+  }
   .summary {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 12px;
-    margin-bottom: 20px;
   }
   .stat {
     background: var(--card);
@@ -285,6 +345,29 @@
     border-color: var(--accent);
   }
   .audio-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  #loop-review-learned-btn,
+  #loop-vocab-btn {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    min-height: 52px;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.25;
+    box-shadow: 0 8px 18px rgba(29, 78, 216, 0.24);
+  }
+  #loop-review-learned-btn:hover,
+  #loop-vocab-btn:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+  }
+  #loop-review-learned-btn svg,
+  #loop-vocab-btn svg {
+    width: 24px;
+    height: 24px;
+  }
 
   .q-head-audio {
     display: flex;
@@ -699,7 +782,6 @@
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 10px;
-    margin: 12px 0 16px;
   }
   .freq-summary .stat {
     padding: 12px 10px;
@@ -776,6 +858,10 @@
   }
   .pace-toggle:hover .pace-chevron::before {
     border-color: var(--accent);
+  }
+  .pace-tracker.collapsed .pace-meta,
+  .pace-tracker.collapsed .pace-status {
+    display: none;
   }
   .pace-head-copy { min-width: 0; }
   .pace-details {
@@ -1098,6 +1184,12 @@
     .reset-btn { margin-left: 0; text-align: center; }
     .q-header { flex-direction: column; }
     .status-group { margin-left: 0; }
+    #loop-review-learned-btn,
+    #loop-vocab-btn {
+      width: 100%;
+      justify-content: center;
+      white-space: normal;
+    }
     .pace-summary { grid-template-columns: 1fr; }
     .pace-details { padding-left: 0; }
     .pace-row { grid-template-columns: 90px 1fr 44px; }
@@ -1124,15 +1216,21 @@
 
   <!-- Questions View -->
   <section class="view active" id="view-questions">
-    <div class="summary">
-      <div class="stat"><p class="num" id="stat-total">0</p><div class="label">Total</div><div class="label-zh">全部</div></div>
-      <div class="stat"><p class="num" style="color: var(--tolearn);" id="stat-tolearn">0</p><div class="label">To Learn</div><div class="label-zh">待学习</div></div>
-      <div class="stat"><p class="num" style="color: var(--learning);" id="stat-learning">0</p><div class="label">Learning</div><div class="label-zh">学习中</div></div>
-      <div class="stat"><p class="num" style="color: var(--review);" id="stat-review">0</p><div class="label">Review</div><div class="label-zh">需复习</div></div>
-      <div class="stat"><p class="num" style="color: var(--learned);" id="stat-learned">0</p><div class="label">Learned</div><div class="label-zh">已学会</div></div>
+    <div class="stat-panel" id="question-stats-panel">
+      <button class="stat-toggle" id="question-stats-toggle" type="button" aria-expanded="true" aria-controls="question-stats-cards" title="Collapse question stats">
+        <span class="stat-chevron" aria-hidden="true"></span>
+        <span>Question Stats 题目统计</span>
+        <span class="sr-only" id="question-stats-toggle-label">Collapse question stats</span>
+      </button>
+      <div class="summary" id="question-stats-cards">
+        <div class="stat"><p class="num" id="stat-total">0</p><div class="label">Total</div><div class="label-zh">全部</div></div>
+        <div class="stat"><p class="num" style="color: var(--tolearn);" id="stat-tolearn">0</p><div class="label">To Learn</div><div class="label-zh">待学习</div></div>
+        <div class="stat"><p class="num" style="color: var(--learning);" id="stat-learning">0</p><div class="label">Learning</div><div class="label-zh">学习中</div></div>
+        <div class="stat"><p class="num" style="color: var(--review);" id="stat-review">0</p><div class="label">Review</div><div class="label-zh">需复习</div></div>
+        <div class="stat"><p class="num" style="color: var(--learned);" id="stat-learned">0</p><div class="label">Learned</div><div class="label-zh">已学会</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
-
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 
     <div class="pace-tracker" id="pace-tracker">
       <div class="pace-summary">
@@ -1239,13 +1337,20 @@
       <strong>Every unique word across all 100 questions and answers, with your mastery status.</strong><br>
       全部 100 道题目与答案中出现的所有独立单词，并根据你已学会的题目自动推断掌握状态。Common stopwords (the, a, of, etc.) 已过滤常用虚词。
     </div>
-    <div class="freq-summary">
-      <div class="stat"><p class="num" id="freq-stat-total">0</p><div class="label">Unique words</div><div class="label-zh">独立单词</div><div class="pct" id="freq-pct-total">100%</div></div>
-      <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-auto">0</p><div class="label">Auto</div><div class="label-zh">自动</div><div class="pct" id="freq-pct-auto">0%</div></div>
-      <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-tolearn">0</p><div class="label">To Learn</div><div class="label-zh">待学</div><div class="pct" id="freq-pct-tolearn">0%</div></div>
-      <div class="stat"><p class="num" style="color: var(--learning);" id="freq-stat-learning">0</p><div class="label">Learning</div><div class="label-zh">学习中</div><div class="pct" id="freq-pct-learning">0%</div></div>
-      <div class="stat"><p class="num" style="color: var(--review);" id="freq-stat-review">0</p><div class="label">Review</div><div class="label-zh">复习</div><div class="pct" id="freq-pct-review">0%</div></div>
-      <div class="stat"><p class="num" style="color: var(--learned);" id="freq-stat-learned">0</p><div class="label">Learned</div><div class="label-zh">已学会</div><div class="pct" id="freq-pct-learned">0%</div></div>
+    <div class="stat-panel" id="frequency-stats-panel">
+      <button class="stat-toggle" id="frequency-stats-toggle" type="button" aria-expanded="true" aria-controls="frequency-stats-cards" title="Collapse word frequency stats">
+        <span class="stat-chevron" aria-hidden="true"></span>
+        <span>Word Stats 词汇统计</span>
+        <span class="sr-only" id="frequency-stats-toggle-label">Collapse word frequency stats</span>
+      </button>
+      <div class="freq-summary" id="frequency-stats-cards">
+        <div class="stat"><p class="num" id="freq-stat-total">0</p><div class="label">Unique words</div><div class="label-zh">独立单词</div><div class="pct" id="freq-pct-total">100%</div></div>
+        <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-auto">0</p><div class="label">Auto</div><div class="label-zh">自动</div><div class="pct" id="freq-pct-auto">0%</div></div>
+        <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-tolearn">0</p><div class="label">To Learn</div><div class="label-zh">待学</div><div class="pct" id="freq-pct-tolearn">0%</div></div>
+        <div class="stat"><p class="num" style="color: var(--learning);" id="freq-stat-learning">0</p><div class="label">Learning</div><div class="label-zh">学习中</div><div class="pct" id="freq-pct-learning">0%</div></div>
+        <div class="stat"><p class="num" style="color: var(--review);" id="freq-stat-review">0</p><div class="label">Review</div><div class="label-zh">复习</div><div class="pct" id="freq-pct-review">0%</div></div>
+        <div class="stat"><p class="num" style="color: var(--learned);" id="freq-stat-learned">0</p><div class="label">Learned</div><div class="label-zh">已学会</div><div class="pct" id="freq-pct-learned">0%</div></div>
+      </div>
     </div>
     <div class="audio-controls vocab-loop-controls">
       <button class="audio-btn" id="loop-vocab-btn" title="Loop Learning, Review, and Learned vocabulary with Chinese first, then English">
@@ -1935,10 +2040,73 @@
 
   const STORAGE_KEY = "citizenship-prep-progress-v2";
   const PACE_COLLAPSED_KEY = "citizenship-prep-pace-collapsed-v1";
+  const STAT_COLLAPSE_CONFIG = [
+    {
+      key: "citizenship-prep-question-stats-collapsed-v1",
+      panelId: "question-stats-panel",
+      toggleId: "question-stats-toggle",
+      contentId: "question-stats-cards",
+      labelId: "question-stats-toggle-label",
+      expandText: "Expand question stats",
+      collapseText: "Collapse question stats"
+    },
+    {
+      key: "citizenship-prep-frequency-stats-collapsed-v1",
+      panelId: "frequency-stats-panel",
+      toggleId: "frequency-stats-toggle",
+      contentId: "frequency-stats-cards",
+      labelId: "frequency-stats-toggle-label",
+      expandText: "Expand word frequency stats",
+      collapseText: "Collapse word frequency stats"
+    }
+  ];
   const DEFAULT_PROGRESS = {"1":"review","27":"learned","28":"learned","42":"review","50":"learning","68":"tolearn","69":"tolearn","91":"tolearn","92":"tolearn","93":"tolearn","99":"review"};
   const LEGACY_TO_LEARN_PROGRESS = {"68":"tolearn","69":"tolearn","91":"tolearn","92":"tolearn","93":"tolearn"};
   const START_DATE = new Date(2026, 3, 1); // April 1, 2026
   const EXAM_DATE = new Date(2029, 7, 1);  // August 1, 2029
+
+  function setStatPanelCollapsed(config, collapsed, shouldPersist = true) {
+    const panel = document.getElementById(config.panelId);
+    const toggle = document.getElementById(config.toggleId);
+    const content = document.getElementById(config.contentId);
+    const label = document.getElementById(config.labelId);
+    if (!panel || !toggle || !content) return;
+
+    panel.classList.toggle("collapsed", collapsed);
+    content.hidden = collapsed;
+    toggle.setAttribute("aria-expanded", String(!collapsed));
+    const actionText = collapsed ? config.expandText : config.collapseText;
+    toggle.title = actionText;
+    toggle.setAttribute("aria-label", actionText);
+    if (label) label.textContent = actionText;
+
+    if (shouldPersist) {
+      try {
+        localStorage.setItem(config.key, collapsed ? "1" : "0");
+      } catch (err) {
+        // Ignore private browsing or storage-denied environments.
+      }
+    }
+  }
+
+  function initStatPanelCollapse() {
+    STAT_COLLAPSE_CONFIG.forEach(config => {
+      const toggle = document.getElementById(config.toggleId);
+      if (!toggle) return;
+
+      let collapsed = false;
+      try {
+        collapsed = localStorage.getItem(config.key) === "1";
+      } catch (err) {
+        collapsed = false;
+      }
+      setStatPanelCollapsed(config, collapsed, false);
+
+      toggle.addEventListener("click", () => {
+        setStatPanelCollapsed(config, toggle.getAttribute("aria-expanded") === "true");
+      });
+    });
+  }
 
   function setPaceCollapsed(collapsed, shouldPersist = true) {
     const tracker = document.getElementById("pace-tracker");
@@ -4342,6 +4510,7 @@
     });
   }
 
+  initStatPanelCollapse();
   initPaceCollapse();
   render();
   renderFrequency();
