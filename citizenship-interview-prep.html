@@ -2050,7 +2050,6 @@
   }
 
   const STORAGE_KEY = "citizenship-prep-progress-v2";
-  const LEARNING_ORDER_KEY = "citizenship-prep-learning-order-v1";
   const PACE_COLLAPSED_KEY = "citizenship-prep-pace-collapsed-v1";
   const STAT_COLLAPSE_CONFIG = [
     {
@@ -2267,17 +2266,6 @@
   function saveProgress(p) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
   }
-  function loadLearningOrder() {
-    try {
-      const saved = localStorage.getItem(LEARNING_ORDER_KEY);
-      return saved !== null ? JSON.parse(saved) || {} : {};
-    } catch (e) {
-      return {};
-    }
-  }
-  function saveLearningOrder(order) {
-    try { localStorage.setItem(LEARNING_ORDER_KEY, JSON.stringify(order)); } catch (e) {}
-  }
   function encodeProgressForMigration() {
     const saved = JSON.stringify(getProgressForMigration());
     if (saved === "{}") return "";
@@ -2313,14 +2301,12 @@
   const importedProgressThisLoad = importProgressFromHash();
   let progress = loadProgress();
   let activeFilter = "all";
-  let learningOrder = loadLearningOrder();
-  let autoLearningOrderActive = true;
+  let autoLearningOrderActive = false;
   let searchTerm = "";
 
   window.addEventListener("hashchange", () => {
     if (!importProgressFromHash()) return;
     progress = loadProgress();
-    learningOrder = loadLearningOrder();
     const ipadSyncNotice = document.getElementById("ipad-sync-notice");
     if (ipadSyncNotice) ipadSyncNotice.classList.remove("open");
     const restoreFileNotice = document.getElementById("restore-file-notice");
@@ -2406,32 +2392,80 @@
     saveProgress(progress);
     render();
   }
-  function getLearningOrderText(idx) {
-    const value = learningOrder[idx];
-    return value === undefined || value === null ? "" : String(value);
+  function getQuestionTextWordCount(idx) {
+    const item = QUESTIONS[idx];
+    if (!item) return 0;
+    const matches = (item.q + " " + item.a).match(/[A-Za-z][A-Za-z'’]*[A-Za-z]|[A-Za-z]/g);
+    return matches ? matches.length : 0;
   }
-  function getLearningOrderValue(idx) {
-    const value = Number(learningOrder[idx]);
-    return Number.isFinite(value) ? value : null;
+  function getWordDifficultyScore(word) {
+    const clean = word.replace(/[^a-z]/g, "");
+    if (!clean) return 1;
+    let score = 1;
+    if (clean.length >= 7) score += 1;
+    if (clean.length >= 10) score += 1;
+    if (/[qxz]/.test(clean)) score += 1;
+    if (/(tion|sion|ment|ance|ence|ough|eigh|ph|ch|sh|th)/.test(clean)) score += 1;
+    const vowelGroups = clean.match(/[aeiouy]+/g) || [];
+    if (vowelGroups.length >= 3) score += 1;
+    return score;
   }
-  function setLearningOrder(idx, value) {
-    const clean = String(value || "").trim();
-    if (!clean) {
-      delete learningOrder[idx];
-    } else {
-      const number = Number(clean);
-      if (!Number.isFinite(number)) return;
-      learningOrder[idx] = number;
-    }
-    saveLearningOrder(learningOrder);
+  function getProgressAwareWordStatus(word, wordToQs, currentIdx) {
+    const manual = getManualWordOverrideStatus(word);
+    if (manual && manual !== "tolearn") return manual;
+    const qIndices = wordToQs[word];
+    if (!qIndices) return manual || "tolearn";
+    let hasLearned = false;
+    let hasReview = false;
+    let hasLearning = false;
+    qIndices.forEach(idx => {
+      if (idx === currentIdx) return;
+      const status = getStoredStatus(idx);
+      if (status === "learned") hasLearned = true;
+      else if (status === "review") hasReview = true;
+      else if (status === "learning") hasLearning = true;
+    });
+    if (hasLearned) return "learned";
+    if (hasReview) return "review";
+    if (hasLearning) return "learning";
+    return manual || "tolearn";
   }
-  function compareLearningOrder(aIdx, bIdx) {
-    const a = getLearningOrderValue(aIdx);
-    const b = getLearningOrderValue(bIdx);
-    if (a === null && b === null) return aIdx - bIdx;
-    if (a === null) return 1;
-    if (b === null) return -1;
-    return a - b || aIdx - bIdx;
+  function getQuestionLearningPriority(idx, frequencyData) {
+    const words = getQuestionWords(idx);
+    const score = {
+      learned: 0,
+      review: 0,
+      learning: 0,
+      unknownDifficulty: 0,
+      unknownFrequency: 0,
+      unknownCount: 0,
+      wordCount: getQuestionTextWordCount(idx)
+    };
+    words.forEach(w => {
+      const status = getProgressAwareWordStatus(w, frequencyData.wordToQs, idx);
+      if (status === "learned") score.learned++;
+      else if (status === "review") score.review++;
+      else if (status === "learning") score.learning++;
+      else {
+        score.unknownCount++;
+        score.unknownFrequency += frequencyData.counts[w] || 0;
+        score.unknownDifficulty += getWordDifficultyScore(w);
+      }
+    });
+    return score;
+  }
+  function compareLearningPriority(aIdx, bIdx, frequencyData) {
+    const a = getQuestionLearningPriority(aIdx, frequencyData);
+    const b = getQuestionLearningPriority(bIdx, frequencyData);
+    return (
+      a.unknownCount - b.unknownCount ||
+      a.unknownDifficulty - b.unknownDifficulty ||
+      b.learned - a.learned ||
+      b.review - a.review ||
+      b.learning - a.learning ||
+      b.unknownFrequency - a.unknownFrequency ||
+      a.wordCount - b.wordCount
+    );
   }
   function updateLearningOrderButton() {
     if (!learningOrderBtn) return;
@@ -2460,19 +2494,6 @@
     const term = searchTerm.toLowerCase().trim();
     let shown = 0;
 
-    // Super-section mapping: group categories into three official USCIS top-level sections.
-    const SUPER_SECTIONS = {
-      "Principles of American Democracy": { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
-      "System of Government":              { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
-      "Rights and Responsibilities":       { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
-      "Colonial Period and Independence":  { key: "hist", title: "AMERICAN HISTORY",    titleZh: "美国历史" },
-      "1800s":                             { key: "hist", title: "AMERICAN HISTORY",    titleZh: "美国历史" },
-      "Recent American History":           { key: "hist", title: "AMERICAN HISTORY",    titleZh: "美国历史" },
-      "Geography":                         { key: "civ",  title: "INTEGRATED CIVICS",   titleZh: "综合公民常识" },
-      "Symbols":                           { key: "civ",  title: "INTEGRATED CIVICS",   titleZh: "综合公民常识" },
-      "Holidays":                          { key: "civ",  title: "INTEGRATED CIVICS",   titleZh: "综合公民常识" }
-    };
-
     // First, figure out which questions pass the filters
     const visibleIdx = [];
     QUESTIONS.forEach((item, idx) => {
@@ -2484,17 +2505,11 @@
       }
       visibleIdx.push(idx);
     });
-    if (autoLearningOrderActive) visibleIdx.sort(compareLearningOrder);
+    if (activeFilter === "auto" && autoLearningOrderActive) {
+      const frequencyData = computeFrequency();
+      visibleIdx.sort((a, b) => compareLearningPriority(a, b, frequencyData));
+    }
     shown = visibleIdx.length;
-
-    // Count per category among visible
-    const catCounts = {};
-    visibleIdx.forEach(i => {
-      const c = QUESTIONS[i].c;
-      catCounts[c] = (catCounts[c] || 0) + 1;
-    });
-
-    const chevronSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
     const appendQuestionCard = (container, idx) => {
       const item = QUESTIONS[idx];
@@ -2535,10 +2550,6 @@
         </div>
         <div class="q-actions">
           <button class="reveal-btn" data-reveal="${revealId}">Show answer 查看答案</button>
-          <label class="learning-order-field">
-            Order 顺序
-            <input class="learning-order-input" type="number" min="1" step="1" inputmode="numeric" data-learning-order="${idx}" value="${escapeHtml(getLearningOrderText(idx))}" aria-label="Learning order for question ${idx + 1}" />
-          </label>
           <div class="status-group">
             ${STATUSES.map(s => `
               <button class="status-btn ${s} ${storedStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
@@ -2633,14 +2644,6 @@
         const target = document.getElementById(btn.dataset.reveal);
         target.classList.toggle("open");
         btn.textContent = target.classList.contains("open") ? "Hide answer 隐藏答案" : "Show answer 查看答案";
-      });
-    });
-    listEl.querySelectorAll("[data-learning-order]").forEach(input => {
-      input.addEventListener("input", () => {
-        setLearningOrder(parseInt(input.dataset.learningOrder, 10), input.value);
-      });
-      input.addEventListener("change", () => {
-        if (autoLearningOrderActive) render();
       });
     });
     listEl.querySelectorAll("[data-yt-q]").forEach(btn => {
@@ -4511,12 +4514,17 @@
       filterGroupEl.querySelectorAll("[data-filter]").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       activeFilter = e.target.dataset.filter;
+      if (activeFilter !== "auto") autoLearningOrderActive = false;
       render();
     }
   });
   if (learningOrderBtn) {
     learningOrderBtn.addEventListener("click", () => {
-      autoLearningOrderActive = !autoLearningOrderActive;
+      autoLearningOrderActive = true;
+      activeFilter = "auto";
+      filterGroupEl.querySelectorAll("[data-filter]").forEach(b => {
+        b.classList.toggle("active", b.dataset.filter === "auto");
+      });
       render();
     });
   }
@@ -4540,9 +4548,7 @@
   resetBtn.addEventListener("click", () => {
     if (confirm("Reset all learning progress? 重置所有学习进度？")) {
       progress = {};
-      learningOrder = {};
       saveProgress(progress);
-      saveLearningOrder(learningOrder);
       render();
     }
   });
