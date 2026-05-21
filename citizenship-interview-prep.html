@@ -284,6 +284,30 @@
     border-radius: 6px;
     flex-shrink: 0;
   }
+  .q-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .q-learning-order {
+    width: 86px;
+    padding: 5px 7px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.78rem;
+    outline: none;
+  }
+  .q-learning-order:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .q-learning-order::placeholder {
+    color: var(--muted);
+  }
   .q-text-en {
     font-weight: 600;
     font-size: 1rem;
@@ -2050,6 +2074,7 @@
   }
 
   const STORAGE_KEY = "citizenship-prep-progress-v2";
+  const LEARNING_ORDER_KEY = "citizenship-prep-learning-order-v1";
   const PACE_COLLAPSED_KEY = "citizenship-prep-pace-collapsed-v1";
   const STAT_COLLAPSE_CONFIG = [
     {
@@ -2266,6 +2291,22 @@
   function saveProgress(p) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
   }
+  function loadLearningOrder() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(LEARNING_ORDER_KEY) || "{}") || {};
+      const cleaned = {};
+      Object.entries(saved).forEach(([key, value]) => {
+        const order = parseInt(value, 10);
+        if (Number.isFinite(order) && order > 0) cleaned[key] = order;
+      });
+      return cleaned;
+    } catch (e) {
+      return {};
+    }
+  }
+  function saveLearningOrder(order) {
+    try { localStorage.setItem(LEARNING_ORDER_KEY, JSON.stringify(order)); } catch (e) {}
+  }
   function encodeProgressForMigration() {
     const saved = JSON.stringify(getProgressForMigration());
     if (saved === "{}") return "";
@@ -2300,9 +2341,11 @@
 
   const importedProgressThisLoad = importProgressFromHash();
   let progress = loadProgress();
+  let learningOrder = loadLearningOrder();
   let activeFilter = "all";
-  let autoLearningOrderActive = false;
+  let autoLearningOrderActive = Object.keys(learningOrder).length > 0;
   let searchTerm = "";
+  let learningOrderRenderTimer = null;
 
   window.addEventListener("hashchange", () => {
     if (!importProgressFromHash()) return;
@@ -2455,6 +2498,12 @@
     return score;
   }
   function compareLearningPriority(aIdx, bIdx, frequencyData) {
+    const aOrder = learningOrder[aIdx];
+    const bOrder = learningOrder[bIdx];
+    if (aOrder && bOrder && aOrder !== bOrder) return aOrder - bOrder;
+    if (aOrder && !bOrder) return -1;
+    if (!aOrder && bOrder) return 1;
+    if (aOrder && bOrder) return aIdx - bIdx;
     const a = getQuestionLearningPriority(aIdx, frequencyData);
     const b = getQuestionLearningPriority(bIdx, frequencyData);
     return (
@@ -2466,6 +2515,9 @@
       b.unknownFrequency - a.unknownFrequency ||
       a.wordCount - b.wordCount
     );
+  }
+  function hasLearningOrderValues() {
+    return Object.keys(learningOrder).length > 0;
   }
   function updateLearningOrderButton() {
     if (!learningOrderBtn) return;
@@ -2504,7 +2556,7 @@
       }
       visibleIdx.push(idx);
     });
-    if (activeFilter === "auto" && autoLearningOrderActive) {
+    if (autoLearningOrderActive || hasLearningOrderValues()) {
       const frequencyData = computeFrequency();
       visibleIdx.sort((a, b) => compareLearningPriority(a, b, frequencyData));
     }
@@ -2523,7 +2575,10 @@
 
       card.innerHTML = `
         <div class="q-header">
-          <span class="q-num">Q${idx + 1}</span>
+          <div class="q-meta">
+            <span class="q-num">Q${idx + 1}</span>
+            <input class="q-learning-order" data-learning-order="${idx}" type="number" min="1" inputmode="numeric" placeholder="Order 顺序" aria-label="Learning order for question ${idx + 1}" value="${learningOrder[idx] || ""}" />
+          </div>
           <div class="q-head-text">
             <p class="q-text-en">${escapeHtml(item.q)}</p>
             <p class="q-text-zh">${escapeHtml(item.qZh)}</p>
@@ -2576,6 +2631,34 @@
         const idx = parseInt(btn.dataset.idx, 10);
         const s = btn.dataset.status;
         setStatus(idx, getStoredStatus(idx) === s ? "auto" : s);
+      });
+    });
+    listEl.querySelectorAll("[data-learning-order]").forEach(input => {
+      const saveOrder = (shouldRender) => {
+        const idx = input.dataset.learningOrder;
+        const order = parseInt(input.value, 10);
+        if (Number.isFinite(order) && order > 0) {
+          learningOrder[idx] = order;
+          input.value = String(order);
+          autoLearningOrderActive = true;
+        } else {
+          delete learningOrder[idx];
+          input.value = "";
+          autoLearningOrderActive = hasLearningOrderValues();
+        }
+        saveLearningOrder(learningOrder);
+        if (shouldRender && autoLearningOrderActive) render();
+      };
+      input.addEventListener("input", () => {
+        saveOrder(false);
+        window.clearTimeout(learningOrderRenderTimer);
+        learningOrderRenderTimer = window.setTimeout(() => {
+          if (autoLearningOrderActive) render();
+        }, 450);
+      });
+      input.addEventListener("change", () => saveOrder(true));
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") input.blur();
       });
     });
     listEl.querySelectorAll(".reveal-btn").forEach(btn => {
@@ -4453,17 +4536,12 @@
       filterGroupEl.querySelectorAll("[data-filter]").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       activeFilter = e.target.dataset.filter;
-      if (activeFilter !== "auto") autoLearningOrderActive = false;
       render();
     }
   });
   if (learningOrderBtn) {
     learningOrderBtn.addEventListener("click", () => {
       autoLearningOrderActive = true;
-      activeFilter = "auto";
-      filterGroupEl.querySelectorAll("[data-filter]").forEach(b => {
-        b.classList.toggle("active", b.dataset.filter === "auto");
-      });
       render();
     });
   }
@@ -4487,7 +4565,9 @@
   resetBtn.addEventListener("click", () => {
     if (confirm("Reset all learning progress? 重置所有学习进度？")) {
       progress = {};
+      learningOrder = {};
       saveProgress(progress);
+      saveLearningOrder(learningOrder);
       render();
     }
   });
