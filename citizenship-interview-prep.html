@@ -2570,7 +2570,7 @@
     const loopStatuses = new Set(["learned", "review", "learning"]);
     return QUESTIONS
       .map((_, idx) => idx)
-      .filter(idx => loopStatuses.has(getSelectedStatus(idx)));
+      .filter(idx => loopStatuses.has(getStoredStatus(idx)));
   }
 
   function updateLoopControls() {
