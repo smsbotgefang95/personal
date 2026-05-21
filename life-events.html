@@ -49,9 +49,9 @@
   }
 
   main {
-    max-width: 1180px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 22px 24px 48px;
+    padding: 18px 18px 48px;
   }
 
   .topbar {
@@ -138,8 +138,12 @@
   .shell-grid {
     display: grid;
     gap: 18px;
-    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-columns: minmax(420px, 0.9fr) minmax(520px, 1.1fr);
     align-items: start;
+  }
+
+  .timeline-panel {
+    margin-top: 18px;
   }
 
   .panel {
@@ -316,36 +320,168 @@
   }
 
   .event-list {
-    display: grid;
-    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    max-height: 72vh;
+    overflow: auto;
   }
 
-  .event-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px;
-  }
-
-  .event-top {
-    align-items: start;
+  .area-tabs {
+    background: #ffffff;
+    border-bottom: 1px solid #dadce0;
     display: flex;
-    gap: 12px;
-    justify-content: space-between;
+    gap: 4px;
+    min-width: max-content;
+    padding: 6px 8px;
+    position: sticky;
+    top: 0;
+    z-index: 6;
   }
 
-  .event-title {
-    font-size: 1.02rem;
+  .area-tab {
+    background: #f1f3f4;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    color: #3c4043;
+    font-size: 0.78rem;
     font-weight: 800;
-    margin-bottom: 5px;
+    padding: 5px 9px;
+    text-decoration: none;
+    white-space: nowrap;
   }
 
-  .meta {
-    color: var(--muted);
+  .area-tab:hover {
+    background: #e8f0fe;
+    border-color: #c9d7f8;
+    color: #174ea6;
+  }
+
+  .area-tab.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+  }
+
+  .sheet-section + .sheet-section {
+    border-top: 6px solid #eef2f7;
+  }
+
+  .sheet-title {
+    background: #e8f0fe;
+    border-bottom: 1px solid #c9d7f8;
+    border-left: 6px solid var(--accent);
+    color: #174ea6;
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0;
+    padding: 10px 12px;
+    position: sticky;
+    top: 43px;
+    z-index: 4;
+  }
+
+  .sheet-table {
+    border-collapse: collapse;
+    color: #202124;
+    font-size: 0.78rem;
+    min-width: max-content;
+    table-layout: fixed;
+  }
+
+  .sheet-table th,
+  .sheet-table td {
+    border: 1px solid #dadce0;
+    padding: 5px 7px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .sheet-table th {
+    background: #f8f9fa;
+    color: #3c4043;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    position: sticky;
+    text-transform: none;
+    top: 84px;
+    z-index: 3;
+  }
+
+  .sheet-table th:first-child {
+    left: 0;
+    z-index: 5;
+  }
+
+  .sheet-table tr:hover td {
+    background: #f8fafd;
+  }
+
+  .year-cell {
+    background: #f8f9fa;
+    color: #202124;
+    font-weight: 800;
+    min-width: 64px;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+
+  .sheet-cell {
+    color: #202124;
+    line-height: 1.3;
+    min-height: 58px;
+    min-width: 168px;
+    width: 168px;
+  }
+
+  .cell-content {
+    white-space: pre-wrap;
+  }
+
+  .cell-content ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .cell-content li {
+    margin: 0 0 3px;
+    padding-left: 2px;
+  }
+
+  .cell-entry + .cell-entry {
+    border-top: 1px solid #dadce0;
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+
+  .cell-date {
+    color: #5f6368;
+    font-size: 0.72rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .cell-meta {
+    align-items: center;
     display: flex;
     flex-wrap: wrap;
-    font-size: 0.83rem;
-    gap: 6px;
+    color: #5f6368;
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .cell-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .cell-actions .btn {
+    font-size: 0.72rem;
+    min-height: 26px;
+    padding: 4px 7px;
   }
 
   .pill {
@@ -365,48 +501,6 @@
   .pill.bad { background: var(--bad-bg); color: var(--bad); }
   .pill.warn { background: var(--warn-bg); color: var(--warn); }
   .pill.blue { background: var(--accent-light); color: var(--accent); }
-
-  .event-notes {
-    color: #334155;
-    font-size: 0.92rem;
-    margin-top: 10px;
-    white-space: pre-wrap;
-  }
-
-  .detail-grid {
-    display: grid;
-    gap: 8px;
-    grid-template-columns: repeat(4, 1fr);
-    margin-top: 12px;
-  }
-
-  .detail {
-    background: var(--surface-2);
-    border-radius: 7px;
-    padding: 8px 9px;
-  }
-
-  .detail b {
-    color: var(--muted);
-    display: block;
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .detail span {
-    display: block;
-    font-size: 0.86rem;
-    margin-top: 3px;
-  }
-
-  .event-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    justify-content: flex-end;
-    margin-top: 12px;
-  }
 
   .side-stack {
     display: grid;
@@ -500,12 +594,10 @@
     .guidance-grid,
     .stats-row,
     .filters,
-    .form-grid,
-    .detail-grid {
+    .form-grid {
       grid-template-columns: 1fr;
     }
 
-    .event-top,
     .panel-head {
       flex-direction: column;
     }
@@ -528,6 +620,60 @@
       <input class="import-input" id="importInput" type="file" accept="application/json,.json" />
     </div>
   </header>
+
+  <section class="panel timeline-panel" aria-labelledby="timelineTitle">
+    <div class="panel-head">
+      <div>
+        <h2 id="timelineTitle">Timeline</h2>
+        <p id="timelineSummary">No events yet.</p>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="filters" aria-label="Event filters">
+        <div class="field">
+          <label for="filterArea">Area</label>
+          <select id="filterArea"></select>
+        </div>
+        <div class="field">
+          <label for="filterColumn">Column</label>
+          <select id="filterColumn"></select>
+        </div>
+        <div class="field">
+          <label for="filterPeople">People</label>
+          <select id="filterPeople"></select>
+        </div>
+        <div class="field">
+          <label for="filterImpact">Impact</label>
+          <select id="filterImpact">
+            <option value="all">All impact</option>
+            <option value="positive">Positive</option>
+            <option value="negative">Negative</option>
+            <option value="neutral">Neutral</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="filterTime">Timeframe</label>
+          <select id="filterTime">
+            <option value="all">All time</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="365">Last 12 months</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="filterPattern">Recommendation</label>
+          <select id="filterPattern">
+            <option value="all">All types</option>
+            <option value="Repeat more">Repeat more</option>
+            <option value="Reduce">Reduce</option>
+            <option value="Watch">Watch</option>
+            <option value="One-time">One-time</option>
+          </select>
+        </div>
+      </div>
+      <div class="event-list" id="eventList"></div>
+    </div>
+  </section>
 
   <section class="stats-row" aria-label="Life event summary">
     <div class="stat"><div class="label">Events</div><div class="value" id="totalEvents">0</div></div>
@@ -586,6 +732,10 @@
                 <label for="eventArea">Life Area</label>
                 <select id="eventArea" required></select>
               </div>
+              <div class="field">
+                <label for="eventSourceColumn">Column</label>
+                <select id="eventSourceColumn" required></select>
+              </div>
               <div class="field full">
                 <label for="eventTitle">Event Title</label>
                 <input id="eventTitle" type="text" placeholder="What happened?" required />
@@ -631,10 +781,7 @@
                 <label for="eventPeople">People Involved</label>
                 <select id="eventPeople"></select>
               </div>
-              <div class="field">
-                <label for="eventTags">Life Area</label>
-                <select id="eventTags"></select>
-              </div>
+              <input id="eventTags" type="hidden" />
               <div class="field full">
                 <label for="eventNotes">Notes</label>
                 <textarea id="eventNotes" placeholder="Context, cause, result, or what you noticed."></textarea>
@@ -656,59 +803,6 @@
         </div>
       </section>
 
-      <section class="panel" style="margin-top:18px;" aria-labelledby="timelineTitle">
-        <div class="panel-head">
-          <div>
-            <h2 id="timelineTitle">Timeline</h2>
-            <p id="timelineSummary">No events yet.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="filters" aria-label="Event filters">
-            <div class="field">
-              <label for="filterArea">Area</label>
-              <select id="filterArea"></select>
-            </div>
-            <div class="field">
-              <label for="filterColumn">Column</label>
-              <select id="filterColumn"></select>
-            </div>
-            <div class="field">
-              <label for="filterPeople">People</label>
-              <select id="filterPeople"></select>
-            </div>
-            <div class="field">
-              <label for="filterImpact">Impact</label>
-              <select id="filterImpact">
-                <option value="all">All impact</option>
-                <option value="positive">Positive</option>
-                <option value="negative">Negative</option>
-                <option value="neutral">Neutral</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="filterTime">Timeframe</label>
-              <select id="filterTime">
-                <option value="all">All time</option>
-                <option value="30">Last 30 days</option>
-                <option value="90">Last 90 days</option>
-                <option value="365">Last 12 months</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="filterPattern">Recommendation</label>
-              <select id="filterPattern">
-                <option value="all">All types</option>
-                <option value="Repeat more">Repeat more</option>
-                <option value="Reduce">Reduce</option>
-                <option value="Watch">Watch</option>
-                <option value="One-time">One-time</option>
-              </select>
-            </div>
-          </div>
-          <div class="event-list" id="eventList"></div>
-        </div>
-      </section>
     </div>
 
     <aside class="side-stack">
@@ -749,6 +843,7 @@
       </section>
     </aside>
   </div>
+
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -756,7 +851,9 @@
 (() => {
   const STORAGE_KEY = "personal.lifeEvents.v1";
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
-  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-21-pinyin-chinese";
+  const LIFE_EVENTS_SYNC_API = "/api/life-events";
+  const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
+  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-21-peijun-gao";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const KNOWN_PEOPLE = [
     "刘以明", "袁媛", "谢朝阳", "王宏宇", "何平", "Wendy", "Leah", "Austin Hong", "Mark Robinson",
@@ -774,7 +871,7 @@
     "何平": "Ping He",
     "贾浩": "Hao Jia",
     "牟广丰": "Guangfeng Mou",
-    "培军叔叔": "Uncle Peijun",
+    "培军叔叔": "Peijun Gao 高培军",
     "婶婶": "Aunt",
     "周谧": "Mi Zhou",
     "姜洁": "Jie Jiang",
@@ -826,11 +923,9 @@
 • 搅舌
 • 吐舌
 • 扣齿`],
-    ["Health", "2018", "眼睛和牙齿", `眼睛
-• 隐形眼镜
-• 换成日抛型
-牙齿
-• 完成正畸
+    ["Health", "2018", "眼睛", `• 隐形眼镜
+• 换成日抛型`],
+    ["Health", "2018", "牙齿", `• 完成正畸
 • 开始戴维持器
 • 补门牙小缺口
 • 洗牙流少量血
@@ -854,10 +949,8 @@
 • 按摩部位只剩下足三里、涌泉
 口腔
 • 慢慢停止了`],
-    ["Health", "2020", "眼睛和牙齿", `眼睛
-• 用眼时间过长时眼睛感觉疲惫
-牙齿
-• 3月初换用电动牙刷`],
+    ["Health", "2020", "眼睛", `• 用眼时间过长时眼睛感觉疲惫`],
+    ["Health", "2020", "牙齿", `• 3月初换用电动牙刷`],
     ["Health", "2020", "问题", `腹泻
 平均每月2.8次
 8月3次
@@ -906,11 +999,9 @@
 • 停止了
 泡脚
 • 停止了`],
-    ["Health", "2025", "眼睛和牙齿", `眼睛
-• 黑眼圈的沉重感加强
-• 老花眼继续加重
-牙齿
-• 洗牙1~2月后出现斑点，很难看`],
+    ["Health", "2025", "眼睛", `• 黑眼圈的沉重感加强
+• 老花眼继续加重`],
+    ["Health", "2025", "牙齿", `• 洗牙1~2月后出现斑点，很难看`],
     ["Health", "2025", "问题", `痔疮
 • 基本没复发，热水泡屁股
 黑胳膊肘
@@ -927,8 +1018,7 @@
 • 降至5.5（5.6以下正常）
 血压
 • 高压130，有时量140`],
-    ["Health", "2026", "眼睛和牙齿", `眼睛
-• 黑豆+醋，每天吃10～20颗
+    ["Health", "2026", "眼睛", `• 黑豆+醋，每天吃10～20颗
 • 交替看远处和近处`],
     ["Health", "2026", "问题", `提肛
 每小时
@@ -1200,6 +1290,7 @@ W03: Cornbread`],
     eventId: document.getElementById("eventId"),
     eventDate: document.getElementById("eventDate"),
     eventArea: document.getElementById("eventArea"),
+    eventSourceColumn: document.getElementById("eventSourceColumn"),
     eventTitle: document.getElementById("eventTitle"),
     eventImpact: document.getElementById("eventImpact"),
     eventImportance: document.getElementById("eventImportance"),
@@ -1230,6 +1321,10 @@ W03: Cornbread`],
   };
 
   let events = loadEvents();
+  let selectedAreaTab = "";
+  let lifeEventsSyncAvailable = false;
+  let lifeEventsSyncTimer = null;
+  let isApplyingSharedEvents = false;
 
   function loadEvents() {
     const importedEvents = buildGoogleSheetEvents();
@@ -1283,18 +1378,99 @@ W03: Cornbread`],
   }
 
   function mergeImportedEvents(storedEvents, importedEvents) {
+    const storedImportedById = new Map(storedEvents
+      .filter((event) => event && /^sheet-import-\d+$/.test(String(event.id || "")))
+      .map((event) => [String(event.id), event]));
+    const importedWithStoredEdits = importedEvents.map((event) => ({
+      ...event,
+      ...(storedImportedById.get(String(event.id)) || {})
+    }));
     const manualEvents = storedEvents.filter((event) => {
       const id = String(event && event.id || "");
       return event && !/^sample-\d+$/.test(id) && !/^sheet-import-\d+$/.test(id);
     }).map((event) => ({
       ...event,
-      sourceColumn: event.sourceColumn || "Manual entry"
+      sourceColumn: event.sourceColumn || sourceColumnOptions(event.area || "all")[0] || ""
     }));
-    return [...importedEvents, ...manualEvents];
+    return [...importedWithStoredEdits, ...manualEvents];
   }
 
   function saveEvents() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    if (!isApplyingSharedEvents) queueLifeEventsSync();
+  }
+
+  function lifeEventsPayload() {
+    return {
+      source: "Personal Life Events",
+      events
+    };
+  }
+
+  function applySharedLifeEventsPayload(payload) {
+    if (!payload || !Array.isArray(payload.events) || !payload.events.length) return false;
+    isApplyingSharedEvents = true;
+    events = mergeImportedEvents(payload.events, buildGoogleSheetEvents());
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    localStorage.setItem(IMPORT_VERSION_KEY, GOOGLE_SHEET_IMPORT_VERSION);
+    isApplyingSharedEvents = false;
+    updateEventSourceColumnOptions();
+    updateEventPeopleOptions();
+    updateEventTagOptions(els.eventTags.value || "");
+    updateColumnOptions();
+    updatePeopleOptions();
+    render();
+    return true;
+  }
+
+  async function loadSharedLifeEvents() {
+    try {
+      const res = await fetch(LIFE_EVENTS_SYNC_API, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const payload = await res.json();
+      lifeEventsSyncAvailable = true;
+      const applied = applySharedLifeEventsPayload(payload);
+      if (!applied && events.length) queueLifeEventsSync(200);
+    } catch (error) {
+      lifeEventsSyncAvailable = false;
+    }
+  }
+
+  function queueLifeEventsSync(delay = 900) {
+    if (lifeEventsSyncTimer) window.clearTimeout(lifeEventsSyncTimer);
+    lifeEventsSyncTimer = window.setTimeout(saveLifeEventsToServer, delay);
+  }
+
+  async function postLifeEventsPayload(payload, adminKey) {
+    const headers = { "Content-Type": "application/json" };
+    if (adminKey) headers["X-Life-Events-Admin-Key"] = adminKey;
+    return fetch(LIFE_EVENTS_SYNC_API, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async function saveLifeEventsToServer() {
+    let adminKey = "";
+    try { adminKey = localStorage.getItem(LIFE_EVENTS_ADMIN_KEY) || ""; } catch (error) {}
+    let res;
+    try {
+      res = await postLifeEventsPayload(lifeEventsPayload(), adminKey);
+      if (res.status === 401) {
+        const entered = window.prompt("Enter the Life Events admin key to save changes to the server:");
+        if (!entered) {
+          lifeEventsSyncAvailable = false;
+          return;
+        }
+        try { localStorage.setItem(LIFE_EVENTS_ADMIN_KEY, entered); } catch (error) {}
+        res = await postLifeEventsPayload(lifeEventsPayload(), entered);
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      lifeEventsSyncAvailable = true;
+    } catch (error) {
+      lifeEventsSyncAvailable = false;
+    }
   }
 
   function today() {
@@ -1331,7 +1507,10 @@ W03: Cornbread`],
 
   function personDisplayName(name) {
     const value = String(name || "");
-    if (CHINESE_NAME_PINYIN[value]) return `${CHINESE_NAME_PINYIN[value]} ${value}`;
+    if (CHINESE_NAME_PINYIN[value]) {
+      const displayName = CHINESE_NAME_PINYIN[value];
+      return /[\u3400-\u9fff]/.test(displayName) ? displayName : `${displayName} ${value}`;
+    }
 
     const chineseName = Object.keys(CHINESE_NAME_PINYIN).find((key) => CHINESE_NAME_PINYIN[key] === value);
     return chineseName ? `${value} ${chineseName}` : value;
@@ -1356,8 +1535,9 @@ W03: Cornbread`],
 
   function formatDate(value) {
     if (!value) return "No date";
-    const date = new Date(value + "T00:00:00");
-    return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+    const [year, month, day] = String(value).split("-");
+    if (!year || !month || !day) return String(value);
+    return `${year}-${month}-${day}`;
   }
 
   function daysAgo(value) {
@@ -1384,6 +1564,7 @@ W03: Cornbread`],
   function initSelects() {
     els.eventArea.innerHTML = AREAS.map((area) => `<option value="${area}">${area}</option>`).join("");
     els.filterArea.innerHTML = `<option value="all">All areas</option>${AREAS.map((area) => `<option value="${area}">${area}</option>`).join("")}`;
+    updateEventSourceColumnOptions();
     updateEventPeopleOptions();
     updateEventTagOptions();
     updateColumnOptions();
@@ -1410,24 +1591,14 @@ W03: Cornbread`],
   }
 
   function updateEventTagOptions(selectedValue = "") {
-    const options = eventTagOptions();
-    const selected = String(selectedValue || "");
-    const allOptions = selected && !options.includes(selected) ? [selected, ...options] : options;
-    els.eventTags.innerHTML = `<option value="">None</option>${allOptions.map((tag) => `<option value="${escapeHtml(tag)}">${escapeHtml(tag)}</option>`).join("")}`;
-    els.eventTags.value = selected;
+    els.eventTags.value = String(selectedValue || "");
   }
 
   function sourceColumnOptions(area) {
     const sheetColumns = GOOGLE_SHEET_ROWS
       .filter(([rowArea]) => area === "all" || rowArea === area)
       .map(([, , category]) => category);
-    const hasManualEvents = events.some((event) => {
-      const isManual = !/^sheet-import-\d+$/.test(String(event.id || ""));
-      return isManual && (area === "all" || event.area === area);
-    });
-    const uniqueColumns = [...new Set(sheetColumns)];
-    if (hasManualEvents) uniqueColumns.push("Manual entry");
-    return uniqueColumns;
+    return [...new Set(sheetColumns)];
   }
 
   function updateColumnOptions() {
@@ -1435,6 +1606,13 @@ W03: Cornbread`],
     const options = sourceColumnOptions(els.filterArea.value || "all");
     els.filterColumn.innerHTML = `<option value="all">All columns</option>${options.map((column) => `<option value="${escapeHtml(column)}">${escapeHtml(column)}</option>`).join("")}`;
     els.filterColumn.value = options.includes(currentValue) ? currentValue : "all";
+  }
+
+  function updateEventSourceColumnOptions(selectedValue = "") {
+    const options = sourceColumnOptions(els.eventArea.value || AREAS[0]);
+    const selected = String(selectedValue || "");
+    els.eventSourceColumn.innerHTML = options.map((column) => `<option value="${escapeHtml(column)}">${escapeHtml(column)}</option>`).join("");
+    els.eventSourceColumn.value = selected && options.includes(selected) ? selected : options[0] || "";
   }
 
   function peopleOptions() {
@@ -1496,8 +1674,8 @@ W03: Cornbread`],
       energy: els.eventEnergy.value,
       pattern: els.eventPattern.value,
       people: els.eventPeople.value.trim(),
-      tags: els.eventTags.value.trim(),
-      sourceColumn: els.eventId.value && /^sheet-import-\d+$/.test(els.eventId.value) ? els.eventTitle.value.split(" - ").pop() : "Manual entry",
+      tags: els.eventTags.value.trim() || els.eventArea.value.toLowerCase(),
+      sourceColumn: els.eventSourceColumn.value,
       lesson: els.eventLesson.value.trim(),
       action: els.eventAction.value.trim()
     };
@@ -1507,6 +1685,7 @@ W03: Cornbread`],
     els.eventId.value = event.id || "";
     els.eventDate.value = event.date || today();
     els.eventArea.value = event.area || AREAS[0];
+    updateEventSourceColumnOptions(event.sourceColumn || "");
     els.eventTitle.value = event.title || "";
     els.eventImpact.value = String(event.impact ?? 0);
     els.eventImportance.value = String(event.importance || 3);
@@ -1609,39 +1788,103 @@ W03: Cornbread`],
       return;
     }
 
-    els.eventList.innerHTML = sourceEvents.map((event) => {
-      const tags = splitList(event.tags);
-      const people = peopleList(event.people);
+    const areas = AREAS.filter((area) => sourceEvents.some((event) => event.area === area));
+    if (!areas.includes(selectedAreaTab)) selectedAreaTab = areas[0] || "";
+    const visibleAreas = selectedAreaTab ? [selectedAreaTab] : areas;
+    const sections = visibleAreas.map((area) => {
+      const areaEvents = sourceEvents.filter((event) => event.area === area);
+      const columns = [...new Set(areaEvents.map((event) => event.sourceColumn || "Manual entry"))]
+        .sort((a, b) => sourceColumnOptions(area).indexOf(a) - sourceColumnOptions(area).indexOf(b) || a.localeCompare(b));
+      const years = [...new Set(areaEvents.map((event) => String(event.date || "").slice(0, 4) || "No year"))]
+        .sort((a, b) => b.localeCompare(a));
+
+      const rows = years.map((year) => `
+        <tr>
+          <td class="year-cell">${escapeHtml(year)}</td>
+          ${columns.map((column) => {
+            const cellEvents = areaEvents.filter((event) => {
+              const eventYear = String(event.date || "").slice(0, 4) || "No year";
+              return eventYear === year && (event.sourceColumn || "Manual entry") === column;
+            });
+            return `<td class="sheet-cell">${cellEvents.map(renderSheetCellEvent).join("")}</td>`;
+          }).join("")}
+        </tr>
+      `).join("");
+
+      const areaId = `area-${area.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       return `
-        <article class="event-card">
-          <div class="event-top">
-            <div>
-              <div class="event-title">${escapeHtml(event.title)}</div>
-              <div class="meta">
-                <span>${escapeHtml(formatDate(event.date))}</span>
-                <span>${escapeHtml(event.area)}</span>
-                <span class="pill ${impactClass(Number(event.impact || 0))}">Impact ${escapeHtml(impactLabel(Number(event.impact || 0)))}</span>
-                <span class="pill blue">Importance ${escapeHtml(event.importance)}</span>
-                <span class="pill ${event.pattern === "Watch" ? "warn" : ""}">${escapeHtml(event.pattern)}</span>
-              </div>
-            </div>
-            <span class="pill ${event.energy === "Energizing" ? "good" : event.energy === "Draining" ? "bad" : ""}">${escapeHtml(event.energy)}</span>
-          </div>
-          ${event.notes ? `<div class="event-notes">${escapeHtml(event.notes)}</div>` : ""}
-          <div class="detail-grid">
-            <div class="detail"><b>Source Column</b><span>${escapeHtml(event.sourceColumn || "Manual entry")}</span></div>
-            <div class="detail"><b>People</b><span>${people.length ? escapeHtml(people.join(", ")) : "None"}</span></div>
-            <div class="detail"><b>Life Area</b><span>${tags.length ? escapeHtml(tags.join(", ")) : "None"}</span></div>
-            <div class="detail"><b>Next Action</b><span>${event.action ? escapeHtml(event.action) : "Not set"}</span></div>
-          </div>
-          ${event.lesson ? `<div class="event-notes"><strong>Lesson:</strong> ${escapeHtml(event.lesson)}</div>` : ""}
-          <div class="event-actions">
-            <button class="btn btn-secondary" type="button" data-edit="${escapeHtml(event.id)}">Edit</button>
-            <button class="btn btn-danger" type="button" data-delete="${escapeHtml(event.id)}">Delete</button>
-          </div>
-        </article>
+        <section class="sheet-section" id="${escapeHtml(areaId)}">
+          <h3 class="sheet-title">${escapeHtml(area)}</h3>
+          <table class="sheet-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                ${columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("")}
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </section>
       `;
     }).join("");
+
+    const tabs = `
+      <nav class="area-tabs" aria-label="Life area shortcuts">
+        ${areas.map((area) => {
+          const activeClass = area === selectedAreaTab ? " active" : "";
+          return `<button class="area-tab${activeClass}" type="button" data-area-tab="${escapeHtml(area)}">${escapeHtml(area)}</button>`;
+        }).join("")}
+      </nav>
+    `;
+
+    els.eventList.innerHTML = tabs + sections;
+  }
+
+  function renderSheetCellEvent(event) {
+    const people = peopleList(event.people);
+    const impact = Number(event.impact || 0);
+    const content = event.notes || event.title || event.lesson || "";
+    return `
+      <div class="cell-entry">
+        <div class="cell-date">${escapeHtml(formatDate(event.date))}</div>
+        <div class="cell-content">${formatCellContent(content)}</div>
+        <div class="cell-meta">
+          <span class="pill ${impactClass(impact)}">${escapeHtml(impactLabel(impact))}</span>
+          <span class="pill ${event.pattern === "Watch" ? "warn" : ""}">${escapeHtml(event.pattern)}</span>
+          ${people.length ? `<span>${escapeHtml(people.join(", "))}</span>` : ""}
+        </div>
+        ${event.action ? `<div class="cell-meta"><strong>Next:</strong> ${escapeHtml(event.action)}</div>` : ""}
+        <div class="cell-actions">
+          <button class="btn btn-secondary" type="button" data-edit="${escapeHtml(event.id)}">Edit</button>
+          <button class="btn btn-danger" type="button" data-delete="${escapeHtml(event.id)}">Delete</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function formatCellContent(value) {
+    const lines = String(value || "").split(/\n/);
+    if (!lines.some((line) => /^\s*[•-]\s+/.test(line))) return escapeHtml(value);
+
+    const chunks = [];
+    let listItems = [];
+    const flushList = () => {
+      if (!listItems.length) return;
+      chunks.push(`<ul>${listItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`);
+      listItems = [];
+    };
+
+    lines.forEach((line) => {
+      const bullet = line.match(/^\s*[•-]\s+(.*)$/);
+      if (bullet) {
+        listItems.push(bullet[1]);
+        return;
+      }
+      flushList();
+      if (line.trim()) chunks.push(`<div>${escapeHtml(line)}</div>`);
+    });
+    flushList();
+    return chunks.join("");
   }
 
   function renderRankings(sourceEvents) {
@@ -1810,6 +2053,10 @@ W03: Cornbread`],
     els.importInput.value = "";
   });
 
+  els.eventArea.addEventListener("change", () => {
+    updateEventSourceColumnOptions();
+  });
+
   els.filterArea.addEventListener("change", () => {
     updateColumnOptions();
     updatePeopleOptions();
@@ -1821,8 +2068,14 @@ W03: Cornbread`],
   });
 
   els.eventList.addEventListener("click", (event) => {
+    const areaTab = event.target.getAttribute("data-area-tab");
     const editId = event.target.getAttribute("data-edit");
     const deleteId = event.target.getAttribute("data-delete");
+    if (areaTab) {
+      selectedAreaTab = areaTab;
+      render();
+      return;
+    }
     if (editId) editEvent(editId);
     if (deleteId) deleteEvent(deleteId);
   });
@@ -1830,6 +2083,7 @@ W03: Cornbread`],
   initSelects();
   resetForm();
   render();
+  loadSharedLifeEvents();
 })();
 </script>
 </body>

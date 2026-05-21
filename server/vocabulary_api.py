@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small same-origin API for shared citizenship vocabulary overrides."""
+"""Small same-origin API for shared personal site data."""
 
 import json
 import os
@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
+DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "updatedAt": None}
 
 
 def env_path(name, default):
@@ -24,6 +25,11 @@ REPO_DIR = env_path("VOCAB_REPO_DIR", "~/personal")
 REPO_DATA_PATH = REPO_DIR / "data" / "vocabulary-overrides.json"
 ADMIN_KEY = os.environ.get("VOCAB_ADMIN_KEY", "")
 GIT_SYNC = os.environ.get("VOCAB_GIT_SYNC", "1") != "0"
+LIFE_EVENTS_DATA_PATH = env_path("LIFE_EVENTS_DATA_PATH", "~/personal-data/life-events.json")
+LIFE_EVENTS_PUBLIC_PATH = os.environ.get("LIFE_EVENTS_PUBLIC_PATH")
+LIFE_EVENTS_PUBLIC_PATH = Path(LIFE_EVENTS_PUBLIC_PATH).expanduser() if LIFE_EVENTS_PUBLIC_PATH else None
+LIFE_EVENTS_REPO_DATA_PATH = REPO_DIR / "data" / "life-events.json"
+LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 
 
 def clean_map(value):
@@ -51,6 +57,70 @@ def load_payload():
         "meanings": clean_map(payload.get("meanings")),
         "updatedAt": payload.get("updatedAt"),
     }
+
+
+def clean_event(value):
+    if not isinstance(value, dict):
+        return None
+    event = {}
+    limits = {
+        "id": 120,
+        "date": 32,
+        "area": 80,
+        "sourceColumn": 120,
+        "title": 240,
+        "notes": 5000,
+        "energy": 40,
+        "pattern": 80,
+        "people": 800,
+        "tags": 800,
+        "lesson": 2000,
+        "action": 1000,
+    }
+    for key, limit in limits.items():
+        item = value.get(key, "")
+        if item is None:
+            item = ""
+        if not isinstance(item, str):
+            item = str(item)
+        event[key] = item.strip()[:limit]
+    for key in ("impact", "importance"):
+        try:
+            event[key] = int(value.get(key, 0))
+        except (TypeError, ValueError):
+            event[key] = 0
+    if not event["id"] or not event["date"] or not event["title"]:
+        return None
+    return event
+
+
+def clean_life_events_payload(value):
+    if not isinstance(value, dict):
+        value = {}
+    incoming_events = value.get("events", [])
+    if not isinstance(incoming_events, list):
+        incoming_events = []
+    events = []
+    seen = set()
+    for item in incoming_events[:1500]:
+        event = clean_event(item)
+        if not event or event["id"] in seen:
+            continue
+        seen.add(event["id"])
+        events.append(event)
+    return {
+        "events": events,
+        "updatedAt": value.get("updatedAt"),
+    }
+
+
+def load_life_events_payload():
+    try:
+        with LIFE_EVENTS_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        payload = DEFAULT_LIFE_EVENTS_PAYLOAD.copy()
+    return clean_life_events_payload(payload)
 
 
 def atomic_write(path, payload):
@@ -98,6 +168,32 @@ def sync_to_git(payload):
         return {"status": "failed", "error": str(exc)}
 
 
+def sync_life_events_to_git(payload):
+    if not GIT_SYNC or not (REPO_DIR / ".git").exists():
+        return {"status": "skipped"}
+    try:
+        atomic_write(LIFE_EVENTS_REPO_DATA_PATH, payload)
+        add = run_git(["add", "data/life-events.json"])
+        if add.returncode != 0:
+            return {"status": "failed", "error": add.stderr.strip() or add.stdout.strip()}
+        diff = run_git(["diff", "--cached", "--quiet"])
+        if diff.returncode == 0:
+            return {"status": "unchanged"}
+        commit = run_git([
+            "-c", "user.name=Personal Life Events Bot",
+            "-c", "user.email=life-events-bot@personal.homehomehooray.com",
+            "commit", "-m", "Update life events data",
+        ])
+        if commit.returncode != 0:
+            return {"status": "failed", "error": commit.stderr.strip() or commit.stdout.strip()}
+        push = run_git(["push", "origin", "HEAD:main"])
+        if push.returncode != 0:
+            return {"status": "failed", "error": push.stderr.strip() or push.stdout.strip()}
+        return {"status": "pushed"}
+    except Exception as exc:
+        return {"status": "failed", "error": str(exc)}
+
+
 def write_all(payload):
     atomic_write(DATA_PATH, payload)
     if PUBLIC_PATH:
@@ -105,6 +201,16 @@ def write_all(payload):
     git_result = sync_to_git(payload)
     if PUBLIC_PATH:
         atomic_write(PUBLIC_PATH, payload)
+    return git_result
+
+
+def write_life_events(payload):
+    atomic_write(LIFE_EVENTS_DATA_PATH, payload)
+    if LIFE_EVENTS_PUBLIC_PATH:
+        atomic_write(LIFE_EVENTS_PUBLIC_PATH, payload)
+    git_result = sync_life_events_to_git(payload)
+    if LIFE_EVENTS_PUBLIC_PATH:
+        atomic_write(LIFE_EVENTS_PUBLIC_PATH, payload)
     return git_result
 
 
@@ -121,13 +227,34 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path.split("?", 1)[0] != "/api/vocabulary-overrides":
+        path = self.path.split("?", 1)[0]
+        if path == "/api/life-events":
+            self.send_json(200, load_life_events_payload())
+            return
+        if path != "/api/vocabulary-overrides":
             self.send_error(404)
             return
         self.send_json(200, load_payload())
 
     def do_POST(self):
-        if self.path.split("?", 1)[0] != "/api/vocabulary-overrides":
+        path = self.path.split("?", 1)[0]
+        if path == "/api/life-events":
+            if LIFE_EVENTS_ADMIN_KEY and self.headers.get("X-Life-Events-Admin-Key") != LIFE_EVENTS_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(min(length, 1024 * 1024 * 2))
+                incoming = json.loads(raw.decode("utf-8"))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json"})
+                return
+            payload = clean_life_events_payload(incoming)
+            payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            git_result = write_life_events(payload)
+            self.send_json(200, {"ok": True, "payload": payload, "git": git_result})
+            return
+        if path != "/api/vocabulary-overrides":
             self.send_error(404)
             return
         if ADMIN_KEY and self.headers.get("X-Vocab-Admin-Key") != ADMIN_KEY:
@@ -158,6 +285,9 @@ def main():
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not DATA_PATH.exists():
         write_all(DEFAULT_PAYLOAD.copy())
+    LIFE_EVENTS_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not LIFE_EVENTS_DATA_PATH.exists():
+        write_life_events(DEFAULT_LIFE_EVENTS_PAYLOAD.copy())
     server = ThreadingHTTPServer((host, port), Handler)
     print(f"Vocabulary API listening on http://{host}:{port}", flush=True)
     server.serve_forever()

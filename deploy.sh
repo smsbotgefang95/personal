@@ -59,6 +59,13 @@ mkdir -p "$DATA_DIR"
 if [ ! -f "$DATA_DIR/vocabulary-overrides.json" ]; then
     cp "$BUILD_DIR/data/vocabulary-overrides.json" "$DATA_DIR/vocabulary-overrides.json"
 fi
+if [ ! -f "$DATA_DIR/life-events.json" ]; then
+    if [ -f "$BUILD_DIR/data/life-events.json" ]; then
+        cp "$BUILD_DIR/data/life-events.json" "$DATA_DIR/life-events.json"
+    else
+        printf '{\n  "events": [],\n  "updatedAt": null\n}\n' > "$DATA_DIR/life-events.json"
+    fi
+fi
 
 if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then
     VOCAB_ADMIN_KEY=$(python3 - <<'PY'
@@ -73,6 +80,9 @@ VOCAB_DATA_PATH=$DATA_DIR/vocabulary-overrides.json
 VOCAB_PUBLIC_PATH=$WEB_ROOT/data/vocabulary-overrides.json
 VOCAB_REPO_DIR=$BUILD_DIR
 VOCAB_ADMIN_KEY=$VOCAB_ADMIN_KEY
+LIFE_EVENTS_DATA_PATH=$DATA_DIR/life-events.json
+LIFE_EVENTS_PUBLIC_PATH=$WEB_ROOT/data/life-events.json
+LIFE_EVENTS_ADMIN_KEY=$VOCAB_ADMIN_KEY
 VOCAB_GIT_SYNC=1
 GIT_SSH_COMMAND="ssh -i $KEY_FILE -o IdentitiesOnly=yes"
 EOF
@@ -80,11 +90,22 @@ EOF
     echo "Created vocabulary admin key at $DATA_DIR/vocabulary-api.env"
 fi
 
+if ! grep -q '^LIFE_EVENTS_DATA_PATH=' "$DATA_DIR/vocabulary-api.env"; then
+    EXISTING_VOCAB_ADMIN_KEY=$(grep '^VOCAB_ADMIN_KEY=' "$DATA_DIR/vocabulary-api.env" | head -n 1 | cut -d= -f2-)
+    cat >> "$DATA_DIR/vocabulary-api.env" <<EOF
+LIFE_EVENTS_DATA_PATH=$DATA_DIR/life-events.json
+LIFE_EVENTS_PUBLIC_PATH=$WEB_ROOT/data/life-events.json
+LIFE_EVENTS_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
+EOF
+    echo "Added Life Events API settings to $DATA_DIR/vocabulary-api.env"
+fi
+
 # 5. Apply standard directory permissions
 echo "🔒 Adjusting folder permissions..."
 sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
 mkdir -p "$WEB_ROOT/data"
 cp "$DATA_DIR/vocabulary-overrides.json" "$WEB_ROOT/data/vocabulary-overrides.json"
+cp "$DATA_DIR/life-events.json" "$WEB_ROOT/data/life-events.json"
 
 echo "🔁 Starting vocabulary API..."
 if [ -f "$DATA_DIR/vocabulary-api.pid" ]; then
@@ -122,6 +143,15 @@ server {
     }
 
     location = /api/vocabulary-overrides {
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location = /api/life-events {
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;
         proxy_set_header Host \$host;
