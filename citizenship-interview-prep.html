@@ -1294,7 +1294,7 @@
     <div class="audio-controls">
       <div class="localhost-notice" id="localhost-notice">
         YouTube audio works from localhost, not this file page. YouTube 原声需要用本地服务器打开。
-        <a href="http://127.0.0.1:8765/citizenship-interview-prep.html" id="localhost-open-link">Open localhost 打开</a>
+        <a href="http://127.0.0.1:8015/citizenship-interview-prep.html" id="localhost-open-link">Open localhost 打开</a>
         <button type="button" id="copy-ipad-url-btn">Copy iPad progress URL 复制 iPad 进度链接</button>
       </div>
       <div class="localhost-notice" id="restore-file-notice">
@@ -1329,6 +1329,7 @@
         <div class="filter-group" id="filter-group">
           <button class="filter-btn active" data-filter="all">All 全部</button>
           <button class="filter-btn" data-filter="auto">Auto 自动</button>
+          <button class="filter-btn" id="learning-order-btn" type="button">Learning Order 学习顺序</button>
           <button class="filter-btn" data-filter="tolearn">To Learn 待学</button>
           <button class="filter-btn" data-filter="learning">Learning 学习中</button>
         <button class="filter-btn" data-filter="review">Review 复习</button>
@@ -1959,8 +1960,8 @@
   const CIVICS_VIDEO_ID = "NOgIOIFBPB0";
   const CIVICS_VIDEO_STOP_PADDING_SECONDS = 0.35;
   const DEFAULT_QUESTION_VIDEO_DURATION_SECONDS = 5;
-  const LOCALHOST_PAGE_URL = "http://127.0.0.1:8765/citizenship-interview-prep.html";
-  const IPAD_PAGE_URL = "http://192.168.1.169:8765/citizenship-interview-prep.html";
+  const LOCALHOST_PAGE_URL = "http://127.0.0.1:8015/citizenship-interview-prep.html";
+  const IPAD_PAGE_URL = "http://192.168.1.169:8015/citizenship-interview-prep.html";
   const YT_TIMING_KEY = "citizenship-prep-youtube-timings-v1";
   const DEFAULT_YOUTUBE_TIMINGS = {"0":{"start":26,"duration":17},"1":{"start":65,"duration":13},"2":{"start":113,"duration":18},"3":{"start":150,"duration":28},"4":{"start":194,"duration":26},"5":{"start":238,"duration":20},"6":{"start":275,"duration":21},"7":{"start":312,"duration":30},"8":{"start":363,"duration":28},"9":{"start":409,"duration":32},"10":{"start":464,"duration":22},"11":{"start":501,"duration":27},"12":{"start":548,"duration":21},"13":{"start":585,"duration":26},"14":{"start":627,"duration":20},"15":{"start":659,"duration":18},"16":{"start":696,"duration":21},"17":{"start":735,"duration":18},"18":{"start":767,"duration":22},"19":{"start":804,"duration":15},"20":{"start":838,"duration":25},"21":{"start":882,"duration":20},"22":{"start":915,"duration":15},"23":{"start":942,"duration":24},"24":{"start":983,"duration":25},"25":{"start":1028,"duration":19},"26":{"start":1070,"duration":18},"27":{"start":1107,"duration":14},"28":{"start":1136,"duration":22},"29":{"start":1176,"duration":23},"30":{"start":1237,"duration":29},"31":{"start":1283,"duration":20},"32":{"start":1316,"duration":18},"33":{"start":1344,"duration":14},"34":{"start":1369,"duration":25},"35":{"start":1412,"duration":29},"36":{"start":1462,"duration":23},"37":{"start":1501,"duration":23},"38":{"start":1539,"duration":21},"39":{"start":1574,"duration":22},"40":{"start":1617,"duration":34},"41":{"start":1676,"duration":33},"42":{"start":1730,"duration":13},"43":{"start":1757,"duration":11},"44":{"start":1780,"duration":28},"45":{"start":1827,"duration":19},"46":{"start":1861,"duration":26},"47":{"start":1908,"duration":35},"48":{"start":1965,"duration":30},"49":{"start":2018,"duration":27},"50":{"start":2067,"duration":25},"51":{"start":2128,"duration":26},"52":{"start":2172,"duration":30},"53":{"start":2222,"duration":24},"54":{"start":2264,"duration":28},"55":{"start":2327,"duration":27},"56":{"start":2373,"duration":27},"57":{"start":2417,"duration":22},"58":{"start":2455,"duration":23},"59":{"start":2495,"duration":21},"60":{"start":2534,"duration":24},"61":{"start":2577,"duration":19},"62":{"start":2611,"duration":29},"63":{"start":2663,"duration":37},"64":{"start":2727,"duration":25},"65":{"start":2769,"duration":23},"66":{"start":2809,"duration":30},"67":{"start":2861,"duration":26},"68":{"start":2904,"duration":19},"69":{"start":2936,"duration":16},"70":{"start":2969,"duration":27},"71":{"start":3015,"duration":24},"72":{"start":3057,"duration":23},"73":{"start":3096,"duration":21},"74":{"start":3132,"duration":31},"75":{"start":3180,"duration":24},"76":{"start":3222,"duration":23},"77":{"start":3263,"duration":26},"78":{"start":3307,"duration":21},"79":{"start":3345,"duration":23},"80":{"start":3389,"duration":31},"81":{"start":3447,"duration":27},"82":{"start":3490,"duration":22},"83":{"start":3528,"duration":26},"84":{"start":3571,"duration":24},"85":{"start":3614,"duration":33},"86":{"start":3668,"duration":20},"87":{"start":3702,"duration":19},"88":{"start":3744,"duration":20},"89":{"start":3778,"duration":22},"90":{"start":3816,"duration":15},"91":{"start":3846,"duration":19},"92":{"start":3879,"duration":20},"93":{"start":3913,"duration":22},"94":{"start":3950,"duration":20},"95":{"start":3987,"duration":27},"96":{"start":4033,"duration":23},"97":{"start":4075,"duration":23},"98":{"start":4115,"duration":21},"99":{"start":4150,"duration":26}};
 
@@ -2049,6 +2050,7 @@
   }
 
   const STORAGE_KEY = "citizenship-prep-progress-v2";
+  const LEARNING_ORDER_KEY = "citizenship-prep-learning-order-v1";
   const PACE_COLLAPSED_KEY = "citizenship-prep-pace-collapsed-v1";
   const STAT_COLLAPSE_CONFIG = [
     {
@@ -2265,7 +2267,17 @@
   function saveProgress(p) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
   }
-
+  function loadLearningOrder() {
+    try {
+      const saved = localStorage.getItem(LEARNING_ORDER_KEY);
+      return saved !== null ? JSON.parse(saved) || {} : {};
+    } catch (e) {
+      return {};
+    }
+  }
+  function saveLearningOrder(order) {
+    try { localStorage.setItem(LEARNING_ORDER_KEY, JSON.stringify(order)); } catch (e) {}
+  }
   function encodeProgressForMigration() {
     const saved = JSON.stringify(getProgressForMigration());
     if (saved === "{}") return "";
@@ -2301,11 +2313,14 @@
   const importedProgressThisLoad = importProgressFromHash();
   let progress = loadProgress();
   let activeFilter = "all";
+  let learningOrder = loadLearningOrder();
+  let autoLearningOrderActive = true;
   let searchTerm = "";
 
   window.addEventListener("hashchange", () => {
     if (!importProgressFromHash()) return;
     progress = loadProgress();
+    learningOrder = loadLearningOrder();
     const ipadSyncNotice = document.getElementById("ipad-sync-notice");
     if (ipadSyncNotice) ipadSyncNotice.classList.remove("open");
     const restoreFileNotice = document.getElementById("restore-file-notice");
@@ -2328,6 +2343,7 @@
   const listEl = document.getElementById("question-list");
   const searchEl = document.getElementById("search");
   const filterGroupEl = document.getElementById("filter-group");
+  const learningOrderBtn = document.getElementById("learning-order-btn");
   const resetBtn = document.getElementById("reset-btn");
 
   function getStoredStatus(idx) {
@@ -2390,7 +2406,38 @@
     saveProgress(progress);
     render();
   }
-
+  function getLearningOrderText(idx) {
+    const value = learningOrder[idx];
+    return value === undefined || value === null ? "" : String(value);
+  }
+  function getLearningOrderValue(idx) {
+    const value = Number(learningOrder[idx]);
+    return Number.isFinite(value) ? value : null;
+  }
+  function setLearningOrder(idx, value) {
+    const clean = String(value || "").trim();
+    if (!clean) {
+      delete learningOrder[idx];
+    } else {
+      const number = Number(clean);
+      if (!Number.isFinite(number)) return;
+      learningOrder[idx] = number;
+    }
+    saveLearningOrder(learningOrder);
+  }
+  function compareLearningOrder(aIdx, bIdx) {
+    const a = getLearningOrderValue(aIdx);
+    const b = getLearningOrderValue(bIdx);
+    if (a === null && b === null) return aIdx - bIdx;
+    if (a === null) return 1;
+    if (b === null) return -1;
+    return a - b || aIdx - bIdx;
+  }
+  function updateLearningOrderButton() {
+    if (!learningOrderBtn) return;
+    learningOrderBtn.classList.toggle("active", autoLearningOrderActive);
+    learningOrderBtn.setAttribute("aria-pressed", autoLearningOrderActive ? "true" : "false");
+  }
   function render() {
     const counts = { learned: 0, learning: 0, review: 0, tolearn: 0 };
     QUESTIONS.forEach((_, i) => {
@@ -2407,12 +2454,13 @@
     document.getElementById("progress-fill").style.width = pct + "%";
 
     updatePace(counts.learned, QUESTIONS.length);
+    updateLearningOrderButton();
 
     listEl.innerHTML = "";
     const term = searchTerm.toLowerCase().trim();
     let shown = 0;
 
-    // Super-section mapping: group categories into three official USCIS top-level sections
+    // Super-section mapping: group categories into three official USCIS top-level sections.
     const SUPER_SECTIONS = {
       "Principles of American Democracy": { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
       "System of Government":              { key: "govt", title: "AMERICAN GOVERNMENT", titleZh: "美国政府" },
@@ -2436,6 +2484,7 @@
       }
       visibleIdx.push(idx);
     });
+    if (autoLearningOrderActive) visibleIdx.sort(compareLearningOrder);
     shown = visibleIdx.length;
 
     // Count per category among visible
@@ -2445,67 +2494,11 @@
       catCounts[c] = (catCounts[c] || 0) + 1;
     });
 
-    // Render in original question order, inserting collapsible section headers on changes
     const chevronSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
-    let lastSuper = null;
-    let lastCat = null;
-    let currentSuperBody = null; // container for sub-sections under a super-section
-    let currentSectionBody = null; // container for questions under a sub-section
-
-    visibleIdx.forEach(idx => {
+    const appendQuestionCard = (container, idx) => {
       const item = QUESTIONS[idx];
       const storedStatus = getStoredStatus(idx);
-      const superSec = SUPER_SECTIONS[item.c];
-
-      // Super-section header
-      if (!lastSuper || lastSuper.key !== superSec.key) {
-        const superEl = document.createElement("h2");
-        superEl.className = "super-section";
-        superEl.dataset.collapseKey = "super:" + superSec.key;
-        superEl.innerHTML = `
-          <div class="ss-title-wrap">
-            <span>${escapeHtml(superSec.title)}</span>
-            <span class="ss-zh">${escapeHtml(superSec.titleZh)}</span>
-          </div>
-          <span class="ss-chevron">${chevronSvg}</span>
-        `;
-        listEl.appendChild(superEl);
-
-        currentSuperBody = document.createElement("div");
-        currentSuperBody.className = "section-body super-body";
-        currentSuperBody.dataset.collapseBody = "super:" + superSec.key;
-        listEl.appendChild(currentSuperBody);
-
-        lastSuper = superSec;
-        lastCat = null;
-      }
-
-      // Sub-section header
-      if (lastCat !== item.c) {
-        const head = document.createElement("div");
-        head.className = "section-head";
-        head.dataset.collapseKey = "cat:" + item.c;
-        head.innerHTML = `
-          <div>
-            <p class="sh-title">${escapeHtml(item.c)}</p>
-            <p class="sh-title-zh">${escapeHtml(item.cZh)}</p>
-          </div>
-          <div class="sh-right">
-            <span class="sh-count">${catCounts[item.c]} ${catCounts[item.c] === 1 ? 'question' : 'questions'}</span>
-            <span class="sh-chevron">${chevronSvg}</span>
-          </div>
-        `;
-        currentSuperBody.appendChild(head);
-
-        currentSectionBody = document.createElement("div");
-        currentSectionBody.className = "section-body cat-body";
-        currentSectionBody.dataset.collapseBody = "cat:" + item.c;
-        currentSuperBody.appendChild(currentSectionBody);
-
-        lastCat = item.c;
-      }
-
       const card = document.createElement("div");
       card.className = "question";
       card.setAttribute("data-status", storedStatus);
@@ -2542,6 +2535,10 @@
         </div>
         <div class="q-actions">
           <button class="reveal-btn" data-reveal="${revealId}">Show answer 查看答案</button>
+          <label class="learning-order-field">
+            Order 顺序
+            <input class="learning-order-input" type="number" min="1" step="1" inputmode="numeric" data-learning-order="${idx}" value="${escapeHtml(getLearningOrderText(idx))}" aria-label="Learning order for question ${idx + 1}" />
+          </label>
           <div class="status-group">
             ${STATUSES.map(s => `
               <button class="status-btn ${s} ${storedStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
@@ -2551,8 +2548,70 @@
           </div>
         </div>
       `;
-      currentSectionBody.appendChild(card);
-    });
+      container.appendChild(card);
+    };
+
+    if (activeFilter === "auto" && autoLearningOrderActive) {
+      visibleIdx.forEach(idx => appendQuestionCard(listEl, idx));
+    } else {
+      let lastSuper = null;
+      let lastCat = null;
+      let currentSuperBody = null;
+      let currentSectionBody = null;
+
+      visibleIdx.forEach(idx => {
+        const item = QUESTIONS[idx];
+        const superSec = SUPER_SECTIONS[item.c];
+
+        if (!lastSuper || lastSuper.key !== superSec.key) {
+          const superEl = document.createElement("h2");
+          superEl.className = "super-section";
+          superEl.dataset.collapseKey = "super:" + superSec.key;
+          superEl.innerHTML = `
+            <div class="ss-title-wrap">
+              <span>${escapeHtml(superSec.title)}</span>
+              <span class="ss-zh">${escapeHtml(superSec.titleZh)}</span>
+            </div>
+            <span class="ss-chevron">${chevronSvg}</span>
+          `;
+          listEl.appendChild(superEl);
+
+          currentSuperBody = document.createElement("div");
+          currentSuperBody.className = "section-body super-body";
+          currentSuperBody.dataset.collapseBody = "super:" + superSec.key;
+          listEl.appendChild(currentSuperBody);
+
+          lastSuper = superSec;
+          lastCat = null;
+        }
+
+        if (lastCat !== item.c) {
+          const head = document.createElement("div");
+          head.className = "section-head";
+          head.dataset.collapseKey = "cat:" + item.c;
+          head.innerHTML = `
+            <div>
+              <p class="sh-title">${escapeHtml(item.c)}</p>
+              <p class="sh-title-zh">${escapeHtml(item.cZh)}</p>
+            </div>
+            <div class="sh-right">
+              <span class="sh-count">${catCounts[item.c]} ${catCounts[item.c] === 1 ? 'question' : 'questions'}</span>
+              <span class="sh-chevron">${chevronSvg}</span>
+            </div>
+          `;
+          currentSuperBody.appendChild(head);
+
+          currentSectionBody = document.createElement("div");
+          currentSectionBody.className = "section-body cat-body";
+          currentSectionBody.dataset.collapseBody = "cat:" + item.c;
+          currentSuperBody.appendChild(currentSectionBody);
+
+          lastCat = item.c;
+        }
+
+        appendQuestionCard(currentSectionBody, idx);
+      });
+    }
 
     // Apply collapsed state and wire up toggles
     applyCollapsedState();
@@ -2574,6 +2633,14 @@
         const target = document.getElementById(btn.dataset.reveal);
         target.classList.toggle("open");
         btn.textContent = target.classList.contains("open") ? "Hide answer 隐藏答案" : "Show answer 查看答案";
+      });
+    });
+    listEl.querySelectorAll("[data-learning-order]").forEach(input => {
+      input.addEventListener("input", () => {
+        setLearningOrder(parseInt(input.dataset.learningOrder, 10), input.value);
+      });
+      input.addEventListener("change", () => {
+        if (autoLearningOrderActive) render();
       });
     });
     listEl.querySelectorAll("[data-yt-q]").forEach(btn => {
@@ -4440,13 +4507,19 @@
 
   // Filters
   filterGroupEl.addEventListener("click", (e) => {
-    if (e.target.classList.contains("filter-btn")) {
-      filterGroupEl.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    if (e.target.classList.contains("filter-btn") && e.target.dataset.filter) {
+      filterGroupEl.querySelectorAll("[data-filter]").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       activeFilter = e.target.dataset.filter;
       render();
     }
   });
+  if (learningOrderBtn) {
+    learningOrderBtn.addEventListener("click", () => {
+      autoLearningOrderActive = !autoLearningOrderActive;
+      render();
+    });
+  }
 
   // Word filter (Word Frequency view)
   const wordFilterGroup = document.getElementById("word-filter-group");
@@ -4467,7 +4540,9 @@
   resetBtn.addEventListener("click", () => {
     if (confirm("Reset all learning progress? 重置所有学习进度？")) {
       progress = {};
+      learningOrder = {};
       saveProgress(progress);
+      saveLearningOrder(learningOrder);
       render();
     }
   });
