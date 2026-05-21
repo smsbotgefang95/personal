@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KPI Life Tracker</title>
+  <link rel="stylesheet" href="assets/site-nav.css" />
+  <script src="assets/site-nav.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --border: #e5e7eb; --text: #1a2238; --muted: #6b7280; --bg: #f5f7fb; --accent: #4361ee; --accent-light: #e0e8ff; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+    .dashboard-shell { padding: 24px; }
+
+    /* Loading */
+    #loadingOverlay { position:fixed;inset:0;background:rgba(240,242,245,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;font-size:16px;color:#555;gap:16px; }
+    .spinner { width:40px;height:40px;border:4px solid #e0e0e0;border-top-color:#4361ee;border-radius:50%;animation:spin 0.8s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* Header */
+    header { margin-bottom:20px; display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    header .title-block h1 { font-size:26px;font-weight:700;color:#1a1a2e; }
+    header .title-block p { color:#666;font-size:14px;margin-top:4px; }
+    #toggleFormBtn { padding:9px 18px;background:#4361ee;color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s; }
+    #toggleFormBtn:hover { opacity:.88; }
+
+    /* Entry Form Panel */
+    #entryPanel {
+      background:white; border-radius:14px; padding:20px 22px;
+      box-shadow:0 2px 12px rgba(67,97,238,.12); border:1.5px solid #e0e8ff;
+      margin-bottom:24px; display:none;
+    }
+    #entryPanel h2 { font-size:15px;font-weight:700;color:#4361ee;margin-bottom:16px;display:flex;align-items:center;gap:8px; }
+    .form-row { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px; }
+    .form-col { background:#f8f9ff;border-radius:10px;padding:14px 12px; }
+    .form-col-hdr { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#4361ee;margin-bottom:12px;text-align:center;border-bottom:1.5px solid #e0e8ff;padding-bottom:6px; }
+    .field { margin-bottom:10px; }
+    .field label { display:block;font-size:12px;font-weight:600;color:#444;margin-bottom:4px; }
+    .field input[type=number], .field input[type=text], .field input[type=time], .field input[type=date] {
+      width:100%;border:1px solid #e0e0e0;border-radius:7px;padding:7px 10px;font-size:13px;color:#222;outline:none;transition:border .15s;
+    }
+    .field input:focus { border-color:#4361ee; }
+    .seg { display:flex;gap:5px; }
+    .seg button { flex:1;padding:7px 3px;border:1.5px solid #e0e0e0;border-radius:7px;background:white;font-size:12px;font-weight:500;color:#555;cursor:pointer;transition:all .12s; }
+    .seg button.active-yes { background:#2dc653;border-color:#2dc653;color:white; }
+    .seg button.active-no  { background:#e63946;border-color:#e63946;color:white; }
+    .seg button.active-na  { background:#aaa;border-color:#aaa;color:white; }
+    .form-footer { display:flex;align-items:center;gap:12px;margin-top:4px; }
+    #saveBtn { padding:11px 32px;background:#4361ee;color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s; }
+    #saveBtn:hover { opacity:.88; }
+    #saveBtn:disabled { opacity:.5;cursor:not-allowed; }
+    #saveMsg { font-size:13px;font-weight:500;padding:8px 14px;border-radius:8px;display:none; }
+    #saveMsg.ok  { background:#e8f8ed;color:#1a7a3c; }
+    #saveMsg.err { background:#fdecea;color:#b71c1c; }
+    #periodBtn { padding:7px 14px;border-radius:8px;border:1.5px solid #ddd;background:white;font-size:12px;font-weight:600;color:#aaa;cursor:pointer; }
+
+    /* Summary Cards */
+    .cards { display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px; }
+    .card { background:white;border-radius:14px;padding:20px 22px;box-shadow:0 1px 6px rgba(0,0,0,.06); }
+    .card .label { font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:8px; }
+    .card .value { font-size:34px;font-weight:700;line-height:1; }
+    .card .sub { font-size:12px;color:#aaa;margin-top:6px; }
+    .card.blue .value { color:#4361ee; }
+    .card.green .value { color:#2dc653; }
+    .card.amber .value { color:#f4a523; }
+    .card.red .value { color:#e63946; }
+
+    /* Charts */
+    .section { margin-bottom:28px; }
+    .section h2 { font-size:16px;font-weight:600;margin-bottom:14px;color:#333;display:flex;align-items:center;gap:8px; }
+    .section h2 span.dot { width:10px;height:10px;border-radius:50%;display:inline-block; }
+    .charts-row { display:grid;gap:16px; }
+    .charts-row.two { grid-template-columns:1fr 1fr; }
+    .chart-box { background:white;border-radius:14px;padding:20px 22px;box-shadow:0 1px 6px rgba(0,0,0,.06); }
+    .chart-box h3 { font-size:13px;font-weight:600;color:#555;margin-bottom:14px; }
+    .chart-box canvas { max-height:220px; }
+    .insight-box { background:#f8f9ff;border-left:3px solid #4361ee;border-radius:8px;padding:12px 16px;font-size:13px;color:#444;margin-top:14px;line-height:1.6; }
+    .insight-box strong { color:#4361ee; }
+    .mood-chip { background:#fff0f1;border:1px solid #ffc8cc;color:#c0392b;border-radius:20px;padding:4px 12px;font-size:12px; }
+    .mood-grid { display:flex;flex-wrap:wrap;gap:8px; }
+
+    @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div id="loadingOverlay"><div class="spinner"></div><span>Loading your data…</span></div>
+<site-nav active-page="kpi"></site-nav>
+<main class="dashboard-shell">
+
+<header>
+  <div class="title-block">
+    <h1>📊 KPI Life Tracker</h1>
+    <p id="headerRange">Loading…</p>
+  </div>
+  <button id="toggleFormBtn" onclick="toggleForm()">+ Log Today</button>
+</header>
+
+<!-- ── ENTRY FORM ─────────────────────────────────────────────────────────── -->
+<div id="entryPanel">
+  <h2>📋 Daily Entry <span id="dateStatus" style="font-size:12px;color:#aaa;font-weight:400;"></span></h2>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+    <div class="field" style="margin:0;">
+      <label style="font-size:12px;font-weight:600;color:#444;margin-bottom:4px;display:block;">Date</label>
+      <input type="date" id="entryDate" onchange="onDateChange()" style="border:1px solid #e0e0e0;border-radius:7px;padding:7px 10px;font-size:13px;color:#222;outline:none;">
+    </div>
+    <button id="periodBtn" onclick="togglePeriod()" style="margin-top:18px;">🌸 Period</button>
+  </div>
+
+  <div class="form-row">
+    <div class="form-col">
+      <div class="form-col-hdr">Exercise</div>
+      <div class="field"><label>Workout</label><div class="seg" id="seg-workout"></div></div>
+      <div class="field" id="notesField" style="display:none">
+        <label>Reason</label>
+        <select id="workoutNotes" style="width:100%;border:1px solid #e0e0e0;border-radius:7px;padding:7px 10px;font-size:13px;background:white;outline:none;">
+          <option value="">—</option>
+          <option value="Trip/Activity">Activity/trip</option>
+          <option value="Forget">Forget</option>
+          <option value="Period">Period</option>
+          <option value="Work">Work</option>
+        </select>
+      </div>
+      <div class="field"><label>Stretch</label><div class="seg" id="seg-stretch"></div></div>
+      <div class="field"><label>Foot Bath</label><div class="seg" id="seg-footbath"></div></div>
+      <div class="field"><label>Massage</label><div class="seg" id="seg-massage"></div></div>
+    </div>
+    <div class="form-col">
+      <div class="form-col-hdr">Sleep</div>
+      <div class="field"><label>Sleep on Time</label><div class="seg" id="seg-sleepOnTime"></div></div>
+      <div class="field"><label>Sleep Tracking</label><div class="seg" id="seg-sleepTracked"></div></div>
+      <div class="field" id="lateReasonField" style="display:none">
+        <label>Late Reason</label>
+        <select id="lateSleepReason" style="width:100%;border:1px solid #e0e0e0;border-radius:7px;padding:7px 10px;font-size:13px;background:white;outline:none;">
+          <option value="">—</option>
+          <option value="Trip/Activity">Activity/trip</option>
+          <option value="Work">Work</option>
+          <option value="Buy stuff">buy stuff</option>
+          <option value="Talk to people">Talk to people</option>
+          <option value="Watch YouTube">Watch YouTube</option>
+        </select>
+      </div>
+      <div class="field"><label>Get Up on Time</label><div class="seg" id="seg-wakeOnTime"></div></div>
+      <div class="field"><label>Sleep Score</label><input type="number" id="sleepScore" min="0" max="100"></div>
+      <div class="field"><label>Min Awake</label><input type="number" id="minutesAwake" min="0"></div>
+    </div>
+    <div class="form-col">
+      <div class="form-col-hdr">Mood</div>
+      <div class="field"><label>Bad Mood</label><div class="seg" id="seg-badMood"></div></div>
+      <div class="field" id="moodReasonField" style="display:none"><label>Reason</label><input type="text" id="moodReason" placeholder="…"></div>
+    </div>
+    <div class="form-col">
+      <div class="form-col-hdr">Hydration</div>
+      <div class="field"><label>Water (mL)</label><input type="number" id="water" min="0"></div>
+      <div class="field"><label>Stop Time</label><input type="time" id="stopWaterTime"></div>
+      <div class="field"><label>Night ×</label><input type="number" id="nightUrination" min="0" value="1"></div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button id="saveBtn" onclick="submitEntry()">Save</button>
+    <div id="saveMsg"></div>
+  </div>
+</div>
+
+<!-- ── SUMMARY CARDS ──────────────────────────────────────────────────────── -->
+<div class="cards">
+  <div class="card blue"><div class="label">Avg Sleep Score</div><div class="value" id="avgSleep">—</div><div class="sub">out of 100</div></div>
+  <div class="card green"><div class="label">Workout Days</div><div class="value" id="workoutDays">—</div><div class="sub" id="workoutSub"></div></div>
+  <div class="card amber"><div class="label">Avg Water (ML)</div><div class="value" id="avgWater">—</div><div class="sub" id="waterSub"></div></div>
+  <div class="card red"><div class="label">Bad Mood Days</div><div class="value" id="badMoodDays">—</div><div class="sub" id="moodSub"></div></div>
+  <div class="card" style="border-top:3px solid #7c3aed;"><div class="label">Avg Wake Time</div><div class="value" id="avgWakeTime" style="color:#7c3aed;">—</div><div class="sub">min awake after waking</div></div>
+</div>
+
+<div id="missingDataPanel" style="margin:18px 0 24px;background:white;border-radius:14px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,.06);display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;justify-content:space-between;">
+  <div>
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;margin-bottom:6px;">Data Completeness</div>
+    <div id="missingSummary" style="font-size:20px;font-weight:700;color:#1f2937;">—</div>
+    <div id="missingSub" style="font-size:12px;color:#6b7280;margin-top:3px;"></div>
+  </div>
+  <div id="missingBreakdown" style="font-size:12px;color:#555;line-height:1.5;max-width:520px;"></div>
+  <div id="missingListWrap" style="width:100%;margin-top:10px;">
+    <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px;">Incomplete days</div>
+    <div id="missingList" style="display:grid;gap:8px;max-height:280px;overflow:auto;"></div>
+  </div>
+</div>
+
+<!-- ── SLEEP ──────────────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2><span class="dot" style="background:#4361ee"></span>Sleep Quality</h2>
+  <div class="charts-row two">
+    <div class="chart-box"><h3>Weekly Sleep Score (Avg)</h3><canvas id="sleepScoreChart"></canvas></div>
+    <div class="chart-box"><h3>Weekly Minutes Awake After Waking (Avg)</h3><canvas id="minutesAwakeChart"></canvas></div>
+  </div>
+  <div class="charts-row" style="margin-top:16px">
+    <div class="chart-box">
+      <h3>Sleep On Time vs Sleep Score — Daily Pattern</h3>
+      <div style="font-size:11px;color:#666;margin-bottom:8px;">
+        <span style="display:inline-block;width:10px;height:10px;background:rgba(67,97,238,0.65);border-radius:2px;margin-right:4px;"></span>Slept on time &nbsp;
+        <span style="display:inline-block;width:10px;height:10px;background:rgba(230,57,70,0.75);border-radius:2px;margin-right:4px;"></span>Late to bed
+      </div>
+      <canvas id="sleepPatternChart" style="max-height:240px"></canvas>
+    </div>
+  </div>
+  <div class="insight-box" id="sleepInsight"></div>
+  <div class="charts-row" style="margin-top:16px">
+    <div class="chart-box">
+      <h3 id="lateReasonTitle">Why Did You Sleep Late?</h3>
+      <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-top:8px;">
+        <canvas id="lateReasonChart" style="max-height:180px;max-width:180px;"></canvas>
+        <div id="lateReasonList" style="flex:1;min-width:200px;"></div>
+      </div>
+      <div class="insight-box" id="lateReasonInsight" style="margin-top:14px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── EXERCISE ───────────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2><span class="dot" style="background:#2dc653"></span>Exercise &amp; Daily Habits</h2>
+  <div class="charts-row two">
+    <div class="chart-box"><h3>Weekly Workout Compliance — Yes vs No (excluding NA rest days)</h3><canvas id="workoutChart"></canvas></div>
+    <div class="chart-box"><h3>Overall Habit Compliance</h3><canvas id="habitsDonut"></canvas></div>
+  </div>
+  <div class="charts-row two" style="margin-top:16px;">
+    <div class="chart-box">
+      <h3 id="skipTitle">Why Did You Skip Workouts?</h3>
+      <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-top:8px;">
+        <canvas id="skipReasonsChart" style="max-height:160px;max-width:160px;"></canvas>
+        <div id="skipReasonsList" style="flex:1;min-width:180px;"></div>
+      </div>
+    </div>
+    <div class="chart-box"><h3>Workout Summary</h3><div id="workoutSummaryStats" style="margin-top:8px;"></div></div>
+  </div>
+  <div class="insight-box" id="exerciseInsight"></div>
+</div>
+
+<!-- ── HYDRATION ──────────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2><span class="dot" style="background:#f4a523"></span>Hydration</h2>
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3 id="waterChartTitle">Daily Water Intake in ML</h3>
+      <canvas id="waterChart" style="max-height:200px"></canvas>
+      <div class="insight-box" id="waterInsight"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WATER vs BATHROOM ──────────────────────────────────────────────────── -->
+<div class="section">
+  <h2><span class="dot" style="background:#0ea5e9"></span>Stop Water Time → Night Bathroom Trips</h2>
+  <div class="charts-row two">
+    <div class="chart-box"><h3>Avg Night Bathroom Trips by Last Water Intake Time</h3><canvas id="waterBathroomChart"></canvas></div>
+    <div class="chart-box"><h3>Breakdown by Time Window</h3><div id="waterBathroomTable" style="margin-top:8px;"></div></div>
+  </div>
+  <div class="insight-box" id="waterBathroomInsight"></div>
+</div>
+
+<!-- ── MOOD ───────────────────────────────────────────────────────────────── -->
+<div class="section">
+  <h2><span class="dot" style="background:#e63946"></span>Mood Triggers</h2>
+  <div class="chart-box">
+    <h3>Bad Mood Days with Noted Reasons</h3>
+    <div class="mood-grid" id="moodGrid"></div>
+    <div class="insight-box" id="moodInsight" style="margin-top:12px"></div>
+  </div>
+</div>
+
+</main>
+
+<script>
+const API = 'https://script.google.com/macros/s/AKfycbx3Jg4yrFCInTSYfRMfyS1FJO6JDPFcMrlOSDgsCFMpVGjjPY4OWd9zTYj5QqAZimA/exec';
+const MONTHS = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const segs = {};
+let charts = {};
+
+// ── FORM ────────────────────────────────────────────────────────────────────
+
+function toggleForm() {
+  const panel = document.getElementById('entryPanel');
+  const btn = document.getElementById('toggleFormBtn');
+  const open = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? '+ Log Today' : '✕ Close';
+}
+
+function makeSeg(id, opts) {
+  const el = document.getElementById('seg-' + id);
+  if (!el) return;
+  opts.forEach(o => {
+    const btn = document.createElement('button');
+    btn.textContent = o;
+    btn.dataset.val = o;
+    btn.onclick = () => {
+      el.querySelectorAll('button').forEach(b => b.className = '');
+      btn.className = 'active-' + o.toLowerCase();
+      segs[id] = o;
+      if (id === 'workout') document.getElementById('notesField').style.display = o === 'No' ? '' : 'none';
+      if (id === 'badMood') document.getElementById('moodReasonField').style.display = o === 'Yes' ? '' : 'none';
+      if (id === 'sleepOnTime') document.getElementById('lateReasonField').style.display = o === 'No' ? '' : 'none';
+    };
+    el.appendChild(btn);
+  });
+}
+
+function setSegVal(id, val) {
+  if (!val) return;
+  const el = document.getElementById('seg-' + id);
+  if (!el) return;
+  el.querySelectorAll('button').forEach(b => {
+    b.className = '';
+    if (b.dataset.val === val) { b.className = 'active-' + val.toLowerCase(); segs[id] = val; }
+  });
+  if (id === 'workout') document.getElementById('notesField').style.display = val === 'No' ? '' : 'none';
+  if (id === 'badMood') document.getElementById('moodReasonField').style.display = val === 'Yes' ? '' : 'none';
+  if (id === 'sleepOnTime') document.getElementById('lateReasonField').style.display = val === 'No' ? '' : 'none';
+}
+
+makeSeg('workout',     ['Yes','No','NA']);
+makeSeg('stretch',     ['Yes','No','NA']);
+makeSeg('footbath',    ['Yes','No','NA']);
+makeSeg('massage',     ['Yes','No','NA']);
+makeSeg('sleepOnTime', ['Yes','No','NA']);
+makeSeg('sleepTracked',['Yes','No']);
+makeSeg('wakeOnTime',  ['Yes','No']);
+makeSeg('badMood',     ['Yes','No']);
+
+// Set defaults
+function localDateStr(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+let todayStr = localDateStr();
+document.getElementById('entryDate').value = todayStr;
+setSegVal('sleepOnTime', 'Yes');
+setSegVal('sleepTracked','Yes');
+setSegVal('wakeOnTime',  'Yes');
+setSegVal('badMood',     'No');
+if ([0,6].includes(new Date().getDay())) setSegVal('workout', 'NA');
+
+function resetEntryForm() {
+  ['workout','stretch','footbath','massage','sleepOnTime','sleepTracked','wakeOnTime','badMood'].forEach(id=>{
+    const el=document.getElementById('seg-'+id);
+    if (el) el.querySelectorAll('button').forEach(b=>b.className='');
+    delete segs[id];
+  });
+  ['workoutNotes','sleepScore','minutesAwake','lateSleepReason','moodReason','water','stopWaterTime'].forEach(id=>{
+    const el=document.getElementById(id);
+    if (el) el.value='';
+  });
+  document.getElementById('nightUrination').value='';
+  document.getElementById('notesField').style.display='none';
+  document.getElementById('moodReasonField').style.display='none';
+  document.getElementById('lateReasonField').style.display='none';
+}
+
+async function onDateChange() {
+  const d = document.getElementById('entryDate').value;
+  const status = document.getElementById('dateStatus');
+  if (!d) return;
+  resetEntryForm();
+  status.textContent = '⏳';
+  try {
+    const res = await fetch(API + '?action=getForDate&date=' + d);
+    const data = await res.json();
+    const hasSavedData = data && data.found && [
+      'workout','workoutNotes','stretch','footbath','massage','badMood','moodReason','wakeOnTime',
+      'sleepOnTime','sleepTracked','sleepScore','minutesAwake','lateSleepReason','water','stopWaterTime','nightUrination'
+    ].some(key => data[key]!==null && data[key]!==undefined && data[key]!=='');
+    if (hasSavedData) {
+      setSegVal('workout',     data.workout);
+      setSegVal('stretch',     data.stretch);
+      setSegVal('footbath',    data.footbath);
+      setSegVal('massage',     data.massage);
+      setSegVal('sleepOnTime', data.sleepOnTime);
+      setSegVal('sleepTracked', data.sleepTracked);
+      setSegVal('wakeOnTime',  data.wakeOnTime);
+      setSegVal('badMood',     data.badMood);
+      if (data.workoutNotes)    document.getElementById('workoutNotes').value    = data.workoutNotes;
+      if (data.sleepScore)      document.getElementById('sleepScore').value      = data.sleepScore;
+      if (data.minutesAwake)    document.getElementById('minutesAwake').value    = data.minutesAwake;
+      if (data.lateSleepReason) document.getElementById('lateSleepReason').value = data.lateSleepReason;
+      if (data.moodReason)      document.getElementById('moodReason').value      = data.moodReason;
+      if (data.water)           document.getElementById('water').value           = data.water;
+      if (data.nightUrination)  document.getElementById('nightUrination').value  = data.nightUrination;
+      if (data.stopWaterTime) {
+        const t = data.stopWaterTime.toString().trim();
+        const m = t.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+        if (m) {
+          let h = parseInt(m[1]), min = m[2], ap = (m[3]||'').toUpperCase();
+          if (ap === 'PM' && h !== 12) h += 12;
+          if (ap === 'AM' && h === 12) h = 0;
+          document.getElementById('stopWaterTime').value = String(h).padStart(2,'0') + ':' + min;
+        }
+      }
+      status.textContent = '📋 Loaded';
+    } else {
+      status.textContent = '✨ New entry';
+    }
+  } catch(e) { status.textContent = ''; }
+}
+
+function togglePeriod() {
+  const btn = document.getElementById('periodBtn');
+  const active = btn.dataset.active === '1';
+  if (!active) {
+    btn.dataset.active = '1'; btn.style.background='#f06292'; btn.style.color='white'; btn.style.borderColor='#f06292';
+    ['workout','stretch','footbath','massage'].forEach(id => setSegVal(id, 'NA'));
+  } else {
+    btn.dataset.active = '0'; btn.style.background='white'; btn.style.color='#aaa'; btn.style.borderColor='#ddd';
+  }
+}
+
+async function submitEntry() {
+  const btn = document.getElementById('saveBtn');
+  const msg = document.getElementById('saveMsg');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  let stopTime = document.getElementById('stopWaterTime').value;
+  if (stopTime) {
+    const [hh, mm] = stopTime.split(':');
+    let h = parseInt(hh);
+    const ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    stopTime = h + ':' + mm + ' ' + ap;
+  }
+
+  const params = new URLSearchParams({
+    action:          'update',
+    date:            document.getElementById('entryDate').value,
+    workout:         segs['workout']     || '',
+    workoutNotes:    document.getElementById('workoutNotes').value,
+    stretch:         segs['stretch']     || '',
+    footbath:        segs['footbath']    || '',
+    massage:         segs['massage']     || '',
+    badMood:         segs['badMood']     || '',
+    moodReason:      document.getElementById('moodReason').value,
+    wakeOnTime:      segs['wakeOnTime']  || '',
+    sleepOnTime:     segs['sleepOnTime'] || '',
+    sleepTracked:    segs['sleepTracked'] || '',
+    sleepScore:      document.getElementById('sleepScore').value,
+    minutesAwake:    document.getElementById('minutesAwake').value,
+    lateSleepReason: document.getElementById('lateSleepReason').value,
+    water:           document.getElementById('water').value,
+    stopWaterTime:   stopTime,
+    nightUrination:  document.getElementById('nightUrination').value
+  });
+
+  try {
+    const res = await fetch(API + '?' + params.toString());
+    const data = await res.json();
+    btn.disabled = false; btn.textContent = 'Save';
+    msg.style.display = '';
+    if (data.success) {
+      msg.className = 'ok'; msg.textContent = '✅ ' + data.message;
+      // Refresh dashboard data after save
+      setTimeout(() => { loadData(); toggleForm(); }, 800);
+    } else {
+      msg.className = 'err'; msg.textContent = '❌ ' + data.message;
+    }
+    setTimeout(() => { msg.style.display = 'none'; }, 4000);
+  } catch(e) {
+    btn.disabled = false; btn.textContent = 'Save';
+    msg.style.display = ''; msg.className = 'err'; msg.textContent = '❌ ' + e.message;
+  }
+}
+
+// ── DASHBOARD ────────────────────────────────────────────────────────────────
+
+function isoWeek(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const day = d.getDay() || 7;
+  d.setDate(d.getDate() + 4 - day);
+  const jan1 = new Date(d.getFullYear(), 0, 1);
+  return 'W' + String(Math.ceil(((d - jan1) / 86400000 + 1) / 7)).padStart(2, '0');
+}
+function avg(arr) { const v=arr.filter(x=>x!==null&&x!==undefined&&x!==''&&!isNaN(x)).map(Number); return v.length?v.reduce((a,b)=>a+b,0)/v.length:0; }
+function isValidDateString(s) { return /^\d{4}-\d{2}-\d{2}$/.test(s || ''); }
+function fmtDate(s) { if (!isValidDateString(s)) return ''; const [,m,d]=s.split('-'); return MONTHS[parseInt(m)]+' '+parseInt(d); }
+function dispDate(s) { if (!isValidDateString(s)) return ''; const [,m,d]=s.split('-'); return parseInt(m)+'/'+parseInt(d); }
+function parseStopHour(t) {
+  const m=String(t).trim().match(/(\d+):(\d+)\s*(AM|PM|am|pm)?/);
+  if (!m) return null;
+  let h=parseInt(m[1]),min=parseInt(m[2]),ap=(m[3]||'').toUpperCase();
+  if (ap==='PM'&&h!==12) h+=12;
+  if (ap==='AM'&&h===12) h=0;
+  return h+min/60;
+}
+
+Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.size=11;
+Chart.defaults.plugins.legend.display=false;
+
+function destroyCharts() {
+  Object.values(charts).forEach(c => { try { c.destroy(); } catch(e){} });
+  charts = {};
+}
+
+async function loadData() {
+  try {
+    const resp = await fetch(API + '?action=getData');
+    const json = await resp.json();
+    if (!Array.isArray(json)) throw new Error('API error');
+    destroyCharts();
+    document.getElementById('moodGrid').innerHTML = '';
+    const validRows = json
+      .filter(r => isValidDateString(r.date))
+      .sort((a, b) => a.date.localeCompare(b.date));
+    render(validRows);
+  } catch(e) {
+    document.getElementById('loadingOverlay').innerHTML =
+      '<div style="color:#e63946;font-size:15px;">⚠️ Failed to load: '+e.message+'</div>';
+  }
+}
+
+function getMissingFields(row) {
+  const missing=[];
+  const required=[
+    ['workout','Workout'],['stretch','Stretch'],['footbath','Foot Bath'],['massage','Massage'],
+    ['badMood','Bad Mood'],['wakeOnTime','Wake on Time'],
+    ['water','Water'],['stopWaterTime','Stop Time'],['nightUrination','Night Urination']
+  ];
+  required.forEach(([key,label])=>{ if (row[key]===null||row[key]===undefined||row[key]==='') missing.push(label); });
+  if (row.sleepTracked!=='No') {
+    [['sleepOnTime','Sleep on Time'],['sleepScore','Sleep Score'],['minutesAwake','Min Awake']].forEach(([key,label])=>{
+      if (row[key]===null||row[key]===undefined||row[key]==='') missing.push(label);
+    });
+  }
+  if (row.workout==='No' && !row.workoutNotes) missing.push('Workout Reason');
+  if (row.badMood==='Yes' && !row.moodReason) missing.push('Mood Reason');
+  if (row.sleepTracked!=='No' && row.sleepOnTime==='No' && !row.lateSleepReason) missing.push('Late Sleep Reason');
+  return missing;
+}
+
+function render(rows) {
+  const todayLocal=localDateStr();
+  const rowsToCheck=rows.filter(r=>r.date<todayLocal);
+  const incompleteRows=rowsToCheck.map(r=>({date:r.date,missing:getMissingFields(r)})).filter(r=>r.missing.length);
+  const missingCounts={};
+  incompleteRows.forEach(r=>r.missing.forEach(label=>missingCounts[label]=(missingCounts[label]||0)+1));
+  const topMissing=Object.entries(missingCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  document.getElementById('missingSummary').textContent=incompleteRows.length+' incomplete day'+(incompleteRows.length===1?'':'s');
+  document.getElementById('missingSub').textContent=(rowsToCheck.length-incompleteRows.length)+' complete of '+rowsToCheck.length+' elapsed tracked days';
+  document.getElementById('missingBreakdown').innerHTML=topMissing.length
+    ? '<strong>Most-missed fields:</strong> '+topMissing.map(([k,v])=>`${k} ${v}`).join(' · ')
+    : '<strong>No missing tracked fields.</strong>';
+  document.getElementById('missingList').innerHTML=incompleteRows.length
+    ? incompleteRows.slice().reverse().map(r=>`<div style="display:flex;gap:12px;align-items:flex-start;padding:8px 10px;border:1px solid #f0f0f0;border-radius:10px;background:#fafafa;"><div style="min-width:56px;font-weight:700;color:#374151;">${r.date}</div><div style="font-size:12px;color:#555;line-height:1.45;">${r.missing.join(' · ')}</div></div>`).join('')
+    : '<div style="font-size:12px;color:#555;">No incomplete days.</div>';
+
+  // ── Sleep ─────────────────────────────────────────────────────────────────
+  const sleepWeekMap={};
+  const awakeWeekMap={};
+  const dailyDates=[],dailyOnTime=[],dailyScores=[];
+  rows.forEach(r=>{
+    const wk=isoWeek(r.date);
+
+    if (r.sleepScore!==null&&r.sleepScore!==undefined) {
+      if (!sleepWeekMap[wk]) sleepWeekMap[wk]={scores:[]};
+      sleepWeekMap[wk].scores.push(r.sleepScore);
+      dailyDates.push(dispDate(r.date));
+      dailyOnTime.push(r.sleepOnTime==='Yes'?1:0);
+      dailyScores.push(r.sleepScore);
+    }
+
+    if (r.minutesAwake!==null&&r.minutesAwake!==undefined&&r.minutesAwake!=='') {
+      if (!awakeWeekMap[wk]) awakeWeekMap[wk]=[];
+      awakeWeekMap[wk].push(r.minutesAwake);
+    }
+  });
+  const weeks=Object.keys(sleepWeekMap).sort();
+  const awakeWeeks=Object.keys(awakeWeekMap).sort();
+  const sleepScores=weeks.map(w=>Math.round(avg(sleepWeekMap[w].scores)));
+  const mawWeekly=awakeWeeks.map(w=>Math.round(avg(awakeWeekMap[w])));
+  const avgSleepVal=Math.round(avg(dailyScores));
+  const avgWakeVal=Math.round(avg(mawWeekly.filter(v=>v>0)));
+  const bestWk=weeks[sleepScores.indexOf(Math.max(...sleepScores))];
+  const worstWk=weeks[sleepScores.indexOf(Math.min(...sleepScores))];
+  const avgOnTime=Math.round(avg(dailyScores.filter((_,i)=>dailyOnTime[i]===1)));
+  const avgLate=Math.round(avg(dailyScores.filter((_,i)=>dailyOnTime[i]===0)));
+
+  // Late reasons
+  const lateNights=rows.filter(r=>r.sleepOnTime==='No').map(r=>({date:fmtDate(r.date),reason:r.lateSleepReason||'No reason noted'}));
+  const lateRC={};lateNights.forEach(n=>{lateRC[n.reason]=(lateRC[n.reason]||0)+1;});
+  const lateLabels=Object.keys(lateRC).sort((a,b)=>lateRC[b]-lateRC[a]);
+  const lateValues=lateLabels.map(r=>lateRC[r]);
+  const lateColors=['rgba(230,57,70,0.75)','rgba(244,165,35,0.75)','rgba(67,97,238,0.65)','rgba(150,150,150,0.6)','rgba(45,198,83,0.65)'];
+
+  // ── Workout ───────────────────────────────────────────────────────────────
+  const wkMap={};
+  rows.forEach(r=>{
+    if (r.workout!=='Yes'&&r.workout!=='No') return;
+    const wk=isoWeek(r.date);
+    if(!wkMap[wk]) wkMap[wk]={yes:0,no:0};
+    r.workout==='Yes'?wkMap[wk].yes++:wkMap[wk].no++;
+  });
+  const wrkWeeks=Object.keys(wkMap).sort();
+  const wrkYes=wrkWeeks.map(w=>wkMap[w].yes);
+  const wrkNo=wrkWeeks.map(w=>wkMap[w].no);
+  const wrkPct=wrkWeeks.map((_,i)=>{const t=wrkYes[i]+wrkNo[i];return t?Math.round(wrkYes[i]/t*100):0;});
+  const totalYes=rows.filter(r=>r.workout==='Yes').length;
+  const totalNo=rows.filter(r=>r.workout==='No').length;
+  const totalNonNA=totalYes+totalNo;
+  const perfectWks=wrkWeeks.filter((_,i)=>wrkPct[i]===100);
+  const zeroWks=wrkWeeks.filter((_,i)=>wrkPct[i]===0);
+  const skipC={};rows.filter(r=>r.workout==='No').forEach(r=>{const k=r.workoutNotes?.trim()||'No reason noted';skipC[k]=(skipC[k]||0)+1;});
+  const skipLabels=Object.keys(skipC).sort((a,b)=>skipC[b]-skipC[a]);
+  const skipValues=skipLabels.map(r=>skipC[r]);
+  const skipColors=['rgba(230,57,70,0.75)','rgba(244,165,35,0.75)','rgba(150,150,150,0.6)','rgba(67,97,238,0.65)'];
+  const hPct=n=>{const y=rows.filter(r=>r[n]==='Yes').length,t=rows.filter(r=>r[n]==='Yes'||r[n]==='No').length;return t?Math.round(y/t*100):0;};
+  const hp={stretch:hPct('stretch'),footbath:hPct('footbath'),massage:hPct('massage')};
+
+  // ── Water ─────────────────────────────────────────────────────────────────
+  const wRows=rows.filter(r=>r.water!==null&&(r.water>=100||r.water===0));
+  const wDates=wRows.map(r=>dispDate(r.date));
+  const wML=wRows.map(r=>r.water);
+  const validW=wML.filter(v=>v>0);
+  const avgWaterVal=validW.length?Math.round(avg(validW)):0;
+  const zeroWD=wML.filter(v=>v===0).length,highWD=wML.filter(v=>v>=750).length,d500=wML.filter(v=>v>0&&v<=500).length;
+
+  // ── Water vs Bathroom ─────────────────────────────────────────────────────
+  const wbDef=['Before 12PM','12–2PM','2–4PM','4–6PM','6–8PM','After 8PM'];
+  const wbData={};wbDef.forEach(b=>{wbData[b]={total:0,count:0};});
+  rows.forEach(r=>{
+    if (r.nightUrination===null||r.nightUrination===undefined||r.nightUrination===''||!r.stopWaterTime) return;
+    const nu=Number(r.nightUrination);if(!Number.isFinite(nu))return;
+    const h=parseStopHour(r.stopWaterTime);if(h===null)return;
+    const b=h<12?'Before 12PM':h<14?'12–2PM':h<16?'2–4PM':h<18?'4–6PM':h<20?'6–8PM':'After 8PM';
+    wbData[b].total+=nu;wbData[b].count++;
+  });
+  const wbBuckets=wbDef.filter(b=>wbData[b].count>0);
+  const wbAvg=wbBuckets.map(b=>wbData[b].total/wbData[b].count);
+  const wbN=wbBuckets.map(b=>wbData[b].count);
+  const wbColors=['rgba(45,198,83,0.8)','rgba(45,198,83,0.6)','rgba(244,165,35,0.75)','rgba(230,57,70,0.65)','rgba(230,57,70,0.85)','rgba(150,50,50,0.85)'];
+
+  // ── Mood ──────────────────────────────────────────────────────────────────
+  const moodEntries=rows.filter(r=>r.badMood==='Yes'&&r.moodReason).map(r=>({date:fmtDate(r.date),reason:r.moodReason}));
+  const totalBad=rows.filter(r=>r.badMood==='Yes').length;
+
+  // ── DOM Updates ───────────────────────────────────────────────────────────
+  const first=rows[0]?.date||'',last=rows[rows.length-1]?.date||'';
+  document.getElementById('headerRange').textContent=fmtDate(first)+' – '+fmtDate(last)+', '+first.slice(0,4)+'  ·  Weeks '+(weeks[0]||'')+'–'+(weeks[weeks.length-1]||'')+'  ·  Sleep · Exercise · Hydration';
+  document.getElementById('avgSleep').textContent=avgSleepVal;
+  document.getElementById('workoutDays').textContent=totalYes;
+  document.getElementById('workoutSub').textContent=Math.round(totalYes/totalNonNA*100)+'% of '+totalNonNA+' non-rest days';
+  document.getElementById('avgWater').textContent=avgWaterVal;
+  document.getElementById('waterSub').textContent=wRows.length+'-day avg (mL-tracked)';
+  document.getElementById('badMoodDays').textContent=totalBad;
+  document.getElementById('moodSub').textContent='out of '+rows.length+' tracked days';
+  document.getElementById('avgWakeTime').textContent=avgWakeVal;
+
+  // ── Charts ────────────────────────────────────────────────────────────────
+  charts.sleepScore = new Chart(document.getElementById('sleepScoreChart'),{
+    type:'line',plugins:[ChartDataLabels],
+    data:{labels:weeks,datasets:[{data:sleepScores,borderColor:'#4361ee',backgroundColor:'rgba(67,97,238,0.08)',fill:true,tension:0.4,pointBackgroundColor:'#4361ee',pointRadius:4,borderWidth:2.5}]},
+    options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` Score: ${ctx.parsed.y}`}},datalabels:{color:'#4361ee',font:{size:10,weight:'600'},align:'top',anchor:'end',offset:4,formatter:v=>v}},scales:{y:{min:70,max:105,grid:{color:'#f0f0f0'},ticks:{stepSize:5}},x:{grid:{display:false}}}}
+  });
+  charts.maw = new Chart(document.getElementById('minutesAwakeChart'),{
+    type:'bar',plugins:[ChartDataLabels],
+    data:{labels:awakeWeeks,datasets:[{data:mawWeekly,backgroundColor:mawWeekly.map(v=>v>60?'rgba(230,57,70,0.7)':v>45?'rgba(244,165,35,0.7)':'rgba(45,198,83,0.7)'),borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} min awake`}},datalabels:{color:'#555',font:{size:10,weight:'600'},align:'end',anchor:'end',offset:2,formatter:v=>v}},scales:{y:{min:0,max:Math.max(80,...mawWeekly)+10,grid:{color:'#f0f0f0'},ticks:{stepSize:20}},x:{grid:{display:false}}}}
+  });
+  charts.pattern = new Chart(document.getElementById('sleepPatternChart'),{
+    type:'bar',
+    data:{labels:dailyDates,datasets:[{data:dailyScores,backgroundColor:dailyOnTime.map(v=>v===1?'rgba(67,97,238,0.65)':'rgba(230,57,70,0.75)'),borderRadius:3,borderSkipped:false}]},
+    options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{title:ctx=>`${ctx[0].label} — ${dailyOnTime[ctx[0].dataIndex]?'✅ Slept on time':'❌ Late to bed'}`,label:ctx=>` Sleep score: ${ctx.parsed.y}`}},datalabels:{display:false}},scales:{y:{min:60,max:105,grid:{color:'#f0f0f0'},ticks:{stepSize:10}},x:{grid:{display:false},ticks:{maxTicksLimit:20,font:{size:9}}}}}
+  });
+  document.getElementById('sleepInsight').innerHTML=`<strong>Overall avg sleep score: ${avgSleepVal}/100.</strong> Best week: <strong>${bestWk}</strong> (${Math.max(...sleepScores)}) · Lowest: <strong>${worstWk}</strong> (${Math.min(...sleepScores)}).<br><br><strong>Pattern:</strong> <span style="color:#4361ee">■</span> On-time avg <strong>${avgOnTime}</strong> &nbsp;|&nbsp; <span style="color:#e63946">■</span> Late avg <strong>${avgLate}</strong>. ${Math.abs(avgOnTime-avgLate)}-point gap.`;
+
+  document.getElementById('lateReasonTitle').textContent=`Why Did You Sleep Late? (${lateNights.length} late nights)`;
+  if (lateLabels.length) {
+    charts.lateReason = new Chart(document.getElementById('lateReasonChart'),{type:'doughnut',data:{labels:lateLabels,datasets:[{data:lateValues,backgroundColor:lateColors.slice(0,lateLabels.length),borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{responsive:true,cutout:'60%',plugins:{legend:{display:false},datalabels:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed} night${ctx.parsed>1?'s':''}`}}}}});
+    document.getElementById('lateReasonList').innerHTML=lateLabels.map((r,i)=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="width:12px;height:12px;border-radius:50%;background:${lateColors[i]};flex-shrink:0;"></span><div><div style="font-size:13px;font-weight:600;color:#333;">${r}</div><div style="font-size:12px;color:#888;">${lateValues[i]} night${lateValues[i]>1?'s':''} — ${Math.round(lateValues[i]/lateNights.length*100)}%</div><div style="font-size:11px;color:#aaa;">${lateNights.filter(n=>n.reason===r).map(n=>n.date).join(', ')}</div></div></div>`).join('');
+  }
+  document.getElementById('lateReasonInsight').innerHTML=`You slept late <strong>${lateNights.length} nights</strong> total. Top reason: <strong>${lateLabels[0]||'none'}</strong> (${lateValues[0]||0} nights). <strong>Tip:</strong> Set a 10 PM "stop work" phone alarm and always log your reason.`;
+
+  charts.workout = new Chart(document.getElementById('workoutChart'),{
+    type:'bar',plugins:[ChartDataLabels],
+    data:{labels:wrkWeeks,datasets:[{label:'Worked out',data:wrkYes,backgroundColor:'rgba(45,198,83,0.8)',borderRadius:0,borderSkipped:false,stack:'w'},{label:'Skipped',data:wrkNo,backgroundColor:'rgba(230,57,70,0.65)',borderRadius:0,borderSkipped:false,stack:'w'}]},
+    options:{responsive:true,plugins:{legend:{display:true,position:'top',labels:{boxWidth:12,padding:12,font:{size:11}}},tooltip:{callbacks:{title:ctx=>`${ctx[0].label} — ${wrkPct[ctx[0].dataIndex]}% compliance`,label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y} day${ctx.parsed.y!==1?'s':''}`}},datalabels:{display:ctx=>ctx.dataset.label==='Worked out'&&wrkYes[ctx.dataIndex]>0,color:'#fff',font:{size:10,weight:'700'},formatter:(_,ctx)=>`${wrkPct[ctx.dataIndex]}%`}},scales:{y:{stacked:true,max:7,grid:{color:'#f0f0f0'},ticks:{stepSize:1,callback:v=>v+'d'}},x:{stacked:true,grid:{display:false}}}}
+  });
+  charts.habits = new Chart(document.getElementById('habitsDonut'),{
+    type:'doughnut',
+    data:{labels:['Stretching','Foot Bath','Massage'],datasets:[{data:[hp.stretch,hp.footbath,hp.massage],backgroundColor:['#4361ee','#2dc653','#f4a523'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},
+    options:{responsive:true,cutout:'62%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:12,padding:14,font:{size:12}}},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}% compliance`}}}}
+  });
+  document.getElementById('skipTitle').textContent=`Why Did You Skip Workouts? (${totalNo} missed days)`;
+  if (skipLabels.length) {
+    charts.skip = new Chart(document.getElementById('skipReasonsChart'),{type:'doughnut',data:{labels:skipLabels,datasets:[{data:skipValues,backgroundColor:skipColors.slice(0,skipLabels.length),borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{responsive:true,cutout:'60%',plugins:{legend:{display:false},datalabels:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed} days (${Math.round(ctx.parsed/totalNo*100)}%)`}}}}});
+    document.getElementById('skipReasonsList').innerHTML=skipLabels.map((r,i)=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="width:11px;height:11px;border-radius:50%;background:${skipColors[i]};flex-shrink:0;"></span><div><div style="font-size:13px;font-weight:600;color:#333;">${r}</div><div style="font-size:12px;color:#888;">${skipValues[i]} days — ${Math.round(skipValues[i]/totalNo*100)}%</div></div></div>`).join('');
+  }
+  document.getElementById('workoutSummaryStats').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;"><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;color:#555;">Overall compliance</span><span style="font-size:15px;font-weight:700;color:${totalYes/totalNonNA>=0.7?'#2dc653':'#f4a523'};">${Math.round(totalYes/totalNonNA*100)}% (${totalYes}/${totalNonNA})</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;color:#555;">Perfect weeks</span><span style="font-size:15px;font-weight:700;color:#2dc653;">${perfectWks.length} <span style="font-size:11px;color:#aaa;font-weight:400;">${perfectWks.join(', ')}</span></span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;color:#555;">Zero weeks</span><span style="font-size:15px;font-weight:700;color:#e63946;">${zeroWks.length} <span style="font-size:11px;color:#aaa;font-weight:400;">${zeroWks.join(', ')}</span></span></div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:13px;color:#555;">Days skipped</span><span style="font-size:15px;font-weight:700;color:#e63946;">${totalNo}</span></div></div>`;
+  document.getElementById('exerciseInsight').innerHTML=`<strong>${Math.round(totalYes/totalNonNA*100)}% overall compliance</strong> — ${totalYes} workouts out of ${totalNonNA} non-rest days. <strong>${perfectWks.length}</strong> perfect weeks, <strong>${zeroWks.length}</strong> zero weeks.<br><br>Top skip reason: <strong>${skipLabels[0]||'—'}</strong> (${skipValues[0]||0} of ${totalNo} days, ${Math.round((skipValues[0]||0)/Math.max(totalNo,1)*100)}%). Habits — Massage <strong>${hp.massage}%</strong> · Stretch <strong>${hp.stretch}%</strong> · Foot Bath <strong>${hp.footbath}%</strong>.`;
+
+  document.getElementById('waterChartTitle').textContent=`Daily Water Intake in ML${wRows.length?` (${dispDate(wRows[0].date)} – ${dispDate(wRows[wRows.length-1].date)})`:''}`;
+  charts.water = new Chart(document.getElementById('waterChart'),{
+    type:'bar',
+    data:{labels:wDates,datasets:[{data:wML,backgroundColor:wML.map(v=>v===0?'rgba(200,200,200,0.4)':v>=750?'rgba(67,97,238,0.75)':'rgba(67,97,238,0.35)'),borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} mL`}}},scales:{y:{min:0,max:1200,grid:{color:'#f0f0f0'},ticks:{callback:v=>v+' mL',stepSize:250}},x:{grid:{display:false},ticks:{maxTicksLimit:20}}}}
+  });
+  document.getElementById('waterInsight').innerHTML=`<strong>Avg: ${avgWaterVal} mL/day</strong> — <strong style="color:#e63946">${Math.round(avgWaterVal/1500*100)}%</strong> of the 1,500 mL target (${1500-avgWaterVal} mL short). <strong>${d500}</strong> days ≤500 mL · <strong>${zeroWD}</strong> days at 0 · <strong>${highWD}</strong> days ≥750 mL.<br><br><strong>📋 Action plan:</strong> ① Wake-up glass (200 mL) ② Glass 30 min before each meal (3×300 mL) ③ 10 AM alarm labeled "水" (400 mL) ④ Hard cutoff at 2 PM.`;
+
+  if (wbBuckets.length) {
+    charts.wb = new Chart(document.getElementById('waterBathroomChart'),{
+      type:'bar',plugins:[ChartDataLabels],
+      data:{labels:wbBuckets,datasets:[{data:wbAvg,backgroundColor:wbColors.slice(0,wbBuckets.length),borderRadius:6,borderSkipped:false}]},
+      options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` Avg ${ctx.parsed.y.toFixed(2)} trips (n=${wbN[ctx.dataIndex]})`}},datalabels:{color:'#555',font:{size:11,weight:'600'},align:'end',anchor:'end',offset:2,formatter:v=>v.toFixed(2)}},scales:{y:{min:0,max:Math.ceil(Math.max(...wbAvg))+1,grid:{color:'#f0f0f0'},ticks:{stepSize:0.5,callback:v=>v+' trips'}},x:{grid:{display:false}}}}
+    });
+    document.getElementById('waterBathroomTable').innerHTML=wbBuckets.map((b,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;"><div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:${wbColors[i]};flex-shrink:0;"></span><span style="font-size:13px;color:#333;">${b}</span></div><div style="text-align:right;"><span style="font-size:14px;font-weight:700;color:${i<=1?'#2dc653':i===2?'#f4a523':'#e63946'};">${wbAvg[i].toFixed(2)}</span><span style="font-size:11px;color:#bbb;margin-left:8px;">(${wbN[i]} days)</span></div></div>`).join('')+`<div style="padding:10px 0 4px;font-size:12px;color:#888;">n = ${wbN.reduce((a,b)=>a+b,0)} days tracked</div>`;
+    document.getElementById('waterBathroomInsight').innerHTML=`<strong>The later you stop drinking, the more night trips.</strong> Stopping ${wbBuckets[0]} → avg <strong style="color:#2dc653">${wbAvg[0].toFixed(1)} trips</strong> vs stopping ${wbBuckets[wbBuckets.length-1]} → avg <strong style="color:#e63946">${wbAvg[wbAvg.length-1].toFixed(1)} trips</strong>.<br><br><strong>Target: stop by 2 PM</strong> — front-load all hydration in the morning.`;
+  }
+
+  const mg=document.getElementById('moodGrid');
+  moodEntries.forEach(e=>{const c=document.createElement('div');c.className='mood-chip';c.textContent=`${e.date}: ${e.reason}`;mg.appendChild(c);});
+  const topT=Object.entries(moodEntries.reduce((a,e)=>{a[e.reason]=(a[e.reason]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>k).join(' and ');
+  document.getElementById('moodInsight').innerHTML=`<strong>${totalBad} bad mood days</strong> out of ${rows.length} tracked (${Math.round(totalBad/rows.length*100)}%).${topT?` Most common: <strong>${topT}</strong>.`:''} Most are externally driven.`;
+
+  document.getElementById('loadingOverlay').style.display='none';
+}
+
+function refreshIfDateChanged() {
+  const nextTodayStr = localDateStr();
+  if (nextTodayStr === todayStr) return;
+
+  const entryDate = document.getElementById('entryDate');
+  if (entryDate.value === todayStr) entryDate.value = nextTodayStr;
+  todayStr = nextTodayStr;
+  loadData();
+}
+
+// Keep long-lived tabs current when a new day/week starts.
+setInterval(refreshIfDateChanged, 60 * 1000);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) refreshIfDateChanged();
+});
+
+loadData();
+</script>
+</body>
+</html>
