@@ -291,7 +291,8 @@
     gap: 6px;
     flex-shrink: 0;
   }
-  .q-learning-order {
+  .q-learning-order,
+  .word-learning-order {
     width: 86px;
     padding: 5px 7px;
     border: 1px solid var(--border);
@@ -301,11 +302,13 @@
     font-size: 0.78rem;
     outline: none;
   }
-  .q-learning-order:focus {
+  .q-learning-order:focus,
+  .word-learning-order:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-light);
   }
-  .q-learning-order::placeholder {
+  .q-learning-order::placeholder,
+  .word-learning-order::placeholder {
     color: var(--muted);
   }
   .q-text-en {
@@ -781,6 +784,12 @@
     box-shadow: 0 0 0 3px var(--accent-light);
   }
   .freq-count { text-align: right; color: var(--muted); width: 80px; }
+  .freq-word-order {
+    width: 102px;
+  }
+  .word-learning-order {
+    font-family: inherit;
+  }
   .freq-bar {
     background: var(--border);
     height: 8px;
@@ -1407,6 +1416,7 @@
       <thead>
         <tr>
           <th>#</th>
+          <th class="word-order-heading" hidden>Order 顺序</th>
           <th>Word 单词</th>
           <th>Meaning 含义</th>
           <th>Status 状态</th>
@@ -3310,6 +3320,7 @@
 
   const WORD_LABEL_KEY = "citizenship-prep-word-label-v1";
   const WORD_MEANING_KEY = "citizenship-prep-word-meaning-v1";
+  const WORD_LEARNING_ORDER_KEY = "citizenship-prep-word-learning-order-v1";
 
   function loadJsonMap(key) {
     try {
@@ -3323,8 +3334,27 @@
     localStorage.setItem(key, JSON.stringify(value));
   }
 
+  function loadWordLearningOrder() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(WORD_LEARNING_ORDER_KEY) || "{}") || {};
+      const cleaned = {};
+      Object.entries(saved).forEach(([key, value]) => {
+        const order = parseInt(value, 10);
+        if (Number.isFinite(order) && order > 0) cleaned[key] = order;
+      });
+      return cleaned;
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveWordLearningOrder(order) {
+    localStorage.setItem(WORD_LEARNING_ORDER_KEY, JSON.stringify(order));
+  }
+
   let wordLabelOverrides = loadJsonMap(WORD_LABEL_KEY);
   let wordMeaningOverrides = loadJsonMap(WORD_MEANING_KEY);
+  let wordLearningOrder = loadWordLearningOrder();
 
   function getDisplayWord(w, displayForm) {
     return wordLabelOverrides[w] || displayForm[w] || w;
@@ -3670,6 +3700,7 @@
   }
 
   let wordFilter = "all";
+  let wordLearningOrderRenderTimer = null;
 
   function renderFrequency() {
     const { counts, wordToQs, displayForm } = computeFrequency();
@@ -3710,11 +3741,22 @@
     document.getElementById("freq-pct-review").textContent = formatPct(review);
     document.getElementById("freq-pct-learned").textContent = formatPct(learned);
 
-    const rows = allRows.filter(([w]) => {
+    const shouldShowWordOrder = wordFilter === "tolearn";
+    let rows = allRows.filter(([w]) => {
       if (wordFilter === "all") return true;
       if (wordFilter === "override") return !!wordOverrides[w] || !!wordLabelOverrides[w] || !!wordMeaningOverrides[w];
       return selectedStatusByWord[w] === wordFilter;
     });
+    if (shouldShowWordOrder) {
+      rows = rows.slice().sort((a, b) => {
+        const aOrder = wordLearningOrder[a[0]];
+        const bOrder = wordLearningOrder[b[0]];
+        if (aOrder && bOrder && aOrder !== bOrder) return aOrder - bOrder;
+        if (aOrder && !bOrder) return -1;
+        if (!aOrder && bOrder) return 1;
+        return 0;
+      });
+    }
 
     const STATUS_LABEL = {
       auto:     "Auto 自动",
@@ -3726,6 +3768,8 @@
     const STATUS_OPTIONS = ["auto", "tolearn", "learning", "review", "learned"];
 
     const body = document.getElementById("freq-body");
+    const orderHeader = document.querySelector(".word-order-heading");
+    if (orderHeader) orderHeader.hidden = !shouldShowWordOrder;
     body.innerHTML = rows.map(([w, n], i) => {
       const pct = Math.round((n / max) * 100);
       const current = selectedStatusByWord[w];
@@ -3737,9 +3781,13 @@
         const cls = opt === "auto" ? "auto" : opt;
         return `<button class="word-status-btn ${cls}${active}" data-word="${wEsc}" data-status="${opt}">${STATUS_LABEL[opt]}</button>`;
       }).join("");
+      const orderCell = shouldShowWordOrder
+        ? `<td class="freq-word-order"><input class="word-learning-order" data-word-learning-order="${wEsc}" type="number" min="1" inputmode="numeric" placeholder="Order 顺序" aria-label="Learning order for word ${escapeHtml(displayWord)}" value="${wordLearningOrder[w] || ""}" /></td>`
+        : "";
       return `
         <tr>
           <td class="freq-rank">${i + 1}</td>
+          ${orderCell}
           <td class="freq-word">
             <span class="freq-word-wrap">
               <input class="word-edit-input" type="text" value="${escapeHtml(displayWord)}" data-word-label="${wEsc}" data-original="${escapeHtml(displayForm[w] || w)}" aria-label="Edit word ${escapeHtml(displayForm[w] || w)}" />
@@ -3767,6 +3815,30 @@
     body.querySelectorAll(".word-audio-btn").forEach(el => {
       el.addEventListener("click", () => {
         playWordAudio(el.dataset.wordAudio, el);
+      });
+    });
+    body.querySelectorAll("[data-word-learning-order]").forEach(input => {
+      const saveOrder = (shouldRender) => {
+        const w = input.dataset.wordLearningOrder;
+        const order = parseInt(input.value, 10);
+        if (Number.isFinite(order) && order > 0) {
+          wordLearningOrder[w] = order;
+          input.value = String(order);
+        } else {
+          delete wordLearningOrder[w];
+          input.value = "";
+        }
+        saveWordLearningOrder(wordLearningOrder);
+        if (shouldRender) renderFrequency();
+      };
+      input.addEventListener("input", () => {
+        saveOrder(false);
+        window.clearTimeout(wordLearningOrderRenderTimer);
+        wordLearningOrderRenderTimer = window.setTimeout(() => renderFrequency(), 450);
+      });
+      input.addEventListener("change", () => saveOrder(true));
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") input.blur();
       });
     });
     body.querySelectorAll(".word-edit-input").forEach(el => {
