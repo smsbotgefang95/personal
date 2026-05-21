@@ -94,13 +94,9 @@
   .view.active { display: block; }
 
   .question-freeze-panel {
-    position: sticky;
-    top: calc(var(--site-nav-height, 0px) + var(--tabs-sticky-height, 0px));
-    z-index: 12;
     background: var(--bg);
     padding: 10px 0 12px;
     margin: -10px 0 14px;
-    box-shadow: 0 12px 18px rgba(15, 23, 42, 0.08);
   }
   .question-freeze-panel .stat-panel,
   .question-freeze-panel .pace-tracker,
@@ -557,9 +553,6 @@
     margin-bottom: 14px;
   }
   .vocab-sticky-controls {
-    position: sticky;
-    top: calc(var(--site-nav-height, 0px) + var(--tabs-sticky-height, 0px));
-    z-index: 14;
     background: var(--bg);
     padding: 10px 0 2px;
     margin: -10px 0 14px;
@@ -1496,7 +1489,7 @@
       <div class="audio-controls vocab-loop-controls">
         <button class="audio-btn" id="loop-vocab-btn" title="Loop Learning, Review, and Learned vocabulary with Chinese first, then English">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-          循环播放已学会、复习和学习中的单词
+          循环播放单词
         </button>
         <span class="loop-progress" id="vocab-loop-progress">0 / 0</span>
         <span class="vocab-sync-status" id="vocab-sync-status">仅本地</span>
