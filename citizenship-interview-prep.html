@@ -3422,7 +3422,10 @@
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const result = await res.json();
       if (result && result.ok) {
-        setVocabSyncStatus("Saved to server", "saved");
+        const gitStatus = result.git && result.git.status;
+        if (gitStatus === "pushed") setVocabSyncStatus("Saved + GitHub", "saved");
+        else if (gitStatus === "failed") setVocabSyncStatus("Server saved; GitHub pending", "error");
+        else setVocabSyncStatus("Saved to server", "saved");
       } else {
         throw new Error("Save failed");
       }
