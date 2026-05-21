@@ -1,5 +1,6 @@
 const NAV_ITEMS = [
   { id: "home", label: "Home", href: "index.html" },
+  { id: "life", label: "Life Events", href: "life-events.html" },
   { id: "citizenship", label: "Citizenship Prep", href: "citizenship-interview-prep.html" },
   { id: "kpi", label: "KPI Dashboard", href: "kpi-dashboard.html" },
   { id: "resources", label: "Resources", href: "resources.html" }
