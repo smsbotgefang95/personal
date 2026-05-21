@@ -90,32 +90,35 @@
 
   /* Progress summary */
   .stat-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px 16px 11px;
     margin-bottom: 20px;
   }
   .stat-toggle {
     appearance: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--card);
-    color: var(--text);
-    display: inline-grid;
-    grid-template-columns: 24px auto;
-    gap: 8px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
     align-items: center;
-    padding: 8px 11px;
-    margin-bottom: 10px;
-    font: inherit;
-    font-size: 0.82rem;
-    font-weight: 700;
+    padding: 0;
+    margin-bottom: 0;
+    text-align: left;
     cursor: pointer;
+    min-width: 0;
   }
   .stat-toggle:focus-visible {
     outline: 3px solid rgba(37, 99, 235, 0.22);
-    outline-offset: 3px;
+    outline-offset: 6px;
+    border-radius: 8px;
   }
   .stat-chevron {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border: 1px solid var(--border);
     border-radius: 7px;
     display: inline-flex;
@@ -125,8 +128,8 @@
   }
   .stat-chevron::before {
     content: "";
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-right: 2px solid var(--muted);
     border-bottom: 2px solid var(--muted);
     transform: rotate(45deg) translate(-1px, -1px);
@@ -144,6 +147,14 @@
   .stat-toggle:hover .stat-chevron::before {
     border-color: var(--accent);
   }
+  .stat-title {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
   .stat-panel [hidden] {
     display: none !important;
   }
@@ -154,6 +165,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 12px;
+    margin-top: 10px;
   }
   .stat {
     background: var(--card);
@@ -184,6 +196,7 @@
     background: var(--border);
     border-radius: 6px;
     overflow: hidden;
+    margin-top: 12px;
     margin-bottom: 20px;
   }
   .progress-fill {
@@ -782,6 +795,7 @@
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 10px;
+    margin-top: 10px;
   }
   .freq-summary .stat {
     padding: 12px 10px;
@@ -1219,7 +1233,7 @@
     <div class="stat-panel" id="question-stats-panel">
       <button class="stat-toggle" id="question-stats-toggle" type="button" aria-expanded="true" aria-controls="question-stats-cards" title="Collapse question stats">
         <span class="stat-chevron" aria-hidden="true"></span>
-        <span>Question Stats 题目统计</span>
+        <span class="stat-title">Question Stats 题目统计</span>
         <span class="sr-only" id="question-stats-toggle-label">Collapse question stats</span>
       </button>
       <div class="summary" id="question-stats-cards">
@@ -1336,7 +1350,7 @@
     <div class="stat-panel" id="frequency-stats-panel">
       <button class="stat-toggle" id="frequency-stats-toggle" type="button" aria-expanded="true" aria-controls="frequency-stats-cards" title="Collapse word frequency stats">
         <span class="stat-chevron" aria-hidden="true"></span>
-        <span>Word Stats 词汇统计</span>
+        <span class="stat-title">Word Stats 词汇统计</span>
         <span class="sr-only" id="frequency-stats-toggle-label">Collapse word frequency stats</span>
       </button>
       <div class="freq-summary" id="frequency-stats-cards">
