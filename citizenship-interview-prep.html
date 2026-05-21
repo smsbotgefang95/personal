@@ -67,6 +67,11 @@
     gap: 6px;
     margin-bottom: 18px;
     border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: var(--site-nav-height, 0px);
+    z-index: 16;
+    background: var(--bg);
+    padding-top: 10px;
   }
   .tab {
     padding: 10px 18px;
@@ -87,6 +92,25 @@
 
   .view { display: none; }
   .view.active { display: block; }
+
+  .question-freeze-panel {
+    position: sticky;
+    top: 58px;
+    z-index: 12;
+    background: var(--bg);
+    padding: 10px 0 12px;
+    margin: -10px 0 14px;
+    box-shadow: 0 12px 18px rgba(15, 23, 42, 0.08);
+  }
+  .question-freeze-panel .stat-panel,
+  .question-freeze-panel .pace-tracker,
+  .question-freeze-panel .audio-controls,
+  .question-freeze-panel .controls {
+    margin-bottom: 12px;
+  }
+  .question-freeze-panel .controls {
+    margin-bottom: 0;
+  }
 
   /* Progress summary */
   .stat-panel {
@@ -531,6 +555,19 @@
   .vocab-sync-status.error { color: #b91c1c; }
   .vocab-loop-controls {
     margin-bottom: 14px;
+  }
+  .vocab-sticky-controls {
+    position: sticky;
+    top: calc(var(--site-nav-height, 0px) + var(--tabs-sticky-height, 0px));
+    z-index: 14;
+    background: var(--bg);
+    padding: 10px 0 2px;
+    margin: -10px 0 14px;
+  }
+  .vocab-sticky-controls .stat-panel,
+  .vocab-sticky-controls .vocab-loop-controls,
+  .vocab-sticky-controls #word-filter-group {
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   }
   .audio-seek {
     display: flex;
@@ -1260,6 +1297,7 @@
     flex-shrink: 0;
   }
   @media (max-width: 640px) {
+    .question-freeze-panel { top: 128px; }
     .summary { grid-template-columns: repeat(2, 1fr); }
     .freq-summary { grid-template-columns: repeat(2, 1fr); }
     .game-stats { grid-template-columns: repeat(2, 1fr); }
@@ -1273,6 +1311,14 @@
       padding: 8px;
     }
     .freq-word { min-width: 260px; }
+    .tabs {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .vocab-sticky-controls {
+      padding-top: 8px;
+      margin-top: -8px;
+    }
     .word-edit-input {
       width: 20ch;
       min-width: 20ch;
@@ -1312,112 +1358,114 @@
 
   <!-- Questions View -->
   <section class="view active" id="view-questions">
-    <div class="stat-panel" id="question-stats-panel">
-      <button class="stat-toggle" id="question-stats-toggle" type="button" aria-expanded="true" aria-controls="question-stats-cards" title="Collapse question stats">
-        <span class="stat-chevron" aria-hidden="true"></span>
-        <span class="stat-title">题目统计</span>
-        <span class="sr-only" id="question-stats-toggle-label">Collapse question stats</span>
-      </button>
-      <div class="summary" id="question-stats-cards">
-        <div class="stat"><p class="num" id="stat-total">0</p><div class="label">全部</div></div>
-        <div class="stat"><p class="num" style="color: var(--tolearn);" id="stat-tolearn">0</p><div class="label">待学习</div></div>
-        <div class="stat"><p class="num" style="color: var(--learning);" id="stat-learning">0</p><div class="label">学习中</div></div>
-        <div class="stat"><p class="num" style="color: var(--review);" id="stat-review">0</p><div class="label">需复习</div></div>
-        <div class="stat"><p class="num" style="color: var(--learned);" id="stat-learned">0</p><div class="label">已学会</div></div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    </div>
-
-    <div class="pace-tracker" id="pace-tracker">
-      <div class="pace-summary">
-        <button class="pace-toggle" id="pace-toggle" type="button" aria-expanded="true" aria-controls="pace-details" title="Collapse exam pace">
-          <span class="pace-chevron" aria-hidden="true"></span>
-          <span class="pace-head-copy">
-            <span class="pace-title">备考进度 · 2029年8月</span>
-            <span class="pace-meta" id="pace-meta">— 天后考试</span>
-          </span>
-          <span class="sr-only" id="pace-toggle-label">Collapse exam pace</span>
+    <div class="question-freeze-panel">
+      <div class="stat-panel" id="question-stats-panel">
+        <button class="stat-toggle" id="question-stats-toggle" type="button" aria-expanded="true" aria-controls="question-stats-cards" title="Collapse question stats">
+          <span class="stat-chevron" aria-hidden="true"></span>
+          <span class="stat-title">题目统计</span>
+          <span class="sr-only" id="question-stats-toggle-label">Collapse question stats</span>
         </button>
-        <div class="pace-status ontrack" id="pace-status">进度正常</div>
+        <div class="summary" id="question-stats-cards">
+          <div class="stat"><p class="num" id="stat-total">0</p><div class="label">全部</div></div>
+          <div class="stat"><p class="num" style="color: var(--tolearn);" id="stat-tolearn">0</p><div class="label">待学习</div></div>
+          <div class="stat"><p class="num" style="color: var(--learning);" id="stat-learning">0</p><div class="label">学习中</div></div>
+          <div class="stat"><p class="num" style="color: var(--review);" id="stat-review">0</p><div class="label">需复习</div></div>
+          <div class="stat"><p class="num" style="color: var(--learned);" id="stat-learned">0</p><div class="label">已学会</div></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
       </div>
-      <div class="pace-details" id="pace-details">
-        <div class="pace-bars">
-          <div class="pace-row">
-            <span>已过时间</span>
-            <div class="pace-bar"><div class="pace-time-fill" id="pace-time-fill" style="width:0%"></div></div>
-            <span class="pace-pct" id="pace-time-pct">0%</span>
+
+      <div class="pace-tracker" id="pace-tracker">
+        <div class="pace-summary">
+          <button class="pace-toggle" id="pace-toggle" type="button" aria-expanded="true" aria-controls="pace-details" title="Collapse exam pace">
+            <span class="pace-chevron" aria-hidden="true"></span>
+            <span class="pace-head-copy">
+              <span class="pace-title">备考进度 · 2029年8月</span>
+              <span class="pace-meta" id="pace-meta">— 天后考试</span>
+            </span>
+            <span class="sr-only" id="pace-toggle-label">Collapse exam pace</span>
+          </button>
+          <div class="pace-status ontrack" id="pace-status">进度正常</div>
+        </div>
+        <div class="pace-details" id="pace-details">
+          <div class="pace-bars">
+            <div class="pace-row">
+              <span>已过时间</span>
+              <div class="pace-bar"><div class="pace-time-fill" id="pace-time-fill" style="width:0%"></div></div>
+              <span class="pace-pct" id="pace-time-pct">0%</span>
+            </div>
+            <div class="pace-row">
+              <span>已学会</span>
+              <div class="pace-bar"><div class="pace-learned-fill" id="pace-learned-fill" style="width:0%"></div></div>
+              <span class="pace-pct" id="pace-learned-pct">0%</span>
+            </div>
           </div>
-          <div class="pace-row">
-            <span>已学会</span>
-            <div class="pace-bar"><div class="pace-learned-fill" id="pace-learned-fill" style="width:0%"></div></div>
-            <span class="pace-pct" id="pace-learned-pct">0%</span>
+          <div class="pace-metrics">
+            <div class="pace-metric">
+              <div class="pm-label">目标</div>
+              <div class="pm-value" id="pm-required">— /周</div>
+              <div class="pm-sub">题 / 周</div>
+            </div>
+            <div class="pace-metric" id="pm-actual-card">
+              <div class="pm-label">当前</div>
+              <div class="pm-value" id="pm-actual">— /周</div>
+              <div class="pm-sub" id="pm-actual-sub">已学会 0</div>
+            </div>
+            <div class="pace-metric" id="pm-gap-card">
+              <div class="pm-label">差距</div>
+              <div class="pm-value" id="pm-gap">—</div>
+              <div class="pm-sub" id="pm-gap-sub">保持进度</div>
+            </div>
           </div>
         </div>
-        <div class="pace-metrics">
-          <div class="pace-metric">
-            <div class="pm-label">目标</div>
-            <div class="pm-value" id="pm-required">— /周</div>
-            <div class="pm-sub">题 / 周</div>
-          </div>
-          <div class="pace-metric" id="pm-actual-card">
-            <div class="pm-label">当前</div>
-            <div class="pm-value" id="pm-actual">— /周</div>
-            <div class="pm-sub" id="pm-actual-sub">已学会 0</div>
-          </div>
-          <div class="pace-metric" id="pm-gap-card">
-            <div class="pm-label">差距</div>
-            <div class="pm-value" id="pm-gap">—</div>
-            <div class="pm-sub" id="pm-gap-sub">保持进度</div>
-          </div>
+      </div>
+
+      <div class="audio-controls">
+        <div class="localhost-notice" id="localhost-notice">
+          YouTube 原声需要用本地服务器打开。
+          <a href="http://127.0.0.1:8015/citizenship-interview-prep.html" id="localhost-open-link">打开本地服务器</a>
+          <button type="button" id="copy-ipad-url-btn">复制 iPad 进度链接</button>
+        </div>
+        <div class="localhost-notice" id="restore-file-notice">
+          之前的进度不见了？复制下面的文件地址到地址栏打开，再点旧页面里的本地服务器链接迁移。
+          <button type="button" id="copy-file-url-btn">复制文件链接</button>
+          <div class="restore-url" id="restore-file-url">file:///Users/gefang95/Library/Application%20Support/Claude/local-agent-mode-sessions/0ed9d73e-1dac-4c2d-852f-b5e34e25ec34/d2a47b2b-4752-483a-a5c4-33050bd2def4/local_75634218-98bc-425f-86d4-d75689a9a181/outputs/citizenship-interview-prep.html</div>
+        </div>
+        <div class="localhost-notice" id="ipad-sync-notice">
+          需要把当前进度同步到 iPad？复制进度链接，在 iPad 上打开。
+          <button type="button" id="copy-server-ipad-url-btn">复制 iPad 进度链接</button>
+          <div class="restore-url" id="ipad-sync-url"></div>
+        </div>
+        <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for learned, review, and learning questions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          循环播放已学会、复习和学习中的题目
+        </button>
+        <button class="audio-btn" id="loop-pause-btn" title="Pause or resume loop playback" disabled>
+          暂停
+        </button>
+        <button class="audio-btn" id="prev-question-btn" title="Go to previous visible question">上一题</button>
+        <button class="audio-btn" id="next-question-btn" title="Go to next visible question">下一题</button>
+        <span class="loop-progress" id="loop-progress">0 / 0</span>
+        <div class="audio-seek">
+          <span id="audio-elapsed">0:00:00</span>
+          <input type="range" id="audio-seek-bar" min="0" max="1000" value="0" disabled aria-label="Audio progress" />
+          <span id="audio-total">0:00:00</span>
         </div>
       </div>
-    </div>
 
-    <div class="audio-controls">
-      <div class="localhost-notice" id="localhost-notice">
-        YouTube 原声需要用本地服务器打开。
-        <a href="http://127.0.0.1:8015/citizenship-interview-prep.html" id="localhost-open-link">打开本地服务器</a>
-        <button type="button" id="copy-ipad-url-btn">复制 iPad 进度链接</button>
-      </div>
-      <div class="localhost-notice" id="restore-file-notice">
-        之前的进度不见了？复制下面的文件地址到地址栏打开，再点旧页面里的本地服务器链接迁移。
-        <button type="button" id="copy-file-url-btn">复制文件链接</button>
-        <div class="restore-url" id="restore-file-url">file:///Users/gefang95/Library/Application%20Support/Claude/local-agent-mode-sessions/0ed9d73e-1dac-4c2d-852f-b5e34e25ec34/d2a47b2b-4752-483a-a5c4-33050bd2def4/local_75634218-98bc-425f-86d4-d75689a9a181/outputs/citizenship-interview-prep.html</div>
-      </div>
-      <div class="localhost-notice" id="ipad-sync-notice">
-        需要把当前进度同步到 iPad？复制进度链接，在 iPad 上打开。
-        <button type="button" id="copy-server-ipad-url-btn">复制 iPad 进度链接</button>
-        <div class="restore-url" id="ipad-sync-url"></div>
-      </div>
-      <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for learned, review, and learning questions">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        循环播放已学会、复习和学习中的题目
-      </button>
-      <button class="audio-btn" id="loop-pause-btn" title="Pause or resume loop playback" disabled>
-        暂停
-      </button>
-      <button class="audio-btn" id="prev-question-btn" title="Go to previous visible question">上一题</button>
-      <button class="audio-btn" id="next-question-btn" title="Go to next visible question">下一题</button>
-      <span class="loop-progress" id="loop-progress">0 / 0</span>
-      <div class="audio-seek">
-        <span id="audio-elapsed">0:00:00</span>
-        <input type="range" id="audio-seek-bar" min="0" max="1000" value="0" disabled aria-label="Audio progress" />
-        <span id="audio-total">0:00:00</span>
-      </div>
-    </div>
-
-    <div class="controls">
-      <input type="text" id="search" placeholder="中英文搜索" />
+      <div class="controls">
+        <input type="text" id="search" placeholder="中英文搜索" />
         <div class="filter-group" id="filter-group">
           <button class="filter-btn active" data-filter="all">全部</button>
           <button class="filter-btn" data-filter="auto">自动</button>
           <button class="filter-btn" id="learning-order-btn" type="button">学习顺序</button>
           <button class="filter-btn" data-filter="tolearn">待学</button>
           <button class="filter-btn" data-filter="learning">学习中</button>
-        <button class="filter-btn" data-filter="review">复习</button>
-        <button class="filter-btn" data-filter="learned">已学会</button>
+          <button class="filter-btn" data-filter="review">复习</button>
+          <button class="filter-btn" data-filter="learned">已学会</button>
+        </div>
+        <button class="reset-btn" id="reset-btn" title="Reset all progress">重置</button>
       </div>
-      <button class="reset-btn" id="reset-btn" title="Reset all progress">重置</button>
     </div>
 
     <div class="expand-all-bar">
@@ -1430,38 +1478,40 @@
 
   <!-- Word Frequency View -->
   <section class="view" id="view-frequency">
-    <div class="stat-panel" id="frequency-stats-panel">
-      <button class="stat-toggle" id="frequency-stats-toggle" type="button" aria-expanded="true" aria-controls="frequency-stats-cards" title="Collapse word frequency stats">
-        <span class="stat-chevron" aria-hidden="true"></span>
-        <span class="stat-title">词汇统计</span>
-        <span class="sr-only" id="frequency-stats-toggle-label">Collapse word frequency stats</span>
-      </button>
-      <div class="freq-summary" id="frequency-stats-cards">
-        <div class="stat"><p class="num" id="freq-stat-total">0</p><div class="label">独立单词</div><div class="pct" id="freq-pct-total">100%</div></div>
-        <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-auto">0</p><div class="label">自动</div><div class="pct" id="freq-pct-auto">0%</div></div>
-        <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-tolearn">0</p><div class="label">待学</div><div class="pct" id="freq-pct-tolearn">0%</div></div>
-        <div class="stat"><p class="num" style="color: var(--learning);" id="freq-stat-learning">0</p><div class="label">学习中</div><div class="pct" id="freq-pct-learning">0%</div></div>
-        <div class="stat"><p class="num" style="color: var(--review);" id="freq-stat-review">0</p><div class="label">复习</div><div class="pct" id="freq-pct-review">0%</div></div>
-        <div class="stat"><p class="num" style="color: var(--learned);" id="freq-stat-learned">0</p><div class="label">已学会</div><div class="pct" id="freq-pct-learned">0%</div></div>
+    <div class="vocab-sticky-controls">
+      <div class="stat-panel" id="frequency-stats-panel">
+        <button class="stat-toggle" id="frequency-stats-toggle" type="button" aria-expanded="true" aria-controls="frequency-stats-cards" title="Collapse word frequency stats">
+          <span class="stat-chevron" aria-hidden="true"></span>
+          <span class="stat-title">词汇统计</span>
+          <span class="sr-only" id="frequency-stats-toggle-label">Collapse word frequency stats</span>
+        </button>
+        <div class="freq-summary" id="frequency-stats-cards">
+          <div class="stat"><p class="num" id="freq-stat-total">0</p><div class="label">独立单词</div><div class="pct" id="freq-pct-total">100%</div></div>
+          <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-auto">0</p><div class="label">自动</div><div class="pct" id="freq-pct-auto">0%</div></div>
+          <div class="stat"><p class="num" style="color: var(--tolearn);" id="freq-stat-tolearn">0</p><div class="label">待学</div><div class="pct" id="freq-pct-tolearn">0%</div></div>
+          <div class="stat"><p class="num" style="color: var(--learning);" id="freq-stat-learning">0</p><div class="label">学习中</div><div class="pct" id="freq-pct-learning">0%</div></div>
+          <div class="stat"><p class="num" style="color: var(--review);" id="freq-stat-review">0</p><div class="label">复习</div><div class="pct" id="freq-pct-review">0%</div></div>
+          <div class="stat"><p class="num" style="color: var(--learned);" id="freq-stat-learned">0</p><div class="label">已学会</div><div class="pct" id="freq-pct-learned">0%</div></div>
+        </div>
       </div>
-    </div>
-    <div class="audio-controls vocab-loop-controls">
-      <button class="audio-btn" id="loop-vocab-btn" title="Loop Learning, Review, and Learned vocabulary with Chinese first, then English">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        循环播放已学会、复习和学习中的单词
-      </button>
-      <span class="loop-progress" id="vocab-loop-progress">0 / 0</span>
-      <span class="vocab-sync-status" id="vocab-sync-status">仅本地</span>
-    </div>
-    <div class="filter-group" id="word-filter-group" style="margin-bottom: 14px;">
-      <input class="word-filter-search" type="text" id="word-search" placeholder="搜索词汇" aria-label="Search vocabulary" />
-      <button class="filter-btn active" data-wfilter="all">全部</button>
-      <button class="filter-btn" data-wfilter="auto">自动</button>
-      <button class="filter-btn" data-wfilter="tolearn">待学</button>
-      <button class="filter-btn" data-wfilter="learning">学习中</button>
-      <button class="filter-btn" data-wfilter="review">复习</button>
-      <button class="filter-btn" data-wfilter="learned">已学会</button>
-      <button class="filter-btn" data-wfilter="override">编辑 ✎</button>
+      <div class="audio-controls vocab-loop-controls">
+        <button class="audio-btn" id="loop-vocab-btn" title="Loop Learning, Review, and Learned vocabulary with Chinese first, then English">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          循环播放已学会、复习和学习中的单词
+        </button>
+        <span class="loop-progress" id="vocab-loop-progress">0 / 0</span>
+        <span class="vocab-sync-status" id="vocab-sync-status">仅本地</span>
+      </div>
+      <div class="filter-group" id="word-filter-group">
+        <input class="word-filter-search" type="text" id="word-search" placeholder="搜索词汇" aria-label="Search vocabulary" />
+        <button class="filter-btn active" data-wfilter="all">全部</button>
+        <button class="filter-btn" data-wfilter="auto">自动</button>
+        <button class="filter-btn" data-wfilter="tolearn">待学</button>
+        <button class="filter-btn" data-wfilter="learning">学习中</button>
+        <button class="filter-btn" data-wfilter="review">复习</button>
+        <button class="filter-btn" data-wfilter="learned">已学会</button>
+        <button class="filter-btn" data-wfilter="override">编辑 ✎</button>
+      </div>
     </div>
     <table class="freq-table">
       <thead>
@@ -2244,6 +2294,15 @@
     toggle.addEventListener("click", () => {
       setPaceCollapsed(toggle.getAttribute("aria-expanded") === "true");
     });
+  }
+
+  function updateStickyOffsets() {
+    const nav = document.querySelector(".site-nav");
+    const tabs = document.querySelector(".tabs");
+    const navHeight = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
+    const tabsHeight = tabs ? Math.ceil(tabs.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty("--site-nav-height", navHeight + "px");
+    document.documentElement.style.setProperty("--tabs-sticky-height", tabsHeight + "px");
   }
 
   function updatePace(learnedCount, total) {
@@ -4862,6 +4921,15 @@
       } catch (e) {
         prompt("复制这个 iPad 进度链接，然后在 iPad 上打开：", url);
       }
+    });
+  }
+
+  updateStickyOffsets();
+  window.addEventListener("resize", updateStickyOffsets);
+  if (window.customElements && customElements.whenDefined) {
+    customElements.whenDefined("site-nav").then(() => {
+      updateStickyOffsets();
+      window.setTimeout(updateStickyOffsets, 0);
     });
   }
 
