@@ -722,13 +722,68 @@
     border-radius: 12px;
     padding: 16px 18px;
     margin-bottom: 20px;
+  }
+  .pace-summary {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 18px;
     align-items: center;
   }
-  .pace-info { min-width: 0; }
+  .pace-toggle {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    min-width: 0;
+  }
+  .pace-toggle:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 6px;
+    border-radius: 8px;
+  }
+  .pace-chevron {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .pace-chevron::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg) translate(-1px, -1px);
+    transition: transform 0.18s ease;
+  }
+  .pace-tracker.collapsed .pace-chevron::before {
+    transform: rotate(-45deg) translate(-1px, 1px);
+  }
+  .pace-toggle:hover .pace-chevron {
+    border-color: var(--accent);
+  }
+  .pace-toggle:hover .pace-chevron::before {
+    border-color: var(--accent);
+  }
+  .pace-head-copy { min-width: 0; }
+  .pace-details {
+    margin-top: 10px;
+    padding-left: 38px;
+  }
   .pace-title {
+    display: block;
     font-size: 0.72rem;
     color: var(--muted);
     text-transform: uppercase;
@@ -736,10 +791,11 @@
     margin-bottom: 4px;
   }
   .pace-meta {
+    display: block;
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 10px;
+    margin-bottom: 0;
   }
   .pace-bars { display: flex; flex-direction: column; gap: 6px; }
   .pace-row {
@@ -819,6 +875,17 @@
   .pace-metric.gap-behind .pm-value { color: #dc2626; }
   .pace-metric.gap-ok    .pm-value { color: var(--learned); }
   .pace-metric.gap-ahead .pm-value { color: var(--accent); }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 
   /* Vocabulary game */
   .game-shell {
@@ -1031,8 +1098,10 @@
     .reset-btn { margin-left: 0; text-align: center; }
     .q-header { flex-direction: column; }
     .status-group { margin-left: 0; }
-    .pace-tracker { grid-template-columns: 1fr; }
+    .pace-summary { grid-template-columns: 1fr; }
+    .pace-details { padding-left: 0; }
     .pace-row { grid-template-columns: 90px 1fr 44px; }
+    .pace-status { min-width: 0; width: 100%; }
   }
 </style>
 </head>
@@ -1065,10 +1134,19 @@
 
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 
-    <div class="pace-tracker">
-      <div class="pace-info">
-        <div class="pace-title">Exam Pace 备考进度 · August 2029</div>
-        <div class="pace-meta" id="pace-meta">— days until exam</div>
+    <div class="pace-tracker" id="pace-tracker">
+      <div class="pace-summary">
+        <button class="pace-toggle" id="pace-toggle" type="button" aria-expanded="true" aria-controls="pace-details" title="Collapse exam pace">
+          <span class="pace-chevron" aria-hidden="true"></span>
+          <span class="pace-head-copy">
+            <span class="pace-title">Exam Pace 备考进度 · August 2029</span>
+            <span class="pace-meta" id="pace-meta">— days until exam</span>
+          </span>
+          <span class="sr-only" id="pace-toggle-label">Collapse exam pace</span>
+        </button>
+        <div class="pace-status ontrack" id="pace-status">On track<span class="pace-sub">进度正常</span></div>
+      </div>
+      <div class="pace-details" id="pace-details">
         <div class="pace-bars">
           <div class="pace-row">
             <span>Time elapsed 时间</span>
@@ -1099,7 +1177,6 @@
           </div>
         </div>
       </div>
-      <div class="pace-status ontrack" id="pace-status">On track<span class="pace-sub">进度正常</span></div>
     </div>
 
     <div class="audio-controls">
@@ -1857,10 +1934,52 @@
   }
 
   const STORAGE_KEY = "citizenship-prep-progress-v2";
+  const PACE_COLLAPSED_KEY = "citizenship-prep-pace-collapsed-v1";
   const DEFAULT_PROGRESS = {"1":"review","27":"learned","28":"learned","42":"review","50":"learning","68":"tolearn","69":"tolearn","91":"tolearn","92":"tolearn","93":"tolearn","99":"review"};
   const LEGACY_TO_LEARN_PROGRESS = {"68":"tolearn","69":"tolearn","91":"tolearn","92":"tolearn","93":"tolearn"};
   const START_DATE = new Date(2026, 3, 1); // April 1, 2026
   const EXAM_DATE = new Date(2029, 7, 1);  // August 1, 2029
+
+  function setPaceCollapsed(collapsed, shouldPersist = true) {
+    const tracker = document.getElementById("pace-tracker");
+    const toggle = document.getElementById("pace-toggle");
+    const details = document.getElementById("pace-details");
+    const label = document.getElementById("pace-toggle-label");
+    if (!tracker || !toggle || !details) return;
+
+    tracker.classList.toggle("collapsed", collapsed);
+    details.hidden = collapsed;
+    toggle.setAttribute("aria-expanded", String(!collapsed));
+    const actionText = collapsed ? "Expand exam pace" : "Collapse exam pace";
+    toggle.title = actionText;
+    toggle.setAttribute("aria-label", actionText);
+    if (label) label.textContent = actionText;
+
+    if (shouldPersist) {
+      try {
+        localStorage.setItem(PACE_COLLAPSED_KEY, collapsed ? "1" : "0");
+      } catch (err) {
+        // Ignore private browsing or storage-denied environments.
+      }
+    }
+  }
+
+  function initPaceCollapse() {
+    const toggle = document.getElementById("pace-toggle");
+    if (!toggle) return;
+
+    let collapsed = false;
+    try {
+      collapsed = localStorage.getItem(PACE_COLLAPSED_KEY) === "1";
+    } catch (err) {
+      collapsed = false;
+    }
+    setPaceCollapsed(collapsed, false);
+
+    toggle.addEventListener("click", () => {
+      setPaceCollapsed(toggle.getAttribute("aria-expanded") === "true");
+    });
+  }
 
   function updatePace(learnedCount, total) {
     const now = new Date();
@@ -4223,6 +4342,7 @@
     });
   }
 
+  initPaceCollapse();
   render();
   renderFrequency();
 </script>
