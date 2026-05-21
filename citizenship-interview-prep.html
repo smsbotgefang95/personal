@@ -2689,6 +2689,11 @@
     return ytAudioReadyPromise;
   }
 
+  function primeYouTubeAudioPlayer() {
+    if (location.protocol === "file:" || ytAudioReady || ytAudioReadyPromise) return;
+    ensureYouTubeAudioPlayer().catch(() => {});
+  }
+
   function stopYouTubeAudio() {
     if (ytAudioStopTimer) {
       clearTimeout(ytAudioStopTimer);
@@ -2787,6 +2792,9 @@
         startSeconds: Math.max(0, start),
         endSeconds: end
       });
+      if (typeof ytAudioPlayer.playVideo === "function") {
+        ytAudioPlayer.playVideo();
+      }
       currentSegmentOnComplete = onComplete;
       startAudioSeekUpdates();
       scheduleSegmentStop((duration + 0.75) * 1000);
@@ -2987,6 +2995,8 @@
   document.getElementById("loop-review-learned-btn").addEventListener("click", (e) => {
     playReviewLearnedLoop(e.currentTarget);
   });
+  document.getElementById("loop-review-learned-btn").addEventListener("touchstart", primeYouTubeAudioPlayer, { passive: true });
+  document.getElementById("loop-review-learned-btn").addEventListener("pointerdown", primeYouTubeAudioPlayer);
   document.getElementById("loop-vocab-btn").addEventListener("click", (e) => {
     toggleVocabLoop(e.currentTarget);
   });
@@ -4514,6 +4524,7 @@
   initPaceCollapse();
   render();
   renderFrequency();
+  window.setTimeout(primeYouTubeAudioPlayer, 400);
 </script>
 </body>
 </html>
