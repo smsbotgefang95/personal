@@ -1118,9 +1118,9 @@
         <button type="button" id="copy-server-ipad-url-btn">Copy iPad progress URL 复制 iPad 进度链接</button>
         <div class="restore-url" id="ipad-sync-url"></div>
       </div>
-      <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for all questions">
+      <button class="audio-btn" id="loop-review-learned-btn" title="Loop YouTube audio for learned, review, and learning questions">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        Loop All Questions 循环全部题目
+        Loop Learned + Review + Learning 循环已学会、复习、学习中
       </button>
       <button class="audio-btn" id="loop-pause-btn" title="Pause or resume loop playback" disabled>
         Pause 暂停
@@ -2567,7 +2567,10 @@
   }
 
   function getReviewLoopIndices() {
-    return QUESTIONS.map((_, idx) => idx);
+    const loopStatuses = new Set(["learned", "review", "learning"]);
+    return QUESTIONS
+      .map((_, idx) => idx)
+      .filter(idx => loopStatuses.has(getSelectedStatus(idx)));
   }
 
   function updateLoopControls() {
@@ -2650,7 +2653,7 @@
     stopAllAudio();
     reviewLoopIndices = getReviewLoopIndices();
     if (!reviewLoopIndices.length) {
-      alert("No questions are available to loop. 没有可循环播放的题目。");
+      alert("Mark at least one question as Learned, Review, or Learning first. 请先把至少一道题标记为已学会、复习或学习中。");
       return;
     }
     reviewLoopActive = true;
