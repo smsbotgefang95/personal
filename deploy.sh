@@ -68,13 +68,20 @@ server {
 
     location / {
         try_files \$uri \$uri/ =404;
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0";
     }
 
     location ~ /\. {
         deny all;
     }
 
-    location ~* \.(html|css|js|png|jpg|jpeg|gif|ico|svg)\$ {
+    location ~* \.html\$ {
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0";
+    }
+
+    location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg)\$ {
         expires 1d;
         add_header Cache-Control "public, no-transform";
     }
