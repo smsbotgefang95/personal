@@ -7,10 +7,12 @@ set -e
 DOMAIN="personal.homehomehooray.com"
 WEB_ROOT="/var/www/personal"
 BUILD_DIR="$HOME/personal"
+DATA_DIR="$HOME/personal-data"
 KEY_FILE="$HOME/.ssh/id_ed25519_personal"
 REPO_URL="git@github.com:smsbotgefang95/personal.git"
 NGINX_CONF="personal"
 CURRENT_USER=$(logname || echo $USER)
+VOCAB_API_PORT="8016"
 
 echo "=================================================="
 echo "🚀 Starting Isolated Multi-page Deployment for $DOMAIN"
@@ -52,6 +54,56 @@ echo "🧹 Cleaning and copying pages to web root..."
 sudo mkdir -p "$WEB_ROOT"
 sudo rsync -av --delete --exclude='.git*' --exclude='README.md' --exclude='deploy.sh' "$BUILD_DIR/" "$WEB_ROOT/"
 
+echo "📚 Preparing shared vocabulary data..."
+mkdir -p "$DATA_DIR"
+if [ ! -f "$DATA_DIR/vocabulary-overrides.json" ]; then
+    cp "$BUILD_DIR/data/vocabulary-overrides.json" "$DATA_DIR/vocabulary-overrides.json"
+fi
+sudo mkdir -p "$WEB_ROOT/data"
+sudo cp "$DATA_DIR/vocabulary-overrides.json" "$WEB_ROOT/data/vocabulary-overrides.json"
+
+if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then
+    VOCAB_ADMIN_KEY=$(python3 - <<'PY'
+import secrets
+print(secrets.token_urlsafe(24))
+PY
+)
+    cat > "$DATA_DIR/vocabulary-api.env" <<EOF
+VOCAB_API_HOST=127.0.0.1
+VOCAB_API_PORT=$VOCAB_API_PORT
+VOCAB_DATA_PATH=$DATA_DIR/vocabulary-overrides.json
+VOCAB_PUBLIC_PATH=$WEB_ROOT/data/vocabulary-overrides.json
+VOCAB_REPO_DIR=$BUILD_DIR
+VOCAB_ADMIN_KEY=$VOCAB_ADMIN_KEY
+VOCAB_GIT_SYNC=1
+GIT_SSH_COMMAND="ssh -i $KEY_FILE -o IdentitiesOnly=yes"
+EOF
+    chmod 600 "$DATA_DIR/vocabulary-api.env"
+    echo "Created vocabulary admin key at $DATA_DIR/vocabulary-api.env"
+fi
+
+echo "🔁 Installing vocabulary API service..."
+sudo tee /etc/systemd/system/personal-vocabulary-api.service > /dev/null <<EOF
+[Unit]
+Description=Personal citizenship vocabulary API
+After=network.target
+
+[Service]
+Type=simple
+User=$CURRENT_USER
+WorkingDirectory=$BUILD_DIR
+EnvironmentFile=$DATA_DIR/vocabulary-api.env
+ExecStart=/usr/bin/python3 $BUILD_DIR/server/vocabulary_api.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload
+sudo systemctl enable personal-vocabulary-api.service
+sudo systemctl restart personal-vocabulary-api.service
+
 # 5. Apply standard directory permissions
 echo "🔒 Adjusting folder permissions..."
 sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
@@ -70,6 +122,15 @@ server {
         try_files \$uri \$uri/ =404;
         expires -1;
         add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0";
+    }
+
+    location = /api/vocabulary-overrides {
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
     }
 
     location ~ /\. {

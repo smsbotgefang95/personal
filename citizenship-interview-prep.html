@@ -482,6 +482,14 @@
     font-size: 0.82rem;
     font-weight: 600;
   }
+  .vocab-sync-status {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .vocab-sync-status.saved { color: var(--learned); }
+  .vocab-sync-status.saving { color: var(--learning); }
+  .vocab-sync-status.error { color: #b91c1c; }
   .vocab-loop-controls {
     margin-bottom: 14px;
   }
@@ -1402,6 +1410,7 @@
         Loop Learning + Review + Learned Vocab 循环词汇
       </button>
       <span class="loop-progress" id="vocab-loop-progress">0 / 0</span>
+      <span class="vocab-sync-status" id="vocab-sync-status">Local only</span>
     </div>
     <div class="filter-group" id="word-filter-group" style="margin-bottom: 14px;">
       <button class="filter-btn active" data-wfilter="all">All 全部</button>
@@ -3321,6 +3330,11 @@
   const WORD_LABEL_KEY = "citizenship-prep-word-label-v1";
   const WORD_MEANING_KEY = "citizenship-prep-word-meaning-v1";
   const WORD_LEARNING_ORDER_KEY = "citizenship-prep-word-learning-order-v1";
+  const VOCAB_SYNC_API = "/api/vocabulary-overrides";
+  const VOCAB_ADMIN_KEY = "citizenship-prep-vocab-admin-key-v1";
+  let vocabSyncStatusEl = null;
+  let vocabSyncTimer = null;
+  let vocabSyncAvailable = false;
 
   function loadJsonMap(key) {
     try {
@@ -3332,6 +3346,94 @@
 
   function saveJsonMap(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function setVocabSyncStatus(text, cls) {
+    if (!vocabSyncStatusEl) vocabSyncStatusEl = document.getElementById("vocab-sync-status");
+    if (!vocabSyncStatusEl) return;
+    vocabSyncStatusEl.textContent = text;
+    vocabSyncStatusEl.className = "vocab-sync-status" + (cls ? ` ${cls}` : "");
+  }
+
+  function getVocabularyPayload() {
+    return {
+      labels: wordLabelOverrides || {},
+      meanings: wordMeaningOverrides || {}
+    };
+  }
+
+  function applyVocabularyPayload(payload) {
+    if (!payload || typeof payload !== "object") return false;
+    const labels = payload.labels && typeof payload.labels === "object" ? payload.labels : {};
+    const meanings = payload.meanings && typeof payload.meanings === "object" ? payload.meanings : {};
+    wordLabelOverrides = { ...wordLabelOverrides, ...labels };
+    wordMeaningOverrides = { ...wordMeaningOverrides, ...meanings };
+    saveJsonMap(WORD_LABEL_KEY, wordLabelOverrides);
+    saveJsonMap(WORD_MEANING_KEY, wordMeaningOverrides);
+    return Object.keys(labels).length > 0 || Object.keys(meanings).length > 0;
+  }
+
+  async function loadSharedVocabularyOverrides() {
+    try {
+      const res = await fetch(VOCAB_SYNC_API, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const payload = await res.json();
+      vocabSyncAvailable = true;
+      const changed = applyVocabularyPayload(payload);
+      setVocabSyncStatus("Server sync", "saved");
+      if (changed) renderFrequency();
+      if (Object.keys(wordLabelOverrides).length || Object.keys(wordMeaningOverrides).length) {
+        queueVocabularySync();
+      }
+    } catch (e) {
+      vocabSyncAvailable = false;
+      setVocabSyncStatus("Local only", "");
+    }
+  }
+
+  async function postVocabularyPayload(payload, adminKey) {
+    const headers = { "Content-Type": "application/json" };
+    if (adminKey) headers["X-Vocab-Admin-Key"] = adminKey;
+    return fetch(VOCAB_SYNC_API, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async function saveVocabularyToServer() {
+    if (!vocabSyncAvailable) return;
+    setVocabSyncStatus("Saving", "saving");
+    let adminKey = "";
+    try { adminKey = localStorage.getItem(VOCAB_ADMIN_KEY) || ""; } catch (e) {}
+    let res;
+    try {
+      res = await postVocabularyPayload(getVocabularyPayload(), adminKey);
+      if (res.status === 401) {
+        const entered = prompt("Enter vocabulary admin key:");
+        if (!entered) {
+          setVocabSyncStatus("Server key needed", "error");
+          return;
+        }
+        adminKey = entered.trim();
+        try { localStorage.setItem(VOCAB_ADMIN_KEY, adminKey); } catch (e) {}
+        res = await postVocabularyPayload(getVocabularyPayload(), adminKey);
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const result = await res.json();
+      if (result && result.ok) {
+        setVocabSyncStatus("Saved to server", "saved");
+      } else {
+        throw new Error("Save failed");
+      }
+    } catch (e) {
+      setVocabSyncStatus("Local saved only", "error");
+    }
+  }
+
+  function queueVocabularySync() {
+    window.clearTimeout(vocabSyncTimer);
+    vocabSyncTimer = window.setTimeout(saveVocabularyToServer, 500);
   }
 
   function loadWordLearningOrder() {
@@ -3849,6 +3951,7 @@
         if (!next || next === original) delete wordLabelOverrides[w];
         else wordLabelOverrides[w] = next;
         saveJsonMap(WORD_LABEL_KEY, wordLabelOverrides);
+        queueVocabularySync();
         renderFrequency();
       };
       el.addEventListener("change", save);
@@ -3868,6 +3971,7 @@
         if (!next || next === original) delete wordMeaningOverrides[w];
         else wordMeaningOverrides[w] = next;
         saveJsonMap(WORD_MEANING_KEY, wordMeaningOverrides);
+        queueVocabularySync();
         renderFrequency();
       };
       el.addEventListener("change", save);
@@ -4706,6 +4810,7 @@
   initPaceCollapse();
   render();
   renderFrequency();
+  loadSharedVocabularyOverrides();
   window.setTimeout(primeYouTubeAudioPlayer, 400);
 </script>
 </body>
