@@ -95,7 +95,7 @@
 
   .question-freeze-panel {
     position: sticky;
-    top: 58px;
+    top: calc(var(--site-nav-height, 0px) + var(--tabs-sticky-height, 0px));
     z-index: 12;
     background: var(--bg);
     padding: 10px 0 12px;
@@ -1297,7 +1297,6 @@
     flex-shrink: 0;
   }
   @media (max-width: 640px) {
-    .question-freeze-panel { top: 128px; }
     .summary { grid-template-columns: repeat(2, 1fr); }
     .freq-summary { grid-template-columns: repeat(2, 1fr); }
     .game-stats { grid-template-columns: repeat(2, 1fr); }
