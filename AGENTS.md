@@ -16,7 +16,7 @@ Then test pages through the local server instead of opening files directly:
 - `http://localhost:8015/resources.html`
 - `http://localhost:8015/citizenship-interview-prep.html`
 
-If port `8015` is already in use, use the next available port and report the URL. Keep the server running while testing, then stop it before finishing unless the operator asks to keep it running.
+If port `8015` is already in use, use the next available port and report the URL. Keep the server running while testing.
 
 ## Deploy
 
@@ -70,6 +70,8 @@ curl -I https://personal.homehomehooray.com
 ```
 
 Report the deploy result and the HTTP status from the verification request.
+
+Do not stop the local static development server after deployment unless the operator explicitly asks you to stop it.
 
 ## Environment Notes
 
