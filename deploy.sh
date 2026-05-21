@@ -59,8 +59,6 @@ mkdir -p "$DATA_DIR"
 if [ ! -f "$DATA_DIR/vocabulary-overrides.json" ]; then
     cp "$BUILD_DIR/data/vocabulary-overrides.json" "$DATA_DIR/vocabulary-overrides.json"
 fi
-sudo mkdir -p "$WEB_ROOT/data"
-sudo cp "$DATA_DIR/vocabulary-overrides.json" "$WEB_ROOT/data/vocabulary-overrides.json"
 
 if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then
     VOCAB_ADMIN_KEY=$(python3 - <<'PY'
@@ -82,31 +80,30 @@ EOF
     echo "Created vocabulary admin key at $DATA_DIR/vocabulary-api.env"
 fi
 
-echo "🔁 Installing vocabulary API service..."
-sudo tee /etc/systemd/system/personal-vocabulary-api.service > /dev/null <<EOF
-[Unit]
-Description=Personal citizenship vocabulary API
-After=network.target
-
-[Service]
-Type=simple
-User=$CURRENT_USER
-WorkingDirectory=$BUILD_DIR
-EnvironmentFile=$DATA_DIR/vocabulary-api.env
-ExecStart=/usr/bin/python3 $BUILD_DIR/server/vocabulary_api.py
-Restart=always
-RestartSec=3
-
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo systemctl daemon-reload
-sudo systemctl enable personal-vocabulary-api.service
-sudo systemctl restart personal-vocabulary-api.service
-
 # 5. Apply standard directory permissions
 echo "🔒 Adjusting folder permissions..."
 sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
+mkdir -p "$WEB_ROOT/data"
+cp "$DATA_DIR/vocabulary-overrides.json" "$WEB_ROOT/data/vocabulary-overrides.json"
+
+echo "🔁 Starting vocabulary API..."
+if [ -f "$DATA_DIR/vocabulary-api.pid" ]; then
+    OLD_PID=$(cat "$DATA_DIR/vocabulary-api.pid" || true)
+    if [ -n "$OLD_PID" ] && kill -0 "$OLD_PID" 2>/dev/null; then
+        kill "$OLD_PID" || true
+    fi
+fi
+set -a
+. "$DATA_DIR/vocabulary-api.env"
+set +a
+nohup /usr/bin/python3 "$BUILD_DIR/server/vocabulary_api.py" >> "$DATA_DIR/vocabulary-api.log" 2>&1 &
+echo $! > "$DATA_DIR/vocabulary-api.pid"
+sleep 1
+if ! kill -0 "$(cat "$DATA_DIR/vocabulary-api.pid")" 2>/dev/null; then
+    echo "Vocabulary API failed to start. Recent log:"
+    tail -n 40 "$DATA_DIR/vocabulary-api.log" || true
+    exit 1
+fi
 
 # 6. Write/Verify the Nginx Configuration Block
 echo "🌐 Ensuring Nginx server configuration is updated..."
