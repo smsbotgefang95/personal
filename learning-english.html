@@ -510,6 +510,68 @@
     margin-bottom: 16px;
   }
 
+  .add-word-form {
+    background: #f8faf8;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    margin-bottom: 14px;
+    padding: 12px;
+  }
+
+  .add-word-field {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .add-word-field span {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .add-word-input {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font: inherit;
+    min-height: 42px;
+    min-width: 0;
+    padding: 9px 12px;
+  }
+
+  .add-word-button {
+    align-self: end;
+    background: var(--accent);
+    border-radius: 7px;
+    color: #ffffff;
+    font-weight: 850;
+    min-height: 42px;
+    padding: 9px 14px;
+    white-space: nowrap;
+  }
+
+  .add-word-message {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 750;
+    grid-column: 1 / -1;
+    min-height: 1.35em;
+  }
+
+  .add-word-message.error {
+    color: var(--accent-3);
+  }
+
+  .add-word-message.saved {
+    color: var(--learned);
+  }
+
   .phrase-search,
   .phrase-filter,
   .vocabulary-search,
@@ -677,6 +739,7 @@
     }
 
     .stat-grid,
+    .add-word-form,
     .phrase-detail,
     .phrase-tools,
     .vocabulary-tools,
@@ -782,6 +845,18 @@
         <p>Practice the top 1,000 common English words with saved learning status.</p>
       </div>
     </div>
+    <form class="add-word-form" id="addWordForm" aria-label="Add a custom vocabulary word">
+      <label class="add-word-field">
+        <span>Word</span>
+        <input class="add-word-input" id="customWordInput" type="text" autocomplete="off" placeholder="mortgage" required />
+      </label>
+      <label class="add-word-field">
+        <span>Chinese meaning</span>
+        <input class="add-word-input" id="customMeaningInput" type="text" autocomplete="off" placeholder="房贷" required />
+      </label>
+      <button class="add-word-button" type="submit">Add word</button>
+      <div class="add-word-message" id="addWordMessage" role="status" aria-live="polite"></div>
+    </form>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
@@ -847,6 +922,7 @@
 <script>
   const STORAGE_STATUS_KEY = "learningEnglishPhraseStatus";
   const STORAGE_VOCAB_STATUS_KEY = "learningEnglishVocabularyStatus";
+  const STORAGE_CUSTOM_VOCAB_KEY = "learningEnglishCustomVocabulary";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
   const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
@@ -2079,6 +2155,7 @@ pass=通过；传递
     body: "Body 身体",
     food: "Food 食物",
     time: "Time 时间",
+    country: "Country 国家",
     place: "Place 地点",
     nature: "Nature 自然",
     number: "Number 数字",
@@ -2091,7 +2168,8 @@ pass=通过；传递
     body: new Set(["arms", "body", "ear", "eyes", "face", "feet", "fingers", "foot", "hair", "hand", "head", "heart", "legs", "mouth", "nose", "skin", "teeth"]),
     food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "garden", "ice", "meat", "milk", "supper", "tea", "water"]),
     time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "friday", "future", "hour", "late", "minute", "monday", "moment", "month", "morning", "night", "noon", "now", "once", "past", "saturday", "second", "soon", "spring", "summer", "sunday", "thursday", "time", "today", "tomorrow", "tuesday", "wednesday", "week", "winter", "year", "yesterday"]),
-    place: new Set(["america", "area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
+    country: new Set(["america", "argentina", "australia", "bangladesh", "brazil", "canada", "chile", "china", "colombia", "denmark", "egypt", "england", "ethiopia", "france", "germany", "greece", "india", "indonesia", "iran", "ireland", "israel", "italy", "japan", "kenya", "mexico", "morocco", "nepal", "netherlands", "new zealand", "nigeria", "norway", "pakistan", "peru", "philippines", "poland", "portugal", "russia", "saudi arabia", "south africa", "south korea", "spain", "sweden", "thailand", "turkey", "ukraine", "united kingdom", "united states", "vietnam"]),
+    place: new Set(["area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
     feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"])
@@ -3287,7 +3365,55 @@ pass=通过；传递
     "gray"
   ];
 
-  const VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
+  const COUNTRY_VOCABULARY = [
+    { word: "United States", chinese: "美国", pronunciation: "yoo-NYE-tid stayts", example: "I live in the United States." },
+    { word: "China", chinese: "中国", pronunciation: "CHY-nuh", example: "My family is from China." },
+    { word: "Canada", chinese: "加拿大", pronunciation: "KAN-uh-duh", example: "Canada is north of the United States." },
+    { word: "Mexico", chinese: "墨西哥", pronunciation: "MEK-si-koh", example: "Mexico is south of the United States." },
+    { word: "United Kingdom", chinese: "英国", pronunciation: "yoo-NYE-tid KING-duhm", example: "London is in the United Kingdom." },
+    { word: "Germany", chinese: "德国", pronunciation: "JUR-muh-nee", example: "Berlin is in Germany." },
+    { word: "Italy", chinese: "意大利", pronunciation: "IT-uh-lee", example: "Rome is in Italy." },
+    { word: "Spain", chinese: "西班牙", pronunciation: "spayn", example: "Madrid is in Spain." },
+    { word: "Portugal", chinese: "葡萄牙", pronunciation: "POR-chuh-gul", example: "Lisbon is in Portugal." },
+    { word: "Ireland", chinese: "爱尔兰", pronunciation: "EYE-er-lund", example: "Dublin is in Ireland." },
+    { word: "Australia", chinese: "澳大利亚", pronunciation: "aw-STRAYL-yuh", example: "Sydney is in Australia." },
+    { word: "New Zealand", chinese: "新西兰", pronunciation: "noo ZEE-lund", example: "Auckland is in New Zealand." },
+    { word: "Japan", chinese: "日本", pronunciation: "juh-PAN", example: "Tokyo is in Japan." },
+    { word: "South Korea", chinese: "韩国", pronunciation: "south kuh-REE-uh", example: "Seoul is in South Korea." },
+    { word: "India", chinese: "印度", pronunciation: "IN-dee-uh", example: "New Delhi is in India." },
+    { word: "Vietnam", chinese: "越南", pronunciation: "vee-et-NAM", example: "Hanoi is in Vietnam." },
+    { word: "Thailand", chinese: "泰国", pronunciation: "TY-land", example: "Bangkok is in Thailand." },
+    { word: "Philippines", chinese: "菲律宾", pronunciation: "FIL-uh-peenz", example: "Manila is in the Philippines." },
+    { word: "Indonesia", chinese: "印度尼西亚", pronunciation: "in-duh-NEE-zhuh", example: "Jakarta is in Indonesia." },
+    { word: "Brazil", chinese: "巴西", pronunciation: "bruh-ZIL", example: "Brazil is in South America." },
+    { word: "Argentina", chinese: "阿根廷", pronunciation: "ar-juhn-TEE-nuh", example: "Buenos Aires is in Argentina." },
+    { word: "Colombia", chinese: "哥伦比亚", pronunciation: "kuh-LUHM-bee-uh", example: "Bogota is in Colombia." },
+    { word: "Chile", chinese: "智利", pronunciation: "CHIL-ee", example: "Santiago is in Chile." },
+    { word: "Peru", chinese: "秘鲁", pronunciation: "puh-ROO", example: "Lima is in Peru." },
+    { word: "Russia", chinese: "俄罗斯", pronunciation: "RUH-shuh", example: "Moscow is in Russia." },
+    { word: "Ukraine", chinese: "乌克兰", pronunciation: "yoo-KRAYN", example: "Kyiv is in Ukraine." },
+    { word: "Poland", chinese: "波兰", pronunciation: "POH-lund", example: "Warsaw is in Poland." },
+    { word: "Netherlands", chinese: "荷兰", pronunciation: "NEH-ther-lundz", example: "Amsterdam is in the Netherlands." },
+    { word: "Sweden", chinese: "瑞典", pronunciation: "SWEE-den", example: "Stockholm is in Sweden." },
+    { word: "Norway", chinese: "挪威", pronunciation: "NOR-way", example: "Oslo is in Norway." },
+    { word: "Denmark", chinese: "丹麦", pronunciation: "DEN-mark", example: "Copenhagen is in Denmark." },
+    { word: "Greece", chinese: "希腊", pronunciation: "grees", example: "Athens is in Greece." },
+    { word: "Turkey", chinese: "土耳其", pronunciation: "TUR-kee", example: "Istanbul is in Turkey." },
+    { word: "Egypt", chinese: "埃及", pronunciation: "EE-jipt", example: "Cairo is in Egypt." },
+    { word: "Morocco", chinese: "摩洛哥", pronunciation: "muh-RAH-koh", example: "Rabat is in Morocco." },
+    { word: "Nigeria", chinese: "尼日利亚", pronunciation: "nye-JEER-ee-uh", example: "Lagos is in Nigeria." },
+    { word: "South Africa", chinese: "南非", pronunciation: "south AF-ri-kuh", example: "Cape Town is in South Africa." },
+    { word: "Kenya", chinese: "肯尼亚", pronunciation: "KEN-yuh", example: "Nairobi is in Kenya." },
+    { word: "Ethiopia", chinese: "埃塞俄比亚", pronunciation: "ee-thee-OH-pee-uh", example: "Addis Ababa is in Ethiopia." },
+    { word: "Saudi Arabia", chinese: "沙特阿拉伯", pronunciation: "SAW-dee uh-RAY-bee-uh", example: "Riyadh is in Saudi Arabia." },
+    { word: "Iran", chinese: "伊朗", pronunciation: "ih-RAHN", example: "Tehran is in Iran." },
+    { word: "Pakistan", chinese: "巴基斯坦", pronunciation: "PAK-i-stan", example: "Islamabad is in Pakistan." },
+    { word: "Bangladesh", chinese: "孟加拉国", pronunciation: "bang-gluh-DESH", example: "Dhaka is in Bangladesh." },
+    { word: "Nepal", chinese: "尼泊尔", pronunciation: "nuh-PAWL", example: "Kathmandu is in Nepal." },
+    { word: "Israel", chinese: "以色列", pronunciation: "IZ-ree-uhl", example: "Jerusalem is in Israel." }
+  ];
+
+  const COMMON_VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
     const featured = FEATURED_BY_WORD[word.toLowerCase()] || {};
     return {
       id: `common-${index + 1}-${slugifyWord(word)}`,
@@ -3302,6 +3428,21 @@ pass=通过；传递
     };
   });
 
+  const COMMON_WORD_SET = new Set(COMMON_WORDS_1000.map((word) => word.toLowerCase()));
+  const COUNTRY_WORDS = COUNTRY_VOCABULARY
+    .filter((item) => !COMMON_WORD_SET.has(item.word.toLowerCase()))
+    .map((item) => ({
+      id: `country-${slugifyWord(item.word)}`,
+      scenario: "country",
+      partOfSpeech: "proper noun",
+      theme: "country",
+      isCompound: /\s/.test(item.word),
+      rank: "Country",
+      ...item
+    }));
+
+  const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS];
+
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
@@ -3312,6 +3453,7 @@ pass=通过；传递
   let selectedVocabularyCompound = loadSelectedVocabularyCompound();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
+  let customVocabulary = loadCustomVocabulary();
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
 
   function readJson(key, fallback) {
@@ -3326,6 +3468,53 @@ pass=通过；传递
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {}
+  }
+
+  function normalizeWordKey(word) {
+    return word.trim().replace(/\s+/g, " ").toLowerCase();
+  }
+
+  function normalizeCustomWordEntry(entry) {
+    if (!entry || typeof entry !== "object") return null;
+    const word = String(entry.word || "").trim().replace(/\s+/g, " ");
+    const chinese = String(entry.chinese || "").trim();
+    if (!word || !chinese) return null;
+    const normalized = normalizeWordKey(word);
+    return {
+      id: `custom-${slugifyWord(normalized)}`,
+      word: word.slice(0, 80),
+      chinese: chinese.slice(0, 160),
+      scenario: "custom",
+      partOfSpeech: "Custom word",
+      pronunciation: "",
+      example: "",
+      theme: "",
+      isCompound: COMPOUND_WORDS.has(normalized) || /\s/.test(normalized),
+      isCustom: true,
+      rank: "Custom"
+    };
+  }
+
+  function loadCustomVocabulary() {
+    const rawItems = readJson(STORAGE_CUSTOM_VOCAB_KEY, []);
+    if (!Array.isArray(rawItems)) return [];
+    const seen = new Set();
+    return rawItems.reduce((items, entry) => {
+      const item = normalizeCustomWordEntry(entry);
+      if (!item) return items;
+      const normalized = normalizeWordKey(item.word);
+      if (seen.has(normalized)) return items;
+      seen.add(normalized);
+      items.push(item);
+      return items;
+    }, []);
+  }
+
+  function saveCustomVocabulary() {
+    saveJson(STORAGE_CUSTOM_VOCAB_KEY, customVocabulary.map((item) => ({
+      word: item.word,
+      chinese: item.chinese
+    })));
   }
 
   function loadSelectedScenario() {
@@ -3592,6 +3781,51 @@ pass=通过；传递
     return normalized.split(/\s*\/\s*/).some((part) => part === selectedPart || part.endsWith(` ${selectedPart}`));
   }
 
+  function getAllVocabulary() {
+    return [...VOCABULARY, ...customVocabulary];
+  }
+
+  function setAddWordMessage(text, cls) {
+    const message = document.getElementById("addWordMessage");
+    message.textContent = text;
+    message.className = `add-word-message${cls ? ` ${cls}` : ""}`;
+  }
+
+  function handleAddWordSubmit(event) {
+    event.preventDefault();
+    const wordInput = document.getElementById("customWordInput");
+    const meaningInput = document.getElementById("customMeaningInput");
+    const word = wordInput.value.trim().replace(/\s+/g, " ");
+    const chinese = meaningInput.value.trim();
+
+    if (!word || !chinese) {
+      setAddWordMessage("Enter a word and Chinese meaning.", "error");
+      return;
+    }
+
+    const normalized = normalizeWordKey(word);
+    const isDuplicate = getAllVocabulary().some((item) => normalizeWordKey(item.word) === normalized);
+    if (isDuplicate) {
+      setAddWordMessage("This word is already in your vocabulary list.", "error");
+      return;
+    }
+
+    const entry = normalizeCustomWordEntry({ word, chinese });
+    if (!entry) {
+      setAddWordMessage("Enter a word and Chinese meaning.", "error");
+      return;
+    }
+
+    customVocabulary = [...customVocabulary, entry];
+    saveCustomVocabulary();
+    wordInput.value = "";
+    meaningInput.value = "";
+    selectedView = "vocabulary";
+    saveSelectedView();
+    setAddWordMessage(`Added "${entry.word}".`, "saved");
+    render();
+  }
+
   function renderVocabularyList() {
     const container = document.getElementById("vocabularyList");
     const search = document.getElementById("vocabularySearch").value.trim().toLowerCase();
@@ -3599,8 +3833,9 @@ pass=通过；传递
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
     const compoundFilter = selectedVocabularyCompound;
+    const allVocabulary = getAllVocabulary();
     const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
-    let words = VOCABULARY.filter((item) => {
+    let words = allVocabulary.filter((item) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
@@ -3610,14 +3845,14 @@ pass=通过；传递
     });
 
     if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all")) {
-      words = VOCABULARY.filter(matchesSearch);
+      words = allVocabulary.filter(matchesSearch);
     }
 
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
-    document.getElementById("vocabularySummary").textContent = `${words.length} of ${VOCABULARY.length} words`;
+    document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
     if (!words.length) {
       container.innerHTML = `<div class="empty">No vocabulary matches your search.</div>`;
@@ -3627,12 +3862,14 @@ pass=通过；传递
     container.innerHTML = words.map((item) => {
       const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
       const currentStatus = getVocabularyStatus(item.id);
-      const label = scenario ? scenario.label : "Top 1000";
+      const label = item.isCustom ? "" : (scenario ? scenario.label : "Top 1000");
       const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
       const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const pronunciation = item.pronunciation ? `<span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>` : "";
+      const rankTag = item.isCustom ? `<span class="vocabulary-tag">Custom</span>` : `<span class="vocabulary-tag">#${item.rank}</span>`;
+      const labelTag = label ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
@@ -3642,8 +3879,8 @@ pass=通过；传递
             ${partOfSpeech}
             ${example}
             <div class="vocabulary-meta">
-              <span class="vocabulary-tag">#${item.rank}</span>
-              <span class="vocabulary-tag">${escapeHtml(label)}</span>
+              ${rankTag}
+              ${labelTag}
               ${themeTag}
               ${pronunciation}
             </div>
@@ -3704,7 +3941,7 @@ pass=通过；传递
   }
 
   function speakVocabulary(wordId) {
-    const item = VOCABULARY.find((word) => word.id === wordId);
+    const item = getAllVocabulary().find((word) => word.id === wordId);
     if (!item || !("speechSynthesis" in window)) return;
 
     speakText(item.word);
@@ -3757,6 +3994,10 @@ pass=通过；传递
     selectedPhraseStatus = event.target.value;
     saveSelectedPhraseStatus();
     renderPhraseList();
+  });
+  document.getElementById("addWordForm").addEventListener("submit", handleAddWordSubmit);
+  document.querySelectorAll("#customWordInput, #customMeaningInput").forEach((input) => {
+    input.addEventListener("input", () => setAddWordMessage("", ""));
   });
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
