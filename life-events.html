@@ -997,7 +997,7 @@
                 <input id="eventDate" type="date" required />
               </div>
               <div class="field">
-                <label for="eventArea">Life Area</label>
+                <label for="eventArea">Topic</label>
                 <select id="eventArea" required></select>
               </div>
               <div class="field">
@@ -2128,7 +2128,7 @@ W03: Cornbread`],
         <section class="sheet-section" id="${escapeHtml(areaId)}">
           <div class="topic-table">
             <div class="topic-header" style="--year-count:${yearCount}">
-              <div class="topic-corner">Life Area</div>
+              <div class="topic-corner">Topic</div>
               ${years.map((year) => `<div class="year-label">${escapeHtml(year)}</div>`).join("")}
             </div>
             ${rows}
