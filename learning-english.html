@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Learning English | Beginner ESL Practice</title>
+<title>Learning English | Beginner ESL Conversation</title>
 <link rel="stylesheet" href="assets/site-nav.css" />
 <script src="assets/site-nav.js?v=20260522-learning-english" defer></script>
 <style>
@@ -399,10 +399,16 @@
     color: #ffffff;
     display: inline-flex;
     font-weight: 800;
-    gap: 8px;
-    min-height: 40px;
-    padding: 9px 12px;
+    height: 44px;
+    justify-content: center;
+    padding: 0;
     white-space: nowrap;
+    width: 44px;
+  }
+
+  .listen-button svg {
+    height: 21px;
+    width: 21px;
   }
 
   .phrase-detail {
@@ -665,11 +671,6 @@
       grid-template-columns: 1fr;
     }
 
-    .listen-button {
-      justify-content: center;
-      width: 100%;
-    }
-
     .learning-tabs {
       flex-direction: column;
     }
@@ -689,12 +690,12 @@
     <div class="hero-main">
       <div class="hero-content">
         <div>
-          <div class="eyebrow">Beginner ESL Practice</div>
+          <div class="eyebrow">Beginner ESL Conversation</div>
           <h1 id="page-title">Learning English</h1>
-          <p class="hero-subtitle">Practice useful daily conversations with Chinese support, clear pronunciation hints, and quick listening tools.</p>
+          <p class="hero-subtitle">Build useful daily conversations with Chinese support, clear pronunciation hints, and quick listening tools.</p>
         </div>
         <div class="hero-actions">
-          <a class="hero-button" href="#practice">Start Practice</a>
+          <a class="hero-button" href="#practice">Start Conversation</a>
           <a class="ghost-button" href="#daily">Today&apos;s Phrases</a>
         </div>
       </div>
@@ -717,15 +718,15 @@
   </section>
 
   <div class="learning-tabs" role="tablist" aria-label="Learning English sections">
-    <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">Practice</button>
+    <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">Conversation</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">Vocabulary</button>
   </div>
 
-  <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario practice">
+  <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
     <aside class="daily-panel" id="daily">
       <div class="panel-header">
         <div>
-          <h2>Today&apos;s Practice</h2>
+          <h2>Today&apos;s Conversation</h2>
           <p>Use these short sentences out loud.</p>
         </div>
       </div>
@@ -735,11 +736,11 @@
     <section id="practice" aria-labelledby="practice-title">
       <div class="panel-header">
         <div>
-          <h2 id="practice-title">Scenario Practice</h2>
-          <p>Choose a real-life situation and practice the phrases.</p>
+          <h2 id="practice-title">Scenario Conversation</h2>
+          <p>Choose a real-life situation and use the phrases.</p>
         </div>
       </div>
-      <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English practice scenarios"></div>
+      <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English conversation scenarios"></div>
       <div class="phrase-list" id="phraseList"></div>
     </section>
   </section>
@@ -769,8 +770,8 @@
   <section class="tip-panel" aria-labelledby="tips-title">
     <div class="panel-header">
       <div>
-        <h2 id="tips-title">Practice Method</h2>
-        <p>Simple steps for beginner English speaking practice.</p>
+        <h2 id="tips-title">Conversation Method</h2>
+        <p>Simple steps for beginner English conversations.</p>
       </div>
     </div>
     <div class="tip-list">
@@ -797,6 +798,7 @@
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
+  const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   const SCENARIOS = [
     { id: "greetings", label: "Greetings", zh: "打招呼" },
@@ -3139,7 +3141,7 @@ pass=通过；传递
               <h3 class="phrase-english">${phrase.english}</h3>
               <p class="phrase-chinese">${phrase.chinese}</p>
             </div>
-            <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">Listen</button>
+            <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">${SPEAKER_ICON}</button>
           </div>
           <div class="phrase-detail">
             <div class="detail-box">
@@ -3151,7 +3153,7 @@ pass=通过；传递
               <p>${phrase.usage}</p>
             </div>
           </div>
-          <div class="status-row" aria-label="Practice status for ${phrase.english}">
+          <div class="status-row" aria-label="Conversation status for ${phrase.english}">
             ${statusButton(phrase.id, "to-learn", "To Learn", currentStatus || "to-learn")}
             ${statusButton(phrase.id, "learning", "Learning", currentStatus)}
             ${statusButton(phrase.id, "review", "Review", currentStatus)}
@@ -3228,7 +3230,7 @@ pass=通过；传递
             </div>
           </div>
           <div class="vocabulary-actions">
-            <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">Listen</button>
+            <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">${SPEAKER_ICON}</button>
             <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
               ${vocabularyStatusButton(item.id, "auto", "Auto", currentStatus)}
               ${vocabularyStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
@@ -3310,7 +3312,7 @@ pass=通过；传递
     document.getElementById("reviewCount").textContent = review;
     document.getElementById("streakCount").textContent = streak;
     document.getElementById("streakNote").textContent = streak > 0
-      ? `You practiced today. Keep the ${streak}-day streak going.`
+      ? `You worked on a conversation today. Keep the ${streak}-day streak going.`
       : "Mark one phrase or word today to start your streak.";
   }
 
