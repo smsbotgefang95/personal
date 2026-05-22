@@ -1113,6 +1113,7 @@
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
   const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-21-peijun-gao";
+  const GENERIC_NEXT_ACTION = "Review and decide the next concrete action.";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const AREA_COLORS = {
     Health: { soft: "#dcfce7", hover: "#bbf7d0", border: "#86efac", strong: "#16a34a", text: "#14532d", activeText: "#ffffff" },
@@ -1651,7 +1652,7 @@ W03: Cornbread`],
         people: extractPeople(text).join(", "),
         tags: `google sheet, ${area.toLowerCase()}`,
         lesson: `Imported from Google Sheet tab "${area}", column "${category}".`,
-        action: actionLike ? "Review and decide the next concrete action." : ""
+        action: ""
       };
     });
   }
@@ -1676,7 +1677,7 @@ W03: Cornbread`],
 
   function saveEvents() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-    if (!isApplyingSharedEvents) queueLifeEventsSync();
+    if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey: true });
   }
 
   function lifeEventsPayload() {
@@ -1709,15 +1710,17 @@ W03: Cornbread`],
       const payload = await res.json();
       lifeEventsSyncAvailable = true;
       const applied = applySharedLifeEventsPayload(payload);
-      if (!applied && events.length) queueLifeEventsSync(200);
+      if (!applied && events.length) queueLifeEventsSync({ delay: 200, promptForKey: false });
     } catch (error) {
       lifeEventsSyncAvailable = false;
     }
   }
 
-  function queueLifeEventsSync(delay = 900) {
+  function queueLifeEventsSync({ delay = 900, promptForKey = false } = {}) {
     if (lifeEventsSyncTimer) window.clearTimeout(lifeEventsSyncTimer);
-    lifeEventsSyncTimer = window.setTimeout(saveLifeEventsToServer, delay);
+    lifeEventsSyncTimer = window.setTimeout(() => {
+      saveLifeEventsToServer({ promptForKey });
+    }, delay);
   }
 
   async function postLifeEventsPayload(payload, adminKey) {
@@ -1730,13 +1733,17 @@ W03: Cornbread`],
     });
   }
 
-  async function saveLifeEventsToServer() {
+  async function saveLifeEventsToServer({ promptForKey = false } = {}) {
     let adminKey = "";
     try { adminKey = localStorage.getItem(LIFE_EVENTS_ADMIN_KEY) || ""; } catch (error) {}
     let res;
     try {
       res = await postLifeEventsPayload(lifeEventsPayload(), adminKey);
       if (res.status === 401) {
+        if (!promptForKey) {
+          lifeEventsSyncAvailable = false;
+          return;
+        }
         const entered = window.prompt("Enter the Life Events admin key to save changes to the server:");
         if (!entered) {
           lifeEventsSyncAvailable = false;
@@ -2266,6 +2273,7 @@ W03: Cornbread`],
     const people = peopleList(event.people);
     const impact = Number(event.impact || 0);
     const content = event.notes || event.title || event.lesson || "";
+    const action = event.action === GENERIC_NEXT_ACTION ? "" : event.action;
     return `
       <div class="cell-entry">
         <div class="cell-date">${escapeHtml(formatDate(event.date))}</div>
@@ -2275,7 +2283,7 @@ W03: Cornbread`],
           <span class="pill ${event.pattern === "Watch" ? "warn" : ""}">${escapeHtml(event.pattern)}</span>
           ${people.length ? `<span>${escapeHtml(people.join(", "))}</span>` : ""}
         </div>
-        ${event.action ? `<div class="cell-meta"><strong>Next:</strong> ${escapeHtml(event.action)}</div>` : ""}
+        ${action ? `<div class="cell-meta"><strong>Next:</strong> ${escapeHtml(action)}</div>` : ""}
         <div class="cell-actions">
           <button class="btn btn-secondary" type="button" data-edit="${escapeHtml(event.id)}">Edit</button>
           <button class="btn btn-danger" type="button" data-delete="${escapeHtml(event.id)}">Delete</button>
