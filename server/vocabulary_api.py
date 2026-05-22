@@ -59,6 +59,13 @@ def load_payload():
     }
 
 
+def fallback_event_title(event):
+    title = " ".join(part for part in (event.get("date"), event.get("area")) if part)
+    if event.get("sourceColumn"):
+        title = f"{title} - {event['sourceColumn']}" if title else event["sourceColumn"]
+    return title
+
+
 def clean_event(value):
     if not isinstance(value, dict):
         return None
@@ -89,7 +96,9 @@ def clean_event(value):
             event[key] = int(value.get(key, 0))
         except (TypeError, ValueError):
             event[key] = 0
-    if not event["id"] or not event["date"] or not event["title"]:
+    if not event["title"]:
+        event["title"] = fallback_event_title(event)[:limits["title"]]
+    if not event["id"] or not event["date"]:
         return None
     return event
 

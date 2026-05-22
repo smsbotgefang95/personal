@@ -1030,7 +1030,7 @@
               </div>
               <div class="field full">
                 <label for="eventTitle">Event Title</label>
-                <input id="eventTitle" type="text" placeholder="What happened?" required />
+                <input id="eventTitle" type="text" placeholder="What happened?" />
               </div>
               <div class="field">
                 <label for="eventImpact">Impact Score</label>
@@ -2004,20 +2004,27 @@ W03: Cornbread`],
     return value.trimEnd();
   }
 
+  function fallbackEventTitle(date, area, sourceColumn) {
+    return [date, area].filter(Boolean).join(" ") + (sourceColumn ? ` - ${sourceColumn}` : "");
+  }
+
   function eventFromForm() {
+    const date = els.eventDate.value;
+    const area = els.eventArea.value;
+    const sourceColumn = els.eventSourceColumn.value;
     return {
       id: els.eventId.value || uniqueId(),
-      date: els.eventDate.value,
-      area: els.eventArea.value,
-      title: els.eventTitle.value.trim(),
+      date,
+      area,
+      title: els.eventTitle.value.trim() || fallbackEventTitle(date, area, sourceColumn),
       notes: cleanBulletNotes(els.eventNotes.value),
       impact: Number(els.eventImpact.value),
       importance: Number(els.eventImportance.value),
       energy: els.eventEnergy.value,
       pattern: els.eventPattern.value,
       people: els.eventPeople.value.trim(),
-      tags: els.eventTags.value.trim() || els.eventArea.value.toLowerCase(),
-      sourceColumn: els.eventSourceColumn.value,
+      tags: els.eventTags.value.trim() || area.toLowerCase(),
+      sourceColumn,
       lesson: els.eventLesson.value.trim(),
       action: els.eventAction.value.trim()
     };
