@@ -3343,7 +3343,7 @@ pass=通过；传递
       const currentStatus = getVocabularyStatus(item.id);
       const label = scenario ? scenario.label : "Top 1000";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
-      const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">词性: ${escapeHtml(item.partOfSpeech)}</p>` : "";
+      const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const pronunciation = item.pronunciation ? `<span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>` : "";
       return `
