@@ -981,7 +981,14 @@
     { id: "vocab-back", word: "back", chinese: "回来；回拨", pronunciation: "bak", scenario: "phone", example: "Please call me back." },
     { id: "vocab-help", word: "help", chinese: "帮助", pronunciation: "help", scenario: "work", example: "Could you help me with this?" },
     { id: "vocab-meeting", word: "meeting", chinese: "会议", pronunciation: "MEE-ting", scenario: "work", example: "I have a meeting at three." },
-    { id: "vocab-understand", word: "understand", chinese: "理解；明白", pronunciation: "un-der-STAND", scenario: "work", example: "I understand. Thank you." }
+    { id: "vocab-understand", word: "understand", chinese: "理解；明白", pronunciation: "un-der-STAND", scenario: "work", example: "I understand. Thank you." },
+    { id: "vocab-monday", word: "Monday", chinese: "星期一", pronunciation: "MUN-day", scenario: "work", partOfSpeech: "proper noun", example: "I work on Monday." },
+    { id: "vocab-tuesday", word: "Tuesday", chinese: "星期二", pronunciation: "TOOZ-day", scenario: "work", partOfSpeech: "proper noun", example: "I have class on Tuesday." },
+    { id: "vocab-wednesday", word: "Wednesday", chinese: "星期三", pronunciation: "WENZ-day", scenario: "work", partOfSpeech: "proper noun", example: "My appointment is on Wednesday." },
+    { id: "vocab-thursday", word: "Thursday", chinese: "星期四", pronunciation: "THURZ-day", scenario: "work", partOfSpeech: "proper noun", example: "The meeting is on Thursday." },
+    { id: "vocab-friday", word: "Friday", chinese: "星期五", pronunciation: "FRY-day", scenario: "work", partOfSpeech: "proper noun", example: "I get paid on Friday." },
+    { id: "vocab-saturday", word: "Saturday", chinese: "星期六", pronunciation: "SAT-er-day", scenario: "work", partOfSpeech: "proper noun", example: "I go shopping on Saturday." },
+    { id: "vocab-sunday", word: "Sunday", chinese: "星期日", pronunciation: "SUN-day", scenario: "work", partOfSpeech: "proper noun", example: "I rest on Sunday." }
   ];
 
   const FEATURED_BY_WORD = Object.fromEntries(
@@ -1244,6 +1251,13 @@ boys=男孩们
 since=自从；因为
 white=白色；白的
 days=天
+monday=星期一
+tuesday=星期二
+wednesday=星期三
+thursday=星期四
+friday=星期五
+saturday=星期六
+sunday=星期日
 ever=曾经
 paper=文件
 hard=困难的；硬的
@@ -2092,7 +2106,14 @@ pass=通过；传递
     "100": "number",
     "yes": "interjection",
     "oh": "interjection",
-    "please": "adverb / interjection"
+    "please": "adverb / interjection",
+    "monday": "proper noun",
+    "tuesday": "proper noun",
+    "wednesday": "proper noun",
+    "thursday": "proper noun",
+    "friday": "proper noun",
+    "saturday": "proper noun",
+    "sunday": "proper noun"
   };
 
   function getCommonWordPartOfSpeech(word, featured = {}) {
@@ -3110,7 +3131,14 @@ pass=通过；传递
     "divided",
     "greatest",
     "happens",
-    "pass"
+    "pass",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
   ];
 
   const VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
