@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Learning English | Beginner ESL Practice</title>
+<link rel="stylesheet" href="assets/site-nav.css" />
+<script src="assets/site-nav.js?v=20260522-learning-english" defer></script>
+<style>
+  :root {
+    --bg: #f6f7f2;
+    --surface: #ffffff;
+    --surface-2: #f0f7f4;
+    --text: #1d2430;
+    --muted: #647067;
+    --border: #dfe6dc;
+    --accent: #0f766e;
+    --accent-light: #ccfbf1;
+    --accent-2: #ca8a04;
+    --accent-3: #be123c;
+    --learned: #15803d;
+    --review: #7c3aed;
+    --learning: #b45309;
+    --shadow: 0 14px 35px rgba(29, 36, 48, 0.09);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      linear-gradient(180deg, rgba(204, 251, 241, 0.65) 0, rgba(246, 247, 242, 0) 320px),
+      var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px;
+    width: 100%;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 22px;
+    align-items: stretch;
+    margin-bottom: 22px;
+    min-width: 0;
+  }
+
+  .hero-main {
+    background: #103f3a;
+    border-radius: 8px;
+    color: #ffffff;
+    min-height: 300px;
+    min-width: 0;
+    overflow: hidden;
+    padding: 30px;
+    position: relative;
+    width: 100%;
+  }
+
+  .hero-main::after {
+    background:
+      radial-gradient(circle at 25% 20%, rgba(255,255,255,0.22), transparent 0 10%, transparent 11%),
+      radial-gradient(circle at 74% 28%, rgba(250,204,21,0.28), transparent 0 8%, transparent 9%),
+      linear-gradient(135deg, transparent 0 45%, rgba(20,184,166,0.24) 45% 100%);
+    content: "";
+    inset: 0;
+    position: absolute;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    color: #99f6e4;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 4.25rem);
+    letter-spacing: 0;
+    line-height: 0.98;
+    margin-top: 12px;
+    max-width: 760px;
+  }
+
+  .hero-subtitle {
+    color: rgba(255,255,255,0.82);
+    font-size: 1rem;
+    margin-top: 16px;
+    max-width: 620px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .hero-button,
+  .ghost-button {
+    align-items: center;
+    border-radius: 7px;
+    display: inline-flex;
+    font-weight: 800;
+    gap: 8px;
+    min-height: 42px;
+    padding: 10px 14px;
+    text-decoration: none;
+  }
+
+  .hero-button {
+    background: #facc15;
+    color: #1d2430;
+  }
+
+  .ghost-button {
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+  }
+
+  .progress-panel,
+  .daily-panel,
+  .phrase-card,
+  .tip-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+
+  .progress-panel {
+    display: grid;
+    gap: 14px;
+    max-width: 100%;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .progress-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .progress-title h2 {
+    font-size: 1.05rem;
+  }
+
+  .progress-title p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat {
+    background: var(--surface-2);
+    border: 1px solid #d9eee7;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .stat strong {
+    display: block;
+    font-size: 1.65rem;
+    line-height: 1;
+  }
+
+  .stat span {
+    color: var(--muted);
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 700;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .streak-note {
+    background: #fff7d6;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    color: #6b4f00;
+    font-size: 0.92rem;
+    padding: 12px;
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+    gap: 18px;
+    align-items: start;
+    min-width: 0;
+  }
+
+  .daily-panel,
+  .tip-panel {
+    max-width: 100%;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .panel-header {
+    align-items: start;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .panel-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .panel-header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  .scenario-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .scenario-tab {
+    background: #e8efe9;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: #405047;
+    font-size: 0.9rem;
+    font-weight: 800;
+    min-height: 38px;
+    padding: 8px 12px;
+  }
+
+  .scenario-tab:hover {
+    border-color: #a7d8ce;
+    color: var(--accent);
+  }
+
+  .scenario-tab.active {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  .daily-list,
+  .phrase-list,
+  .tip-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .daily-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .daily-item strong {
+    display: block;
+    font-size: 1rem;
+  }
+
+  .daily-item span {
+    color: var(--muted);
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  .phrase-card {
+    display: grid;
+    gap: 14px;
+    max-width: 100%;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .phrase-top {
+    align-items: start;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .phrase-tag {
+    background: #f1f5f3;
+    border-radius: 999px;
+    color: var(--accent);
+    display: inline-flex;
+    font-size: 0.76rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    padding: 5px 9px;
+    text-transform: uppercase;
+  }
+
+  .phrase-english {
+    font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+    font-weight: 850;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .phrase-chinese {
+    color: #374151;
+    font-size: 1.02rem;
+    margin-top: 8px;
+  }
+
+  .listen-button {
+    align-items: center;
+    background: #103f3a;
+    border-radius: 7px;
+    color: #ffffff;
+    display: inline-flex;
+    font-weight: 800;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px 12px;
+    white-space: nowrap;
+  }
+
+  .phrase-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 10px;
+  }
+
+  .detail-box {
+    background: #f8faf8;
+    border: 1px solid #e5ece4;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .detail-box span {
+    color: var(--muted);
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  .detail-box p {
+    color: #344036;
+    font-size: 0.94rem;
+  }
+
+  .status-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .status-button {
+    background: #edf2ee;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: #425147;
+    font-size: 0.88rem;
+    font-weight: 800;
+    min-height: 38px;
+    padding: 8px;
+  }
+
+  .status-button:hover {
+    border-color: #b7cbc2;
+  }
+
+  .status-button.active[data-status="learning"] {
+    background: #fef3c7;
+    color: var(--learning);
+  }
+
+  .status-button.active[data-status="review"] {
+    background: #ede9fe;
+    color: var(--review);
+  }
+
+  .status-button.active[data-status="learned"] {
+    background: #dcfce7;
+    color: var(--learned);
+  }
+
+  .tip-panel {
+    margin-top: 18px;
+  }
+
+  .tip-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tip {
+    background: #fffdf4;
+    border: 1px solid #f4e7b8;
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .tip strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .tip p {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .empty {
+    color: var(--muted);
+    padding: 24px;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .hero,
+    .section-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-main {
+      min-height: 260px;
+    }
+  }
+
+  @media (max-width: 680px) {
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .shell {
+      padding: 16px 12px;
+    }
+
+    .hero-main {
+      padding: 22px;
+    }
+
+    .hero-subtitle {
+      overflow-wrap: anywhere;
+    }
+
+    .stat-grid,
+    .phrase-detail,
+    .tip-list,
+    .status-row {
+      grid-template-columns: 1fr;
+    }
+
+    .phrase-top {
+      grid-template-columns: 1fr;
+    }
+
+    .listen-button {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="english"></site-nav>
+
+<main class="shell">
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-main">
+      <div class="hero-content">
+        <div>
+          <div class="eyebrow">Beginner ESL Practice</div>
+          <h1 id="page-title">Learning English</h1>
+          <p class="hero-subtitle">Practice useful daily conversations with Chinese support, clear pronunciation hints, and quick listening tools.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="hero-button" href="#practice">Start Practice</a>
+          <a class="ghost-button" href="#daily">Today&apos;s Phrases</a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="progress-panel" aria-label="Learning progress">
+      <div class="progress-title">
+        <div>
+          <h2>Progress</h2>
+          <p>Saved in this browser.</p>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><strong id="learnedCount">0</strong><span>Learned</span></div>
+        <div class="stat"><strong id="reviewCount">0</strong><span>Review</span></div>
+        <div class="stat"><strong id="streakCount">0</strong><span>Day Streak</span></div>
+      </div>
+      <div class="streak-note" id="streakNote">Mark one phrase today to start your streak.</div>
+    </aside>
+  </section>
+
+  <section class="section-grid">
+    <aside class="daily-panel" id="daily">
+      <div class="panel-header">
+        <div>
+          <h2>Today&apos;s Practice</h2>
+          <p>Use these short sentences out loud.</p>
+        </div>
+      </div>
+      <div class="daily-list" id="dailyList"></div>
+    </aside>
+
+    <section id="practice" aria-labelledby="practice-title">
+      <div class="panel-header">
+        <div>
+          <h2 id="practice-title">Scenario Practice</h2>
+          <p>Choose a real-life situation and practice the phrases.</p>
+        </div>
+      </div>
+      <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English practice scenarios"></div>
+      <div class="phrase-list" id="phraseList"></div>
+    </section>
+  </section>
+
+  <section class="tip-panel" aria-labelledby="tips-title">
+    <div class="panel-header">
+      <div>
+        <h2 id="tips-title">Practice Method</h2>
+        <p>Simple steps for beginner English speaking practice.</p>
+      </div>
+    </div>
+    <div class="tip-list">
+      <div class="tip">
+        <strong>Listen first</strong>
+        <p>Play the sentence two times before reading it out loud.</p>
+      </div>
+      <div class="tip">
+        <strong>Say it slowly</strong>
+        <p>Focus on clear pronunciation. Speed can come later.</p>
+      </div>
+      <div class="tip">
+        <strong>Use it today</strong>
+        <p>Pick one phrase and try to use it in a real conversation.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const STORAGE_STATUS_KEY = "learningEnglishPhraseStatus";
+  const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
+  const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
+
+  const SCENARIOS = [
+    { id: "greetings", label: "Greetings", zh: "打招呼" },
+    { id: "shopping", label: "Shopping", zh: "购物" },
+    { id: "restaurant", label: "Restaurant", zh: "餐厅" },
+    { id: "doctor", label: "Doctor", zh: "看医生" },
+    { id: "phone", label: "Phone Call", zh: "电话" },
+    { id: "work", label: "Work", zh: "工作" }
+  ];
+
+  const PHRASES = [
+    {
+      id: "greet-how-are-you",
+      scenario: "greetings",
+      english: "Hi, how are you today?",
+      chinese: "你好，你今天怎么样？",
+      pronunciation: "hai, how ar yoo tuh-DAY",
+      usage: "Use this when you meet someone and want to be friendly."
+    },
+    {
+      id: "greet-nice-meet",
+      scenario: "greetings",
+      english: "Nice to meet you.",
+      chinese: "很高兴认识你。",
+      pronunciation: "nice tuh MEET yoo",
+      usage: "Use this the first time you meet a person."
+    },
+    {
+      id: "greet-see-later",
+      scenario: "greetings",
+      english: "See you later.",
+      chinese: "回头见。",
+      pronunciation: "see yoo LAY-ter",
+      usage: "Use this when leaving a casual conversation."
+    },
+    {
+      id: "shop-how-much",
+      scenario: "shopping",
+      english: "How much does this cost?",
+      chinese: "这个多少钱？",
+      pronunciation: "how much duhz this kost",
+      usage: "Use this when asking the price of one item."
+    },
+    {
+      id: "shop-looking-for",
+      scenario: "shopping",
+      english: "I am looking for a small size.",
+      chinese: "我在找小号。",
+      pronunciation: "eye am LOOK-ing for uh small size",
+      usage: "Use this when asking a store worker for help."
+    },
+    {
+      id: "shop-card",
+      scenario: "shopping",
+      english: "Can I pay by card?",
+      chinese: "我可以刷卡付款吗？",
+      pronunciation: "can eye pay by kard",
+      usage: "Use this before paying at the register."
+    },
+    {
+      id: "rest-table",
+      scenario: "restaurant",
+      english: "A table for two, please.",
+      chinese: "请安排两个人的桌子。",
+      pronunciation: "uh TAY-bul for too, pleez",
+      usage: "Use this when you arrive at a restaurant."
+    },
+    {
+      id: "rest-order",
+      scenario: "restaurant",
+      english: "I would like to order this.",
+      chinese: "我想点这个。",
+      pronunciation: "eye wood like tuh OR-der this",
+      usage: "Use this when pointing to an item on the menu."
+    },
+    {
+      id: "rest-check",
+      scenario: "restaurant",
+      english: "Can we have the check, please?",
+      chinese: "请把账单给我们好吗？",
+      pronunciation: "can wee hav thuh chek, pleez",
+      usage: "Use this when you are ready to pay."
+    },
+    {
+      id: "doctor-appointment",
+      scenario: "doctor",
+      english: "I have an appointment at ten.",
+      chinese: "我十点有预约。",
+      pronunciation: "eye hav an uh-POINT-ment at ten",
+      usage: "Use this when checking in at a clinic."
+    },
+    {
+      id: "doctor-pain",
+      scenario: "doctor",
+      english: "I have pain in my throat.",
+      chinese: "我喉咙痛。",
+      pronunciation: "eye hav pain in my throht",
+      usage: "Change the body part to describe your symptom."
+    },
+    {
+      id: "doctor-repeat",
+      scenario: "doctor",
+      english: "Could you say that again, please?",
+      chinese: "你可以再说一遍吗？",
+      pronunciation: "kood yoo say that uh-GEN, pleez",
+      usage: "Use this when you need the doctor to repeat something."
+    },
+    {
+      id: "phone-speak",
+      scenario: "phone",
+      english: "May I speak with Anna?",
+      chinese: "我可以和 Anna 通话吗？",
+      pronunciation: "may eye speek with AN-na",
+      usage: "Use this when calling and asking for a person."
+    },
+    {
+      id: "phone-message",
+      scenario: "phone",
+      english: "Can I leave a message?",
+      chinese: "我可以留言吗？",
+      pronunciation: "can eye leev uh MES-ij",
+      usage: "Use this when the person is not available."
+    },
+    {
+      id: "phone-call-back",
+      scenario: "phone",
+      english: "Please call me back.",
+      chinese: "请给我回电话。",
+      pronunciation: "pleez call mee bak",
+      usage: "Use this when you want someone to return your call."
+    },
+    {
+      id: "work-help",
+      scenario: "work",
+      english: "Could you help me with this?",
+      chinese: "你可以帮我处理这个吗？",
+      pronunciation: "kood yoo help mee with this",
+      usage: "Use this when asking a coworker for help."
+    },
+    {
+      id: "work-meeting",
+      scenario: "work",
+      english: "I have a meeting at three.",
+      chinese: "我三点有会议。",
+      pronunciation: "eye hav uh MEE-ting at three",
+      usage: "Use this when explaining your schedule."
+    },
+    {
+      id: "work-understand",
+      scenario: "work",
+      english: "I understand. Thank you.",
+      chinese: "我明白了，谢谢。",
+      pronunciation: "eye un-der-STAND. thank yoo",
+      usage: "Use this after someone explains something."
+    }
+  ];
+
+  const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
+  let selectedScenario = loadSelectedScenario();
+  let statuses = readJson(STORAGE_STATUS_KEY, {});
+  let activity = readJson(STORAGE_ACTIVITY_KEY, {});
+
+  function readJson(key, fallback) {
+    try {
+      return JSON.parse(localStorage.getItem(key) || "null") || fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function saveJson(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {}
+  }
+
+  function loadSelectedScenario() {
+    try {
+      const saved = localStorage.getItem(STORAGE_SCENARIO_KEY);
+      return SCENARIOS.some((item) => item.id === saved) ? saved : "greetings";
+    } catch (error) {
+      return "greetings";
+    }
+  }
+
+  function saveSelectedScenario() {
+    try {
+      localStorage.setItem(STORAGE_SCENARIO_KEY, selectedScenario);
+    } catch (error) {}
+  }
+
+  function todayKey() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function markDailyActivity() {
+    const key = todayKey();
+    activity[key] = true;
+    saveJson(STORAGE_ACTIVITY_KEY, activity);
+  }
+
+  function calculateStreak() {
+    let streak = 0;
+    const cursor = new Date();
+    while (activity[cursor.toISOString().slice(0, 10)]) {
+      streak += 1;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    return streak;
+  }
+
+  function renderScenarioTabs() {
+    const container = document.getElementById("scenarioTabs");
+    container.innerHTML = SCENARIOS.map((scenario) => {
+      const isActive = scenario.id === selectedScenario;
+      return `<button class="scenario-tab${isActive ? " active" : ""}" type="button" role="tab" aria-selected="${isActive}" data-scenario="${scenario.id}">${scenario.label} / ${scenario.zh}</button>`;
+    }).join("");
+
+    container.querySelectorAll(".scenario-tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedScenario = button.dataset.scenario;
+        saveSelectedScenario();
+        render();
+      });
+    });
+  }
+
+  function renderDailyList() {
+    const container = document.getElementById("dailyList");
+    container.innerHTML = dailyPhraseIds.map((id) => {
+      const phrase = PHRASES.find((item) => item.id === id);
+      return `<div class="daily-item"><strong>${phrase.english}</strong><span>${phrase.chinese}</span></div>`;
+    }).join("");
+  }
+
+  function renderPhraseList() {
+    const container = document.getElementById("phraseList");
+    const phrases = PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
+
+    if (!phrases.length) {
+      container.innerHTML = `<div class="empty">No phrases yet.</div>`;
+      return;
+    }
+
+    container.innerHTML = phrases.map((phrase) => {
+      const scenario = SCENARIOS.find((item) => item.id === phrase.scenario);
+      const currentStatus = statuses[phrase.id] || "";
+      return `
+        <article class="phrase-card" data-phrase-id="${phrase.id}">
+          <div class="phrase-top">
+            <div>
+              <span class="phrase-tag">${scenario.label}</span>
+              <h3 class="phrase-english">${phrase.english}</h3>
+              <p class="phrase-chinese">${phrase.chinese}</p>
+            </div>
+            <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">Listen</button>
+          </div>
+          <div class="phrase-detail">
+            <div class="detail-box">
+              <span>Pronunciation</span>
+              <p>${phrase.pronunciation}</p>
+            </div>
+            <div class="detail-box">
+              <span>Use it when</span>
+              <p>${phrase.usage}</p>
+            </div>
+          </div>
+          <div class="status-row" aria-label="Practice status for ${phrase.english}">
+            ${statusButton(phrase.id, "learning", "Learning", currentStatus)}
+            ${statusButton(phrase.id, "review", "Review", currentStatus)}
+            ${statusButton(phrase.id, "learned", "Learned", currentStatus)}
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    container.querySelectorAll("[data-speak]").forEach((button) => {
+      button.addEventListener("click", () => speakPhrase(button.dataset.speak));
+    });
+
+    container.querySelectorAll("[data-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        statuses[button.dataset.phraseId] = button.dataset.status;
+        saveJson(STORAGE_STATUS_KEY, statuses);
+        markDailyActivity();
+        render();
+      });
+    });
+  }
+
+  function statusButton(phraseId, status, label, currentStatus) {
+    const active = currentStatus === status ? " active" : "";
+    return `<button class="status-button${active}" type="button" data-phrase-id="${phraseId}" data-status="${status}">${label}</button>`;
+  }
+
+  function speakPhrase(phraseId) {
+    const phrase = PHRASES.find((item) => item.id === phraseId);
+    if (!phrase || !("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(phrase.english);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+    markDailyActivity();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const values = Object.values(statuses);
+    const learned = values.filter((value) => value === "learned").length;
+    const review = values.filter((value) => value === "review").length;
+    const streak = calculateStreak();
+
+    document.getElementById("learnedCount").textContent = learned;
+    document.getElementById("reviewCount").textContent = review;
+    document.getElementById("streakCount").textContent = streak;
+    document.getElementById("streakNote").textContent = streak > 0
+      ? `You practiced today. Keep the ${streak}-day streak going.`
+      : "Mark one phrase today to start your streak.";
+  }
+
+  function render() {
+    renderScenarioTabs();
+    renderDailyList();
+    renderPhraseList();
+    updateProgress();
+  }
+
+  render();
+</script>
+</body>
+</html>
