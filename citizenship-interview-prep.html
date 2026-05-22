@@ -3475,9 +3475,6 @@
       const changed = applyVocabularyPayload(payload);
       setVocabSyncStatus("服务器同步", "saved");
       if (changed) renderFrequency();
-      if (Object.keys(wordLabelOverrides).length || Object.keys(wordMeaningOverrides).length) {
-        queueVocabularySync();
-      }
     } catch (e) {
       vocabSyncAvailable = false;
       setVocabSyncStatus("仅本地", "");
