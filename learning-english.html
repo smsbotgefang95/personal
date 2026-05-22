@@ -756,6 +756,7 @@
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
         <option value="all">All status</option>
         <option value="auto">Auto</option>
+        <option value="to-learn">To Learn</option>
         <option value="learning">Learning</option>
         <option value="review">Review</option>
         <option value="learned">Learned</option>
@@ -2041,7 +2042,7 @@
   function loadSelectedVocabularyStatus() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_FILTER_KEY);
-      return ["all", "auto", "learning", "review", "learned"].includes(saved) ? saved : "all";
+      return ["all", "auto", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -2227,6 +2228,7 @@
             <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">Listen</button>
             <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
               ${vocabularyStatusButton(item.id, "auto", "Auto", currentStatus)}
+              ${vocabularyStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
               ${vocabularyStatusButton(item.id, "learning", "Learning", currentStatus)}
               ${vocabularyStatusButton(item.id, "review", "Review", currentStatus)}
               ${vocabularyStatusButton(item.id, "learned", "Learned", currentStatus)}
