@@ -564,6 +564,13 @@
     margin-top: 5px;
   }
 
+  .vocabulary-part {
+    color: #52525b;
+    font-size: 0.9rem;
+    font-weight: 750;
+    margin-top: 5px;
+  }
+
   .vocabulary-example {
     color: var(--muted);
     font-size: 0.92rem;
@@ -1983,6 +1990,126 @@ pass=通过；传递
     return COMMON_WORD_TRANSLATIONS[word.toLowerCase()] || "";
   }
 
+  const COMMON_WORD_PARTS = {
+    "the": "determiner",
+    "a": "determiner",
+    "an": "determiner",
+    "this": "determiner / pronoun",
+    "that": "determiner / pronoun",
+    "these": "determiner / pronoun",
+    "those": "determiner / pronoun",
+    "my": "determiner",
+    "your": "determiner",
+    "his": "determiner / pronoun",
+    "her": "determiner / pronoun",
+    "its": "determiner",
+    "our": "determiner",
+    "their": "determiner",
+    "I": "pronoun",
+    "you": "pronoun",
+    "he": "pronoun",
+    "she": "pronoun",
+    "it": "pronoun",
+    "we": "pronoun",
+    "they": "pronoun",
+    "me": "pronoun",
+    "him": "pronoun",
+    "them": "pronoun",
+    "us": "pronoun",
+    "who": "pronoun",
+    "what": "pronoun / determiner",
+    "which": "pronoun / determiner",
+    "of": "preposition",
+    "to": "preposition / infinitive marker",
+    "in": "preposition",
+    "for": "preposition",
+    "on": "preposition",
+    "with": "preposition",
+    "at": "preposition",
+    "from": "preposition",
+    "by": "preposition",
+    "about": "preposition / adverb",
+    "into": "preposition",
+    "than": "conjunction / preposition",
+    "through": "preposition",
+    "under": "preposition",
+    "between": "preposition",
+    "and": "conjunction",
+    "or": "conjunction",
+    "but": "conjunction",
+    "if": "conjunction",
+    "when": "conjunction / adverb",
+    "because": "conjunction",
+    "while": "conjunction",
+    "is": "verb",
+    "was": "verb",
+    "are": "verb",
+    "be": "verb",
+    "were": "verb",
+    "been": "verb",
+    "being": "verb",
+    "am": "verb",
+    "have": "verb",
+    "has": "verb",
+    "had": "verb",
+    "do": "verb",
+    "does": "verb",
+    "did": "verb",
+    "can": "modal verb",
+    "will": "modal verb",
+    "would": "modal verb",
+    "could": "modal verb",
+    "should": "modal verb",
+    "may": "modal verb",
+    "might": "modal verb",
+    "must": "modal verb",
+    "shall": "modal verb",
+    "not": "adverb",
+    "how": "adverb",
+    "up": "adverb / preposition",
+    "out": "adverb / preposition",
+    "then": "adverb",
+    "so": "adverb / conjunction",
+    "now": "adverb",
+    "there": "adverb / pronoun",
+    "here": "adverb",
+    "more": "adjective / adverb",
+    "most": "adjective / adverb",
+    "very": "adverb",
+    "just": "adverb",
+    "only": "adverb / adjective",
+    "also": "adverb",
+    "too": "adverb",
+    "well": "adverb / adjective",
+    "one": "number / pronoun",
+    "two": "number",
+    "three": "number",
+    "four": "number",
+    "five": "number",
+    "six": "number",
+    "ten": "number",
+    "hundred": "number / noun",
+    "100": "number",
+    "yes": "interjection",
+    "oh": "interjection",
+    "please": "adverb / interjection"
+  };
+
+  function getCommonWordPartOfSpeech(word, featured = {}) {
+    if (featured.partOfSpeech) return featured.partOfSpeech;
+    const normalized = word.toLowerCase();
+    const exact = COMMON_WORD_PARTS[word] || COMMON_WORD_PARTS[normalized];
+    if (exact) return exact;
+    if (/^\d+$/.test(normalized)) return "number";
+    if (normalized.endsWith("ly")) return "adverb";
+    if (/(ous|ful|less|able|ible|al|ic|ive|est)$/.test(normalized)) return "adjective";
+    if (/(tion|sion|ment|ness|ity|ship|age|ism)$/.test(normalized)) return "noun";
+    if (/(ing|ed)$/.test(normalized)) return "verb";
+    if (/(er|or)$/.test(normalized)) return "noun";
+    if (normalized.endsWith("s") && normalized.length > 3) return "noun";
+    return "noun / verb";
+  }
+
   const COMMON_WORDS_1000 = [
     "the",
     "of",
@@ -2994,6 +3121,7 @@ pass=通过；传递
       scenario: "common",
       chinese: getCommonWordChinese(word),
       ...featured,
+      partOfSpeech: getCommonWordPartOfSpeech(word, featured),
       rank: index + 1
     };
   });
@@ -3198,7 +3326,7 @@ pass=通过；传递
     const words = VOCABULARY.filter((item) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
-      const matchesSearch = !search || [item.word, item.chinese, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
+      const matchesSearch = !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
       return matchesStatus && matchesSearch;
     });
 
@@ -3215,6 +3343,7 @@ pass=通过；传递
       const currentStatus = getVocabularyStatus(item.id);
       const label = scenario ? scenario.label : "Top 1000";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
+      const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">词性: ${escapeHtml(item.partOfSpeech)}</p>` : "";
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const pronunciation = item.pronunciation ? `<span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>` : "";
       return `
@@ -3222,6 +3351,7 @@ pass=通过；传递
           <div>
             <h3 class="vocabulary-word">${escapeHtml(item.word)}</h3>
             ${meaning}
+            ${partOfSpeech}
             ${example}
             <div class="vocabulary-meta">
               <span class="vocabulary-tag">#${item.rank}</span>
