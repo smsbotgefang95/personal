@@ -1913,16 +1913,29 @@ W03: Cornbread`],
     }
     if (area !== "Career") return columns;
 
+    const orderedColumns = moveColumnBefore(columns, "KPI", "总结");
     const careerWorkflowColumns = ["Skip Tracing", "Marketing"];
-    const movedColumns = careerWorkflowColumns.filter((column) => columns.includes(column));
-    if (!movedColumns.length || !columns.includes("Pull Prospects")) return columns;
+    const movedColumns = careerWorkflowColumns.filter((column) => orderedColumns.includes(column));
+    if (!movedColumns.length || !orderedColumns.includes("Pull Prospects")) return orderedColumns;
 
-    const remainingColumns = columns.filter((column) => !careerWorkflowColumns.includes(column));
+    const remainingColumns = orderedColumns.filter((column) => !careerWorkflowColumns.includes(column));
     const pullProspectsIndex = remainingColumns.indexOf("Pull Prospects");
     return [
       ...remainingColumns.slice(0, pullProspectsIndex + 1),
       ...movedColumns,
       ...remainingColumns.slice(pullProspectsIndex + 1)
+    ];
+  }
+
+  function moveColumnBefore(columns, columnToMove, targetColumn) {
+    if (!columns.includes(columnToMove) || !columns.includes(targetColumn)) return columns;
+
+    const reorderedColumns = columns.filter((column) => column !== columnToMove);
+    const targetIndex = reorderedColumns.indexOf(targetColumn);
+    return [
+      ...reorderedColumns.slice(0, targetIndex),
+      columnToMove,
+      ...reorderedColumns.slice(targetIndex)
     ];
   }
 
@@ -2161,10 +2174,11 @@ W03: Cornbread`],
     const selectedAreaOptions = selectedAreaTab ? sourceColumnOptions(selectedAreaTab) : [];
     if (selectedAreaOption !== "all" && !selectedAreaOptions.includes(selectedAreaOption)) selectedAreaOption = "all";
     const visibleAreas = selectedAreaTab ? [selectedAreaTab] : areas;
+    const visibleYears = allKnownYears();
     const sections = visibleAreas.map((area) => {
       const areaEvents = visibleSourceEvents.filter((event) => event.area === area);
       const columnOrder = sourceColumnOptions(area);
-      const years = areaYears(areaEvents);
+      const years = visibleYears;
       const topics = areaColumns(areaEvents, columnOrder);
       const visibleTopics = area === selectedAreaTab && selectedAreaOption !== "all"
         ? topics.filter((topic) => topic === selectedAreaOption)
@@ -2247,6 +2261,10 @@ W03: Cornbread`],
   function areaYears(areaEvents) {
     return [...new Set(areaEvents.map((event) => eventYearLabel(event)))]
       .sort(sortYearsNewestFirst);
+  }
+
+  function allKnownYears() {
+    return areaYears(events.filter((event) => !isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry")));
   }
 
   function eventYearLabel(event) {
