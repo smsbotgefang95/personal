@@ -353,38 +353,13 @@
 
   #eventForm .form-grid {
     align-items: end;
-    grid-template-columns: repeat(2, max-content);
-    justify-content: start;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
   #eventForm .field {
     max-width: 100%;
-    width: max-content;
-  }
-
-  #eventForm .field input,
-  #eventForm .field select {
-    field-sizing: content;
-    max-width: 100%;
-    min-width: 12ch;
-    width: auto;
-  }
-
-  #eventForm .field.full {
-    max-width: 100%;
-    width: max-content;
-  }
-
-  #eventForm .field.full input {
-    max-width: min(100%, 62ch);
-    min-width: 18ch;
-  }
-
-  #eventForm .field.full textarea {
-    field-sizing: content;
-    max-width: min(100%, 62ch);
-    min-width: 34ch;
-    width: auto;
+    min-width: 0;
+    width: 100%;
   }
 
   .field.full {
@@ -821,6 +796,19 @@
     outline: none;
   }
 
+  .admin-key-credential-context {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
   .admin-key-actions {
     display: flex;
     gap: 8px;
@@ -876,6 +864,10 @@
     .stats-row,
     .filters,
     .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #eventForm .form-grid {
       grid-template-columns: 1fr;
     }
 
@@ -1169,13 +1161,23 @@
 
 </main>
 <div class="admin-key-dialog" id="adminKeyDialog" role="dialog" aria-modal="true" aria-labelledby="adminKeyTitle" hidden>
-  <form class="admin-key-panel" id="adminKeyForm">
+  <form class="admin-key-panel" id="adminKeyForm" method="post" action="/api/life-events" autocomplete="on">
     <h2 id="adminKeyTitle">Save Life Events changes</h2>
     <p>Enter the Life Events admin key to save changes to the server.</p>
+    <input
+      class="admin-key-credential-context"
+      id="adminKeyUsername"
+      name="username"
+      type="text"
+      autocomplete="username"
+      value="life-events-admin"
+      tabindex="-1"
+      readonly
+    />
     <label for="adminKeyInput">Life Events admin key</label>
     <input
       id="adminKeyInput"
-      name="life-events-admin-key"
+      name="password"
       type="password"
       autocomplete="current-password"
       required
@@ -1769,7 +1771,7 @@ W03: Cornbread`],
 
   function saveEvents() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-    if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey: true });
+    if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey: false });
   }
 
   function lifeEventsPayload() {
@@ -1854,6 +1856,10 @@ W03: Cornbread`],
   async function saveLifeEventsToServer({ promptForKey = false } = {}) {
     let adminKey = "";
     try { adminKey = localStorage.getItem(LIFE_EVENTS_ADMIN_KEY) || ""; } catch (error) {}
+    if (!adminKey && !promptForKey) {
+      lifeEventsSyncAvailable = false;
+      return;
+    }
     let res;
     try {
       res = await postLifeEventsPayload(lifeEventsPayload(), adminKey);
