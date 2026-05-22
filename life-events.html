@@ -364,8 +364,7 @@
     background: #ffffff;
     border: 1px solid #dadce0;
     border-radius: 4px;
-    max-height: 72vh;
-    overflow: auto;
+    overflow: visible;
   }
 
   .area-tabs {
@@ -373,7 +372,8 @@
     border-bottom: 1px solid #dadce0;
     display: flex;
     gap: 4px;
-    min-width: max-content;
+    min-width: 0;
+    overflow-x: auto;
     padding: 6px 8px;
     position: sticky;
     top: 0;
@@ -404,10 +404,6 @@
     color: #ffffff;
   }
 
-  .sheet-section + .sheet-section {
-    border-top: 6px solid #eef2f7;
-  }
-
   .sheet-title {
     background: #e8f0fe;
     border-bottom: 1px solid #c9d7f8;
@@ -422,62 +418,74 @@
     z-index: 4;
   }
 
-  .sheet-table {
-    border-collapse: collapse;
-    color: #202124;
-    font-size: 0.78rem;
-    min-width: max-content;
-    table-layout: fixed;
+  .year-group {
+    border-bottom: 1px solid #dde3ec;
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
   }
 
-  .sheet-table th,
-  .sheet-table td {
-    border: 1px solid #dadce0;
-    padding: 5px 7px;
-    text-align: left;
-    vertical-align: top;
+  .year-group:last-child {
+    border-bottom: 0;
   }
 
-  .sheet-table th {
-    background: #f8f9fa;
-    color: #3c4043;
-    font-size: 0.7rem;
+  .year-label {
+    background: #f8fafc;
+    border-right: 1px solid #dde3ec;
+    color: #172033;
+    font-size: 0.96rem;
     font-weight: 800;
-    letter-spacing: 0;
-    position: sticky;
-    text-transform: none;
-    top: 84px;
-    z-index: 3;
-  }
-
-  .sheet-table th:first-child {
-    left: 0;
-    z-index: 5;
-  }
-
-  .sheet-table tr:hover td {
-    background: #f8fafd;
-  }
-
-  .year-cell {
-    background: #f8f9fa;
-    color: #202124;
-    font-weight: 800;
-    min-width: 64px;
     position: sticky;
     left: 0;
+    padding: 14px 12px;
     z-index: 2;
   }
 
-  .sheet-cell {
+  .category-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(var(--category-count, 1), minmax(0, 1fr));
+    padding: 12px;
+  }
+
+  .category-card {
+    background: #ffffff;
+    border: 1px solid #dde3ec;
+    border-radius: 8px;
     color: #202124;
-    line-height: 1.3;
-    min-height: 58px;
-    min-width: 168px;
-    width: 168px;
+    min-width: 0;
+  }
+
+  .category-card:hover {
+    border-color: #b9c8e6;
+    box-shadow: 0 7px 18px rgba(15, 23, 42, 0.08);
+  }
+
+  .category-title {
+    align-items: center;
+    background: #f8fafc;
+    border-bottom: 1px solid #e6ebf2;
+    color: #334155;
+    display: flex;
+    font-size: 0.78rem;
+    font-weight: 800;
+    justify-content: space-between;
+    min-height: 34px;
+    padding: 8px 10px;
+  }
+
+  .category-count {
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .category-card .cell-entry {
+    padding: 10px;
   }
 
   .cell-content {
+    font-size: 0.9rem;
+    line-height: 1.45;
     white-space: pre-wrap;
   }
 
@@ -499,7 +507,7 @@
 
   .cell-date {
     color: #5f6368;
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: 800;
     margin-bottom: 4px;
   }
@@ -520,9 +528,9 @@
   }
 
   .cell-actions .btn {
-    font-size: 0.72rem;
-    min-height: 26px;
-    padding: 4px 7px;
+    font-size: 0.76rem;
+    min-height: 30px;
+    padding: 5px 8px;
   }
 
   .pill {
@@ -642,6 +650,26 @@
     .panel-head {
       flex-direction: column;
     }
+
+    .year-group {
+      grid-template-columns: 1fr;
+    }
+
+    .year-label {
+      border-bottom: 1px solid #dde3ec;
+      border-right: 0;
+      left: auto;
+      padding: 10px 12px;
+      position: static;
+    }
+
+    .category-grid {
+      overflow-x: auto;
+    }
+
+    .category-card {
+      min-width: 190px;
+    }
   }
 </style>
 </head>
@@ -656,6 +684,7 @@
     </div>
     <div class="toolbar">
       <div class="insight-tabs" role="tablist" aria-label="Life event insights">
+        <button class="insight-tab active" id="timelineTab" type="button" role="tab" aria-selected="true" aria-controls="timelinePanel">Timeline</button>
         <button class="insight-tab" id="newEventBtn" type="button" role="tab" aria-selected="false" aria-controls="eventWorkspace">New Event</button>
         <button class="insight-tab" id="guidanceTab" type="button" role="tab" aria-selected="false" aria-controls="guidancePane" data-insight-tab="guidance">What This Is Telling You</button>
         <button class="insight-tab" id="areaTab" type="button" role="tab" aria-selected="false" aria-controls="areaPane" data-insight-tab="area">Area Signals</button>
@@ -663,7 +692,7 @@
     </div>
   </header>
 
-  <section class="panel timeline-panel" aria-labelledby="timelineTitle">
+  <section class="panel timeline-panel" id="timelinePanel" aria-labelledby="timelineTitle">
     <div class="panel-head">
       <div>
         <h2 id="timelineTitle">Timeline</h2>
@@ -717,7 +746,7 @@
     </div>
   </section>
 
-  <section class="stats-row" aria-label="Life event summary">
+  <section class="stats-row" id="statsRow" aria-label="Life event summary">
     <div class="stat"><div class="label">Events</div><div class="value" id="totalEvents">0</div></div>
     <div class="stat"><div class="label">Positive</div><div class="value" id="positiveEvents">0</div></div>
     <div class="stat"><div class="label">Needs Attention</div><div class="value" id="watchEvents">0</div></div>
@@ -1337,6 +1366,7 @@ W03: Cornbread`],
     eventLesson: document.getElementById("eventLesson"),
     eventAction: document.getElementById("eventAction"),
     cancelEditBtn: document.getElementById("cancelEditBtn"),
+    timelineTab: document.getElementById("timelineTab"),
     newEventBtn: document.getElementById("newEventBtn"),
     filterArea: document.getElementById("filterArea"),
     filterColumn: document.getElementById("filterColumn"),
@@ -1346,6 +1376,8 @@ W03: Cornbread`],
     filterPattern: document.getElementById("filterPattern"),
     eventList: document.getElementById("eventList"),
     timelineSummary: document.getElementById("timelineSummary"),
+    timelinePanel: document.getElementById("timelinePanel"),
+    statsRow: document.getElementById("statsRow"),
     eventWorkspace: document.getElementById("eventWorkspace"),
     insightsPanel: document.getElementById("insightsPanel"),
     insightTabs: [...document.querySelectorAll("[data-insight-tab]")],
@@ -1829,37 +1861,24 @@ W03: Cornbread`],
     const visibleAreas = selectedAreaTab ? [selectedAreaTab] : areas;
     const sections = visibleAreas.map((area) => {
       const areaEvents = sourceEvents.filter((event) => event.area === area);
-      const columns = [...new Set(areaEvents.map((event) => event.sourceColumn || "Manual entry"))]
-        .sort((a, b) => sourceColumnOptions(area).indexOf(a) - sourceColumnOptions(area).indexOf(b) || a.localeCompare(b));
+      const columnOrder = sourceColumnOptions(area);
       const years = [...new Set(areaEvents.map((event) => String(event.date || "").slice(0, 4) || "No year"))]
         .sort((a, b) => b.localeCompare(a));
 
       const rows = years.map((year) => `
-        <tr>
-          <td class="year-cell">${escapeHtml(year)}</td>
-          ${columns.map((column) => {
-            const cellEvents = areaEvents.filter((event) => {
-              const eventYear = String(event.date || "").slice(0, 4) || "No year";
-              return eventYear === year && (event.sourceColumn || "Manual entry") === column;
-            });
-            return `<td class="sheet-cell">${cellEvents.map(renderSheetCellEvent).join("")}</td>`;
-          }).join("")}
-        </tr>
+        <div class="year-group">
+          <div class="year-label">${escapeHtml(year)}</div>
+          <div class="category-grid" style="--category-count:${yearCategoryCount(areaEvents, year)}">
+            ${renderYearCategoryCards(areaEvents, year, columnOrder)}
+          </div>
+        </div>
       `).join("");
 
       const areaId = `area-${area.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       return `
         <section class="sheet-section" id="${escapeHtml(areaId)}">
           <h3 class="sheet-title">${escapeHtml(area)}</h3>
-          <table class="sheet-table">
-            <thead>
-              <tr>
-                <th>Year</th>
-                ${columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("")}
-              </tr>
-            </thead>
-            <tbody>${rows}</tbody>
-          </table>
+          ${rows}
         </section>
       `;
     }).join("");
@@ -1874,6 +1893,40 @@ W03: Cornbread`],
     `;
 
     els.eventList.innerHTML = tabs + sections;
+  }
+
+  function yearCategoryCount(areaEvents, year) {
+    return new Set(areaEvents
+      .filter((event) => (String(event.date || "").slice(0, 4) || "No year") === year)
+      .map((event) => event.sourceColumn || "Manual entry")).size || 1;
+  }
+
+  function renderYearCategoryCards(areaEvents, year, columnOrder) {
+    const byColumn = new Map();
+    areaEvents.forEach((event) => {
+      const eventYear = String(event.date || "").slice(0, 4) || "No year";
+      if (eventYear !== year) return;
+      const column = event.sourceColumn || "Manual entry";
+      if (!byColumn.has(column)) byColumn.set(column, []);
+      byColumn.get(column).push(event);
+    });
+
+    return [...byColumn.entries()]
+      .sort(([a], [b]) => columnRank(columnOrder, a) - columnRank(columnOrder, b) || a.localeCompare(b))
+      .map(([column, cellEvents]) => `
+        <article class="category-card">
+          <div class="category-title">
+            <span>${escapeHtml(column)}</span>
+            <span class="category-count">${cellEvents.length}</span>
+          </div>
+          ${cellEvents.map(renderSheetCellEvent).join("")}
+        </article>
+      `).join("");
+  }
+
+  function columnRank(columnOrder, column) {
+    const index = columnOrder.indexOf(column);
+    return index >= 0 ? index : columnOrder.length;
   }
 
   function renderSheetCellEvent(event) {
@@ -2006,6 +2059,10 @@ W03: Cornbread`],
   function clearToolbarSelection() {
     els.eventWorkspace.hidden = true;
     els.insightsPanel.hidden = true;
+    els.timelinePanel.hidden = false;
+    els.statsRow.hidden = false;
+    els.timelineTab.classList.add("active");
+    els.timelineTab.setAttribute("aria-selected", "true");
     els.newEventBtn.classList.remove("active");
     els.newEventBtn.setAttribute("aria-selected", "false");
     els.insightTabs.forEach((tab) => {
@@ -2017,6 +2074,10 @@ W03: Cornbread`],
 
   function activateInsightTab(tabName) {
     els.eventWorkspace.hidden = true;
+    els.timelinePanel.hidden = true;
+    els.statsRow.hidden = true;
+    els.timelineTab.classList.remove("active");
+    els.timelineTab.setAttribute("aria-selected", "false");
     els.newEventBtn.classList.remove("active");
     els.newEventBtn.setAttribute("aria-selected", "false");
     els.insightsPanel.hidden = false;
@@ -2032,6 +2093,10 @@ W03: Cornbread`],
 
   function activateNewEventTab() {
     clearToolbarSelection();
+    els.timelinePanel.hidden = true;
+    els.statsRow.hidden = true;
+    els.timelineTab.classList.remove("active");
+    els.timelineTab.setAttribute("aria-selected", "false");
     els.eventWorkspace.hidden = false;
     els.newEventBtn.classList.add("active");
     els.newEventBtn.setAttribute("aria-selected", "true");
@@ -2074,10 +2139,11 @@ W03: Cornbread`],
   });
 
   els.cancelEditBtn.addEventListener("click", resetForm);
+  els.timelineTab.addEventListener("click", clearToolbarSelection);
   els.newEventBtn.addEventListener("click", () => {
     activateNewEventTab();
     resetForm(true);
-    els.eventFormPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
   els.eventArea.addEventListener("change", () => {
     updateEventSourceColumnOptions();
