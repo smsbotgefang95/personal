@@ -1670,7 +1670,29 @@ W03: Cornbread`],
     const sheetColumns = GOOGLE_SHEET_ROWS
       .filter(([rowArea]) => area === "all" || rowArea === area)
       .map(([, , category]) => category);
-    return [...new Set(sheetColumns)];
+    const columns = [...new Set(sheetColumns)];
+    if (area === "Parent" && columns.includes("留美事项") && columns.includes("健康")) {
+      const reorderedColumns = columns.filter((column) => column !== "健康");
+      const stayInAmericaIndex = reorderedColumns.indexOf("留美事项");
+      return [
+        ...reorderedColumns.slice(0, stayInAmericaIndex + 1),
+        "健康",
+        ...reorderedColumns.slice(stayInAmericaIndex + 1)
+      ];
+    }
+    if (area !== "Career") return columns;
+
+    const careerWorkflowColumns = ["Skip Tracing", "Marketing"];
+    const movedColumns = careerWorkflowColumns.filter((column) => columns.includes(column));
+    if (!movedColumns.length || !columns.includes("Pull Prospects")) return columns;
+
+    const remainingColumns = columns.filter((column) => !careerWorkflowColumns.includes(column));
+    const pullProspectsIndex = remainingColumns.indexOf("Pull Prospects");
+    return [
+      ...remainingColumns.slice(0, pullProspectsIndex + 1),
+      ...movedColumns,
+      ...remainingColumns.slice(pullProspectsIndex + 1)
+    ];
   }
 
   function updateColumnOptions() {
