@@ -360,6 +360,13 @@
     padding: 18px;
   }
 
+  .phrase-tools {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) auto;
+    margin: 16px 0;
+  }
+
   .phrase-top {
     align-items: start;
     display: grid;
@@ -499,10 +506,12 @@
   .vocabulary-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) minmax(150px, auto) minmax(150px, auto) auto;
+    grid-template-columns: minmax(0, 1fr) repeat(4, minmax(150px, auto)) auto;
     margin-bottom: 16px;
   }
 
+  .phrase-search,
+  .phrase-filter,
   .vocabulary-search,
   .vocabulary-filter {
     background: #f8faf8;
@@ -515,6 +524,7 @@
     padding: 9px 12px;
   }
 
+  .phrase-filter,
   .vocabulary-filter {
     appearance: none;
     background-image:
@@ -529,6 +539,7 @@
     padding-right: 32px;
   }
 
+  .phrase-summary,
   .vocabulary-summary {
     align-items: center;
     background: #fff7d6;
@@ -667,6 +678,7 @@
 
     .stat-grid,
     .phrase-detail,
+    .phrase-tools,
     .vocabulary-tools,
     .vocabulary-card,
     .tip-list,
@@ -748,6 +760,17 @@
         </div>
       </div>
       <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English conversation scenarios"></div>
+      <div class="phrase-tools" aria-label="Phrase filters">
+        <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search phrase, meaning, or use" aria-label="Search phrases" />
+        <select class="phrase-filter" id="phraseStatusFilter" aria-label="Filter phrases by learning status">
+          <option value="all">All status</option>
+          <option value="to-learn">To Learn</option>
+          <option value="learning">Learning</option>
+          <option value="review">Review</option>
+          <option value="learned">Learned</option>
+        </select>
+        <div class="phrase-summary" id="phraseSummary">0 phrases</div>
+      </div>
       <div class="phrase-list" id="phraseList"></div>
     </section>
   </section>
@@ -787,6 +810,11 @@
       <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
         <option value="all">All themes</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word type">
+        <option value="all">All words</option>
+        <option value="compound">Compound words</option>
+        <option value="single">Single words</option>
+      </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
@@ -821,10 +849,12 @@
   const STORAGE_VOCAB_STATUS_KEY = "learningEnglishVocabularyStatus";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
+  const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
   const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
+  const STORAGE_VOCAB_COMPOUND_FILTER_KEY = "learningEnglishVocabularyCompoundFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   const SCENARIOS = [
@@ -2067,6 +2097,22 @@ pass=通过；传递
     feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"])
   };
 
+  const COMPOUND_WORDS = new Set([
+    "afternoon",
+    "anyone",
+    "anything",
+    "cannot",
+    "everyone",
+    "everything",
+    "inside",
+    "nothing",
+    "outside",
+    "someone",
+    "something",
+    "sometimes",
+    "without"
+  ]);
+
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
     return Object.keys(VOCABULARY_THEME_SETS).find((theme) => VOCABULARY_THEME_SETS[theme].has(normalized)) || "";
@@ -3251,6 +3297,7 @@ pass=通过；传递
       ...featured,
       partOfSpeech: getCommonWordPartOfSpeech(word, featured),
       theme: getVocabularyTheme(word),
+      isCompound: COMPOUND_WORDS.has(word.toLowerCase()),
       rank: index + 1
     };
   });
@@ -3258,9 +3305,11 @@ pass=通过；传递
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
+  let selectedPhraseStatus = loadSelectedPhraseStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyPart = loadSelectedVocabularyPart();
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
+  let selectedVocabularyCompound = loadSelectedVocabularyCompound();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
@@ -3300,6 +3349,21 @@ pass=通过；传递
   function saveSelectedView() {
     try {
       localStorage.setItem(STORAGE_VIEW_KEY, selectedView);
+    } catch (error) {}
+  }
+
+  function loadSelectedPhraseStatus() {
+    try {
+      const saved = localStorage.getItem(STORAGE_PHRASE_STATUS_FILTER_KEY);
+      return ["all", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedPhraseStatus() {
+    try {
+      localStorage.setItem(STORAGE_PHRASE_STATUS_FILTER_KEY, selectedPhraseStatus);
     } catch (error) {}
   }
 
@@ -3346,6 +3410,21 @@ pass=通过；传递
   function saveSelectedVocabularyTheme() {
     try {
       localStorage.setItem(STORAGE_VOCAB_THEME_FILTER_KEY, selectedVocabularyTheme);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyCompound() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_COMPOUND_FILTER_KEY);
+      return ["all", "compound", "single"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyCompound() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_COMPOUND_FILTER_KEY, selectedVocabularyCompound);
     } catch (error) {}
   }
 
@@ -3413,10 +3492,33 @@ pass=通过；传递
 
   function renderPhraseList() {
     const container = document.getElementById("phraseList");
-    const phrases = PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
+    const phraseSearch = document.getElementById("phraseSearch");
+    const phraseStatusFilter = document.getElementById("phraseStatusFilter");
+    const search = phraseSearch.value.trim().toLowerCase();
+    const matchesSearch = (phrase) => {
+      if (!search) return true;
+      const scenario = SCENARIOS.find((item) => item.id === phrase.scenario);
+      return [
+        phrase.english,
+        phrase.chinese,
+        phrase.pronunciation,
+        phrase.usage,
+        scenario?.label,
+        scenario?.zh
+      ].some((value) => (value || "").toLowerCase().includes(search));
+    };
+    const scenarioPhrases = PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
+    const phrases = scenarioPhrases.filter((phrase) => {
+      const currentStatus = statuses[phrase.id] || "to-learn";
+      const matchesStatus = selectedPhraseStatus === "all" || currentStatus === selectedPhraseStatus;
+      return matchesStatus && matchesSearch(phrase);
+    });
+
+    phraseStatusFilter.value = selectedPhraseStatus;
+    document.getElementById("phraseSummary").textContent = `${phrases.length} of ${scenarioPhrases.length} phrases`;
 
     if (!phrases.length) {
-      container.innerHTML = `<div class="empty">No phrases yet.</div>`;
+      container.innerHTML = `<div class="empty">No phrases match your filters.</div>`;
       return;
     }
 
@@ -3496,22 +3598,25 @@ pass=通过；传递
     const statusFilter = selectedVocabularyStatus;
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
+    const compoundFilter = selectedVocabularyCompound;
     const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
     let words = VOCABULARY.filter((item) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
-      return matchesStatus && matchesPart && matchesTheme && matchesSearch(item);
+      const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesSearch(item);
     });
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all")) {
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all")) {
       words = VOCABULARY.filter(matchesSearch);
     }
 
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
+    document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${VOCABULARY.length} words`;
 
     if (!words.length) {
@@ -3647,6 +3752,12 @@ pass=通过；传递
     });
   });
 
+  document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
+  document.getElementById("phraseStatusFilter").addEventListener("change", (event) => {
+    selectedPhraseStatus = event.target.value;
+    saveSelectedPhraseStatus();
+    renderPhraseList();
+  });
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
@@ -3665,6 +3776,11 @@ pass=通过；传递
   document.getElementById("vocabularyThemeFilter").addEventListener("change", (event) => {
     selectedVocabularyTheme = event.target.value;
     saveSelectedVocabularyTheme();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyCompoundFilter").addEventListener("change", (event) => {
+    selectedVocabularyCompound = event.target.value;
+    saveSelectedVocabularyCompound();
     renderVocabularyList();
   });
 
