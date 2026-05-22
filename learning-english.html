@@ -2060,7 +2060,7 @@ pass=通过；传递
     family: new Set(["baby", "boy", "brother", "children", "dad", "daughter", "family", "father", "girl", "grandfather", "husband", "lady", "man", "man's", "men", "mother", "parents", "sister", "son", "wife", "woman", "women"]),
     body: new Set(["arms", "body", "ear", "eyes", "face", "feet", "fingers", "foot", "hair", "hand", "head", "heart", "legs", "mouth", "nose", "skin", "teeth"]),
     food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "garden", "ice", "meat", "milk", "supper", "tea", "water"]),
-    time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "future", "hour", "late", "minute", "moment", "month", "morning", "night", "noon", "now", "once", "past", "second", "soon", "spring", "summer", "time", "today", "tomorrow", "week", "winter", "year", "yesterday"]),
+    time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "friday", "future", "hour", "late", "minute", "monday", "moment", "month", "morning", "night", "noon", "now", "once", "past", "saturday", "second", "soon", "spring", "summer", "sunday", "thursday", "time", "today", "tomorrow", "tuesday", "wednesday", "week", "winter", "year", "yesterday"]),
     place: new Set(["america", "area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
@@ -3496,14 +3496,18 @@ pass=通过；传递
     const statusFilter = selectedVocabularyStatus;
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
-    const words = VOCABULARY.filter((item) => {
+    const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
+    let words = VOCABULARY.filter((item) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
-      const matchesSearch = !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
-      return matchesStatus && matchesPart && matchesTheme && matchesSearch;
+      return matchesStatus && matchesPart && matchesTheme && matchesSearch(item);
     });
+
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all")) {
+      words = VOCABULARY.filter(matchesSearch);
+    }
 
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
