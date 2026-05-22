@@ -24,6 +24,9 @@
     --warn-bg: #fef3c7;
     --neutral: #475569;
     --shadow: 0 8px 22px rgba(15, 23, 42, 0.07);
+    --life-area-tabs-height: 64px;
+    --life-area-option-height: 51px;
+    --life-topic-header-top: calc(var(--life-area-tabs-height) + var(--life-area-option-height));
   }
 
   * { box-sizing: border-box; }
@@ -406,11 +409,13 @@
   .area-tabs {
     background: #ffffff;
     border-bottom: 1px solid #dadce0;
-    display: flex;
-    gap: 4px;
+    display: grid;
+    gap: 8px;
+    grid-auto-columns: minmax(132px, 1fr);
+    grid-auto-flow: column;
     min-width: 0;
     overflow-x: auto;
-    padding: 6px 8px;
+    padding: 12px 0;
     position: sticky;
     top: 0;
     z-index: 6;
@@ -423,9 +428,11 @@
     color: var(--area-text, #3c4043);
     font-size: 0.78rem;
     font-weight: 800;
-    padding: 5px 9px;
+    min-height: 38px;
+    padding: 7px 12px;
     text-decoration: none;
     white-space: nowrap;
+    width: 100%;
   }
 
   .area-tab:hover {
@@ -448,7 +455,7 @@
     gap: 10px;
     padding: 8px 10px;
     position: sticky;
-    top: 43px;
+    top: var(--life-area-tabs-height);
     z-index: 5;
   }
 
@@ -488,6 +495,7 @@
 
   .topic-table {
     border-top: 1px solid #dde3ec;
+    isolation: isolate;
     overflow-x: visible;
     position: relative;
   }
@@ -506,8 +514,20 @@
     box-shadow: 0 1px 0 #cfd8e6;
     min-height: 50px;
     position: sticky;
-    top: 130px;
+    top: var(--life-topic-header-top);
     z-index: 30;
+  }
+
+  .topic-header::before {
+    background: #ffffff;
+    border-bottom: 1px solid #cfd8e6;
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: calc(-1 * var(--life-topic-header-top));
+    z-index: -1;
   }
 
   .topic-row {
@@ -532,8 +552,11 @@
   .topic-corner,
   .year-label {
     align-items: center;
+    background: #f8fafc;
     display: flex;
     min-height: 50px;
+    position: relative;
+    z-index: 32;
   }
 
   .topic-corner,
@@ -545,7 +568,7 @@
   }
 
   .topic-corner {
-    z-index: 31;
+    z-index: 33;
   }
 
   .topic-label {
@@ -790,6 +813,11 @@
     .area-option-select {
       min-width: 0;
       width: 100%;
+    }
+
+    .area-tabs {
+      grid-auto-columns: minmax(112px, 1fr);
+      padding: 10px 0;
     }
 
     .topic-table {
