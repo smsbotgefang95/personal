@@ -14,8 +14,8 @@
     --text: #172033;
     --muted: #64748b;
     --border: #dbe1ea;
-    --accent: #2563eb;
-    --accent-light: #dbeafe;
+    --accent: #b42362;
+    --accent-light: #fde8f1;
     --good: #15803d;
     --good-bg: #dcfce7;
     --bad: #b91c1c;
@@ -123,7 +123,7 @@
 
   .btn-primary {
     background: var(--accent);
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.18);
+    box-shadow: 0 6px 15px rgba(180, 35, 98, 0.18);
     color: #ffffff;
   }
 
@@ -214,7 +214,7 @@
 
   .insight-tab.active {
     background: var(--accent);
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.18);
+    box-shadow: 0 6px 15px rgba(180, 35, 98, 0.18);
     color: #ffffff;
   }
 
@@ -342,7 +342,7 @@
   .field select:focus,
   .field textarea:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    box-shadow: 0 0 0 3px rgba(180, 35, 98, 0.14);
   }
 
   .form-grid {
@@ -411,14 +411,14 @@
   }
 
   .area-tab:hover {
-    background: var(--area-hover, #e8f0fe);
-    border-color: var(--area-border, #c9d7f8);
-    color: var(--area-text, #174ea6);
+    background: var(--area-hover, var(--accent-light));
+    border-color: var(--area-border, #f2bfd6);
+    color: var(--area-text, var(--accent));
   }
 
   .area-tab.active {
-    background: var(--area-strong, #2563eb);
-    border-color: var(--area-strong, #2563eb);
+    background: var(--area-strong, #b42362);
+    border-color: var(--area-strong, #b42362);
     color: var(--area-active-text, #ffffff);
   }
 
@@ -455,10 +455,10 @@
   }
 
   .sheet-title {
-    background: #e8f0fe;
-    border-bottom: 1px solid #c9d7f8;
+    background: var(--accent-light);
+    border-bottom: 1px solid #f2bfd6;
     border-left: 6px solid var(--accent);
-    color: #174ea6;
+    color: var(--accent);
     font-size: 1rem;
     font-weight: 800;
     margin: 0;
@@ -889,7 +889,9 @@
 
     .area-tabs {
       grid-auto-columns: minmax(112px, 1fr);
+      max-width: 100%;
       padding: 10px 0;
+      width: 100%;
     }
 
     .topic-header-scroll {
@@ -902,6 +904,7 @@
 
     .topic-table {
       overflow-x: visible;
+      width: 100%;
     }
 
     .topic-header {

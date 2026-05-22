@@ -10,45 +10,45 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --border: #e5e7eb; --text: #1a2238; --muted: #6b7280; --bg: #f5f7fb; --accent: #4361ee; --accent-light: #e0e8ff; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+    :root { --border: #e5e7eb; --text: #1a2238; --muted: #6b7280; --bg: #fff8ed; --accent: #a85512; --accent-light: #fff4df; --accent-rgb: 168,85,18; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff8ed; color: #1a1a2e; }
     .dashboard-shell { padding: 24px; }
 
     /* Loading */
-    #loadingOverlay { position:fixed;inset:0;background:rgba(240,242,245,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;font-size:16px;color:#555;gap:16px; }
-    .spinner { width:40px;height:40px;border:4px solid #e0e0e0;border-top-color:#4361ee;border-radius:50%;animation:spin 0.8s linear infinite; }
+    #loadingOverlay { position:fixed;inset:0;background:rgba(255,248,237,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;font-size:16px;color:#555;gap:16px; }
+    .spinner { width:40px;height:40px;border:4px solid #e0e0e0;border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
 
     /* Header */
     header { margin-bottom:20px; display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px; }
     header .title-block h1 { font-size:26px;font-weight:700;color:#1a1a2e; }
     header .title-block p { color:#666;font-size:14px;margin-top:4px; }
-    #toggleFormBtn { padding:9px 18px;background:#4361ee;color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s; }
+    #toggleFormBtn { padding:9px 18px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s; }
     #toggleFormBtn:hover { opacity:.88; }
 
     /* Entry Form Panel */
     #entryPanel {
       background:white; border-radius:14px; padding:20px 22px;
-      box-shadow:0 2px 12px rgba(67,97,238,.12); border:1.5px solid #e0e8ff;
+      box-shadow:0 2px 12px rgba(var(--accent-rgb),.12); border:1.5px solid var(--accent-light);
       margin-bottom:24px; display:none;
     }
-    #entryPanel h2 { font-size:15px;font-weight:700;color:#4361ee;margin-bottom:16px;display:flex;align-items:center;gap:8px; }
+    #entryPanel h2 { font-size:15px;font-weight:700;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px; }
     .form-row { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px; }
-    .form-col { background:#f8f9ff;border-radius:10px;padding:14px 12px; }
-    .form-col-hdr { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#4361ee;margin-bottom:12px;text-align:center;border-bottom:1.5px solid #e0e8ff;padding-bottom:6px; }
+    .form-col { background:#fffaf0;border-radius:10px;padding:14px 12px; }
+    .form-col-hdr { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:12px;text-align:center;border-bottom:1.5px solid var(--accent-light);padding-bottom:6px; }
     .field { margin-bottom:10px; }
     .field label { display:block;font-size:12px;font-weight:600;color:#444;margin-bottom:4px; }
     .field input[type=number], .field input[type=text], .field input[type=time], .field input[type=date] {
       width:100%;border:1px solid #e0e0e0;border-radius:7px;padding:7px 10px;font-size:13px;color:#222;outline:none;transition:border .15s;
     }
-    .field input:focus { border-color:#4361ee; }
+    .field input:focus { border-color:var(--accent); }
     .seg { display:flex;gap:5px; }
     .seg button { flex:1;padding:7px 3px;border:1.5px solid #e0e0e0;border-radius:7px;background:white;font-size:12px;font-weight:500;color:#555;cursor:pointer;transition:all .12s; }
     .seg button.active-yes { background:#2dc653;border-color:#2dc653;color:white; }
     .seg button.active-no  { background:#e63946;border-color:#e63946;color:white; }
     .seg button.active-na  { background:#aaa;border-color:#aaa;color:white; }
     .form-footer { display:flex;align-items:center;gap:12px;margin-top:4px; }
-    #saveBtn { padding:11px 32px;background:#4361ee;color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s; }
+    #saveBtn { padding:11px 32px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s; }
     #saveBtn:hover { opacity:.88; }
     #saveBtn:disabled { opacity:.5;cursor:not-allowed; }
     #saveMsg { font-size:13px;font-weight:500;padding:8px 14px;border-radius:8px;display:none; }
@@ -62,7 +62,7 @@
     .card .label { font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:8px; }
     .card .value { font-size:34px;font-weight:700;line-height:1; }
     .card .sub { font-size:12px;color:#aaa;margin-top:6px; }
-    .card.blue .value { color:#4361ee; }
+    .card.blue .value { color:var(--accent); }
     .card.green .value { color:#2dc653; }
     .card.amber .value { color:#f4a523; }
     .card.red .value { color:#e63946; }
@@ -76,8 +76,8 @@
     .chart-box { background:white;border-radius:14px;padding:20px 22px;box-shadow:0 1px 6px rgba(0,0,0,.06); }
     .chart-box h3 { font-size:13px;font-weight:600;color:#555;margin-bottom:14px; }
     .chart-box canvas { max-height:220px; }
-    .insight-box { background:#f8f9ff;border-left:3px solid #4361ee;border-radius:8px;padding:12px 16px;font-size:13px;color:#444;margin-top:14px;line-height:1.6; }
-    .insight-box strong { color:#4361ee; }
+    .insight-box { background:#fffaf0;border-left:3px solid var(--accent);border-radius:8px;padding:12px 16px;font-size:13px;color:#444;margin-top:14px;line-height:1.6; }
+    .insight-box strong { color:var(--accent); }
     .mood-chip { background:#fff0f1;border:1px solid #ffc8cc;color:#c0392b;border-radius:20px;padding:4px 12px;font-size:12px; }
     .mood-grid { display:flex;flex-wrap:wrap;gap:8px; }
 
@@ -172,7 +172,7 @@
   <div class="card green"><div class="label">Workout Days</div><div class="value" id="workoutDays">—</div><div class="sub" id="workoutSub"></div></div>
   <div class="card amber"><div class="label">Avg Water (ML)</div><div class="value" id="avgWater">—</div><div class="sub" id="waterSub"></div></div>
   <div class="card red"><div class="label">Bad Mood Days</div><div class="value" id="badMoodDays">—</div><div class="sub" id="moodSub"></div></div>
-  <div class="card" style="border-top:3px solid #7c3aed;"><div class="label">Avg Wake Time</div><div class="value" id="avgWakeTime" style="color:#7c3aed;">—</div><div class="sub">min awake after waking</div></div>
+  <div class="card" style="border-top:3px solid #a85512;"><div class="label">Avg Wake Time</div><div class="value" id="avgWakeTime" style="color:#a85512;">—</div><div class="sub">min awake after waking</div></div>
 </div>
 
 <div id="missingDataPanel" style="margin:18px 0 24px;background:white;border-radius:14px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,.06);display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;justify-content:space-between;">
@@ -190,7 +190,7 @@
 
 <!-- ── SLEEP ──────────────────────────────────────────────────────────────── -->
 <div class="section">
-  <h2><span class="dot" style="background:#4361ee"></span>Sleep Quality</h2>
+  <h2><span class="dot" style="background:#a85512"></span>Sleep Quality</h2>
   <div class="charts-row two">
     <div class="chart-box"><h3>Weekly Sleep Score (Avg)</h3><canvas id="sleepScoreChart"></canvas></div>
     <div class="chart-box"><h3>Weekly Minutes Awake After Waking (Avg)</h3><canvas id="minutesAwakeChart"></canvas></div>
@@ -199,7 +199,7 @@
     <div class="chart-box">
       <h3>Sleep On Time vs Sleep Score — Daily Pattern</h3>
       <div style="font-size:11px;color:#666;margin-bottom:8px;">
-        <span style="display:inline-block;width:10px;height:10px;background:rgba(67,97,238,0.65);border-radius:2px;margin-right:4px;"></span>Slept on time &nbsp;
+        <span style="display:inline-block;width:10px;height:10px;background:rgba(168,85,18,0.65);border-radius:2px;margin-right:4px;"></span>Slept on time &nbsp;
         <span style="display:inline-block;width:10px;height:10px;background:rgba(230,57,70,0.75);border-radius:2px;margin-right:4px;"></span>Late to bed
       </div>
       <canvas id="sleepPatternChart" style="max-height:240px"></canvas>
@@ -591,7 +591,7 @@ function render(rows) {
   const lateRC={};lateNights.forEach(n=>{lateRC[n.reason]=(lateRC[n.reason]||0)+1;});
   const lateLabels=Object.keys(lateRC).sort((a,b)=>lateRC[b]-lateRC[a]);
   const lateValues=lateLabels.map(r=>lateRC[r]);
-  const lateColors=['rgba(230,57,70,0.75)','rgba(244,165,35,0.75)','rgba(67,97,238,0.65)','rgba(150,150,150,0.6)','rgba(45,198,83,0.65)'];
+  const lateColors=['rgba(230,57,70,0.75)','rgba(244,165,35,0.75)','rgba(168,85,18,0.65)','rgba(150,150,150,0.6)','rgba(45,198,83,0.65)'];
 
   // ── Workout ───────────────────────────────────────────────────────────────
   const wkMap={};
@@ -613,7 +613,7 @@ function render(rows) {
   const skipC={};rows.filter(r=>r.workout==='No').forEach(r=>{const k=r.workoutNotes?.trim()||'No reason noted';skipC[k]=(skipC[k]||0)+1;});
   const skipLabels=Object.keys(skipC).sort((a,b)=>skipC[b]-skipC[a]);
   const skipValues=skipLabels.map(r=>skipC[r]);
-  const skipColors=['rgba(230,57,70,0.75)','rgba(244,165,35,0.75)','rgba(150,150,150,0.6)','rgba(67,97,238,0.65)'];
+  const skipColors=['rgba(230,57,70,0.75)','rgba(244,165,35,0.75)','rgba(150,150,150,0.6)','rgba(168,85,18,0.65)'];
   const hPct=n=>{const y=rows.filter(r=>r[n]==='Yes').length,t=rows.filter(r=>r[n]==='Yes'||r[n]==='No').length;return t?Math.round(y/t*100):0;};
   const hp={stretch:hPct('stretch'),footbath:hPct('footbath'),massage:hPct('massage')};
 
@@ -659,8 +659,8 @@ function render(rows) {
   // ── Charts ────────────────────────────────────────────────────────────────
   charts.sleepScore = new Chart(document.getElementById('sleepScoreChart'),{
     type:'line',plugins:[ChartDataLabels],
-    data:{labels:weeks,datasets:[{data:sleepScores,borderColor:'#4361ee',backgroundColor:'rgba(67,97,238,0.08)',fill:true,tension:0.4,pointBackgroundColor:'#4361ee',pointRadius:4,borderWidth:2.5}]},
-    options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` Score: ${ctx.parsed.y}`}},datalabels:{color:'#4361ee',font:{size:10,weight:'600'},align:'top',anchor:'end',offset:4,formatter:v=>v}},scales:{y:{min:70,max:105,grid:{color:'#f0f0f0'},ticks:{stepSize:5}},x:{grid:{display:false}}}}
+    data:{labels:weeks,datasets:[{data:sleepScores,borderColor:'#a85512',backgroundColor:'rgba(168,85,18,0.08)',fill:true,tension:0.4,pointBackgroundColor:'#a85512',pointRadius:4,borderWidth:2.5}]},
+    options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` Score: ${ctx.parsed.y}`}},datalabels:{color:'#a85512',font:{size:10,weight:'600'},align:'top',anchor:'end',offset:4,formatter:v=>v}},scales:{y:{min:70,max:105,grid:{color:'#f0f0f0'},ticks:{stepSize:5}},x:{grid:{display:false}}}}
   });
   charts.maw = new Chart(document.getElementById('minutesAwakeChart'),{
     type:'bar',plugins:[ChartDataLabels],
@@ -669,10 +669,10 @@ function render(rows) {
   });
   charts.pattern = new Chart(document.getElementById('sleepPatternChart'),{
     type:'bar',
-    data:{labels:dailyDates,datasets:[{data:dailyScores,backgroundColor:dailyOnTime.map(v=>v===1?'rgba(67,97,238,0.65)':'rgba(230,57,70,0.75)'),borderRadius:3,borderSkipped:false}]},
+    data:{labels:dailyDates,datasets:[{data:dailyScores,backgroundColor:dailyOnTime.map(v=>v===1?'rgba(168,85,18,0.65)':'rgba(230,57,70,0.75)'),borderRadius:3,borderSkipped:false}]},
     options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{title:ctx=>`${ctx[0].label} — ${dailyOnTime[ctx[0].dataIndex]?'✅ Slept on time':'❌ Late to bed'}`,label:ctx=>` Sleep score: ${ctx.parsed.y}`}},datalabels:{display:false}},scales:{y:{min:60,max:105,grid:{color:'#f0f0f0'},ticks:{stepSize:10}},x:{grid:{display:false},ticks:{maxTicksLimit:20,font:{size:9}}}}}
   });
-  document.getElementById('sleepInsight').innerHTML=`<strong>Overall avg sleep score: ${avgSleepVal}/100.</strong> Best week: <strong>${bestWk}</strong> (${Math.max(...sleepScores)}) · Lowest: <strong>${worstWk}</strong> (${Math.min(...sleepScores)}).<br><br><strong>Pattern:</strong> <span style="color:#4361ee">■</span> On-time avg <strong>${avgOnTime}</strong> &nbsp;|&nbsp; <span style="color:#e63946">■</span> Late avg <strong>${avgLate}</strong>. ${Math.abs(avgOnTime-avgLate)}-point gap.`;
+  document.getElementById('sleepInsight').innerHTML=`<strong>Overall avg sleep score: ${avgSleepVal}/100.</strong> Best week: <strong>${bestWk}</strong> (${Math.max(...sleepScores)}) · Lowest: <strong>${worstWk}</strong> (${Math.min(...sleepScores)}).<br><br><strong>Pattern:</strong> <span style="color:#a85512">■</span> On-time avg <strong>${avgOnTime}</strong> &nbsp;|&nbsp; <span style="color:#e63946">■</span> Late avg <strong>${avgLate}</strong>. ${Math.abs(avgOnTime-avgLate)}-point gap.`;
 
   document.getElementById('lateReasonTitle').textContent=`Why Did You Sleep Late? (${lateNights.length} late nights)`;
   if (lateLabels.length) {
@@ -688,7 +688,7 @@ function render(rows) {
   });
   charts.habits = new Chart(document.getElementById('habitsDonut'),{
     type:'doughnut',
-    data:{labels:['Stretching','Foot Bath','Massage'],datasets:[{data:[hp.stretch,hp.footbath,hp.massage],backgroundColor:['#4361ee','#2dc653','#f4a523'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},
+    data:{labels:['Stretching','Foot Bath','Massage'],datasets:[{data:[hp.stretch,hp.footbath,hp.massage],backgroundColor:['#a85512','#2dc653','#f4a523'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},
     options:{responsive:true,cutout:'62%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:12,padding:14,font:{size:12}}},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}% compliance`}}}}
   });
   document.getElementById('skipTitle').textContent=`Why Did You Skip Workouts? (${totalNo} missed days)`;
@@ -702,7 +702,7 @@ function render(rows) {
   document.getElementById('waterChartTitle').textContent=`Daily Water Intake in ML${wRows.length?` (${dispDate(wRows[0].date)} – ${dispDate(wRows[wRows.length-1].date)})`:''}`;
   charts.water = new Chart(document.getElementById('waterChart'),{
     type:'bar',
-    data:{labels:wDates,datasets:[{data:wML,backgroundColor:wML.map(v=>v===0?'rgba(200,200,200,0.4)':v>=750?'rgba(67,97,238,0.75)':'rgba(67,97,238,0.35)'),borderRadius:4,borderSkipped:false}]},
+    data:{labels:wDates,datasets:[{data:wML,backgroundColor:wML.map(v=>v===0?'rgba(200,200,200,0.4)':v>=750?'rgba(168,85,18,0.75)':'rgba(168,85,18,0.35)'),borderRadius:4,borderSkipped:false}]},
     options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} mL`}}},scales:{y:{min:0,max:1200,grid:{color:'#f0f0f0'},ticks:{callback:v=>v+' mL',stepSize:250}},x:{grid:{display:false},ticks:{maxTicksLimit:20}}}}
   });
   document.getElementById('waterInsight').innerHTML=`<strong>Avg: ${avgWaterVal} mL/day</strong> — <strong style="color:#e63946">${Math.round(avgWaterVal/1500*100)}%</strong> of the 1,500 mL target (${1500-avgWaterVal} mL short). <strong>${d500}</strong> days ≤500 mL · <strong>${zeroWD}</strong> days at 0 · <strong>${highWD}</strong> days ≥750 mL.<br><br><strong>📋 Action plan:</strong> ① Wake-up glass (200 mL) ② Glass 30 min before each meal (3×300 mL) ③ 10 AM alarm labeled "水" (400 mL) ④ Hard cutoff at 2 PM.`;
