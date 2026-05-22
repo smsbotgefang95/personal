@@ -190,7 +190,7 @@ sudo systemctl reload nginx
 
 # 9. Secure with SSL via Certbot
 echo "🔒 Confirming SSL status via Certbot..."
-sudo certbot --nginx -d "$DOMAIN" --keep-until-expiring --non-interactive --agree-tos --register-unsafely-without-email || true
+sudo certbot --nginx -d "$DOMAIN" --keep-until-expiring --non-interactive --agree-tos --register-unsafely-without-email
 
 echo "=================================================="
 echo "🎉 Success! Your multi-page site is live at: https://$DOMAIN"
