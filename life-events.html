@@ -493,17 +493,28 @@
     z-index: 4;
   }
 
-  .topic-scroll {
-    overflow-x: auto;
-    overflow-y: clip;
+  .topic-shell {
+    border-top: 1px solid #dde3ec;
     position: relative;
   }
 
+  .topic-header-scroll {
+    background: #ffffff;
+    overflow: hidden;
+    position: sticky;
+    top: var(--life-topic-header-top);
+    z-index: 30;
+  }
+
+  .topic-body-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
   .topic-table {
-    border-top: 1px solid #dde3ec;
     isolation: isolate;
-    overflow-x: visible;
     position: relative;
+    width: max-content;
   }
 
   .topic-header,
@@ -519,12 +530,11 @@
     border-bottom: 1px solid #cfd8e6;
     box-shadow: 0 1px 0 #cfd8e6;
     min-height: 50px;
-    position: sticky;
-    top: var(--life-topic-header-top);
-    z-index: 30;
+    position: relative;
+    z-index: 31;
   }
 
-  .topic-header::before {
+  .topic-header-scroll::before {
     background: #ffffff;
     border-bottom: 1px solid #cfd8e6;
     bottom: 0;
@@ -826,7 +836,11 @@
       padding: 10px 0;
     }
 
-    .topic-scroll {
+    .topic-header-scroll {
+      display: none;
+    }
+
+    .topic-body-scroll {
       overflow-x: visible;
     }
 
@@ -2136,13 +2150,17 @@ W03: Cornbread`],
       const areaId = `area-${area.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       return `
         <section class="sheet-section" id="${escapeHtml(areaId)}">
-          <div class="topic-scroll">
-            <div class="topic-table">
+          <div class="topic-shell">
+            <div class="topic-header-scroll" data-topic-header-scroll>
               <div class="topic-header" style="--year-count:${yearCount}">
                 <div class="topic-corner">Topic</div>
                 ${years.map((year) => `<div class="year-label">${escapeHtml(year)}</div>`).join("")}
               </div>
-              ${rows}
+            </div>
+            <div class="topic-body-scroll" data-topic-body-scroll>
+              <div class="topic-table">
+                ${rows}
+              </div>
             </div>
           </div>
         </section>
@@ -2179,6 +2197,20 @@ W03: Cornbread`],
     ` : "";
 
     els.eventList.innerHTML = tabs + optionSelect + sections;
+    syncTopicScrollers();
+  }
+
+  function syncTopicScrollers() {
+    document.querySelectorAll(".sheet-section").forEach((section) => {
+      const header = section.querySelector("[data-topic-header-scroll]");
+      const body = section.querySelector("[data-topic-body-scroll]");
+      if (!header || !body) return;
+      const syncHeader = () => {
+        header.scrollLeft = body.scrollLeft;
+      };
+      body.addEventListener("scroll", syncHeader, { passive: true });
+      syncHeader();
+    });
   }
 
   function areaYears(areaEvents) {
