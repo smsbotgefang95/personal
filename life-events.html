@@ -615,9 +615,6 @@
     </div>
     <div class="toolbar">
       <button class="btn btn-primary" id="newEventBtn" type="button">New Event</button>
-      <button class="btn btn-secondary" id="exportBtn" type="button">Export</button>
-      <button class="btn btn-secondary" id="importBtn" type="button">Import</button>
-      <input class="import-input" id="importInput" type="file" accept="application/json,.json" />
     </div>
   </header>
 
@@ -1303,9 +1300,6 @@ W03: Cornbread`],
     eventAction: document.getElementById("eventAction"),
     cancelEditBtn: document.getElementById("cancelEditBtn"),
     newEventBtn: document.getElementById("newEventBtn"),
-    exportBtn: document.getElementById("exportBtn"),
-    importBtn: document.getElementById("importBtn"),
-    importInput: document.getElementById("importInput"),
     filterArea: document.getElementById("filterArea"),
     filterColumn: document.getElementById("filterColumn"),
     filterPeople: document.getElementById("filterPeople"),
@@ -1986,44 +1980,6 @@ W03: Cornbread`],
     showToast("Event deleted.");
   }
 
-  function exportEvents() {
-    const payload = {
-      exportedAt: new Date().toISOString(),
-      source: "Personal Life Events",
-      events
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `life-events-${today()}.json`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function importEvents(file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const parsed = JSON.parse(reader.result);
-        const importedEvents = Array.isArray(parsed) ? parsed : parsed.events;
-        if (!Array.isArray(importedEvents)) throw new Error("Invalid import file.");
-        events = importedEvents
-          .filter((event) => event && event.title && event.date)
-          .map((event) => ({ ...event, id: event.id || uniqueId() }));
-        saveEvents();
-    resetForm();
-    render();
-    showToast(`Imported ${events.length} event${events.length === 1 ? "" : "s"}.`);
-      } catch (error) {
-        showToast("Import failed. Use a Life Events JSON export.");
-      }
-    };
-    reader.readAsText(file);
-  }
-
   els.eventForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const nextEvent = eventFromForm();
@@ -2045,14 +2001,6 @@ W03: Cornbread`],
     resetForm(true);
     els.eventFormPanel.scrollIntoView({ behavior: "smooth", block: "start" });
   });
-  els.exportBtn.addEventListener("click", exportEvents);
-  els.importBtn.addEventListener("click", () => els.importInput.click());
-  els.importInput.addEventListener("change", () => {
-    const file = els.importInput.files && els.importInput.files[0];
-    if (file) importEvents(file);
-    els.importInput.value = "";
-  });
-
   els.eventArea.addEventListener("change", () => {
     updateEventSourceColumnOptions();
   });
