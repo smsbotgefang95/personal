@@ -302,7 +302,7 @@
   .filters {
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     margin-bottom: 14px;
   }
 
@@ -458,6 +458,10 @@
   .category-card:hover {
     border-color: #b9c8e6;
     box-shadow: 0 7px 18px rgba(15, 23, 42, 0.08);
+  }
+
+  .category-card.empty {
+    background: #fbfcfe;
   }
 
   .category-title {
@@ -1868,7 +1872,7 @@ W03: Cornbread`],
       const rows = years.map((year) => `
         <div class="year-group">
           <div class="year-label">${escapeHtml(year)}</div>
-          <div class="category-grid" style="--category-count:${yearCategoryCount(areaEvents, year)}">
+          <div class="category-grid" style="--category-count:${areaColumns(areaEvents, columnOrder).length}">
             ${renderYearCategoryCards(areaEvents, year, columnOrder)}
           </div>
         </div>
@@ -1895,10 +1899,13 @@ W03: Cornbread`],
     els.eventList.innerHTML = tabs + sections;
   }
 
-  function yearCategoryCount(areaEvents, year) {
-    return new Set(areaEvents
-      .filter((event) => (String(event.date || "").slice(0, 4) || "No year") === year)
-      .map((event) => event.sourceColumn || "Manual entry")).size || 1;
+  function areaColumns(areaEvents, columnOrder) {
+    const eventColumns = [...new Set(areaEvents.map((event) => event.sourceColumn || "Manual entry"))];
+    const knownColumns = columnOrder.filter((column) => eventColumns.includes(column));
+    const extraColumns = eventColumns
+      .filter((column) => !columnOrder.includes(column))
+      .sort((a, b) => a.localeCompare(b));
+    return [...knownColumns, ...extraColumns];
   }
 
   function renderYearCategoryCards(areaEvents, year, columnOrder) {
@@ -1911,22 +1918,19 @@ W03: Cornbread`],
       byColumn.get(column).push(event);
     });
 
-    return [...byColumn.entries()]
-      .sort(([a], [b]) => columnRank(columnOrder, a) - columnRank(columnOrder, b) || a.localeCompare(b))
-      .map(([column, cellEvents]) => `
-        <article class="category-card">
+    return areaColumns(areaEvents, columnOrder)
+      .map((column) => {
+        const cellEvents = byColumn.get(column) || [];
+        return `
+        <article class="category-card${cellEvents.length ? "" : " empty"}">
           <div class="category-title">
             <span>${escapeHtml(column)}</span>
-            <span class="category-count">${cellEvents.length}</span>
+            ${cellEvents.length ? `<span class="category-count">${cellEvents.length}</span>` : ""}
           </div>
           ${cellEvents.map(renderSheetCellEvent).join("")}
         </article>
-      `).join("");
-  }
-
-  function columnRank(columnOrder, column) {
-    const index = columnOrder.indexOf(column);
-    return index >= 0 ? index : columnOrder.length;
+      `;
+      }).join("");
   }
 
   function renderSheetCellEvent(event) {
