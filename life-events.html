@@ -455,28 +455,33 @@
   }
 
   .topic-table {
+    border-top: 1px solid #dde3ec;
     overflow-x: auto;
+    position: relative;
   }
 
   .topic-header,
   .topic-row {
     display: grid;
     gap: 0;
-    grid-template-columns: 150px repeat(var(--year-count, 1), minmax(180px, 1fr));
-    min-width: max-content;
+    grid-template-columns: 150px repeat(var(--year-count, 1), 320px);
+    width: max-content;
   }
 
   .topic-header {
     background: #ffffff;
     border-bottom: 1px solid #cfd8e6;
+    box-shadow: 0 1px 0 #cfd8e6;
+    min-height: 50px;
     position: sticky;
     top: 82px;
-    z-index: 8;
+    z-index: 30;
   }
 
   .topic-row {
     border-bottom: 1px solid #dde3ec;
-    padding: 12px 0;
+    position: relative;
+    z-index: 1;
   }
 
   .topic-row:last-child {
@@ -493,40 +498,52 @@
   }
 
   .topic-corner,
+  .year-label {
+    align-items: center;
+    display: flex;
+    min-height: 50px;
+  }
+
+  .topic-corner,
   .topic-label {
     border-right: 1px solid #dde3ec;
     left: 0;
     position: sticky;
-    z-index: 2;
+    z-index: 3;
   }
 
   .topic-corner {
-    z-index: 9;
+    z-index: 31;
   }
 
   .topic-label {
+    align-items: start;
+    display: flex;
     font-size: 0.88rem;
   }
 
   .year-label {
     border-right: 1px solid #e6ebf2;
     font-size: 0.9rem;
+    justify-content: center;
     text-align: center;
   }
 
   .category-card {
     background: #ffffff;
-    border: 1px solid #dde3ec;
-    border-radius: 8px;
+    border: 0;
+    border-right: 1px solid #dde3ec;
+    border-radius: 0;
     color: #202124;
-    margin: 0 6px;
     min-height: 78px;
     min-width: 0;
+    overflow: hidden;
+    width: 100%;
   }
 
   .category-card:hover {
     border-color: #b9c8e6;
-    box-shadow: 0 7px 18px rgba(15, 23, 42, 0.08);
+    box-shadow: inset 0 0 0 1px #b9c8e6;
   }
 
   .category-card.empty {
@@ -558,7 +575,9 @@
   }
 
   .category-card .cell-entry {
-    padding: 10px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    padding: 12px;
   }
 
   .cell-content {
@@ -740,6 +759,7 @@
     .topic-row {
       display: block;
       padding: 0 0 12px;
+      width: auto;
     }
 
     .topic-corner,
@@ -755,9 +775,16 @@
     }
 
     .category-card {
+      border: 1px solid #dde3ec;
+      border-radius: 8px;
       margin: 10px 12px 0;
       min-height: 0;
       min-width: 0;
+      overflow: visible;
+    }
+
+    .category-card:hover {
+      box-shadow: 0 7px 18px rgba(15, 23, 42, 0.08);
     }
 
     .category-title.year-card-title {
