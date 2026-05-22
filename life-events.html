@@ -653,7 +653,7 @@
     <div class="toolbar">
       <button class="btn btn-primary" id="newEventBtn" type="button">New Event</button>
       <div class="insight-tabs" role="tablist" aria-label="Life event insights">
-        <button class="insight-tab active" id="guidanceTab" type="button" role="tab" aria-selected="true" aria-controls="guidancePane" data-insight-tab="guidance">What This Is Telling You</button>
+        <button class="insight-tab" id="guidanceTab" type="button" role="tab" aria-selected="false" aria-controls="guidancePane" data-insight-tab="guidance">What This Is Telling You</button>
         <button class="insight-tab" id="areaTab" type="button" role="tab" aria-selected="false" aria-controls="areaPane" data-insight-tab="area">Area Signals</button>
       </div>
     </div>
@@ -720,7 +720,7 @@
     <div class="stat"><div class="label">Open Actions</div><div class="value" id="openActions">0</div></div>
   </section>
 
-  <section class="panel" aria-labelledby="insightsTitle">
+  <section class="panel" id="insightsPanel" aria-labelledby="insightsTitle" hidden>
     <div class="panel-head">
       <div>
         <h2 id="insightsTitle">Insights</h2>
@@ -728,7 +728,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <div class="insight-pane active" id="guidancePane" role="tabpanel" aria-labelledby="guidanceTab">
+      <div class="insight-pane" id="guidancePane" role="tabpanel" aria-labelledby="guidanceTab">
         <div class="guidance-grid">
           <div class="guidance good">
             <h3>Do More</h3>
@@ -1342,6 +1342,7 @@ W03: Cornbread`],
     filterPattern: document.getElementById("filterPattern"),
     eventList: document.getElementById("eventList"),
     timelineSummary: document.getElementById("timelineSummary"),
+    insightsPanel: document.getElementById("insightsPanel"),
     insightTabs: [...document.querySelectorAll("[data-insight-tab]")],
     insightPanes: [...document.querySelectorAll(".insight-pane")],
     areaSignals: document.getElementById("areaSignals"),
@@ -1998,6 +1999,7 @@ W03: Cornbread`],
   }
 
   function activateInsightTab(tabName) {
+    els.insightsPanel.hidden = false;
     els.insightTabs.forEach((tab) => {
       const isActive = tab.dataset.insightTab === tabName;
       tab.classList.toggle("active", isActive);
