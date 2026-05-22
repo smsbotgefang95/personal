@@ -1671,14 +1671,8 @@ W03: Cornbread`],
       .filter(([rowArea]) => area === "all" || rowArea === area)
       .map(([, , category]) => category);
     const columns = [...new Set(sheetColumns)];
-    if (area === "Parent" && columns.includes("留美事项") && columns.includes("健康")) {
-      const reorderedColumns = columns.filter((column) => column !== "健康");
-      const stayInAmericaIndex = reorderedColumns.indexOf("留美事项");
-      return [
-        ...reorderedColumns.slice(0, stayInAmericaIndex + 1),
-        "健康",
-        ...reorderedColumns.slice(stayInAmericaIndex + 1)
-      ];
+    if (area === "Parent") {
+      return moveColumnAfter(moveColumnAfter(columns, "健康", "留美事项"), "物品", "庆功宴");
     }
     if (area !== "Career") return columns;
 
@@ -1692,6 +1686,18 @@ W03: Cornbread`],
       ...remainingColumns.slice(0, pullProspectsIndex + 1),
       ...movedColumns,
       ...remainingColumns.slice(pullProspectsIndex + 1)
+    ];
+  }
+
+  function moveColumnAfter(columns, columnToMove, targetColumn) {
+    if (!columns.includes(columnToMove) || !columns.includes(targetColumn)) return columns;
+
+    const reorderedColumns = columns.filter((column) => column !== columnToMove);
+    const targetIndex = reorderedColumns.indexOf(targetColumn);
+    return [
+      ...reorderedColumns.slice(0, targetIndex + 1),
+      columnToMove,
+      ...reorderedColumns.slice(targetIndex + 1)
     ];
   }
 
