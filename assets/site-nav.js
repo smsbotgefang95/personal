@@ -1,7 +1,4 @@
-const SHARED_NAV_ITEMS = [
-  { id: "home", label: "Home", href: "index.html" },
-  { id: "resources", label: "Resources", href: "resources.html" }
-];
+const SHARED_NAV_ITEMS = [];
 
 class SiteNav extends HTMLElement {
   connectedCallback() {
@@ -16,7 +13,7 @@ class SiteNav extends HTMLElement {
     this.innerHTML = `
       <nav class="site-nav" aria-label="Site navigation">
         <div class="site-nav-inner">
-          <a class="site-brand" href="index.html">Personal</a>
+          <a class="site-brand" href="index.html">Home</a>
           <div class="site-nav-menu">
             <div class="site-links site-shared-links">${sharedLinks}</div>
           </div>

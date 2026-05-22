@@ -499,7 +499,7 @@
   .vocabulary-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) minmax(150px, auto) minmax(150px, auto) auto;
     margin-bottom: 16px;
   }
 
@@ -769,6 +769,24 @@
         <option value="review">Review</option>
         <option value="learned">Learned</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularyPartFilter" aria-label="Filter vocabulary by part of speech">
+        <option value="all">All 词性</option>
+        <option value="noun">Noun 名词</option>
+        <option value="verb">Verb 动词</option>
+        <option value="adjective">Adjective 形容词</option>
+        <option value="adverb">Adverb 副词</option>
+        <option value="pronoun">Pronoun 代词</option>
+        <option value="preposition">Preposition 介词</option>
+        <option value="determiner">Determiner 限定词</option>
+        <option value="conjunction">Conjunction 连词</option>
+        <option value="number">Number 数词</option>
+        <option value="proper noun">Proper noun 专有名词</option>
+        <option value="interjection">Interjection 感叹词</option>
+        <option value="modal verb">Modal verb 情态动词</option>
+      </select>
+      <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
+        <option value="all">All themes</option>
+      </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
@@ -805,6 +823,8 @@
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
+  const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
+  const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   const SCENARIOS = [
@@ -1231,10 +1251,12 @@ hand=手
 high=高
 year=年
 mother=母亲
+daughter=女儿
 light=光；轻的
 parts=部分
 country=国家
 father=父亲／国父
+parent=父亲或母亲；家长
 let=让
 night=夜晚
 following=接下来的；跟随
@@ -1418,7 +1440,18 @@ list=清单
 stood=站立了
 hundred=一百
 shows=显示；节目
+nine=九
 ten=十
+eleven=十一
+twelve=十二
+thirteen=十三
+fourteen=十四
+fifteen=十五
+sixteen=十六
+seventeen=十七
+eighteen=十八
+nineteen=十九
+twenty=二十
 fast=快的；快速地
 seemed=似乎
 felt=感觉到
@@ -1641,6 +1674,10 @@ per=每
 wood=木头
 running=跑；运行
 color=颜色
+orange=橙色；橙色的
+purple=紫色；紫色的
+pink=粉色；粉色的
+gray=灰色；灰色的
 south=南方
 groups=团体
 war=战争
@@ -1853,6 +1890,7 @@ result=结果
 greater=更大的
 fields=田地；领域
 brother=兄弟
+sister=姐妹；姐姐；妹妹
 addition=添加；加法
 doesn't=不；没有
 states=州 / 各州
@@ -1862,6 +1900,7 @@ thin=薄的；瘦的
 stone=石头
 hit=打；撞
 wife=妻子
+husband=丈夫
 played=玩了
 island=岛
 standing=站立
@@ -2004,6 +2043,35 @@ pass=通过；传递
     return COMMON_WORD_TRANSLATIONS[word.toLowerCase()] || "";
   }
 
+  const VOCABULARY_THEME_LABELS = {
+    color: "Color 颜色",
+    family: "Family 家庭",
+    body: "Body 身体",
+    food: "Food 食物",
+    time: "Time 时间",
+    place: "Place 地点",
+    nature: "Nature 自然",
+    number: "Number 数字",
+    feeling: "Feeling 感受"
+  };
+
+  const VOCABULARY_THEME_SETS = {
+    color: new Set(["black", "blue", "brown", "color", "dark", "gold", "gray", "green", "orange", "pink", "purple", "red", "silver", "white", "yellow"]),
+    family: new Set(["baby", "boy", "brother", "children", "dad", "daughter", "family", "father", "girl", "grandfather", "husband", "lady", "man", "man's", "men", "mother", "parents", "sister", "son", "wife", "woman", "women"]),
+    body: new Set(["arms", "body", "ear", "eyes", "face", "feet", "fingers", "foot", "hair", "hand", "head", "heart", "legs", "mouth", "nose", "skin", "teeth"]),
+    food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "garden", "ice", "meat", "milk", "supper", "tea", "water"]),
+    time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "future", "hour", "late", "minute", "moment", "month", "morning", "night", "noon", "now", "once", "past", "second", "soon", "spring", "summer", "time", "today", "tomorrow", "week", "winter", "year", "yesterday"]),
+    place: new Set(["america", "area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
+    nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
+    number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
+    feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"])
+  };
+
+  function getVocabularyTheme(word) {
+    const normalized = word.toLowerCase();
+    return Object.keys(VOCABULARY_THEME_SETS).find((theme) => VOCABULARY_THEME_SETS[theme].has(normalized)) || "";
+  }
+
   const COMMON_WORD_PARTS = {
     "the": "determiner",
     "a": "determiner",
@@ -2101,7 +2169,20 @@ pass=通过；传递
     "four": "number",
     "five": "number",
     "six": "number",
+    "seven": "number",
+    "eight": "number",
+    "nine": "number",
     "ten": "number",
+    "eleven": "number",
+    "twelve": "number",
+    "thirteen": "number",
+    "fourteen": "number",
+    "fifteen": "number",
+    "sixteen": "number",
+    "seventeen": "number",
+    "eighteen": "number",
+    "nineteen": "number",
+    "twenty": "number",
     "hundred": "number / noun",
     "100": "number",
     "yes": "interjection",
@@ -2367,10 +2448,12 @@ pass=通过；传递
     "high",
     "year",
     "mother",
+    "daughter",
     "light",
     "parts",
     "country",
     "father",
+    "parent",
     "let",
     "night",
     "following",
@@ -2548,7 +2631,18 @@ pass=通过；传递
     "stood",
     "hundred",
     "shows",
+    "nine",
     "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "twenty",
     "fast",
     "seemed",
     "felt",
@@ -2991,6 +3085,7 @@ pass=通过；传递
     "fields",
     "New",
     "brother",
+    "sister",
     "addition",
     "doesn't",
     "states",
@@ -3000,6 +3095,7 @@ pass=通过；传递
     "stone",
     "hit",
     "wife",
+    "husband",
     "played",
     "island",
     "standing",
@@ -3138,7 +3234,11 @@ pass=通过；传递
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday"
+    "Sunday",
+    "orange",
+    "purple",
+    "pink",
+    "gray"
   ];
 
   const VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
@@ -3150,6 +3250,7 @@ pass=通过；传递
       chinese: getCommonWordChinese(word),
       ...featured,
       partOfSpeech: getCommonWordPartOfSpeech(word, featured),
+      theme: getVocabularyTheme(word),
       rank: index + 1
     };
   });
@@ -3158,6 +3259,8 @@ pass=通过；传递
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
+  let selectedVocabularyPart = loadSelectedVocabularyPart();
+  let selectedVocabularyTheme = loadSelectedVocabularyTheme();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
@@ -3212,6 +3315,37 @@ pass=通过；传递
   function saveSelectedVocabularyStatus() {
     try {
       localStorage.setItem(STORAGE_VOCAB_FILTER_KEY, selectedVocabularyStatus);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyPart() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_PART_FILTER_KEY);
+      const allowed = ["all", "noun", "verb", "adjective", "adverb", "pronoun", "preposition", "determiner", "conjunction", "number", "proper noun", "interjection", "modal verb"];
+      return allowed.includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyPart() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_PART_FILTER_KEY, selectedVocabularyPart);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_THEME_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_THEME_LABELS, saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyTheme() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_THEME_FILTER_KEY, selectedVocabularyTheme);
     } catch (error) {}
   }
 
@@ -3347,18 +3481,33 @@ pass=通过；传递
     return vocabularyStatuses[wordId] || "auto";
   }
 
+  function matchesVocabularyPart(partOfSpeech, selectedPart) {
+    if (selectedPart === "all") return true;
+    const normalized = (partOfSpeech || "").toLowerCase();
+    if (selectedPart === "proper noun" || selectedPart === "modal verb") {
+      return normalized.includes(selectedPart);
+    }
+    return normalized.split(/\s*\/\s*/).some((part) => part === selectedPart || part.endsWith(` ${selectedPart}`));
+  }
+
   function renderVocabularyList() {
     const container = document.getElementById("vocabularyList");
     const search = document.getElementById("vocabularySearch").value.trim().toLowerCase();
     const statusFilter = selectedVocabularyStatus;
+    const partFilter = selectedVocabularyPart;
+    const themeFilter = selectedVocabularyTheme;
     const words = VOCABULARY.filter((item) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
+      const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
+      const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesSearch = !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
-      return matchesStatus && matchesSearch;
+      return matchesStatus && matchesPart && matchesTheme && matchesSearch;
     });
 
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
+    document.getElementById("vocabularyPartFilter").value = partFilter;
+    document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${VOCABULARY.length} words`;
 
     if (!words.length) {
@@ -3370,10 +3519,12 @@ pass=通过；传递
       const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
       const currentStatus = getVocabularyStatus(item.id);
       const label = scenario ? scenario.label : "Top 1000";
+      const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
       const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const pronunciation = item.pronunciation ? `<span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>` : "";
+      const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
           <div>
@@ -3384,6 +3535,7 @@ pass=通过；传递
             <div class="vocabulary-meta">
               <span class="vocabulary-tag">#${item.rank}</span>
               <span class="vocabulary-tag">${escapeHtml(label)}</span>
+              ${themeTag}
               ${pronunciation}
             </div>
           </div>
@@ -3495,6 +3647,20 @@ pass=通过；传递
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
     saveSelectedVocabularyStatus();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyPartFilter").addEventListener("change", (event) => {
+    selectedVocabularyPart = event.target.value;
+    saveSelectedVocabularyPart();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyThemeFilter").innerHTML = [
+    `<option value="all">All themes</option>`,
+    ...Object.entries(VOCABULARY_THEME_LABELS).map(([theme, label]) => `<option value="${theme}">${label}</option>`)
+  ].join("");
+  document.getElementById("vocabularyThemeFilter").addEventListener("change", (event) => {
+    selectedVocabularyTheme = event.target.value;
+    saveSelectedVocabularyTheme();
     renderVocabularyList();
   });
 

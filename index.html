@@ -3,77 +3,83 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Personal</title>
-<link rel="stylesheet" href="assets/site-nav.css" />
+<title>Home</title>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260522-color-home" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
 <style>
   :root {
-    --bg: #f5f7fb;
+    --bg: #f4f7fb;
     --card: #ffffff;
-    --text: #1a2238;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --accent: #1d4ed8;
-    --accent-light: #dbeafe;
+    --text: #182033;
+    --muted: #667085;
+    --border: #d7deea;
+    --accent: #2754c5;
+    --accent-dark: #173a88;
+    --accent-light: #e7efff;
+    --success: #0f766e;
+    --success-light: #e3f4ef;
+    --warm: #a85512;
+    --warm-light: #fff4df;
+    --rose: #b42362;
+    --rose-light: #fde8f1;
+    --shadow: 0 16px 34px rgba(24, 32, 51, 0.1);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
+    background:
+      linear-gradient(180deg, #eef6ff 0 120px, #f7fbf8 120px 300px, var(--bg) 300px),
+      var(--bg);
     color: var(--text);
     line-height: 1.55;
-  }  .page-hero {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
-    color: #ffffff;
-    padding: 42px 24px;
   }
-  .page-hero-inner,
   main {
     max-width: 1000px;
     margin: 0 auto;
   }
-  .page-hero h1 {
-    margin: 0 0 8px;
-    font-size: 2rem;
-  }
-  .page-hero p {
-    margin: 0;
-    max-width: 680px;
-    opacity: 0.9;
-  }
   main {
-    padding: 24px;
+    padding: 16px 24px 40px;
   }
   .page-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 16px;
   }
   .owner-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    display: inline-flex;
+    gap: 4px;
     margin-bottom: 18px;
+    padding: 4px;
+    border: 1px solid #c6d4ef;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #deebff 0%, #e4f6ef 52%, #fff1dc 100%);
+    box-shadow: 0 8px 20px rgba(24, 32, 51, 0.08);
   }
   .owner-tab {
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    background: var(--card);
+    min-width: 74px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
     color: var(--muted);
     cursor: pointer;
     font: inherit;
     font-weight: 700;
-    padding: 9px 16px;
+    line-height: 1.2;
+    padding: 9px 14px;
   }
   .owner-tab:hover {
-    border-color: #bfdbfe;
-    color: var(--accent);
+    color: var(--accent-dark);
   }
-  .owner-tab.active {
+  .owner-tab[data-owner-tab="dad"].active {
     background: var(--accent);
-    border-color: var(--accent);
     color: #ffffff;
+    box-shadow: 0 4px 12px rgba(39, 84, 197, 0.28);
+  }
+  .owner-tab[data-owner-tab="me"].active {
+    background: var(--rose);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(180, 35, 98, 0.24);
   }
   .owner-panel {
     display: none;
@@ -82,43 +88,122 @@
     display: block;
   }
   .page-card {
+    position: relative;
     display: block;
-    background: var(--card);
+    background:
+      linear-gradient(180deg, var(--accent-light) 0%, #ffffff 58%),
+      var(--card);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 18px;
+    min-height: 136px;
+    padding: 22px 20px 18px;
     color: inherit;
     text-decoration: none;
+    box-shadow: 0 2px 8px rgba(24, 32, 51, 0.06);
+    overflow: hidden;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   }
   .page-card:hover {
-    border-color: #bfdbfe;
-    box-shadow: 0 6px 18px rgba(29, 78, 216, 0.08);
+    border-color: #9eb6ed;
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  .page-card::before {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 4px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+    background: var(--accent);
+  }
+  .page-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 76px;
+    height: 76px;
+    background: rgba(39, 84, 197, 0.12);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+    pointer-events: none;
+  }
+  .page-card[href="citizenship-interview-prep.html"] {
+    border-color: #c4d5fb;
+  }
+  .page-card[href="learning-english.html"] {
+    background:
+      linear-gradient(180deg, var(--success-light) 0%, #ffffff 58%),
+      var(--card);
+    border-color: #b9dfd5;
+  }
+  .page-card[href="learning-english.html"]::before,
+  .page-card[href="life-events.html"]::before {
+    background: var(--success);
+  }
+  .page-card[href="learning-english.html"]::after,
+  .page-card[href="life-events.html"]::after {
+    background: rgba(15, 118, 110, 0.14);
+  }
+  .page-card[href="life-events.html"] {
+    background:
+      linear-gradient(180deg, var(--rose-light) 0%, #ffffff 58%),
+      var(--card);
+    border-color: #f2bfd6;
+  }
+  .page-card[href="life-events.html"]::before {
+    background: var(--rose);
+  }
+  .page-card[href="life-events.html"]::after {
+    background: rgba(180, 35, 98, 0.13);
+  }
+  .page-card[href="kpi-dashboard.html"] {
+    background:
+      linear-gradient(180deg, var(--warm-light) 0%, #ffffff 58%),
+      var(--card);
+    border-color: #f3d19a;
+  }
+  .page-card[href="kpi-dashboard.html"]::before {
+    background: var(--warm);
+  }
+  .page-card[href="kpi-dashboard.html"]::after {
+    background: rgba(168, 85, 18, 0.14);
   }
   .page-card h2 {
-    margin: 0 0 8px;
-    font-size: 1.1rem;
+    margin: 0 0 7px;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    letter-spacing: 0;
   }
   .page-card p {
     margin: 0;
     color: var(--muted);
-    font-size: 0.94rem;
+    font-size: 0.93rem;
+    line-height: 1.5;
   }
   @media (max-width: 640px) {
+    main {
+      padding: 12px 18px 28px;
+    }
+    .owner-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+    }
+    .owner-tab {
+      min-width: 0;
+    }
+    .page-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
 <body>
 <site-nav active-page="home"></site-nav>
 
-<header class="page-hero">
-  <div class="page-hero-inner">
-    <h1>Personal</h1>
-    <p>A small personal website for study tools, notes, and future pages.</p>
-  </div>
-</header>
-
 <main>
-  <div class="owner-tabs" role="tablist" aria-label="Personal tools by person">
+  <div class="owner-tabs" role="tablist" aria-label="Home tools by person">
     <button class="owner-tab active" type="button" role="tab" aria-selected="true" aria-controls="dad-panel" data-owner-tab="dad">Dad</button>
     <button class="owner-tab" type="button" role="tab" aria-selected="false" aria-controls="me-panel" data-owner-tab="me">Me</button>
   </div>

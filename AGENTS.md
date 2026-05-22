@@ -13,7 +13,6 @@ python3 -m http.server 8015
 Then test pages through the local server instead of opening files directly:
 
 - `http://localhost:8015/`
-- `http://localhost:8015/resources.html`
 - `http://localhost:8015/citizenship-interview-prep.html`
 
 If port `8015` is already in use, use the next available port and report the URL. Keep the server running while testing.

@@ -265,6 +265,20 @@
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-light);
   }
+  .word-theme-filter {
+    min-height: 38px;
+    padding: 8px 34px 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--card);
+    outline: none;
+  }
+  .word-theme-filter:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
   .filter-btn {
     padding: 8px 14px;
     border: 1px solid var(--border);
@@ -819,6 +833,19 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+  }
+  .word-theme-tag {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 4px;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
   }
   .word-audio-btn {
     width: 26px;
@@ -1496,6 +1523,9 @@
       </div>
       <div class="filter-group" id="word-filter-group">
         <input class="word-filter-search" type="text" id="word-search" placeholder="搜索词汇" aria-label="Search vocabulary" />
+        <select class="word-theme-filter" id="word-theme-filter" aria-label="Filter vocabulary by theme">
+          <option value="all">全部主题</option>
+        </select>
         <button class="filter-btn active" data-wfilter="all">全部</button>
         <button class="filter-btn" data-wfilter="auto">自动</button>
         <button class="filter-btn" data-wfilter="tolearn">待学</button>
@@ -3327,6 +3357,9 @@
     "government": "政府", "federal": "联邦的", "state": "州", "laws": "法律", "law": "法律",
     "american": "美国的", "americans": "美国人", "america": "美国",
     "rights": "权利", "right": "权利", "freedom": "自由",
+    "red": "红色", "white": "白色", "blue": "蓝色", "black": "黑色", "yellow": "黄色", "green": "绿色",
+    "orange": "橙色", "purple": "紫色", "pink": "粉色", "brown": "棕色", "gray": "灰色", "grey": "灰色",
+    "color": "颜色", "colors": "颜色",
     "war": "战争", "world": "世界", "civil": "民事的／民权的", "independence": "独立",
     "citizens": "公民", "citizen": "公民", "vote": "投票", "elect": "选举", "election": "选举",
     "senate": "参议院", "house": "众议院", "representatives": "众议员", "representative": "众议员",
@@ -3418,6 +3451,33 @@
 
   function getMeaning(w) {
     return wordMeaningOverrides[w] || MEANING[w] || MEANING[w.replace(/'s$/, "")] || "—";
+  }
+
+  const WORD_THEME_LABELS = {
+    color: "颜色",
+    government: "政府 / 法律",
+    people: "人物 / 公民",
+    geography: "地理 / 地点",
+    history: "历史 / 战争",
+    time: "时间 / 日期",
+    rights: "权利 / 自由",
+    action: "动作"
+  };
+
+  const WORD_THEME_SETS = {
+    color: new Set(["red", "white", "blue", "black", "yellow", "green", "orange", "purple", "pink", "brown", "gray", "grey", "color", "colors"]),
+    government: new Set(["amendment", "amendments", "bill", "bills", "branch", "branches", "cabinet", "congress", "constitution", "constitutional", "court", "courts", "election", "elect", "federal", "government", "governor", "house", "justice", "justices", "law", "laws", "office", "party", "political", "president", "representative", "representatives", "republic", "senate", "senator", "senators", "speaker", "state", "states", "supreme", "vice", "vote"]),
+    people: new Set(["american", "americans", "citizen", "citizens", "colonists", "fathers", "father", "franklin", "jefferson", "king", "leaders", "lincoln", "man", "men", "member", "people", "roosevelt", "slaves", "terrorists", "washington", "wilson", "woman", "women"]),
+    geography: new Set(["africa", "america", "atlantic", "borders", "canada", "capital", "colonies", "country", "east", "europeans", "germany", "indian", "italy", "japan", "land", "mexico", "north", "ocean", "pacific", "river", "south", "territory", "west", "world", "york"]),
+    history: new Set(["attack", "attacked", "british", "civil", "communism", "declaration", "emancipation", "fought", "freed", "independence", "proclamation", "slavery", "war"]),
+    time: new Set(["age", "april", "before", "current", "day", "during", "first", "fourth", "july", "long", "longest", "november", "old", "oldest", "second", "september", "third", "today", "year", "years"]),
+    rights: new Set(["arms", "assembly", "bear", "defend", "discrimination", "equality", "freedom", "liberty", "press", "religion", "religious", "right", "rights", "speech"]),
+    action: new Set(["approve", "become", "becomes", "buy", "call", "celebrate", "declare", "decides", "defend", "elect", "fight", "follow", "join", "make", "made", "makes", "obey", "participate", "pay", "print", "register", "run", "serve", "signs", "support", "vetoes", "visit", "vote", "write", "written"])
+  };
+
+  function getWordTheme(w) {
+    const base = w.replace(/'s$/, "").toLowerCase();
+    return Object.keys(WORD_THEME_SETS).find((theme) => WORD_THEME_SETS[theme].has(base)) || "";
   }
 
   const WORD_LABEL_KEY = "citizenship-prep-word-label-v1";
@@ -3895,8 +3955,19 @@
   }
 
   let wordFilter = "all";
+  let wordThemeFilter = "all";
   let wordSearchTerm = "";
   let wordLearningOrderRenderTimer = null;
+
+  function populateWordThemeFilter() {
+    const select = document.getElementById("word-theme-filter");
+    if (!select) return;
+    select.innerHTML = [
+      `<option value="all">全部主题</option>`,
+      ...Object.entries(WORD_THEME_LABELS).map(([theme, label]) => `<option value="${theme}">${label}</option>`)
+    ].join("");
+    select.value = wordThemeFilter;
+  }
 
   function renderFrequency() {
     const { counts, wordToQs, displayForm } = computeFrequency();
@@ -3947,6 +4018,7 @@
         displayWord.toLowerCase().includes(term) ||
         meaning.toLowerCase().includes(term);
       if (!matchesSearch) return false;
+      if (wordThemeFilter !== "all" && getWordTheme(w) !== wordThemeFilter) return false;
       if (wordFilter === "all") return true;
       if (wordFilter === "override") return !!wordOverrides[w] || !!wordLabelOverrides[w] || !!wordMeaningOverrides[w];
       return selectedStatusByWord[w] === wordFilter;
@@ -3980,6 +4052,8 @@
       const wEsc = escapeHtml(w);
       const displayWord = getDisplayWord(w, displayForm);
       const meaning = getMeaning(w);
+      const theme = getWordTheme(w);
+      const themeTag = theme ? `<span class="word-theme-tag">${escapeHtml(WORD_THEME_LABELS[theme])}</span>` : "";
       const buttons = STATUS_OPTIONS.map(opt => {
         const active = opt === current ? " active" : "";
         const cls = opt === "auto" ? "auto" : opt;
@@ -3997,6 +4071,7 @@
               <input class="word-edit-input" type="text" value="${escapeHtml(displayWord)}" data-word-label="${wEsc}" data-original="${escapeHtml(displayForm[w] || w)}" aria-label="Edit word ${escapeHtml(displayForm[w] || w)}" />
               <button class="audio-btn word-audio-btn" data-word-audio="${escapeHtml(displayWord)}" title="Play word audio" aria-label="Play ${escapeHtml(displayWord)}">${SPEAKER_SVG}</button>
             </span>
+            ${themeTag}
           </td>
           <td><input class="meaning-edit-input" type="text" value="${escapeHtml(meaning)}" data-word-meaning="${wEsc}" data-original="${escapeHtml(MEANING[w] || MEANING[w.replace(/'s$/, "")] || "—")}" aria-label="Edit translation for ${escapeHtml(displayWord)}" /></td>
           <td><div class="word-status-group">${buttons}</div></td>
@@ -4827,6 +4902,8 @@
   // Word filter (Word Frequency view)
   const wordFilterGroup = document.getElementById("word-filter-group");
   const wordSearchEl = document.getElementById("word-search");
+  const wordThemeFilterEl = document.getElementById("word-theme-filter");
+  populateWordThemeFilter();
   wordFilterGroup.addEventListener("click", (e) => {
     if (e.target.classList.contains("filter-btn") && e.target.dataset.wfilter) {
       wordFilterGroup.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -4834,6 +4911,10 @@
       wordFilter = e.target.dataset.wfilter;
       renderFrequency();
     }
+  });
+  wordThemeFilterEl.addEventListener("change", (e) => {
+    wordThemeFilter = e.target.value;
+    renderFrequency();
   });
   wordSearchEl.addEventListener("input", (e) => {
     wordSearchTerm = e.target.value;
