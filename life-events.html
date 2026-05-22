@@ -182,6 +182,43 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .insight-tabs {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .insight-tab {
+    background: #e2e8f0;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 800;
+    min-height: 38px;
+    padding: 9px 13px;
+  }
+
+  .insight-tab:hover {
+    background: #dbe3ee;
+    color: var(--text);
+  }
+
+  .insight-tab.active {
+    background: var(--accent);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.18);
+    color: #ffffff;
+  }
+
+  .insight-pane {
+    display: none;
+  }
+
+  .insight-pane.active {
+    display: block;
+  }
+
   .guidance {
     border: 1px solid var(--border);
     border-left: 4px solid var(--neutral);
@@ -615,6 +652,10 @@
     </div>
     <div class="toolbar">
       <button class="btn btn-primary" id="newEventBtn" type="button">New Event</button>
+      <div class="insight-tabs" role="tablist" aria-label="Life event insights">
+        <button class="insight-tab active" id="guidanceTab" type="button" role="tab" aria-selected="true" aria-controls="guidancePane" data-insight-tab="guidance">What This Is Telling You</button>
+        <button class="insight-tab" id="areaTab" type="button" role="tab" aria-selected="false" aria-controls="areaPane" data-insight-tab="area">Area Signals</button>
+      </div>
     </div>
   </header>
 
@@ -679,31 +720,36 @@
     <div class="stat"><div class="label">Open Actions</div><div class="value" id="openActions">0</div></div>
   </section>
 
-  <section class="panel" aria-labelledby="guidanceTitle">
+  <section class="panel" aria-labelledby="insightsTitle">
     <div class="panel-head">
       <div>
-        <h2 id="guidanceTitle">What This Is Telling You</h2>
-        <p>Recommendations update from the visible event set and show their source events.</p>
+        <h2 id="insightsTitle">Insights</h2>
+        <p>Switch between recommendations and weighted area signals from the visible event set.</p>
       </div>
     </div>
     <div class="panel-body">
-      <div class="guidance-grid">
-        <div class="guidance good">
-          <h3>Do More</h3>
-          <div class="guidance-list" id="doMoreList"></div>
+      <div class="insight-pane active" id="guidancePane" role="tabpanel" aria-labelledby="guidanceTab">
+        <div class="guidance-grid">
+          <div class="guidance good">
+            <h3>Do More</h3>
+            <div class="guidance-list" id="doMoreList"></div>
+          </div>
+          <div class="guidance bad">
+            <h3>Do Less</h3>
+            <div class="guidance-list" id="doLessList"></div>
+          </div>
+          <div class="guidance warn">
+            <h3>Watch</h3>
+            <div class="guidance-list" id="watchList"></div>
+          </div>
+          <div class="guidance action">
+            <h3>Next Actions</h3>
+            <div class="guidance-list" id="nextActionList"></div>
+          </div>
         </div>
-        <div class="guidance bad">
-          <h3>Do Less</h3>
-          <div class="guidance-list" id="doLessList"></div>
-        </div>
-        <div class="guidance warn">
-          <h3>Watch</h3>
-          <div class="guidance-list" id="watchList"></div>
-        </div>
-        <div class="guidance action">
-          <h3>Next Actions</h3>
-          <div class="guidance-list" id="nextActionList"></div>
-        </div>
+      </div>
+      <div class="insight-pane" id="areaPane" role="tabpanel" aria-labelledby="areaTab">
+        <div class="area-list" id="areaSignals"></div>
       </div>
     </div>
   </section>
@@ -803,18 +849,6 @@
     </div>
 
     <aside class="side-stack">
-      <section class="panel" aria-labelledby="areaTitle">
-        <div class="panel-head">
-          <div>
-            <h2 id="areaTitle">Area Signals</h2>
-            <p>Weighted by impact and importance.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="area-list" id="areaSignals"></div>
-        </div>
-      </section>
-
       <section class="panel" aria-labelledby="tagTitle">
         <div class="panel-head">
           <div>
@@ -1308,6 +1342,8 @@ W03: Cornbread`],
     filterPattern: document.getElementById("filterPattern"),
     eventList: document.getElementById("eventList"),
     timelineSummary: document.getElementById("timelineSummary"),
+    insightTabs: [...document.querySelectorAll("[data-insight-tab]")],
+    insightPanes: [...document.querySelectorAll(".insight-pane")],
     areaSignals: document.getElementById("areaSignals"),
     tagSignals: document.getElementById("tagSignals"),
     peopleSignals: document.getElementById("peopleSignals"),
@@ -1961,6 +1997,17 @@ W03: Cornbread`],
     window.setTimeout(() => els.toast.classList.remove("show"), 2600);
   }
 
+  function activateInsightTab(tabName) {
+    els.insightTabs.forEach((tab) => {
+      const isActive = tab.dataset.insightTab === tabName;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+    els.insightPanes.forEach((pane) => {
+      pane.classList.toggle("active", pane.id === `${tabName}Pane`);
+    });
+  }
+
   function editEvent(id) {
     const event = events.find((item) => item.id === id);
     if (!event) return;
@@ -2013,6 +2060,10 @@ W03: Cornbread`],
 
   [els.filterColumn, els.filterPeople, els.filterImpact, els.filterTime, els.filterPattern].forEach((node) => {
     node.addEventListener("change", render);
+  });
+
+  els.insightTabs.forEach((tab) => {
+    tab.addEventListener("click", () => activateInsightTab(tab.dataset.insightTab));
   });
 
   els.eventList.addEventListener("click", (event) => {
