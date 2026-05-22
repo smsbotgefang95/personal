@@ -506,70 +506,13 @@
   .vocabulary-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) repeat(4, minmax(150px, auto)) auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     margin-bottom: 16px;
   }
 
-  .add-word-form {
-    background: #f8faf8;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-    margin-bottom: 14px;
-    padding: 12px;
-  }
-
-  .add-word-field {
-    display: grid;
-    gap: 5px;
-    min-width: 0;
-  }
-
-  .add-word-field span {
-    color: var(--muted);
-    font-size: 0.76rem;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .add-word-input {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: var(--text);
-    font: inherit;
-    min-height: 42px;
-    min-width: 0;
-    padding: 9px 12px;
-  }
-
-  .add-word-button {
-    align-self: end;
-    background: var(--accent);
-    border-radius: 7px;
-    color: #ffffff;
-    font-weight: 850;
-    min-height: 42px;
-    padding: 9px 14px;
-    white-space: nowrap;
-  }
-
-  .add-word-message {
-    color: var(--muted);
-    font-size: 0.9rem;
-    font-weight: 750;
-    grid-column: 1 / -1;
-    min-height: 1.35em;
-  }
-
-  .add-word-message.error {
-    color: var(--accent-3);
-  }
-
-  .add-word-message.saved {
-    color: var(--learned);
+  .vocabulary-search,
+  .vocabulary-summary {
+    grid-column: span 2;
   }
 
   .phrase-search,
@@ -717,6 +660,15 @@
     .hero-main {
       min-height: 260px;
     }
+
+    .vocabulary-tools {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .vocabulary-search,
+    .vocabulary-summary {
+      grid-column: 1 / -1;
+    }
   }
 
   @media (max-width: 680px) {
@@ -845,18 +797,6 @@
         <p>Practice the top 1,000 common English words with saved learning status.</p>
       </div>
     </div>
-    <form class="add-word-form" id="addWordForm" aria-label="Add a custom vocabulary word">
-      <label class="add-word-field">
-        <span>Word</span>
-        <input class="add-word-input" id="customWordInput" type="text" autocomplete="off" placeholder="mortgage" required />
-      </label>
-      <label class="add-word-field">
-        <span>Chinese meaning</span>
-        <input class="add-word-input" id="customMeaningInput" type="text" autocomplete="off" placeholder="房贷" required />
-      </label>
-      <button class="add-word-button" type="submit">Add word</button>
-      <div class="add-word-message" id="addWordMessage" role="status" aria-live="polite"></div>
-    </form>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
@@ -889,6 +829,15 @@
         <option value="all">All words</option>
         <option value="compound">Compound words</option>
         <option value="single">Single words</option>
+      </select>
+      <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
+        <option value="all">All prefixes</option>
+      </select>
+      <select class="vocabulary-filter" id="vocabularySurfaceFilter" aria-label="Filter vocabulary by surface form">
+        <option value="all">All forms</option>
+      </select>
+      <select class="vocabulary-filter" id="vocabularyRootFilter" aria-label="Filter vocabulary by root">
+        <option value="all">All roots</option>
       </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
@@ -931,6 +880,9 @@
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
   const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
   const STORAGE_VOCAB_COMPOUND_FILTER_KEY = "learningEnglishVocabularyCompoundFilter";
+  const STORAGE_VOCAB_PREFIX_FILTER_KEY = "learningEnglishVocabularyPrefixFilter";
+  const STORAGE_VOCAB_SURFACE_FILTER_KEY = "learningEnglishVocabularySurfaceFilter";
+  const STORAGE_VOCAB_ROOT_FILTER_KEY = "learningEnglishVocabularyRootFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   const SCENARIOS = [
@@ -2191,9 +2143,89 @@ pass=通过；传递
     "without"
   ]);
 
+  const VOCABULARY_PREFIX_LABELS = {
+    none: "No prefix",
+    re: "re- again",
+    un: "un- not",
+    in: "in- not/in",
+    im: "im- not/in",
+    il: "il- not/in",
+    ir: "ir- not/in",
+    dis: "dis- opposite",
+    pre: "pre- before",
+    pro: "pro- forward",
+    over: "over- too much",
+    under: "under- below",
+    mis: "mis- wrong",
+    non: "non- not",
+    de: "de- reverse",
+    en: "en- make",
+    em: "em- make",
+    sub: "sub- below",
+    super: "super- above",
+    trans: "trans- across"
+  };
+
+  const VOCABULARY_SURFACE_LABELS = {
+    base: "Base form",
+    plural: "Plural / -s",
+    past: "Past / -ed",
+    ing: "-ing form",
+    ly: "-ly adverb",
+    comparative: "-er / -est",
+    contraction: "Contraction",
+    compound: "Compound",
+    capitalized: "Capitalized",
+    number: "Number"
+  };
+
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
     return Object.keys(VOCABULARY_THEME_SETS).find((theme) => VOCABULARY_THEME_SETS[theme].has(normalized)) || "";
+  }
+
+  function getVocabularyPrefix(word) {
+    const normalized = word.toLowerCase().replace(/^[^a-z]+|[^a-z]+$/g, "");
+    const prefixes = Object.keys(VOCABULARY_PREFIX_LABELS)
+      .filter((prefix) => prefix !== "none")
+      .sort((a, b) => b.length - a.length);
+    return prefixes.find((prefix) => normalized.startsWith(prefix) && normalized.length > prefix.length + 2) || "none";
+  }
+
+  function getVocabularySurface(word, isCompound) {
+    const normalized = word.toLowerCase();
+    if (/^\d+$/.test(normalized)) return "number";
+    if (/[A-Z]/.test(word[0] || "")) return "capitalized";
+    if (normalized.includes("'")) return "contraction";
+    if (isCompound || /\s/.test(normalized)) return "compound";
+    if (normalized.endsWith("ing") && normalized.length > 5) return "ing";
+    if (normalized.endsWith("ed") && normalized.length > 4) return "past";
+    if (normalized.endsWith("ly") && normalized.length > 4) return "ly";
+    if ((normalized.endsWith("est") && normalized.length > 5) || (normalized.endsWith("er") && normalized.length > 4)) return "comparative";
+    if ((normalized.endsWith("s") || normalized.endsWith("es")) && normalized.length > 3) return "plural";
+    return "base";
+  }
+
+  function getVocabularyRoot(word) {
+    let root = word.toLowerCase().replace(/[^a-z0-9\s'-]/g, "").replace(/\s+/g, " ").trim();
+    if (!root || /^\d+$/.test(root) || root.includes(" ") || root.includes("'")) return root;
+    if (root.endsWith("ies") && root.length > 4) return `${root.slice(0, -3)}y`;
+    if (root.endsWith("ing") && root.length > 5) {
+      root = root.slice(0, -3);
+      if (/([b-df-hj-np-tv-z])\1$/.test(root)) root = root.slice(0, -1);
+      if (!root.endsWith("e")) return root;
+    }
+    if (root.endsWith("ed") && root.length > 4) {
+      root = root.slice(0, -2);
+      if (/([b-df-hj-np-tv-z])\1$/.test(root)) root = root.slice(0, -1);
+      return root;
+    }
+    if (root.endsWith("es") && root.length > 4) return root.slice(0, -2);
+    if (root.endsWith("s") && root.length > 3) return root.slice(0, -1);
+    if (root.endsWith("ly") && root.length > 4) return root.slice(0, -2);
+    if (root.endsWith("est") && root.length > 5) return root.slice(0, -3);
+    if (root.endsWith("er") && root.length > 4) return root.slice(0, -2);
+    return root;
   }
 
   const COMMON_WORD_PARTS = {
@@ -3415,6 +3447,7 @@ pass=通过；传递
 
   const COMMON_VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
     const featured = FEATURED_BY_WORD[word.toLowerCase()] || {};
+    const isCompound = COMPOUND_WORDS.has(word.toLowerCase());
     return {
       id: `common-${index + 1}-${slugifyWord(word)}`,
       word,
@@ -3423,7 +3456,10 @@ pass=通过；传递
       ...featured,
       partOfSpeech: getCommonWordPartOfSpeech(word, featured),
       theme: getVocabularyTheme(word),
-      isCompound: COMPOUND_WORDS.has(word.toLowerCase()),
+      isCompound,
+      prefix: getVocabularyPrefix(word),
+      surface: getVocabularySurface(word, isCompound),
+      root: getVocabularyRoot(word),
       rank: index + 1
     };
   });
@@ -3437,6 +3473,9 @@ pass=通过；传递
       partOfSpeech: "proper noun",
       theme: "country",
       isCompound: /\s/.test(item.word),
+      prefix: getVocabularyPrefix(item.word),
+      surface: getVocabularySurface(item.word, /\s/.test(item.word)),
+      root: getVocabularyRoot(item.word),
       rank: "Country",
       ...item
     }));
@@ -3451,6 +3490,9 @@ pass=通过；传递
   let selectedVocabularyPart = loadSelectedVocabularyPart();
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
   let selectedVocabularyCompound = loadSelectedVocabularyCompound();
+  let selectedVocabularyPrefix = loadSelectedVocabularyPrefix();
+  let selectedVocabularySurface = loadSelectedVocabularySurface();
+  let selectedVocabularyRoot = loadSelectedVocabularyRoot();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
@@ -3490,6 +3532,9 @@ pass=通过；传递
       example: "",
       theme: "",
       isCompound: COMPOUND_WORDS.has(normalized) || /\s/.test(normalized),
+      prefix: getVocabularyPrefix(word),
+      surface: getVocabularySurface(word, COMPOUND_WORDS.has(normalized) || /\s/.test(normalized)),
+      root: getVocabularyRoot(word),
       isCustom: true,
       rank: "Custom"
     };
@@ -3614,6 +3659,50 @@ pass=通过；传递
   function saveSelectedVocabularyCompound() {
     try {
       localStorage.setItem(STORAGE_VOCAB_COMPOUND_FILTER_KEY, selectedVocabularyCompound);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyPrefix() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_PREFIX_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_PREFIX_LABELS, saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyPrefix() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_PREFIX_FILTER_KEY, selectedVocabularyPrefix);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularySurface() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_SURFACE_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_SURFACE_LABELS, saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularySurface() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_SURFACE_FILTER_KEY, selectedVocabularySurface);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyRoot() {
+    try {
+      return localStorage.getItem(STORAGE_VOCAB_ROOT_FILTER_KEY) || "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyRoot() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_ROOT_FILTER_KEY, selectedVocabularyRoot);
     } catch (error) {}
   }
 
@@ -3785,45 +3874,15 @@ pass=通过；传递
     return [...VOCABULARY, ...customVocabulary];
   }
 
-  function setAddWordMessage(text, cls) {
-    const message = document.getElementById("addWordMessage");
-    message.textContent = text;
-    message.className = `add-word-message${cls ? ` ${cls}` : ""}`;
-  }
-
-  function handleAddWordSubmit(event) {
-    event.preventDefault();
-    const wordInput = document.getElementById("customWordInput");
-    const meaningInput = document.getElementById("customMeaningInput");
-    const word = wordInput.value.trim().replace(/\s+/g, " ");
-    const chinese = meaningInput.value.trim();
-
-    if (!word || !chinese) {
-      setAddWordMessage("Enter a word and Chinese meaning.", "error");
-      return;
-    }
-
-    const normalized = normalizeWordKey(word);
-    const isDuplicate = getAllVocabulary().some((item) => normalizeWordKey(item.word) === normalized);
-    if (isDuplicate) {
-      setAddWordMessage("This word is already in your vocabulary list.", "error");
-      return;
-    }
-
-    const entry = normalizeCustomWordEntry({ word, chinese });
-    if (!entry) {
-      setAddWordMessage("Enter a word and Chinese meaning.", "error");
-      return;
-    }
-
-    customVocabulary = [...customVocabulary, entry];
-    saveCustomVocabulary();
-    wordInput.value = "";
-    meaningInput.value = "";
-    selectedView = "vocabulary";
-    saveSelectedView();
-    setAddWordMessage(`Added "${entry.word}".`, "saved");
-    render();
+  function getVocabularyRootOptions() {
+    const counts = getAllVocabulary().reduce((map, item) => {
+      if (!item.root) return map;
+      map.set(item.root, (map.get(item.root) || 0) + 1);
+      return map;
+    }, new Map());
+    return [...counts.entries()]
+      .filter(([, count]) => count > 1)
+      .sort(([rootA], [rootB]) => rootA.localeCompare(rootB));
   }
 
   function renderVocabularyList() {
@@ -3833,6 +3892,9 @@ pass=通过；传递
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
     const compoundFilter = selectedVocabularyCompound;
+    const prefixFilter = selectedVocabularyPrefix;
+    const surfaceFilter = selectedVocabularySurface;
+    const rootFilter = selectedVocabularyRoot;
     const allVocabulary = getAllVocabulary();
     const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
     let words = allVocabulary.filter((item) => {
@@ -3841,10 +3903,13 @@ pass=通过；传递
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesSearch(item);
+      const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
+      const matchesSurface = surfaceFilter === "all" || item.surface === surfaceFilter;
+      const matchesRoot = rootFilter === "all" || item.root === rootFilter;
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSurface && matchesRoot && matchesSearch(item);
     });
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all")) {
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || surfaceFilter !== "all" || rootFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
@@ -3852,6 +3917,9 @@ pass=通过；传递
     document.getElementById("vocabularyPartFilter").value = partFilter;
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
+    document.getElementById("vocabularyPrefixFilter").value = prefixFilter;
+    document.getElementById("vocabularySurfaceFilter").value = surfaceFilter;
+    document.getElementById("vocabularyRootFilter").value = rootFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
     if (!words.length) {
@@ -3871,6 +3939,9 @@ pass=通过；传递
       const rankTag = item.isCustom ? `<span class="vocabulary-tag">Custom</span>` : `<span class="vocabulary-tag">#${item.rank}</span>`;
       const labelTag = label ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
+      const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
+      const surfaceTag = item.surface ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SURFACE_LABELS[item.surface] || item.surface)}</span>` : "";
+      const rootTag = item.root ? `<span class="vocabulary-tag">Root: ${escapeHtml(item.root)}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
           <div>
@@ -3882,6 +3953,9 @@ pass=通过；传递
               ${rankTag}
               ${labelTag}
               ${themeTag}
+              ${prefixTag}
+              ${surfaceTag}
+              ${rootTag}
               ${pronunciation}
             </div>
           </div>
@@ -3995,10 +4069,6 @@ pass=通过；传递
     saveSelectedPhraseStatus();
     renderPhraseList();
   });
-  document.getElementById("addWordForm").addEventListener("submit", handleAddWordSubmit);
-  document.querySelectorAll("#customWordInput, #customMeaningInput").forEach((input) => {
-    input.addEventListener("input", () => setAddWordMessage("", ""));
-  });
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
@@ -4022,6 +4092,38 @@ pass=通过；传递
   document.getElementById("vocabularyCompoundFilter").addEventListener("change", (event) => {
     selectedVocabularyCompound = event.target.value;
     saveSelectedVocabularyCompound();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyPrefixFilter").innerHTML = [
+    `<option value="all">All prefixes</option>`,
+    ...Object.entries(VOCABULARY_PREFIX_LABELS).map(([prefix, label]) => `<option value="${prefix}">${label}</option>`)
+  ].join("");
+  document.getElementById("vocabularyPrefixFilter").addEventListener("change", (event) => {
+    selectedVocabularyPrefix = event.target.value;
+    saveSelectedVocabularyPrefix();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularySurfaceFilter").innerHTML = [
+    `<option value="all">All forms</option>`,
+    ...Object.entries(VOCABULARY_SURFACE_LABELS).map(([surface, label]) => `<option value="${surface}">${label}</option>`)
+  ].join("");
+  document.getElementById("vocabularySurfaceFilter").addEventListener("change", (event) => {
+    selectedVocabularySurface = event.target.value;
+    saveSelectedVocabularySurface();
+    renderVocabularyList();
+  });
+  const vocabularyRootFilter = document.getElementById("vocabularyRootFilter");
+  vocabularyRootFilter.innerHTML = [
+    `<option value="all">All roots</option>`,
+    ...getVocabularyRootOptions().map(([root, count]) => `<option value="${escapeHtml(root)}">${escapeHtml(root)} (${count})</option>`)
+  ].join("");
+  if (selectedVocabularyRoot !== "all" && ![...vocabularyRootFilter.options].some((option) => option.value === selectedVocabularyRoot)) {
+    selectedVocabularyRoot = "all";
+    saveSelectedVocabularyRoot();
+  }
+  vocabularyRootFilter.addEventListener("change", (event) => {
+    selectedVocabularyRoot = event.target.value;
+    saveSelectedVocabularyRoot();
     renderVocabularyList();
   });
 
