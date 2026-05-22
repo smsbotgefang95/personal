@@ -2562,6 +2562,38 @@ W03: Cornbread`],
     window.setTimeout(() => els.toast.classList.remove("show"), 2600);
   }
 
+  function previousSitePage() {
+    if (!document.referrer) return "";
+    try {
+      const previousUrl = new URL(document.referrer);
+      const currentUrl = new URL(window.location.href);
+      if (previousUrl.origin !== currentUrl.origin) return "";
+      if (previousUrl.pathname === currentUrl.pathname && previousUrl.search === currentUrl.search) return "";
+      return previousUrl.href;
+    } catch (error) {
+      return "";
+    }
+  }
+
+  async function syncLifeEventsBeforeReturn() {
+    if (lifeEventsSyncTimer) {
+      window.clearTimeout(lifeEventsSyncTimer);
+      lifeEventsSyncTimer = null;
+    }
+    await saveLifeEventsToServer({ promptForKey: false });
+  }
+
+  async function returnAfterEventSave() {
+    await syncLifeEventsBeforeReturn();
+    const returnUrl = previousSitePage();
+    if (returnUrl) {
+      window.location.assign(returnUrl);
+      return;
+    }
+    clearToolbarSelection();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function clearToolbarSelection() {
     els.eventWorkspace.hidden = true;
     els.insightsPanel.hidden = true;
@@ -2628,7 +2660,7 @@ W03: Cornbread`],
     showToast("Event deleted.");
   }
 
-  els.eventForm.addEventListener("submit", (event) => {
+  els.eventForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const nextEvent = eventFromForm();
     const existingIndex = events.findIndex((item) => item.id === nextEvent.id);
@@ -2642,6 +2674,7 @@ W03: Cornbread`],
     saveEvents();
     resetForm();
     render();
+    await returnAfterEventSave();
   });
 
   els.cancelEditBtn.addEventListener("click", resetForm);
