@@ -1112,7 +1112,7 @@
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
-  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-21-peijun-gao";
+  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-22-year-end-import-dates";
   const GENERIC_NEXT_ACTION = "Review and decide the next concrete action.";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const AREA_COLORS = {
@@ -1661,10 +1661,13 @@ W03: Cornbread`],
     const storedImportedById = new Map(storedEvents
       .filter((event) => event && /^sheet-import-\d+$/.test(String(event.id || "")))
       .map((event) => [String(event.id), event]));
-    const importedWithStoredEdits = importedEvents.map((event) => ({
-      ...event,
-      ...(storedImportedById.get(String(event.id)) || {})
-    }));
+    const importedWithStoredEdits = importedEvents.map((event) => {
+      const storedEvent = storedImportedById.get(String(event.id));
+      return {
+        ...event,
+        ...(storedEvent ? migrateImportedPlaceholderDate(storedEvent) : {})
+      };
+    });
     const manualEvents = storedEvents.filter((event) => {
       const id = String(event && event.id || "");
       return event && !/^sample-\d+$/.test(id) && !/^sheet-import-\d+$/.test(id);
@@ -1763,13 +1766,27 @@ W03: Cornbread`],
     return new Date().toISOString().slice(0, 10);
   }
 
+  function yearEndPlaceholderDate(year) {
+    return `${year}-12-31`;
+  }
+
+  function migrateImportedPlaceholderDate(event) {
+    const date = String(event && event.date || "");
+    const match = date.match(/^(\d{4})-01-01$/);
+    if (!match) return event;
+    return {
+      ...event,
+      date: yearEndPlaceholderDate(match[1])
+    };
+  }
+
   function eventDateFromNotes(year, notes) {
     const match = String(notes || "").match(/(^|[^\d.])([01]?\d)\/([0-3]?\d)(?![\d.])/);
-    if (!match) return `${year}-01-01`;
+    if (!match) return yearEndPlaceholderDate(year);
 
     const month = Number(match[2]);
     const day = Number(match[3]);
-    if (month < 1 || month > 12 || day < 1 || day > 31) return `${year}-01-01`;
+    if (month < 1 || month > 12 || day < 1 || day > 31) return yearEndPlaceholderDate(year);
 
     return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
