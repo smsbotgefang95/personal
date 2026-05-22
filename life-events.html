@@ -923,6 +923,9 @@
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
   const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-21-peijun-gao";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
+  const HIDDEN_SOURCE_COLUMNS = {
+    Parent: new Set(["视频", "妈妈"])
+  };
   const KNOWN_PEOPLE = [
     "刘以明", "袁媛", "谢朝阳", "王宏宇", "何平", "Wendy", "Leah", "Austin Hong", "Mark Robinson",
     "贾浩", "牟广丰", "培军叔叔", "婶婶", "Cathy", "Kathy", "Mina", "Ark", "Annie Huang", "Annie", "Jackie",
@@ -1666,10 +1669,16 @@ W03: Cornbread`],
     els.eventTags.value = String(selectedValue || "");
   }
 
+  function isHiddenSourceColumn(area, column) {
+    return HIDDEN_SOURCE_COLUMNS[area]?.has(column) || false;
+  }
+
   function sourceColumnOptions(area) {
     const sheetColumns = GOOGLE_SHEET_ROWS
       .filter(([rowArea]) => area === "all" || rowArea === area)
-      .map(([, , category]) => category);
+      .map(([rowArea, , category]) => ({ area: rowArea, category }))
+      .filter(({ area: rowArea, category }) => !isHiddenSourceColumn(rowArea, category))
+      .map(({ category }) => category);
     const columns = [...new Set(sheetColumns)];
     if (area === "Parent") {
       return moveColumnAfter(moveColumnAfter(columns, "健康", "留美事项"), "物品", "庆功宴");
@@ -1718,6 +1727,7 @@ W03: Cornbread`],
   function peopleOptions() {
     const selectedArea = els.filterArea.value || "all";
     const names = events.flatMap((event) => {
+      if (isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry")) return [];
       if (selectedArea !== "all" && event.area !== selectedArea) return [];
       return peopleList(event.people);
     });
@@ -1746,6 +1756,7 @@ W03: Cornbread`],
     const filters = currentFilters();
     return events.filter((event) => {
       const impact = Number(event.impact || 0);
+      if (isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry")) return false;
       if (filters.area !== "all" && event.area !== filters.area) return false;
       if (filters.column !== "all" && (event.sourceColumn || "Manual entry") !== filters.column) return false;
       if (filters.people !== "all" && !peopleList(event.people).includes(filters.people)) return false;
@@ -1888,11 +1899,12 @@ W03: Cornbread`],
       return;
     }
 
-    const areas = AREAS.filter((area) => sourceEvents.some((event) => event.area === area));
+    const visibleSourceEvents = sourceEvents.filter((event) => !isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry"));
+    const areas = AREAS.filter((area) => visibleSourceEvents.some((event) => event.area === area));
     if (!areas.includes(selectedAreaTab)) selectedAreaTab = areas[0] || "";
     const visibleAreas = selectedAreaTab ? [selectedAreaTab] : areas;
     const sections = visibleAreas.map((area) => {
-      const areaEvents = sourceEvents.filter((event) => event.area === area);
+      const areaEvents = visibleSourceEvents.filter((event) => event.area === area);
       const columnOrder = sourceColumnOptions(area);
       const years = [...new Set(areaEvents.map((event) => String(event.date || "").slice(0, 4) || "No year"))]
         .sort((a, b) => b.localeCompare(a));
