@@ -1844,7 +1844,9 @@ W03: Cornbread`],
   function requestAdminKey() {
     if (adminKeyDialogPromise) return adminKeyDialogPromise;
     adminKeyPreviousFocus = document.activeElement;
-    els.adminKeyInput.value = "";
+    let savedAdminKey = "";
+    try { savedAdminKey = localStorage.getItem(LIFE_EVENTS_ADMIN_KEY) || ""; } catch (error) {}
+    els.adminKeyInput.value = savedAdminKey;
     els.adminKeyDialog.hidden = false;
     window.requestAnimationFrame(() => els.adminKeyInput.focus());
     adminKeyDialogPromise = new Promise((resolve) => {
