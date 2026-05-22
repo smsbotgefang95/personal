@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Personal</title>
 <link rel="stylesheet" href="assets/site-nav.css" />
-<script src="assets/site-nav.js?v=20260522-learning-english" defer></script>
+<script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
 <style>
   :root {
     --bg: #f5f7fb;
@@ -50,6 +50,37 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 16px;
   }
+  .owner-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .owner-tab {
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 9px 16px;
+  }
+  .owner-tab:hover {
+    border-color: #bfdbfe;
+    color: var(--accent);
+  }
+  .owner-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+  }
+  .owner-panel {
+    display: none;
+  }
+  .owner-panel.active {
+    display: block;
+  }
   .page-card {
     display: block;
     background: var(--card);
@@ -87,28 +118,53 @@
 </header>
 
 <main>
-  <div class="page-grid">
-    <a class="page-card" href="citizenship-interview-prep.html">
-      <h2>U.S. Citizenship Interview Prep</h2>
-      <p>Practice the official civics questions with Chinese translations, progress tracking, vocabulary, and audio tools.</p>
-    </a>
-    <a class="page-card" href="life-events.html">
-      <h2>Life Events</h2>
-      <p>Log meaningful events, see patterns, and get clear do-more, do-less, watch, and next-action guidance.</p>
-    </a>
-    <a class="page-card" href="learning-english.html">
-      <h2>Learning English</h2>
-      <p>Practice beginner daily conversation with Chinese support, listening tools, phrase cards, and local progress tracking.</p>
-    </a>
-    <a class="page-card" href="kpi-dashboard.html">
-      <h2>KPI Life Tracker</h2>
-      <p>Track sleep, workouts, water, mood, daily habit completion, and personal health trends.</p>
-    </a>
-    <a class="page-card" href="resources.html">
-      <h2>Resources</h2>
-      <p>A placeholder page ready for links, documents, notes, or new sections as the site grows.</p>
-    </a>
+  <div class="owner-tabs" role="tablist" aria-label="Personal tools by person">
+    <button class="owner-tab active" type="button" role="tab" aria-selected="true" aria-controls="dad-panel" data-owner-tab="dad">Dad</button>
+    <button class="owner-tab" type="button" role="tab" aria-selected="false" aria-controls="me-panel" data-owner-tab="me">Me</button>
   </div>
+
+  <section class="owner-panel active" id="dad-panel" role="tabpanel" aria-label="Dad tools">
+    <div class="page-grid">
+      <a class="page-card" href="citizenship-interview-prep.html">
+        <h2>U.S. Citizenship Interview Prep</h2>
+        <p>Practice the official civics questions with Chinese translations, progress tracking, vocabulary, and audio tools.</p>
+      </a>
+      <a class="page-card" href="learning-english.html">
+        <h2>Learning English</h2>
+        <p>Practice beginner daily conversation with Chinese support, listening tools, phrase cards, and local progress tracking.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="owner-panel" id="me-panel" role="tabpanel" aria-label="Me tools">
+    <div class="page-grid">
+      <a class="page-card" href="life-events.html">
+        <h2>Life Events</h2>
+        <p>Log meaningful events, see patterns, and get clear do-more, do-less, watch, and next-action guidance.</p>
+      </a>
+      <a class="page-card" href="kpi-dashboard.html">
+        <h2>KPI Life Tracker</h2>
+        <p>Track sleep, workouts, water, mood, daily habit completion, and personal health trends.</p>
+      </a>
+    </div>
+  </section>
+
 </main>
+
+<script>
+  document.querySelectorAll("[data-owner-tab]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const owner = tab.dataset.ownerTab;
+      document.querySelectorAll("[data-owner-tab]").forEach((button) => {
+        const isActive = button.dataset.ownerTab === owner;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      document.querySelectorAll(".owner-panel").forEach((panel) => {
+        panel.classList.toggle("active", panel.id === `${owner}-panel`);
+      });
+    });
+  });
+</script>
 </body>
 </html>
