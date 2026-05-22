@@ -142,7 +142,7 @@
   .shell-grid {
     display: grid;
     gap: 18px;
-    grid-template-columns: minmax(420px, 0.9fr) minmax(520px, 1.1fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
 
@@ -348,6 +348,42 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  #eventForm .form-grid {
+    align-items: end;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: start;
+  }
+
+  #eventForm .field {
+    max-width: 100%;
+    width: max-content;
+  }
+
+  #eventForm .field input,
+  #eventForm .field select {
+    field-sizing: content;
+    max-width: 100%;
+    min-width: 12ch;
+    width: auto;
+  }
+
+  #eventForm .field.full {
+    max-width: 100%;
+    width: max-content;
+  }
+
+  #eventForm .field.full input {
+    max-width: min(100%, 62ch);
+    min-width: 18ch;
+  }
+
+  #eventForm .field.full textarea {
+    field-sizing: content;
+    max-width: min(100%, 62ch);
+    min-width: 34ch;
+    width: auto;
+  }
+
   .field.full {
     grid-column: 1 / -1;
   }
@@ -418,33 +454,64 @@
     z-index: 4;
   }
 
-  .year-group {
-    border-bottom: 1px solid #dde3ec;
-    display: grid;
-    grid-template-columns: 78px minmax(0, 1fr);
+  .topic-table {
+    overflow-x: auto;
   }
 
-  .year-group:last-child {
+  .topic-header,
+  .topic-row {
+    display: grid;
+    gap: 0;
+    grid-template-columns: 150px repeat(var(--year-count, 1), minmax(180px, 1fr));
+    min-width: max-content;
+  }
+
+  .topic-header {
+    background: #ffffff;
+    border-bottom: 1px solid #cfd8e6;
+    position: sticky;
+    top: 82px;
+    z-index: 8;
+  }
+
+  .topic-row {
+    border-bottom: 1px solid #dde3ec;
+    padding: 12px 0;
+  }
+
+  .topic-row:last-child {
     border-bottom: 0;
   }
 
+  .topic-corner,
+  .topic-label,
   .year-label {
     background: #f8fafc;
-    border-right: 1px solid #dde3ec;
     color: #172033;
-    font-size: 0.96rem;
     font-weight: 800;
-    position: sticky;
+    padding: 12px;
+  }
+
+  .topic-corner,
+  .topic-label {
+    border-right: 1px solid #dde3ec;
     left: 0;
-    padding: 14px 12px;
+    position: sticky;
     z-index: 2;
   }
 
-  .category-grid {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(var(--category-count, 1), minmax(0, 1fr));
-    padding: 12px;
+  .topic-corner {
+    z-index: 9;
+  }
+
+  .topic-label {
+    font-size: 0.88rem;
+  }
+
+  .year-label {
+    border-right: 1px solid #e6ebf2;
+    font-size: 0.9rem;
+    text-align: center;
   }
 
   .category-card {
@@ -452,6 +519,8 @@
     border: 1px solid #dde3ec;
     border-radius: 8px;
     color: #202124;
+    margin: 0 6px;
+    min-height: 78px;
     min-width: 0;
   }
 
@@ -462,6 +531,7 @@
 
   .category-card.empty {
     background: #fbfcfe;
+    border-color: #e6ebf2;
   }
 
   .category-title {
@@ -475,6 +545,10 @@
     justify-content: space-between;
     min-height: 34px;
     padding: 8px 10px;
+  }
+
+  .category-title.year-card-title {
+    display: none;
   }
 
   .category-count {
@@ -655,24 +729,39 @@
       flex-direction: column;
     }
 
-    .year-group {
-      grid-template-columns: 1fr;
+    .topic-table {
+      overflow-x: visible;
     }
 
-    .year-label {
+    .topic-header {
+      display: none;
+    }
+
+    .topic-row {
+      display: block;
+      padding: 0 0 12px;
+    }
+
+    .topic-corner,
+    .topic-label {
       border-bottom: 1px solid #dde3ec;
       border-right: 0;
       left: auto;
-      padding: 10px 12px;
       position: static;
     }
 
-    .category-grid {
-      overflow-x: auto;
+    .year-label {
+      text-align: left;
     }
 
     .category-card {
-      min-width: 190px;
+      margin: 10px 12px 0;
+      min-height: 0;
+      min-width: 0;
+    }
+
+    .category-title.year-card-title {
+      display: flex;
     }
   }
 </style>
@@ -688,8 +777,8 @@
     </div>
     <div class="toolbar">
       <div class="insight-tabs" role="tablist" aria-label="Life event insights">
-        <button class="insight-tab active" id="timelineTab" type="button" role="tab" aria-selected="true" aria-controls="timelinePanel">Timeline</button>
         <button class="insight-tab" id="newEventBtn" type="button" role="tab" aria-selected="false" aria-controls="eventWorkspace">New Event</button>
+        <button class="insight-tab active" id="timelineTab" type="button" role="tab" aria-selected="true" aria-controls="timelinePanel">Timeline</button>
         <button class="insight-tab" id="guidanceTab" type="button" role="tab" aria-selected="false" aria-controls="guidancePane" data-insight-tab="guidance">What This Is Telling You</button>
         <button class="insight-tab" id="areaTab" type="button" role="tab" aria-selected="false" aria-controls="areaPane" data-insight-tab="area">Area Signals</button>
       </div>
@@ -864,7 +953,7 @@
               <input id="eventTags" type="hidden" />
               <div class="field full">
                 <label for="eventNotes">Notes</label>
-                <textarea id="eventNotes" placeholder="Context, cause, result, or what you noticed."></textarea>
+                <textarea id="eventNotes" placeholder="• Context, cause, result, or what you noticed."></textarea>
               </div>
               <div class="field full">
                 <label for="eventLesson">Lesson Learned</label>
@@ -885,31 +974,10 @@
 
     </div>
 
-    <aside class="side-stack">
-      <section class="panel" aria-labelledby="tagTitle">
-        <div class="panel-head">
-          <div>
-            <h2 id="tagTitle">Repeated Life Areas</h2>
-            <p>Topics showing up most often.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="tag-list" id="tagSignals"></div>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="peopleTitle">
-        <div class="panel-head">
-          <div>
-            <h2 id="peopleTitle">People Signals</h2>
-            <p>People appearing most often in visible events.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="tag-list" id="peopleSignals"></div>
-        </div>
-      </section>
-    </aside>
+    <div hidden>
+      <div id="tagSignals"></div>
+      <div id="peopleSignals"></div>
+    </div>
   </div>
 
 </main>
@@ -1773,13 +1841,33 @@ W03: Cornbread`],
     return `event-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   }
 
+  const NOTE_BULLET = "• ";
+
+  function seedBulletNotes() {
+    if (els.eventNotes.value.trim()) return;
+    els.eventNotes.value = NOTE_BULLET;
+    els.eventNotes.setSelectionRange(NOTE_BULLET.length, NOTE_BULLET.length);
+  }
+
+  function keepBulletCaret() {
+    if (els.eventNotes.value !== NOTE_BULLET) return;
+    if (els.eventNotes.selectionStart >= NOTE_BULLET.length && els.eventNotes.selectionEnd >= NOTE_BULLET.length) return;
+    els.eventNotes.setSelectionRange(NOTE_BULLET.length, NOTE_BULLET.length);
+  }
+
+  function cleanBulletNotes(value) {
+    const trimmed = value.trim();
+    if (!trimmed || trimmed === "•") return "";
+    return value.trimEnd();
+  }
+
   function eventFromForm() {
     return {
       id: els.eventId.value || uniqueId(),
       date: els.eventDate.value,
       area: els.eventArea.value,
       title: els.eventTitle.value.trim(),
-      notes: els.eventNotes.value.trim(),
+      notes: cleanBulletNotes(els.eventNotes.value),
       impact: Number(els.eventImpact.value),
       importance: Number(els.eventImportance.value),
       energy: els.eventEnergy.value,
@@ -1805,6 +1893,7 @@ W03: Cornbread`],
     updateEventPeopleOptions(event.people || "");
     updateEventTagOptions(event.tags || "");
     els.eventNotes.value = event.notes || "";
+    seedBulletNotes();
     els.eventLesson.value = event.lesson || "";
     els.eventAction.value = event.action || "";
   }
@@ -1906,15 +1995,14 @@ W03: Cornbread`],
     const sections = visibleAreas.map((area) => {
       const areaEvents = visibleSourceEvents.filter((event) => event.area === area);
       const columnOrder = sourceColumnOptions(area);
-      const years = [...new Set(areaEvents.map((event) => String(event.date || "").slice(0, 4) || "No year"))]
-        .sort((a, b) => b.localeCompare(a));
+      const years = areaYears(areaEvents);
+      const topics = areaColumns(areaEvents, columnOrder);
+      const yearCount = Math.max(years.length, 1);
 
-      const rows = years.map((year) => `
-        <div class="year-group">
-          <div class="year-label">${escapeHtml(year)}</div>
-          <div class="category-grid" style="--category-count:${areaColumns(areaEvents, columnOrder).length}">
-            ${renderYearCategoryCards(areaEvents, year, columnOrder)}
-          </div>
+      const rows = topics.map((topic) => `
+        <div class="topic-row" style="--year-count:${yearCount}">
+          <div class="topic-label">${escapeHtml(topic)}</div>
+          ${renderTopicYearCards(areaEvents, topic, years)}
         </div>
       `).join("");
 
@@ -1922,7 +2010,13 @@ W03: Cornbread`],
       return `
         <section class="sheet-section" id="${escapeHtml(areaId)}">
           <h3 class="sheet-title">${escapeHtml(area)}</h3>
-          ${rows}
+          <div class="topic-table">
+            <div class="topic-header" style="--year-count:${yearCount}">
+              <div class="topic-corner">Topic</div>
+              ${years.map((year) => `<div class="year-label">${escapeHtml(year)}</div>`).join("")}
+            </div>
+            ${rows}
+          </div>
         </section>
       `;
     }).join("");
@@ -1939,6 +2033,21 @@ W03: Cornbread`],
     els.eventList.innerHTML = tabs + sections;
   }
 
+  function areaYears(areaEvents) {
+    return [...new Set(areaEvents.map((event) => eventYearLabel(event)))]
+      .sort(sortYearsNewestFirst);
+  }
+
+  function eventYearLabel(event) {
+    return String(event.date || "").slice(0, 4) || "No year";
+  }
+
+  function sortYearsNewestFirst(a, b) {
+    if (a === "No year") return 1;
+    if (b === "No year") return -1;
+    return Number(b) - Number(a) || b.localeCompare(a);
+  }
+
   function areaColumns(areaEvents, columnOrder) {
     const eventColumns = [...new Set(areaEvents.map((event) => event.sourceColumn || "Manual entry"))];
     const knownColumns = columnOrder.filter((column) => eventColumns.includes(column));
@@ -1948,23 +2057,23 @@ W03: Cornbread`],
     return [...knownColumns, ...extraColumns];
   }
 
-  function renderYearCategoryCards(areaEvents, year, columnOrder) {
-    const byColumn = new Map();
+  function renderTopicYearCards(areaEvents, topic, years) {
+    const byYear = new Map();
     areaEvents.forEach((event) => {
-      const eventYear = String(event.date || "").slice(0, 4) || "No year";
-      if (eventYear !== year) return;
       const column = event.sourceColumn || "Manual entry";
-      if (!byColumn.has(column)) byColumn.set(column, []);
-      byColumn.get(column).push(event);
+      if (column !== topic) return;
+      const year = eventYearLabel(event);
+      if (!byYear.has(year)) byYear.set(year, []);
+      byYear.get(year).push(event);
     });
 
-    return areaColumns(areaEvents, columnOrder)
-      .map((column) => {
-        const cellEvents = byColumn.get(column) || [];
+    return years
+      .map((year) => {
+        const cellEvents = byYear.get(year) || [];
         return `
         <article class="category-card${cellEvents.length ? "" : " empty"}">
-          <div class="category-title">
-            <span>${escapeHtml(column)}</span>
+          <div class="category-title year-card-title">
+            <span>${escapeHtml(year)}</span>
             ${cellEvents.length ? `<span class="category-count">${cellEvents.length}</span>` : ""}
           </div>
           ${cellEvents.map(renderSheetCellEvent).join("")}
@@ -2191,6 +2300,17 @@ W03: Cornbread`],
   });
   els.eventArea.addEventListener("change", () => {
     updateEventSourceColumnOptions();
+  });
+
+  els.eventNotes.addEventListener("focus", seedBulletNotes);
+  els.eventNotes.addEventListener("mouseup", () => window.requestAnimationFrame(keepBulletCaret));
+  els.eventNotes.addEventListener("keydown", (event) => {
+    keepBulletCaret();
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    const start = els.eventNotes.selectionStart;
+    const end = els.eventNotes.selectionEnd;
+    els.eventNotes.setRangeText(`\n${NOTE_BULLET}`, start, end, "end");
   });
 
   els.filterArea.addEventListener("change", () => {
