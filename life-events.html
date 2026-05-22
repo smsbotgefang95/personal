@@ -651,8 +651,8 @@
       <p class="subtitle">Log meaningful events once, then use the patterns to decide what to do more, do less, watch, and act on next.</p>
     </div>
     <div class="toolbar">
-      <button class="btn btn-primary" id="newEventBtn" type="button">New Event</button>
       <div class="insight-tabs" role="tablist" aria-label="Life event insights">
+        <button class="insight-tab" id="newEventBtn" type="button" role="tab" aria-selected="false" aria-controls="eventWorkspace">New Event</button>
         <button class="insight-tab" id="guidanceTab" type="button" role="tab" aria-selected="false" aria-controls="guidancePane" data-insight-tab="guidance">What This Is Telling You</button>
         <button class="insight-tab" id="areaTab" type="button" role="tab" aria-selected="false" aria-controls="areaPane" data-insight-tab="area">Area Signals</button>
       </div>
@@ -754,7 +754,7 @@
     </div>
   </section>
 
-  <div class="shell-grid" style="margin-top:18px;">
+  <div class="shell-grid" id="eventWorkspace" style="margin-top:18px;" hidden>
     <div>
       <section class="panel" id="eventFormPanel" aria-labelledby="eventFormTitle">
         <div class="panel-head">
@@ -1342,6 +1342,7 @@ W03: Cornbread`],
     filterPattern: document.getElementById("filterPattern"),
     eventList: document.getElementById("eventList"),
     timelineSummary: document.getElementById("timelineSummary"),
+    eventWorkspace: document.getElementById("eventWorkspace"),
     insightsPanel: document.getElementById("insightsPanel"),
     insightTabs: [...document.querySelectorAll("[data-insight-tab]")],
     insightPanes: [...document.querySelectorAll(".insight-pane")],
@@ -1999,6 +2000,9 @@ W03: Cornbread`],
   }
 
   function activateInsightTab(tabName) {
+    els.eventWorkspace.hidden = true;
+    els.newEventBtn.classList.remove("active");
+    els.newEventBtn.setAttribute("aria-selected", "false");
     els.insightsPanel.hidden = false;
     els.insightTabs.forEach((tab) => {
       const isActive = tab.dataset.insightTab === tabName;
@@ -2010,10 +2014,23 @@ W03: Cornbread`],
     });
   }
 
+  function activateNewEventTab() {
+    els.insightsPanel.hidden = true;
+    els.insightPanes.forEach((pane) => pane.classList.remove("active"));
+    els.insightTabs.forEach((tab) => {
+      tab.classList.remove("active");
+      tab.setAttribute("aria-selected", "false");
+    });
+    els.eventWorkspace.hidden = false;
+    els.newEventBtn.classList.add("active");
+    els.newEventBtn.setAttribute("aria-selected", "true");
+  }
+
   function editEvent(id) {
     const event = events.find((item) => item.id === id);
     if (!event) return;
     fillForm(event);
+    activateNewEventTab();
     els.eventFormPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     els.eventTitle.focus();
   }
@@ -2047,6 +2064,7 @@ W03: Cornbread`],
 
   els.cancelEditBtn.addEventListener("click", resetForm);
   els.newEventBtn.addEventListener("click", () => {
+    activateNewEventTab();
     resetForm(true);
     els.eventFormPanel.scrollIntoView({ behavior: "smooth", block: "start" });
   });
