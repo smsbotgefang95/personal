@@ -260,6 +260,39 @@
     margin-bottom: 16px;
   }
 
+  .learning-tabs {
+    background: #e8efe9;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    padding: 6px;
+  }
+
+  .learning-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: #405047;
+    flex: 1;
+    font-weight: 850;
+    min-height: 42px;
+    padding: 9px 12px;
+  }
+
+  .learning-tab:hover {
+    border-color: #a7d8ce;
+    color: var(--accent);
+  }
+
+  .learning-tab.active {
+    background: var(--surface);
+    border-color: #cbd9d0;
+    color: var(--accent);
+    box-shadow: 0 8px 20px rgba(29, 36, 48, 0.08);
+  }
+
   .scenario-tab {
     background: #e8efe9;
     border: 1px solid transparent;
@@ -283,9 +316,22 @@
 
   .daily-list,
   .phrase-list,
+  .vocabulary-list,
   .tip-list {
     display: grid;
     gap: 12px;
+  }
+
+  .view-panel {
+    display: none;
+  }
+
+  .view-panel.active {
+    display: block;
+  }
+
+  .view-panel.section-grid.active {
+    display: grid;
   }
 
   .daily-item {
@@ -388,8 +434,12 @@
 
   .status-row {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
+  }
+
+  .vocabulary-status-row {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .status-button {
@@ -405,6 +455,12 @@
 
   .status-button:hover {
     border-color: #b7cbc2;
+  }
+
+  .status-button.active[data-status="to-learn"],
+  .status-button.active[data-status="auto"] {
+    background: #e0f2fe;
+    color: #0369a1;
   }
 
   .status-button.active[data-status="learning"] {
@@ -424,6 +480,119 @@
 
   .tip-panel {
     margin-top: 18px;
+  }
+
+  .vocabulary-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 18px;
+  }
+
+  .vocabulary-tools {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) auto;
+    margin-bottom: 16px;
+  }
+
+  .vocabulary-search,
+  .vocabulary-filter {
+    background: #f8faf8;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font: inherit;
+    min-height: 42px;
+    min-width: 0;
+    padding: 9px 12px;
+  }
+
+  .vocabulary-filter {
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #405047 50%),
+      linear-gradient(135deg, #405047 50%, transparent 50%);
+    background-position:
+      calc(100% - 16px) 18px,
+      calc(100% - 10px) 18px;
+    background-repeat: no-repeat;
+    background-size: 6px 6px;
+    font-weight: 800;
+    padding-right: 32px;
+  }
+
+  .vocabulary-summary {
+    align-items: center;
+    background: #fff7d6;
+    border: 1px solid #fde68a;
+    border-radius: 7px;
+    color: #6b4f00;
+    display: inline-flex;
+    font-size: 0.9rem;
+    font-weight: 800;
+    min-height: 42px;
+    padding: 9px 12px;
+    white-space: nowrap;
+  }
+
+  .vocabulary-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 14px;
+  }
+
+  .vocabulary-word {
+    font-size: 1.2rem;
+    font-weight: 850;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .vocabulary-meaning {
+    color: #374151;
+    margin-top: 5px;
+  }
+
+  .vocabulary-example {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 6px;
+  }
+
+  .vocabulary-meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 9px;
+  }
+
+  .vocabulary-tag {
+    background: #f1f5f3;
+    border-radius: 999px;
+    color: var(--accent);
+    display: inline-flex;
+    font-size: 0.76rem;
+    font-weight: 800;
+    padding: 5px 9px;
+    text-transform: uppercase;
+  }
+
+  .vocabulary-pronunciation {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .vocabulary-actions {
+    display: grid;
+    gap: 8px;
+    justify-items: end;
+    min-width: 360px;
   }
 
   .tip-list {
@@ -485,6 +654,8 @@
 
     .stat-grid,
     .phrase-detail,
+    .vocabulary-tools,
+    .vocabulary-card,
     .tip-list,
     .status-row {
       grid-template-columns: 1fr;
@@ -497,6 +668,15 @@
     .listen-button {
       justify-content: center;
       width: 100%;
+    }
+
+    .learning-tabs {
+      flex-direction: column;
+    }
+
+    .vocabulary-actions {
+      justify-items: stretch;
+      min-width: 0;
     }
   }
 </style>
@@ -532,11 +712,16 @@
         <div class="stat"><strong id="reviewCount">0</strong><span>Review</span></div>
         <div class="stat"><strong id="streakCount">0</strong><span>Day Streak</span></div>
       </div>
-      <div class="streak-note" id="streakNote">Mark one phrase today to start your streak.</div>
+      <div class="streak-note" id="streakNote">Mark one phrase or word today to start your streak.</div>
     </aside>
   </section>
 
-  <section class="section-grid">
+  <div class="learning-tabs" role="tablist" aria-label="Learning English sections">
+    <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">Practice</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">Vocabulary</button>
+  </div>
+
+  <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario practice">
     <aside class="daily-panel" id="daily">
       <div class="panel-header">
         <div>
@@ -557,6 +742,27 @@
       <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English practice scenarios"></div>
       <div class="phrase-list" id="phraseList"></div>
     </section>
+  </section>
+
+  <section class="vocabulary-panel view-panel" id="view-vocabulary" role="tabpanel" aria-label="Vocabulary practice">
+    <div class="panel-header">
+      <div>
+        <h2>Vocabulary</h2>
+        <p>Practice the top 1,000 common English words with saved learning status.</p>
+      </div>
+    </div>
+    <div class="vocabulary-tools">
+      <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
+      <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
+        <option value="all">All status</option>
+        <option value="auto">Auto</option>
+        <option value="learning">Learning</option>
+        <option value="review">Review</option>
+        <option value="learned">Learned</option>
+      </select>
+      <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
+    </div>
+    <div class="vocabulary-list" id="vocabularyList"></div>
   </section>
 
   <section class="tip-panel" aria-labelledby="tips-title">
@@ -585,8 +791,11 @@
 
 <script>
   const STORAGE_STATUS_KEY = "learningEnglishPhraseStatus";
+  const STORAGE_VOCAB_STATUS_KEY = "learningEnglishVocabularyStatus";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
+  const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
+  const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
 
   const SCENARIOS = [
     { id: "greetings", label: "Greetings", zh: "打招呼" },
@@ -744,9 +953,1051 @@
     }
   ];
 
+  const FEATURED_VOCABULARY = [
+    { id: "vocab-greeting", word: "greeting", chinese: "问候", pronunciation: "GREE-ting", scenario: "greetings", example: "A greeting is something you say when you meet someone." },
+    { id: "vocab-today", word: "today", chinese: "今天", pronunciation: "tuh-DAY", scenario: "greetings", example: "How are you today?" },
+    { id: "vocab-later", word: "later", chinese: "晚些时候", pronunciation: "LAY-ter", scenario: "greetings", example: "See you later." },
+    { id: "vocab-cost", word: "cost", chinese: "花费；价格", pronunciation: "kost", scenario: "shopping", example: "How much does this cost?" },
+    { id: "vocab-size", word: "size", chinese: "尺码；大小", pronunciation: "size", scenario: "shopping", example: "I am looking for a small size." },
+    { id: "vocab-card", word: "card", chinese: "银行卡；卡片", pronunciation: "kard", scenario: "shopping", example: "Can I pay by card?" },
+    { id: "vocab-table", word: "table", chinese: "桌子", pronunciation: "TAY-bul", scenario: "restaurant", example: "A table for two, please." },
+    { id: "vocab-order", word: "order", chinese: "点餐；订购", pronunciation: "OR-der", scenario: "restaurant", example: "I would like to order this." },
+    { id: "vocab-check", word: "check", chinese: "账单", pronunciation: "chek", scenario: "restaurant", example: "Can we have the check, please?" },
+    { id: "vocab-appointment", word: "appointment", chinese: "预约", pronunciation: "uh-POINT-ment", scenario: "doctor", example: "I have an appointment at ten." },
+    { id: "vocab-pain", word: "pain", chinese: "疼痛", pronunciation: "payn", scenario: "doctor", example: "I have pain in my throat." },
+    { id: "vocab-repeat", word: "repeat", chinese: "重复", pronunciation: "ree-PEET", scenario: "doctor", example: "Could you repeat that?" },
+    { id: "vocab-speak", word: "speak", chinese: "说话；通话", pronunciation: "speek", scenario: "phone", example: "May I speak with Anna?" },
+    { id: "vocab-message", word: "message", chinese: "消息；留言", pronunciation: "MES-ij", scenario: "phone", example: "Can I leave a message?" },
+    { id: "vocab-back", word: "back", chinese: "回来；回拨", pronunciation: "bak", scenario: "phone", example: "Please call me back." },
+    { id: "vocab-help", word: "help", chinese: "帮助", pronunciation: "help", scenario: "work", example: "Could you help me with this?" },
+    { id: "vocab-meeting", word: "meeting", chinese: "会议", pronunciation: "MEE-ting", scenario: "work", example: "I have a meeting at three." },
+    { id: "vocab-understand", word: "understand", chinese: "理解；明白", pronunciation: "un-der-STAND", scenario: "work", example: "I understand. Thank you." }
+  ];
+
+  const FEATURED_BY_WORD = Object.fromEntries(
+    FEATURED_VOCABULARY.map((item) => [item.word.toLowerCase(), item])
+  );
+
+  const COMMON_WORDS_1000 = [
+    "the",
+    "of",
+    "and",
+    "a",
+    "to",
+    "in",
+    "is",
+    "you",
+    "that",
+    "it",
+    "he",
+    "for",
+    "was",
+    "on",
+    "are",
+    "as",
+    "with",
+    "his",
+    "they",
+    "at",
+    "be",
+    "this",
+    "from",
+    "I",
+    "have",
+    "or",
+    "by",
+    "one",
+    "had",
+    "not",
+    "but",
+    "what",
+    "all",
+    "were",
+    "when",
+    "we",
+    "there",
+    "can",
+    "an",
+    "your",
+    "which",
+    "their",
+    "said",
+    "if",
+    "do",
+    "will",
+    "each",
+    "about",
+    "how",
+    "up",
+    "out",
+    "them",
+    "then",
+    "she",
+    "many",
+    "some",
+    "so",
+    "these",
+    "would",
+    "other",
+    "into",
+    "has",
+    "more",
+    "her",
+    "two",
+    "like",
+    "him",
+    "see",
+    "time",
+    "could",
+    "no",
+    "make",
+    "than",
+    "first",
+    "been",
+    "its",
+    "who",
+    "now",
+    "people",
+    "my",
+    "made",
+    "over",
+    "did",
+    "down",
+    "only",
+    "way",
+    "find",
+    "use",
+    "may",
+    "water",
+    "long",
+    "little",
+    "very",
+    "after",
+    "words",
+    "called",
+    "just",
+    "where",
+    "most",
+    "know",
+    "get",
+    "through",
+    "back",
+    "much",
+    "before",
+    "go",
+    "good",
+    "new",
+    "write",
+    "our",
+    "used",
+    "me",
+    "man",
+    "too",
+    "any",
+    "day",
+    "same",
+    "right",
+    "look",
+    "think",
+    "also",
+    "around",
+    "another",
+    "came",
+    "come",
+    "work",
+    "three",
+    "word",
+    "must",
+    "because",
+    "does",
+    "part",
+    "even",
+    "place",
+    "well",
+    "such",
+    "here",
+    "take",
+    "why",
+    "things",
+    "help",
+    "put",
+    "years",
+    "different",
+    "away",
+    "again",
+    "off",
+    "went",
+    "old",
+    "number",
+    "great",
+    "tell",
+    "men",
+    "say",
+    "small",
+    "every",
+    "found",
+    "still",
+    "between",
+    "name",
+    "should",
+    "Mr.",
+    "home",
+    "big",
+    "give",
+    "air",
+    "line",
+    "set",
+    "own",
+    "under",
+    "read",
+    "last",
+    "never",
+    "us",
+    "left",
+    "end",
+    "along",
+    "while",
+    "might",
+    "next",
+    "sound",
+    "below",
+    "saw",
+    "something",
+    "thought",
+    "both",
+    "few",
+    "those",
+    "always",
+    "looked",
+    "show",
+    "large",
+    "often",
+    "together",
+    "asked",
+    "house",
+    "don't",
+    "world",
+    "going",
+    "want",
+    "school",
+    "important",
+    "until",
+    "1",
+    "form",
+    "food",
+    "keep",
+    "children",
+    "feet",
+    "land",
+    "side",
+    "without",
+    "boy",
+    "once",
+    "animals",
+    "life",
+    "enough",
+    "took",
+    "sometimes",
+    "four",
+    "head",
+    "above",
+    "kind",
+    "began",
+    "almost",
+    "live",
+    "page",
+    "got",
+    "earth",
+    "need",
+    "far",
+    "hand",
+    "high",
+    "year",
+    "mother",
+    "light",
+    "parts",
+    "country",
+    "father",
+    "let",
+    "night",
+    "following",
+    "2",
+    "picture",
+    "being",
+    "study",
+    "second",
+    "eyes",
+    "soon",
+    "times",
+    "story",
+    "boys",
+    "since",
+    "white",
+    "days",
+    "ever",
+    "paper",
+    "hard",
+    "near",
+    "sentence",
+    "better",
+    "best",
+    "across",
+    "during",
+    "today",
+    "others",
+    "however",
+    "sure",
+    "means",
+    "knew",
+    "it's",
+    "try",
+    "told",
+    "young",
+    "miles",
+    "sun",
+    "ways",
+    "thing",
+    "whole",
+    "hear",
+    "example",
+    "heard",
+    "several",
+    "change",
+    "answer",
+    "room",
+    "sea",
+    "against",
+    "top",
+    "turned",
+    "3",
+    "learn",
+    "point",
+    "city",
+    "play",
+    "toward",
+    "five",
+    "using",
+    "himself",
+    "usually",
+    "money",
+    "seen",
+    "didn't",
+    "car",
+    "morning",
+    "given",
+    "trees",
+    "I'm",
+    "body",
+    "upon",
+    "family",
+    "later",
+    "turn",
+    "move",
+    "face",
+    "door",
+    "cut",
+    "done",
+    "group",
+    "true",
+    "half",
+    "sentences",
+    "red",
+    "fish",
+    "plants",
+    "living",
+    "wanted",
+    "black",
+    "eat",
+    "short",
+    "United States",
+    "run",
+    "kinds",
+    "book",
+    "gave",
+    "order",
+    "open",
+    "ground",
+    "lines",
+    "cold",
+    "really",
+    "table",
+    "remember",
+    "tree",
+    "000",
+    "course",
+    "front",
+    "known",
+    "American",
+    "space",
+    "inside",
+    "ago",
+    "making",
+    "Mrs.",
+    "early",
+    "I'll",
+    "learned",
+    "brought",
+    "close",
+    "nothing",
+    "though",
+    "started",
+    "idea",
+    "call",
+    "lived",
+    "makes",
+    "became",
+    "looking",
+    "add",
+    "become",
+    "grow",
+    "draw",
+    "yet",
+    "hands",
+    "less",
+    "John",
+    "wind",
+    "places",
+    "behind",
+    "cannot",
+    "letter",
+    "among",
+    "4",
+    "A",
+    "letters",
+    "comes",
+    "able",
+    "dog",
+    "shown",
+    "mean",
+    "English",
+    "rest",
+    "perhaps",
+    "certain",
+    "six",
+    "feel",
+    "fire",
+    "ready",
+    "green",
+    "yes",
+    "built",
+    "special",
+    "ran",
+    "full",
+    "town",
+    "complete",
+    "oh",
+    "person",
+    "hot",
+    "anything",
+    "hold",
+    "state",
+    "list",
+    "stood",
+    "hundred",
+    "shows",
+    "ten",
+    "fast",
+    "seemed",
+    "felt",
+    "kept",
+    "America",
+    "notice",
+    "can't",
+    "strong",
+    "voice",
+    "probably",
+    "needed",
+    "birds",
+    "area",
+    "horse",
+    "Indians",
+    "sounds",
+    "matter",
+    "stand",
+    "box",
+    "start",
+    "that's",
+    "class",
+    "piece",
+    "slowly",
+    "surface",
+    "river",
+    "numbers",
+    "common",
+    "stop",
+    "am",
+    "talk",
+    "quickly",
+    "whether",
+    "fine",
+    "5",
+    "round",
+    "dark",
+    "girls",
+    "past",
+    "ball",
+    "girl",
+    "tried",
+    "road",
+    "questions",
+    "blue",
+    "meaning",
+    "coming",
+    "instead",
+    "either",
+    "held",
+    "friends",
+    "already",
+    "warm",
+    "taken",
+    "gone",
+    "finally",
+    "summer",
+    "understand",
+    "moon",
+    "animal",
+    "mind",
+    "outside",
+    "power",
+    "says",
+    "problem",
+    "longer",
+    "winter",
+    "Indian",
+    "deep",
+    "mountains",
+    "heavy",
+    "carefully",
+    "follow",
+    "beautiful",
+    "beginning",
+    "moved",
+    "everyone",
+    "leave",
+    "everything",
+    "game",
+    "system",
+    "bring",
+    "watch",
+    "shall",
+    "dry",
+    "hours",
+    "written",
+    "10",
+    "stopped",
+    "within",
+    "floor",
+    "Bill",
+    "ice",
+    "ship",
+    "themselves",
+    "begin",
+    "fact",
+    "third",
+    "quite",
+    "carry",
+    "goes",
+    "distance",
+    "although",
+    "added",
+    "doing",
+    "sat",
+    "pictures",
+    "possible",
+    "names",
+    "heart",
+    "having",
+    "writing",
+    "real",
+    "simple",
+    "snow",
+    "getting",
+    "rain",
+    "suddenly",
+    "easy",
+    "leaves",
+    "lay",
+    "size",
+    "wild",
+    "weather",
+    "Mother",
+    "Miss",
+    "carried",
+    "pattern",
+    "sky",
+    "walked",
+    "6",
+    "main",
+    "someone",
+    "ones",
+    "center",
+    "named",
+    "field",
+    "stay",
+    "itself",
+    "worked",
+    "boat",
+    "building",
+    "question",
+    "wide",
+    "let's",
+    "least",
+    "problem",
+    "followed",
+    "books",
+    "tiny",
+    "hour",
+    "B",
+    "happened",
+    "foot",
+    "plant",
+    "moving",
+    "care",
+    "low",
+    "else",
+    "gold",
+    "build",
+    "glass",
+    "rock",
+    "tall",
+    "covered",
+    "alone",
+    "reached",
+    "bottom",
+    "walk",
+    "forms",
+    "takes",
+    "check",
+    "reading",
+    "fall",
+    "poor",
+    "map",
+    "scientists",
+    "friend",
+    "o",
+    "language",
+    "job",
+    "points",
+    "music",
+    "buy",
+    "window",
+    "mark",
+    "ideas",
+    "heat",
+    "grew",
+    "listen",
+    "ask",
+    "changes",
+    "single",
+    "French",
+    "clear",
+    "Tom",
+    "energy",
+    "week",
+    "explain",
+    "passed",
+    "lost",
+    "spring",
+    "travel",
+    "wrote",
+    "cities",
+    "farm",
+    "circle",
+    "cried",
+    "whose",
+    "correct",
+    "bed",
+    "working",
+    "measure",
+    "straight",
+    "base",
+    "mountain",
+    "caught",
+    "hair",
+    "bird",
+    "per",
+    "wood",
+    "running",
+    "color",
+    "South",
+    "groups",
+    "war",
+    "members",
+    "fly",
+    "yourself",
+    "decided",
+    "seem",
+    "thus",
+    "legs",
+    "nearly",
+    "square",
+    "England",
+    "moment",
+    "North",
+    "teacher",
+    "happy",
+    "changed",
+    "products",
+    "C",
+    "bright",
+    "sent",
+    "present",
+    "plan",
+    "rather",
+    "length",
+    "look",
+    "speed",
+    "machine",
+    "information",
+    "except",
+    "figure",
+    "you're",
+    "minutes",
+    "free",
+    "fell",
+    "suppose",
+    "natural",
+    "ocean",
+    "government",
+    "lives",
+    "trying",
+    "horses",
+    "The",
+    "s",
+    "baby",
+    "taking",
+    "grass",
+    "plane",
+    "pieces",
+    "sides",
+    "pulled",
+    "8",
+    "inches",
+    "street",
+    "George",
+    "couldn't",
+    "reason",
+    "difference",
+    "tells",
+    "maybe",
+    "larger",
+    "history",
+    "mouth",
+    "middle",
+    "step",
+    "thousands",
+    "steps",
+    "cars",
+    "child",
+    "opened",
+    "thinking",
+    "strange",
+    "eggs",
+    "wish",
+    "soil",
+    "human",
+    "trip",
+    "woman",
+    "eye",
+    "milk",
+    "choose",
+    "north",
+    "discovered",
+    "houses",
+    "seven",
+    "easily",
+    "famous",
+    "pages",
+    "late",
+    "rocks",
+    "flowers",
+    "pay",
+    "sleep",
+    "iron",
+    "trouble",
+    "store",
+    "beside",
+    "oil",
+    "modern",
+    "filled",
+    "fun",
+    "catch",
+    "growing",
+    "business",
+    "countries",
+    "helped",
+    "gives",
+    "exactly",
+    "Jim",
+    "King",
+    "reach",
+    "lot",
+    "won't",
+    "answered",
+    "case",
+    "speak",
+    "shape",
+    "eight",
+    "edge",
+    "seems",
+    "soft",
+    "interesting",
+    "watched",
+    "formed",
+    "stories",
+    "village",
+    "object",
+    "stars",
+    "placed",
+    "Joe",
+    "age",
+    "minute",
+    "wall",
+    "b",
+    "meet",
+    "record",
+    "copy",
+    "forest",
+    "River",
+    "months",
+    "especially",
+    "dogs",
+    "necessary",
+    "lower",
+    "smaller",
+    "he's",
+    "unit",
+    "flat",
+    "7",
+    "direction",
+    "south",
+    "subject",
+    "skin",
+    "wasn't",
+    "I've",
+    "Europe",
+    "New York",
+    "yellow",
+    "ships",
+    "forward",
+    "huge",
+    "needs",
+    "closed",
+    "ride",
+    "region",
+    "largest",
+    "answers",
+    "nor",
+    "period",
+    "finished",
+    "blood",
+    "rich",
+    "team",
+    "waves",
+    "corner",
+    "Mary",
+    "cat",
+    "amount",
+    "liked",
+    "garden",
+    "led",
+    "more",
+    "arms",
+    "party",
+    "force",
+    "test",
+    "bad",
+    "temperature",
+    "pair",
+    "ahead",
+    "wrong",
+    "practice",
+    "sand",
+    "tail",
+    "wait",
+    "difficult",
+    "general",
+    "cover",
+    "areas",
+    "material",
+    "talking",
+    "isn't",
+    "thousand",
+    "sign",
+    "examples",
+    "guess",
+    "begins",
+    "various",
+    "race",
+    "developed",
+    "bit",
+    "clothes",
+    "uses",
+    "result",
+    "greater",
+    "fields",
+    "New",
+    "brother",
+    "addition",
+    "doesn't",
+    "states",
+    "dead",
+    "weight",
+    "thin",
+    "stone",
+    "hit",
+    "wife",
+    "played",
+    "island",
+    "standing",
+    "there's",
+    "we'll",
+    "opposite",
+    "born",
+    "sense",
+    "cattle",
+    "million",
+    "anyone",
+    "rule",
+    "science",
+    "helps",
+    "farmers",
+    "afraid",
+    "women",
+    "produce",
+    "pull",
+    "son",
+    "meant",
+    "broken",
+    "interest",
+    "ends",
+    "woods",
+    "Henry",
+    "chance",
+    "homes",
+    "thick",
+    "sight",
+    "pretty",
+    "12",
+    "rain",
+    "sets",
+    "fresh",
+    "faster",
+    "Washington",
+    "drive",
+    "lead",
+    "break",
+    "sit",
+    "bought",
+    "hundreds",
+    "radio",
+    "method",
+    "gets",
+    "king",
+    "similar",
+    "return",
+    "corn",
+    "decide",
+    "position",
+    "bear",
+    "hope",
+    "song",
+    "engine",
+    "missing",
+    "France",
+    "board",
+    "playing",
+    "control",
+    "spread",
+    "knows",
+    "evening",
+    "brown",
+    "picked",
+    "clean",
+    "wouldn't",
+    "section",
+    "spent",
+    "Dan",
+    "ring",
+    "higher",
+    "raised",
+    "9",
+    "weeks",
+    "teeth",
+    "quiet",
+    "ancient",
+    "Jack",
+    "stick",
+    "afternoon",
+    "silver",
+    "nose",
+    "century",
+    "saying",
+    "therefore",
+    "flying",
+    "level",
+    "you'll",
+    "death",
+    "hole",
+    "coast",
+    "directions",
+    "cross",
+    "sharp",
+    "fight",
+    "capital",
+    "Old",
+    "fill",
+    "deal",
+    "patterns",
+    "works",
+    "busy",
+    "pounds",
+    "beyond",
+    "seeds",
+    "Bob",
+    "produced",
+    "fingers",
+    "send",
+    "100",
+    "love",
+    "materials",
+    "cool",
+    "laughed",
+    "cause",
+    "man's",
+    "stands",
+    "feeling",
+    "facts",
+    "please",
+    "meat",
+    "lady",
+    "west",
+    "glad",
+    "British",
+    "action",
+    "divided",
+    "greatest",
+    "happens",
+    "pass"
+  ];
+
+  const VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
+    const featured = FEATURED_BY_WORD[word.toLowerCase()] || {};
+    return {
+      id: `common-${index + 1}-${slugifyWord(word)}`,
+      word,
+      scenario: "common",
+      ...featured,
+      rank: index + 1
+    };
+  });
+
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
+  let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
+  let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
+  let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
 
   function readJson(key, fallback) {
@@ -770,6 +2021,36 @@
     } catch (error) {
       return "greetings";
     }
+  }
+
+  function loadSelectedView() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VIEW_KEY);
+      return ["practice", "vocabulary"].includes(saved) ? saved : "practice";
+    } catch (error) {
+      return "practice";
+    }
+  }
+
+  function saveSelectedView() {
+    try {
+      localStorage.setItem(STORAGE_VIEW_KEY, selectedView);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyStatus() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_FILTER_KEY);
+      return ["all", "auto", "learning", "review", "learned"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyStatus() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_FILTER_KEY, selectedVocabularyStatus);
+    } catch (error) {}
   }
 
   function saveSelectedScenario() {
@@ -814,6 +2095,18 @@
     });
   }
 
+  function renderLearningTabs() {
+    document.querySelectorAll(".learning-tab").forEach((button) => {
+      const isActive = button.dataset.view === selectedView;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    document.querySelectorAll(".view-panel").forEach((panel) => {
+      panel.classList.toggle("active", panel.id === `view-${selectedView}`);
+    });
+  }
+
   function renderDailyList() {
     const container = document.getElementById("dailyList");
     container.innerHTML = dailyPhraseIds.map((id) => {
@@ -855,6 +2148,7 @@
             </div>
           </div>
           <div class="status-row" aria-label="Practice status for ${phrase.english}">
+            ${statusButton(phrase.id, "to-learn", "To Learn", currentStatus || "to-learn")}
             ${statusButton(phrase.id, "learning", "Learning", currentStatus)}
             ${statusButton(phrase.id, "review", "Review", currentStatus)}
             ${statusButton(phrase.id, "learned", "Learned", currentStatus)}
@@ -882,22 +2176,127 @@
     return `<button class="status-button${active}" type="button" data-phrase-id="${phraseId}" data-status="${status}">${label}</button>`;
   }
 
+  function vocabularyStatusButton(wordId, status, label, currentStatus) {
+    const active = currentStatus === status ? " active" : "";
+    return `<button class="status-button${active}" type="button" data-vocabulary-id="${wordId}" data-status="${status}" data-vocabulary-status="${status}">${label}</button>`;
+  }
+
+  function getVocabularyStatus(wordId) {
+    return vocabularyStatuses[wordId] || "auto";
+  }
+
+  function renderVocabularyList() {
+    const container = document.getElementById("vocabularyList");
+    const search = document.getElementById("vocabularySearch").value.trim().toLowerCase();
+    const statusFilter = selectedVocabularyStatus;
+    const words = VOCABULARY.filter((item) => {
+      const currentStatus = getVocabularyStatus(item.id);
+      const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
+      const matchesSearch = !search || [item.word, item.chinese, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
+      return matchesStatus && matchesSearch;
+    });
+
+    document.getElementById("vocabularyStatusFilter").value = statusFilter;
+    document.getElementById("vocabularySummary").textContent = `${words.length} of ${VOCABULARY.length} words`;
+
+    if (!words.length) {
+      container.innerHTML = `<div class="empty">No vocabulary matches your search.</div>`;
+      return;
+    }
+
+    container.innerHTML = words.map((item) => {
+      const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
+      const currentStatus = getVocabularyStatus(item.id);
+      const label = scenario ? scenario.label : "Top 1000";
+      const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
+      const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
+      const pronunciation = item.pronunciation ? `<span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>` : "";
+      return `
+        <article class="vocabulary-card" data-vocabulary-card="${item.id}">
+          <div>
+            <h3 class="vocabulary-word">${escapeHtml(item.word)}</h3>
+            ${meaning}
+            ${example}
+            <div class="vocabulary-meta">
+              <span class="vocabulary-tag">#${item.rank}</span>
+              <span class="vocabulary-tag">${escapeHtml(label)}</span>
+              ${pronunciation}
+            </div>
+          </div>
+          <div class="vocabulary-actions">
+            <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">Listen</button>
+            <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
+              ${vocabularyStatusButton(item.id, "auto", "Auto", currentStatus)}
+              ${vocabularyStatusButton(item.id, "learning", "Learning", currentStatus)}
+              ${vocabularyStatusButton(item.id, "review", "Review", currentStatus)}
+              ${vocabularyStatusButton(item.id, "learned", "Learned", currentStatus)}
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    container.querySelectorAll("[data-speak-vocabulary]").forEach((button) => {
+      button.addEventListener("click", () => speakVocabulary(button.dataset.speakVocabulary));
+    });
+
+    container.querySelectorAll("[data-vocabulary-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.dataset.vocabularyStatus === "auto") {
+          delete vocabularyStatuses[button.dataset.vocabularyId];
+        } else {
+          vocabularyStatuses[button.dataset.vocabularyId] = button.dataset.vocabularyStatus;
+        }
+        saveJson(STORAGE_VOCAB_STATUS_KEY, vocabularyStatuses);
+        markDailyActivity();
+        renderVocabularyList();
+        updateProgress();
+      });
+    });
+  }
+
+  function slugifyWord(word) {
+    return word.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "word";
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
   function speakPhrase(phraseId) {
     const phrase = PHRASES.find((item) => item.id === phraseId);
     if (!phrase || !("speechSynthesis" in window)) return;
 
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(phrase.english);
-    utterance.lang = "en-US";
-    utterance.rate = 0.82;
-    utterance.pitch = 1;
-    window.speechSynthesis.speak(utterance);
+    speakText(phrase.english);
     markDailyActivity();
     updateProgress();
   }
 
+  function speakVocabulary(wordId) {
+    const item = VOCABULARY.find((word) => word.id === wordId);
+    if (!item || !("speechSynthesis" in window)) return;
+
+    speakText(item.word);
+    markDailyActivity();
+    updateProgress();
+  }
+
+  function speakText(text) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+  }
+
   function updateProgress() {
-    const values = Object.values(statuses);
+    const values = [...Object.values(statuses), ...Object.values(vocabularyStatuses)];
     const learned = values.filter((value) => value === "learned").length;
     const review = values.filter((value) => value === "review").length;
     const streak = calculateStreak();
@@ -907,15 +2306,32 @@
     document.getElementById("streakCount").textContent = streak;
     document.getElementById("streakNote").textContent = streak > 0
       ? `You practiced today. Keep the ${streak}-day streak going.`
-      : "Mark one phrase today to start your streak.";
+      : "Mark one phrase or word today to start your streak.";
   }
 
   function render() {
+    renderLearningTabs();
     renderScenarioTabs();
     renderDailyList();
     renderPhraseList();
+    renderVocabularyList();
     updateProgress();
   }
+
+  document.querySelectorAll(".learning-tab").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedView = button.dataset.view;
+      saveSelectedView();
+      renderLearningTabs();
+    });
+  });
+
+  document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
+  document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
+    selectedVocabularyStatus = event.target.value;
+    saveSelectedVocabularyStatus();
+    renderVocabularyList();
+  });
 
   render();
 </script>

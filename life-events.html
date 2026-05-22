@@ -493,6 +493,12 @@
     z-index: 4;
   }
 
+  .topic-scroll {
+    overflow-x: auto;
+    overflow-y: clip;
+    position: relative;
+  }
+
   .topic-table {
     border-top: 1px solid #dde3ec;
     isolation: isolate;
@@ -818,6 +824,10 @@
     .area-tabs {
       grid-auto-columns: minmax(112px, 1fr);
       padding: 10px 0;
+    }
+
+    .topic-scroll {
+      overflow-x: visible;
     }
 
     .topic-table {
@@ -2126,12 +2136,14 @@ W03: Cornbread`],
       const areaId = `area-${area.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       return `
         <section class="sheet-section" id="${escapeHtml(areaId)}">
-          <div class="topic-table">
-            <div class="topic-header" style="--year-count:${yearCount}">
-              <div class="topic-corner">Topic</div>
-              ${years.map((year) => `<div class="year-label">${escapeHtml(year)}</div>`).join("")}
+          <div class="topic-scroll">
+            <div class="topic-table">
+              <div class="topic-header" style="--year-count:${yearCount}">
+                <div class="topic-corner">Topic</div>
+                ${years.map((year) => `<div class="year-label">${escapeHtml(year)}</div>`).join("")}
+              </div>
+              ${rows}
             </div>
-            ${rows}
           </div>
         </section>
       `;
