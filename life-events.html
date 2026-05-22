@@ -417,10 +417,10 @@
   }
 
   .area-tab {
-    background: #f1f3f4;
-    border: 1px solid #dadce0;
+    background: var(--area-soft, #f1f3f4);
+    border: 1px solid var(--area-border, #dadce0);
     border-radius: 4px;
-    color: #3c4043;
+    color: var(--area-text, #3c4043);
     font-size: 0.78rem;
     font-weight: 800;
     padding: 5px 9px;
@@ -429,15 +429,47 @@
   }
 
   .area-tab:hover {
-    background: #e8f0fe;
-    border-color: #c9d7f8;
-    color: #174ea6;
+    background: var(--area-hover, #e8f0fe);
+    border-color: var(--area-border, #c9d7f8);
+    color: var(--area-text, #174ea6);
   }
 
   .area-tab.active {
-    background: #2563eb;
-    border-color: #2563eb;
-    color: #ffffff;
+    background: var(--area-strong, #2563eb);
+    border-color: var(--area-strong, #2563eb);
+    color: var(--area-active-text, #ffffff);
+  }
+
+  .area-option-bar {
+    align-items: center;
+    background: #ffffff;
+    border-bottom: 1px solid #dadce0;
+    display: flex;
+    gap: 10px;
+    padding: 8px 10px;
+    position: sticky;
+    top: 43px;
+    z-index: 5;
+  }
+
+  .area-option-bar label {
+    color: #475569;
+    font-size: 0.78rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .area-option-select {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    color: #172033;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 700;
+    min-height: 34px;
+    min-width: 180px;
+    padding: 6px 32px 6px 10px;
   }
 
   .sheet-title {
@@ -450,13 +482,13 @@
     margin: 0;
     padding: 10px 12px;
     position: sticky;
-    top: 43px;
+    top: 91px;
     z-index: 4;
   }
 
   .topic-table {
     border-top: 1px solid #dde3ec;
-    overflow-x: auto;
+    overflow-x: visible;
     position: relative;
   }
 
@@ -474,7 +506,7 @@
     box-shadow: 0 1px 0 #cfd8e6;
     min-height: 50px;
     position: sticky;
-    top: 82px;
+    top: 130px;
     z-index: 30;
   }
 
@@ -748,6 +780,18 @@
       flex-direction: column;
     }
 
+    .area-option-bar {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 6px;
+      position: static;
+    }
+
+    .area-option-select {
+      min-width: 0;
+      width: 100%;
+    }
+
     .topic-table {
       overflow-x: visible;
     }
@@ -1018,6 +1062,18 @@
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
   const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-21-peijun-gao";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
+  const AREA_COLORS = {
+    Health: { soft: "#dcfce7", hover: "#bbf7d0", border: "#86efac", strong: "#16a34a", text: "#14532d", activeText: "#ffffff" },
+    Intellectual: { soft: "#ffedd5", hover: "#fed7aa", border: "#fdba74", strong: "#f97316", text: "#7c2d12", activeText: "#ffffff" },
+    Career: { soft: "#dbeafe", hover: "#bfdbfe", border: "#93c5fd", strong: "#2563eb", text: "#1e3a8a", activeText: "#ffffff" },
+    Financial: { soft: "#fef9c3", hover: "#fef08a", border: "#fde047", strong: "#eab308", text: "#713f12", activeText: "#1f2937" },
+    Love: { soft: "#fee2e2", hover: "#fecaca", border: "#fca5a5", strong: "#dc2626", text: "#7f1d1d", activeText: "#ffffff" },
+    Parent: { soft: "#f7ddd4", hover: "#efc3b4", border: "#d68670", strong: "#a84f3f", text: "#653024", activeText: "#ffffff" },
+    Social: { soft: "#fce7f3", hover: "#fbcfe8", border: "#f9a8d4", strong: "#db2777", text: "#831843", activeText: "#ffffff" },
+    Emotional: { soft: "#ccfbf1", hover: "#99f6e4", border: "#5eead4", strong: "#0d9488", text: "#134e4a", activeText: "#ffffff" },
+    Spiritual: { soft: "#f3e8ff", hover: "#e9d5ff", border: "#d8b4fe", strong: "#9333ea", text: "#581c87", activeText: "#ffffff" },
+    "Quality of Life": { soft: "#ede0d4", hover: "#ddb892", border: "#b08968", strong: "#7f5539", text: "#4a2c1a", activeText: "#ffffff" }
+  };
   const HIDDEN_SOURCE_COLUMNS = {
     Parent: new Set(["视频", "妈妈"])
   };
@@ -1492,6 +1548,7 @@ W03: Cornbread`],
 
   let events = loadEvents();
   let selectedAreaTab = "";
+  let selectedAreaOption = "all";
   let lifeEventsSyncAvailable = false;
   let lifeEventsSyncTimer = null;
   let isApplyingSharedEvents = false;
@@ -2018,15 +2075,20 @@ W03: Cornbread`],
     const visibleSourceEvents = sourceEvents.filter((event) => !isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry"));
     const areas = AREAS.filter((area) => visibleSourceEvents.some((event) => event.area === area));
     if (!areas.includes(selectedAreaTab)) selectedAreaTab = areas[0] || "";
+    const selectedAreaOptions = selectedAreaTab ? sourceColumnOptions(selectedAreaTab) : [];
+    if (selectedAreaOption !== "all" && !selectedAreaOptions.includes(selectedAreaOption)) selectedAreaOption = "all";
     const visibleAreas = selectedAreaTab ? [selectedAreaTab] : areas;
     const sections = visibleAreas.map((area) => {
       const areaEvents = visibleSourceEvents.filter((event) => event.area === area);
       const columnOrder = sourceColumnOptions(area);
       const years = areaYears(areaEvents);
       const topics = areaColumns(areaEvents, columnOrder);
+      const visibleTopics = area === selectedAreaTab && selectedAreaOption !== "all"
+        ? topics.filter((topic) => topic === selectedAreaOption)
+        : topics;
       const yearCount = Math.max(years.length, 1);
 
-      const rows = topics.map((topic) => `
+      const rows = visibleTopics.map((topic) => `
         <div class="topic-row" style="--year-count:${yearCount}">
           <div class="topic-label">${escapeHtml(topic)}</div>
           ${renderTopicYearCards(areaEvents, topic, years)}
@@ -2036,10 +2098,9 @@ W03: Cornbread`],
       const areaId = `area-${area.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       return `
         <section class="sheet-section" id="${escapeHtml(areaId)}">
-          <h3 class="sheet-title">${escapeHtml(area)}</h3>
           <div class="topic-table">
             <div class="topic-header" style="--year-count:${yearCount}">
-              <div class="topic-corner">Topic</div>
+              <div class="topic-corner">Life Area</div>
               ${years.map((year) => `<div class="year-label">${escapeHtml(year)}</div>`).join("")}
             </div>
             ${rows}
@@ -2052,12 +2113,32 @@ W03: Cornbread`],
       <nav class="area-tabs" aria-label="Life area shortcuts">
         ${areas.map((area) => {
           const activeClass = area === selectedAreaTab ? " active" : "";
-          return `<button class="area-tab${activeClass}" type="button" data-area-tab="${escapeHtml(area)}">${escapeHtml(area)}</button>`;
+          const color = AREA_COLORS[area] || {};
+          const colorStyle = [
+            color.soft ? `--area-soft: ${color.soft}` : "",
+            color.hover ? `--area-hover: ${color.hover}` : "",
+            color.border ? `--area-border: ${color.border}` : "",
+            color.strong ? `--area-strong: ${color.strong}` : "",
+            color.text ? `--area-text: ${color.text}` : "",
+            color.activeText ? `--area-active-text: ${color.activeText}` : ""
+          ].filter(Boolean).join("; ");
+          const styleAttr = colorStyle ? ` style="${colorStyle}"` : "";
+          return `<button class="area-tab${activeClass}" type="button" data-area-tab="${escapeHtml(area)}"${styleAttr}>${escapeHtml(area)}</button>`;
         }).join("")}
       </nav>
     `;
 
-    els.eventList.innerHTML = tabs + sections;
+    const optionSelect = selectedAreaTab ? `
+      <div class="area-option-bar">
+        <label for="areaOptionSelect">${escapeHtml(selectedAreaTab)} options</label>
+        <select class="area-option-select" id="areaOptionSelect" data-area-option-select>
+          <option value="all"${selectedAreaOption === "all" ? " selected" : ""}>All ${escapeHtml(selectedAreaTab)} options</option>
+          ${selectedAreaOptions.map((option) => `<option value="${escapeHtml(option)}"${selectedAreaOption === option ? " selected" : ""}>${escapeHtml(option)}</option>`).join("")}
+        </select>
+      </div>
+    ` : "";
+
+    els.eventList.innerHTML = tabs + optionSelect + sections;
   }
 
   function areaYears(areaEvents) {
@@ -2360,11 +2441,18 @@ W03: Cornbread`],
     const deleteId = event.target.getAttribute("data-delete");
     if (areaTab) {
       selectedAreaTab = areaTab;
+      selectedAreaOption = "all";
       render();
       return;
     }
     if (editId) editEvent(editId);
     if (deleteId) deleteEvent(deleteId);
+  });
+
+  els.eventList.addEventListener("change", (event) => {
+    if (!event.target.matches("[data-area-option-select]")) return;
+    selectedAreaOption = event.target.value || "all";
+    render();
   });
 
   initSelects();
