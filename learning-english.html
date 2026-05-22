@@ -691,7 +691,6 @@
     }
 
     .stat-grid,
-    .add-word-form,
     .phrase-detail,
     .phrase-tools,
     .vocabulary-tools,
@@ -833,8 +832,8 @@
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
         <option value="all">All prefixes</option>
       </select>
-      <select class="vocabulary-filter" id="vocabularySurfaceFilter" aria-label="Filter vocabulary by surface form">
-        <option value="all">All forms</option>
+      <select class="vocabulary-filter" id="vocabularySuffixFilter" aria-label="Filter vocabulary by suffix">
+        <option value="all">All suffixes</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyRootFilter" aria-label="Filter vocabulary by root">
         <option value="all">All roots</option>
@@ -881,7 +880,7 @@
   const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
   const STORAGE_VOCAB_COMPOUND_FILTER_KEY = "learningEnglishVocabularyCompoundFilter";
   const STORAGE_VOCAB_PREFIX_FILTER_KEY = "learningEnglishVocabularyPrefixFilter";
-  const STORAGE_VOCAB_SURFACE_FILTER_KEY = "learningEnglishVocabularySurfaceFilter";
+  const STORAGE_VOCAB_SUFFIX_FILTER_KEY = "learningEnglishVocabularySuffixFilter";
   const STORAGE_VOCAB_ROOT_FILTER_KEY = "learningEnglishVocabularyRootFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
@@ -2166,17 +2165,20 @@ pass=通过；传递
     trans: "trans- across"
   };
 
-  const VOCABULARY_SURFACE_LABELS = {
-    base: "Base form",
-    plural: "Plural / -s",
-    past: "Past / -ed",
-    ing: "-ing form",
-    ly: "-ly adverb",
-    comparative: "-er / -est",
-    contraction: "Contraction",
-    compound: "Compound",
-    capitalized: "Capitalized",
-    number: "Number"
+  const VOCABULARY_SUFFIX_LABELS = {
+    none: "No suffix",
+    s: "-s / -es",
+    ed: "-ed",
+    ing: "-ing",
+    ly: "-ly",
+    er: "-er",
+    est: "-est",
+    tion: "-tion / -sion",
+    ment: "-ment",
+    ness: "-ness",
+    able: "-able / -ible",
+    ful: "-ful",
+    less: "-less"
   };
 
   function getVocabularyTheme(word) {
@@ -2192,18 +2194,21 @@ pass=通过；传递
     return prefixes.find((prefix) => normalized.startsWith(prefix) && normalized.length > prefix.length + 2) || "none";
   }
 
-  function getVocabularySurface(word, isCompound) {
+  function getVocabularySuffix(word) {
     const normalized = word.toLowerCase();
-    if (/^\d+$/.test(normalized)) return "number";
-    if (/[A-Z]/.test(word[0] || "")) return "capitalized";
-    if (normalized.includes("'")) return "contraction";
-    if (isCompound || /\s/.test(normalized)) return "compound";
+    if (/(tion|sion)$/.test(normalized) && normalized.length > 6) return "tion";
+    if (normalized.endsWith("able") || normalized.endsWith("ible")) return "able";
     if (normalized.endsWith("ing") && normalized.length > 5) return "ing";
-    if (normalized.endsWith("ed") && normalized.length > 4) return "past";
+    if (normalized.endsWith("ness") && normalized.length > 6) return "ness";
+    if (normalized.endsWith("ment") && normalized.length > 6) return "ment";
+    if (normalized.endsWith("less") && normalized.length > 6) return "less";
+    if (normalized.endsWith("ful") && normalized.length > 5) return "ful";
+    if (normalized.endsWith("est") && normalized.length > 5) return "est";
+    if (normalized.endsWith("ed") && normalized.length > 4) return "ed";
     if (normalized.endsWith("ly") && normalized.length > 4) return "ly";
-    if ((normalized.endsWith("est") && normalized.length > 5) || (normalized.endsWith("er") && normalized.length > 4)) return "comparative";
-    if ((normalized.endsWith("s") || normalized.endsWith("es")) && normalized.length > 3) return "plural";
-    return "base";
+    if (normalized.endsWith("er") && normalized.length > 4) return "er";
+    if ((normalized.endsWith("s") || normalized.endsWith("es")) && normalized.length > 3) return "s";
+    return "none";
   }
 
   function getVocabularyRoot(word) {
@@ -3458,7 +3463,7 @@ pass=通过；传递
       theme: getVocabularyTheme(word),
       isCompound,
       prefix: getVocabularyPrefix(word),
-      surface: getVocabularySurface(word, isCompound),
+      suffix: getVocabularySuffix(word),
       root: getVocabularyRoot(word),
       rank: index + 1
     };
@@ -3474,7 +3479,7 @@ pass=通过；传递
       theme: "country",
       isCompound: /\s/.test(item.word),
       prefix: getVocabularyPrefix(item.word),
-      surface: getVocabularySurface(item.word, /\s/.test(item.word)),
+      suffix: getVocabularySuffix(item.word),
       root: getVocabularyRoot(item.word),
       rank: "Country",
       ...item
@@ -3491,7 +3496,7 @@ pass=通过；传递
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
   let selectedVocabularyCompound = loadSelectedVocabularyCompound();
   let selectedVocabularyPrefix = loadSelectedVocabularyPrefix();
-  let selectedVocabularySurface = loadSelectedVocabularySurface();
+  let selectedVocabularySuffix = loadSelectedVocabularySuffix();
   let selectedVocabularyRoot = loadSelectedVocabularyRoot();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
@@ -3533,7 +3538,7 @@ pass=通过；传递
       theme: "",
       isCompound: COMPOUND_WORDS.has(normalized) || /\s/.test(normalized),
       prefix: getVocabularyPrefix(word),
-      surface: getVocabularySurface(word, COMPOUND_WORDS.has(normalized) || /\s/.test(normalized)),
+      suffix: getVocabularySuffix(word),
       root: getVocabularyRoot(word),
       isCustom: true,
       rank: "Custom"
@@ -3677,18 +3682,18 @@ pass=通过；传递
     } catch (error) {}
   }
 
-  function loadSelectedVocabularySurface() {
+  function loadSelectedVocabularySuffix() {
     try {
-      const saved = localStorage.getItem(STORAGE_VOCAB_SURFACE_FILTER_KEY);
-      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_SURFACE_LABELS, saved) ? saved : "all";
+      const saved = localStorage.getItem(STORAGE_VOCAB_SUFFIX_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_SUFFIX_LABELS, saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
   }
 
-  function saveSelectedVocabularySurface() {
+  function saveSelectedVocabularySuffix() {
     try {
-      localStorage.setItem(STORAGE_VOCAB_SURFACE_FILTER_KEY, selectedVocabularySurface);
+      localStorage.setItem(STORAGE_VOCAB_SUFFIX_FILTER_KEY, selectedVocabularySuffix);
     } catch (error) {}
   }
 
@@ -3893,7 +3898,7 @@ pass=通过；传递
     const themeFilter = selectedVocabularyTheme;
     const compoundFilter = selectedVocabularyCompound;
     const prefixFilter = selectedVocabularyPrefix;
-    const surfaceFilter = selectedVocabularySurface;
+    const suffixFilter = selectedVocabularySuffix;
     const rootFilter = selectedVocabularyRoot;
     const allVocabulary = getAllVocabulary();
     const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
@@ -3904,12 +3909,12 @@ pass=通过；传递
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
-      const matchesSurface = surfaceFilter === "all" || item.surface === surfaceFilter;
+      const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
       const matchesRoot = rootFilter === "all" || item.root === rootFilter;
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSurface && matchesRoot && matchesSearch(item);
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSuffix && matchesRoot && matchesSearch(item);
     });
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || surfaceFilter !== "all" || rootFilter !== "all")) {
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
@@ -3918,7 +3923,7 @@ pass=通过；传递
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
     document.getElementById("vocabularyPrefixFilter").value = prefixFilter;
-    document.getElementById("vocabularySurfaceFilter").value = surfaceFilter;
+    document.getElementById("vocabularySuffixFilter").value = suffixFilter;
     document.getElementById("vocabularyRootFilter").value = rootFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
@@ -3940,7 +3945,7 @@ pass=通过；传递
       const labelTag = label ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
-      const surfaceTag = item.surface ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SURFACE_LABELS[item.surface] || item.surface)}</span>` : "";
+      const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const rootTag = item.root ? `<span class="vocabulary-tag">Root: ${escapeHtml(item.root)}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
@@ -3954,7 +3959,7 @@ pass=通过；传递
               ${labelTag}
               ${themeTag}
               ${prefixTag}
-              ${surfaceTag}
+              ${suffixTag}
               ${rootTag}
               ${pronunciation}
             </div>
@@ -4103,13 +4108,13 @@ pass=通过；传递
     saveSelectedVocabularyPrefix();
     renderVocabularyList();
   });
-  document.getElementById("vocabularySurfaceFilter").innerHTML = [
-    `<option value="all">All forms</option>`,
-    ...Object.entries(VOCABULARY_SURFACE_LABELS).map(([surface, label]) => `<option value="${surface}">${label}</option>`)
+  document.getElementById("vocabularySuffixFilter").innerHTML = [
+    `<option value="all">All suffixes</option>`,
+    ...Object.entries(VOCABULARY_SUFFIX_LABELS).map(([suffix, label]) => `<option value="${suffix}">${label}</option>`)
   ].join("");
-  document.getElementById("vocabularySurfaceFilter").addEventListener("change", (event) => {
-    selectedVocabularySurface = event.target.value;
-    saveSelectedVocabularySurface();
+  document.getElementById("vocabularySuffixFilter").addEventListener("change", (event) => {
+    selectedVocabularySuffix = event.target.value;
+    saveSelectedVocabularySuffix();
     renderVocabularyList();
   });
   const vocabularyRootFilter = document.getElementById("vocabularyRootFilter");
