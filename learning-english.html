@@ -1865,7 +1865,6 @@ saudi arabia=ˌsaʊdi əˈreɪbiə
 saw=sɔː
 say=seɪ
 saying=seɪɪŋ
-says=sɪz
 school=skuːl
 science=saɪəns
 scientists=ˈsaɪəntɪsts
@@ -2700,7 +2699,6 @@ animal=动物
 mind=思想；介意
 outside=外面
 power=权力
-says=说
 problem=问题
 longer=更长的
 winter=冬天
@@ -3238,7 +3236,12 @@ pass=通过；传递
     place: "Place 地点",
     nature: "Nature 自然",
     number: "Number 数字",
-    feeling: "Feeling 感受"
+    feeling: "Feeling 感受",
+    holiday: "U.S. Holiday 美国节日",
+    clothes: "Clothes 衣服",
+    furniture: "Furniture 家具",
+    sports: "Sports 运动",
+    appliance: "Kitchen Appliance 厨房电器"
   };
 
   const VOCABULARY_THEME_SETS = {
@@ -3251,7 +3254,12 @@ pass=通过；传递
     place: new Set(["area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "preschool", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
-    feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"])
+    feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"]),
+    holiday: new Set(["celebrate", "christmas", "fireworks", "holiday", "parade", "thanksgiving"]),
+    clothes: new Set(["belt", "boots", "coat", "dress", "gloves", "hat", "jacket", "pants", "scarf", "shirt", "shoe", "shoes", "shorts", "skirt", "socks", "sweater", "clothes", "wear"]),
+    furniture: new Set(["bed", "blanket", "cabinet", "chair", "closet", "couch", "desk", "dresser", "drawer", "furniture", "lamp", "mirror", "pillow", "rug", "shelf", "sofa", "table"]),
+    sports: new Set(["baseball", "basketball", "coach", "exercise", "football", "game", "goal", "gym", "match", "player", "practice", "race", "score", "soccer", "sport", "sports", "swim", "team", "tennis", "win"]),
+    appliance: new Set(["appliance", "blender", "dishwasher", "kettle", "microwave", "oven", "refrigerator", "stove", "toaster"])
   };
 
   const COMPOUND_WORDS = new Set([
@@ -3360,7 +3368,7 @@ pass=通过；传递
     ing: ["beginning", "building", "coming", "feeling", "flying", "following", "getting", "growing", "having", "interesting", "living", "looking", "making", "meaning", "missing", "moving", "playing", "reading", "running", "saying", "standing", "taking", "talking", "thinking", "trying", "working", "writing"],
     ly: [...LY_SUFFIX_WORDS],
     ment: ["government"],
-    s: ["answers", "areas", "arms", "animals", "begins", "birds", "books", "boys", "cars", "changes", "cities", "clothes", "comes", "countries", "days", "directions", "dogs", "eggs", "ends", "examples", "eyes", "facts", "fields", "fingers", "flowers", "forms", "friends", "gets", "girls", "gives", "goes", "groups", "hands", "happens", "helps", "homes", "horses", "hours", "houses", "hundreds", "inches", "kinds", "knows", "leaves", "legs", "letters", "lines", "lives", "makes", "materials", "means", "members", "miles", "minutes", "months", "mountains", "names", "needs", "numbers", "ones", "others", "pages", "parts", "patterns", "pictures", "pieces", "places", "plants", "points", "pounds", "products", "questions", "rocks", "says", "scientists", "seeds", "seems", "sentences", "sets", "ships", "shows", "sides", "sounds", "stands", "stars", "states", "steps", "stories", "takes", "tells", "things", "thousands", "times", "trees", "uses", "waves", "ways", "weeks", "words", "works", "years"],
+    s: ["answers", "areas", "arms", "animals", "begins", "birds", "books", "boys", "cars", "changes", "cities", "clothes", "comes", "countries", "days", "directions", "dogs", "eggs", "ends", "examples", "eyes", "facts", "fields", "fingers", "flowers", "forms", "friends", "gets", "girls", "gives", "goes", "groups", "hands", "happens", "helps", "homes", "horses", "hours", "houses", "hundreds", "inches", "kinds", "knows", "leaves", "legs", "letters", "lines", "lives", "makes", "materials", "means", "members", "miles", "minutes", "months", "mountains", "names", "needs", "numbers", "ones", "others", "pages", "parts", "patterns", "pictures", "pieces", "places", "plants", "points", "pounds", "products", "questions", "rocks", "scientists", "seeds", "seems", "sentences", "sets", "ships", "shows", "sides", "sounds", "stands", "stars", "states", "steps", "stories", "takes", "tells", "things", "thousands", "times", "trees", "uses", "waves", "ways", "weeks", "words", "works", "years"],
     tion: ["addition", "direction", "information", "position", "question", "section"]
   };
 
@@ -4167,7 +4175,6 @@ pass=通过；传递
     "mind",
     "outside",
     "power",
-    "says",
     "problem",
     "longer",
     "winter",
@@ -4809,7 +4816,401 @@ pass=通过；传递
       ipa: getBritishIpa(item.word)
     }));
 
-  const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS];
+  const US_HOLIDAY_VOCABULARY = [
+    {
+      word: "New Year's Day",
+      chinese: "元旦",
+      ipa: "nu jɪrz deɪ",
+      example: "New Year's Day is on January first."
+    },
+    {
+      word: "Martin Luther King Jr. Day",
+      chinese: "马丁路德金纪念日",
+      ipa: "ˈmɑrtən ˈluθər kɪŋ ˈdʒunjər deɪ",
+      example: "Martin Luther King Jr. Day honors a civil rights leader."
+    },
+    {
+      word: "Presidents' Day",
+      chinese: "总统日",
+      ipa: "ˈprezədənts deɪ",
+      example: "Many schools close on Presidents' Day."
+    },
+    {
+      word: "Memorial Day",
+      chinese: "阵亡将士纪念日",
+      ipa: "məˈmɔriəl deɪ",
+      example: "Memorial Day is in May."
+    },
+    {
+      word: "Juneteenth",
+      chinese: "六月节",
+      ipa: "ˌdʒunˈtinθ",
+      example: "Juneteenth is a federal holiday in June."
+    },
+    {
+      word: "Independence Day",
+      chinese: "美国独立日",
+      ipa: "ˌɪndəˈpendəns deɪ",
+      example: "People watch fireworks on Independence Day."
+    },
+    {
+      word: "Labor Day",
+      chinese: "劳动节",
+      ipa: "ˈleɪbər deɪ",
+      example: "Labor Day is in September."
+    },
+    {
+      word: "Columbus Day",
+      chinese: "哥伦布日",
+      ipa: "kəˈlʌmbəs deɪ",
+      example: "Some places call Columbus Day Indigenous Peoples' Day."
+    },
+    {
+      word: "Veterans Day",
+      chinese: "退伍军人节",
+      ipa: "ˈvetərənz deɪ",
+      example: "Veterans Day honors people who served in the military."
+    },
+    {
+      word: "Thanksgiving",
+      chinese: "感恩节",
+      ipa: "ˌθæŋksˈɡɪvɪŋ",
+      example: "Families often eat dinner together on Thanksgiving."
+    },
+    {
+      word: "Christmas",
+      chinese: "圣诞节",
+      ipa: "ˈkrɪsməs",
+      example: "Christmas is on December twenty-fifth."
+    },
+    {
+      word: "holiday",
+      chinese: "节日；假日",
+      ipa: "ˈhɑlədeɪ",
+      example: "A holiday is a special day."
+    },
+    {
+      word: "celebrate",
+      chinese: "庆祝",
+      ipa: "ˈseləbreɪt",
+      example: "People celebrate holidays with family and friends."
+    },
+    {
+      word: "parade",
+      chinese: "游行",
+      ipa: "pəˈreɪd",
+      example: "A parade may have music and flags."
+    },
+    {
+      word: "fireworks",
+      chinese: "烟花",
+      ipa: "ˈfaɪərwɜrks",
+      example: "Fireworks are bright lights in the sky."
+    }
+  ].map((item, index) => ({
+    id: `holiday-${slugifyWord(item.word)}`,
+    scenario: "holiday",
+    partOfSpeech: item.word.includes("Day") || item.word === "Juneteenth" || item.word === "Thanksgiving" || item.word === "Christmas" ? "proper noun" : "noun / verb",
+    theme: "holiday",
+    isCompound: /\s/.test(item.word),
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    root: "",
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    rank: `Holiday ${index + 1}`,
+    ...item
+  }));
+
+  const FURNITURE_VOCABULARY = [
+    {
+      word: "furniture",
+      chinese: "家具",
+      ipa: "ˈfɜrnɪtʃər",
+      example: "Furniture includes chairs, tables, beds, and sofas."
+    },
+    {
+      word: "chair",
+      chinese: "椅子",
+      ipa: "tʃer",
+      example: "Please sit on the chair."
+    },
+    {
+      word: "sofa",
+      chinese: "沙发",
+      ipa: "ˈsoʊfə",
+      example: "The sofa is in the living room."
+    },
+    {
+      word: "couch",
+      chinese: "长沙发",
+      ipa: "kaʊtʃ",
+      example: "I sit on the couch to watch TV."
+    },
+    {
+      word: "bed",
+      chinese: "床",
+      ipa: "bed",
+      example: "I sleep in my bed."
+    },
+    {
+      word: "desk",
+      chinese: "书桌",
+      ipa: "desk",
+      example: "My computer is on the desk."
+    },
+    {
+      word: "dresser",
+      chinese: "梳妆台；衣柜",
+      ipa: "ˈdresər",
+      example: "I put clothes in the dresser."
+    },
+    {
+      word: "cabinet",
+      chinese: "柜子",
+      ipa: "ˈkæbɪnət",
+      example: "The plates are in the cabinet."
+    },
+    {
+      word: "shelf",
+      chinese: "架子",
+      ipa: "ʃelf",
+      example: "The books are on the shelf."
+    },
+    {
+      word: "lamp",
+      chinese: "灯",
+      ipa: "læmp",
+      example: "Turn on the lamp, please."
+    },
+    {
+      word: "rug",
+      chinese: "地毯",
+      ipa: "rʌɡ",
+      example: "There is a rug under the table."
+    },
+    {
+      word: "closet",
+      chinese: "壁橱；衣柜",
+      ipa: "ˈklɑzət",
+      example: "My coat is in the closet."
+    },
+    {
+      word: "drawer",
+      chinese: "抽屉",
+      ipa: "drɔr",
+      example: "Put the keys in the drawer."
+    },
+    {
+      word: "mirror",
+      chinese: "镜子",
+      ipa: "ˈmɪrər",
+      example: "The mirror is above the sink."
+    },
+    {
+      word: "pillow",
+      chinese: "枕头",
+      ipa: "ˈpɪloʊ",
+      example: "I need one pillow."
+    },
+    {
+      word: "blanket",
+      chinese: "毯子",
+      ipa: "ˈblæŋkət",
+      example: "The blanket is warm."
+    }
+  ].filter((item) => !COMMON_WORD_SET.has(item.word.toLowerCase())).map((item, index) => ({
+    id: `furniture-${slugifyWord(item.word)}`,
+    scenario: "furniture",
+    partOfSpeech: "noun",
+    theme: "furniture",
+    isCompound: /\s/.test(item.word),
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    root: getVocabularyRoot(item.word),
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    rank: `Furniture ${index + 1}`,
+    ...item
+  }));
+
+  const KITCHEN_APPLIANCE_VOCABULARY = [
+    {
+      word: "kitchen appliance",
+      chinese: "厨房电器",
+      ipa: "ˈkɪtʃən əˈplaɪəns",
+      example: "A kitchen appliance helps you cook or clean."
+    },
+    {
+      word: "refrigerator",
+      chinese: "冰箱",
+      ipa: "rɪˈfrɪdʒəreɪtər",
+      example: "Put the milk in the refrigerator."
+    },
+    {
+      word: "microwave",
+      chinese: "微波炉",
+      ipa: "ˈmaɪkrəweɪv",
+      example: "I heat soup in the microwave."
+    },
+    {
+      word: "oven",
+      chinese: "烤箱",
+      ipa: "ˈʌvən",
+      example: "Bake the bread in the oven."
+    },
+    {
+      word: "stove",
+      chinese: "炉灶",
+      ipa: "stoʊv",
+      example: "Cook the noodles on the stove."
+    },
+    {
+      word: "dishwasher",
+      chinese: "洗碗机",
+      ipa: "ˈdɪʃwɑʃər",
+      example: "The dishwasher cleans the plates."
+    },
+    {
+      word: "toaster",
+      chinese: "烤面包机",
+      ipa: "ˈtoʊstər",
+      example: "Use the toaster to make toast."
+    },
+    {
+      word: "blender",
+      chinese: "搅拌机",
+      ipa: "ˈblendər",
+      example: "A blender can make a smoothie."
+    },
+    {
+      word: "kettle",
+      chinese: "水壶",
+      ipa: "ˈketəl",
+      example: "Boil water in the kettle."
+    }
+  ].map((item, index) => ({
+    id: `appliance-${slugifyWord(item.word)}`,
+    scenario: "appliance",
+    partOfSpeech: "noun",
+    theme: "appliance",
+    isCompound: /\s/.test(item.word),
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    root: getVocabularyRoot(item.word),
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    rank: `Appliance ${index + 1}`,
+    ...item
+  }));
+
+  const CLOTHING_VOCABULARY = [
+    {
+      word: "shirt",
+      chinese: "衬衫",
+      ipa: "ʃɜrt",
+      example: "I need a clean shirt."
+    },
+    {
+      word: "pants",
+      chinese: "裤子",
+      ipa: "pænts",
+      example: "These pants are too long."
+    },
+    {
+      word: "dress",
+      chinese: "连衣裙",
+      ipa: "dres",
+      example: "She wears a blue dress."
+    },
+    {
+      word: "skirt",
+      chinese: "裙子",
+      ipa: "skɜrt",
+      example: "The skirt is on sale."
+    },
+    {
+      word: "jacket",
+      chinese: "夹克",
+      ipa: "ˈdʒækət",
+      example: "Take a jacket because it is cold."
+    },
+    {
+      word: "coat",
+      chinese: "外套；大衣",
+      ipa: "koʊt",
+      example: "I wear a coat in winter."
+    },
+    {
+      word: "shoes",
+      chinese: "鞋子",
+      ipa: "ʃuz",
+      example: "My shoes are by the door."
+    },
+    {
+      word: "socks",
+      chinese: "袜子",
+      ipa: "sɑks",
+      example: "I need clean socks."
+    },
+    {
+      word: "hat",
+      chinese: "帽子",
+      ipa: "hæt",
+      example: "Wear a hat in the sun."
+    },
+    {
+      word: "sweater",
+      chinese: "毛衣",
+      ipa: "ˈswetər",
+      example: "This sweater is warm."
+    },
+    {
+      word: "shorts",
+      chinese: "短裤",
+      ipa: "ʃɔrts",
+      example: "He wears shorts in summer."
+    },
+    {
+      word: "scarf",
+      chinese: "围巾",
+      ipa: "skɑrf",
+      example: "She has a red scarf."
+    },
+    {
+      word: "gloves",
+      chinese: "手套",
+      ipa: "ɡlʌvz",
+      example: "Gloves keep your hands warm."
+    },
+    {
+      word: "boots",
+      chinese: "靴子",
+      ipa: "buts",
+      example: "Boots are good for snow."
+    },
+    {
+      word: "belt",
+      chinese: "腰带",
+      ipa: "belt",
+      example: "He wears a black belt."
+    }
+  ].filter((item) => !COMMON_WORD_SET.has(item.word.toLowerCase())).map((item, index) => ({
+    id: `clothes-${slugifyWord(item.word)}`,
+    scenario: "clothes",
+    partOfSpeech: "noun",
+    theme: "clothes",
+    isCompound: /\s/.test(item.word),
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    root: getVocabularyRoot(item.word),
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    rank: `Clothes ${index + 1}`,
+    ...item
+  }));
+
+  const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY];
 
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
@@ -5403,7 +5804,7 @@ pass=通过；传递
     container.innerHTML = words.map((item) => {
       const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
       const currentStatus = getVocabularyStatus(item.id);
-      const label = item.isCustom ? "" : (scenario ? scenario.label : "Top 1000");
+      const label = item.isCustom ? "" : (item.theme === "holiday" ? "U.S. Holiday" : (scenario ? scenario.label : "Top 1000"));
       const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
       const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
