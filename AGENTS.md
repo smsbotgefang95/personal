@@ -15,7 +15,7 @@ Then test pages through the local server instead of opening files directly:
 - `http://localhost:8015/`
 - `http://localhost:8015/citizenship-interview-prep.html`
 
-If port `8015` is already in use, use the next available port and report the URL. Keep the server running while testing.
+If port `8015` is already in use, use the next available port and report the URL. Keep the server running after testing so the operator can continue using it locally. Do not stop the local static development server unless the operator explicitly asks you to stop it.
 
 ## Deploy
 
