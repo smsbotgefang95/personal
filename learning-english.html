@@ -3819,6 +3819,10 @@ pass=通过；传递
     your: { ou: "ɔː" },
     "you'll": { ou: "uː" }
   };
+  const VOCABULARY_VOWEL_TEAM_EXCLUDED_TEAMS = {
+    microwave: ["ow"],
+    toward: ["ow"]
+  };
 
   function normalizeVocabularyVowelTeamSound(sound) {
     return sound === "oʊ" ? "əʊ" : sound;
@@ -4000,7 +4004,7 @@ pass=通过；传递
 
     if (hasConsonantLe) return "consonant_le";
     if (hasRControlledSyllable(normalized)) return "r_controlled";
-    if (/(ai|ay|ea|ee|ei|ey|ie|oa|oe|oi|oy|oo|ou|ow|ue|ui)/.test(normalized)) return "vowel_team";
+    if (getVocabularyVowelTeams(normalized).length) return "vowel_team";
     if (hasSilentE) return "silent_e";
     if (/[aeiou][bcdfghjklmnpqrstvwxyz]+$/.test(normalized)) return "closed";
     if (/[aeiouy]$/.test(normalized) || /[aeiou][^aeiouy][aeiouy]/.test(normalized)) return "open";
@@ -4011,12 +4015,13 @@ pass=通过；传递
   function getVocabularyVowelTeams(word) {
     const normalized = String(word || "").toLowerCase().replace(/[^a-z]/g, "");
     if (!normalized) return [];
+    const excludedTeams = new Set(VOCABULARY_VOWEL_TEAM_EXCLUDED_TEAMS[normalizeWordKey(String(word || ""))] || []);
     const teams = new Set();
     const pattern = new RegExp(VOCABULARY_VOWEL_TEAM_ORDER.join("|"), "g");
     for (const match of normalized.matchAll(pattern)) {
       teams.add(match[0]);
     }
-    return VOCABULARY_VOWEL_TEAM_ORDER.filter((team) => teams.has(team));
+    return VOCABULARY_VOWEL_TEAM_ORDER.filter((team) => teams.has(team) && !excludedTeams.has(team));
   }
 
   const COMMON_WORD_PARTS = {
@@ -4172,10 +4177,12 @@ pass=通过；传递
     "flower": "noun",
     "food": "noun",
     "foot": "noun",
+    "follow": "verb",
     "found": "verb",
     "goal": "noun",
     "great": "adjective",
     "green": "adjective / noun",
+    "grow": "verb",
     "ground": "noun",
     "group": "noun",
     "head": "noun / verb",
@@ -4187,11 +4194,16 @@ pass=通过；传递
     "instead": "adverb",
     "keep": "verb",
     "key": "noun",
+    "know": "verb",
+    "known": "adjective / verb",
+    "knows": "verb",
     "lead": "verb / noun",
     "learn": "verb",
     "leave": "verb",
     "light": "noun / adjective / verb",
     "look": "verb / noun",
+    "low": "adjective / adverb",
+    "lower": "adjective / verb",
     "measure": "noun / verb",
     "mountain": "noun",
     "mouth": "noun",
@@ -4202,6 +4214,7 @@ pass=通过；传递
     "open": "adjective / verb",
     "orange": "noun / adjective",
     "outside": "adverb / preposition / noun / adjective",
+    "own": "adjective / pronoun / verb",
     "page": "noun",
     "paper": "noun",
     "party": "noun",
@@ -4228,6 +4241,8 @@ pass=通过；传递
     "short": "adjective",
     "shoulder": "noun",
     "show": "verb / noun",
+    "shown": "verb / adjective",
+    "shows": "verb / noun",
     "sleep": "verb / noun",
     "snow": "noun / verb",
     "sound": "noun / verb / adjective",
@@ -4256,6 +4271,7 @@ pass=通过；传递
     "without": "preposition",
     "wood": "noun",
     "write": "verb",
+    "yellow": "adjective / noun",
     "young": "adjective",
     "you'll": "contraction",
     "preschool": "noun",
