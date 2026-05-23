@@ -809,7 +809,7 @@
         <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPartFilter" aria-label="Filter vocabulary by part of speech">
-        <option value="all">所有词性</option>
+        <option value="all">全部词性</option>
         <option value="noun">Noun 名词</option>
         <option value="verb">Verb 动词</option>
         <option value="adjective">Adjective 形容词</option>
@@ -836,10 +836,10 @@
         <option value="past">过去式</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
-        <option value="all">所有前缀</option>
+        <option value="all">全部前缀</option>
       </select>
       <select class="vocabulary-filter" id="vocabularySuffixFilter" aria-label="Filter vocabulary by suffix">
-        <option value="all">所有后缀</option>
+        <option value="all">全部后缀</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyRootFilter" aria-label="Filter vocabulary by root">
         <option value="all">All roots</option>
@@ -6012,7 +6012,7 @@ pass=通过；传递
     renderVocabularyList();
   });
   document.getElementById("vocabularyPrefixFilter").innerHTML = [
-    `<option value="all">所有前缀</option>`,
+    `<option value="all">全部前缀</option>`,
     ...Object.entries(VOCABULARY_PREFIX_LABELS).map(([prefix, label]) => `<option value="${prefix}">${label}</option>`)
   ].join("");
   document.getElementById("vocabularyPrefixFilter").addEventListener("change", (event) => {
@@ -6021,7 +6021,7 @@ pass=通过；传递
     renderVocabularyList();
   });
   document.getElementById("vocabularySuffixFilter").innerHTML = [
-    `<option value="all">所有后缀</option>`,
+    `<option value="all">全部后缀</option>`,
     ...Object.entries(VOCABULARY_SUFFIX_LABELS).map(([suffix, label]) => `<option value="${suffix}">${label}</option>`)
   ].join("");
   document.getElementById("vocabularySuffixFilter").addEventListener("change", (event) => {
