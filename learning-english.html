@@ -2479,6 +2479,11 @@ yourself=jɔːˈself
     return tokens;
   }
 
+  function ipaContainsExactSound(ipa, sound) {
+    if (sound === "all") return true;
+    return getIpaSoundTokens(ipa).includes(sound);
+  }
+
   function ipaMatchesFilter(ipa, filterValue) {
     if (filterValue === "all") return true;
     const groupSounds = IPA_GROUP_FILTERS[filterValue];
@@ -3789,7 +3794,7 @@ pass=通过；传递
     ay: ["eɪ", "e", "i"],
     ea: ["iː", "e", "eɪ", "eə", "ɪə", "ɜː", "ɑː", "uː"],
     ee: ["iː", "ɪ"],
-    ei: ["eɪ", "iː", "eə", "ɪ"],
+    ei: ["eɪ", "iː", "eə", "ɪ", "aɪ"],
     ey: ["iː", "i", "eɪ", "aɪ"],
     ie: ["iː", "aɪ", "e"],
     oa: ["əʊ", "ɔː"],
@@ -3874,7 +3879,7 @@ pass=通过；传递
         fallbackSound,
         ...(VOCABULARY_VOWEL_TEAM_SOUND_CANDIDATES[team] || [])
       ].map(normalizeVocabularyVowelTeamSound);
-      const mappedSound = overrides[team] || candidates.find((sound) => ipaContainsSound(normalizedIpa, sound)) || fallbackSound;
+      const mappedSound = overrides[team] || candidates.find((sound) => ipaContainsExactSound(normalizedIpa, sound)) || fallbackSound;
       return [team, normalizeVocabularyVowelTeamSound(mappedSound)];
     }).filter(([, sound]) => sound && VOCABULARY_VOWEL_TEAM_CHILD_SOUND_ORDER.includes(sound)));
   }
