@@ -327,6 +327,7 @@
   .phrase-card {
     display: grid;
     gap: 14px;
+    grid-template-columns: minmax(0, 1fr) auto;
     max-width: 100%;
     min-width: 0;
     padding: 18px;
@@ -785,6 +786,7 @@
     .dialogue-line,
     .vocabulary-tools,
     .vocabulary-card,
+    .phrase-card,
     .tip-list,
     .status-row {
       grid-template-columns: 1fr;
@@ -6493,20 +6495,20 @@ pass=通过；传递
       const currentStatus = statuses[phrase.id] || "auto";
       return `
         <article class="phrase-card" data-phrase-id="${phrase.id}">
-          <div class="phrase-top">
-            <div>
-              <span class="phrase-tag">${scenario.label}</span>
-              <h3 class="phrase-english">${phrase.english}</h3>
-              <p class="phrase-chinese">${phrase.chinese}</p>
-            </div>
-            <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">${SPEAKER_ICON}</button>
+          <div>
+            <span class="phrase-tag">${scenario.label}</span>
+            <h3 class="phrase-english">${phrase.english}</h3>
+            <p class="phrase-chinese">${phrase.chinese}</p>
           </div>
-          <div class="status-row" aria-label="Conversation status for ${phrase.english}">
-            ${statusButton(phrase.id, "auto", "自动", currentStatus)}
-            ${statusButton(phrase.id, "to-learn", "待学", currentStatus)}
-            ${statusButton(phrase.id, "learning", "学习中", currentStatus)}
-            ${statusButton(phrase.id, "review", "复习", currentStatus)}
-            ${statusButton(phrase.id, "learned", "已学会", currentStatus)}
+          <div class="vocabulary-actions">
+            <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">${SPEAKER_ICON}</button>
+            <div class="status-row vocabulary-status-row" aria-label="Conversation status for ${phrase.english}">
+              ${statusButton(phrase.id, "auto", "自动", currentStatus)}
+              ${statusButton(phrase.id, "to-learn", "待学", currentStatus)}
+              ${statusButton(phrase.id, "learning", "学习中", currentStatus)}
+              ${statusButton(phrase.id, "review", "复习", currentStatus)}
+              ${statusButton(phrase.id, "learned", "已学会", currentStatus)}
+            </div>
           </div>
         </article>
       `;
