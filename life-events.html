@@ -1199,7 +1199,7 @@
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
-  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-22-year-end-import-dates";
+  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-23-parent-relationship-split";
   const GENERIC_NEXT_ACTION = "Review and decide the next concrete action.";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const AREA_COLORS = {
@@ -1222,19 +1222,27 @@
     "贾浩", "牟广丰", "培军叔叔", "婶婶", "Cathy", "Kathy", "Mina", "Ark", "Annie Huang", "Annie", "Jackie",
     "Brian", "Nathan", "Lam", "Thuy", "Kerry", "Clare", "Ryan", "Kelly", "Shawn",
     "周谧", "姜洁", "伊可欣", "韩晓姝", "陈梦然", "陈家沂", "王思楠", "周文英", "马力力", "杨波", "何涛", "陈宏颖", "万庆", "褚凌川", "许科",
-    "鲁亚东", "邱鸿", "龚晓丽", "龚晓莉", "劳瑞尔", "陆晓博", "Mike Silva", "Mike", "Debbie Roberts", "Angela", "Valerie", "朱盛", "Rashel",
+    "鲁亚东", "邱鸿", "龚晓丽", "陆晓博", "Mike Silva", "Mike", "Debbie Roberts", "Angela", "Valerie", "朱盛", "Rashel",
     "Amy Porterfield", "Amy Banocy", "Jack Canfield", "Catherine", "Cody Hofhine", "Leah", "Lisa", "Shama Parveen"
   ];
+  const PERSON_DISPLAY_NAMES = {
+    "谢朝阳": "Zhaoyang Xie",
+    "培军叔叔": "Peijun Gao 高培军",
+    "婶婶": "Meihua Yang 杨美华",
+    "Kerry": "Kerry Smith",
+    "Clare": "Clare Marash",
+    "Lam": "Lam Nguyen",
+    "Brian": "Brian Bayes",
+    "Annie": "Annie Huang",
+    "Kathy": "Kathy Frashier"
+  };
   const CHINESE_NAME_PINYIN = {
     "刘以明": "Yiming Liu",
     "袁媛": "Yuan Yuan",
-    "谢朝阳": "Chaoyang Xie",
     "王宏宇": "Hongyu Wang",
     "何平": "Ping He",
     "贾浩": "Hao Jia",
     "牟广丰": "Guangfeng Mou",
-    "培军叔叔": "Peijun Gao 高培军",
-    "婶婶": "Aunt",
     "周谧": "Mi Zhou",
     "姜洁": "Jie Jiang",
     "伊可欣": "Kexin Yi",
@@ -1253,8 +1261,6 @@
     "鲁亚东": "Yadong Lu",
     "邱鸿": "Hong Qiu",
     "龚晓丽": "Xiaoli Gong",
-    "龚晓莉": "Xiaoli Gong",
-    "劳瑞尔": "Rui'er Lao",
     "陆晓博": "Xiaobo Lu",
     "朱盛": "Sheng Zhu"
   };
@@ -1758,6 +1764,7 @@ W03: Cornbread`],
   function mergeImportedEvents(storedEvents, importedEvents) {
     const storedImportedById = new Map(storedEvents
       .filter((event) => event && /^sheet-import-\d+$/.test(String(event.id || "")))
+      .filter((event) => !isObsoleteImportedParentRelationshipEvent(event))
       .map((event) => [String(event.id), event]));
     const importedWithStoredEdits = importedEvents.map((event) => {
       const storedEvent = storedImportedById.get(String(event.id));
@@ -1774,6 +1781,12 @@ W03: Cornbread`],
       sourceColumn: event.sourceColumn || sourceColumnOptions(event.area || "all")[0] || ""
     }));
     return [...importedWithStoredEdits, ...manualEvents];
+  }
+
+  function isObsoleteImportedParentRelationshipEvent(event) {
+    return event
+      && event.area === "Parent"
+      && event.sourceColumn === "亲戚朋友";
   }
 
   function saveEvents() {
@@ -1940,6 +1953,10 @@ W03: Cornbread`],
 
   function personDisplayName(name) {
     const value = String(name || "");
+    if (PERSON_DISPLAY_NAMES[value]) {
+      return PERSON_DISPLAY_NAMES[value];
+    }
+
     if (CHINESE_NAME_PINYIN[value]) {
       const displayName = CHINESE_NAME_PINYIN[value];
       return /[\u3400-\u9fff]/.test(displayName) ? displayName : `${displayName} ${value}`;
