@@ -338,9 +338,32 @@
     resize: vertical;
   }
 
-  .field select[multiple] {
+  .people-checklist {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: grid;
+    gap: 3px;
+    max-height: 132px;
     min-height: 118px;
-    padding: 6px;
+    overflow: auto;
+    padding: 7px;
+  }
+
+  .people-check {
+    align-items: center;
+    color: var(--text);
+    display: flex;
+    font-size: 0.86rem;
+    gap: 7px;
+    line-height: 1.2;
+  }
+
+  .people-check input {
+    accent-color: var(--accent);
+    flex: 0 0 auto;
+    min-height: 0;
+    width: auto;
   }
 
   .field input:focus,
@@ -990,8 +1013,8 @@
           <select id="filterColumn"></select>
         </div>
         <div class="field">
-          <label for="filterPeople">People</label>
-          <select id="filterPeople" multiple size="4" aria-label="Filter by people"></select>
+          <label id="filterPeopleLabel" for="filterPeople">People</label>
+          <div id="filterPeople" class="people-checklist" role="group" aria-labelledby="filterPeopleLabel"></div>
         </div>
         <div class="field">
           <label for="filterImpact">Impact</label>
@@ -1134,8 +1157,8 @@
                 </select>
               </div>
               <div class="field">
-                <label for="eventPeople">People Involved</label>
-                <select id="eventPeople" multiple size="4"></select>
+                <label id="eventPeopleLabel" for="eventPeople">People Involved</label>
+                <div id="eventPeople" class="people-checklist" role="group" aria-labelledby="eventPeopleLabel"></div>
               </div>
               <input id="eventTags" type="hidden" />
               <div class="field full">
@@ -2051,23 +2074,49 @@ W03: Cornbread`],
     return [...new Set([...knownNames, ...eventNames])].sort((a, b) => a.localeCompare(b));
   }
 
-  function selectedOptionValues(select) {
-    return Array.from(select.selectedOptions || []).map((option) => option.value);
+  function selectedCheckboxValues(container) {
+    return Array.from(container.querySelectorAll("input[type='checkbox']:checked")).map((option) => option.value);
   }
 
-  function setSelectedOptionValues(select, values) {
-    const selected = new Set(values);
-    Array.from(select.options).forEach((option) => {
-      option.selected = selected.has(option.value);
-    });
+  function renderPeopleCheckboxes(container, options, selectedValues, allLabel = "") {
+    const allOptions = allLabel ? ["all", ...options] : options;
+    const selected = new Set(selectedValues);
+    container.innerHTML = allOptions.map((person) => {
+      const value = person === "all" ? "all" : person;
+      const label = person === "all" ? allLabel : person;
+      const checked = selected.has(value) ? " checked" : "";
+      return `
+        <label class="people-check">
+          <input type="checkbox" value="${escapeHtml(value)}"${checked}>
+          <span>${escapeHtml(label)}</span>
+        </label>
+      `;
+    }).join("");
+  }
+
+  function normalizePeopleFilterSelection(changedInput = null) {
+    if (changedInput?.value === "all" && changedInput.checked) {
+      els.filterPeople.querySelectorAll("input[type='checkbox']").forEach((input) => {
+        if (input.value !== "all") input.checked = false;
+      });
+      return;
+    }
+    if (changedInput?.value !== "all" && changedInput?.checked) {
+      const allInput = els.filterPeople.querySelector("input[value='all']");
+      if (allInput) allInput.checked = false;
+    }
+    const checked = selectedCheckboxValues(els.filterPeople);
+    if (!checked.length) {
+      const allInput = els.filterPeople.querySelector("input[value='all']");
+      if (allInput) allInput.checked = true;
+    }
   }
 
   function updateEventPeopleOptions(selectedValue = "") {
     const options = eventPeopleOptions();
     const selectedValues = peopleList(selectedValue);
     const allOptions = [...new Set([...selectedValues, ...options])];
-    els.eventPeople.innerHTML = allOptions.map((person) => `<option value="${escapeHtml(person)}">${escapeHtml(person)}</option>`).join("");
-    setSelectedOptionValues(els.eventPeople, selectedValues);
+    renderPeopleCheckboxes(els.eventPeople, allOptions, selectedValues);
   }
 
   function eventTagOptions() {
@@ -2161,18 +2210,17 @@ W03: Cornbread`],
   }
 
   function updatePeopleOptions() {
-    const currentValues = selectedOptionValues(els.filterPeople);
+    const currentValues = selectedCheckboxValues(els.filterPeople);
     const options = peopleOptions();
-    els.filterPeople.innerHTML = `<option value="all">All people</option>${options.map((person) => `<option value="${escapeHtml(person)}">${escapeHtml(person)}</option>`).join("")}`;
     const selectedValues = currentValues.filter((value) => options.includes(value));
-    setSelectedOptionValues(els.filterPeople, selectedValues.length ? selectedValues : ["all"]);
+    renderPeopleCheckboxes(els.filterPeople, options, selectedValues.length ? selectedValues : ["all"], "All people");
   }
 
   function currentFilters() {
     return {
       area: els.filterArea.value,
       column: els.filterColumn.value,
-      people: selectedOptionValues(els.filterPeople).filter((value) => value !== "all"),
+      people: selectedCheckboxValues(els.filterPeople).filter((value) => value !== "all"),
       impact: els.filterImpact.value,
       time: els.filterTime.value,
       pattern: els.filterPattern.value
@@ -2247,7 +2295,7 @@ W03: Cornbread`],
       importance: Number(els.eventImportance.value),
       energy: els.eventEnergy.value,
       pattern: els.eventPattern.value,
-      people: selectedOptionValues(els.eventPeople).join(", "),
+      people: selectedCheckboxValues(els.eventPeople).join(", "),
       tags: els.eventTags.value.trim() || area.toLowerCase(),
       sourceColumn,
       lesson: cleanBulletField(els.eventLesson.value),
@@ -2785,7 +2833,12 @@ W03: Cornbread`],
     render();
   });
 
-  [els.filterColumn, els.filterPeople, els.filterImpact, els.filterTime, els.filterPattern].forEach((node) => {
+  els.filterPeople.addEventListener("change", (event) => {
+    normalizePeopleFilterSelection(event.target);
+    render();
+  });
+
+  [els.filterColumn, els.filterImpact, els.filterTime, els.filterPattern].forEach((node) => {
     node.addEventListener("change", render);
   });
 
