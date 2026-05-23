@@ -338,16 +338,61 @@
     resize: vertical;
   }
 
-  .people-checklist {
+  .people-multiselect {
+    position: relative;
+  }
+
+  .people-trigger {
+    align-items: center;
     background: #ffffff;
     border: 1px solid var(--border);
     border-radius: 7px;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    justify-content: space-between;
+    min-height: 38px;
+    padding: 8px 10px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .people-trigger::after {
+    border-bottom: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    content: "";
+    height: 8px;
+    margin-left: 10px;
+    transform: rotate(45deg) translateY(-2px);
+    width: 8px;
+  }
+
+  .people-trigger:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(180, 35, 98, 0.14);
+    outline: 0;
+  }
+
+  .people-menu {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14);
     display: grid;
-    gap: 3px;
-    max-height: 132px;
-    min-height: 118px;
+    gap: 4px;
+    left: 0;
+    max-height: 230px;
+    min-width: 100%;
     overflow: auto;
-    padding: 7px;
+    padding: 8px;
+    position: absolute;
+    top: calc(100% + 4px);
+    z-index: 20;
+  }
+
+  .people-menu[hidden] {
+    display: none;
   }
 
   .people-check {
@@ -357,12 +402,17 @@
     font-size: 0.86rem;
     gap: 7px;
     line-height: 1.2;
+    min-width: max-content;
+    padding: 3px 2px;
   }
 
   .people-check input {
     accent-color: var(--accent);
     flex: 0 0 auto;
+    height: 14px;
+    margin: 0;
     min-height: 0;
+    padding: 0;
     width: auto;
   }
 
@@ -1014,7 +1064,7 @@
         </div>
         <div class="field">
           <label id="filterPeopleLabel" for="filterPeople">People</label>
-          <div id="filterPeople" class="people-checklist" role="group" aria-labelledby="filterPeopleLabel"></div>
+          <div id="filterPeople" class="people-multiselect" role="group" aria-labelledby="filterPeopleLabel"></div>
         </div>
         <div class="field">
           <label for="filterImpact">Impact</label>
@@ -1158,7 +1208,7 @@
               </div>
               <div class="field">
                 <label id="eventPeopleLabel" for="eventPeople">People Involved</label>
-                <div id="eventPeople" class="people-checklist" role="group" aria-labelledby="eventPeopleLabel"></div>
+                <div id="eventPeople" class="people-multiselect" role="group" aria-labelledby="eventPeopleLabel"></div>
               </div>
               <input id="eventTags" type="hidden" />
               <div class="field full">
@@ -2078,10 +2128,19 @@ W03: Cornbread`],
     return Array.from(container.querySelectorAll("input[type='checkbox']:checked")).map((option) => option.value);
   }
 
+  function peopleSummaryText(selectedValues, allLabel = "") {
+    const people = selectedValues.filter((value) => value !== "all");
+    if (!people.length) return allLabel || "No people";
+    if (people.length === 1) return people[0];
+    return `${people.length} people selected`;
+  }
+
   function renderPeopleCheckboxes(container, options, selectedValues, allLabel = "") {
     const allOptions = allLabel ? ["all", ...options] : options;
     const selected = new Set(selectedValues);
-    container.innerHTML = allOptions.map((person) => {
+    const menuId = `${container.id}Menu`;
+    const buttonId = `${container.id}Button`;
+    const optionMarkup = allOptions.map((person) => {
       const value = person === "all" ? "all" : person;
       const label = person === "all" ? allLabel : person;
       const checked = selected.has(value) ? " checked" : "";
@@ -2092,6 +2151,40 @@ W03: Cornbread`],
         </label>
       `;
     }).join("");
+    container.innerHTML = `
+      <button class="people-trigger" id="${buttonId}" type="button" aria-expanded="false" aria-controls="${menuId}">
+        <span>${escapeHtml(peopleSummaryText(selectedValues, allLabel))}</span>
+      </button>
+      <div class="people-menu" id="${menuId}" hidden>
+        ${optionMarkup}
+      </div>
+    `;
+  }
+
+  function updatePeopleTrigger(container, allLabel = "") {
+    const trigger = container.querySelector(".people-trigger span");
+    if (!trigger) return;
+    trigger.textContent = peopleSummaryText(selectedCheckboxValues(container), allLabel);
+  }
+
+  function closePeopleMenu(container) {
+    const menu = container.querySelector(".people-menu");
+    const trigger = container.querySelector(".people-trigger");
+    if (!menu || !trigger) return;
+    menu.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+  }
+
+  function togglePeopleMenu(container) {
+    const menu = container.querySelector(".people-menu");
+    const trigger = container.querySelector(".people-trigger");
+    if (!menu || !trigger) return;
+    const willOpen = menu.hidden;
+    document.querySelectorAll(".people-multiselect").forEach((node) => {
+      if (node !== container) closePeopleMenu(node);
+    });
+    menu.hidden = !willOpen;
+    trigger.setAttribute("aria-expanded", String(willOpen));
   }
 
   function normalizePeopleFilterSelection(changedInput = null) {
@@ -2110,6 +2203,7 @@ W03: Cornbread`],
       const allInput = els.filterPeople.querySelector("input[value='all']");
       if (allInput) allInput.checked = true;
     }
+    updatePeopleTrigger(els.filterPeople, "All people");
   }
 
   function updateEventPeopleOptions(selectedValue = "") {
@@ -2117,6 +2211,7 @@ W03: Cornbread`],
     const selectedValues = peopleList(selectedValue);
     const allOptions = [...new Set([...selectedValues, ...options])];
     renderPeopleCheckboxes(els.eventPeople, allOptions, selectedValues);
+    updatePeopleTrigger(els.eventPeople);
   }
 
   function eventTagOptions() {
@@ -2214,6 +2309,7 @@ W03: Cornbread`],
     const options = peopleOptions();
     const selectedValues = currentValues.filter((value) => options.includes(value));
     renderPeopleCheckboxes(els.filterPeople, options, selectedValues.length ? selectedValues : ["all"], "All people");
+    updatePeopleTrigger(els.filterPeople, "All people");
   }
 
   function currentFilters() {
@@ -2836,6 +2932,33 @@ W03: Cornbread`],
   els.filterPeople.addEventListener("change", (event) => {
     normalizePeopleFilterSelection(event.target);
     render();
+  });
+
+  els.eventPeople.addEventListener("change", () => {
+    updatePeopleTrigger(els.eventPeople);
+  });
+
+  [els.filterPeople, els.eventPeople].forEach((container) => {
+    container.addEventListener("click", (event) => {
+      const trigger = event.target.closest(".people-trigger");
+      if (trigger) {
+        togglePeopleMenu(container);
+        return;
+      }
+      if (event.target.matches("input[type='checkbox']") && container === els.eventPeople) {
+        updatePeopleTrigger(els.eventPeople);
+      }
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest(".people-multiselect")) return;
+    document.querySelectorAll(".people-multiselect").forEach(closePeopleMenu);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    document.querySelectorAll(".people-multiselect").forEach(closePeopleMenu);
   });
 
   [els.filterColumn, els.filterImpact, els.filterTime, els.filterPattern].forEach((node) => {
