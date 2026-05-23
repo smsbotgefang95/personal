@@ -5210,7 +5210,162 @@ pass=通过；传递
     ...item
   }));
 
-  const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY];
+  const SPORTS_VOCABULARY = [
+    {
+      word: "sports",
+      chinese: "体育运动",
+      ipa: "spɔrts",
+      partOfSpeech: "noun",
+      example: "Many people like to watch sports."
+    },
+    {
+      word: "baseball",
+      chinese: "棒球",
+      ipa: "ˈbeɪsˌbɔl",
+      partOfSpeech: "noun",
+      example: "Baseball is popular in the United States."
+    },
+    {
+      word: "basketball",
+      chinese: "篮球",
+      ipa: "ˈbæskətˌbɔl",
+      partOfSpeech: "noun",
+      example: "The basketball game starts at seven."
+    },
+    {
+      word: "football",
+      chinese: "美式足球",
+      ipa: "ˈfʊtˌbɔl",
+      partOfSpeech: "noun",
+      example: "Football teams play on a large field."
+    },
+    {
+      word: "soccer",
+      chinese: "足球",
+      ipa: "ˈsɑkər",
+      partOfSpeech: "noun",
+      example: "In soccer, players kick the ball."
+    },
+    {
+      word: "tennis",
+      chinese: "网球",
+      ipa: "ˈtenɪs",
+      partOfSpeech: "noun",
+      example: "Tennis players use rackets."
+    },
+    {
+      word: "swim",
+      chinese: "游泳",
+      ipa: "swɪm",
+      partOfSpeech: "verb",
+      example: "I like to swim in the summer."
+    },
+    {
+      word: "exercise",
+      chinese: "锻炼",
+      ipa: "ˈeksərˌsaɪz",
+      partOfSpeech: "noun / verb",
+      example: "Exercise helps your body stay strong."
+    },
+    {
+      word: "team",
+      chinese: "队；团队",
+      ipa: "tim",
+      partOfSpeech: "noun",
+      example: "Our team practices after school."
+    },
+    {
+      word: "player",
+      chinese: "运动员；球员",
+      ipa: "ˈpleɪər",
+      partOfSpeech: "noun",
+      example: "A good player listens to the coach."
+    },
+    {
+      word: "coach",
+      chinese: "教练",
+      ipa: "koʊtʃ",
+      partOfSpeech: "noun",
+      example: "The coach teaches the team."
+    },
+    {
+      word: "game",
+      chinese: "比赛；游戏",
+      ipa: "ɡeɪm",
+      partOfSpeech: "noun",
+      example: "We watched the game on Saturday."
+    },
+    {
+      word: "match",
+      chinese: "比赛",
+      ipa: "mætʃ",
+      partOfSpeech: "noun",
+      example: "The tennis match was close."
+    },
+    {
+      word: "practice",
+      chinese: "练习",
+      ipa: "ˈpræktɪs",
+      partOfSpeech: "noun / verb",
+      example: "Practice helps players improve."
+    },
+    {
+      word: "score",
+      chinese: "得分；比分",
+      ipa: "skɔr",
+      partOfSpeech: "noun / verb",
+      example: "What is the score of the game?"
+    },
+    {
+      word: "goal",
+      chinese: "进球；目标",
+      ipa: "ɡoʊl",
+      partOfSpeech: "noun",
+      example: "She scored a goal."
+    },
+    {
+      word: "win",
+      chinese: "赢",
+      ipa: "wɪn",
+      partOfSpeech: "verb",
+      example: "The team wants to win."
+    },
+    {
+      word: "race",
+      chinese: "赛跑；比赛",
+      ipa: "reɪs",
+      partOfSpeech: "noun / verb",
+      example: "The race begins at nine."
+    },
+    {
+      word: "gym",
+      chinese: "体育馆；健身房",
+      ipa: "dʒɪm",
+      partOfSpeech: "noun",
+      example: "I exercise at the gym."
+    },
+    {
+      word: "sport",
+      chinese: "运动项目",
+      ipa: "spɔrt",
+      partOfSpeech: "noun",
+      example: "Tennis is my favorite sport."
+    }
+  ].map((item, index) => ({
+    id: `sports-${slugifyWord(item.word)}`,
+    scenario: "sports",
+    theme: "sports",
+    isCompound: /\s/.test(item.word),
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    root: getVocabularyRoot(item.word),
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    rank: `Sports ${index + 1}`,
+    ...item
+  }));
+
+  const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY];
 
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
@@ -5804,7 +5959,17 @@ pass=通过；传递
     container.innerHTML = words.map((item) => {
       const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
       const currentStatus = getVocabularyStatus(item.id);
-      const label = item.isCustom ? "" : (item.theme === "holiday" ? "U.S. Holiday" : (scenario ? scenario.label : "Top 1000"));
+      const label = item.isCustom ? "" : (
+        scenario ? scenario.label : (
+          item.theme === "holiday" ? "U.S. Holiday" :
+          item.theme === "appliance" ? "Kitchen Appliance" :
+          item.theme === "furniture" ? "Furniture" :
+          item.theme === "clothes" ? "Clothes" :
+          item.theme === "sports" ? "Sports" :
+          item.theme === "country" ? "Country" :
+          "Top 1000"
+        )
+      );
       const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
       const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
