@@ -504,7 +504,8 @@
     padding: 18px;
   }
 
-  .vocabulary-tools {
+  .vocabulary-tools,
+  .vocabulary-phrase-tools {
     display: grid;
     gap: 12px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -512,11 +513,14 @@
   }
 
   .vocabulary-search,
-  .vocabulary-summary {
+  .vocabulary-summary,
+  .vocabulary-phrase-search,
+  .vocabulary-phrase-summary {
     grid-column: span 2;
   }
 
   .phrase-search,
+  .vocabulary-phrase-search,
   .vocabulary-search,
   .vocabulary-filter {
     background: #f8faf8;
@@ -544,6 +548,7 @@
   }
 
   .phrase-summary,
+  .vocabulary-phrase-summary,
   .vocabulary-summary {
     align-items: center;
     background: #fff7d6;
@@ -851,6 +856,10 @@
         <h2>Phrase</h2>
         <p>Practice short everyday phrases made from vocabulary words.</p>
       </div>
+    </div>
+    <div class="vocabulary-phrase-tools">
+      <input class="vocabulary-phrase-search" id="vocabularyPhraseSearch" type="search" placeholder="Search phrase, meaning, pronunciation, or word" aria-label="Search phrases" />
+      <div class="vocabulary-phrase-summary" id="vocabularyPhraseSummary">0 phrases</div>
     </div>
     <div class="phrase-list" id="vocabularyPhraseList"></div>
   </section>
@@ -1794,6 +1803,7 @@ possible=ˈpɒsəbəl
 pounds=paʊnz
 power=paʊə
 practice=ˈpræktɪs
+preschool=ˈpriːskuːl
 present=ˈprezənt
 pretty=ˈprɪti
 probably=ˈprɒbəˌbli
@@ -2391,6 +2401,7 @@ world=世界
 going=正在去；将要
 want=想要
 school=学校
+preschool=学前班；幼儿园
 important=重要的
 until=直到
 1=一
@@ -3237,7 +3248,7 @@ pass=通过；传递
     food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "garden", "ice", "meat", "milk", "supper", "tea", "water"]),
     time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "friday", "future", "hour", "late", "minute", "monday", "moment", "month", "morning", "night", "noon", "now", "once", "past", "saturday", "second", "soon", "spring", "summer", "sunday", "thursday", "time", "today", "tomorrow", "tuesday", "wednesday", "week", "winter", "year", "yesterday"]),
     country: new Set(["america", "argentina", "australia", "bangladesh", "brazil", "canada", "chile", "china", "colombia", "denmark", "egypt", "england", "ethiopia", "france", "germany", "greece", "india", "indonesia", "iran", "ireland", "israel", "italy", "japan", "kenya", "mexico", "morocco", "nepal", "netherlands", "new zealand", "nigeria", "norway", "pakistan", "peru", "philippines", "poland", "portugal", "russia", "saudi arabia", "south africa", "south korea", "spain", "sweden", "thailand", "turkey", "ukraine", "united kingdom", "united states", "vietnam"]),
-    place: new Set(["area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
+    place: new Set(["area", "building", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "preschool", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
     feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"])
@@ -3331,6 +3342,7 @@ pass=通过；传递
 
   const PREFIX_BY_WORD = {
     inside: "in",
+    preschool: "pre",
     outside: "out"
   };
 
@@ -3635,6 +3647,7 @@ pass=通过；传递
     "yes": "interjection",
     "oh": "interjection",
     "please": "adverb / interjection",
+    "preschool": "noun",
     "monday": "proper noun",
     "tuesday": "proper noun",
     "wednesday": "proper noun",
@@ -3861,6 +3874,7 @@ pass=通过；传递
     "going",
     "want",
     "school",
+    "preschool",
     "important",
     "until",
     "1",
@@ -5199,36 +5213,50 @@ pass=通过；传递
 
   function renderVocabularyPhrases() {
     const container = document.getElementById("vocabularyPhraseList");
-    if (!container) return;
+    const phraseSearch = document.getElementById("vocabularyPhraseSearch");
+    const phraseSummary = document.getElementById("vocabularyPhraseSummary");
+    if (!container || !phraseSearch || !phraseSummary) return;
+    const search = phraseSearch.value.trim().toLowerCase();
+    const matchesSearch = (item) => {
+      if (!search) return true;
+      return [
+        item.phrase,
+        item.chinese,
+        item.pronunciation,
+        ...item.words
+      ].some((value) => (value || "").toLowerCase().includes(search));
+    };
+    const phrases = VOCABULARY_PHRASES.filter(matchesSearch);
 
-    container.innerHTML = VOCABULARY_PHRASES.map((item) => {
+    phraseSummary.textContent = `${phrases.length} of ${VOCABULARY_PHRASES.length} phrases`;
+
+    if (!phrases.length) {
+      container.innerHTML = `<div class="empty">No phrases match your search.</div>`;
+      return;
+    }
+
+    container.innerHTML = phrases.map((item) => {
       const currentStatus = getVocabularyPhraseStatus(item.id);
       return `
-        <article class="phrase-card">
-          <div class="phrase-top">
-            <div>
-              <span class="phrase-tag">Phrase</span>
-              <h3 class="phrase-english">${escapeHtml(item.phrase)}</h3>
-              <p class="phrase-chinese">${escapeHtml(item.chinese)}</p>
+        <article class="vocabulary-card">
+          <div>
+            <h3 class="vocabulary-word">${escapeHtml(item.phrase)}</h3>
+            <p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>
+            <div class="vocabulary-meta">
+              <span class="vocabulary-tag">Phrase</span>
+              <span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>
+              ${item.words.map((word) => `<span class="vocabulary-tag">${escapeHtml(word)}</span>`).join("")}
             </div>
+          </div>
+          <div class="vocabulary-actions">
             <button class="listen-button" type="button" data-speak-vocabulary-phrase="${escapeHtml(item.phrase)}" aria-label="Listen to ${escapeHtml(item.phrase)}">${SPEAKER_ICON}</button>
-          </div>
-          <div class="phrase-detail">
-            <div class="detail-box">
-              <span>Pronunciation</span>
-              <p>${escapeHtml(item.pronunciation)}</p>
+            <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.phrase)}">
+              ${vocabularyPhraseStatusButton(item.id, "auto", "Auto", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "learning", "Learning", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "review", "Review", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "learned", "Learned", currentStatus)}
             </div>
-            <div class="detail-box">
-              <span>Vocabulary</span>
-              <p class="vocabulary-meta">${item.words.map((word) => `<span class="vocabulary-tag">${escapeHtml(word)}</span>`).join("")}</p>
-            </div>
-          </div>
-          <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.phrase)}">
-            ${vocabularyPhraseStatusButton(item.id, "auto", "Auto", currentStatus)}
-            ${vocabularyPhraseStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
-            ${vocabularyPhraseStatusButton(item.id, "learning", "Learning", currentStatus)}
-            ${vocabularyPhraseStatusButton(item.id, "review", "Review", currentStatus)}
-            ${vocabularyPhraseStatusButton(item.id, "learned", "Learned", currentStatus)}
           </div>
         </article>
       `;
@@ -5515,6 +5543,7 @@ pass=通过；传递
   });
 
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
+  document.getElementById("vocabularyPhraseSearch").addEventListener("input", renderVocabularyPhrases);
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
