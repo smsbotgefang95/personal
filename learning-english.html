@@ -149,7 +149,6 @@
   }
 
   .progress-panel,
-  .daily-panel,
   .phrase-card,
   .dialogue-panel,
   .tip-panel {
@@ -221,15 +220,6 @@
     padding: 12px;
   }
 
-  .section-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
-    gap: 18px;
-    align-items: start;
-    min-width: 0;
-  }
-
-  .daily-panel,
   .tip-panel {
     max-width: 100%;
     min-width: 0;
@@ -315,7 +305,6 @@
     color: #ffffff;
   }
 
-  .daily-list,
   .phrase-list,
   .vocabulary-list,
   .tip-list {
@@ -331,30 +320,8 @@
     display: block;
   }
 
-  .view-panel.section-grid.active {
-    display: grid;
-  }
-
   .view-panel.dialogue-panel.active {
     display: grid;
-  }
-
-  .daily-item {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-  }
-
-  .daily-item strong {
-    display: block;
-    font-size: 1rem;
-  }
-
-  .daily-item span {
-    color: var(--muted);
-    display: block;
-    font-size: 0.9rem;
-    margin-top: 4px;
   }
 
   .phrase-card {
@@ -747,8 +714,7 @@
   }
 
   @media (max-width: 900px) {
-    .hero,
-    .section-grid {
+    .hero {
       grid-template-columns: 1fr;
     }
 
@@ -827,7 +793,7 @@
         </div>
         <div class="hero-actions">
           <a class="hero-button" href="#practice">Start Conversation</a>
-          <a class="ghost-button" href="#daily">Today&apos;s Phrases</a>
+          <a class="ghost-button" href="#practice">Sentence Practice</a>
         </div>
       </div>
     </div>
@@ -855,17 +821,7 @@
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">对话</button>
   </div>
 
-  <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
-    <aside class="daily-panel" id="daily">
-      <div class="panel-header">
-        <div>
-          <h2>Today&apos;s Conversation</h2>
-          <p>Use these short sentences out loud.</p>
-        </div>
-      </div>
-      <div class="daily-list" id="dailyList"></div>
-    </aside>
-
+  <section class="phrase-panel view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
     <section id="practice" aria-labelledby="practice-title">
       <div class="panel-header">
         <div>
@@ -5554,7 +5510,6 @@ pass=通过；传递
 
   const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY];
 
-  const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
   let selectedDialogueScenario = loadSelectedDialogueScenario();
@@ -5932,14 +5887,6 @@ pass=通过；传递
     document.querySelectorAll(".view-panel").forEach((panel) => {
       panel.classList.toggle("active", panel.id === `view-${selectedView}`);
     });
-  }
-
-  function renderDailyList() {
-    const container = document.getElementById("dailyList");
-    container.innerHTML = dailyPhraseIds.map((id) => {
-      const phrase = PHRASES.find((item) => item.id === id);
-      return `<div class="daily-item"><strong>${phrase.english}</strong><span>${phrase.chinese}</span></div>`;
-    }).join("");
   }
 
   function renderPhraseListView(view) {
@@ -6436,7 +6383,6 @@ pass=通过；传递
     renderLearningTabs();
     renderScenarioTabs();
     renderDialogueTabs();
-    renderDailyList();
     renderPhraseList();
     renderDialogueList();
     renderVocabularyList();
