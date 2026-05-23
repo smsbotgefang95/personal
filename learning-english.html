@@ -838,6 +838,12 @@
       <select class="vocabulary-filter" id="vocabularyRootFilter" aria-label="Filter vocabulary by root">
         <option value="all">All roots</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularySyllableFilter" aria-label="Filter vocabulary by syllable type">
+        <option value="all">All syllables</option>
+      </select>
+      <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
+        <option value="all">All IPA sounds</option>
+      </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
@@ -882,6 +888,8 @@
   const STORAGE_VOCAB_PREFIX_FILTER_KEY = "learningEnglishVocabularyPrefixFilter";
   const STORAGE_VOCAB_SUFFIX_FILTER_KEY = "learningEnglishVocabularySuffixFilter";
   const STORAGE_VOCAB_ROOT_FILTER_KEY = "learningEnglishVocabularyRootFilter";
+  const STORAGE_VOCAB_SYLLABLE_FILTER_KEY = "learningEnglishVocabularySyllableFilter";
+  const STORAGE_VOCAB_IPA_FILTER_KEY = "learningEnglishVocabularyIpaFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   const SCENARIOS = [
@@ -1071,6 +1079,1091 @@
   const FEATURED_BY_WORD = Object.fromEntries(
     FEATURED_VOCABULARY.map((item) => [item.word.toLowerCase(), item])
   );
+
+  const BRITISH_IPA_DATA = `
+a=ə
+able=ˈeɪbəl
+about=əˈbaʊt
+above=əˈbʌv
+across=əˈkrɒs
+action=ˈækʃən
+add=æd
+added=ˈædɪd
+addition=əˈdɪʃən
+afraid=əˈfreɪd
+after=ˈɑːftə
+afternoon=ˌæftərˈnun
+again=əˈɡen
+against=əˈɡenst
+age=eɪdʒ
+ago=əˈɡəʊ
+ahead=əˈhed
+air=eə
+all=ɔːl
+almost=ˈɔːlməʊst
+alone=əˈləʊn
+along=əˈlɔŋ
+already=ɔːlˈredi
+also=ˈɔːlsəʊ
+although=ɔːlˈðəʊ
+always=ˈɔːlweɪz
+am=æm
+america=əˈmerɪkə
+american=əˈmerɪkən
+among=əˈməŋ
+amount=əˈmaʊnt
+an=ən
+ancient=ˈeɪntʃənt
+and=ænd
+animal=ˈænəməl
+animals=ˈænəməlz
+another=əˈnəðə
+answer=ˈɑːnsə
+answered=ˈænsərd
+answers=ˈænsərz
+any=ˈeni
+anyone=ˈeniˌwən
+anything=ˈeniˌθɪŋ
+are=ɑː
+area=ˈeriə
+areas=ˈeriəz
+argentina=ˌɑːdʒənˈtiːnə
+arms=ɑːmz
+around=əraʊnd
+as=æz
+ask=æsk
+asked=ɑːskt
+at=æt
+australia=ɒˈstreɪliə
+away=əˈweɪ
+b=bi
+baby=ˈbeɪbi
+back=bæk
+bad=bæd
+ball=bɔːl
+bangladesh=ˌbæŋɡləˈdeʃ
+base=beɪs
+be=biː
+bear=beə
+beautiful=ˈbjutəfəl
+became=bɪˈkeɪm
+because=bɪˈkəz
+become=bɪˈkəm
+bed=bed
+been=bɪn
+before=ˌbiˈfɔː
+began=bɪˈgæn
+begin=bɪˈgɪn
+beginning=bɪˈgɪnɪŋ
+begins=bɪˈgɪnz
+behind=bɪˈhaɪnd
+being=biɪŋ
+below=bɪˈləʊ
+beside=ˌbiˈsaɪd
+best=best
+better=ˈbetə
+between=bɪtˈwin
+beyond=bɪɔnd
+big=bɪg
+bill=bɪl
+bird=bɜːd
+birds=bɜːdz
+bit=bɪt
+black=blæk
+blood=bləd
+blue=blu
+board=bɔːd
+boat=bəʊt
+bob=bɒb
+body=ˈbɒdi
+book=bʊk
+books=bʊks
+born=bɔːn
+both=bəʊθ
+bottom=ˈbɒtəm
+bought=bɔːt
+box=bɒks
+boy=bɔɪ
+boys=bɔɪz
+brazil=brəˈzɪl
+break=breɪk
+bright=braɪt
+bring=brɪŋ
+british=ˈbrɪtɪʃ
+broken=ˈbrəʊkən
+brother=ˈbrəðə
+brought=brɔːt
+brown=braʊn
+build=bɪld
+building=ˈbɪldɪŋ
+built=bɪlt
+business=ˈbɪznɪs
+busy=ˈbɪzi
+but=bət
+buy=baɪ
+by=baɪ
+c=si
+call=kɔːl
+called=kɔːld
+came=keɪm
+can=kən
+can't=kɑːnt
+canada=ˈkænədə
+cannot=ˈkænɒt
+capital=ˈkæpɪtəl
+car=kɑː
+care=keə
+carefully=ˈkerfəli
+carried=ˈkerid
+carry=ˈkeri
+cars=kɑz
+case=keɪs
+cat=kæt
+catch=kætʃ
+cattle=ˈkætəl
+caught=kɔːt
+cause=kɔz
+center=ˈsenə
+century=ˈsentʃəri
+certain=ˈsərtən
+chance=tʃɑːns
+change=tʃeɪndʒ
+changed=tʃeɪndʒd
+changes=ˈtʃeɪndʒɪz
+check=tʃek
+child=tʃaɪld
+children=ˈtʃɪldrən
+chile=ˈtʃɪli
+china=ˈtʃaɪnə
+choose=tʃuz
+circle=ˈsərkəl
+cities=ˈsɪtiz
+city=ˈsɪti
+class=klɑːs
+clean=klin
+clear=klɪə
+close=kləʊz
+closed=kləʊzd
+clothes=kləʊðz
+coast=kəʊst
+cold=kəʊld
+colombia=kəˈlɒmbiə
+color=ˈkʌlə
+come=kəm
+comes=kəmz
+coming=ˈkəmɪŋ
+common=ˈkɒmən
+complete=kəmˈplit
+control=kənˈtrəʊl
+cool=kul
+copy=ˈkɒpi
+corn=kɔːn
+corner=ˈkɔːnə
+correct=kərˈekt
+could=kʊd
+couldn't=ˈkʊdənt
+countries=ˈkəntriz
+country=ˈkəntri
+course=kɔːs
+cover=ˈkəvə
+covered=ˈkəvərd
+cried=kraɪd
+cross=krɔs
+cut=kət
+dan=dæn
+dark=dɑːk
+daughter=ˈdɔːtə
+day=deɪ
+days=deɪz
+dead=ded
+deal=dil
+death=deθ
+decide=ˌdɪˈsaɪd
+decided=ˌdɪˈsaɪdɪd
+deep=dip
+denmark=ˈdenmɑːk
+developed=dɪˈveləpt
+did=dɪd
+didn't=ˈdɪdənt
+difference=ˈdɪfərəns
+different=ˈdɪfərənt
+difficult=ˈdɪfəkəlt
+direction=dɪˈrekʃɪn
+directions=dɪˈrekʃɪnz
+discovered=dɪˈskəvərd
+distance=ˈdɪstəns
+divided=dɪˈvaɪdɪd
+do=du
+does=dɪz
+doesn't=ˈdəzənt
+dog=dɒɡ
+dogs=dɔgz
+doing=duɪŋ
+don't=dəʊnt
+done=dən
+door=dɔː
+down=daʊn
+draw=drɔ
+drive=draɪv
+dry=draɪ
+during=ˈdʊrɪŋ
+each=itʃ
+early=ˈɜːli
+earth=ɜːθ
+easily=ˈizəli
+easy=ˈizi
+eat=it
+edge=edʒ
+eggs=egz
+egypt=ˈiːdʒɪpt
+eight=eɪt
+eighteen=ˈeɪˈtin
+either=ˈaɪðə
+eleven=ˈilevən
+else=els
+end=end
+ends=endz
+energy=ˈenərdʒi
+engine=ˈɪndʒən
+england=ˈɪŋglənd
+english=ˈɪŋlɪʃ
+enough=ɪˈnəf
+especially=əˈspeʃəli
+ethiopia=ˌiːθiˈəʊpiə
+europe=ˈjʊrəp
+even=ˈivɪn
+evening=ˈivnɪŋ
+ever=ˈevə
+every=ˈevəri
+everyone=ˈevriˌwən
+everything=ˈevriˌθɪŋ
+exactly=ɪgˈzæktli
+example=ɪgˈzæmpəl
+examples=ɪgˈzæmpəlz
+except=ɪkˈsept
+explain=ɪkˈspleɪn
+eye=aɪ
+eyes=aɪz
+face=feɪs
+fact=fækt
+facts=fækts
+fall=fɔːl
+family=ˈfæməli
+famous=ˈfeɪməs
+far=fɑː
+farm=fɑːm
+farmers=ˈfɑːmərz
+fast=fɑːst
+faster=ˈfæstə
+father=ˈfɑːðə
+feel=fil
+feeling=ˈfilɪŋ
+feet=fit
+fell=fel
+felt=felt
+few=fju
+field=fild
+fields=fildz
+fifteen=ˈfɪfˈtin
+fight=faɪt
+figure=ˈfɪgjə
+fill=fɪl
+filled=fɪld
+finally=ˈfaɪnəli
+find=faɪnd
+fine=faɪn
+fingers=ˈfɪŋgərz
+finished=ˈfɪnɪʃt
+fire=ˈfaɪə
+first=fɜːst
+fish=fɪʃ
+five=faɪv
+flat=flæt
+floor=flɔː
+flowers=flaʊərz
+fly=flaɪ
+flying=flaɪɪŋ
+follow=ˈfɒləʊ
+followed=ˈfɑləʊd
+following=ˈfɑləʊɪŋ
+food=fuːd
+foot=fʊt
+for=fə
+force=fɔːs
+forest=ˈfɒrɪst
+form=fɔːm
+formed=fɔːmd
+forms=fɔːmz
+forward=ˈfɔːwərd
+found=faʊnd
+four=fɔː
+fourteen=ˌfɔːˈtin
+france=frɑːns
+free=fri
+french=frentʃ
+fresh=freʃ
+friday=ˈfraɪˌdeɪ
+friend=frend
+friends=frendz
+from=frɒm
+front=frənt
+full=fʊl
+fun=fən
+game=ɡeɪm
+garden=ˈɡɑːdən
+gave=geɪv
+general=ˈdʒenərəl
+george=dʒɔːdʒ
+germany=ˈdʒɜːməni
+get=gɪt
+gets=gɪts
+getting=ˈgɪtɪŋ
+girl=ɡɜːl
+girls=ɡɜːlz
+give=gɪv
+given=ˈgɪvɪn
+gives=gɪvz
+glad=glæd
+glass=glæs
+go=ɡəʊ
+goes=ɡəʊz
+going=ˈɡəʊɪŋ
+gold=ɡəʊld
+gone=ɡɒn
+good=gʊd
+got=ɡɒt
+government=ˈɡʌvənmənt
+grass=ɡrɑːs
+gray=greɪ
+great=ɡreɪt
+greater=ˈgreɪtə
+greatest=ˈgreɪtəst
+greece=ɡriːs
+green=ɡriːn
+grew=ɡruː
+ground=graʊnd
+group=ɡruːp
+groups=grups
+grow=ɡrəʊ
+growing=grəʊɪŋ
+guess=ges
+had=hæd
+hair=heə
+half=hæf
+hand=hænd
+hands=hænz
+happened=ˈhæpənd
+happens=ˈhæpənz
+happy=ˈhæpi
+hard=hɑːd
+has=həz
+have=hæv
+having=ˈhævɪŋ
+he=hiː
+he's=hiz
+head=hed
+hear=hi
+heard=hɜːd
+heart=hɑːt
+heat=hit
+heavy=ˈhevi
+held=held
+help=help
+helped=helpt
+helps=helps
+henry=ˈhenri
+her=hə
+here=hɪə
+high=haɪ
+higher=haɪə
+him=hɪm
+himself=hɪmˈself
+his=hɪz
+history=ˈhɪstəri
+hit=hɪt
+hold=həʊld
+hole=həʊl
+home=həʊm
+homes=həʊmz
+hope=həʊp
+horse=hɔːs
+horses=ˈhɔːsɪz
+hot=hɒt
+hour=aʊə
+hours=aʊərz
+house=haʊs
+houses=ˈhaʊsɪz
+how=haʊ
+however=ˌhaʊˈevə
+huge=judʒ
+human=ˈjumən
+hundred=ˈhənərd
+hundreds=ˈhənərdz
+husband=ˈhəzbənd
+i=aɪ
+i'll=aɪl
+i'm=əm
+i've=aɪv
+ice=aɪs
+idea=aɪˈdɪə
+ideas=aɪˈdiəz
+if=ɪf
+important=ɪmˈpɔːtənt
+in=ɪn
+inches=ˈɪntʃɪz
+india=ˈɪndiə
+indian=ˈɪndiən
+indians=ˈɪndiənz
+indonesia=ˌɪndəˈniːziə
+information=ˌɪnˌfɔːˈmeɪʃən
+inside=ˌɪnˈsaɪd
+instead=ˌɪnˈsted
+interest=ˈɪntəˌrest
+interesting=ˈɪntəˌrestɪŋ
+into=ˈɪntu
+iran=ɪˈrɑːn
+ireland=ˈaɪələnd
+iron=ˈaɪən
+is=ɪz
+island=ˈaɪlənd
+isn't=ˈɪzənt
+israel=ˈɪzreɪəl
+it=ɪt
+it's=ɪts
+italy=ˈɪtəli
+its=ɪts
+itself=ˌɪtˈself
+jack=dʒæk
+japan=dʒəˈpæn
+jim=dʒɪm
+job=dʒɒb
+joe=dʒəʊ
+john=dʒɒn
+just=dʒɪst
+keep=kip
+kenya=ˈkenjə
+kept=kept
+kind=kaɪnd
+kinds=kaɪnz
+king=kɪŋ
+knew=nu
+know=nəʊ
+known=nəʊn
+knows=nəʊz
+lady=ˈleɪdi
+land=lænd
+language=ˈlæŋgwɪdʒ
+large=lɑːdʒ
+larger=ˈlɑːdʒə
+largest=ˈlɑːdʒəst
+last=lɑːst
+late=leɪt
+later=ˈleɪtə
+laughed=læft
+lay=leɪ
+lead=led
+learn=lɜːn
+learned=lɜːnt
+least=list
+leave=liv
+leaves=livz
+led=led
+left=left
+legs=legz
+length=leŋθ
+less=les
+let=let
+let's=lets
+letter=ˈletə
+letters=ˈletərz
+level=ˈlevəl
+life=laɪf
+light=laɪt
+like=laɪk
+liked=laɪkt
+line=laɪn
+lines=laɪnz
+list=lɪst
+listen=ˈlɪsən
+little=ˈlɪtəl
+live=lɪv
+lived=lɪvd
+lives=lɪvz
+living=ˈlɪvɪŋ
+long=lɒŋ
+longer=ˈlɔŋgə
+look=lʊk
+looked=lʊkt
+looking=ˈlʊkɪŋ
+lost=lɒst
+lot=lɒt
+love=lʌv
+low=ləʊ
+lower=ləʊə
+machine=məˈʃin
+made=meɪd
+main=meɪn
+make=meɪk
+makes=meɪks
+making=ˈmeɪkɪŋ
+man=mæn
+man's=mænz
+many=ˈmeni
+map=mæp
+mark=mɑːk
+mary=ˈmeri
+material=məˈtɪriəl
+materials=məˈtɪriəlz
+matter=ˈmætə
+may=meɪ
+maybe=ˈmeɪbi
+me=mi
+mean=min
+meaning=ˈminɪŋ
+means=minz
+meant=ment
+measure=ˈmeʒə
+meat=mit
+meet=mit
+members=ˈmembərz
+men=men
+method=ˈmeθəd
+mexico=ˈmeksɪkəʊ
+middle=ˈmɪdəl
+might=maɪt
+miles=maɪəlz
+milk=mɪlk
+million=ˈmɪljən
+mind=maɪnd
+minute=ˈmɪnət
+minutes=ˈmɪnəts
+miss=mɪs
+missing=ˈmɪsɪŋ
+modern=ˈmɑdərn
+moment=ˈməʊmənt
+monday=ˈmʌndeɪ
+money=ˈməni
+months=mənθs
+moon=mun
+more=mɔː
+morning=ˈmɔːnɪŋ
+morocco=məˈrɒkəʊ
+most=məʊst
+mother=ˈmʌðə
+mountain=ˈmaʊntɪn
+mountains=ˈmaʊntənz
+mouth=maʊθ
+move=muv
+moved=muvd
+moving=ˈmuvɪŋ
+mr.=ˈmɪstə
+mrs.=ˈmɪsɪz
+much=mətʃ
+music=ˈmjuːzɪk
+must=məst
+my=maɪ
+name=neɪm
+named=neɪmd
+names=neɪmz
+natural=ˈnætʃərəl
+near=nɪə
+nearly=ˈnɪrli
+necessary=ˈnesəˌseri
+need=nid
+needed=ˈnidɪd
+needs=nidz
+nepal=nɪˈpɔːl
+netherlands=ˈneðələndz
+never=ˈnevə
+new=njuː
+new york=nu jɔːk
+new zealand=ˌnjuː ˈziːlənd
+next=nekst
+nigeria=naɪˈdʒɪəriə
+night=naɪt
+nine=naɪn
+nineteen=ˈnaɪnˈtin
+no=nəʊ
+nor=nɔː
+north=nɔːθ
+norway=ˈnɔːweɪ
+nose=nəʊz
+not=nɒt
+nothing=ˈnʌθɪŋ
+notice=ˈnəʊtɪs
+now=naʊ
+number=ˈnʌmbə
+numbers=ˈnəmbərz
+o=əʊ
+object=ˈɒbdʒekt
+ocean=ˈəʊʃən
+of=əv
+off=ɒf
+often=ˈɒfən
+oh=əʊ
+oil=ɔɪl
+old=əʊld
+on=ɒn
+once=wəns
+one=wʌn
+ones=wənz
+only=ˈəʊnli
+open=ˈəʊpən
+opened=ˈəʊpənd
+opposite=ˈɒpəzɪt
+or=ɔː
+orange=ˈɒrɪndʒ
+order=ˈɔːdə
+other=ˈəðə
+others=ˈəðərz
+our=ɑː
+out=aʊt
+outside=ˈaʊtˈsaɪd
+over=ˈəʊvə
+own=əʊn
+page=peɪdʒ
+pages=ˈpeɪdʒɪz
+pair=peə
+pakistan=ˌpɑːkɪˈstɑːn
+paper=ˈpeɪpə
+parent=ˈperənt
+part=pɑːt
+parts=pɑːts
+party=ˈpɑːti
+pass=pɑːs
+passed=pæst
+past=pɑːst
+pattern=ˈpætərn
+patterns=ˈpætərnz
+pay=peɪ
+people=ˈpipəl
+per=pə
+perhaps=pərˈhæps
+period=ˈpɪriəd
+person=ˈpərsən
+peru=pəˈruː
+philippines=ˈfɪlɪpiːnz
+picked=pɪkt
+picture=ˈpɪktʃə
+pictures=ˈpɪktʃərz
+piece=pis
+pieces=ˈpisɪz
+pink=pɪŋk
+place=pleɪs
+placed=pleɪst
+places=ˈpleɪsɪz
+plan=plæn
+plane=pleɪn
+plant=plænt
+plants=plænts
+play=pleɪ
+played=pleɪd
+playing=pleɪɪŋ
+please=pliz
+point=pɔɪnt
+points=pɔɪnts
+poland=ˈpəʊlənd
+poor=pɔː
+portugal=ˈpɔːtʃʊɡəl
+position=pəˈzɪʃən
+possible=ˈpɒsəbəl
+pounds=paʊnz
+power=paʊə
+practice=ˈpræktɪs
+present=ˈprezənt
+pretty=ˈprɪti
+probably=ˈprɒbəˌbli
+problem=ˈprɒbləm
+produce=prəˈdjuːs
+produced=prəˈdust
+products=ˈprɒdʌkts
+pull=pʊl
+pulled=pʊld
+purple=ˈpərpəl
+put=pʊt
+question=ˈkwestʃən
+questions=kˈwestʃənz
+quickly=kˈwɪkli
+quiet=kwaɪət
+quite=kwaɪt
+race=reɪs
+radio=ˈreɪdiˌəʊ
+rain=reɪn
+raised=reɪzd
+ran=ræn
+rather=ˈrəðə
+reach=ritʃ
+reached=ritʃt
+read=red
+reading=ˈredɪŋ
+ready=ˈredi
+real=ril
+really=ˈrɪəli
+reason=ˈrizən
+record=ˈrekɔːd
+red=red
+region=ˈridʒən
+remember=rɪˈmembə
+rest=rest
+result=rɪˈzəlt
+return=rɪˈtɜːn
+rich=rɪtʃ
+ride=raɪd
+right=raɪt
+ring=rɪŋ
+river=ˈrɪvə
+road=rəʊd
+rock=rɒk
+rocks=rɒks
+room=ruːm
+round=raʊnd
+rule=rul
+run=rən
+running=ˈrənɪŋ
+russia=ˈrʌʃə
+s=es
+said=sed
+same=seɪm
+sand=sænd
+sat=sæt
+saturday=ˈsæˌtɪˌdeɪ
+saudi arabia=ˌsaʊdi əˈreɪbiə
+saw=sɔː
+say=seɪ
+saying=seɪɪŋ
+says=sɪz
+school=skuːl
+science=saɪəns
+scientists=ˈsaɪəntɪsts
+sea=si
+second=ˈsekənd
+section=ˈsekʃən
+see=si
+seeds=sidz
+seem=sim
+seemed=simd
+seems=simz
+seen=sin
+send=send
+sense=sens
+sent=sent
+sentence=ˈsentəns
+sentences=ˈsentənsɪz
+set=set
+sets=sets
+seven=ˈsevən
+seventeen=ˈsevənˈtin
+several=ˈsevərəl
+shall=ʃæl
+shape=ʃeɪp
+sharp=ʃɑːp
+she=ʃi
+ship=ʃɪp
+ships=ʃɪps
+short=ʃɔːt
+should=ʃʊd
+show=ʃəʊ
+shown=ʃəʊn
+shows=ʃəʊz
+side=saɪd
+sides=saɪdz
+sight=saɪt
+sign=saɪn
+silver=ˈsɪlvə
+similar=ˈsɪmələ
+simple=ˈsɪmpəl
+since=sɪns
+single=ˈsɪŋgəl
+sister=ˈsɪstə
+sit=sɪt
+six=sɪks
+sixteen=ˈsɪkˈstin
+size=saɪz
+skin=skɪn
+sky=skaɪ
+sleep=slip
+slowly=ˈsləʊli
+small=smɔːl
+smaller=sˈmɔːlə
+snow=snəʊ
+so=səʊ
+soft=sɒft
+soil=sɔɪl
+some=səm
+someone=ˈsəmˌwən
+something=ˈsəmθɪŋ
+sometimes=ˈsəmˌtaɪmz
+son=sən
+song=sɔŋ
+soon=suːn
+sound=saʊnd
+sounds=saʊnz
+south=saʊθ
+south africa=ˌsaʊθ ˈæfrɪkə
+south korea=ˌsaʊθ kəˈriːə
+space=speɪs
+spain=speɪn
+speak=spiːk
+special=ˈspeʃəl
+speed=spid
+spent=spent
+spread=spred
+spring=sprɪŋ
+square=skweə
+stand=stænd
+standing=ˈstændɪŋ
+stands=stændz
+stars=stɑːz
+start=stɑːt
+started=ˈstɑːtɪd
+state=steɪt
+states=steɪts
+stay=steɪ
+step=step
+steps=steps
+stick=stɪk
+still=stɪl
+stone=stəʊn
+stood=stʊd
+stop=stɒp
+stopped=stɒpt
+store=stɔː
+stories=ˈstɔriz
+story=ˈstɔːri
+straight=streɪt
+strange=streɪndʒ
+street=strit
+strong=strɒŋ
+study=ˈstədi
+subject=ˈsəbdʒɪkt
+such=sətʃ
+suddenly=ˈsədənli
+summer=ˈsəmə
+sun=sən
+sunday=ˈsənˌdi
+suppose=səˈpəʊz
+sure=ʃɔː
+surface=ˈsərfəs
+sweden=ˈswiːdən
+system=ˈsɪstəm
+table=ˈteɪbəl
+tail=teɪl
+take=teɪk
+taken=ˈteɪkən
+takes=teɪks
+taking=ˈteɪkɪŋ
+talk=tɔːk
+talking=ˈtɔkɪŋ
+tall=tɔːl
+teacher=ˈtiːtʃə
+team=tiːm
+teeth=tiθ
+tell=tel
+tells=telz
+temperature=ˈtempərətʃə
+ten=ten
+test=test
+thailand=ˈtaɪlænd
+than=ðən
+that=ðæt
+that's=ðæts
+the=ðə
+their=ðeə
+them=ðem
+themselves=ðemˈselvz
+then=ðen
+there=ðeə
+there's=ðerz
+therefore=ˈðerˌfɔː
+these=ðiz
+they=ðeɪ
+thick=θɪk
+thin=θɪn
+thing=θɪŋ
+things=θɪŋz
+think=θɪŋk
+thinking=ˈθɪŋkɪŋ
+third=θɜːd
+thirteen=ˌθɜːˈtiːn
+this=ðɪs
+those=ðəʊz
+though=ðəʊ
+thought=θɔːt
+thousand=ˈθaʊzənd
+thousands=ˈθaʊzənz
+three=θri
+through=θruː
+thursday=ˈθərzˌdeɪ
+thus=ðəs
+time=taɪm
+times=taɪmz
+tiny=ˈtaɪni
+to=tuː
+today=təˈdeɪ
+together=təˈgeðə
+told=təʊld
+tom=tɑm
+too=tu
+took=tʊk
+top=tɔp
+toward=təˈwɔːd
+town=taʊn
+travel=ˈtrævəl
+tree=triː
+trees=triz
+tried=traɪd
+trip=trɪp
+trouble=ˈtrəbəl
+true=truː
+try=traɪ
+trying=traɪɪŋ
+tuesday=ˈtuzˌdeɪ
+turkey=ˈtɜːki
+turn=tɜːn
+turned=tərnd
+twelve=twelv
+twenty=tˈwenti
+two=tuː
+ukraine=juːˈkreɪn
+under=ˈʌndə
+understand=ˌʌndəˈstænd
+unit=ˈjunɪt
+united kingdom=juːˌnaɪtɪd ˈkɪŋdəm
+united states=juːˌnaɪtɪd ˈsteɪts
+until=ənˈtɪl
+up=əp
+upon=əˈpɑn
+us=ˈjuˈes
+use=juːz
+used=juːzd
+uses=ˈjuzɪz
+using=ˈjuzɪŋ
+usually=ˈjuːʒuəli
+various=ˈveriəs
+very=ˈveri
+vietnam=ˌvjetˈnæm
+village=ˈvɪlɪdʒ
+voice=vɔɪs
+wait=weɪt
+walk=wɔːk
+walked=wɔkt
+wall=wɔːl
+want=wɒnt
+wanted=ˈwɔntɪd
+war=wɔː
+warm=wɔːm
+was=wəz
+washington=ˈwɔʃɪŋtən
+wasn't=ˈwəzənt
+watch=wɒtʃ
+watched=wɔːtʃt
+water=ˈwɔːtə
+waves=weɪvz
+way=weɪ
+ways=weɪz
+we=wi
+we'll=wɪl
+weather=ˈweðə
+wednesday=ˈwenzˌdeɪ
+week=wik
+weeks=wiks
+weight=weɪt
+well=wel
+went=went
+were=wə
+west=west
+what=wɒt
+when=wen
+where=weə
+whether=ˈweðə
+which=wɪtʃ
+while=waɪl
+white=waɪt
+who=huː
+whole=həʊl
+whose=huz
+why=waɪ
+wide=waɪd
+wife=waɪf
+wild=waɪld
+will=wɪl
+wind=wɪnd
+window=ˈwɪndəʊ
+winter=ˈwɪntə
+wish=wɪʃ
+with=wɪð
+within=wɪˈθɪn
+without=wɪˈθaʊt
+woman=ˈwʊmən
+women=ˈwɪmən
+won't=wəʊnt
+wood=wʊd
+woods=wʊdz
+word=wɜːd
+words=wərdz
+work=wɜːk
+worked=wərkt
+working=ˈwərkɪŋ
+works=wərks
+world=wɜːld
+would=wʊd
+wouldn't=ˈwʊdənt
+write=raɪt
+writing=ˈraɪtɪŋ
+written=ˈrɪtən
+wrong=rɒŋ
+wrote=rəʊt
+year=jɪə
+years=jɪrz
+yellow=ˈjeləʊ
+yes=jes
+yet=jet
+you=juː
+you'll=jul
+you're=jʊə
+young=jəŋ
+your=jʊə
+yourself=jɔːˈself
+`;
+
+  const BRITISH_IPA_BY_WORD = Object.fromEntries(
+    BRITISH_IPA_DATA.trim().split("\n").map((line) => {
+      const separator = line.indexOf("=");
+      return [line.slice(0, separator), line.slice(separator + 1)];
+    })
+  );
+
+  const IPA_SOUND_ORDER = [
+    "iː", "ɪ", "e", "æ", "ɑː", "ɒ", "ɔː", "ʊ", "uː", "ʌ", "ɜː", "ə", "eɪ", "aɪ", "ɔɪ", "əʊ", "aʊ", "ɪə", "eə", "ʊə",
+    "p", "b", "t", "d", "k", "ɡ", "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ", "h", "tʃ", "dʒ", "m", "n", "ŋ", "l", "r", "j", "w"
+  ];
+
+  function getBritishIpa(word) {
+    return BRITISH_IPA_BY_WORD[normalizeWordKey(String(word || ""))] || "";
+  }
+
+  function getVocabularyIpa(item) {
+    return item?.ipa || getBritishIpa(item?.word);
+  }
+
+  function ipaContainsSound(ipa, sound) {
+    if (sound === "all") return true;
+    if (!ipa) return false;
+    if (sound === "ʃ") return /(^|[^t])ʃ/.test(ipa);
+    if (sound === "ʒ") return /(^|[^d])ʒ/.test(ipa);
+    return ipa.includes(sound);
+  }
+
+  function getIpaSoundOptions() {
+    const usedSounds = new Set();
+    getAllVocabulary().forEach((item) => {
+      const ipa = getVocabularyIpa(item);
+      IPA_SOUND_ORDER.forEach((sound) => {
+        if (ipaContainsSound(ipa, sound)) usedSounds.add(sound);
+      });
+    });
+    return IPA_SOUND_ORDER.filter((sound) => usedSounds.has(sound));
+  }
 
   const COMMON_WORD_CHINESE_DATA = `
 the=这/那
@@ -2181,6 +3274,15 @@ pass=通过；传递
     less: "-less"
   };
 
+  const VOCABULARY_SYLLABLE_LABELS = {
+    open: "Open syllable 开音节",
+    closed: "Closed syllable 闭音节",
+    silent_e: "Silent-e / magic-e syllable",
+    vowel_team: "Vowel team syllable",
+    r_controlled: "R-controlled syllable",
+    consonant_le: "Consonant-le syllable"
+  };
+
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
     return Object.keys(VOCABULARY_THEME_SETS).find((theme) => VOCABULARY_THEME_SETS[theme].has(normalized)) || "";
@@ -2194,6 +3296,31 @@ pass=通过；传递
     return prefixes.find((prefix) => normalized.startsWith(prefix) && normalized.length > prefix.length + 2) || "none";
   }
 
+  function isCommonBaseWord(stem) {
+    if (!stem || stem.length < 2) return false;
+    return COMMON_WORDS_1000.includes(stem)
+      || COMMON_WORDS_1000.includes(`${stem}e`)
+      || (stem.endsWith("i") && COMMON_WORDS_1000.includes(`${stem.slice(0, -1)}y`));
+  }
+
+  function stripComparativeSuffix(word, suffix) {
+    if (!word.endsWith(suffix) || word.length <= suffix.length + 2) return "";
+    let stem = word.slice(0, -suffix.length);
+    if (/([b-df-hj-np-tv-z])\1$/.test(stem)) stem = stem.slice(0, -1);
+    if (isCommonBaseWord(stem)) return stem;
+    if (isCommonBaseWord(`${stem}e`)) return `${stem}e`;
+    return "";
+  }
+
+  function stripLySuffix(word) {
+    if (!word.endsWith("ly") || word.length <= 4) return "";
+    const stem = word.slice(0, -2);
+    if (isCommonBaseWord(stem)) return stem;
+    if (stem.endsWith("i") && isCommonBaseWord(`${stem.slice(0, -1)}y`)) return `${stem.slice(0, -1)}y`;
+    if (stem.endsWith("ab") && isCommonBaseWord(`${stem}le`)) return `${stem}le`;
+    return "";
+  }
+
   function getVocabularySuffix(word) {
     const normalized = word.toLowerCase();
     if (/(tion|sion)$/.test(normalized) && normalized.length > 6) return "tion";
@@ -2203,10 +3330,10 @@ pass=通过；传递
     if (normalized.endsWith("ment") && normalized.length > 6) return "ment";
     if (normalized.endsWith("less") && normalized.length > 6) return "less";
     if (normalized.endsWith("ful") && normalized.length > 5) return "ful";
-    if (normalized.endsWith("est") && normalized.length > 5) return "est";
+    if (stripComparativeSuffix(normalized, "est")) return "est";
     if (normalized.endsWith("ed") && normalized.length > 4) return "ed";
-    if (normalized.endsWith("ly") && normalized.length > 4) return "ly";
-    if (normalized.endsWith("er") && normalized.length > 4) return "er";
+    if (stripLySuffix(normalized)) return "ly";
+    if (stripComparativeSuffix(normalized, "er")) return "er";
     if ((normalized.endsWith("s") || normalized.endsWith("es")) && normalized.length > 3) return "s";
     return "none";
   }
@@ -2227,10 +3354,31 @@ pass=通过；传递
     }
     if (root.endsWith("es") && root.length > 4) return root.slice(0, -2);
     if (root.endsWith("s") && root.length > 3) return root.slice(0, -1);
-    if (root.endsWith("ly") && root.length > 4) return root.slice(0, -2);
-    if (root.endsWith("est") && root.length > 5) return root.slice(0, -3);
-    if (root.endsWith("er") && root.length > 4) return root.slice(0, -2);
+    if (root.endsWith("ly") && root.length > 4) return stripLySuffix(root) || root;
+    if (root.endsWith("est") && root.length > 5) return stripComparativeSuffix(root, "est") || root;
+    if (root.endsWith("er") && root.length > 4) return stripComparativeSuffix(root, "er") || root;
     return root;
+  }
+
+  function getVocabularySyllableTypes(word) {
+    const normalized = String(word || "").toLowerCase().replace(/[^a-z]/g, "");
+    if (!normalized) return [];
+    const types = [];
+    const add = (type) => {
+      if (!types.includes(type)) types.push(type);
+    };
+    const consonants = "bcdfghjklmnpqrstvwxyz";
+    const hasSilentE = new RegExp(`[aeiou][${consonants}]e$`).test(normalized);
+    const hasConsonantLe = new RegExp(`[${consonants}]le$`).test(normalized);
+
+    if (hasConsonantLe) add("consonant_le");
+    if (/(ai|ay|ea|ee|ei|ey|ie|oa|oe|oi|oy|oo|ou|ow|ue|ui)/.test(normalized)) add("vowel_team");
+    if (/[aeiou]r/.test(normalized)) add("r_controlled");
+    if (hasSilentE && !hasConsonantLe) add("silent_e");
+    if (/[aeiouy]$/.test(normalized) || /[aeiou][^aeiouy][aeiouy]/.test(normalized)) add("open");
+    if (/[aeiou][bcdfghjklmnpqrstvwxyz]+$/.test(normalized) && !hasSilentE && !hasConsonantLe) add("closed");
+    if (!types.length && /[aeiouy]/.test(normalized)) add("closed");
+    return types;
   }
 
   const COMMON_WORD_PARTS = {
@@ -3465,7 +4613,9 @@ pass=通过；传递
       prefix: getVocabularyPrefix(word),
       suffix: getVocabularySuffix(word),
       root: getVocabularyRoot(word),
-      rank: index + 1
+      syllableTypes: getVocabularySyllableTypes(word),
+      rank: index + 1,
+      ipa: getBritishIpa(word)
     };
   });
 
@@ -3481,8 +4631,10 @@ pass=通过；传递
       prefix: getVocabularyPrefix(item.word),
       suffix: getVocabularySuffix(item.word),
       root: getVocabularyRoot(item.word),
+      syllableTypes: getVocabularySyllableTypes(item.word),
       rank: "Country",
-      ...item
+      ...item,
+      ipa: getBritishIpa(item.word)
     }));
 
   const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS];
@@ -3498,6 +4650,8 @@ pass=通过；传递
   let selectedVocabularyPrefix = loadSelectedVocabularyPrefix();
   let selectedVocabularySuffix = loadSelectedVocabularySuffix();
   let selectedVocabularyRoot = loadSelectedVocabularyRoot();
+  let selectedVocabularySyllable = loadSelectedVocabularySyllable();
+  let selectedVocabularyIpa = loadSelectedVocabularyIpa();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
@@ -3540,6 +4694,8 @@ pass=通过；传递
       prefix: getVocabularyPrefix(word),
       suffix: getVocabularySuffix(word),
       root: getVocabularyRoot(word),
+      syllableTypes: getVocabularySyllableTypes(word),
+      ipa: getBritishIpa(word),
       isCustom: true,
       rank: "Custom"
     };
@@ -3711,6 +4867,35 @@ pass=通过；传递
     } catch (error) {}
   }
 
+  function loadSelectedVocabularySyllable() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_SYLLABLE_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_SYLLABLE_LABELS, saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularySyllable() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_SYLLABLE_FILTER_KEY, selectedVocabularySyllable);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyIpa() {
+    try {
+      return localStorage.getItem(STORAGE_VOCAB_IPA_FILTER_KEY) || "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyIpa() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_IPA_FILTER_KEY, selectedVocabularyIpa);
+    } catch (error) {}
+  }
+
   function saveSelectedScenario() {
     try {
       localStorage.setItem(STORAGE_SCENARIO_KEY, selectedScenario);
@@ -3879,8 +5064,8 @@ pass=通过；传递
     return [...VOCABULARY, ...customVocabulary];
   }
 
-  function getVocabularyRootOptions() {
-    const counts = getAllVocabulary().reduce((map, item) => {
+  function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
+    const counts = sourceVocabulary.reduce((map, item) => {
       if (!item.root) return map;
       map.set(item.root, (map.get(item.root) || 0) + 1);
       return map;
@@ -3888,6 +5073,15 @@ pass=通过；传递
     return [...counts.entries()]
       .filter(([, count]) => count > 1)
       .sort(([rootA], [rootB]) => rootA.localeCompare(rootB));
+  }
+
+  function renderVocabularyRootOptions(sourceVocabulary) {
+    const vocabularyRootFilter = document.getElementById("vocabularyRootFilter");
+    vocabularyRootFilter.innerHTML = [
+      `<option value="all">All roots</option>`,
+      ...getVocabularyRootOptions(sourceVocabulary).map(([root, count]) => `<option value="${escapeHtml(root)}">${escapeHtml(root)} (${count})</option>`)
+    ].join("");
+    return vocabularyRootFilter;
   }
 
   function renderVocabularyList() {
@@ -3899,10 +5093,12 @@ pass=通过；传递
     const compoundFilter = selectedVocabularyCompound;
     const prefixFilter = selectedVocabularyPrefix;
     const suffixFilter = selectedVocabularySuffix;
-    const rootFilter = selectedVocabularyRoot;
+    let rootFilter = selectedVocabularyRoot;
+    const syllableFilter = selectedVocabularySyllable;
+    const ipaFilter = selectedVocabularyIpa;
     const allVocabulary = getAllVocabulary();
-    const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
-    let words = allVocabulary.filter((item) => {
+    const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
+    const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
@@ -3910,11 +5106,21 @@ pass=通过；传递
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
-      const matchesRoot = rootFilter === "all" || item.root === rootFilter;
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSuffix && matchesRoot && matchesSearch(item);
-    });
+      const matchesRoot = !includeRoot || rootFilter === "all" || item.root === rootFilter;
+      const matchesSyllable = syllableFilter === "all" || (item.syllableTypes || []).includes(syllableFilter);
+      const matchesIpa = ipaContainsSound(getVocabularyIpa(item), ipaFilter);
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesIpa && matchesSearch(item);
+    };
+    const rootSourceVocabulary = allVocabulary.filter((item) => matchesFilters(item, false));
+    const vocabularyRootFilter = renderVocabularyRootOptions(rootSourceVocabulary);
+    if (rootFilter !== "all" && ![...vocabularyRootFilter.options].some((option) => option.value === rootFilter)) {
+      rootFilter = "all";
+      selectedVocabularyRoot = "all";
+      saveSelectedVocabularyRoot();
+    }
+    let words = allVocabulary.filter((item) => matchesFilters(item));
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all")) {
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || ipaFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
@@ -3924,7 +5130,9 @@ pass=通过；传递
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
     document.getElementById("vocabularyPrefixFilter").value = prefixFilter;
     document.getElementById("vocabularySuffixFilter").value = suffixFilter;
-    document.getElementById("vocabularyRootFilter").value = rootFilter;
+    vocabularyRootFilter.value = rootFilter;
+    document.getElementById("vocabularySyllableFilter").value = syllableFilter;
+    document.getElementById("vocabularyIpaFilter").value = ipaFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
     if (!words.length) {
@@ -3940,13 +5148,15 @@ pass=通过；传递
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
       const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
-      const pronunciation = item.pronunciation ? `<span class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</span>` : "";
+      const ipa = getVocabularyIpa(item);
+      const pronunciation = ipa ? `<span class="vocabulary-pronunciation">/${escapeHtml(ipa)}/</span>` : "";
       const rankTag = item.isCustom ? `<span class="vocabulary-tag">Custom</span>` : `<span class="vocabulary-tag">#${item.rank}</span>`;
       const labelTag = label ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
       const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const rootTag = item.root ? `<span class="vocabulary-tag">Root: ${escapeHtml(item.root)}</span>` : "";
+      const syllableTag = (item.syllableTypes || []).length ? `<span class="vocabulary-tag">${escapeHtml(item.syllableTypes.map((type) => VOCABULARY_SYLLABLE_LABELS[type] || type).join(", "))}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
           <div>
@@ -3961,6 +5171,7 @@ pass=通过；传递
               ${prefixTag}
               ${suffixTag}
               ${rootTag}
+              ${syllableTag}
               ${pronunciation}
             </div>
           </div>
@@ -4117,11 +5328,7 @@ pass=通过；传递
     saveSelectedVocabularySuffix();
     renderVocabularyList();
   });
-  const vocabularyRootFilter = document.getElementById("vocabularyRootFilter");
-  vocabularyRootFilter.innerHTML = [
-    `<option value="all">All roots</option>`,
-    ...getVocabularyRootOptions().map(([root, count]) => `<option value="${escapeHtml(root)}">${escapeHtml(root)} (${count})</option>`)
-  ].join("");
+  const vocabularyRootFilter = renderVocabularyRootOptions(getAllVocabulary());
   if (selectedVocabularyRoot !== "all" && ![...vocabularyRootFilter.options].some((option) => option.value === selectedVocabularyRoot)) {
     selectedVocabularyRoot = "all";
     saveSelectedVocabularyRoot();
@@ -4129,6 +5336,30 @@ pass=通过；传递
   vocabularyRootFilter.addEventListener("change", (event) => {
     selectedVocabularyRoot = event.target.value;
     saveSelectedVocabularyRoot();
+    renderVocabularyList();
+  });
+  const vocabularySyllableFilter = document.getElementById("vocabularySyllableFilter");
+  vocabularySyllableFilter.innerHTML = [
+    `<option value="all">All syllables</option>`,
+    ...Object.entries(VOCABULARY_SYLLABLE_LABELS).map(([type, label]) => `<option value="${type}">${escapeHtml(label)}</option>`)
+  ].join("");
+  vocabularySyllableFilter.addEventListener("change", (event) => {
+    selectedVocabularySyllable = event.target.value;
+    saveSelectedVocabularySyllable();
+    renderVocabularyList();
+  });
+  const vocabularyIpaFilter = document.getElementById("vocabularyIpaFilter");
+  vocabularyIpaFilter.innerHTML = [
+    `<option value="all">All IPA sounds</option>`,
+    ...getIpaSoundOptions().map((sound) => `<option value="${escapeHtml(sound)}">/${escapeHtml(sound)}/</option>`)
+  ].join("");
+  if (selectedVocabularyIpa !== "all" && ![...vocabularyIpaFilter.options].some((option) => option.value === selectedVocabularyIpa)) {
+    selectedVocabularyIpa = "all";
+    saveSelectedVocabularyIpa();
+  }
+  vocabularyIpaFilter.addEventListener("change", (event) => {
+    selectedVocabularyIpa = event.target.value;
+    saveSelectedVocabularyIpa();
     renderVocabularyList();
   });
 
