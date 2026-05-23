@@ -2191,6 +2191,16 @@ W03: Cornbread`],
     return splitList(value).map(personDisplayName);
   }
 
+  function eventEntryPeopleList(value) {
+    return splitList(value).map((name) => {
+      const displayName = personDisplayName(name);
+      const chineseName = [...Object.keys(CHINESE_NAME_PINYIN), ...Object.keys(PERSON_DISPLAY_NAMES)].find((key) => {
+        return /[\u3400-\u9fff]/.test(key) && (key === name || personDisplayName(key) === displayName);
+      });
+      return chineseName || displayName;
+    });
+  }
+
   function extractPeople(text) {
     const source = String(text || "");
     const found = [];
@@ -2786,7 +2796,7 @@ W03: Cornbread`],
   }
 
   function renderSheetCellEvent(event) {
-    const people = peopleList(event.people);
+    const people = eventEntryPeopleList(event.people);
     const content = event.notes || event.title || event.lesson || "";
     const action = event.action === GENERIC_NEXT_ACTION ? "" : event.action;
     return `
