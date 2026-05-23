@@ -613,7 +613,6 @@
     font-size: 0.76rem;
     font-weight: 800;
     padding: 5px 9px;
-    text-transform: uppercase;
   }
 
   .vocabulary-pronunciation {
@@ -797,12 +796,12 @@
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
-        <option value="all">All status</option>
-        <option value="auto">Auto</option>
-        <option value="to-learn">To Learn</option>
-        <option value="learning">Learning</option>
-        <option value="review">Review</option>
-        <option value="learned">Learned</option>
+        <option value="all">全部状态</option>
+        <option value="auto">自动</option>
+        <option value="to-learn">待学</option>
+        <option value="learning">学习中</option>
+        <option value="review">复习</option>
+        <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPartFilter" aria-label="Filter vocabulary by part of speech">
         <option value="all">All 词性</option>
@@ -5667,11 +5666,11 @@ pass=通过；传递
           <div class="vocabulary-actions">
             <button class="listen-button" type="button" data-speak-vocabulary-phrase="${escapeHtml(item.phrase)}" aria-label="Listen to ${escapeHtml(item.phrase)}">${SPEAKER_ICON}</button>
             <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.phrase)}">
-              ${vocabularyPhraseStatusButton(item.id, "auto", "Auto", currentStatus)}
-              ${vocabularyPhraseStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
-              ${vocabularyPhraseStatusButton(item.id, "learning", "Learning", currentStatus)}
-              ${vocabularyPhraseStatusButton(item.id, "review", "Review", currentStatus)}
-              ${vocabularyPhraseStatusButton(item.id, "learned", "Learned", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "auto", "自动", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "to-learn", "待学", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "learning", "学习中", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "review", "复习", currentStatus)}
+              ${vocabularyPhraseStatusButton(item.id, "learned", "已学会", currentStatus)}
             </div>
           </div>
         </article>
@@ -5839,9 +5838,10 @@ pass=通过；传递
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const ipa = getVocabularyIpa(item);
       const pronunciation = ipa ? `<span class="vocabulary-pronunciation">/${escapeHtml(ipa)}/</span>` : "";
-      const rankTag = item.isCustom ? `<span class="vocabulary-tag">Custom</span>` : `<span class="vocabulary-tag">#${item.rank}</span>`;
-      const labelTag = label ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
+      const rankTag = item.isCustom ? `<span class="vocabulary-tag">Custom</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
+      const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
+      const labelTag = label && !duplicatesTheme ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
       const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
       const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const tenseLabel = getPastTenseLabel(item.word);
@@ -5872,11 +5872,11 @@ pass=通过；传递
           <div class="vocabulary-actions">
             <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">${SPEAKER_ICON}</button>
             <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
-              ${vocabularyStatusButton(item.id, "auto", "Auto", currentStatus)}
-              ${vocabularyStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
-              ${vocabularyStatusButton(item.id, "learning", "Learning", currentStatus)}
-              ${vocabularyStatusButton(item.id, "review", "Review", currentStatus)}
-              ${vocabularyStatusButton(item.id, "learned", "Learned", currentStatus)}
+              ${vocabularyStatusButton(item.id, "auto", "自动", currentStatus)}
+              ${vocabularyStatusButton(item.id, "to-learn", "待学", currentStatus)}
+              ${vocabularyStatusButton(item.id, "learning", "学习中", currentStatus)}
+              ${vocabularyStatusButton(item.id, "review", "复习", currentStatus)}
+              ${vocabularyStatusButton(item.id, "learned", "已学会", currentStatus)}
             </div>
           </div>
         </article>
