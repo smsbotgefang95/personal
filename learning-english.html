@@ -511,6 +511,12 @@
     width: min(360px, 100%);
   }
 
+  .dialogue-status-row {
+    align-self: start;
+    justify-self: end;
+    width: min(560px, 48vw);
+  }
+
   .status-button {
     background: #edf2ee;
     border: 1px solid transparent;
@@ -803,6 +809,11 @@
     .vocabulary-actions {
       justify-items: stretch;
       min-width: 0;
+    }
+
+    .dialogue-status-row {
+      justify-self: stretch;
+      width: 100%;
     }
   }
 </style>
@@ -6649,15 +6660,15 @@ pass=通过；传递
               <h3 class="dialogue-title">${escapeHtml(dialogue.title)} / ${escapeHtml(dialogue.chineseTitle)}</h3>
               <p class="dialogue-context">${escapeHtml(dialogue.context)}</p>
             </div>
+            <div class="status-row dialogue-status-row" aria-label="Dialogue status for ${escapeHtml(dialogue.title)}">
+              ${dialogueStatusButton(dialogue.id, "auto", "自动", currentStatus)}
+              ${dialogueStatusButton(dialogue.id, "to-learn", "待学", currentStatus)}
+              ${dialogueStatusButton(dialogue.id, "learning", "学习中", currentStatus)}
+              ${dialogueStatusButton(dialogue.id, "review", "复习", currentStatus)}
+              ${dialogueStatusButton(dialogue.id, "learned", "已学会", currentStatus)}
+            </div>
           </div>
           <div class="dialogue-lines">${lines}</div>
-          <div class="status-row" aria-label="Dialogue status for ${escapeHtml(dialogue.title)}">
-            ${dialogueStatusButton(dialogue.id, "auto", "自动", currentStatus)}
-            ${dialogueStatusButton(dialogue.id, "to-learn", "待学", currentStatus)}
-            ${dialogueStatusButton(dialogue.id, "learning", "学习中", currentStatus)}
-            ${dialogueStatusButton(dialogue.id, "review", "复习", currentStatus)}
-            ${dialogueStatusButton(dialogue.id, "learned", "已学会", currentStatus)}
-          </div>
         </article>
       `;
     }).join("");
