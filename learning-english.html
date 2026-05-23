@@ -606,36 +606,6 @@
     padding-right: 32px;
   }
 
-  .vocabulary-ipa-groups {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    grid-column: 1 / -1;
-  }
-
-  .vocabulary-ipa-group {
-    background: #f8faf8;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: var(--text);
-    cursor: pointer;
-    font: inherit;
-    font-size: 0.9rem;
-    font-weight: 850;
-    min-height: 38px;
-    padding: 8px 12px;
-  }
-
-  .vocabulary-ipa-group:hover {
-    border-color: #b7cbc2;
-  }
-
-  .vocabulary-ipa-group.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #ffffff;
-  }
-
   .phrase-summary,
   .vocabulary-phrase-summary,
   .vocabulary-summary {
@@ -938,13 +908,6 @@
       <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
         <option value="all">所有音标</option>
       </select>
-      <div class="vocabulary-ipa-groups" id="vocabularyIpaGroups" aria-label="音标分类">
-        <button class="vocabulary-ipa-group" type="button" data-vocabulary-ipa-group="all" aria-pressed="false">所有音标</button>
-        <button class="vocabulary-ipa-group" type="button" data-vocabulary-ipa-group="group:vowels" aria-pressed="false">元音</button>
-        <button class="vocabulary-ipa-group" type="button" data-vocabulary-ipa-group="group:monophthongs" aria-pressed="false">单元音</button>
-        <button class="vocabulary-ipa-group" type="button" data-vocabulary-ipa-group="group:diphthongs" aria-pressed="false">双元音</button>
-        <button class="vocabulary-ipa-group" type="button" data-vocabulary-ipa-group="group:consonants" aria-pressed="false">辅音</button>
-      </div>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
@@ -6438,14 +6401,6 @@ pass=通过；传递
     return vocabularyRootFilter;
   }
 
-  function renderVocabularyIpaGroupButtons() {
-    document.querySelectorAll("[data-vocabulary-ipa-group]").forEach((button) => {
-      const isActive = button.dataset.vocabularyIpaGroup === selectedVocabularyIpa;
-      button.classList.toggle("active", isActive);
-      button.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-  }
-
   function renderVocabularyList() {
     const container = document.getElementById("vocabularyList");
     const search = document.getElementById("vocabularySearch").value.trim().toLowerCase();
@@ -6501,7 +6456,6 @@ pass=通过；传递
     document.getElementById("vocabularySyllableFilter").value = syllableFilter;
     document.getElementById("vocabularyVowelTeamFilter").value = vowelTeamFilter;
     document.getElementById("vocabularyIpaFilter").value = ipaFilter;
-    renderVocabularyIpaGroupButtons();
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
     if (!words.length) {
@@ -6792,13 +6746,6 @@ pass=通过；传递
     selectedVocabularyIpa = event.target.value;
     saveSelectedVocabularyIpa();
     renderVocabularyList();
-  });
-  document.querySelectorAll("[data-vocabulary-ipa-group]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectedVocabularyIpa = button.dataset.vocabularyIpaGroup;
-      saveSelectedVocabularyIpa();
-      renderVocabularyList();
-    });
   });
 
   render();
