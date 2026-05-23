@@ -1223,7 +1223,7 @@
     "Brian", "Nathan", "Lam", "Thuy", "Kerry", "Clare", "Ryan", "Kelly", "Shawn",
     "周谧", "姜洁", "伊可欣", "韩晓姝", "陈梦然", "陈家沂", "王思楠", "周文英", "马力力", "杨波", "何涛", "陈宏颖", "万庆", "褚凌川", "许科",
     "鲁亚东", "邱鸿", "龚晓丽", "陆晓博", "Mike Silva", "Mike", "Debbie Roberts", "Angela", "Valerie", "朱盛", "Rashel",
-    "Amy Porterfield", "Amy Banocy", "Jack Canfield", "Catherine", "Cody Hofhine", "Leah", "Lisa", "Shama Parveen"
+    "Amy Porterfield", "Amy Banocy", "Jack Canfield", "Catherine", "Cody Hofhine", "Faina Stepensky", "Leah", "Lisa", "Shama Parveen"
   ];
   const PERSON_DISPLAY_NAMES = {
     "谢朝阳": "Zhaoyang Xie",
@@ -1721,7 +1721,9 @@ W03: Cornbread`],
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed)) return importedEvents;
       if (localStorage.getItem(IMPORT_VERSION_KEY) === GOOGLE_SHEET_IMPORT_VERSION) {
-        return parsed.filter((event) => event && !/^sample-\d+$/.test(String(event.id || "")));
+        const merged = mergeImportedEvents(parsed, importedEvents);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+        return merged;
       }
       const merged = mergeImportedEvents(parsed, importedEvents);
       localStorage.setItem(IMPORT_VERSION_KEY, GOOGLE_SHEET_IMPORT_VERSION);
@@ -2119,6 +2121,9 @@ W03: Cornbread`],
       if (selectedArea !== "all" && event.area !== selectedArea) return [];
       return peopleList(event.people);
     });
+    if (selectedArea === "all") {
+      names.push("Faina Stepensky");
+    }
     return [...new Set(names)].sort((a, b) => a.localeCompare(b));
   }
 
