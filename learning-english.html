@@ -505,6 +505,11 @@
     gap: 8px;
   }
 
+  .phrase-card > .status-row {
+    justify-self: end;
+    width: min(360px, 100%);
+  }
+
   .status-button {
     background: #edf2ee;
     border: 1px solid transparent;
@@ -852,7 +857,7 @@
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
-        <option value="all">所有状态</option>
+        <option value="all">所有学习状态</option>
         <option value="auto">自动</option>
         <option value="to-learn">待学</option>
         <option value="learning">学习中</option>
@@ -919,7 +924,7 @@
     <div class="vocabulary-phrase-tools">
       <input class="vocabulary-phrase-search" id="vocabularyPhraseSearch" type="search" placeholder="Search phrase, meaning, pronunciation, or word" aria-label="Search phrases" />
       <select class="vocabulary-filter" id="vocabularyPhraseStatusFilter" aria-label="Filter phrases by learning status">
-        <option value="all">所有状态</option>
+        <option value="all">所有学习状态</option>
         <option value="auto">自动</option>
         <option value="to-learn">待学</option>
         <option value="learning">学习中</option>
@@ -942,7 +947,7 @@
     <div class="scenario-tabs" id="dialogueTabs" role="tablist" aria-label="Dialogue scenarios"></div>
     <div class="dialogue-tools">
       <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
-        <option value="all">所有状态</option>
+        <option value="all">所有学习状态</option>
         <option value="to-learn">待学</option>
         <option value="learning">学习中</option>
         <option value="review">复习</option>
