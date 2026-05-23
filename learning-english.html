@@ -495,6 +495,7 @@
     margin-top: 18px;
   }
 
+  .phrase-panel,
   .vocabulary-panel {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -516,7 +517,6 @@
   }
 
   .phrase-search,
-  .phrase-filter,
   .vocabulary-search,
   .vocabulary-filter {
     background: #f8faf8;
@@ -529,7 +529,6 @@
     padding: 9px 12px;
   }
 
-  .phrase-filter,
   .vocabulary-filter {
     appearance: none;
     background-image:
@@ -746,13 +745,14 @@
         <div class="stat"><strong id="reviewCount">0</strong><span>Review</span></div>
         <div class="stat"><strong id="streakCount">0</strong><span>Day Streak</span></div>
       </div>
-      <div class="streak-note" id="streakNote">Mark one phrase or word today to start your streak.</div>
+      <div class="streak-note" id="streakNote">Mark one sentence or word today to start your streak.</div>
     </aside>
   </section>
 
   <div class="learning-tabs" role="tablist" aria-label="Learning English sections">
     <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">Conversation</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">Vocabulary</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">Phrase</button>
   </div>
 
   <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
@@ -770,20 +770,13 @@
       <div class="panel-header">
         <div>
           <h2 id="practice-title">Scenario Conversation</h2>
-          <p>Choose a real-life situation and use the phrases.</p>
+          <p>Choose a real-life situation and use the sentences.</p>
         </div>
       </div>
       <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English conversation scenarios"></div>
-      <div class="phrase-tools" aria-label="Phrase filters">
-        <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search phrase, meaning, or use" aria-label="Search phrases" />
-        <select class="phrase-filter" id="phraseStatusFilter" aria-label="Filter phrases by learning status">
-          <option value="all">All status</option>
-          <option value="to-learn">To Learn</option>
-          <option value="learning">Learning</option>
-          <option value="review">Review</option>
-          <option value="learned">Learned</option>
-        </select>
-        <div class="phrase-summary" id="phraseSummary">0 phrases</div>
+      <div class="phrase-tools" aria-label="Sentence search">
+        <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
+        <div class="phrase-summary" id="phraseSummary">0 sentences</div>
       </div>
       <div class="phrase-list" id="phraseList"></div>
     </section>
@@ -841,12 +834,25 @@
       <select class="vocabulary-filter" id="vocabularySyllableFilter" aria-label="Filter vocabulary by syllable type">
         <option value="all">All syllables</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularyVowelTeamFilter" aria-label="Filter vocabulary by vowel team">
+        <option value="all">All vowel teams</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
         <option value="all">All IPA sounds</option>
       </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
+  </section>
+
+  <section class="phrase-panel view-panel" id="view-phrase" role="tabpanel" aria-label="Phrase practice">
+    <div class="panel-header">
+      <div>
+        <h2>Phrase</h2>
+        <p>Practice short everyday phrases made from vocabulary words.</p>
+      </div>
+    </div>
+    <div class="phrase-list" id="vocabularyPhraseList"></div>
   </section>
 
   <section class="tip-panel" aria-labelledby="tips-title">
@@ -876,10 +882,10 @@
 <script>
   const STORAGE_STATUS_KEY = "learningEnglishPhraseStatus";
   const STORAGE_VOCAB_STATUS_KEY = "learningEnglishVocabularyStatus";
+  const STORAGE_VOCAB_PHRASE_STATUS_KEY = "learningEnglishVocabularyPhraseStatus";
   const STORAGE_CUSTOM_VOCAB_KEY = "learningEnglishCustomVocabulary";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
-  const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
@@ -889,6 +895,7 @@
   const STORAGE_VOCAB_SUFFIX_FILTER_KEY = "learningEnglishVocabularySuffixFilter";
   const STORAGE_VOCAB_ROOT_FILTER_KEY = "learningEnglishVocabularyRootFilter";
   const STORAGE_VOCAB_SYLLABLE_FILTER_KEY = "learningEnglishVocabularySyllableFilter";
+  const STORAGE_VOCAB_VOWEL_TEAM_FILTER_KEY = "learningEnglishVocabularyVowelTeamFilter";
   const STORAGE_VOCAB_IPA_FILTER_KEY = "learningEnglishVocabularyIpaFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
@@ -1046,6 +1053,23 @@
       pronunciation: "eye un-der-STAND. thank yoo",
       usage: "Use this after someone explains something."
     }
+  ];
+
+  const VOCABULARY_PHRASES = [
+    { id: "phrase-just-a-moment", phrase: "Just a moment", chinese: "稍等一下", pronunciation: "just uh MOH-ment", words: ["just", "moment"] },
+    { id: "phrase-happy-holiday", phrase: "Happy holiday", chinese: "节日快乐", pronunciation: "HAP-ee HOL-uh-day", words: ["happy", "holiday"] },
+    { id: "phrase-good-morning", phrase: "Good morning", chinese: "早上好", pronunciation: "good MOR-ning", words: ["good", "morning"] },
+    { id: "phrase-good-night", phrase: "Good night", chinese: "晚安", pronunciation: "good night", words: ["good", "night"] },
+    { id: "phrase-right-now", phrase: "Right now", chinese: "现在；马上", pronunciation: "right now", words: ["right", "now"] },
+    { id: "phrase-on-time", phrase: "On time", chinese: "准时", pronunciation: "on time", words: ["on", "time"] },
+    { id: "phrase-next-week", phrase: "Next week", chinese: "下周", pronunciation: "nekst week", words: ["next", "week"] },
+    { id: "phrase-last-night", phrase: "Last night", chinese: "昨晚", pronunciation: "last night", words: ["last", "night"] },
+    { id: "phrase-at-home", phrase: "At home", chinese: "在家", pronunciation: "at home", words: ["at", "home"] },
+    { id: "phrase-phone-number", phrase: "Phone number", chinese: "电话号码", pronunciation: "fohn NUM-ber", words: ["phone", "number"] },
+    { id: "phrase-first-name", phrase: "First name", chinese: "名字", pronunciation: "furst name", words: ["first", "name"] },
+    { id: "phrase-small-talk", phrase: "Small talk", chinese: "闲聊", pronunciation: "small talk", words: ["small", "talk"] },
+    { id: "phrase-hard-work", phrase: "Hard work", chinese: "努力工作", pronunciation: "hard work", words: ["hard", "work"] },
+    { id: "phrase-thank-you", phrase: "Thank you", chinese: "谢谢你", pronunciation: "thank yoo", words: ["thank", "you"] }
   ];
 
   const FEATURED_VOCABULARY = [
@@ -3253,6 +3277,7 @@ pass=通过；传递
     de: "de- reverse",
     en: "en- make",
     em: "em- make",
+    out: "out- outside",
     sub: "sub- below",
     super: "super- above",
     trans: "trans- across"
@@ -3264,7 +3289,7 @@ pass=通过；传递
     ed: "-ed",
     ing: "-ing",
     ly: "-ly",
-    er: "-er",
+    er: "-er person",
     est: "-est",
     tion: "-tion / -sion",
     ment: "-ment",
@@ -3273,6 +3298,63 @@ pass=通过；传递
     ful: "-ful",
     less: "-less"
   };
+
+  const LY_SUFFIX_WORDS = new Set([
+    "carefully",
+    "easily",
+    "especially",
+    "exactly",
+    "finally",
+    "nearly",
+    "probably",
+    "quickly",
+    "really",
+    "slowly",
+    "suddenly",
+    "usually"
+  ]);
+
+  const LY_SUFFIX_ROOTS = {
+    carefully: "careful",
+    easily: "easy",
+    especially: "especial",
+    exactly: "exact",
+    finally: "final",
+    nearly: "near",
+    probably: "probable",
+    quickly: "quick",
+    really: "real",
+    slowly: "slow",
+    suddenly: "sudden",
+    usually: "usual"
+  };
+
+  const PREFIX_BY_WORD = {
+    inside: "in",
+    outside: "out"
+  };
+
+  const ER_SUFFIX_ROOTS = {
+    farmers: "farm",
+    teacher: "teach"
+  };
+
+  const SUFFIX_BY_WORD = {
+    able: ["possible"],
+    ed: ["added", "answered", "asked", "called", "carried", "changed", "closed", "covered", "cried", "decided", "developed", "discovered", "divided", "filled", "finished", "followed", "formed", "happened", "helped", "laughed", "learned", "liked", "lived", "looked", "moved", "named", "needed", "opened", "passed", "picked", "placed", "played", "produced", "pulled", "raised", "reached", "seemed", "started", "stopped", "tried", "turned", "walked", "wanted", "watched", "worked"],
+    er: Object.keys(ER_SUFFIX_ROOTS),
+    est: ["greatest", "largest"],
+    ful: ["beautiful"],
+    ing: ["beginning", "building", "coming", "feeling", "flying", "following", "getting", "growing", "having", "interesting", "living", "looking", "making", "meaning", "missing", "moving", "playing", "reading", "running", "saying", "standing", "taking", "talking", "thinking", "trying", "working", "writing"],
+    ly: [...LY_SUFFIX_WORDS],
+    ment: ["government"],
+    s: ["answers", "areas", "arms", "animals", "begins", "birds", "books", "boys", "cars", "changes", "cities", "clothes", "comes", "countries", "days", "directions", "dogs", "eggs", "ends", "examples", "eyes", "facts", "fields", "fingers", "flowers", "forms", "friends", "gets", "girls", "gives", "goes", "groups", "hands", "happens", "helps", "homes", "horses", "hours", "houses", "hundreds", "inches", "kinds", "knows", "leaves", "legs", "letters", "lines", "lives", "makes", "materials", "means", "members", "miles", "minutes", "months", "mountains", "names", "needs", "numbers", "ones", "others", "pages", "parts", "patterns", "pictures", "pieces", "places", "plants", "points", "pounds", "products", "questions", "rocks", "says", "scientists", "seeds", "seems", "sentences", "sets", "ships", "shows", "sides", "sounds", "stands", "stars", "states", "steps", "stories", "takes", "tells", "things", "thousands", "times", "trees", "uses", "waves", "ways", "weeks", "words", "works", "years"],
+    tion: ["addition", "direction", "information", "position", "question", "section"]
+  };
+
+  const SUFFIX_BY_WORD_LOOKUP = Object.fromEntries(
+    Object.entries(SUFFIX_BY_WORD).flatMap(([suffix, words]) => words.map((word) => [word, suffix]))
+  );
 
   const VOCABULARY_SYLLABLE_LABELS = {
     open: "Open syllable 开音节",
@@ -3283,6 +3365,33 @@ pass=通过；传递
     consonant_le: "Consonant-le syllable"
   };
 
+  const VOCABULARY_SYLLABLE_OVERRIDES = {
+    one: "closed"
+  };
+
+  const VOCABULARY_VOWEL_TEAM_ORDER = [
+    "ai",
+    "ay",
+    "ea",
+    "ee",
+    "ei",
+    "ey",
+    "ie",
+    "oa",
+    "oe",
+    "oi",
+    "oy",
+    "oo",
+    "ou",
+    "ow",
+    "ue",
+    "ui"
+  ];
+
+  const VOCABULARY_VOWEL_TEAM_LABELS = Object.fromEntries(
+    VOCABULARY_VOWEL_TEAM_ORDER.map((team) => [team, team])
+  );
+
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
     return Object.keys(VOCABULARY_THEME_SETS).find((theme) => VOCABULARY_THEME_SETS[theme].has(normalized)) || "";
@@ -3290,10 +3399,7 @@ pass=通过；传递
 
   function getVocabularyPrefix(word) {
     const normalized = word.toLowerCase().replace(/^[^a-z]+|[^a-z]+$/g, "");
-    const prefixes = Object.keys(VOCABULARY_PREFIX_LABELS)
-      .filter((prefix) => prefix !== "none")
-      .sort((a, b) => b.length - a.length);
-    return prefixes.find((prefix) => normalized.startsWith(prefix) && normalized.length > prefix.length + 2) || "none";
+    return PREFIX_BY_WORD[normalized] || "none";
   }
 
   function isCommonBaseWord(stem) {
@@ -3307,78 +3413,110 @@ pass=通过；传递
     if (!word.endsWith(suffix) || word.length <= suffix.length + 2) return "";
     let stem = word.slice(0, -suffix.length);
     if (/([b-df-hj-np-tv-z])\1$/.test(stem)) stem = stem.slice(0, -1);
-    if (isCommonBaseWord(stem)) return stem;
+    if (COMMON_WORDS_1000.includes(stem)) return stem;
     if (isCommonBaseWord(`${stem}e`)) return `${stem}e`;
     return "";
   }
 
+  function stripEdSuffix(word) {
+    let stem = word.slice(0, -2);
+    if (/([b-df-hj-np-tv-z])\1$/.test(stem)) stem = stem.slice(0, -1);
+    if (COMMON_WORDS_1000.includes(stem)) return stem;
+    if (COMMON_WORDS_1000.includes(`${stem}e`)) return `${stem}e`;
+    if (stem.endsWith("i") && COMMON_WORDS_1000.includes(`${stem.slice(0, -1)}y`)) return `${stem.slice(0, -1)}y`;
+    return stem;
+  }
+
+  function stripIngSuffix(word) {
+    let stem = word.slice(0, -3);
+    if (/([b-df-hj-np-tv-z])\1$/.test(stem)) stem = stem.slice(0, -1);
+    if (COMMON_WORDS_1000.includes(stem)) return stem;
+    if (COMMON_WORDS_1000.includes(`${stem}e`)) return `${stem}e`;
+    return stem;
+  }
+
+  function stripPluralSuffix(word) {
+    if (word === "goes") return "go";
+    if (word.endsWith("ies") && word.length > 4) return `${word.slice(0, -3)}y`;
+    if (word.endsWith("ves") && word.length > 4) {
+      const stem = word.slice(0, -1);
+      if (COMMON_WORDS_1000.includes(stem)) return stem;
+      if (COMMON_WORDS_1000.includes(`${word.slice(0, -3)}f`)) return `${word.slice(0, -3)}f`;
+      return stem;
+    }
+    if (word.endsWith("es") && word.length > 4) {
+      const withoutS = word.slice(0, -1);
+      if (COMMON_WORDS_1000.includes(withoutS)) return withoutS;
+      if (/(ches|shes|xes|sses|zes)$/.test(word)) return word.slice(0, -2);
+      return withoutS;
+    }
+    return word.slice(0, -1);
+  }
+
   function stripLySuffix(word) {
     if (!word.endsWith("ly") || word.length <= 4) return "";
-    const stem = word.slice(0, -2);
-    if (isCommonBaseWord(stem)) return stem;
-    if (stem.endsWith("i") && isCommonBaseWord(`${stem.slice(0, -1)}y`)) return `${stem.slice(0, -1)}y`;
-    if (stem.endsWith("ab") && isCommonBaseWord(`${stem}le`)) return `${stem}le`;
-    return "";
+    if (!LY_SUFFIX_WORDS.has(word)) return "";
+    return LY_SUFFIX_ROOTS[word] || word.slice(0, -2);
   }
 
   function getVocabularySuffix(word) {
     const normalized = word.toLowerCase();
-    if (/(tion|sion)$/.test(normalized) && normalized.length > 6) return "tion";
-    if (normalized.endsWith("able") || normalized.endsWith("ible")) return "able";
-    if (normalized.endsWith("ing") && normalized.length > 5) return "ing";
-    if (normalized.endsWith("ness") && normalized.length > 6) return "ness";
-    if (normalized.endsWith("ment") && normalized.length > 6) return "ment";
-    if (normalized.endsWith("less") && normalized.length > 6) return "less";
-    if (normalized.endsWith("ful") && normalized.length > 5) return "ful";
-    if (stripComparativeSuffix(normalized, "est")) return "est";
-    if (normalized.endsWith("ed") && normalized.length > 4) return "ed";
-    if (stripLySuffix(normalized)) return "ly";
-    if (stripComparativeSuffix(normalized, "er")) return "er";
-    if ((normalized.endsWith("s") || normalized.endsWith("es")) && normalized.length > 3) return "s";
-    return "none";
+    return SUFFIX_BY_WORD_LOOKUP[normalized] || "none";
   }
 
   function getVocabularyRoot(word) {
     let root = word.toLowerCase().replace(/[^a-z0-9\s'-]/g, "").replace(/\s+/g, " ").trim();
     if (!root || /^\d+$/.test(root) || root.includes(" ") || root.includes("'")) return root;
-    if (root.endsWith("ies") && root.length > 4) return `${root.slice(0, -3)}y`;
-    if (root.endsWith("ing") && root.length > 5) {
-      root = root.slice(0, -3);
-      if (/([b-df-hj-np-tv-z])\1$/.test(root)) root = root.slice(0, -1);
-      if (!root.endsWith("e")) return root;
-    }
-    if (root.endsWith("ed") && root.length > 4) {
-      root = root.slice(0, -2);
-      if (/([b-df-hj-np-tv-z])\1$/.test(root)) root = root.slice(0, -1);
-      return root;
-    }
-    if (root.endsWith("es") && root.length > 4) return root.slice(0, -2);
-    if (root.endsWith("s") && root.length > 3) return root.slice(0, -1);
-    if (root.endsWith("ly") && root.length > 4) return stripLySuffix(root) || root;
-    if (root.endsWith("est") && root.length > 5) return stripComparativeSuffix(root, "est") || root;
-    if (root.endsWith("er") && root.length > 4) return stripComparativeSuffix(root, "er") || root;
+    const suffix = getVocabularySuffix(root);
+    if (suffix === "none") return root;
+    if (suffix === "ing") return stripIngSuffix(root);
+    if (suffix === "ed") return stripEdSuffix(root);
+    if (suffix === "s") return stripPluralSuffix(root);
+    if (suffix === "ly") return stripLySuffix(root) || root;
+    if (suffix === "est") return stripComparativeSuffix(root, "est") || root;
+    if (suffix === "er") return ER_SUFFIX_ROOTS[root] || root;
     return root;
   }
 
-  function getVocabularySyllableTypes(word) {
+  function hasRControlledSyllable(word) {
+    for (let index = 0; index < word.length - 1; index += 1) {
+      if (!/[aeiou]/.test(word[index]) || word[index + 1] !== "r") continue;
+      const next = word[index + 2] || "";
+      const afterDoubleR = next === "r" ? (word[index + 3] || "") : "";
+      if (/[aeiouy]/.test(next) || /[aeiouy]/.test(afterDoubleR)) continue;
+      return true;
+    }
+    return false;
+  }
+
+  function getVocabularySyllableType(word) {
     const normalized = String(word || "").toLowerCase().replace(/[^a-z]/g, "");
-    if (!normalized) return [];
-    const types = [];
-    const add = (type) => {
-      if (!types.includes(type)) types.push(type);
-    };
+    if (!normalized) return "";
+    if (VOCABULARY_SYLLABLE_OVERRIDES[normalized]) return VOCABULARY_SYLLABLE_OVERRIDES[normalized];
     const consonants = "bcdfghjklmnpqrstvwxyz";
-    const hasSilentE = new RegExp(`[aeiou][${consonants}]e$`).test(normalized);
+    const magicEConsonants = "bcdfghjklmnpqstvwxz";
+    const hasSilentE = new RegExp(`[aeiou][${magicEConsonants}]e$`).test(normalized);
     const hasConsonantLe = new RegExp(`[${consonants}]le$`).test(normalized);
 
-    if (hasConsonantLe) add("consonant_le");
-    if (/(ai|ay|ea|ee|ei|ey|ie|oa|oe|oi|oy|oo|ou|ow|ue|ui)/.test(normalized)) add("vowel_team");
-    if (/[aeiou]r/.test(normalized)) add("r_controlled");
-    if (hasSilentE && !hasConsonantLe) add("silent_e");
-    if (/[aeiouy]$/.test(normalized) || /[aeiou][^aeiouy][aeiouy]/.test(normalized)) add("open");
-    if (/[aeiou][bcdfghjklmnpqrstvwxyz]+$/.test(normalized) && !hasSilentE && !hasConsonantLe) add("closed");
-    if (!types.length && /[aeiouy]/.test(normalized)) add("closed");
-    return types;
+    if (hasConsonantLe) return "consonant_le";
+    if (hasRControlledSyllable(normalized)) return "r_controlled";
+    if (/(ai|ay|ea|ee|ei|ey|ie|oa|oe|oi|oy|oo|ou|ow|ue|ui)/.test(normalized)) return "vowel_team";
+    if (hasSilentE) return "silent_e";
+    if (/[aeiou][bcdfghjklmnpqrstvwxyz]+$/.test(normalized)) return "closed";
+    if (/[aeiouy]$/.test(normalized) || /[aeiou][^aeiouy][aeiouy]/.test(normalized)) return "open";
+    if (/[aeiouy]/.test(normalized)) return "closed";
+    return "";
+  }
+
+  function getVocabularyVowelTeams(word) {
+    const normalized = String(word || "").toLowerCase().replace(/[^a-z]/g, "");
+    if (!normalized) return [];
+    const teams = new Set();
+    const pattern = new RegExp(VOCABULARY_VOWEL_TEAM_ORDER.join("|"), "g");
+    for (const match of normalized.matchAll(pattern)) {
+      teams.add(match[0]);
+    }
+    return VOCABULARY_VOWEL_TEAM_ORDER.filter((team) => teams.has(team));
   }
 
   const COMMON_WORD_PARTS = {
@@ -4613,7 +4751,8 @@ pass=通过；传递
       prefix: getVocabularyPrefix(word),
       suffix: getVocabularySuffix(word),
       root: getVocabularyRoot(word),
-      syllableTypes: getVocabularySyllableTypes(word),
+      syllableType: getVocabularySyllableType(word),
+      vowelTeams: getVocabularyVowelTeams(word),
       rank: index + 1,
       ipa: getBritishIpa(word)
     };
@@ -4631,7 +4770,8 @@ pass=通过；传递
       prefix: getVocabularyPrefix(item.word),
       suffix: getVocabularySuffix(item.word),
       root: getVocabularyRoot(item.word),
-      syllableTypes: getVocabularySyllableTypes(item.word),
+      syllableType: getVocabularySyllableType(item.word),
+      vowelTeams: getVocabularyVowelTeams(item.word),
       rank: "Country",
       ...item,
       ipa: getBritishIpa(item.word)
@@ -4642,7 +4782,6 @@ pass=通过；传递
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
-  let selectedPhraseStatus = loadSelectedPhraseStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyPart = loadSelectedVocabularyPart();
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
@@ -4651,9 +4790,11 @@ pass=通过；传递
   let selectedVocabularySuffix = loadSelectedVocabularySuffix();
   let selectedVocabularyRoot = loadSelectedVocabularyRoot();
   let selectedVocabularySyllable = loadSelectedVocabularySyllable();
+  let selectedVocabularyVowelTeam = loadSelectedVocabularyVowelTeam();
   let selectedVocabularyIpa = loadSelectedVocabularyIpa();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
+  let vocabularyPhraseStatuses = readJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
 
@@ -4694,7 +4835,8 @@ pass=通过；传递
       prefix: getVocabularyPrefix(word),
       suffix: getVocabularySuffix(word),
       root: getVocabularyRoot(word),
-      syllableTypes: getVocabularySyllableTypes(word),
+      syllableType: getVocabularySyllableType(word),
+      vowelTeams: getVocabularyVowelTeams(word),
       ipa: getBritishIpa(word),
       isCustom: true,
       rank: "Custom"
@@ -4735,7 +4877,7 @@ pass=通过；传递
   function loadSelectedView() {
     try {
       const saved = localStorage.getItem(STORAGE_VIEW_KEY);
-      return ["practice", "vocabulary"].includes(saved) ? saved : "practice";
+      return ["practice", "vocabulary", "phrase"].includes(saved) ? saved : "practice";
     } catch (error) {
       return "practice";
     }
@@ -4744,21 +4886,6 @@ pass=通过；传递
   function saveSelectedView() {
     try {
       localStorage.setItem(STORAGE_VIEW_KEY, selectedView);
-    } catch (error) {}
-  }
-
-  function loadSelectedPhraseStatus() {
-    try {
-      const saved = localStorage.getItem(STORAGE_PHRASE_STATUS_FILTER_KEY);
-      return ["all", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
-    } catch (error) {
-      return "all";
-    }
-  }
-
-  function saveSelectedPhraseStatus() {
-    try {
-      localStorage.setItem(STORAGE_PHRASE_STATUS_FILTER_KEY, selectedPhraseStatus);
     } catch (error) {}
   }
 
@@ -4882,6 +5009,21 @@ pass=通过；传递
     } catch (error) {}
   }
 
+  function loadSelectedVocabularyVowelTeam() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_VOWEL_TEAM_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_VOWEL_TEAM_LABELS, saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyVowelTeam() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_VOWEL_TEAM_FILTER_KEY, selectedVocabularyVowelTeam);
+    } catch (error) {}
+  }
+
   function loadSelectedVocabularyIpa() {
     try {
       return localStorage.getItem(STORAGE_VOCAB_IPA_FILTER_KEY) || "all";
@@ -4958,10 +5100,11 @@ pass=通过；传递
     }).join("");
   }
 
-  function renderPhraseList() {
-    const container = document.getElementById("phraseList");
-    const phraseSearch = document.getElementById("phraseSearch");
-    const phraseStatusFilter = document.getElementById("phraseStatusFilter");
+  function renderPhraseListView(view) {
+    const container = document.getElementById(view.listId);
+    const phraseSearch = document.getElementById(view.searchId);
+    const phraseSummary = document.getElementById(view.summaryId);
+    if (!container || !phraseSearch || !phraseSummary) return;
     const search = phraseSearch.value.trim().toLowerCase();
     const matchesSearch = (phrase) => {
       if (!search) return true;
@@ -4976,17 +5119,12 @@ pass=通过；传递
       ].some((value) => (value || "").toLowerCase().includes(search));
     };
     const scenarioPhrases = PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
-    const phrases = scenarioPhrases.filter((phrase) => {
-      const currentStatus = statuses[phrase.id] || "to-learn";
-      const matchesStatus = selectedPhraseStatus === "all" || currentStatus === selectedPhraseStatus;
-      return matchesStatus && matchesSearch(phrase);
-    });
+    const phrases = scenarioPhrases.filter(matchesSearch);
 
-    phraseStatusFilter.value = selectedPhraseStatus;
-    document.getElementById("phraseSummary").textContent = `${phrases.length} of ${scenarioPhrases.length} phrases`;
+    phraseSummary.textContent = `${phrases.length} of ${scenarioPhrases.length} sentences`;
 
     if (!phrases.length) {
-      container.innerHTML = `<div class="empty">No phrases match your filters.</div>`;
+      container.innerHTML = `<div class="empty">No sentences match your search.</div>`;
       return;
     }
 
@@ -5037,6 +5175,70 @@ pass=通过；传递
     });
   }
 
+  function renderPhraseList() {
+    renderPhraseListView({ listId: "phraseList", searchId: "phraseSearch", summaryId: "phraseSummary" });
+  }
+
+  function renderVocabularyPhrases() {
+    const container = document.getElementById("vocabularyPhraseList");
+    if (!container) return;
+
+    container.innerHTML = VOCABULARY_PHRASES.map((item) => {
+      const currentStatus = getVocabularyPhraseStatus(item.id);
+      return `
+        <article class="phrase-card">
+          <div class="phrase-top">
+            <div>
+              <span class="phrase-tag">Phrase</span>
+              <h3 class="phrase-english">${escapeHtml(item.phrase)}</h3>
+              <p class="phrase-chinese">${escapeHtml(item.chinese)}</p>
+            </div>
+            <button class="listen-button" type="button" data-speak-vocabulary-phrase="${escapeHtml(item.phrase)}" aria-label="Listen to ${escapeHtml(item.phrase)}">${SPEAKER_ICON}</button>
+          </div>
+          <div class="phrase-detail">
+            <div class="detail-box">
+              <span>Pronunciation</span>
+              <p>${escapeHtml(item.pronunciation)}</p>
+            </div>
+            <div class="detail-box">
+              <span>Vocabulary</span>
+              <p class="vocabulary-meta">${item.words.map((word) => `<span class="vocabulary-tag">${escapeHtml(word)}</span>`).join("")}</p>
+            </div>
+          </div>
+          <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.phrase)}">
+            ${vocabularyPhraseStatusButton(item.id, "auto", "Auto", currentStatus)}
+            ${vocabularyPhraseStatusButton(item.id, "to-learn", "To Learn", currentStatus)}
+            ${vocabularyPhraseStatusButton(item.id, "learning", "Learning", currentStatus)}
+            ${vocabularyPhraseStatusButton(item.id, "review", "Review", currentStatus)}
+            ${vocabularyPhraseStatusButton(item.id, "learned", "Learned", currentStatus)}
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    container.querySelectorAll("[data-speak-vocabulary-phrase]").forEach((button) => {
+      button.addEventListener("click", () => {
+        speakText(button.dataset.speakVocabularyPhrase);
+        markDailyActivity();
+        updateProgress();
+      });
+    });
+
+    container.querySelectorAll("[data-vocabulary-phrase-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.dataset.vocabularyPhraseStatus === "auto") {
+          delete vocabularyPhraseStatuses[button.dataset.vocabularyPhraseId];
+        } else {
+          vocabularyPhraseStatuses[button.dataset.vocabularyPhraseId] = button.dataset.vocabularyPhraseStatus;
+        }
+        saveJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, vocabularyPhraseStatuses);
+        markDailyActivity();
+        renderVocabularyPhrases();
+        updateProgress();
+      });
+    });
+  }
+
   function statusButton(phraseId, status, label, currentStatus) {
     const active = currentStatus === status ? " active" : "";
     return `<button class="status-button${active}" type="button" data-phrase-id="${phraseId}" data-status="${status}">${label}</button>`;
@@ -5047,8 +5249,17 @@ pass=通过；传递
     return `<button class="status-button${active}" type="button" data-vocabulary-id="${wordId}" data-status="${status}" data-vocabulary-status="${status}">${label}</button>`;
   }
 
+  function vocabularyPhraseStatusButton(phraseId, status, label, currentStatus) {
+    const active = currentStatus === status ? " active" : "";
+    return `<button class="status-button${active}" type="button" data-vocabulary-phrase-id="${phraseId}" data-status="${status}" data-vocabulary-phrase-status="${status}">${label}</button>`;
+  }
+
   function getVocabularyStatus(wordId) {
     return vocabularyStatuses[wordId] || "auto";
+  }
+
+  function getVocabularyPhraseStatus(phraseId) {
+    return vocabularyPhraseStatuses[phraseId] || "auto";
   }
 
   function matchesVocabularyPart(partOfSpeech, selectedPart) {
@@ -5095,6 +5306,7 @@ pass=通过；传递
     const suffixFilter = selectedVocabularySuffix;
     let rootFilter = selectedVocabularyRoot;
     const syllableFilter = selectedVocabularySyllable;
+    const vowelTeamFilter = selectedVocabularyVowelTeam;
     const ipaFilter = selectedVocabularyIpa;
     const allVocabulary = getAllVocabulary();
     const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
@@ -5107,9 +5319,10 @@ pass=通过；传递
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
       const matchesRoot = !includeRoot || rootFilter === "all" || item.root === rootFilter;
-      const matchesSyllable = syllableFilter === "all" || (item.syllableTypes || []).includes(syllableFilter);
+      const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
+      const matchesVowelTeam = vowelTeamFilter === "all" || (item.vowelTeams || []).includes(vowelTeamFilter);
       const matchesIpa = ipaContainsSound(getVocabularyIpa(item), ipaFilter);
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesIpa && matchesSearch(item);
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
     };
     const rootSourceVocabulary = allVocabulary.filter((item) => matchesFilters(item, false));
     const vocabularyRootFilter = renderVocabularyRootOptions(rootSourceVocabulary);
@@ -5120,7 +5333,7 @@ pass=通过；传递
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || ipaFilter !== "all")) {
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
@@ -5132,6 +5345,7 @@ pass=通过；传递
     document.getElementById("vocabularySuffixFilter").value = suffixFilter;
     vocabularyRootFilter.value = rootFilter;
     document.getElementById("vocabularySyllableFilter").value = syllableFilter;
+    document.getElementById("vocabularyVowelTeamFilter").value = vowelTeamFilter;
     document.getElementById("vocabularyIpaFilter").value = ipaFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
@@ -5156,7 +5370,8 @@ pass=通过；传递
       const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
       const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const rootTag = item.root ? `<span class="vocabulary-tag">Root: ${escapeHtml(item.root)}</span>` : "";
-      const syllableTag = (item.syllableTypes || []).length ? `<span class="vocabulary-tag">${escapeHtml(item.syllableTypes.map((type) => VOCABULARY_SYLLABLE_LABELS[type] || type).join(", "))}</span>` : "";
+      const syllableTag = item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "";
+      const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">Vowel team: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
           <div>
@@ -5172,6 +5387,7 @@ pass=通过；传递
               ${suffixTag}
               ${rootTag}
               ${syllableTag}
+              ${vowelTeamTag}
               ${pronunciation}
             </div>
           </div>
@@ -5249,7 +5465,7 @@ pass=通过；传递
   }
 
   function updateProgress() {
-    const values = [...Object.values(statuses), ...Object.values(vocabularyStatuses)];
+    const values = [...Object.values(statuses), ...Object.values(vocabularyStatuses), ...Object.values(vocabularyPhraseStatuses)];
     const learned = values.filter((value) => value === "learned").length;
     const review = values.filter((value) => value === "review").length;
     const streak = calculateStreak();
@@ -5259,7 +5475,7 @@ pass=通过；传递
     document.getElementById("streakCount").textContent = streak;
     document.getElementById("streakNote").textContent = streak > 0
       ? `You worked on a conversation today. Keep the ${streak}-day streak going.`
-      : "Mark one phrase or word today to start your streak.";
+      : "Mark one sentence or word today to start your streak.";
   }
 
   function render() {
@@ -5268,6 +5484,7 @@ pass=通过；传递
     renderDailyList();
     renderPhraseList();
     renderVocabularyList();
+    renderVocabularyPhrases();
     updateProgress();
   }
 
@@ -5280,11 +5497,6 @@ pass=通过；传递
   });
 
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
-  document.getElementById("phraseStatusFilter").addEventListener("change", (event) => {
-    selectedPhraseStatus = event.target.value;
-    saveSelectedPhraseStatus();
-    renderPhraseList();
-  });
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
@@ -5346,6 +5558,16 @@ pass=通过；传递
   vocabularySyllableFilter.addEventListener("change", (event) => {
     selectedVocabularySyllable = event.target.value;
     saveSelectedVocabularySyllable();
+    renderVocabularyList();
+  });
+  const vocabularyVowelTeamFilter = document.getElementById("vocabularyVowelTeamFilter");
+  vocabularyVowelTeamFilter.innerHTML = [
+    `<option value="all">All vowel teams</option>`,
+    ...Object.entries(VOCABULARY_VOWEL_TEAM_LABELS).map(([team, label]) => `<option value="${team}">${escapeHtml(label)}</option>`)
+  ].join("");
+  vocabularyVowelTeamFilter.addEventListener("change", (event) => {
+    selectedVocabularyVowelTeam = event.target.value;
+    saveSelectedVocabularyVowelTeam();
     renderVocabularyList();
   });
   const vocabularyIpaFilter = document.getElementById("vocabularyIpaFilter");
