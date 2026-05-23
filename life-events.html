@@ -1277,7 +1277,7 @@
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
-  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-23-parent-combined-content-fill";
+  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-23-parent-combined-content-source-match";
   const GENERIC_NEXT_ACTION = "Review and decide the next concrete action.";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const AREA_COLORS = {
@@ -1877,6 +1877,15 @@ W03: Cornbread`],
 
   function shouldPreserveStoredImportedEvent(storedEvent, importedEvent) {
     if (!storedEvent) return false;
+    if (
+      importedEvent
+      && (
+        storedEvent.area !== importedEvent.area
+        || storedEvent.sourceColumn !== importedEvent.sourceColumn
+      )
+    ) {
+      return false;
+    }
     if (
       importedEvent
       && importedEvent.area === "Parent"
