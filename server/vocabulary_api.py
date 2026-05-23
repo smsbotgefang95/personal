@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
-DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "updatedAt": None}
+DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "updatedAt": None}
 
 
 def env_path(name, default):
@@ -104,6 +104,23 @@ def clean_event(value):
     return event
 
 
+def clean_deleted_import_ids(value):
+    if not isinstance(value, list):
+        return []
+    cleaned = []
+    seen = set()
+    for item in value[:1500]:
+        item = str(item).strip()
+        if not item.startswith("sheet-import-"):
+            continue
+        suffix = item.removeprefix("sheet-import-")
+        if not suffix.isdigit() or item in seen:
+            continue
+        seen.add(item)
+        cleaned.append(item[:120])
+    return cleaned
+
+
 def clean_life_events_payload(value):
     if not isinstance(value, dict):
         value = {}
@@ -120,6 +137,7 @@ def clean_life_events_payload(value):
         events.append(event)
     return {
         "events": events,
+        "deletedImportIds": clean_deleted_import_ids(value.get("deletedImportIds")),
         "updatedAt": value.get("updatedAt"),
     }
 

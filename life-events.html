@@ -1287,6 +1287,7 @@
 (() => {
   const STORAGE_KEY = "personal.lifeEvents.v1";
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
+  const DELETED_IMPORT_IDS_KEY = "personal.lifeEvents.deletedImportIds.v1";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
   const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-23-parent-combined-content-source-match";
@@ -1807,6 +1808,7 @@ W03: Cornbread`],
     adminKeyCancelBtn: document.getElementById("adminKeyCancelBtn")
   };
 
+  let deletedImportIds = loadDeletedImportIds();
   let events = loadEvents();
   let selectedAreaTab = "";
   let selectedAreaOption = "all";
@@ -1818,7 +1820,7 @@ W03: Cornbread`],
   let adminKeyPreviousFocus = null;
 
   function loadEvents() {
-    const importedEvents = buildGoogleSheetEvents();
+    const importedEvents = filterDeletedImportedEvents(buildGoogleSheetEvents());
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
@@ -1840,6 +1842,41 @@ W03: Cornbread`],
       localStorage.setItem(IMPORT_VERSION_KEY, GOOGLE_SHEET_IMPORT_VERSION);
       return importedEvents;
     }
+  }
+
+  function isImportedEventId(id) {
+    return /^sheet-import-\d+$/.test(String(id || ""));
+  }
+
+  function cleanDeletedImportIds(value) {
+    if (!Array.isArray(value)) return [];
+    return [...new Set(value.map((item) => String(item || "").trim()).filter(isImportedEventId))];
+  }
+
+  function loadDeletedImportIds() {
+    try {
+      return cleanDeletedImportIds(JSON.parse(localStorage.getItem(DELETED_IMPORT_IDS_KEY) || "[]"));
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveDeletedImportIds() {
+    localStorage.setItem(DELETED_IMPORT_IDS_KEY, JSON.stringify(deletedImportIds));
+  }
+
+  function deletedImportIdSet() {
+    return new Set(deletedImportIds);
+  }
+
+  function filterDeletedImportedEvents(items) {
+    const deletedIds = deletedImportIdSet();
+    return items.filter((event) => !isImportedEventId(event && event.id) || !deletedIds.has(String(event.id)));
+  }
+
+  function mergeDeletedImportIds(...lists) {
+    deletedImportIds = cleanDeletedImportIds(lists.flat());
+    saveDeletedImportIds();
   }
 
   function buildGoogleSheetEvents() {
@@ -1871,10 +1908,12 @@ W03: Cornbread`],
   }
 
   function mergeImportedEvents(storedEvents, importedEvents) {
+    const availableImportedEvents = filterDeletedImportedEvents(importedEvents);
+    const deletedIds = deletedImportIdSet();
     const storedImportedById = new Map(storedEvents
-      .filter((event) => event && /^sheet-import-\d+$/.test(String(event.id || "")))
+      .filter((event) => event && isImportedEventId(event.id) && !deletedIds.has(String(event.id)))
       .map((event) => [String(event.id), event]));
-    const importedWithStoredEdits = importedEvents.map((event) => {
+    const importedWithStoredEdits = availableImportedEvents.map((event) => {
       const storedEvent = storedImportedById.get(String(event.id));
       return {
         ...event,
@@ -1939,22 +1978,28 @@ W03: Cornbread`],
     return String(value || "").replace(/\s+/g, " ").trim().toLowerCase();
   }
 
-  function saveEvents() {
+  function saveEvents({ promptForKey = false } = {}) {
+    saveDeletedImportIds();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-    if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey: false });
+    if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey });
   }
 
   function lifeEventsPayload() {
     return {
       source: "Personal Life Events",
-      events
+      events,
+      deletedImportIds
     };
   }
 
   function applySharedLifeEventsPayload(payload) {
-    if (!payload || !Array.isArray(payload.events) || !payload.events.length) return false;
+    if (!payload || typeof payload !== "object") return false;
+    const sharedEvents = Array.isArray(payload.events) ? payload.events : [];
+    const sharedDeletedImportIds = cleanDeletedImportIds(payload.deletedImportIds);
+    if (!sharedEvents.length && !sharedDeletedImportIds.length) return false;
     isApplyingSharedEvents = true;
-    events = mergeImportedEvents(payload.events, buildGoogleSheetEvents());
+    mergeDeletedImportIds(deletedImportIds, sharedDeletedImportIds);
+    events = mergeImportedEvents(sharedEvents.length ? sharedEvents : events, buildGoogleSheetEvents());
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
     localStorage.setItem(IMPORT_VERSION_KEY, GOOGLE_SHEET_IMPORT_VERSION);
     isApplyingSharedEvents = false;
@@ -2955,8 +3000,10 @@ W03: Cornbread`],
     if (!event) return;
     const confirmed = window.confirm(`Delete "${event.title}"?`);
     if (!confirmed) return;
+    const importedDelete = isImportedEventId(id);
+    if (importedDelete) mergeDeletedImportIds(deletedImportIds, [id]);
     events = events.filter((item) => item.id !== id);
-    saveEvents();
+    saveEvents({ promptForKey: importedDelete });
     render();
     showToast("Event deleted.");
   }
