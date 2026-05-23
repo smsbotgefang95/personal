@@ -827,9 +827,9 @@
         <option value="all">All themes</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word type">
-        <option value="all">All words</option>
-        <option value="compound">Compound words</option>
-        <option value="single">Single words</option>
+        <option value="all">全部词语</option>
+        <option value="compound">复合词</option>
+        <option value="single">单词</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
         <option value="all">全部时态</option>
@@ -3082,21 +3082,21 @@ pass=通过；传递
   }
 
   const VOCABULARY_THEME_LABELS = {
-    color: "Color 颜色",
-    family: "Family 家庭",
-    body: "Body 身体",
-    food: "Food 食物",
-    time: "Time 时间",
-    country: "Country 国家",
-    place: "Place 地点",
-    nature: "Nature 自然",
-    number: "Number 数字",
-    feeling: "Feeling 感受",
-    holiday: "U.S. Holiday 美国节日",
-    clothes: "Clothes 衣服",
-    furniture: "Furniture 家具",
-    sports: "Sports 运动",
-    appliance: "Kitchen Appliance 厨房电器"
+    color: "颜色",
+    family: "家庭",
+    body: "身体",
+    food: "食物",
+    time: "时间",
+    country: "国家",
+    place: "地点",
+    nature: "自然",
+    number: "数字",
+    feeling: "感受",
+    holiday: "美国节日",
+    clothes: "衣服",
+    furniture: "家具",
+    sports: "运动",
+    appliance: "厨房电器"
   };
 
   const VOCABULARY_THEME_SETS = {
@@ -3399,8 +3399,8 @@ pass=通过；传递
 
   function getPastTenseLabel(word) {
     const normalized = normalizeWordKey(String(word || ""));
-    if (PAST_TENSE_BY_BASE_WORD[normalized]) return `Past: ${PAST_TENSE_BY_BASE_WORD[normalized]}`;
-    if (BASE_WORD_BY_PAST_TENSE[normalized]) return `Base: ${BASE_WORD_BY_PAST_TENSE[normalized]}`;
+    if (PAST_TENSE_BY_BASE_WORD[normalized]) return `过去式: ${PAST_TENSE_BY_BASE_WORD[normalized]}`;
+    if (BASE_WORD_BY_PAST_TENSE[normalized]) return `原形: ${BASE_WORD_BY_PAST_TENSE[normalized]}`;
     return "";
   }
 
@@ -5832,14 +5832,14 @@ pass=通过；传递
       const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
       const currentStatus = getVocabularyStatus(item.id);
       const label = item.isCustom ? "" : (
-        scenario ? scenario.label : (
-          item.theme === "holiday" ? "U.S. Holiday" :
-          item.theme === "appliance" ? "Kitchen Appliance" :
-          item.theme === "furniture" ? "Furniture" :
-          item.theme === "clothes" ? "Clothes" :
-          item.theme === "sports" ? "Sports" :
-          item.theme === "country" ? "Country" :
-          "Top 1000"
+        scenario ? scenario.zh : (
+          item.theme === "holiday" ? "美国节日" :
+          item.theme === "appliance" ? "厨房电器" :
+          item.theme === "furniture" ? "家具" :
+          item.theme === "clothes" ? "衣服" :
+          item.theme === "sports" ? "运动" :
+          item.theme === "country" ? "国家" :
+          "常用1000词"
         )
       );
       const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
@@ -5848,7 +5848,7 @@ pass=通过；传递
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const ipa = getVocabularyIpa(item);
       const pronunciation = ipa ? `<span class="vocabulary-pronunciation">/${escapeHtml(ipa)}/</span>` : "";
-      const rankTag = item.isCustom ? `<span class="vocabulary-tag">Custom</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
+      const rankTag = item.isCustom ? `<span class="vocabulary-tag">自定义</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
       const labelTag = label && !duplicatesTheme ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
@@ -5856,9 +5856,9 @@ pass=通过；传递
       const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const tenseLabel = getPastTenseLabel(item.word);
       const tenseTag = tenseLabel ? `<span class="vocabulary-tag">${escapeHtml(tenseLabel)}</span>` : "";
-      const rootTag = item.root ? `<span class="vocabulary-tag">Root: ${escapeHtml(item.root)}</span>` : "";
+      const rootTag = item.root ? `<span class="vocabulary-tag">词根: ${escapeHtml(item.root)}</span>` : "";
       const syllableTag = item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "";
-      const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">Vowel team: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
+      const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">元音组合: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
           <div>
