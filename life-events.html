@@ -1277,7 +1277,7 @@
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
-  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-23-parent-combined-content";
+  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-23-parent-combined-content-fill";
   const GENERIC_NEXT_ACTION = "Review and decide the next concrete action.";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const AREA_COLORS = {
@@ -1862,7 +1862,7 @@ W03: Cornbread`],
       const storedEvent = storedImportedById.get(String(event.id));
       return {
         ...event,
-        ...(storedEvent ? migrateImportedPlaceholderDate(storedEvent) : {})
+        ...(shouldPreserveStoredImportedEvent(storedEvent, event) ? migrateImportedPlaceholderDate(storedEvent) : {})
       };
     });
     const manualEvents = storedEvents.filter((event) => {
@@ -1873,6 +1873,19 @@ W03: Cornbread`],
       sourceColumn: event.sourceColumn || sourceColumnOptions(event.area || "all")[0] || ""
     }));
     return dedupeEvents([...importedWithStoredEdits, ...manualEvents]);
+  }
+
+  function shouldPreserveStoredImportedEvent(storedEvent, importedEvent) {
+    if (!storedEvent) return false;
+    if (
+      importedEvent
+      && importedEvent.area === "Parent"
+      && importedEvent.sourceColumn === "亲戚朋友"
+      && !String(storedEvent.notes || "").trim()
+    ) {
+      return false;
+    }
+    return true;
   }
 
   function dedupeEvents(items) {
