@@ -759,10 +759,10 @@
   </section>
 
   <div class="learning-tabs" role="tablist" aria-label="Learning English sections">
-    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">Vocabulary</button>
-    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">Phrase</button>
-    <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">Sentence</button>
-    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">Dialogue</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">单词</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">短语</button>
+    <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">句子</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">对话</button>
   </div>
 
   <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
@@ -828,7 +828,7 @@
         <option value="all">全部主题</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word type">
-        <option value="all">全部词语</option>
+        <option value="all">全部单词</option>
         <option value="compound">复合词</option>
         <option value="single">单词</option>
       </select>
@@ -848,8 +848,8 @@
       <select class="vocabulary-filter" id="vocabularySyllableFilter" aria-label="Filter vocabulary by syllable type">
         <option value="all">全部音节</option>
       </select>
-      <select class="vocabulary-filter" id="vocabularyVowelTeamFilter" aria-label="Filter vocabulary by vowel team">
-        <option value="all">All vowel teams</option>
+      <select class="vocabulary-filter" id="vocabularyVowelTeamFilter" aria-label="按元音组合筛选词汇">
+        <option value="all">全部元音组合</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
         <option value="all">全部音标</option>
@@ -6157,7 +6157,7 @@ pass=通过；传递
   });
   const vocabularyVowelTeamFilter = document.getElementById("vocabularyVowelTeamFilter");
   vocabularyVowelTeamFilter.innerHTML = [
-    `<option value="all">All vowel teams</option>`,
+    `<option value="all">全部元音组合</option>`,
     ...Object.entries(VOCABULARY_VOWEL_TEAM_LABELS).map(([team, label]) => `<option value="${team}">${escapeHtml(label)}</option>`)
   ].join("");
   vocabularyVowelTeamFilter.addEventListener("change", (event) => {
