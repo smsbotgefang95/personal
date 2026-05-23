@@ -151,6 +151,7 @@
   .progress-panel,
   .daily-panel,
   .phrase-card,
+  .dialogue-panel,
   .tip-panel {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -334,6 +335,10 @@
     display: grid;
   }
 
+  .view-panel.dialogue-panel.active {
+    display: grid;
+  }
+
   .daily-item {
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -422,6 +427,89 @@
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
     gap: 10px;
+  }
+
+  .dialogue-panel {
+    display: grid;
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .dialogue-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .dialogue-tools {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(180px, 260px) minmax(150px, auto);
+  }
+
+  .dialogue-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .dialogue-header {
+    align-items: start;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .dialogue-title {
+    font-size: 1.25rem;
+    font-weight: 850;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .dialogue-context {
+    color: var(--muted);
+    font-size: 0.94rem;
+    margin-top: 5px;
+  }
+
+  .dialogue-lines {
+    display: grid;
+    gap: 10px;
+  }
+
+  .dialogue-line {
+    align-items: start;
+    background: #f8faf8;
+    border: 1px solid #e5ece4;
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 12px;
+  }
+
+  .dialogue-speaker {
+    color: var(--accent);
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 850;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .dialogue-english {
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .dialogue-chinese {
+    color: #374151;
+    font-size: 0.94rem;
+    margin-top: 5px;
   }
 
   .detail-box {
@@ -701,6 +789,9 @@
     .stat-grid,
     .phrase-detail,
     .phrase-tools,
+    .dialogue-tools,
+    .dialogue-header,
+    .dialogue-line,
     .vocabulary-tools,
     .vocabulary-card,
     .tip-list,
@@ -873,7 +964,27 @@
     <div class="phrase-list" id="vocabularyPhraseList"></div>
   </section>
 
-  <section class="view-panel" id="view-dialogue" role="tabpanel" aria-label="Dialogue practice"></section>
+  <section class="dialogue-panel view-panel" id="view-dialogue" role="tabpanel" aria-label="Dialogue practice">
+    <div class="panel-header">
+      <div>
+        <h2>Dialogue</h2>
+        <p>Practice short daily conversations with Chinese support.</p>
+      </div>
+      <div class="phrase-summary" id="dialogueSummary">0 dialogues</div>
+    </div>
+    <div class="scenario-tabs" id="dialogueTabs" role="tablist" aria-label="Dialogue scenarios"></div>
+    <div class="dialogue-tools">
+      <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
+        <option value="all">所有状态</option>
+        <option value="to-learn">待学</option>
+        <option value="learning">学习中</option>
+        <option value="review">复习</option>
+        <option value="learned">已学会</option>
+      </select>
+      <div class="phrase-summary" id="dialogueFilterSummary">0 of 0 dialogues</div>
+    </div>
+    <div class="dialogue-list" id="dialogueList"></div>
+  </section>
 
   <section class="tip-panel" aria-labelledby="tips-title">
     <div class="panel-header">
@@ -903,6 +1014,9 @@
   const STORAGE_STATUS_KEY = "learningEnglishPhraseStatus";
   const STORAGE_VOCAB_STATUS_KEY = "learningEnglishVocabularyStatus";
   const STORAGE_VOCAB_PHRASE_STATUS_KEY = "learningEnglishVocabularyPhraseStatus";
+  const STORAGE_DIALOGUE_STATUS_KEY = "learningEnglishDialogueStatus";
+  const STORAGE_DIALOGUE_SCENARIO_KEY = "learningEnglishSelectedDialogueScenario";
+  const STORAGE_DIALOGUE_STATUS_FILTER_KEY = "learningEnglishDialogueStatusFilter";
   const STORAGE_CUSTOM_VOCAB_KEY = "learningEnglishCustomVocabulary";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
@@ -1073,6 +1187,121 @@
       chinese: "我明白了，谢谢。",
       pronunciation: "eye un-der-STAND. thank yoo",
       usage: "Use this after someone explains something."
+    }
+  ];
+
+  const DIALOGUE_SCENARIOS = [
+    { id: "greetings", label: "Greetings", zh: "打招呼" },
+    { id: "shopping", label: "Shopping", zh: "购物" },
+    { id: "cooking", label: "Cooking", zh: "做饭" },
+    { id: "restaurant", label: "Restaurant", zh: "餐厅" },
+    { id: "phone", label: "Phone Call", zh: "电话" },
+    { id: "doctor", label: "Doctor", zh: "看医生" },
+    { id: "work", label: "Work", zh: "工作" }
+  ];
+
+  const DIALOGUES = [
+    {
+      id: "dialogue-good-morning",
+      scenario: "greetings",
+      title: "Good morning",
+      chineseTitle: "早上打招呼",
+      context: "Meet a neighbor in the morning.",
+      lines: [
+        { speaker: "A", english: "Good morning.", chinese: "早上好。", pronunciation: "good MOR-ning" },
+        { speaker: "B", english: "Good morning. How are you today?", chinese: "早上好。你今天怎么样？", pronunciation: "good MOR-ning. how ar yoo tuh-DAY" },
+        { speaker: "A", english: "I am good, thank you.", chinese: "我很好，谢谢。", pronunciation: "eye am good, thank yoo" },
+        { speaker: "B", english: "Nice to meet you.", chinese: "很高兴认识你。", pronunciation: "nice tuh MEET yoo" },
+        { speaker: "A", english: "Nice to meet you too.", chinese: "我也很高兴认识你。", pronunciation: "nice tuh MEET yoo too" }
+      ]
+    },
+    {
+      id: "dialogue-at-the-store",
+      scenario: "shopping",
+      title: "At the store",
+      chineseTitle: "在商店购物",
+      context: "Ask for a price and pay at the register.",
+      lines: [
+        { speaker: "A", english: "Hello. Could you help me with this?", chinese: "你好。你可以帮我看这个吗？", pronunciation: "heh-LOH. kood yoo help mee with this" },
+        { speaker: "B", english: "Of course. What do you need?", chinese: "当然。你需要什么？", pronunciation: "uv kors. what doo yoo need" },
+        { speaker: "A", english: "How much does this cost?", chinese: "这个多少钱？", pronunciation: "how much duhz this kost" },
+        { speaker: "B", english: "It is ten dollars.", chinese: "十美元。", pronunciation: "it iz ten DAH-lers" },
+        { speaker: "A", english: "Can I pay by card?", chinese: "我可以刷卡付款吗？", pronunciation: "can eye pay by kard" },
+        { speaker: "B", english: "Yes. No problem.", chinese: "可以。没问题。", pronunciation: "yes. noh PROB-lem" }
+      ]
+    },
+    {
+      id: "dialogue-making-breakfast",
+      scenario: "cooking",
+      title: "Making breakfast",
+      chineseTitle: "做早餐",
+      context: "Talk about simple food at home.",
+      lines: [
+        { speaker: "A", english: "Good morning. I am making breakfast.", chinese: "早上好。我在做早餐。", pronunciation: "good MOR-ning. eye am MAY-king BREK-fust" },
+        { speaker: "B", english: "Can I help?", chinese: "我可以帮忙吗？", pronunciation: "can eye help" },
+        { speaker: "A", english: "Yes, please. Put the bread on the table.", chinese: "好的，请把面包放在桌子上。", pronunciation: "yes, pleez. put thuh bred on thuh TAY-bul" },
+        { speaker: "B", english: "Do you need milk or water?", chinese: "你需要牛奶还是水？", pronunciation: "doo yoo need milk or WAW-ter" },
+        { speaker: "A", english: "Milk, please.", chinese: "请给我牛奶。", pronunciation: "milk, pleez" },
+        { speaker: "B", english: "Just a moment.", chinese: "稍等一下。", pronunciation: "just uh MOH-ment" }
+      ]
+    },
+    {
+      id: "dialogue-table-for-two",
+      scenario: "restaurant",
+      title: "Table for two",
+      chineseTitle: "两个人用餐",
+      context: "Arrive at a restaurant and order food.",
+      lines: [
+        { speaker: "A", english: "A table for two, please.", chinese: "请安排两个人的桌子。", pronunciation: "uh TAY-bul for too, pleez" },
+        { speaker: "B", english: "Just a moment, please.", chinese: "请稍等一下。", pronunciation: "just uh MOH-ment, pleez" },
+        { speaker: "A", english: "Thank you.", chinese: "谢谢。", pronunciation: "thank yoo" },
+        { speaker: "B", english: "What would you like to order?", chinese: "你想点什么？", pronunciation: "what wood yoo like tuh OR-der" },
+        { speaker: "A", english: "I would like to order this food.", chinese: "我想点这个食物。", pronunciation: "eye wood like tuh OR-der this food" },
+        { speaker: "B", english: "Of course.", chinese: "当然。", pronunciation: "uv kors" }
+      ]
+    },
+    {
+      id: "dialogue-phone-message",
+      scenario: "phone",
+      title: "Leave a message",
+      chineseTitle: "电话留言",
+      context: "Call someone who is not available.",
+      lines: [
+        { speaker: "A", english: "Hello. May I speak with Anna?", chinese: "你好。我可以和 Anna 通话吗？", pronunciation: "heh-LOH. may eye speek with AN-na" },
+        { speaker: "B", english: "Just a moment.", chinese: "稍等一下。", pronunciation: "just uh MOH-ment" },
+        { speaker: "B", english: "She is not here right now.", chinese: "她现在不在这里。", pronunciation: "shee iz not heer right now" },
+        { speaker: "A", english: "Can I leave a message?", chinese: "我可以留言吗？", pronunciation: "can eye leev uh MES-ij" },
+        { speaker: "B", english: "Yes. Please call back later.", chinese: "可以。请晚点再打回来。", pronunciation: "yes. pleez call bak LAY-ter" }
+      ]
+    },
+    {
+      id: "dialogue-doctor-visit",
+      scenario: "doctor",
+      title: "Doctor visit",
+      chineseTitle: "看医生",
+      context: "Check in and explain a simple symptom.",
+      lines: [
+        { speaker: "A", english: "Hello. I have an appointment at ten.", chinese: "你好。我十点有预约。", pronunciation: "heh-LOH. eye hav an uh-POINT-ment at ten" },
+        { speaker: "B", english: "What is your name?", chinese: "你叫什么名字？", pronunciation: "what iz yor name" },
+        { speaker: "A", english: "My name is Anna.", chinese: "我的名字是 Anna。", pronunciation: "my name iz AN-na" },
+        { speaker: "B", english: "How can we help you today?", chinese: "今天我们怎么帮你？", pronunciation: "how can wee help yoo tuh-DAY" },
+        { speaker: "A", english: "I have pain in my throat.", chinese: "我喉咙痛。", pronunciation: "eye hav pain in my throht" },
+        { speaker: "B", english: "Could you say that again, please?", chinese: "你可以再说一遍吗？", pronunciation: "kood yoo say that uh-GEN, pleez" }
+      ]
+    },
+    {
+      id: "dialogue-work-help",
+      scenario: "work",
+      title: "Ask for help at work",
+      chineseTitle: "工作中寻求帮助",
+      context: "Ask a coworker for help and confirm a meeting time.",
+      lines: [
+        { speaker: "A", english: "Could you help me with this?", chinese: "你可以帮我处理这个吗？", pronunciation: "kood yoo help mee with this" },
+        { speaker: "B", english: "Yes. Just a moment.", chinese: "可以。稍等一下。", pronunciation: "yes. just uh MOH-ment" },
+        { speaker: "A", english: "Thank you. I have a meeting at three.", chinese: "谢谢。我三点有会议。", pronunciation: "thank yoo. eye hav uh MEE-ting at three" },
+        { speaker: "B", english: "No problem. We can work on it now.", chinese: "没问题。我们现在可以处理。", pronunciation: "noh PROB-lem. wee can work on it now" },
+        { speaker: "A", english: "I understand. Thank you.", chinese: "我明白了，谢谢。", pronunciation: "eye un-der-STAND. thank yoo" }
+      ]
     }
   ];
 
@@ -5329,6 +5558,8 @@ pass=通过；传递
   const dailyPhraseIds = ["greet-how-are-you", "shop-how-much", "rest-order", "doctor-repeat", "work-help"];
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
+  let selectedDialogueScenario = loadSelectedDialogueScenario();
+  let selectedDialogueStatus = loadSelectedDialogueStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyPart = loadSelectedVocabularyPart();
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
@@ -5343,6 +5574,7 @@ pass=通过；传递
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let vocabularyPhraseStatuses = readJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, {});
+  let dialogueStatuses = readJson(STORAGE_DIALOGUE_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
 
@@ -5419,6 +5651,24 @@ pass=通过；传递
       return SCENARIOS.some((item) => item.id === saved) ? saved : "greetings";
     } catch (error) {
       return "greetings";
+    }
+  }
+
+  function loadSelectedDialogueScenario() {
+    try {
+      const saved = localStorage.getItem(STORAGE_DIALOGUE_SCENARIO_KEY);
+      return DIALOGUE_SCENARIOS.some((item) => item.id === saved) ? saved : "greetings";
+    } catch (error) {
+      return "greetings";
+    }
+  }
+
+  function loadSelectedDialogueStatus() {
+    try {
+      const saved = localStorage.getItem(STORAGE_DIALOGUE_STATUS_FILTER_KEY);
+      return ["all", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
     }
   }
 
@@ -5607,6 +5857,18 @@ pass=通过；传递
     } catch (error) {}
   }
 
+  function saveSelectedDialogueScenario() {
+    try {
+      localStorage.setItem(STORAGE_DIALOGUE_SCENARIO_KEY, selectedDialogueScenario);
+    } catch (error) {}
+  }
+
+  function saveSelectedDialogueStatus() {
+    try {
+      localStorage.setItem(STORAGE_DIALOGUE_STATUS_FILTER_KEY, selectedDialogueStatus);
+    } catch (error) {}
+  }
+
   function todayKey() {
     return new Date().toISOString().slice(0, 10);
   }
@@ -5639,6 +5901,24 @@ pass=通过；传递
         selectedScenario = button.dataset.scenario;
         saveSelectedScenario();
         render();
+      });
+    });
+  }
+
+  function renderDialogueTabs() {
+    const container = document.getElementById("dialogueTabs");
+    if (!container) return;
+
+    container.innerHTML = DIALOGUE_SCENARIOS.map((scenario) => {
+      const isActive = scenario.id === selectedDialogueScenario;
+      return `<button class="scenario-tab${isActive ? " active" : ""}" type="button" role="tab" aria-selected="${isActive}" data-dialogue-scenario="${scenario.id}">${scenario.label} / ${scenario.zh}</button>`;
+    }).join("");
+
+    container.querySelectorAll("[data-dialogue-scenario]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedDialogueScenario = button.dataset.dialogueScenario;
+        saveSelectedDialogueScenario();
+        renderDialogueList();
       });
     });
   }
@@ -5811,6 +6091,73 @@ pass=通过；传递
     });
   }
 
+  function renderDialogueList() {
+    const container = document.getElementById("dialogueList");
+    const summary = document.getElementById("dialogueSummary");
+    const filter = document.getElementById("dialogueStatusFilter");
+    const filterSummary = document.getElementById("dialogueFilterSummary");
+    if (!container || !summary || !filter || !filterSummary) return;
+
+    const scenarioDialogues = DIALOGUES.filter((dialogue) => dialogue.scenario === selectedDialogueScenario);
+    const dialogues = scenarioDialogues.filter((dialogue) => selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus);
+    filter.value = selectedDialogueStatus;
+    summary.textContent = `${scenarioDialogues.length} ${scenarioDialogues.length === 1 ? "dialogue" : "dialogues"}`;
+    filterSummary.textContent = `${dialogues.length} of ${scenarioDialogues.length} dialogues`;
+
+    if (!dialogues.length) {
+      container.innerHTML = `<div class="empty">没有符合此状态的对话。</div>`;
+      return;
+    }
+
+    container.innerHTML = dialogues.map((dialogue) => {
+      const scenario = DIALOGUE_SCENARIOS.find((item) => item.id === dialogue.scenario);
+      const currentStatus = getDialogueStatus(dialogue.id);
+      const lines = dialogue.lines.map((line, index) => `
+        <div class="dialogue-line">
+          <div>
+            <span class="dialogue-speaker">${escapeHtml(line.speaker)}</span>
+            <p class="dialogue-english">${escapeHtml(line.english)}</p>
+            <p class="dialogue-chinese">${escapeHtml(line.chinese)}</p>
+          </div>
+          <button class="listen-button" type="button" data-speak-dialogue="${escapeHtml(dialogue.id)}" data-dialogue-line="${index}" aria-label="Listen to ${escapeHtml(line.english)}">${SPEAKER_ICON}</button>
+        </div>
+      `).join("");
+
+      return `
+        <article class="dialogue-card" data-dialogue-id="${escapeHtml(dialogue.id)}">
+          <div class="dialogue-header">
+            <div>
+              <span class="phrase-tag">${escapeHtml(scenario?.label || dialogue.scenario)} / ${escapeHtml(scenario?.zh || "")}</span>
+              <h3 class="dialogue-title">${escapeHtml(dialogue.title)} / ${escapeHtml(dialogue.chineseTitle)}</h3>
+              <p class="dialogue-context">${escapeHtml(dialogue.context)}</p>
+            </div>
+          </div>
+          <div class="dialogue-lines">${lines}</div>
+          <div class="status-row" aria-label="Dialogue status for ${escapeHtml(dialogue.title)}">
+            ${dialogueStatusButton(dialogue.id, "to-learn", "待学", currentStatus)}
+            ${dialogueStatusButton(dialogue.id, "learning", "学习中", currentStatus)}
+            ${dialogueStatusButton(dialogue.id, "review", "复习", currentStatus)}
+            ${dialogueStatusButton(dialogue.id, "learned", "已学会", currentStatus)}
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    container.querySelectorAll("[data-speak-dialogue]").forEach((button) => {
+      button.addEventListener("click", () => speakDialogueLine(button.dataset.speakDialogue, Number(button.dataset.dialogueLine)));
+    });
+
+    container.querySelectorAll("[data-dialogue-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        dialogueStatuses[button.dataset.dialogueId] = button.dataset.dialogueStatus;
+        saveJson(STORAGE_DIALOGUE_STATUS_KEY, dialogueStatuses);
+        markDailyActivity();
+        renderDialogueList();
+        updateProgress();
+      });
+    });
+  }
+
   function statusButton(phraseId, status, label, currentStatus) {
     const active = currentStatus === status ? " active" : "";
     return `<button class="status-button${active}" type="button" data-phrase-id="${phraseId}" data-status="${status}">${label}</button>`;
@@ -5824,6 +6171,15 @@ pass=通过；传递
   function vocabularyPhraseStatusButton(phraseId, status, label, currentStatus) {
     const active = currentStatus === status ? " active" : "";
     return `<button class="status-button${active}" type="button" data-vocabulary-phrase-id="${phraseId}" data-status="${status}" data-vocabulary-phrase-status="${status}">${label}</button>`;
+  }
+
+  function dialogueStatusButton(dialogueId, status, label, currentStatus) {
+    const active = currentStatus === status ? " active" : "";
+    return `<button class="status-button${active}" type="button" data-dialogue-id="${dialogueId}" data-status="${status}" data-dialogue-status="${status}">${label}</button>`;
+  }
+
+  function getDialogueStatus(dialogueId) {
+    return dialogueStatuses[dialogueId] || "to-learn";
   }
 
   function getVocabularyStatus(wordId) {
@@ -5968,6 +6324,7 @@ pass=通过；传递
             ${partOfSpeech}
             ${example}
             <div class="vocabulary-meta">
+              ${pronunciation}
               ${rankTag}
               ${labelTag}
               ${themeTag}
@@ -5977,7 +6334,6 @@ pass=通过；传递
               ${rootTag}
               ${syllableTag}
               ${vowelTeamTag}
-              ${pronunciation}
             </div>
           </div>
           <div class="vocabulary-actions">
@@ -6044,6 +6400,16 @@ pass=通过；传递
     updateProgress();
   }
 
+  function speakDialogueLine(dialogueId, lineIndex) {
+    const dialogue = DIALOGUES.find((item) => item.id === dialogueId);
+    const line = dialogue?.lines?.[lineIndex];
+    if (!line || !("speechSynthesis" in window)) return;
+
+    speakText(line.english);
+    markDailyActivity();
+    updateProgress();
+  }
+
   function speakText(text) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
@@ -6054,7 +6420,7 @@ pass=通过；传递
   }
 
   function updateProgress() {
-    const values = [...Object.values(statuses), ...Object.values(vocabularyStatuses), ...Object.values(vocabularyPhraseStatuses)];
+    const values = [...Object.values(statuses), ...Object.values(vocabularyStatuses), ...Object.values(vocabularyPhraseStatuses), ...Object.values(dialogueStatuses)];
     const learned = values.filter((value) => value === "learned").length;
     const review = values.filter((value) => value === "review").length;
     const streak = calculateStreak();
@@ -6070,8 +6436,10 @@ pass=通过；传递
   function render() {
     renderLearningTabs();
     renderScenarioTabs();
+    renderDialogueTabs();
     renderDailyList();
     renderPhraseList();
+    renderDialogueList();
     renderVocabularyList();
     renderVocabularyPhrases();
     updateProgress();
@@ -6086,6 +6454,11 @@ pass=通过；传递
   });
 
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
+  document.getElementById("dialogueStatusFilter").addEventListener("change", (event) => {
+    selectedDialogueStatus = event.target.value;
+    saveSelectedDialogueStatus();
+    renderDialogueList();
+  });
   document.getElementById("vocabularyPhraseSearch").addEventListener("input", renderVocabularyPhrases);
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
