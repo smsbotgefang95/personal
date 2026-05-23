@@ -809,7 +809,7 @@
         <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPartFilter" aria-label="Filter vocabulary by part of speech">
-        <option value="all">All 词性</option>
+        <option value="all">所有词性</option>
         <option value="noun">Noun 名词</option>
         <option value="verb">Verb 动词</option>
         <option value="adjective">Adjective 形容词</option>
@@ -824,7 +824,7 @@
         <option value="modal verb">Modal verb 情态动词</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
-        <option value="all">All themes</option>
+        <option value="all">全部主题</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word type">
         <option value="all">全部词语</option>
@@ -836,10 +836,10 @@
         <option value="past">过去式</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
-        <option value="all">All prefixes</option>
+        <option value="all">所有前缀</option>
       </select>
       <select class="vocabulary-filter" id="vocabularySuffixFilter" aria-label="Filter vocabulary by suffix">
-        <option value="all">All suffixes</option>
+        <option value="all">所有后缀</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyRootFilter" aria-label="Filter vocabulary by root">
         <option value="all">All roots</option>
@@ -851,7 +851,7 @@
         <option value="all">All vowel teams</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
-        <option value="all">All IPA sounds</option>
+        <option value="all">全部音标</option>
       </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
@@ -5993,7 +5993,7 @@ pass=通过；传递
     renderVocabularyList();
   });
   document.getElementById("vocabularyThemeFilter").innerHTML = [
-    `<option value="all">All themes</option>`,
+    `<option value="all">全部主题</option>`,
     ...Object.entries(VOCABULARY_THEME_LABELS).map(([theme, label]) => `<option value="${theme}">${label}</option>`)
   ].join("");
   document.getElementById("vocabularyThemeFilter").addEventListener("change", (event) => {
@@ -6012,7 +6012,7 @@ pass=通过；传递
     renderVocabularyList();
   });
   document.getElementById("vocabularyPrefixFilter").innerHTML = [
-    `<option value="all">All prefixes</option>`,
+    `<option value="all">所有前缀</option>`,
     ...Object.entries(VOCABULARY_PREFIX_LABELS).map(([prefix, label]) => `<option value="${prefix}">${label}</option>`)
   ].join("");
   document.getElementById("vocabularyPrefixFilter").addEventListener("change", (event) => {
@@ -6021,7 +6021,7 @@ pass=通过；传递
     renderVocabularyList();
   });
   document.getElementById("vocabularySuffixFilter").innerHTML = [
-    `<option value="all">All suffixes</option>`,
+    `<option value="all">所有后缀</option>`,
     ...Object.entries(VOCABULARY_SUFFIX_LABELS).map(([suffix, label]) => `<option value="${suffix}">${label}</option>`)
   ].join("");
   document.getElementById("vocabularySuffixFilter").addEventListener("change", (event) => {
@@ -6061,7 +6061,7 @@ pass=通过；传递
   });
   const vocabularyIpaFilter = document.getElementById("vocabularyIpaFilter");
   vocabularyIpaFilter.innerHTML = [
-    `<option value="all">All IPA sounds</option>`,
+    `<option value="all">全部音标</option>`,
     ...getIpaSoundOptions().map((sound) => `<option value="${escapeHtml(sound)}">/${escapeHtml(sound)}/</option>`)
   ].join("");
   if (selectedVocabularyIpa !== "all" && ![...vocabularyIpaFilter.options].some((option) => option.value === selectedVocabularyIpa)) {
