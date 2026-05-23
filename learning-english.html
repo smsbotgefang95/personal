@@ -3878,8 +3878,13 @@ pass=通过；传递
       || !!getVocabularyVowelTeamChildFilter(value);
   }
 
+  function isVocabularySingleWord(item) {
+    return /^[A-Za-z]+$/.test(String(item?.word || ""));
+  }
+
   function matchesVocabularyVowelTeamFilter(item, filterValue) {
     if (filterValue === "all") return true;
+    if (!isVocabularySingleWord(item)) return false;
     const vowelTeams = item.vowelTeams || [];
     const childFilter = getVocabularyVowelTeamChildFilter(filterValue);
     if (!childFilter) return vowelTeams.includes(filterValue);
@@ -6806,7 +6811,6 @@ pass=通过；传递
       const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
       const partOfSpeechLabel = getVocabularyPartLabel(item.partOfSpeech);
-      const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const ipa = getVocabularyIpa(item);
       const pronunciation = ipa ? `<p class="vocabulary-ipa">/${escapeHtml(ipa)}/</p>` : "";
       const rankTag = item.isCustom ? `<span class="vocabulary-tag">自定义</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
@@ -6830,7 +6834,6 @@ pass=通过；传递
             <h3 class="vocabulary-word">${escapeHtml(item.word)}</h3>
             ${pronunciation}
             ${meaning}
-            ${example}
             <div class="vocabulary-meta">
               ${rankTag}
               ${partOfSpeechTag}
