@@ -3403,6 +3403,11 @@ pass=通过；传递
     return !!getPastTenseLabel(word);
   }
 
+  function isPastTenseForm(word) {
+    const normalized = normalizeWordKey(String(word || ""));
+    return Object.prototype.hasOwnProperty.call(BASE_WORD_BY_PAST_TENSE, normalized);
+  }
+
   function getVocabularyRoot(word) {
     let root = word.toLowerCase().replace(/[^a-z0-9\s'-]/g, "").replace(/\s+/g, " ").trim();
     if (!root || /^\d+$/.test(root) || root.includes(" ") || root.includes("'")) return root;
@@ -5778,7 +5783,7 @@ pass=通过；传递
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
-      const matchesTense = tenseFilter === "all" || hasPastTensePair(item.word);
+      const matchesTense = tenseFilter === "all" || isPastTenseForm(item.word);
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
       const matchesRoot = !includeRoot || rootFilter === "all" || item.root === rootFilter;
