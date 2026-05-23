@@ -827,6 +827,10 @@
         <option value="compound">Compound words</option>
         <option value="single">Single words</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
+        <option value="all">All tenses</option>
+        <option value="past">Past tense</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
         <option value="all">All prefixes</option>
       </select>
@@ -900,6 +904,7 @@
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
   const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
   const STORAGE_VOCAB_COMPOUND_FILTER_KEY = "learningEnglishVocabularyCompoundFilter";
+  const STORAGE_VOCAB_TENSE_FILTER_KEY = "learningEnglishVocabularyTenseFilter";
   const STORAGE_VOCAB_PREFIX_FILTER_KEY = "learningEnglishVocabularyPrefixFilter";
   const STORAGE_VOCAB_SUFFIX_FILTER_KEY = "learningEnglishVocabularySuffixFilter";
   const STORAGE_VOCAB_ROOT_FILTER_KEY = "learningEnglishVocabularyRootFilter";
@@ -3294,6 +3299,65 @@ pass=通过；传递
     teacher: "teach"
   };
 
+  const PAST_TENSE_BY_BASE_WORD = {
+    be: "was / were",
+    begin: "began",
+    break: "broke",
+    bring: "brought",
+    buy: "bought",
+    catch: "caught",
+    choose: "chose",
+    come: "came",
+    do: "did",
+    draw: "drew",
+    drink: "drank",
+    drive: "drove",
+    eat: "ate",
+    fall: "fell",
+    feel: "felt",
+    find: "found",
+    fly: "flew",
+    get: "got",
+    give: "gave",
+    go: "went",
+    grow: "grew",
+    have: "had",
+    hear: "heard",
+    know: "knew",
+    lead: "led",
+    leave: "left",
+    lose: "lost",
+    make: "made",
+    mean: "meant",
+    meet: "met",
+    put: "put",
+    read: "read",
+    ride: "rode",
+    ring: "rang",
+    run: "ran",
+    say: "said",
+    see: "saw",
+    send: "sent",
+    sit: "sat",
+    sleep: "slept",
+    speak: "spoke",
+    spend: "spent",
+    stand: "stood",
+    take: "took",
+    tell: "told",
+    think: "thought",
+    understand: "understood",
+    win: "won",
+    write: "wrote"
+  };
+
+  const BASE_WORD_BY_PAST_TENSE = Object.entries(PAST_TENSE_BY_BASE_WORD).reduce((lookup, [base, pastForms]) => {
+    pastForms.split("/").map((form) => form.trim()).filter(Boolean).forEach((form) => {
+      lookup[form] = base;
+    });
+    return lookup;
+  }, {});
+
   const SUFFIX_BY_WORD = {
     able: ["possible"],
     ed: ["added", "answered", "asked", "called", "carried", "changed", "closed", "covered", "cried", "decided", "developed", "discovered", "divided", "filled", "finished", "followed", "formed", "happened", "helped", "laughed", "learned", "liked", "lived", "looked", "moved", "named", "needed", "opened", "passed", "picked", "placed", "played", "produced", "pulled", "raised", "reached", "seemed", "started", "stopped", "tried", "turned", "walked", "wanted", "watched", "worked"],
@@ -3417,6 +3481,17 @@ pass=通过；传递
   function getVocabularySuffix(word) {
     const normalized = word.toLowerCase();
     return SUFFIX_BY_WORD_LOOKUP[normalized] || "none";
+  }
+
+  function getPastTenseLabel(word) {
+    const normalized = normalizeWordKey(String(word || ""));
+    if (PAST_TENSE_BY_BASE_WORD[normalized]) return `Past: ${PAST_TENSE_BY_BASE_WORD[normalized]}`;
+    if (BASE_WORD_BY_PAST_TENSE[normalized]) return `Base: ${BASE_WORD_BY_PAST_TENSE[normalized]}`;
+    return "";
+  }
+
+  function hasPastTensePair(word) {
+    return !!getPastTenseLabel(word);
   }
 
   function getVocabularyRoot(word) {
@@ -5278,6 +5353,7 @@ pass=通过；传递
   let selectedVocabularyPart = loadSelectedVocabularyPart();
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
   let selectedVocabularyCompound = loadSelectedVocabularyCompound();
+  let selectedVocabularyTense = loadSelectedVocabularyTense();
   let selectedVocabularyPrefix = loadSelectedVocabularyPrefix();
   let selectedVocabularySuffix = loadSelectedVocabularySuffix();
   let selectedVocabularyRoot = loadSelectedVocabularyRoot();
@@ -5439,6 +5515,21 @@ pass=通过；传递
   function saveSelectedVocabularyCompound() {
     try {
       localStorage.setItem(STORAGE_VOCAB_COMPOUND_FILTER_KEY, selectedVocabularyCompound);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyTense() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_TENSE_FILTER_KEY);
+      return ["all", "past"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyTense() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_TENSE_FILTER_KEY, selectedVocabularyTense);
     } catch (error) {}
   }
 
@@ -5808,6 +5899,7 @@ pass=通过；传递
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
     const compoundFilter = selectedVocabularyCompound;
+    const tenseFilter = selectedVocabularyTense;
     const prefixFilter = selectedVocabularyPrefix;
     const suffixFilter = selectedVocabularySuffix;
     let rootFilter = selectedVocabularyRoot;
@@ -5822,13 +5914,14 @@ pass=通过；传递
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
+      const matchesTense = tenseFilter === "all" || hasPastTensePair(item.word);
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
       const matchesRoot = !includeRoot || rootFilter === "all" || item.root === rootFilter;
       const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
       const matchesVowelTeam = vowelTeamFilter === "all" || (item.vowelTeams || []).includes(vowelTeamFilter);
       const matchesIpa = ipaContainsSound(getVocabularyIpa(item), ipaFilter);
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
     };
     const rootSourceVocabulary = allVocabulary.filter((item) => matchesFilters(item, false));
     const vocabularyRootFilter = renderVocabularyRootOptions(rootSourceVocabulary);
@@ -5839,7 +5932,7 @@ pass=通过；传递
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
+    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
@@ -5847,6 +5940,7 @@ pass=通过；传递
     document.getElementById("vocabularyPartFilter").value = partFilter;
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
+    document.getElementById("vocabularyTenseFilter").value = tenseFilter;
     document.getElementById("vocabularyPrefixFilter").value = prefixFilter;
     document.getElementById("vocabularySuffixFilter").value = suffixFilter;
     vocabularyRootFilter.value = rootFilter;
@@ -5885,6 +5979,8 @@ pass=通过；传递
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
       const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
+      const tenseLabel = getPastTenseLabel(item.word);
+      const tenseTag = tenseLabel ? `<span class="vocabulary-tag">${escapeHtml(tenseLabel)}</span>` : "";
       const rootTag = item.root ? `<span class="vocabulary-tag">Root: ${escapeHtml(item.root)}</span>` : "";
       const syllableTag = item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "";
       const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">Vowel team: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
@@ -5901,6 +5997,7 @@ pass=通过；传递
               ${themeTag}
               ${prefixTag}
               ${suffixTag}
+              ${tenseTag}
               ${rootTag}
               ${syllableTag}
               ${vowelTeamTag}
@@ -6037,6 +6134,11 @@ pass=通过；传递
   document.getElementById("vocabularyCompoundFilter").addEventListener("change", (event) => {
     selectedVocabularyCompound = event.target.value;
     saveSelectedVocabularyCompound();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyTenseFilter").addEventListener("change", (event) => {
+    selectedVocabularyTense = event.target.value;
+    saveSelectedVocabularyTense();
     renderVocabularyList();
   });
   document.getElementById("vocabularyPrefixFilter").innerHTML = [
