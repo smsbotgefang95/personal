@@ -3522,6 +3522,57 @@ pass=通过；传递
     Object.entries(VOCABULARY_SUFFIX_LABELS).filter(([suffix]) => !["s", "ed"].includes(suffix))
   );
 
+  const VOCABULARY_ROOT_DEFINITIONS = {
+    form: {
+      label: "form",
+      meaning: "shape; make",
+      chinese: "形状；形成",
+      words: ["form", "forms", "information"]
+    },
+    ject: {
+      label: "ject",
+      meaning: "throw",
+      chinese: "投；抛",
+      words: ["object", "subject"]
+    },
+    duce: {
+      label: "duc / duce",
+      meaning: "lead; bring",
+      chinese: "引导；带来",
+      words: ["produce", "product", "products"]
+    },
+    fact: {
+      label: "fac / fact",
+      meaning: "make; do",
+      chinese: "做；制造",
+      words: ["fact", "facts"]
+    },
+    act: {
+      label: "act",
+      meaning: "do; move",
+      chinese: "做；行动",
+      words: ["action"]
+    },
+    sect: {
+      label: "sect",
+      meaning: "cut",
+      chinese: "切；分开",
+      words: ["section"]
+    },
+    sign: {
+      label: "sign",
+      meaning: "mark",
+      chinese: "标记；符号",
+      words: ["sign"]
+    },
+    port: {
+      label: "port",
+      meaning: "carry",
+      chinese: "携带；运输",
+      words: ["import", "export", "transport"]
+    }
+  };
+
   const LY_SUFFIX_WORDS = new Set([
     "carefully",
     "easily",
@@ -3796,6 +3847,18 @@ pass=通过；传递
     return SUFFIX_BY_WORD_LOOKUP[normalized] || "none";
   }
 
+  function normalizeVocabularyRootWord(word) {
+    return String(word || "").toLowerCase().replace(/[^a-z0-9\s'-]/g, "").replace(/\s+/g, " ").trim();
+  }
+
+  function getVocabularyRoots(word) {
+    const normalized = normalizeVocabularyRootWord(word);
+    if (!normalized || normalized.includes(" ") || normalized.includes("'")) return [];
+    return Object.entries(VOCABULARY_ROOT_DEFINITIONS)
+      .filter(([, definition]) => definition.words.includes(normalized))
+      .map(([root]) => root);
+  }
+
   function getPastTenseLabel(word) {
     const normalized = normalizeWordKey(String(word || ""));
     if (PAST_TENSE_BY_BASE_WORD[normalized]) return `过去式: ${PAST_TENSE_BY_BASE_WORD[normalized]}`;
@@ -3810,20 +3873,6 @@ pass=通过；传递
   function isPastTenseForm(word) {
     const normalized = normalizeWordKey(String(word || ""));
     return Object.prototype.hasOwnProperty.call(BASE_WORD_BY_PAST_TENSE, normalized);
-  }
-
-  function getVocabularyRoot(word) {
-    let root = word.toLowerCase().replace(/[^a-z0-9\s'-]/g, "").replace(/\s+/g, " ").trim();
-    if (!root || /^\d+$/.test(root) || root.includes(" ") || root.includes("'")) return root;
-    const suffix = getVocabularySuffix(root);
-    if (suffix === "none") return root;
-    if (suffix === "ing") return stripIngSuffix(root);
-    if (suffix === "ed") return stripEdSuffix(root);
-    if (suffix === "s") return stripPluralSuffix(root);
-    if (suffix === "ly") return stripLySuffix(root) || root;
-    if (suffix === "est") return stripComparativeSuffix(root, "est") || root;
-    if (suffix === "er") return ER_SUFFIX_ROOTS[root] || root;
-    return root;
   }
 
   function hasRControlledSyllable(word) {
@@ -5041,7 +5090,7 @@ pass=通过；传递
       isCompound,
       prefix: getVocabularyPrefix(word),
       suffix: getVocabularySuffix(word),
-      root: getVocabularyRoot(word),
+      roots: getVocabularyRoots(word),
       syllableType: getVocabularySyllableType(word),
       vowelTeams: getVocabularyVowelTeams(word),
       rank: index + 1,
@@ -5060,7 +5109,7 @@ pass=通过；传递
       isCompound: /\s/.test(item.word),
       prefix: getVocabularyPrefix(item.word),
       suffix: getVocabularySuffix(item.word),
-      root: getVocabularyRoot(item.word),
+      roots: getVocabularyRoots(item.word),
       syllableType: getVocabularySyllableType(item.word),
       vowelTeams: getVocabularyVowelTeams(item.word),
       rank: "Country",
@@ -5167,7 +5216,7 @@ pass=通过；传递
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
-    root: "",
+    roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
     rank: `Holiday ${index + 1}`,
@@ -5279,7 +5328,7 @@ pass=通过；传递
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
-    root: getVocabularyRoot(item.word),
+    roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
     rank: `Furniture ${index + 1}`,
@@ -5349,7 +5398,7 @@ pass=通过；传递
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
-    root: getVocabularyRoot(item.word),
+    roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
     rank: `Appliance ${index + 1}`,
@@ -5455,7 +5504,7 @@ pass=通过；传递
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
-    root: getVocabularyRoot(item.word),
+    roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
     rank: `Clothes ${index + 1}`,
@@ -5610,7 +5659,7 @@ pass=通过；传递
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
-    root: getVocabularyRoot(item.word),
+    roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
     rank: `Sports ${index + 1}`,
@@ -5630,77 +5679,66 @@ pass=通过；传递
   const ER_PERSON_VOCABULARY = [
     {
       word: "writer",
-      root: "write",
       chinese: "作家；写作者",
       ipa: "ˈraɪtər",
       example: "A writer writes stories."
     },
     {
       word: "walker",
-      root: "walk",
       chinese: "走路的人；步行者",
       ipa: "ˈwɔkər",
       example: "A walker walks in the park."
     },
     {
       word: "reader",
-      root: "read",
       chinese: "读者；阅读的人",
       ipa: "ˈridər",
       example: "A reader reads a book."
     },
     {
       word: "worker",
-      root: "work",
       chinese: "工人；工作者",
       ipa: "ˈwɜrkər",
       example: "A worker works hard."
     },
     {
       word: "helper",
-      root: "help",
       chinese: "帮手；帮助者",
       ipa: "ˈhelpər",
       example: "A helper helps the teacher."
     },
     {
       word: "driver",
-      root: "drive",
       chinese: "司机；驾驶员",
       ipa: "ˈdraɪvər",
       example: "A driver drives a car."
     },
     {
       word: "runner",
-      root: "run",
       chinese: "跑步者；赛跑者",
       ipa: "ˈrʌnər",
       example: "A runner runs fast."
     },
     {
       word: "speaker",
-      root: "speak",
       chinese: "说话者；演讲者",
       ipa: "ˈspikər",
       example: "A speaker speaks clearly."
     },
     {
       word: "listener",
-      root: "listen",
       chinese: "听众；倾听者",
       ipa: "ˈlɪsənər",
       example: "A listener listens carefully."
     },
     {
       word: "buyer",
-      root: "buy",
       chinese: "买家；购买者",
       ipa: "ˈbaɪər",
       example: "A buyer buys food at the store."
     },
     {
       word: "farmer",
-      root: "farm",
       chinese: "农民；农场主",
       ipa: "ˈfɑrmər",
       example: "A farmer grows food."
@@ -5713,6 +5751,7 @@ pass=通过；传递
     isCompound: false,
     prefix: getVocabularyPrefix(item.word),
     suffix: "er",
+    roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
     rank: `ER Person ${index + 1}`,
@@ -5780,7 +5819,7 @@ pass=通过；传递
       isCompound: COMPOUND_WORDS.has(normalized) || /\s/.test(normalized),
       prefix: getVocabularyPrefix(word),
       suffix: getVocabularySuffix(word),
-      root: getVocabularyRoot(word),
+      roots: getVocabularyRoots(word),
       syllableType: getVocabularySyllableType(word),
       vowelTeams: getVocabularyVowelTeams(word),
       ipa: getBritishIpa(word),
@@ -5976,7 +6015,8 @@ pass=通过；传递
 
   function loadSelectedVocabularyRoot() {
     try {
-      return localStorage.getItem(STORAGE_VOCAB_ROOT_FILTER_KEY) || "all";
+      const saved = localStorage.getItem(STORAGE_VOCAB_ROOT_FILTER_KEY);
+      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_ROOT_DEFINITIONS, saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -6157,16 +6197,6 @@ pass=通过；传递
               <p class="phrase-chinese">${phrase.chinese}</p>
             </div>
             <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">${SPEAKER_ICON}</button>
-          </div>
-          <div class="phrase-detail">
-            <div class="detail-box">
-              <span>Pronunciation</span>
-              <p>${phrase.pronunciation}</p>
-            </div>
-            <div class="detail-box">
-              <span>Use it when</span>
-              <p>${phrase.usage}</p>
-            </div>
           </div>
           <div class="status-row" aria-label="Conversation status for ${phrase.english}">
             ${statusButton(phrase.id, "to-learn", "待学", currentStatus || "to-learn")}
@@ -6383,8 +6413,10 @@ pass=通过；传递
 
   function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
     const counts = sourceVocabulary.reduce((map, item) => {
-      if (!item.root) return map;
-      map.set(item.root, (map.get(item.root) || 0) + 1);
+      (item.roots || []).forEach((root) => {
+        if (!Object.prototype.hasOwnProperty.call(VOCABULARY_ROOT_DEFINITIONS, root)) return;
+        map.set(root, (map.get(root) || 0) + 1);
+      });
       return map;
     }, new Map());
     return [...counts.entries()]
@@ -6396,7 +6428,10 @@ pass=通过；传递
     const vocabularyRootFilter = document.getElementById("vocabularyRootFilter");
     vocabularyRootFilter.innerHTML = [
       `<option value="all">所有词根</option>`,
-      ...getVocabularyRootOptions(sourceVocabulary).map(([root, count]) => `<option value="${escapeHtml(root)}">${escapeHtml(root)} (${count})</option>`)
+      ...getVocabularyRootOptions(sourceVocabulary).map(([root, count]) => {
+        const definition = VOCABULARY_ROOT_DEFINITIONS[root];
+        return `<option value="${escapeHtml(root)}">${escapeHtml(definition.label)} - ${escapeHtml(definition.chinese)} (${count})</option>`;
+      })
     ].join("");
     return vocabularyRootFilter;
   }
@@ -6416,7 +6451,7 @@ pass=通过；传递
     const vowelTeamFilter = selectedVocabularyVowelTeam;
     const ipaFilter = selectedVocabularyIpa;
     const allVocabulary = getAllVocabulary();
-    const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank)].some((value) => (value || "").toLowerCase().includes(search));
+    const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank), ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)].some((value) => (value || "").toLowerCase().includes(search));
     const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
@@ -6426,7 +6461,7 @@ pass=通过；传递
       const matchesTense = tenseFilter === "all" || isPastTenseForm(item.word);
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
-      const matchesRoot = !includeRoot || rootFilter === "all" || item.root === rootFilter;
+      const matchesRoot = !includeRoot || rootFilter === "all" || (item.roots || []).includes(rootFilter);
       const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
       const matchesVowelTeam = matchesVocabularyVowelTeamFilter(item, vowelTeamFilter);
       const matchesIpa = ipaMatchesFilter(getVocabularyIpa(item), ipaFilter);
@@ -6491,7 +6526,10 @@ pass=通过；传递
       const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const tenseLabel = getPastTenseLabel(item.word);
       const tenseTag = tenseLabel ? `<span class="vocabulary-tag">${escapeHtml(tenseLabel)}</span>` : "";
-      const rootTag = item.root ? `<span class="vocabulary-tag">词根: ${escapeHtml(item.root)}</span>` : "";
+      const rootTags = (item.roots || []).map((root) => {
+        const definition = VOCABULARY_ROOT_DEFINITIONS[root];
+        return definition ? `<span class="vocabulary-tag">词根: ${escapeHtml(definition.label)}</span>` : "";
+      }).join("");
       const syllableTag = item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "";
       const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">元音组合: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
       return `
@@ -6509,7 +6547,7 @@ pass=通过；传递
               ${prefixTag}
               ${suffixTag}
               ${tenseTag}
-              ${rootTag}
+              ${rootTags}
               ${syllableTag}
               ${vowelTeamTag}
             </div>
