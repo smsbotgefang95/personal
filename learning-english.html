@@ -762,6 +762,7 @@
     <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">Sentence</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">Vocabulary</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">Phrase</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">Dialogue</button>
   </div>
 
   <section class="section-grid view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
@@ -871,6 +872,8 @@
     </div>
     <div class="phrase-list" id="vocabularyPhraseList"></div>
   </section>
+
+  <section class="view-panel" id="view-dialogue" role="tabpanel" aria-label="Dialogue practice"></section>
 
   <section class="tip-panel" aria-labelledby="tips-title">
     <div class="panel-header">
@@ -5319,7 +5322,7 @@ pass=通过；传递
   function loadSelectedView() {
     try {
       const saved = localStorage.getItem(STORAGE_VIEW_KEY);
-      return ["practice", "vocabulary", "phrase"].includes(saved) ? saved : "practice";
+      return ["practice", "vocabulary", "phrase", "dialogue"].includes(saved) ? saved : "practice";
     } catch (error) {
       return "practice";
     }
