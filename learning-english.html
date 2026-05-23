@@ -470,10 +470,15 @@
     border-color: #b7cbc2;
   }
 
-  .status-button.active[data-status="to-learn"],
-  .status-button.active[data-status="auto"] {
+  .status-button.active[data-status="to-learn"] {
     background: #e0f2fe;
     color: #0369a1;
+  }
+
+  .status-button.active[data-status="auto"] {
+    background: #e5e7eb;
+    border-color: #cbd5e1;
+    color: #4b5563;
   }
 
   .status-button.active[data-status="learning"] {
@@ -827,8 +832,8 @@
         <option value="single">Single words</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
-        <option value="all">All tenses</option>
-        <option value="past">Past tense</option>
+        <option value="all">全部时态</option>
+        <option value="past">过去式</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
         <option value="all">All prefixes</option>
@@ -840,7 +845,7 @@
         <option value="all">All roots</option>
       </select>
       <select class="vocabulary-filter" id="vocabularySyllableFilter" aria-label="Filter vocabulary by syllable type">
-        <option value="all">All syllables</option>
+        <option value="all">全部音节</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyVowelTeamFilter" aria-label="Filter vocabulary by vowel team">
         <option value="all">All vowel teams</option>
@@ -3285,12 +3290,12 @@ pass=通过；传递
   );
 
   const VOCABULARY_SYLLABLE_LABELS = {
-    open: "Open syllable 开音节",
-    closed: "Closed syllable 闭音节",
-    silent_e: "Silent-e / magic-e syllable",
-    vowel_team: "Vowel team syllable",
-    r_controlled: "R-controlled syllable",
-    consonant_le: "Consonant-le syllable"
+    open: "开音节",
+    closed: "闭音节",
+    silent_e: "魔法e音节",
+    vowel_team: "元音组合音节",
+    r_controlled: "R控制音节",
+    consonant_le: "辅音-le音节"
   };
 
   const VOCABULARY_SYLLABLE_OVERRIDES = {
@@ -6041,7 +6046,7 @@ pass=通过；传递
   });
   const vocabularySyllableFilter = document.getElementById("vocabularySyllableFilter");
   vocabularySyllableFilter.innerHTML = [
-    `<option value="all">All syllables</option>`,
+    `<option value="all">全部音节</option>`,
     ...Object.entries(VOCABULARY_SYLLABLE_LABELS).map(([type, label]) => `<option value="${type}">${escapeHtml(label)}</option>`)
   ].join("");
   vocabularySyllableFilter.addEventListener("change", (event) => {
