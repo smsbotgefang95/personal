@@ -305,7 +305,7 @@
   .filters {
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
     margin-bottom: 14px;
   }
 
@@ -1085,6 +1085,14 @@
           </select>
         </div>
         <div class="field">
+          <label for="filterStartDate">From</label>
+          <input id="filterStartDate" type="date" />
+        </div>
+        <div class="field">
+          <label for="filterEndDate">To</label>
+          <input id="filterEndDate" type="date" />
+        </div>
+        <div class="field">
           <label for="filterPattern">Recommendation</label>
           <select id="filterPattern">
             <option value="all">All types</option>
@@ -1156,6 +1164,10 @@
               <div class="field">
                 <label for="eventDate">Date</label>
                 <input id="eventDate" type="date" required />
+              </div>
+              <div class="field">
+                <label for="eventEndDate">End Date</label>
+                <input id="eventEndDate" type="date" />
               </div>
               <div class="field">
                 <label for="eventArea">Topic</label>
@@ -1753,6 +1765,7 @@ W03: Cornbread`],
     eventFormPanel: document.getElementById("eventFormPanel"),
     eventId: document.getElementById("eventId"),
     eventDate: document.getElementById("eventDate"),
+    eventEndDate: document.getElementById("eventEndDate"),
     eventArea: document.getElementById("eventArea"),
     eventSourceColumn: document.getElementById("eventSourceColumn"),
     eventTitle: document.getElementById("eventTitle"),
@@ -1773,6 +1786,8 @@ W03: Cornbread`],
     filterPeople: document.getElementById("filterPeople"),
     filterImpact: document.getElementById("filterImpact"),
     filterTime: document.getElementById("filterTime"),
+    filterStartDate: document.getElementById("filterStartDate"),
+    filterEndDate: document.getElementById("filterEndDate"),
     filterPattern: document.getElementById("filterPattern"),
     eventList: document.getElementById("eventList"),
     timelineSummary: document.getElementById("timelineSummary"),
@@ -1915,6 +1930,7 @@ W03: Cornbread`],
       compactDedupeValue(event.area),
       compactDedupeValue(event.sourceColumn || "Manual entry"),
       compactDedupeValue(event.date),
+      compactDedupeValue(event.endDate),
       compactDedupeValue(event.notes)
     ].join("|");
   }
@@ -2041,6 +2057,32 @@ W03: Cornbread`],
 
   function today() {
     return new Date().toISOString().slice(0, 10);
+  }
+
+  function isIsoDate(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ""));
+  }
+
+  function eventEndDate(event) {
+    const start = String(event && event.date || "");
+    const end = String(event && event.endDate || "");
+    return isIsoDate(end) && end >= start ? end : start;
+  }
+
+  function formatEventDateRange(event) {
+    const start = formatDate(event.date);
+    const endDate = eventEndDate(event);
+    if (!isIsoDate(event.endDate) || endDate === event.date) return start;
+    return `${start} - ${formatDate(endDate)}`;
+  }
+
+  function dateRangeOverlaps(event, filterStart, filterEnd) {
+    const eventStart = String(event && event.date || "");
+    if (!isIsoDate(eventStart)) return false;
+    const eventEnd = eventEndDate(event);
+    if (filterStart && eventEnd < filterStart) return false;
+    if (filterEnd && eventStart > filterEnd) return false;
+    return true;
   }
 
   function yearEndPlaceholderDate(year) {
@@ -2350,12 +2392,17 @@ W03: Cornbread`],
   }
 
   function currentFilters() {
+    const customStart = isIsoDate(els.filterStartDate.value) ? els.filterStartDate.value : "";
+    const customEnd = isIsoDate(els.filterEndDate.value) ? els.filterEndDate.value : "";
     return {
       area: els.filterArea.value,
       column: els.filterColumn.value,
       people: selectedCheckboxValues(els.filterPeople).filter((value) => value !== "all"),
       impact: els.filterImpact.value,
       time: els.filterTime.value,
+      startDate: customStart,
+      endDate: customEnd,
+      hasCustomDateRange: Boolean(customStart || customEnd),
       pattern: els.filterPattern.value
     };
   }
@@ -2372,7 +2419,8 @@ W03: Cornbread`],
       if (filters.impact === "positive" && impact <= 0) return false;
       if (filters.impact === "negative" && impact >= 0) return false;
       if (filters.impact === "neutral" && impact !== 0) return false;
-      if (filters.time !== "all" && daysAgo(event.date) > Number(filters.time)) return false;
+      if (filters.hasCustomDateRange && !dateRangeOverlaps(event, filters.startDate, filters.endDate)) return false;
+      if (!filters.hasCustomDateRange && filters.time !== "all" && daysAgo(eventEndDate(event)) > Number(filters.time)) return false;
       return true;
     }).sort((a, b) => String(b.date).localeCompare(String(a.date)));
   }
@@ -2416,9 +2464,10 @@ W03: Cornbread`],
 
   function eventFromForm() {
     const date = els.eventDate.value;
+    const endDate = els.eventEndDate.value;
     const area = els.eventArea.value;
     const sourceColumn = els.eventSourceColumn.value;
-    return {
+    const event = {
       id: els.eventId.value || uniqueId(),
       date,
       area,
@@ -2434,11 +2483,14 @@ W03: Cornbread`],
       lesson: cleanBulletField(els.eventLesson.value),
       action: els.eventAction.value.trim()
     };
+    if (endDate) event.endDate = endDate;
+    return event;
   }
 
   function fillForm(event) {
     els.eventId.value = event.id || "";
     els.eventDate.value = event.date || today();
+    els.eventEndDate.value = event.endDate || "";
     els.eventArea.value = event.area || AREAS[0];
     updateEventSourceColumnOptions(event.sourceColumn || "");
     els.eventTitle.value = event.title || "";
@@ -2523,7 +2575,7 @@ W03: Cornbread`],
       <div class="guidance-item">
         <strong>${escapeHtml(item.title)}</strong>
         <span>${escapeHtml(item.reason)}</span>
-        <span>Source: ${escapeHtml(item.area)} on ${escapeHtml(formatDate(item.date))}</span>
+        <span>Source: ${escapeHtml(item.area)} on ${escapeHtml(formatEventDateRange(item))}</span>
       </div>
     `).join("");
   }
@@ -2694,7 +2746,7 @@ W03: Cornbread`],
     const action = event.action === GENERIC_NEXT_ACTION ? "" : event.action;
     return `
       <div class="cell-entry">
-        <div class="cell-date">${escapeHtml(formatDate(event.date))}</div>
+        <div class="cell-date">${escapeHtml(formatEventDateRange(event))}</div>
         <div class="cell-content">${formatCellContent(content)}</div>
         ${people.length ? `<div class="cell-meta"><span>${escapeHtml(people.join(", "))}</span></div>` : ""}
         ${action ? `<div class="cell-meta"><strong>Next:</strong> ${escapeHtml(action)}</div>` : ""}
@@ -2912,6 +2964,11 @@ W03: Cornbread`],
   els.eventForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const nextEvent = eventFromForm();
+    if (nextEvent.endDate && nextEvent.endDate < nextEvent.date) {
+      showToast("End Date must be on or after Date.");
+      els.eventEndDate.focus();
+      return;
+    }
     const existingIndex = events.findIndex((item) => item.id === nextEvent.id);
     if (existingIndex >= 0) {
       events[existingIndex] = nextEvent;
@@ -2993,7 +3050,7 @@ W03: Cornbread`],
     document.querySelectorAll(".people-multiselect").forEach(closePeopleMenu);
   });
 
-  [els.filterColumn, els.filterImpact, els.filterTime, els.filterPattern].forEach((node) => {
+  [els.filterColumn, els.filterImpact, els.filterTime, els.filterStartDate, els.filterEndDate, els.filterPattern].forEach((node) => {
     node.addEventListener("change", render);
   });
 

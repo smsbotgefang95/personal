@@ -73,6 +73,7 @@ def clean_event(value):
     limits = {
         "id": 120,
         "date": 32,
+        "endDate": 32,
         "area": 80,
         "sourceColumn": 120,
         "title": 240,
