@@ -4736,7 +4736,25 @@ pass=通过；传递
     { word: "Israel", chinese: "以色列", pronunciation: "IZ-ree-uhl", example: "Jerusalem is in Israel." }
   ];
 
-  const COMMON_VOCABULARY = COMMON_WORDS_1000.map((word, index) => {
+  const EXCLUDED_PLURAL_VOCABULARY_WORDS = new Set([
+    "animals", "answers", "areas", "arms", "birds", "books", "boys", "cars",
+    "changes", "children", "cities", "clothes", "countries", "days",
+    "directions", "dogs", "eggs", "examples", "eyes", "facts", "feet",
+    "fields", "fingers", "flowers", "forms", "friends", "girls", "groups",
+    "hands", "homes", "horses", "hours", "houses", "hundreds", "ideas",
+    "inches", "indians", "kinds", "leaves", "legs", "letters", "lines",
+    "lives", "materials", "members", "men", "miles", "minutes", "months",
+    "mountains", "names", "numbers", "ones", "others", "pages", "parts",
+    "patterns", "pictures", "pieces", "places", "plants", "points",
+    "pounds", "products", "questions", "rocks", "scientists", "seeds",
+    "sentences", "sets", "ships", "sides", "sounds", "stars", "states",
+    "steps", "stories", "teeth", "things", "thousands", "times", "trees",
+    "waves", "ways", "weeks", "women", "woods", "words", "years"
+  ]);
+
+  const FILTERED_COMMON_WORDS = COMMON_WORDS_1000.filter((word) => !EXCLUDED_PLURAL_VOCABULARY_WORDS.has(word.toLowerCase()));
+
+  const COMMON_VOCABULARY = FILTERED_COMMON_WORDS.map((word, index) => {
     const featured = FEATURED_BY_WORD[word.toLowerCase()] || {};
     const isCompound = COMPOUND_WORDS.has(word.toLowerCase());
     return {
@@ -4758,7 +4776,7 @@ pass=通过；传递
     };
   });
 
-  const COMMON_WORD_SET = new Set(COMMON_WORDS_1000.map((word) => word.toLowerCase()));
+  const COMMON_WORD_SET = new Set(FILTERED_COMMON_WORDS.map((word) => word.toLowerCase()));
   const COUNTRY_WORDS = COUNTRY_VOCABULARY
     .filter((item) => !COMMON_WORD_SET.has(item.word.toLowerCase()))
     .map((item) => ({
