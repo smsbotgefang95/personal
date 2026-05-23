@@ -359,7 +359,7 @@
   }
 
   .phrase-english {
-    font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+    font-size: 1.2rem;
     font-weight: 850;
     line-height: 1.2;
     overflow-wrap: anywhere;
@@ -582,7 +582,8 @@
   .phrase-search,
   .vocabulary-phrase-search,
   .vocabulary-search,
-  .vocabulary-filter {
+  .vocabulary-filter,
+  .vocabulary-reset {
     background: #f8faf8;
     border: 1px solid var(--border);
     border-radius: 7px;
@@ -605,6 +606,22 @@
     background-size: 6px 6px;
     font-weight: 800;
     padding-right: 32px;
+  }
+
+  .vocabulary-reset {
+    align-items: center;
+    display: inline-flex;
+    font-weight: 800;
+    justify-content: flex-start;
+    text-align: left;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .vocabulary-reset:hover {
+    background: #edf2ee;
+    border-color: #b7c2ba;
+    color: #143a34;
   }
 
   .phrase-summary,
@@ -910,6 +927,7 @@
         <option value="all">所有音标</option>
       </select>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
+      <button class="vocabulary-reset" id="vocabularyResetFilters" type="button" aria-label="Reset vocabulary filters">重置筛选</button>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
   </section>
@@ -6975,6 +6993,33 @@ pass=通过；传递
     renderVocabularyPhrases();
   });
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
+  function resetVocabularyFilters() {
+    document.getElementById("vocabularySearch").value = "";
+    selectedVocabularyStatus = "all";
+    selectedVocabularyPart = "all";
+    selectedVocabularyTheme = "all";
+    selectedVocabularyCompound = "all";
+    selectedVocabularyTense = "all";
+    selectedVocabularyPrefix = "all";
+    selectedVocabularySuffix = "all";
+    selectedVocabularyRoot = "all";
+    selectedVocabularySyllable = "all";
+    selectedVocabularyVowelTeam = "all";
+    selectedVocabularyIpa = "all";
+    saveSelectedVocabularyStatus();
+    saveSelectedVocabularyPart();
+    saveSelectedVocabularyTheme();
+    saveSelectedVocabularyCompound();
+    saveSelectedVocabularyTense();
+    saveSelectedVocabularyPrefix();
+    saveSelectedVocabularySuffix();
+    saveSelectedVocabularyRoot();
+    saveSelectedVocabularySyllable();
+    saveSelectedVocabularyVowelTeam();
+    saveSelectedVocabularyIpa();
+    renderVocabularyList();
+  }
+  document.getElementById("vocabularyResetFilters").addEventListener("click", resetVocabularyFilters);
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
     saveSelectedVocabularyStatus();
