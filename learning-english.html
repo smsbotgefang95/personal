@@ -501,12 +501,8 @@
 
   .status-row {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .vocabulary-status-row {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .status-button {
@@ -865,18 +861,18 @@
       </select>
       <select class="vocabulary-filter" id="vocabularyPartFilter" aria-label="Filter vocabulary by part of speech">
         <option value="all">所有词性</option>
-        <option value="noun">Noun 名词</option>
-        <option value="verb">Verb 动词</option>
-        <option value="adjective">Adjective 形容词</option>
-        <option value="adverb">Adverb 副词</option>
-        <option value="pronoun">Pronoun 代词</option>
-        <option value="preposition">Preposition 介词</option>
-        <option value="determiner">Determiner 限定词</option>
-        <option value="conjunction">Conjunction 连词</option>
-        <option value="number">Number 数词</option>
-        <option value="proper noun">Proper noun 专有名词</option>
-        <option value="interjection">Interjection 感叹词</option>
-        <option value="modal verb">Modal verb 情态动词</option>
+        <option value="noun">名词 Noun</option>
+        <option value="verb">动词 Verb</option>
+        <option value="adjective">形容词 Adjective</option>
+        <option value="adverb">副词 Adverb</option>
+        <option value="pronoun">代词 Pronoun</option>
+        <option value="preposition">介词 Preposition</option>
+        <option value="determiner">限定词 Determiner</option>
+        <option value="conjunction">连词 Conjunction</option>
+        <option value="number">数词 Number</option>
+        <option value="proper noun">专有名词 Proper noun</option>
+        <option value="interjection">感叹词 Interjection</option>
+        <option value="modal verb">情态动词 Modal verb</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
         <option value="all">所有主题</option>
@@ -3738,6 +3734,114 @@ pass=通过；传递
   );
 
   const VOCABULARY_VOWEL_TEAM_CHILD_SOUND_ORDER = IPA_VOWEL_SOUNDS;
+  const VOCABULARY_VOWEL_TEAM_DEFAULT_SOUNDS = {
+    ai: "eɪ",
+    ay: "eɪ",
+    ea: "iː",
+    ee: "iː",
+    ei: "eɪ",
+    ey: "iː",
+    ie: "iː",
+    oa: "əʊ",
+    oe: "əʊ",
+    oi: "ɔɪ",
+    oy: "ɔɪ",
+    oo: "uː",
+    ou: "aʊ",
+    ow: "əʊ",
+    ue: "uː",
+    ui: "uː"
+  };
+  const VOCABULARY_VOWEL_TEAM_SOUND_CANDIDATES = {
+    ai: ["eɪ", "e"],
+    ay: ["eɪ", "e"],
+    ea: ["iː", "e", "eɪ", "eə", "ɪə", "ɜː", "ɑː", "uː"],
+    ee: ["iː", "ɪ"],
+    ei: ["eɪ", "iː", "eə", "ɪ"],
+    ey: ["iː", "eɪ", "aɪ"],
+    ie: ["iː", "aɪ", "e"],
+    oa: ["əʊ", "ɔː"],
+    oe: ["əʊ", "uː"],
+    oi: ["ɔɪ"],
+    oy: ["ɔɪ"],
+    oo: ["uː", "ʊ", "ʌ", "ɔː"],
+    ou: ["aʊ", "uː", "ʌ", "ɔː", "ʊ", "əʊ", "ɑː"],
+    ow: ["əʊ", "aʊ"],
+    ue: ["uː", "juː"],
+    ui: ["uː", "ɪ", "aɪ"]
+  };
+  const VOCABULARY_VOWEL_TEAM_SOUND_OVERRIDES = {
+    again: { ai: "e" },
+    against: { ai: "e" },
+    bear: { ea: "eə" },
+    beautiful: { ea: "uː" },
+    been: { ee: "ɪ" },
+    blood: { oo: "ʌ" },
+    book: { oo: "ʊ" },
+    bought: { ou: "ɔː" },
+    bread: { ea: "e" },
+    break: { ea: "eɪ" },
+    breakfast: { ea: "e" },
+    brought: { ou: "ɔː" },
+    build: { ui: "ɪ" },
+    could: { ou: "ʊ" },
+    country: { ou: "ʌ" },
+    cousin: { ou: "ʌ" },
+    early: { ea: "ɜː" },
+    earth: { ea: "ɜː" },
+    enough: { ou: "ʌ" },
+    eye: { ey: "aɪ" },
+    eyes: { ey: "aɪ" },
+    foot: { oo: "ʊ" },
+    four: { ou: "ɔː" },
+    friend: { ie: "e" },
+    good: { oo: "ʊ" },
+    great: { ea: "eɪ" },
+    group: { ou: "uː" },
+    head: { ea: "e" },
+    heard: { ea: "ɜː" },
+    heart: { ea: "ɑː" },
+    heavy: { ea: "e" },
+    learn: { ea: "ɜː" },
+    measure: { ea: "e" },
+    read: { ea: "iː" },
+    ready: { ea: "e" },
+    said: { ai: "e" },
+    says: { ay: "e" },
+    should: { ou: "ʊ" },
+    thought: { ou: "ɔː" },
+    through: { ou: "uː" },
+    touch: { ou: "ʌ" },
+    weather: { ea: "e" },
+    wear: { ea: "eə" },
+    would: { ou: "ʊ" },
+    young: { ou: "ʌ" },
+    your: { ou: "ɔː" }
+  };
+
+  function normalizeVocabularyVowelTeamSound(sound) {
+    return sound === "oʊ" ? "əʊ" : sound;
+  }
+
+  function getVocabularyVowelTeamSoundMap(word, ipa = "") {
+    const normalized = normalizeWordKey(String(word || ""));
+    const normalizedIpa = String(ipa || "").replaceAll("oʊ", "əʊ");
+    const overrides = VOCABULARY_VOWEL_TEAM_SOUND_OVERRIDES[normalized] || {};
+    return Object.fromEntries(getVocabularyVowelTeams(word).map((team) => {
+      const fallbackSound = overrides[team] || VOCABULARY_VOWEL_TEAM_DEFAULT_SOUNDS[team] || "";
+      const candidates = [
+        fallbackSound,
+        ...(VOCABULARY_VOWEL_TEAM_SOUND_CANDIDATES[team] || [])
+      ].map(normalizeVocabularyVowelTeamSound);
+      const mappedSound = overrides[team] || candidates.find((sound) => ipaContainsSound(normalizedIpa, sound)) || fallbackSound;
+      return [team, normalizeVocabularyVowelTeamSound(mappedSound)];
+    }).filter(([, sound]) => sound && VOCABULARY_VOWEL_TEAM_CHILD_SOUND_ORDER.includes(sound)));
+  }
+
+  function getVocabularyVowelTeamSound(item, team) {
+    const soundMap = item?.vowelTeamSounds || getVocabularyVowelTeamSoundMap(item?.word, getVocabularyIpa(item));
+    return soundMap[team] || "";
+  }
 
   function getVocabularyVowelTeamChildFilter(value) {
     const [team, ipa, extra] = String(value || "").split("__");
@@ -3751,10 +3855,8 @@ pass=通过；传递
     const sounds = new Set();
     sourceVocabulary.forEach((item) => {
       if (!(item.vowelTeams || []).includes(team)) return;
-      const ipa = getVocabularyIpa(item);
-      VOCABULARY_VOWEL_TEAM_CHILD_SOUND_ORDER.forEach((sound) => {
-        if (ipaContainsSound(ipa, sound)) sounds.add(sound);
-      });
+      const sound = getVocabularyVowelTeamSound(item, team);
+      if (sound) sounds.add(sound);
     });
     return VOCABULARY_VOWEL_TEAM_CHILD_SOUND_ORDER
       .filter((sound) => sounds.has(sound))
@@ -3772,7 +3874,7 @@ pass=通过；传递
     const vowelTeams = item.vowelTeams || [];
     const childFilter = getVocabularyVowelTeamChildFilter(filterValue);
     if (!childFilter) return vowelTeams.includes(filterValue);
-    return vowelTeams.includes(childFilter.team) && ipaContainsSound(getVocabularyIpa(item), childFilter.ipa);
+    return vowelTeams.includes(childFilter.team) && getVocabularyVowelTeamSound(item, childFilter.team) === childFilter.ipa;
   }
 
   function getVocabularyTheme(word) {
@@ -4032,6 +4134,128 @@ pass=通过；传递
     "yes": "interjection",
     "oh": "interjection",
     "please": "adverb / interjection",
+    "air": "noun",
+    "around": "adverb / preposition",
+    "away": "adverb",
+    "baby": "noun",
+    "bear": "noun / verb",
+    "became": "verb",
+    "below": "preposition / adverb",
+    "boat": "noun",
+    "body": "noun",
+    "book": "noun",
+    "bought": "verb",
+    "boy": "noun",
+    "break": "verb / noun",
+    "bright": "adjective",
+    "brought": "verb",
+    "chair": "noun",
+    "change": "verb / noun",
+    "cloud": "noun",
+    "coast": "noun",
+    "course": "noun",
+    "country": "noun",
+    "door": "noun",
+    "down": "adverb / preposition",
+    "draw": "verb",
+    "dream": "noun / verb",
+    "early": "adjective / adverb",
+    "earth": "noun",
+    "eat": "verb",
+    "enough": "determiner / adverb",
+    "eye": "noun",
+    "face": "noun / verb",
+    "feel": "verb",
+    "field": "noun",
+    "floor": "noun",
+    "flower": "noun",
+    "food": "noun",
+    "foot": "noun",
+    "found": "verb",
+    "goal": "noun",
+    "great": "adjective",
+    "green": "adjective / noun",
+    "ground": "noun",
+    "group": "noun",
+    "head": "noun / verb",
+    "hear": "verb",
+    "heart": "noun",
+    "house": "noun",
+    "hour": "noun",
+    "idea": "noun",
+    "instead": "adverb",
+    "keep": "verb",
+    "key": "noun",
+    "lead": "verb / noun",
+    "learn": "verb",
+    "leave": "verb",
+    "light": "noun / adjective / verb",
+    "look": "verb / noun",
+    "measure": "noun / verb",
+    "mountain": "noun",
+    "mouth": "noun",
+    "near": "preposition / adverb / adjective",
+    "need": "verb / noun",
+    "oil": "noun",
+    "once": "adverb",
+    "open": "adjective / verb",
+    "orange": "noun / adjective",
+    "page": "noun",
+    "paper": "noun",
+    "party": "noun",
+    "piece": "noun",
+    "place": "noun / verb",
+    "point": "noun / verb",
+    "poor": "adjective",
+    "question": "noun",
+    "quite": "adverb",
+    "rain": "noun / verb",
+    "reach": "verb",
+    "read": "verb",
+    "ready": "adjective",
+    "reason": "noun",
+    "receive": "verb",
+    "road": "noun",
+    "room": "noun",
+    "round": "adjective / adverb / noun / verb",
+    "school": "noun",
+    "sea": "noun",
+    "seem": "verb",
+    "seen": "verb",
+    "shoe": "noun",
+    "short": "adjective",
+    "shoulder": "noun",
+    "show": "verb / noun",
+    "sleep": "verb / noun",
+    "snow": "noun / verb",
+    "sound": "noun / verb / adjective",
+    "south": "noun / adjective / adverb",
+    "speak": "verb",
+    "straight": "adjective / adverb",
+    "sure": "adjective",
+    "teach": "verb",
+    "team": "noun",
+    "though": "conjunction / adverb",
+    "thought": "noun / verb",
+    "thousand": "number / noun",
+    "through": "preposition / adverb",
+    "today": "adverb / noun",
+    "together": "adverb",
+    "touch": "verb / noun",
+    "trouble": "noun / verb",
+    "true": "adjective",
+    "wait": "verb / noun",
+    "water": "noun / verb",
+    "weather": "noun",
+    "wear": "verb",
+    "weight": "noun",
+    "white": "adjective / noun",
+    "window": "noun",
+    "without": "preposition",
+    "wood": "noun",
+    "write": "verb",
+    "young": "adjective",
+    "you'll": "contraction",
     "preschool": "noun",
     "monday": "proper noun",
     "tuesday": "proper noun",
@@ -5093,6 +5317,7 @@ pass=通过；传递
       roots: getVocabularyRoots(word),
       syllableType: getVocabularySyllableType(word),
       vowelTeams: getVocabularyVowelTeams(word),
+      vowelTeamSounds: getVocabularyVowelTeamSoundMap(word, getBritishIpa(word)),
       rank: index + 1,
       ipa: getBritishIpa(word)
     };
@@ -5112,6 +5337,7 @@ pass=通过；传递
       roots: getVocabularyRoots(item.word),
       syllableType: getVocabularySyllableType(item.word),
       vowelTeams: getVocabularyVowelTeams(item.word),
+      vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, getBritishIpa(item.word)),
       rank: "Country",
       ...item,
       ipa: getBritishIpa(item.word)
@@ -5219,6 +5445,7 @@ pass=通过；传递
     roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
     rank: `Holiday ${index + 1}`,
     ...item
   }));
@@ -5331,6 +5558,7 @@ pass=通过；传递
     roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
     rank: `Furniture ${index + 1}`,
     ...item
   }));
@@ -5401,6 +5629,7 @@ pass=通过；传递
     roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
     rank: `Appliance ${index + 1}`,
     ...item
   }));
@@ -5507,6 +5736,7 @@ pass=通过；传递
     roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
     rank: `Clothes ${index + 1}`,
     ...item
   }));
@@ -5662,6 +5892,7 @@ pass=通过；传递
     roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
     rank: `Sports ${index + 1}`,
     ...item
   }));
@@ -5754,6 +5985,7 @@ pass=通过；传递
     roots: getVocabularyRoots(item.word),
     syllableType: getVocabularySyllableType(item.word),
     vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
     rank: `ER Person ${index + 1}`,
     ...item
   }));
@@ -5822,6 +6054,7 @@ pass=通过；传递
       roots: getVocabularyRoots(word),
       syllableType: getVocabularySyllableType(word),
       vowelTeams: getVocabularyVowelTeams(word),
+      vowelTeamSounds: getVocabularyVowelTeamSoundMap(word, getBritishIpa(word)),
       ipa: getBritishIpa(word),
       isCustom: true,
       rank: "Custom"
@@ -6187,7 +6420,7 @@ pass=通过；传递
 
     container.innerHTML = phrases.map((phrase) => {
       const scenario = SCENARIOS.find((item) => item.id === phrase.scenario);
-      const currentStatus = statuses[phrase.id] || "";
+      const currentStatus = statuses[phrase.id] || "auto";
       return `
         <article class="phrase-card" data-phrase-id="${phrase.id}">
           <div class="phrase-top">
@@ -6199,7 +6432,8 @@ pass=通过；传递
             <button class="listen-button" type="button" data-speak="${phrase.id}" aria-label="Listen to ${phrase.english}">${SPEAKER_ICON}</button>
           </div>
           <div class="status-row" aria-label="Conversation status for ${phrase.english}">
-            ${statusButton(phrase.id, "to-learn", "待学", currentStatus || "to-learn")}
+            ${statusButton(phrase.id, "auto", "自动", currentStatus)}
+            ${statusButton(phrase.id, "to-learn", "待学", currentStatus)}
             ${statusButton(phrase.id, "learning", "学习中", currentStatus)}
             ${statusButton(phrase.id, "review", "复习", currentStatus)}
             ${statusButton(phrase.id, "learned", "已学会", currentStatus)}
@@ -6214,7 +6448,11 @@ pass=通过；传递
 
     container.querySelectorAll("[data-status]").forEach((button) => {
       button.addEventListener("click", () => {
-        statuses[button.dataset.phraseId] = button.dataset.status;
+        if (button.dataset.status === "auto") {
+          delete statuses[button.dataset.phraseId];
+        } else {
+          statuses[button.dataset.phraseId] = button.dataset.status;
+        }
         saveJson(STORAGE_STATUS_KEY, statuses);
         markDailyActivity();
         render();
@@ -6342,6 +6580,7 @@ pass=通过；传递
           </div>
           <div class="dialogue-lines">${lines}</div>
           <div class="status-row" aria-label="Dialogue status for ${escapeHtml(dialogue.title)}">
+            ${dialogueStatusButton(dialogue.id, "auto", "自动", currentStatus)}
             ${dialogueStatusButton(dialogue.id, "to-learn", "待学", currentStatus)}
             ${dialogueStatusButton(dialogue.id, "learning", "学习中", currentStatus)}
             ${dialogueStatusButton(dialogue.id, "review", "复习", currentStatus)}
@@ -6357,7 +6596,11 @@ pass=通过；传递
 
     container.querySelectorAll("[data-dialogue-status]").forEach((button) => {
       button.addEventListener("click", () => {
-        dialogueStatuses[button.dataset.dialogueId] = button.dataset.dialogueStatus;
+        if (button.dataset.dialogueStatus === "auto") {
+          delete dialogueStatuses[button.dataset.dialogueId];
+        } else {
+          dialogueStatuses[button.dataset.dialogueId] = button.dataset.dialogueStatus;
+        }
         saveJson(STORAGE_DIALOGUE_STATUS_KEY, dialogueStatuses);
         markDailyActivity();
         renderDialogueList();
@@ -6387,7 +6630,7 @@ pass=通过；传递
   }
 
   function getDialogueStatus(dialogueId) {
-    return dialogueStatuses[dialogueId] || "to-learn";
+    return dialogueStatuses[dialogueId] || "auto";
   }
 
   function getVocabularyStatus(wordId) {
