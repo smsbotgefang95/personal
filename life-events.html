@@ -388,7 +388,8 @@
     padding: 8px;
     position: absolute;
     top: calc(100% + 4px);
-    z-index: 20;
+    /* Clears the sticky timeline header stack while staying below modal dialogs. */
+    z-index: 36;
   }
 
   .people-menu[hidden] {
