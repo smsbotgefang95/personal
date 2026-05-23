@@ -338,6 +338,11 @@
     resize: vertical;
   }
 
+  .field select[multiple] {
+    min-height: 118px;
+    padding: 6px;
+  }
+
   .field input:focus,
   .field select:focus,
   .field textarea:focus {
@@ -986,7 +991,7 @@
         </div>
         <div class="field">
           <label for="filterPeople">People</label>
-          <select id="filterPeople"></select>
+          <select id="filterPeople" multiple size="4" aria-label="Filter by people"></select>
         </div>
         <div class="field">
           <label for="filterImpact">Impact</label>
@@ -1130,7 +1135,7 @@
               </div>
               <div class="field">
                 <label for="eventPeople">People Involved</label>
-                <select id="eventPeople"></select>
+                <select id="eventPeople" multiple size="4"></select>
               </div>
               <input id="eventTags" type="hidden" />
               <div class="field full">
@@ -1139,7 +1144,7 @@
               </div>
               <div class="field full">
                 <label for="eventLesson">Lesson Learned</label>
-                <textarea id="eventLesson" placeholder="What should this teach you?"></textarea>
+                <textarea id="eventLesson" placeholder="• What should this teach you?"></textarea>
               </div>
               <div class="field full">
                 <label for="eventAction">Next Action</label>
@@ -1233,6 +1238,7 @@
     "Clare": "Clare Marash",
     "Lam": "Lam Nguyen",
     "Brian": "Brian Bayes",
+    "Ark": "Ark Stepensky",
     "Annie": "Annie Huang",
     "Kathy": "Kathy Frashier"
   };
@@ -2045,12 +2051,23 @@ W03: Cornbread`],
     return [...new Set([...knownNames, ...eventNames])].sort((a, b) => a.localeCompare(b));
   }
 
+  function selectedOptionValues(select) {
+    return Array.from(select.selectedOptions || []).map((option) => option.value);
+  }
+
+  function setSelectedOptionValues(select, values) {
+    const selected = new Set(values);
+    Array.from(select.options).forEach((option) => {
+      option.selected = selected.has(option.value);
+    });
+  }
+
   function updateEventPeopleOptions(selectedValue = "") {
     const options = eventPeopleOptions();
-    const selected = String(selectedValue || "");
-    const allOptions = selected && !options.includes(selected) ? [selected, ...options] : options;
-    els.eventPeople.innerHTML = `<option value="">None</option>${allOptions.map((person) => `<option value="${escapeHtml(person)}">${escapeHtml(person)}</option>`).join("")}`;
-    els.eventPeople.value = selected;
+    const selectedValues = peopleList(selectedValue);
+    const allOptions = [...new Set([...selectedValues, ...options])];
+    els.eventPeople.innerHTML = allOptions.map((person) => `<option value="${escapeHtml(person)}">${escapeHtml(person)}</option>`).join("");
+    setSelectedOptionValues(els.eventPeople, selectedValues);
   }
 
   function eventTagOptions() {
@@ -2144,17 +2161,18 @@ W03: Cornbread`],
   }
 
   function updatePeopleOptions() {
-    const currentValue = els.filterPeople.value || "all";
+    const currentValues = selectedOptionValues(els.filterPeople);
     const options = peopleOptions();
     els.filterPeople.innerHTML = `<option value="all">All people</option>${options.map((person) => `<option value="${escapeHtml(person)}">${escapeHtml(person)}</option>`).join("")}`;
-    els.filterPeople.value = options.includes(currentValue) ? currentValue : "all";
+    const selectedValues = currentValues.filter((value) => options.includes(value));
+    setSelectedOptionValues(els.filterPeople, selectedValues.length ? selectedValues : ["all"]);
   }
 
   function currentFilters() {
     return {
       area: els.filterArea.value,
       column: els.filterColumn.value,
-      people: els.filterPeople.value,
+      people: selectedOptionValues(els.filterPeople).filter((value) => value !== "all"),
       impact: els.filterImpact.value,
       time: els.filterTime.value,
       pattern: els.filterPattern.value
@@ -2168,7 +2186,7 @@ W03: Cornbread`],
       if (isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry")) return false;
       if (filters.area !== "all" && event.area !== filters.area) return false;
       if (filters.column !== "all" && (event.sourceColumn || "Manual entry") !== filters.column) return false;
-      if (filters.people !== "all" && !peopleList(event.people).includes(filters.people)) return false;
+      if (filters.people.length && !filters.people.some((person) => peopleList(event.people).includes(person))) return false;
       if (filters.pattern !== "all" && event.pattern !== filters.pattern) return false;
       if (filters.impact === "positive" && impact <= 0) return false;
       if (filters.impact === "negative" && impact >= 0) return false;
@@ -2182,24 +2200,33 @@ W03: Cornbread`],
     return `event-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   }
 
-  const NOTE_BULLET = "• ";
+  const FIELD_BULLET = "• ";
 
-  function seedBulletNotes() {
-    if (els.eventNotes.value.trim()) return;
-    els.eventNotes.value = NOTE_BULLET;
-    els.eventNotes.setSelectionRange(NOTE_BULLET.length, NOTE_BULLET.length);
+  function seedBulletField(field) {
+    if (field.value.trim()) return;
+    field.value = FIELD_BULLET;
+    field.setSelectionRange(FIELD_BULLET.length, FIELD_BULLET.length);
   }
 
-  function keepBulletCaret() {
-    if (els.eventNotes.value !== NOTE_BULLET) return;
-    if (els.eventNotes.selectionStart >= NOTE_BULLET.length && els.eventNotes.selectionEnd >= NOTE_BULLET.length) return;
-    els.eventNotes.setSelectionRange(NOTE_BULLET.length, NOTE_BULLET.length);
+  function keepBulletCaret(field) {
+    if (field.value !== FIELD_BULLET) return;
+    if (field.selectionStart >= FIELD_BULLET.length && field.selectionEnd >= FIELD_BULLET.length) return;
+    field.setSelectionRange(FIELD_BULLET.length, FIELD_BULLET.length);
   }
 
-  function cleanBulletNotes(value) {
-    const trimmed = value.trim();
-    if (!trimmed || trimmed === "•") return "";
-    return value.trimEnd();
+  function cleanBulletField(value) {
+    const text = String(value || "");
+    const hasContent = text.split(/\n/).some((line) => line.replace(/^\s*[•-]\s*/, "").trim());
+    return hasContent ? text.trimEnd() : "";
+  }
+
+  function handleBulletFieldKeydown(field, event) {
+    keepBulletCaret(field);
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    const start = field.selectionStart;
+    const end = field.selectionEnd;
+    field.setRangeText(`\n${FIELD_BULLET}`, start, end, "end");
   }
 
   function fallbackEventTitle(date, area, sourceColumn) {
@@ -2215,15 +2242,15 @@ W03: Cornbread`],
       date,
       area,
       title: els.eventTitle.value.trim() || fallbackEventTitle(date, area, sourceColumn),
-      notes: cleanBulletNotes(els.eventNotes.value),
+      notes: cleanBulletField(els.eventNotes.value),
       impact: Number(els.eventImpact.value),
       importance: Number(els.eventImportance.value),
       energy: els.eventEnergy.value,
       pattern: els.eventPattern.value,
-      people: els.eventPeople.value.trim(),
+      people: selectedOptionValues(els.eventPeople).join(", "),
       tags: els.eventTags.value.trim() || area.toLowerCase(),
       sourceColumn,
-      lesson: els.eventLesson.value.trim(),
+      lesson: cleanBulletField(els.eventLesson.value),
       action: els.eventAction.value.trim()
     };
   }
@@ -2241,8 +2268,9 @@ W03: Cornbread`],
     updateEventPeopleOptions(event.people || "");
     updateEventTagOptions(event.tags || "");
     els.eventNotes.value = event.notes || "";
-    seedBulletNotes();
+    seedBulletField(els.eventNotes);
     els.eventLesson.value = event.lesson || "";
+    seedBulletField(els.eventLesson);
     els.eventAction.value = event.action || "";
   }
 
@@ -2745,15 +2773,10 @@ W03: Cornbread`],
     if (event.key === "Escape" && !els.adminKeyDialog.hidden) closeAdminKeyDialog("");
   });
 
-  els.eventNotes.addEventListener("focus", seedBulletNotes);
-  els.eventNotes.addEventListener("mouseup", () => window.requestAnimationFrame(keepBulletCaret));
-  els.eventNotes.addEventListener("keydown", (event) => {
-    keepBulletCaret();
-    if (event.key !== "Enter") return;
-    event.preventDefault();
-    const start = els.eventNotes.selectionStart;
-    const end = els.eventNotes.selectionEnd;
-    els.eventNotes.setRangeText(`\n${NOTE_BULLET}`, start, end, "end");
+  [els.eventNotes, els.eventLesson].forEach((field) => {
+    field.addEventListener("focus", () => seedBulletField(field));
+    field.addEventListener("mouseup", () => window.requestAnimationFrame(() => keepBulletCaret(field)));
+    field.addEventListener("keydown", (event) => handleBulletFieldKeydown(field, event));
   });
 
   els.filterArea.addEventListener("change", () => {
