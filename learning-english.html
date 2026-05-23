@@ -3816,7 +3816,8 @@ pass=通过；传递
     wear: { ea: "eə" },
     would: { ou: "ʊ" },
     young: { ou: "ʌ" },
-    your: { ou: "ɔː" }
+    your: { ou: "ɔː" },
+    "you'll": { ou: "uː" }
   };
 
   function normalizeVocabularyVowelTeamSound(sound) {
@@ -4200,6 +4201,7 @@ pass=通过；传递
     "once": "adverb",
     "open": "adjective / verb",
     "orange": "noun / adjective",
+    "outside": "adverb / preposition / noun / adjective",
     "page": "noun",
     "paper": "noun",
     "party": "noun",
@@ -4265,6 +4267,32 @@ pass=通过；传递
     "saturday": "proper noun",
     "sunday": "proper noun"
   };
+
+  const VOCABULARY_PART_LABELS = {
+    "adjective": "形容词",
+    "adverb": "副词",
+    "conjunction": "连词",
+    "contraction": "缩约词",
+    "custom word": "自定义词",
+    "determiner": "限定词",
+    "infinitive marker": "不定式标记",
+    "interjection": "感叹词",
+    "modal verb": "情态动词",
+    "noun": "名词",
+    "number": "数词",
+    "preposition": "介词",
+    "pronoun": "代词",
+    "proper noun": "专有名词",
+    "verb": "动词"
+  };
+
+  function getVocabularyPartLabel(partOfSpeech) {
+    return String(partOfSpeech || "")
+      .split(/\s*\/\s*/)
+      .map((part) => VOCABULARY_PART_LABELS[part.toLowerCase()] || part)
+      .filter(Boolean)
+      .join(" / ");
+  }
 
   function getCommonWordPartOfSpeech(word, featured = {}) {
     if (featured.partOfSpeech) return featured.partOfSpeech;
@@ -6757,11 +6785,12 @@ pass=通过；传递
       );
       const themeLabel = item.theme ? VOCABULARY_THEME_LABELS[item.theme] : "";
       const meaning = item.chinese ? `<p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>` : "";
-      const partOfSpeech = item.partOfSpeech ? `<p class="vocabulary-part">${escapeHtml(item.partOfSpeech)}</p>` : "";
+      const partOfSpeechLabel = getVocabularyPartLabel(item.partOfSpeech);
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const ipa = getVocabularyIpa(item);
       const pronunciation = ipa ? `<p class="vocabulary-ipa">/${escapeHtml(ipa)}/</p>` : "";
       const rankTag = item.isCustom ? `<span class="vocabulary-tag">自定义</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
+      const partOfSpeechTag = partOfSpeechLabel ? `<span class="vocabulary-tag">词性: ${escapeHtml(partOfSpeechLabel)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
       const labelTag = label && !duplicatesTheme ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
@@ -6781,10 +6810,10 @@ pass=通过；传递
             <h3 class="vocabulary-word">${escapeHtml(item.word)}</h3>
             ${pronunciation}
             ${meaning}
-            ${partOfSpeech}
             ${example}
             <div class="vocabulary-meta">
               ${rankTag}
+              ${partOfSpeechTag}
               ${labelTag}
               ${themeTag}
               ${prefixTag}
