@@ -806,8 +806,8 @@
         </div>
       </div>
       <div class="stat-grid">
-        <div class="stat"><strong id="learnedCount">0</strong><span>Learned</span></div>
-        <div class="stat"><strong id="reviewCount">0</strong><span>Review</span></div>
+        <div class="stat"><strong id="learnedCount">0</strong><span>已学会</span></div>
+        <div class="stat"><strong id="reviewCount">0</strong><span>复习</span></div>
         <div class="stat"><strong id="streakCount">0</strong><span>Day Streak</span></div>
       </div>
       <div class="streak-note" id="streakNote">Mark one sentence or word today to start your streak.</div>
@@ -5968,10 +5968,10 @@ pass=通过；传递
             </div>
           </div>
           <div class="status-row" aria-label="Conversation status for ${phrase.english}">
-            ${statusButton(phrase.id, "to-learn", "To Learn", currentStatus || "to-learn")}
-            ${statusButton(phrase.id, "learning", "Learning", currentStatus)}
-            ${statusButton(phrase.id, "review", "Review", currentStatus)}
-            ${statusButton(phrase.id, "learned", "Learned", currentStatus)}
+            ${statusButton(phrase.id, "to-learn", "待学", currentStatus || "to-learn")}
+            ${statusButton(phrase.id, "learning", "学习中", currentStatus)}
+            ${statusButton(phrase.id, "review", "复习", currentStatus)}
+            ${statusButton(phrase.id, "learned", "已学会", currentStatus)}
           </div>
         </article>
       `;
