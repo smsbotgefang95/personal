@@ -2689,18 +2689,13 @@ W03: Cornbread`],
 
   function renderSheetCellEvent(event) {
     const people = peopleList(event.people);
-    const impact = Number(event.impact || 0);
     const content = event.notes || event.title || event.lesson || "";
     const action = event.action === GENERIC_NEXT_ACTION ? "" : event.action;
     return `
       <div class="cell-entry">
         <div class="cell-date">${escapeHtml(formatDate(event.date))}</div>
         <div class="cell-content">${formatCellContent(content)}</div>
-        <div class="cell-meta">
-          <span class="pill ${impactClass(impact)}">${escapeHtml(impactLabel(impact))}</span>
-          <span class="pill ${event.pattern === "Watch" ? "warn" : ""}">${escapeHtml(event.pattern)}</span>
-          ${people.length ? `<span>${escapeHtml(people.join(", "))}</span>` : ""}
-        </div>
+        ${people.length ? `<div class="cell-meta"><span>${escapeHtml(people.join(", "))}</span></div>` : ""}
         ${action ? `<div class="cell-meta"><strong>Next:</strong> ${escapeHtml(action)}</div>` : ""}
         <div class="cell-actions">
           <button class="btn btn-secondary" type="button" data-edit="${escapeHtml(event.id)}">Edit</button>
