@@ -2411,7 +2411,8 @@ W03: Cornbread`],
       .map(({ category }) => category);
     const columns = [...new Set(sheetColumns)];
     if (area === "Parent") {
-      return moveColumnAfter(moveColumnAfter(columns, "健康", "留美事项"), "物品", "庆功宴");
+      const orderedColumns = moveColumnAfter(columns, "物品", "庆功宴");
+      return moveColumnToEnd(orderedColumns, "留美事项");
     }
     if (area !== "Career") return columns;
 
@@ -2450,6 +2451,15 @@ W03: Cornbread`],
       ...reorderedColumns.slice(0, targetIndex + 1),
       columnToMove,
       ...reorderedColumns.slice(targetIndex + 1)
+    ];
+  }
+
+  function moveColumnToEnd(columns, columnToMove) {
+    if (!columns.includes(columnToMove)) return columns;
+
+    return [
+      ...columns.filter((column) => column !== columnToMove),
+      columnToMove
     ];
   }
 
