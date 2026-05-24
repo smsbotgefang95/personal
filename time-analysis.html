@@ -463,41 +463,41 @@
   .details-table th:nth-child(3),
   .details-table td:nth-child(3) {
     left: calc(var(--details-date-width) + var(--details-week-width));
-    width: var(--details-start-width);
-    min-width: var(--details-start-width);
-    max-width: var(--details-start-width);
-  }
-
-  .details-table th:nth-child(4),
-  .details-table td:nth-child(4) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width));
-    width: var(--details-end-width);
-    min-width: var(--details-end-width);
-    max-width: var(--details-end-width);
-  }
-
-  .details-table th:nth-child(5),
-  .details-table td:nth-child(5) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width) + var(--details-end-width));
     width: var(--details-duration-width);
     min-width: var(--details-duration-width);
     max-width: var(--details-duration-width);
   }
 
+  .details-table th:nth-child(4),
+  .details-table td:nth-child(4) {
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-duration-width));
+    width: var(--details-start-width);
+    min-width: var(--details-start-width);
+    max-width: var(--details-start-width);
+  }
+
+  .details-table th:nth-child(5),
+  .details-table td:nth-child(5) {
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-duration-width) + var(--details-start-width));
+    width: var(--details-end-width);
+    min-width: var(--details-end-width);
+    max-width: var(--details-end-width);
+  }
+
   .details-table th:nth-child(6),
   .details-table td:nth-child(6) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width));
-    width: var(--details-list-width);
-    min-width: var(--details-list-width);
-    max-width: var(--details-list-width);
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-duration-width) + var(--details-start-width) + var(--details-end-width));
+    width: var(--details-task-width);
+    min-width: var(--details-task-width);
+    max-width: var(--details-task-width);
   }
 
   .details-table th:nth-child(7),
   .details-table td:nth-child(7) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width) + var(--details-list-width));
-    width: var(--details-task-width);
-    min-width: var(--details-task-width);
-    max-width: var(--details-task-width);
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-duration-width) + var(--details-start-width) + var(--details-end-width) + var(--details-task-width));
+    width: var(--details-list-width);
+    min-width: var(--details-list-width);
+    max-width: var(--details-list-width);
     box-shadow: 1px 0 0 var(--border);
   }
 
@@ -782,7 +782,7 @@
   let appEntries = [];
   let appMetrics = null;
 
-  const tableHeaders = ["Date", "Week", "Start", "End", "Duration", "List", "Task", "Department", "Priority", "Section", "Task Category", "Task Type"];
+  const tableHeaders = ["Date", "Week", "Duration", "Start", "End", "Task", "List", "Department", "Priority", "Section", "Task Category", "Task Type"];
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -1462,11 +1462,11 @@
         const values = [
           entry.displayDate,
           entry.week,
+          formatDuration(entry.durationMs),
           timeOnly(entry.start),
           timeOnly(entry.stop),
-          formatDuration(entry.durationMs),
-          entry.listName,
           entry.taskName,
+          entry.listName,
           entry.department,
           entry.priority,
           entry.section,
