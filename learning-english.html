@@ -6,6 +6,7 @@
 <title>Learning English | Beginner ESL Conversation</title>
 <link rel="stylesheet" href="assets/site-nav.css" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
+<script src="assets/openai-tts.js?v=20260523"></script>
 <style>
   :root {
     --bg: #f6f7f2;
@@ -6874,7 +6875,7 @@ pass=通过；传递
 
   function speakPhrase(phraseId) {
     const phrase = PHRASES.find((item) => item.id === phraseId);
-    if (!phrase || !("speechSynthesis" in window)) return;
+    if (!phrase) return;
 
     speakText(phrase.english);
     markDailyActivity();
@@ -6883,7 +6884,7 @@ pass=通过；传递
 
   function speakVocabulary(wordId) {
     const item = getAllVocabulary().find((word) => word.id === wordId);
-    if (!item || !("speechSynthesis" in window)) return;
+    if (!item) return;
 
     speakText(item.word);
     markDailyActivity();
@@ -6893,7 +6894,7 @@ pass=通过；传递
   function speakDialogueLine(dialogueId, lineIndex) {
     const dialogue = DIALOGUES.find((item) => item.id === dialogueId);
     const line = dialogue?.lines?.[lineIndex];
-    if (!line || !("speechSynthesis" in window)) return;
+    if (!line) return;
 
     speakText(line.english);
     markDailyActivity();
@@ -6901,12 +6902,22 @@ pass=通过；传递
   }
 
   function speakText(text) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    utterance.rate = 0.82;
-    utterance.pitch = 1;
-    window.speechSynthesis.speak(utterance);
+    if (window.OpenAITTS) {
+      window.OpenAITTS.speak(text, {
+        lang: "en-US",
+        rate: 0.82,
+        instructions: "Speak slowly and clearly, like a warm English teacher helping a beginner learner. Use natural American English pronunciation."
+      });
+      return;
+    }
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.82;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }
   }
 
   function updateProgress() {

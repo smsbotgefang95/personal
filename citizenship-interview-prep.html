@@ -6,6 +6,7 @@
 <title>U.S. Citizenship Interview Prep | 美国公民入籍面试备考</title>
 <link rel="stylesheet" href="assets/site-nav.css" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
+<script src="assets/openai-tts.js?v=20260523"></script>
 <style>
   :root {
     --bg: #f5f7fb;
@@ -3206,6 +3207,9 @@
   }
 
   function stopAllAudio() {
+    if (window.OpenAITTS) {
+      window.OpenAITTS.stop();
+    }
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
@@ -3618,21 +3622,48 @@
   let activeWordAudioBtn = null;
 
   function playWordAudio(word, btn) {
-    if (!("speechSynthesis" in window)) return;
     stopAllAudio();
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = "en-US";
-    utterance.rate = 0.85;
     activeWordAudioBtn = btn || null;
     if (activeWordAudioBtn) activeWordAudioBtn.classList.add("playing");
-    utterance.onend = utterance.onerror = () => {
+
+    const onDone = () => {
       if (activeWordAudioBtn) activeWordAudioBtn.classList.remove("playing");
       activeWordAudioBtn = null;
     };
+
+    if (window.OpenAITTS) {
+      window.OpenAITTS.speak(word, {
+        lang: "en-US",
+        rate: 0.85,
+        instructions: "Speak clearly and naturally for a beginner English learner.",
+        onDone
+      });
+      return;
+    }
+    if (!("speechSynthesis" in window)) return onDone();
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.85;
+    utterance.onend = utterance.onerror = onDone;
     window.speechSynthesis.speak(utterance);
   }
 
   function speakText(text, lang, rate, onDone) {
+    if (window.OpenAITTS) {
+      window.OpenAITTS.speak(text, {
+        lang,
+        rate,
+        instructions: lang === "zh-CN"
+          ? "Speak clearly and naturally in Mandarin Chinese for a language learner."
+          : "Speak clearly and naturally for a beginner English learner.",
+        onDone
+      });
+      return;
+    }
+    if (!("speechSynthesis" in window)) {
+      if (onDone) window.setTimeout(onDone, 0);
+      return;
+    }
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
     utterance.rate = rate;
@@ -3671,7 +3702,7 @@
 
   function playNextVocabLoopItem() {
     if (!vocabLoopActive || !vocabLoopItems.length) return;
-    if (!("speechSynthesis" in window)) {
+    if (!window.OpenAITTS && !("speechSynthesis" in window)) {
       stopAllAudio();
       alert("当前浏览器不支持词汇朗读。");
       return;
@@ -3699,7 +3730,11 @@
       });
     };
 
-    window.speechSynthesis.cancel();
+    if (window.OpenAITTS) {
+      window.OpenAITTS.stop();
+    } else if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
     if (meaning) {
       speakText(meaning, "zh-CN", 0.9, speakEnglish);
     } else {
@@ -3713,7 +3748,7 @@
       return;
     }
     stopAllAudio();
-    if (!("speechSynthesis" in window)) {
+    if (!window.OpenAITTS && !("speechSynthesis" in window)) {
       alert("当前浏览器不支持词汇朗读。");
       return;
     }
@@ -4290,8 +4325,17 @@
   }
 
   function speakGameWord() {
-    if (!gameState.current || !("speechSynthesis" in window)) return;
+    if (!gameState.current) return;
     stopRecordedGameSfx();
+    if (window.OpenAITTS) {
+      window.OpenAITTS.speak(gameState.current.word, {
+        lang: "en-US",
+        rate: 0.82,
+        instructions: "Speak clearly and naturally for a beginner English learner."
+      });
+      return;
+    }
+    if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(gameState.current.word);
     utterance.lang = "en-US";
