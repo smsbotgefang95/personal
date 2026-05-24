@@ -726,6 +726,25 @@
     white-space: nowrap;
   }
 
+  .chunk-type-note {
+    background: #f8faf8;
+    border: 1px solid #e5ece4;
+    border-radius: 8px;
+    color: #344036;
+    display: grid;
+    gap: 7px;
+    padding: 12px;
+  }
+
+  .chunk-type-note p {
+    font-size: 0.94rem;
+  }
+
+  .chunk-type-note strong {
+    color: var(--text);
+    font-weight: 850;
+  }
+
   .vocabulary-pronunciation {
     color: var(--muted);
     font-size: 0.88rem;
@@ -1293,19 +1312,19 @@
   const VOCABULARY_PHRASES = [
     { id: "phrase-just-a-moment", phrase: "Just a moment", chinese: "稍等一下", pronunciation: "just uh MOH-ment", words: ["just", "moment"], type: "functional-chunk" },
     { id: "phrase-happy-holiday", phrase: "Happy holiday", chinese: "节日快乐", pronunciation: "HAP-ee HOL-uh-day", words: ["happy", "holiday"], type: "collocation" },
-    { id: "phrase-good-morning", phrase: "Good morning", chinese: "早上好", pronunciation: "good MOR-ning", words: ["good", "morning"], type: "fixed-expression" },
-    { id: "phrase-good-night", phrase: "Good night", chinese: "晚安", pronunciation: "good night", words: ["good", "night"], type: "fixed-expression" },
+    { id: "phrase-good-morning", phrase: "Good morning", chinese: "早上好", pronunciation: "good MOR-ning", words: ["good", "morning"], type: "functional-chunk" },
+    { id: "phrase-good-night", phrase: "Good night", chinese: "晚安", pronunciation: "good night", words: ["good", "night"], type: "functional-chunk" },
     { id: "phrase-right-now", phrase: "Right now", chinese: "现在；马上", pronunciation: "right now", words: ["right", "now"], type: "fixed-expression" },
     { id: "phrase-on-time", phrase: "On time", chinese: "准时", pronunciation: "on time", words: ["on", "time"], type: "fixed-expression" },
     { id: "phrase-next-week", phrase: "Next week", chinese: "下周", pronunciation: "nekst week", words: ["next", "week"], type: "collocation" },
     { id: "phrase-last-night", phrase: "Last night", chinese: "昨晚", pronunciation: "last night", words: ["last", "night"], type: "collocation" },
-    { id: "phrase-at-home", phrase: "At home", chinese: "在家", pronunciation: "at home", words: ["at", "home"], type: "fixed-expression" },
+    { id: "phrase-at-home", phrase: "At home", chinese: "在家", pronunciation: "at home", words: ["at", "home"], type: "collocation" },
     { id: "phrase-first-name", phrase: "First name", chinese: "名字", pronunciation: "furst name", words: ["first", "name"], type: "compound-chunk" },
-    { id: "phrase-small-talk", phrase: "Small talk", chinese: "闲聊", pronunciation: "small talk", words: ["small", "talk"], type: "idiom" },
+    { id: "phrase-small-talk", phrase: "Small talk", chinese: "闲聊", pronunciation: "small talk", words: ["small", "talk"], type: "fixed-expression" },
     { id: "phrase-hard-work", phrase: "Hard work", chinese: "努力工作", pronunciation: "hard work", words: ["hard", "work"], type: "collocation" },
     { id: "phrase-good-day", phrase: "Good day", chinese: "美好的一天", pronunciation: "good day", words: ["good", "day"], type: "collocation" },
-    { id: "phrase-my-name", phrase: "My name", chinese: "我的名字", pronunciation: "my name", words: ["my", "name"], type: "fixed-expression" },
-    { id: "phrase-your-name", phrase: "Your name", chinese: "你的名字", pronunciation: "yor name", words: ["your", "name"], type: "fixed-expression" },
+    { id: "phrase-my-name", phrase: "My name", chinese: "我的名字", pronunciation: "my name", words: ["my", "name"], type: "collocation" },
+    { id: "phrase-your-name", phrase: "Your name", chinese: "你的名字", pronunciation: "yor name", words: ["your", "name"], type: "collocation" },
     { id: "phrase-first-day", phrase: "First day", chinese: "第一天", pronunciation: "furst day", words: ["first", "day"], type: "collocation" },
     { id: "phrase-last-week", phrase: "Last week", chinese: "上周", pronunciation: "last week", words: ["last", "week"], type: "collocation" },
     { id: "phrase-next-time", phrase: "Next time", chinese: "下次", pronunciation: "nekst time", words: ["next", "time"], type: "collocation" },
@@ -1317,16 +1336,16 @@
     { id: "phrase-each-day", phrase: "Each day", chinese: "每天", pronunciation: "eech day", words: ["each", "day"], type: "collocation" },
     { id: "phrase-early-morning", phrase: "Early morning", chinese: "清晨", pronunciation: "ER-lee MOR-ning", words: ["early", "morning"], type: "collocation" },
     { id: "phrase-late-night", phrase: "Late night", chinese: "深夜", pronunciation: "layt night", words: ["late", "night"], type: "collocation" },
-    { id: "phrase-right-here", phrase: "Right here", chinese: "就在这里", pronunciation: "right heer", words: ["right", "here"], type: "fixed-expression" },
-    { id: "phrase-over-there", phrase: "Over there", chinese: "在那边", pronunciation: "OH-ver thair", words: ["over", "there"], type: "fixed-expression" },
-    { id: "phrase-up-here", phrase: "Up here", chinese: "在这上面", pronunciation: "up heer", words: ["up", "here"], type: "fixed-expression" },
-    { id: "phrase-down-there", phrase: "Down there", chinese: "在那下面", pronunciation: "down thair", words: ["down", "there"], type: "fixed-expression" },
-    { id: "phrase-at-school", phrase: "At school", chinese: "在学校", pronunciation: "at skool", words: ["at", "school"], type: "fixed-expression" },
-    { id: "phrase-at-work", phrase: "At work", chinese: "在工作", pronunciation: "at work", words: ["at", "work"], type: "fixed-expression" },
-    { id: "phrase-in-school", phrase: "In school", chinese: "在学校里", pronunciation: "in skool", words: ["in", "school"], type: "fixed-expression" },
-    { id: "phrase-in-class", phrase: "In class", chinese: "在课堂上", pronunciation: "in klas", words: ["in", "class"], type: "fixed-expression" },
-    { id: "phrase-after-school", phrase: "After school", chinese: "放学后", pronunciation: "AF-ter skool", words: ["after", "school"], type: "fixed-expression" },
-    { id: "phrase-before-school", phrase: "Before school", chinese: "上学前", pronunciation: "bee-FOR skool", words: ["before", "school"], type: "fixed-expression" },
+    { id: "phrase-right-here", phrase: "Right here", chinese: "就在这里", pronunciation: "right heer", words: ["right", "here"], type: "functional-chunk" },
+    { id: "phrase-over-there", phrase: "Over there", chinese: "在那边", pronunciation: "OH-ver thair", words: ["over", "there"], type: "functional-chunk" },
+    { id: "phrase-up-here", phrase: "Up here", chinese: "在这上面", pronunciation: "up heer", words: ["up", "here"], type: "functional-chunk" },
+    { id: "phrase-down-there", phrase: "Down there", chinese: "在那下面", pronunciation: "down thair", words: ["down", "there"], type: "functional-chunk" },
+    { id: "phrase-at-school", phrase: "At school", chinese: "在学校", pronunciation: "at skool", words: ["at", "school"], type: "collocation" },
+    { id: "phrase-at-work", phrase: "At work", chinese: "在工作", pronunciation: "at work", words: ["at", "work"], type: "collocation" },
+    { id: "phrase-in-school", phrase: "In school", chinese: "在学校里", pronunciation: "in skool", words: ["in", "school"], type: "collocation" },
+    { id: "phrase-in-class", phrase: "In class", chinese: "在课堂上", pronunciation: "in klas", words: ["in", "class"], type: "collocation" },
+    { id: "phrase-after-school", phrase: "After school", chinese: "放学后", pronunciation: "AF-ter skool", words: ["after", "school"], type: "collocation" },
+    { id: "phrase-before-school", phrase: "Before school", chinese: "上学前", pronunciation: "bee-FOR skool", words: ["before", "school"], type: "collocation" },
     { id: "phrase-new-school", phrase: "New school", chinese: "新学校", pronunciation: "noo skool", words: ["new", "school"], type: "collocation" },
     { id: "phrase-high-school", phrase: "High school", chinese: "高中", pronunciation: "high skool", words: ["high", "school"], type: "compound-chunk" },
     { id: "phrase-front-door", phrase: "Front door", chinese: "前门", pronunciation: "frunt dor", words: ["front", "door"], type: "compound-chunk" },
@@ -1349,7 +1368,7 @@
     { id: "phrase-long-time", phrase: "Long time", chinese: "很长时间", pronunciation: "long time", words: ["long", "time"], type: "collocation" },
     { id: "phrase-short-time", phrase: "Short time", chinese: "短时间", pronunciation: "short time", words: ["short", "time"], type: "collocation" },
     { id: "phrase-free-time", phrase: "Free time", chinese: "空闲时间", pronunciation: "free time", words: ["free", "time"], type: "collocation" },
-    { id: "phrase-hard-time", phrase: "Hard time", chinese: "困难时期", pronunciation: "hard time", words: ["hard", "time"], type: "idiom" },
+    { id: "phrase-hard-time", phrase: "Hard time", chinese: "困难时期", pronunciation: "hard time", words: ["hard", "time"], type: "collocation" },
     { id: "phrase-easy-work", phrase: "Easy work", chinese: "容易的工作", pronunciation: "EE-zee work", words: ["easy", "work"], type: "collocation" },
     { id: "phrase-good-work", phrase: "Good work", chinese: "做得好", pronunciation: "good work", words: ["good", "work"], type: "collocation" },
     { id: "phrase-team-work", phrase: "Team work", chinese: "团队合作", pronunciation: "teem work", words: ["team", "work"], type: "compound-chunk" },
@@ -1361,8 +1380,8 @@
     { id: "phrase-right-hand", phrase: "Right hand", chinese: "右手", pronunciation: "right hand", words: ["right", "hand"], type: "compound-chunk" },
     { id: "phrase-right-side", phrase: "Right side", chinese: "右边", pronunciation: "right side", words: ["right", "side"], type: "compound-chunk" },
     { id: "phrase-left-side", phrase: "Left side", chinese: "左边", pronunciation: "left side", words: ["left", "side"], type: "compound-chunk" },
-    { id: "phrase-next-door", phrase: "Next door", chinese: "隔壁", pronunciation: "nekst dor", words: ["next", "door"], type: "idiom" },
-    { id: "phrase-far-away", phrase: "Far away", chinese: "很远", pronunciation: "far uh-WAY", words: ["far", "away"], type: "idiom" },
+    { id: "phrase-next-door", phrase: "Next door", chinese: "隔壁", pronunciation: "nekst dor", words: ["next", "door"], type: "fixed-expression" },
+    { id: "phrase-far-away", phrase: "Far away", chinese: "很远", pronunciation: "far uh-WAY", words: ["far", "away"], type: "fixed-expression" },
     { id: "phrase-go-away", phrase: "Go away", chinese: "走开", pronunciation: "goh uh-WAY", words: ["go", "away"], type: "phrasal-verb" },
     { id: "phrase-come-back", phrase: "Come back", chinese: "回来", pronunciation: "kum bak", words: ["come", "back"], type: "phrasal-verb" },
     { id: "phrase-call-back", phrase: "Call back", chinese: "回电话", pronunciation: "call bak", words: ["call", "back"], type: "phrasal-verb" },
@@ -1381,33 +1400,33 @@
     { id: "phrase-stay-here", phrase: "Stay here", chinese: "待在这里", pronunciation: "stay heer", words: ["stay", "here"], type: "collocation" },
     { id: "phrase-stay-home", phrase: "Stay home", chinese: "待在家里", pronunciation: "stay home", words: ["stay", "home"], type: "collocation" },
     { id: "phrase-come-here", phrase: "Come here", chinese: "过来", pronunciation: "kum heer", words: ["come", "here"], type: "collocation" },
-    { id: "phrase-right-away", phrase: "Right away", chinese: "立刻", pronunciation: "right uh-WAY", words: ["right", "away"], type: "idiom" },
-    { id: "phrase-once-again", phrase: "Once again", chinese: "再一次", pronunciation: "wuns uh-GEN", words: ["once", "again"], type: "idiom" },
-    { id: "phrase-never-mind", phrase: "Never mind", chinese: "没关系", pronunciation: "NEV-er mind", words: ["never", "mind"], type: "idiom" },
+    { id: "phrase-right-away", phrase: "Right away", chinese: "立刻", pronunciation: "right uh-WAY", words: ["right", "away"], type: "fixed-expression" },
+    { id: "phrase-once-again", phrase: "Once again", chinese: "再一次", pronunciation: "wuns uh-GEN", words: ["once", "again"], type: "fixed-expression" },
+    { id: "phrase-never-mind", phrase: "Never mind", chinese: "没关系", pronunciation: "NEV-er mind", words: ["never", "mind"], type: "fixed-expression" },
     { id: "phrase-no-problem", phrase: "No problem", chinese: "没问题", pronunciation: "noh PROB-lem", words: ["no", "problem"], type: "fixed-expression" },
     { id: "phrase-of-course", phrase: "Of course", chinese: "当然", pronunciation: "uv kors", words: ["of", "course"], type: "fixed-expression" },
     { id: "phrase-for-sure", phrase: "For sure", chinese: "肯定", pronunciation: "for shoor", words: ["for", "sure"], type: "fixed-expression" },
     { id: "phrase-at-once", phrase: "At once", chinese: "马上", pronunciation: "at wuns", words: ["at", "once"], type: "fixed-expression" },
-    { id: "phrase-by-hand", phrase: "By hand", chinese: "用手；手工", pronunciation: "by hand", words: ["by", "hand"], type: "idiom" },
+    { id: "phrase-by-hand", phrase: "By hand", chinese: "用手；手工", pronunciation: "by hand", words: ["by", "hand"], type: "fixed-expression" },
     { id: "phrase-by-car", phrase: "By car", chinese: "坐车", pronunciation: "by kar", words: ["by", "car"], type: "compound-chunk" },
     { id: "phrase-by-air", phrase: "By air", chinese: "乘飞机", pronunciation: "by air", words: ["by", "air"], type: "compound-chunk" },
-    { id: "phrase-on-foot", phrase: "On foot", chinese: "步行", pronunciation: "on foot", words: ["on", "foot"], type: "idiom" },
-    { id: "phrase-in-line", phrase: "In line", chinese: "排队", pronunciation: "in line", words: ["in", "line"], type: "idiom" },
+    { id: "phrase-on-foot", phrase: "On foot", chinese: "步行", pronunciation: "on foot", words: ["on", "foot"], type: "fixed-expression" },
+    { id: "phrase-in-line", phrase: "In line", chinese: "排队", pronunciation: "in line", words: ["in", "line"], type: "fixed-expression" },
     { id: "phrase-on-paper", phrase: "On paper", chinese: "在纸上", pronunciation: "on PAY-per", words: ["on", "paper"], type: "compound-chunk" },
-    { id: "phrase-in-person", phrase: "In person", chinese: "亲自", pronunciation: "in PER-sun", words: ["in", "person"], type: "idiom" },
-    { id: "phrase-at-least", phrase: "At least", chinese: "至少", pronunciation: "at leest", words: ["at", "least"], type: "idiom" },
-    { id: "phrase-at-first", phrase: "At first", chinese: "起初", pronunciation: "at furst", words: ["at", "first"], type: "idiom" },
-    { id: "phrase-at-last", phrase: "At last", chinese: "终于", pronunciation: "at last", words: ["at", "last"], type: "idiom" },
+    { id: "phrase-in-person", phrase: "In person", chinese: "亲自", pronunciation: "in PER-sun", words: ["in", "person"], type: "fixed-expression" },
+    { id: "phrase-at-least", phrase: "At least", chinese: "至少", pronunciation: "at leest", words: ["at", "least"], type: "fixed-expression" },
+    { id: "phrase-at-first", phrase: "At first", chinese: "起初", pronunciation: "at furst", words: ["at", "first"], type: "fixed-expression" },
+    { id: "phrase-at-last", phrase: "At last", chinese: "终于", pronunciation: "at last", words: ["at", "last"], type: "fixed-expression" },
     { id: "phrase-for-example", phrase: "For example", chinese: "例如", pronunciation: "for ig-ZAM-pul", words: ["for", "example"], type: "fixed-expression" },
     { id: "phrase-such-as", phrase: "Such as", chinese: "比如", pronunciation: "such az", words: ["such", "as"], type: "fixed-expression" },
     { id: "phrase-as-well", phrase: "As well", chinese: "也", pronunciation: "az well", words: ["as", "well"], type: "fixed-expression" },
-    { id: "phrase-so-far", phrase: "So far", chinese: "到目前为止", pronunciation: "soh far", words: ["so", "far"], type: "idiom" },
+    { id: "phrase-so-far", phrase: "So far", chinese: "到目前为止", pronunciation: "soh far", words: ["so", "far"], type: "fixed-expression" },
     { id: "phrase-so-much", phrase: "So much", chinese: "这么多", pronunciation: "soh much", words: ["so", "much"], type: "collocation" },
     { id: "phrase-too-much", phrase: "Too much", chinese: "太多", pronunciation: "too much", words: ["too", "much"], type: "collocation" },
     { id: "phrase-very-good", phrase: "Very good", chinese: "很好", pronunciation: "VER-ee good", words: ["very", "good"], type: "collocation" },
     { id: "phrase-very-well", phrase: "Very well", chinese: "很好", pronunciation: "VER-ee well", words: ["very", "well"], type: "collocation" },
-    { id: "phrase-all-right", phrase: "All right", chinese: "好吧；没事", pronunciation: "all right", words: ["all", "right"], type: "idiom" },
-    { id: "phrase-not-yet", phrase: "Not yet", chinese: "还没有", pronunciation: "not yet", words: ["not", "yet"], type: "idiom" },
+    { id: "phrase-all-right", phrase: "All right", chinese: "好吧；没事", pronunciation: "all right", words: ["all", "right"], type: "fixed-expression" },
+    { id: "phrase-not-yet", phrase: "Not yet", chinese: "还没有", pronunciation: "not yet", words: ["not", "yet"], type: "fixed-expression" },
     { id: "chunk-my-name-is-frame", phrase: "My name is ___", chinese: "我的名字是___", pronunciation: "my name iz", words: ["my", "name", "is"], type: "sentence-frame" },
     { id: "chunk-i-am-frame", phrase: "I am ___", chinese: "我是___", pronunciation: "eye am", words: ["I", "am"], type: "sentence-frame" },
     { id: "chunk-i-need-frame", phrase: "I need ___", chinese: "我需要___", pronunciation: "eye need", words: ["I", "need"], type: "sentence-frame" },
@@ -1446,7 +1465,14 @@
     { id: "collocation", label: "搭配 Collocation" },
     { id: "idiom", label: "习语 Idiom" },
     { id: "phrasal-verb", label: "短语动词 Phrasal verb" },
-    { id: "fixed-expression", label: "固定表达 Fixed expression" },
+    {
+      id: "fixed-expression",
+      label: "固定表达 Fixed expression",
+      definition: "固定表达是指在语言中以固定形式出现的一组词汇组合，表达特定意义，通常不能随意更改词序或替换单词。",
+      traits: "高度固定：几乎不能修改。普遍性：在正式和非正式场合都常用。",
+      examples: "by the way（顺便提一下）；as a matter of fact（事实上）；in a nutshell（简而言之）",
+      usage: "常见于日常会话、学术文章或正式演讲中，用于过渡或补充信息。"
+    },
     { id: "cliche", label: "套语 Cliche" },
     { id: "sentence-frame", label: "句式 Sentence frame" },
     { id: "functional-chunk", label: "功能语块 Functional chunk" },
@@ -6663,6 +6689,17 @@ pass=通过；传递
       ...type,
       items: phrases.filter((item) => item.type === type.id)
     })).filter((group) => group.items.length > 0);
+    const renderChunkTypeNote = (group) => {
+      if (!group.definition) return "";
+      return `
+        <div class="chunk-type-note">
+          <p><strong>定义：</strong>${escapeHtml(group.definition)}</p>
+          <p><strong>特点：</strong>${escapeHtml(group.traits || "")}</p>
+          <p><strong>例子：</strong>${escapeHtml(group.examples || "")}</p>
+          <p><strong>使用场景：</strong>${escapeHtml(group.usage || "")}</p>
+        </div>
+      `;
+    };
 
     container.innerHTML = groups.map((group) => `
       <section class="chunk-group" aria-label="${escapeHtml(group.label)}">
@@ -6670,6 +6707,7 @@ pass=通过；传递
           <h3>${escapeHtml(group.label)}</h3>
           <span>${group.items.length} ${group.items.length === 1 ? "chunk" : "chunks"}</span>
         </div>
+        ${renderChunkTypeNote(group)}
         ${group.items.map(renderChunkCard).join("")}
       </section>
     `).join("");
