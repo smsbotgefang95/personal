@@ -430,8 +430,8 @@
 
   .empty-cell { color: #98a2b3; }
 
-  .details-table th:nth-child(-n + 7),
-  .details-table td:nth-child(-n + 7) {
+  .details-table th:nth-child(-n + 3),
+  .details-table td:nth-child(-n + 3) {
     position: sticky;
     z-index: 2;
     overflow: hidden;
@@ -439,7 +439,7 @@
     background: var(--card);
   }
 
-  .details-table th:nth-child(-n + 7) {
+  .details-table th:nth-child(-n + 3) {
     z-index: 4;
     background: #1f2937;
   }
@@ -466,11 +466,11 @@
     width: var(--details-task-width);
     min-width: var(--details-task-width);
     max-width: var(--details-task-width);
+    box-shadow: 1px 0 0 var(--border);
   }
 
   .details-table th:nth-child(4),
   .details-table td:nth-child(4) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-task-width));
     width: var(--details-duration-width);
     min-width: var(--details-duration-width);
     max-width: var(--details-duration-width);
@@ -478,7 +478,6 @@
 
   .details-table th:nth-child(5),
   .details-table td:nth-child(5) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-task-width) + var(--details-duration-width));
     width: var(--details-start-width);
     min-width: var(--details-start-width);
     max-width: var(--details-start-width);
@@ -486,7 +485,6 @@
 
   .details-table th:nth-child(6),
   .details-table td:nth-child(6) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-task-width) + var(--details-duration-width) + var(--details-start-width));
     width: var(--details-end-width);
     min-width: var(--details-end-width);
     max-width: var(--details-end-width);
@@ -494,14 +492,12 @@
 
   .details-table th:nth-child(7),
   .details-table td:nth-child(7) {
-    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-task-width) + var(--details-duration-width) + var(--details-start-width) + var(--details-end-width));
     width: var(--details-list-width);
     min-width: var(--details-list-width);
     max-width: var(--details-list-width);
-    box-shadow: 1px 0 0 var(--border);
   }
 
-  .details-table tbody tr:hover td:nth-child(-n + 7) {
+  .details-table tbody tr:hover td:nth-child(-n + 3) {
     background: #172033;
   }
 
