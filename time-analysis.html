@@ -1345,7 +1345,7 @@
   }
 
   function renderBusinessTaskTable(metrics) {
-    const taskRows = topEntries(metrics.byBusinessTaskId, 15);
+    const taskRows = topEntries(metrics.byBusinessTaskId, metrics.byBusinessTaskId.size);
     const displayWeeks = [...metrics.weeks].reverse();
     const headers = ["Task", "Total", ...displayWeeks];
     document.getElementById("businessTaskHead").innerHTML = `<tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
