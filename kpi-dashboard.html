@@ -336,13 +336,24 @@ function localDateStr(date = new Date()) {
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
+function isWeekendDate(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return [0, 6].includes(d.getDay());
+}
+function applyEntryDefaults(dateStr, options = {}) {
+  setSegVal('sleepOnTime', 'Yes');
+  setSegVal('sleepTracked','Yes');
+  setSegVal('wakeOnTime',  'Yes');
+  setSegVal('badMood',     'No');
+
+  if (isWeekendDate(dateStr)) setSegVal('workout', 'NA');
+  if (options.periodActive) {
+    ['workout','stretch','footbath','massage'].forEach(id => setSegVal(id, 'NA'));
+  }
+}
 let todayStr = localDateStr();
 document.getElementById('entryDate').value = todayStr;
-setSegVal('sleepOnTime', 'Yes');
-setSegVal('sleepTracked','Yes');
-setSegVal('wakeOnTime',  'Yes');
-setSegVal('badMood',     'No');
-if ([0,6].includes(new Date().getDay())) setSegVal('workout', 'NA');
+applyEntryDefaults(todayStr);
 
 function resetEntryForm() {
   ['workout','stretch','footbath','massage','sleepOnTime','sleepTracked','wakeOnTime','badMood'].forEach(id=>{
@@ -401,6 +412,7 @@ async function onDateChange() {
       }
       status.textContent = '📋 Loaded';
     } else {
+      applyEntryDefaults(d, { periodActive: document.getElementById('periodBtn').dataset.active === '1' });
       status.textContent = '✨ New entry';
     }
   } catch(e) { status.textContent = ''; }
@@ -411,7 +423,7 @@ function togglePeriod() {
   const active = btn.dataset.active === '1';
   if (!active) {
     btn.dataset.active = '1'; btn.style.background='#f06292'; btn.style.color='white'; btn.style.borderColor='#f06292';
-    ['workout','stretch','footbath','massage'].forEach(id => setSegVal(id, 'NA'));
+    applyEntryDefaults(document.getElementById('entryDate').value, { periodActive: true });
   } else {
     btn.dataset.active = '0'; btn.style.background='white'; btn.style.color='#aaa'; btn.style.borderColor='#ddd';
   }
