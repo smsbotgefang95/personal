@@ -1311,16 +1311,26 @@
   };
   const KNOWN_PEOPLE = [
     "刘以明", "袁媛", "谢朝阳", "王宏宇", "何平", "Wendy", "Leah", "Austin Hong", "Mark Robinson",
-    "贾浩", "牟广丰", "培军叔叔", "婶婶", "Cathy", "Kathy", "Mina", "Ark", "Annie Huang", "Annie", "Jackie",
+    "贾浩", "牟广丰", "高培军", "杨美华", "培军叔叔", "婶婶", "Cathy", "Kathy", "Mina", "Ark", "Annie Huang", "Annie", "Jackie",
     "Brian", "Nathan", "Lam", "Thuy", "Kerry", "Clare", "Ryan", "Kelly", "Shawn",
     "周谧", "姜洁", "伊可欣", "韩晓姝", "陈梦然", "陈家沂", "王思楠", "周文英", "马力力", "杨波", "何涛", "陈宏颖", "万庆", "褚凌川", "许科",
     "鲁亚东", "邱鸿", "龚晓丽", "陆晓博", "Mike Silva", "Mike", "Debbie Roberts", "Angela", "Valerie", "朱盛", "Rashel",
     "Amy Porterfield", "Amy Banocy", "Jack Canfield", "Catherine", "Cody Hofhine", "Faina Stepensky", "Leah", "Lisa", "Shama Parveen"
   ];
+  const PERSON_ALIASES = {
+    "培军叔叔": "高培军",
+    "Peijun Gao 高培军": "高培军",
+    "婶婶": "杨美华",
+    "Meihua Yang 杨美华": "杨美华"
+  };
+  const PERSON_DISPLAY_ORDER = {
+    "高培军": 1,
+    "杨美华": 2
+  };
   const PERSON_DISPLAY_NAMES = {
     "谢朝阳": "Zhaoyang Xie",
-    "培军叔叔": "Peijun Gao 高培军",
-    "婶婶": "Meihua Yang 杨美华",
+    "高培军": "高培军",
+    "杨美华": "杨美华",
     "Kerry": "Kerry Smith",
     "Clare": "Clare Marash",
     "Lam": "Lam Nguyen",
@@ -2154,8 +2164,13 @@ W03: Cornbread`],
       .filter(Boolean);
   }
 
+  function canonicalPersonName(name) {
+    const value = String(name || "").trim();
+    return PERSON_ALIASES[value] || value;
+  }
+
   function personDisplayName(name) {
-    const value = String(name || "");
+    const value = canonicalPersonName(name);
     if (PERSON_DISPLAY_NAMES[value]) {
       return PERSON_DISPLAY_NAMES[value];
     }
@@ -2170,7 +2185,11 @@ W03: Cornbread`],
   }
 
   function peopleList(value) {
-    return splitList(value).map(personDisplayName);
+    return [...new Set(splitList(value).map(personDisplayName))].sort((a, b) => {
+      const orderA = PERSON_DISPLAY_ORDER[a] || Number.MAX_SAFE_INTEGER;
+      const orderB = PERSON_DISPLAY_ORDER[b] || Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
+    });
   }
 
   function eventEntryPeopleList(value) {
@@ -2180,6 +2199,10 @@ W03: Cornbread`],
         return /[\u3400-\u9fff]/.test(key) && (key === name || personDisplayName(key) === displayName);
       });
       return chineseName || displayName;
+    }).sort((a, b) => {
+      const orderA = PERSON_DISPLAY_ORDER[a] || Number.MAX_SAFE_INTEGER;
+      const orderB = PERSON_DISPLAY_ORDER[b] || Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
     });
   }
 
@@ -2193,7 +2216,7 @@ W03: Cornbread`],
         found.push({ source: name, display: displayName });
       }
     });
-    return found.map((person) => person.display).sort((a, b) => a.localeCompare(b));
+    return found.map((person) => person.display);
   }
 
   function formatDate(value) {
