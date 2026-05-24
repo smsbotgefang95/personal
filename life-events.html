@@ -1300,7 +1300,7 @@
   const DELETED_IMPORT_IDS_KEY = "personal.lifeEvents.deletedImportIds.v1";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
   const LIFE_EVENTS_ADMIN_KEY = "personal-life-events-admin-key-v1";
-  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-24-restore-parent-health-content";
+  const GOOGLE_SHEET_IMPORT_VERSION = "2026-05-24-restore-parent-health-deleted-import";
   const GENERIC_NEXT_ACTION = "Review and decide the next concrete action.";
   const AREAS = ["Health", "Intellectual", "Career", "Financial", "Family", "Love", "Parent", "Social", "Emotional", "Character", "Spiritual", "Quality of Life", "Life Vision"];
   const AREA_COLORS = {
@@ -1880,7 +1880,11 @@ W03: Cornbread`],
 
   function filterDeletedImportedEvents(items) {
     const deletedIds = deletedImportIdSet();
-    return items.filter((event) => !isImportedEventId(event && event.id) || !deletedIds.has(String(event.id)));
+    return items.filter((event) => isProtectedImportedEvent(event) || !isImportedEventId(event && event.id) || !deletedIds.has(String(event.id)));
+  }
+
+  function isProtectedImportedEvent(event) {
+    return event && event.area === "Parent" && event.sourceColumn === "健康";
   }
 
   function mergeDeletedImportIds(...lists) {
@@ -1952,8 +1956,7 @@ W03: Cornbread`],
     }
     if (
       importedEvent
-      && importedEvent.area === "Parent"
-      && importedEvent.sourceColumn === "健康"
+      && isProtectedImportedEvent(importedEvent)
       && !String(storedEvent.notes || "").trim()
     ) {
       return false;
