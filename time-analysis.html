@@ -649,6 +649,21 @@
         <div class="bar-list" id="onBusinessBars"></div>
       </section>
 
+      <section class="section card" aria-labelledby="businessTaskHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="businessTaskHeading">Business Task Duration by Week</h2>
+            <p class="section-note">Ranked by total tracked time across all imported weeks.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="business-task-table">
+            <thead id="businessTaskHead"></thead>
+            <tbody id="businessTaskBody"></tbody>
+          </table>
+        </div>
+      </section>
+
       <div class="grid-2">
         <section class="section card" aria-labelledby="roleHeading">
           <div class="section-header">
@@ -1063,6 +1078,8 @@
     const byWeekList = new Map();
     const byWeekOnBusiness = new Map();
     const byBusinessDepartment = new Map();
+    const byBusinessTaskId = new Map();
+    const byBusinessTaskWeek = new Map();
     const taskNames = new Map();
     const listNames = new Map();
     const weeks = new Set();
@@ -1092,6 +1109,8 @@
       if (business) {
         addHours(byRole, entry.taskType || "Other", entry.hours);
         addHours(byBusinessDepartment, entry.department || "No department", entry.hours);
+        addHours(byBusinessTaskId, entry.taskId, entry.hours);
+        addHours(byBusinessTaskWeek, `${entry.taskId}|||${entry.week}`, entry.hours);
       }
       if (entry.listName === "🚀 On Business") addHours(byWeekOnBusiness, entry.week, entry.hours);
 
@@ -1137,6 +1156,8 @@
       byWeekList,
       byWeekOnBusiness,
       byBusinessDepartment,
+      byBusinessTaskId,
+      byBusinessTaskWeek,
       taskNames,
       listNames,
       weeks: sortedWeeks,
@@ -1310,6 +1331,28 @@
       },
       options: horizontalBarOptions()
     });
+
+    renderBusinessTaskTable(metrics);
+  }
+
+  function renderBusinessTaskTable(metrics) {
+    const taskRows = topEntries(metrics.byBusinessTaskId, 15);
+    const displayWeeks = [...metrics.weeks].reverse();
+    const headers = ["Task", "Total", ...displayWeeks];
+    document.getElementById("businessTaskHead").innerHTML = `<tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
+    document.getElementById("businessTaskBody").innerHTML = taskRows.map(([taskId, totalHours]) => {
+      const weeklyCells = displayWeeks.map((week) => {
+        const hours = metrics.byBusinessTaskWeek.get(`${taskId}|||${week}`) || 0;
+        return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
+      }).join("");
+      return `
+        <tr>
+          <td title="${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}">${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}</td>
+          <td><strong>${escapeHtml(formatHours(totalHours, 2))}</strong></td>
+          ${weeklyCells}
+        </tr>
+      `;
+    }).join("");
   }
 
   function renderActions(metrics) {
