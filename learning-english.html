@@ -928,6 +928,8 @@
         <option value="proper noun">专有名词 Proper noun</option>
         <option value="interjection">感叹词 Interjection</option>
         <option value="modal verb">情态动词 Modal verb</option>
+        <option value="contraction">缩约词 Contraction</option>
+        <option value="infinitive marker">不定式标记 Infinitive marker</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
         <option value="all">所有主题</option>
@@ -1311,7 +1313,7 @@
 
   const VOCABULARY_PHRASES = [
     { id: "phrase-just-a-moment", phrase: "Just a moment", chinese: "稍等一下", pronunciation: "just uh MOH-ment", words: ["just", "moment"], type: "functional-chunk" },
-    { id: "phrase-happy-holiday", phrase: "Happy holiday", chinese: "节日快乐", pronunciation: "HAP-ee HOL-uh-day", words: ["happy", "holiday"], type: "collocation" },
+    { id: "phrase-happy-holidays", phrase: "Happy holidays", chinese: "节日快乐", pronunciation: "HAP-ee HOL-uh-dayz", words: ["happy", "holidays"], type: "functional-chunk" },
     { id: "phrase-good-morning", phrase: "Good morning", chinese: "早上好", pronunciation: "good MOR-ning", words: ["good", "morning"], type: "functional-chunk" },
     { id: "phrase-good-night", phrase: "Good night", chinese: "晚安", pronunciation: "good night", words: ["good", "night"], type: "functional-chunk" },
     { id: "phrase-right-now", phrase: "Right now", chinese: "现在；马上", pronunciation: "right now", words: ["right", "now"], type: "fixed-expression" },
@@ -1361,7 +1363,7 @@
     { id: "phrase-good-food", phrase: "Good food", chinese: "好吃的食物", pronunciation: "good food", words: ["good", "food"], type: "collocation" },
     { id: "phrase-hot-food", phrase: "Hot food", chinese: "热食", pronunciation: "hot food", words: ["hot", "food"], type: "collocation" },
     { id: "phrase-fast-food", phrase: "Fast food", chinese: "快餐", pronunciation: "fast food", words: ["fast", "food"], type: "compound-chunk" },
-    { id: "phrase-small-table", phrase: "Small table", chinese: "小桌子", pronunciation: "small TAY-bul", words: ["small", "table"], type: "compound-chunk" },
+    { id: "phrase-small-table", phrase: "Small table", chinese: "小桌子", pronunciation: "small TAY-bul", words: ["small", "table"], type: "collocation" },
     { id: "phrase-good-idea", phrase: "Good idea", chinese: "好主意", pronunciation: "good eye-DEE-uh", words: ["good", "idea"], type: "collocation" },
     { id: "phrase-big-idea", phrase: "Big idea", chinese: "大想法", pronunciation: "big eye-DEE-uh", words: ["big", "idea"], type: "collocation" },
     { id: "phrase-new-idea", phrase: "New idea", chinese: "新想法", pronunciation: "noo eye-DEE-uh", words: ["new", "idea"], type: "collocation" },
@@ -1371,11 +1373,11 @@
     { id: "phrase-hard-time", phrase: "Hard time", chinese: "困难时期", pronunciation: "hard time", words: ["hard", "time"], type: "collocation" },
     { id: "phrase-easy-work", phrase: "Easy work", chinese: "容易的工作", pronunciation: "EE-zee work", words: ["easy", "work"], type: "collocation" },
     { id: "phrase-good-work", phrase: "Good work", chinese: "做得好", pronunciation: "good work", words: ["good", "work"], type: "collocation" },
-    { id: "phrase-team-work", phrase: "Team work", chinese: "团队合作", pronunciation: "teem work", words: ["team", "work"], type: "compound-chunk" },
+    { id: "phrase-teamwork", phrase: "Teamwork", chinese: "团队合作", pronunciation: "teem-work", words: ["teamwork"], type: "compound-chunk" },
     { id: "phrase-school-work", phrase: "School work", chinese: "学校作业", pronunciation: "skool work", words: ["school", "work"], type: "collocation" },
     { id: "phrase-car-door", phrase: "Car door", chinese: "车门", pronunciation: "kar dor", words: ["car", "door"], type: "collocation" },
     { id: "phrase-street-light", phrase: "Street light", chinese: "路灯", pronunciation: "street light", words: ["street", "light"], type: "compound-chunk" },
-    { id: "phrase-road-side", phrase: "Road side", chinese: "路边", pronunciation: "rohd side", words: ["road", "side"], type: "compound-chunk" },
+    { id: "phrase-roadside", phrase: "Roadside", chinese: "路边", pronunciation: "rohd-side", words: ["roadside"], type: "compound-chunk" },
     { id: "phrase-left-hand", phrase: "Left hand", chinese: "左手", pronunciation: "left hand", words: ["left", "hand"], type: "compound-chunk" },
     { id: "phrase-right-hand", phrase: "Right hand", chinese: "右手", pronunciation: "right hand", words: ["right", "hand"], type: "compound-chunk" },
     { id: "phrase-right-side", phrase: "Right side", chinese: "右边", pronunciation: "right side", words: ["right", "side"], type: "compound-chunk" },
@@ -1408,11 +1410,11 @@
     { id: "phrase-for-sure", phrase: "For sure", chinese: "肯定", pronunciation: "for shoor", words: ["for", "sure"], type: "fixed-expression" },
     { id: "phrase-at-once", phrase: "At once", chinese: "马上", pronunciation: "at wuns", words: ["at", "once"], type: "fixed-expression" },
     { id: "phrase-by-hand", phrase: "By hand", chinese: "用手；手工", pronunciation: "by hand", words: ["by", "hand"], type: "fixed-expression" },
-    { id: "phrase-by-car", phrase: "By car", chinese: "坐车", pronunciation: "by kar", words: ["by", "car"], type: "compound-chunk" },
-    { id: "phrase-by-air", phrase: "By air", chinese: "乘飞机", pronunciation: "by air", words: ["by", "air"], type: "compound-chunk" },
+    { id: "phrase-by-car", phrase: "By car", chinese: "坐车", pronunciation: "by kar", words: ["by", "car"], type: "fixed-expression" },
+    { id: "phrase-by-air", phrase: "By air", chinese: "乘飞机", pronunciation: "by air", words: ["by", "air"], type: "fixed-expression" },
     { id: "phrase-on-foot", phrase: "On foot", chinese: "步行", pronunciation: "on foot", words: ["on", "foot"], type: "fixed-expression" },
     { id: "phrase-in-line", phrase: "In line", chinese: "排队", pronunciation: "in line", words: ["in", "line"], type: "fixed-expression" },
-    { id: "phrase-on-paper", phrase: "On paper", chinese: "在纸上", pronunciation: "on PAY-per", words: ["on", "paper"], type: "compound-chunk" },
+    { id: "phrase-on-paper", phrase: "On paper", chinese: "在纸上", pronunciation: "on PAY-per", words: ["on", "paper"], type: "fixed-expression" },
     { id: "phrase-in-person", phrase: "In person", chinese: "亲自", pronunciation: "in PER-sun", words: ["in", "person"], type: "fixed-expression" },
     { id: "phrase-at-least", phrase: "At least", chinese: "至少", pronunciation: "at leest", words: ["at", "least"], type: "fixed-expression" },
     { id: "phrase-at-first", phrase: "At first", chinese: "起初", pronunciation: "at furst", words: ["at", "first"], type: "fixed-expression" },
@@ -3522,7 +3524,7 @@ pass=通过；传递
     place: "地点",
     nature: "自然",
     number: "数字",
-    feeling: "感受",
+    feeling: "感受/状态 Feeling / state",
     holiday: "美国节日",
     clothes: "衣服",
     furniture: "家具",
@@ -3534,13 +3536,13 @@ pass=通过；传递
     color: new Set(["black", "blue", "brown", "color", "dark", "gold", "gray", "green", "orange", "pink", "purple", "red", "silver", "white", "yellow"]),
     family: new Set(["baby", "boy", "brother", "children", "dad", "daughter", "family", "father", "girl", "grandfather", "husband", "lady", "man", "man's", "men", "mother", "parents", "sister", "son", "wife", "woman", "women"]),
     body: new Set(["arms", "body", "ear", "eyes", "face", "feet", "fingers", "foot", "hair", "hand", "head", "heart", "legs", "mouth", "nose", "skin", "teeth"]),
-    food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "garden", "ice", "meat", "milk", "supper", "tea", "water"]),
+    food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "ice", "meat", "milk", "supper", "tea", "water"]),
     time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "friday", "future", "hour", "late", "minute", "monday", "moment", "month", "morning", "night", "noon", "now", "once", "past", "saturday", "second", "soon", "spring", "summer", "sunday", "thursday", "time", "today", "tomorrow", "tuesday", "wednesday", "week", "winter", "year", "yesterday"]),
     country: new Set(["america", "argentina", "australia", "bangladesh", "brazil", "canada", "chile", "china", "colombia", "denmark", "egypt", "england", "ethiopia", "france", "germany", "greece", "india", "indonesia", "iran", "ireland", "israel", "italy", "japan", "kenya", "mexico", "morocco", "nepal", "netherlands", "new zealand", "nigeria", "norway", "pakistan", "peru", "philippines", "poland", "portugal", "russia", "saudi arabia", "south africa", "south korea", "spain", "sweden", "thailand", "turkey", "ukraine", "united kingdom", "united states", "vietnam"]),
-    place: new Set(["area", "city", "coast", "country", "earth", "farm", "field", "ground", "home", "house", "land", "mountain", "place", "preschool", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
+    place: new Set(["area", "city", "coast", "country", "earth", "farm", "field", "garden", "ground", "home", "house", "land", "mountain", "place", "preschool", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
-    feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hard", "hot", "kind", "nice", "poor", "ready", "sad", "sharp", "sick", "sorry", "strong", "tired", "warm", "wrong"]),
+    feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hot", "kind", "nice", "ready", "sad", "sick", "sorry", "strong", "tired", "warm", "wrong"]),
     holiday: new Set(["celebrate", "christmas", "fireworks", "holiday", "parade", "thanksgiving"]),
     clothes: new Set(["belt", "boots", "coat", "dress", "gloves", "hat", "jacket", "pants", "scarf", "shirt", "shoe", "shoes", "shorts", "skirt", "socks", "sweater", "clothes", "wear"]),
     furniture: new Set(["bed", "blanket", "cabinet", "chair", "closet", "couch", "desk", "dresser", "drawer", "furniture", "lamp", "mirror", "pillow", "rug", "shelf", "sofa", "table"]),
@@ -6129,7 +6131,17 @@ pass=通过；传递
     ...item
   }));
 
-  const VOCABULARY = [...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY];
+  function uniqueVocabularyEntries(items) {
+    const seen = new Set();
+    return items.filter((item) => {
+      const key = `${String(item.word || "").toLowerCase()}|${item.theme || ""}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  const VOCABULARY = uniqueVocabularyEntries([...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
 
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
@@ -6317,7 +6329,7 @@ pass=通过；传递
   function loadSelectedVocabularyPart() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_PART_FILTER_KEY);
-      const allowed = ["all", "noun", "verb", "adjective", "adverb", "pronoun", "preposition", "determiner", "conjunction", "number", "proper noun", "interjection", "modal verb"];
+      const allowed = ["all", "noun", "verb", "adjective", "adverb", "pronoun", "preposition", "determiner", "conjunction", "number", "proper noun", "interjection", "modal verb", "contraction", "infinitive marker"];
       return allowed.includes(saved) ? saved : "all";
     } catch (error) {
       return "all";
@@ -6852,6 +6864,39 @@ pass=通过；传递
     return [...VOCABULARY, ...customVocabulary];
   }
 
+  function getVocabularyFilterOptions(sourceVocabulary, valueKey, labelMap, { exclude = [] } = {}) {
+    const excluded = new Set(exclude);
+    const counts = sourceVocabulary.reduce((map, item) => {
+      const value = item[valueKey] || "none";
+      if (value === "none" || excluded.has(value) || !Object.prototype.hasOwnProperty.call(labelMap, value)) return map;
+      map.set(value, (map.get(value) || 0) + 1);
+      return map;
+    }, new Map());
+    return [...counts.entries()].sort(([valueA], [valueB]) => valueA.localeCompare(valueB));
+  }
+
+  function renderVocabularyPrefixOptions(sourceVocabulary = getAllVocabulary()) {
+    const vocabularyPrefixFilter = document.getElementById("vocabularyPrefixFilter");
+    vocabularyPrefixFilter.innerHTML = [
+      `<option value="all">所有前缀</option>`,
+      ...getVocabularyFilterOptions(sourceVocabulary, "prefix", VOCABULARY_PREFIX_LABELS).map(([prefix, count]) => (
+        `<option value="${escapeHtml(prefix)}">${escapeHtml(VOCABULARY_PREFIX_LABELS[prefix])} (${count})</option>`
+      ))
+    ].join("");
+    return vocabularyPrefixFilter;
+  }
+
+  function renderVocabularySuffixOptions(sourceVocabulary = getAllVocabulary()) {
+    const vocabularySuffixFilter = document.getElementById("vocabularySuffixFilter");
+    vocabularySuffixFilter.innerHTML = [
+      `<option value="all">所有后缀</option>`,
+      ...getVocabularyFilterOptions(sourceVocabulary, "suffix", VOCABULARY_SUFFIX_FILTER_LABELS, { exclude: ["s", "ed"] }).map(([suffix, count]) => (
+        `<option value="${escapeHtml(suffix)}">${escapeHtml(VOCABULARY_SUFFIX_FILTER_LABELS[suffix])} (${count})</option>`
+      ))
+    ].join("");
+    return vocabularySuffixFilter;
+  }
+
   function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
     const counts = sourceVocabulary.reduce((map, item) => {
       (item.roots || []).forEach((root) => {
@@ -6861,7 +6906,6 @@ pass=通过；传递
       return map;
     }, new Map());
     return [...counts.entries()]
-      .filter(([, count]) => count > 1)
       .sort(([rootA], [rootB]) => rootA.localeCompare(rootB));
   }
 
@@ -6885,8 +6929,8 @@ pass=通过；传递
     const themeFilter = selectedVocabularyTheme;
     const compoundFilter = selectedVocabularyCompound;
     const tenseFilter = selectedVocabularyTense;
-    const prefixFilter = selectedVocabularyPrefix;
-    const suffixFilter = selectedVocabularySuffix;
+    let prefixFilter = selectedVocabularyPrefix;
+    let suffixFilter = selectedVocabularySuffix;
     let rootFilter = selectedVocabularyRoot;
     const syllableFilter = selectedVocabularySyllable;
     const vowelTeamFilter = selectedVocabularyVowelTeam;
@@ -6908,6 +6952,18 @@ pass=通过；传递
       const matchesIpa = ipaMatchesFilter(getVocabularyIpa(item), ipaFilter);
       return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
     };
+    const vocabularyPrefixFilter = renderVocabularyPrefixOptions(allVocabulary);
+    if (prefixFilter !== "all" && ![...vocabularyPrefixFilter.options].some((option) => option.value === prefixFilter)) {
+      prefixFilter = "all";
+      selectedVocabularyPrefix = "all";
+      saveSelectedVocabularyPrefix();
+    }
+    const vocabularySuffixFilter = renderVocabularySuffixOptions(allVocabulary);
+    if (suffixFilter !== "all" && ![...vocabularySuffixFilter.options].some((option) => option.value === suffixFilter)) {
+      suffixFilter = "all";
+      selectedVocabularySuffix = "all";
+      saveSelectedVocabularySuffix();
+    }
     const rootSourceVocabulary = allVocabulary.filter((item) => matchesFilters(item, false));
     const vocabularyRootFilter = renderVocabularyRootOptions(rootSourceVocabulary);
     if (rootFilter !== "all" && ![...vocabularyRootFilter.options].some((option) => option.value === rootFilter)) {
@@ -6926,8 +6982,8 @@ pass=通过；传递
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
     document.getElementById("vocabularyTenseFilter").value = tenseFilter;
-    document.getElementById("vocabularyPrefixFilter").value = prefixFilter;
-    document.getElementById("vocabularySuffixFilter").value = suffixFilter;
+    vocabularyPrefixFilter.value = prefixFilter;
+    vocabularySuffixFilter.value = suffixFilter;
     vocabularyRootFilter.value = rootFilter;
     document.getElementById("vocabularySyllableFilter").value = syllableFilter;
     document.getElementById("vocabularyVowelTeamFilter").value = vowelTeamFilter;
@@ -7192,19 +7248,13 @@ pass=通过；传递
     saveSelectedVocabularyTense();
     renderVocabularyList();
   });
-  document.getElementById("vocabularyPrefixFilter").innerHTML = [
-    `<option value="all">所有前缀</option>`,
-    ...Object.entries(VOCABULARY_PREFIX_LABELS).map(([prefix, label]) => `<option value="${prefix}">${label}</option>`)
-  ].join("");
+  renderVocabularyPrefixOptions(getAllVocabulary());
   document.getElementById("vocabularyPrefixFilter").addEventListener("change", (event) => {
     selectedVocabularyPrefix = event.target.value;
     saveSelectedVocabularyPrefix();
     renderVocabularyList();
   });
-  document.getElementById("vocabularySuffixFilter").innerHTML = [
-    `<option value="all">所有后缀</option>`,
-    ...Object.entries(VOCABULARY_SUFFIX_FILTER_LABELS).map(([suffix, label]) => `<option value="${suffix}">${label}</option>`)
-  ].join("");
+  renderVocabularySuffixOptions(getAllVocabulary());
   document.getElementById("vocabularySuffixFilter").addEventListener("change", (event) => {
     selectedVocabularySuffix = event.target.value;
     saveSelectedVocabularySuffix();
