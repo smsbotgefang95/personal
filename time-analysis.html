@@ -242,6 +242,47 @@
   .chart-box.short { height: 214px; }
   .chart-box.tall { height: 330px; }
 
+  .side-chart {
+    display: grid;
+    grid-template-columns: 214px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+  }
+
+  .side-chart .chart-box {
+    width: 214px;
+    height: 214px;
+  }
+
+  .chart-side-legend {
+    display: grid;
+    gap: 8px;
+    align-content: center;
+    padding-right: 2px;
+  }
+
+  .chart-side-legend-item {
+    display: grid;
+    grid-template-columns: 12px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .chart-side-legend-swatch {
+    width: 12px;
+    height: 12px;
+    background: var(--legend-color);
+  }
+
+  .chart-side-legend-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .bar-list {
     display: grid;
     gap: 10px;
@@ -282,6 +323,7 @@
   }
 
   .checks-grid,
+  .analysis-grid,
   .actions-grid {
     display: grid;
     gap: 12px;
@@ -356,6 +398,80 @@
     margin-top: 8px;
     color: #a5b4fc;
     font-weight: 800;
+  }
+
+  .analysis-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .analysis-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.24);
+  }
+
+  .analysis-card.warning {
+    border-color: var(--warm);
+    background: var(--warm-soft);
+  }
+
+  .analysis-card.good {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+
+  .analysis-card h3 {
+    margin-bottom: 6px;
+  }
+
+  .analysis-card p {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .step-list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step-list li {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.24);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--indigo);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 850;
+  }
+
+  .step-title {
+    margin-bottom: 3px;
+    font-weight: 850;
+  }
+
+  .step-detail {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
   }
 
   .toolbar {
@@ -603,6 +719,7 @@
     .grid-3,
     .grid-4,
     .checks-grid,
+    .analysis-grid,
     .toolbar { grid-template-columns: 1fr; }
     .section-header { display: grid; }
     .metric-card { min-height: 108px; }
@@ -610,6 +727,18 @@
     .chart-box,
     .chart-box.short,
     .chart-box.tall { height: 250px; }
+    .side-chart {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    .side-chart .chart-box {
+      width: min(250px, 100%);
+      height: 250px;
+    }
+    .chart-side-legend {
+      width: 100%;
+      align-content: start;
+    }
     .tab-btn { flex: 1 1 140px; }
   }
 </style>
@@ -722,8 +851,8 @@
       <section class="section card" aria-labelledby="onBusinessHeading">
         <div class="section-header">
           <div>
-            <h2 id="onBusinessHeading">On Business Trend</h2>
-            <p class="section-note">Target line: 30 hours per week.</p>
+            <h2 id="onBusinessHeading">On Business Share Trend</h2>
+            <p class="section-note">Target: On Business above 50% of all business time.</p>
           </div>
         </div>
         <div class="chart-box tall">
@@ -739,8 +868,11 @@
               <p class="section-note">Pie chart ranked by total task duration.</p>
             </div>
           </div>
-          <div class="chart-box short">
-            <canvas id="businessTopTaskPieChart"></canvas>
+          <div class="side-chart">
+            <div class="chart-box short">
+              <canvas id="businessTopTaskPieChart"></canvas>
+            </div>
+            <div class="chart-side-legend" id="businessTopTaskPieLegend"></div>
           </div>
         </section>
 
@@ -751,8 +883,11 @@
               <p class="section-note">Owner, Manager, Work, and Admin from Task Type.</p>
             </div>
           </div>
-          <div class="chart-box short">
-            <canvas id="roleChart"></canvas>
+          <div class="side-chart">
+            <div class="chart-box short">
+              <canvas id="roleChart"></canvas>
+            </div>
+            <div class="chart-side-legend" id="roleLegend"></div>
           </div>
         </section>
       </div>
@@ -811,8 +946,11 @@
               <p class="section-note">Pie chart ranked by total task duration.</p>
             </div>
           </div>
-          <div class="chart-box short">
-            <canvas id="personalTopTaskPieChart"></canvas>
+          <div class="side-chart">
+            <div class="chart-box short">
+              <canvas id="personalTopTaskPieChart"></canvas>
+            </div>
+            <div class="chart-side-legend" id="personalTopTaskPieLegend"></div>
           </div>
         </section>
 
@@ -846,6 +984,26 @@
     </section>
 
     <section id="panel-actions" class="panel">
+      <section class="section card" aria-labelledby="businessAnalysisHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="businessAnalysisHeading">Business Analysis</h2>
+            <p class="section-note">Lead-generation interpretation of the imported business time.</p>
+          </div>
+        </div>
+        <div class="analysis-grid" id="businessAnalysisGrid"></div>
+      </section>
+
+      <section class="section card" aria-labelledby="leadActionHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="leadActionHeading">Lead-Generation Action Steps</h2>
+            <p class="section-note">Use Lead delivered as the done point.</p>
+          </div>
+        </div>
+        <ol class="step-list" id="leadActionSteps"></ol>
+      </section>
+
       <section class="section card" aria-labelledby="checksHeading">
         <div class="section-header">
           <div>
@@ -1325,6 +1483,7 @@
     const byRole = new Map();
     const byWeekList = new Map();
     const byWeekOnBusiness = new Map();
+    const byWeekInBusiness = new Map();
     const byBusinessDepartment = new Map();
     const byBusinessTaskId = new Map();
     const byBusinessTaskWeek = new Map();
@@ -1368,6 +1527,7 @@
         addHours(byBusinessTaskWeek, `${entry.taskId}|||${entry.week}`, entry.hours);
       }
       if (entry.listName === "🚀 On Business") addHours(byWeekOnBusiness, entry.week, entry.hours);
+      if (entry.listName === "👩🏻‍💻 In Business") addHours(byWeekInBusiness, entry.week, entry.hours);
       if (personal) {
         addHours(byWeekPersonal, entry.week, entry.hours);
         addHours(byPersonalDepartment, entry.department || "No department", entry.hours);
@@ -1411,7 +1571,8 @@
       businessPercent: totalHours ? businessHours / totalHours * 100 : 0,
       onBusinessHours,
       inBusinessHours,
-      avgOnBusiness: sortedWeeks.length ? onBusinessHours / sortedWeeks.length : 0,
+      onBusinessShare: businessHours ? onBusinessHours / businessHours * 100 : 0,
+      inBusinessShare: businessHours ? inBusinessHours / businessHours * 100 : 0,
       ownerPercent: businessHours ? ownerHours / businessHours * 100 : 0,
       personalHours,
       personalPercent: totalHours ? personalHours / totalHours * 100 : 0,
@@ -1426,6 +1587,7 @@
       byRole,
       byWeekList,
       byWeekOnBusiness,
+      byWeekInBusiness,
       byBusinessDepartment,
       byBusinessTaskId,
       byBusinessTaskWeek,
@@ -1487,8 +1649,9 @@
     }));
   }
 
-  function renderTaskPieChart(id, taskHoursMap, metrics) {
+  function renderTaskPieChart(id, taskHoursMap, metrics, options = {}) {
     const entries = taskPieEntries(taskHoursMap, metrics);
+    if (options.legendId) renderSideLegend(options.legendId, entries);
     chart(id, {
       type: "pie",
       data: {
@@ -1500,8 +1663,19 @@
           borderColor: "#111827"
         }]
       },
-      options: pieOptions(entries.reduce((total, item) => total + item.value, 0))
+      options: pieOptions(entries.reduce((total, item) => total + item.value, 0), { legend: !options.hideLegend })
     });
+  }
+
+  function renderSideLegend(id, entries) {
+    const legend = document.getElementById(id);
+    if (!legend) return;
+    legend.innerHTML = entries.map((item) => `
+      <div class="chart-side-legend-item">
+        <span class="chart-side-legend-swatch" style="--legend-color:${escapeHtml(item.color)};"></span>
+        <span class="chart-side-legend-label">${escapeHtml(item.label)}</span>
+      </div>
+    `).join("");
   }
 
   function renderDashboard(entries, metrics) {
@@ -1521,7 +1695,7 @@
     renderKpi(document.getElementById("overviewKpis"), [
       { label: "Total time", value: formatHours(metrics.totalHours, 2), sub: `${metrics.dedupedCount.toLocaleString()} deduped entries`, className: "primary" },
       { label: "Business time", value: `${metrics.businessPercent.toFixed(1)}%`, sub: `${formatHours(metrics.businessHours, 2)} In + On Business`, className: "blue" },
-      { label: "On Business avg", value: formatHours(metrics.avgOnBusiness, 1), sub: "per Sunday-Saturday week", className: "green" },
+      { label: "On Business share", value: `${metrics.onBusinessShare.toFixed(1)}%`, sub: "of In + On Business time", className: metrics.onBusinessShare > 50 ? "green" : "warm" },
       { label: "Owner share", value: `${metrics.ownerPercent.toFixed(1)}%`, sub: "of business time", className: "warm" }
     ]);
 
@@ -1603,9 +1777,9 @@
   function renderBusiness(metrics) {
     renderKpi(document.getElementById("businessKpis"), [
       { label: "Business hours", value: formatHours(metrics.businessHours, 2), sub: "In + On Business", className: "primary" },
-      { label: "On Business", value: formatHours(metrics.onBusinessHours, 2), sub: `${formatHours(metrics.avgOnBusiness, 1)} avg/week`, className: "green" },
-      { label: "In Business", value: formatHours(metrics.inBusinessHours, 2), sub: "operations and fulfillment", className: "blue" },
-      { label: "Owner role", value: `${metrics.ownerPercent.toFixed(1)}%`, sub: `${formatHours(metrics.byRole.get("Owner") || 0)} Owner time`, className: "warm" }
+      { label: "On Business share", value: `${metrics.onBusinessShare.toFixed(1)}%`, sub: "target: above 50%", className: metrics.onBusinessShare > 50 ? "green" : "warm" },
+      { label: "On Business", value: formatHours(metrics.onBusinessHours, 2), sub: "lead generation and handoff", className: "green" },
+      { label: "In Business", value: formatHours(metrics.inBusinessHours, 2), sub: `${metrics.inBusinessShare.toFixed(1)}% of business time`, className: "blue" }
     ]);
 
     chart("onBusinessTrendChart", {
@@ -1615,14 +1789,22 @@
         datasets: [
           {
             label: "On Business",
-            data: metrics.weeks.map((week) => metrics.byWeekOnBusiness.get(week) || 0),
-            backgroundColor: metrics.weeks.map((week) => (metrics.byWeekOnBusiness.get(week) || 0) >= 30 ? "#22c55e" : "#3b82f6"),
+            data: metrics.weeks.map((week) => {
+              const onHours = metrics.byWeekOnBusiness.get(week) || 0;
+              const inHours = metrics.byWeekInBusiness.get(week) || 0;
+              return onHours + inHours ? onHours / (onHours + inHours) * 100 : 0;
+            }),
+            backgroundColor: metrics.weeks.map((week) => {
+              const onHours = metrics.byWeekOnBusiness.get(week) || 0;
+              const inHours = metrics.byWeekInBusiness.get(week) || 0;
+              return onHours + inHours && onHours / (onHours + inHours) > 0.5 ? "#22c55e" : "#f59e0b";
+            }),
             borderRadius: 5
           },
           {
             type: "line",
-            label: "30h target",
-            data: metrics.weeks.map(() => 30),
+            label: "50% target",
+            data: metrics.weeks.map(() => 50),
             borderColor: "#f59e0b",
             borderDash: [6, 5],
             borderWidth: 2,
@@ -1632,19 +1814,23 @@
           }
         ]
       },
-      options: verticalBarOptions()
+      options: percentBarOptions()
     });
 
-    renderTaskPieChart("businessTopTaskPieChart", metrics.byBusinessTaskId, metrics);
+    renderTaskPieChart("businessTopTaskPieChart", metrics.byBusinessTaskId, metrics, {
+      hideLegend: true,
+      legendId: "businessTopTaskPieLegend"
+    });
 
     const roleEntries = topEntries(metrics.byRole, 10).map(([label, hours]) => ({ label, value: hours, color: ROLE_COLORS[label] || ROLE_COLORS.Other }));
+    renderSideLegend("roleLegend", roleEntries);
     chart("roleChart", {
       type: "doughnut",
       data: {
         labels: roleEntries.map((item) => item.label),
         datasets: [{ data: roleEntries.map((item) => item.value), backgroundColor: roleEntries.map((item) => item.color), borderWidth: 2, borderColor: "#111827" }]
       },
-      options: doughnutOptions(sumMap(metrics.byRole))
+      options: doughnutOptions(sumMap(metrics.byRole), { legend: false })
     });
 
     const departmentEntries = topEntries(metrics.byBusinessDepartment, 10);
@@ -1686,7 +1872,10 @@
       options: verticalBarOptions()
     });
 
-    renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics);
+    renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
+      hideLegend: true,
+      legendId: "personalTopTaskPieLegend"
+    });
 
     const sectionEntries = topEntries(metrics.byPersonalSection, 10);
     chart("personalSectionChart", {
@@ -1733,21 +1922,82 @@
 
     const adminHours = metrics.byRole.get("Admin") || 0;
     const ownerHours = metrics.byRole.get("Owner") || 0;
-    const doDealsHours = Array.from(metrics.byBusinessDepartment.entries())
+    const leadGenHours = Array.from(metrics.byBusinessDepartment.entries())
       .filter(([label]) => /do deals/i.test(label))
       .reduce((total, [, hours]) => total + hours, 0);
     const automationHours = Array.from(metrics.byDepartment.entries())
       .filter(([label]) => /build processes/i.test(label))
       .reduce((total, [, hours]) => total + hours, 0);
     const morningHours = metrics.byEnergy.get("Morning 5am-12pm") || 0;
+    const leadGenPercent = metrics.businessHours ? leadGenHours / metrics.businessHours * 100 : 0;
+    const shiftHours = Math.max(0, (metrics.businessHours * 0.5) - metrics.onBusinessHours);
+    const weeklyShiftHours = metrics.weeks.length ? shiftHours / metrics.weeks.length : 0;
+
+    const analysisCards = [
+      {
+        level: metrics.onBusinessShare > 50 ? "good" : "warning",
+        title: metrics.onBusinessShare > 50 ? "Your business mix is aligned" : "Your business mix is upside down",
+        detail: `On Business is ${metrics.onBusinessShare.toFixed(1)}% of business time. The target is above 50%, so ${metrics.onBusinessShare > 50 ? "lead-generation work is leading operations." : `move about ${formatHours(shiftHours, 1)} from In Business to On Business across this range, roughly ${formatHours(weeklyShiftHours, 1)} per week.`}`
+      },
+      {
+        level: leadGenPercent >= 20 ? "good" : "warning",
+        title: "Delivered leads are the output",
+        detail: `Direct lead-generation work currently totals ${formatHours(leadGenHours, 1)} (${leadGenPercent.toFixed(1)}% of business time). The done point is Lead delivered to partner, not deal outcome.`
+      },
+      {
+        level: "warning",
+        title: "The missing KPI is lead count",
+        detail: "Hours alone cannot show efficiency. Start logging leads delivered so the dashboard can calculate leads delivered per On Business hour."
+      }
+    ];
+
+    document.getElementById("businessAnalysisGrid").innerHTML = analysisCards.map((item) => `
+      <article class="analysis-card ${escapeHtml(item.level)}">
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.detail)}</p>
+      </article>
+    `).join("");
+
+    const leadSteps = [
+      {
+        title: "Log every delivered lead",
+        detail: "Add a Lead delivered marker when a lead is handed to your partner. That becomes the output metric for this business."
+      },
+      {
+        title: "Make On Business the weekly majority",
+        detail: "Review the ratio weekly and keep On Business above 50% of In + On Business time before adding more operations work."
+      },
+      {
+        title: "Protect lead-production blocks first",
+        detail: "Use your best work blocks for prospect pulling, research, outreach, follow-up until handoff, and clean delivery notes."
+      },
+      {
+        title: "Cap In Business work",
+        detail: "Batch bookkeeping, taxes, vendor search, training, meetings, and internal process work after lead-generation blocks are complete."
+      },
+      {
+        title: "Review output every Friday",
+        detail: "Compare total business hours, On Business share, leads delivered, and leads delivered per On Business hour."
+      }
+    ];
+
+    document.getElementById("leadActionSteps").innerHTML = leadSteps.map((step, index) => `
+      <li>
+        <span class="step-number">${index + 1}</span>
+        <div>
+          <div class="step-title">${escapeHtml(step.title)}</div>
+          <p class="step-detail">${escapeHtml(step.detail)}</p>
+        </div>
+      </li>
+    `).join("");
 
     const actions = [
       {
-        level: metrics.avgOnBusiness >= 30 ? "good" : "high",
-        label: metrics.avgOnBusiness >= 30 ? "On target" : "High impact",
-        title: metrics.avgOnBusiness >= 30 ? "On Business is at target" : "Protect On Business time",
-        detail: `On Business is averaging ${formatHours(metrics.avgOnBusiness, 1)} per week against the 30h target.`,
-        cta: metrics.avgOnBusiness >= 30 ? "Keep the weekly floor at 30h+." : "Add enough weekly blocks to close the gap to 30h."
+        level: metrics.onBusinessShare > 50 ? "good" : "high",
+        label: metrics.onBusinessShare > 50 ? "On target" : "High impact",
+        title: metrics.onBusinessShare > 50 ? "On Business leads the mix" : "Flip the business-time ratio",
+        detail: `On Business is ${metrics.onBusinessShare.toFixed(1)}% and In Business is ${metrics.inBusinessShare.toFixed(1)}% of business time.`,
+        cta: metrics.onBusinessShare > 50 ? "Keep On Business above 50% of total business time." : "Shift enough In Business work into lead generation so On Business exceeds 50%."
       },
       {
         level: adminHours > ownerHours ? "critical" : "good",
@@ -1757,11 +2007,11 @@
         cta: adminHours > ownerHours ? "Build a delegate list from recurring admin tasks." : "Keep owner-level work protected."
       },
       {
-        level: doDealsHours / Math.max(metrics.businessHours, 1) < 0.2 ? "high" : "good",
-        label: doDealsHours / Math.max(metrics.businessHours, 1) < 0.2 ? "High impact" : "Healthy",
-        title: "Review Do Deals allocation",
-        detail: `Do Deals totals ${formatHours(doDealsHours, 1)}, or ${metrics.businessHours ? (doDealsHours / metrics.businessHours * 100).toFixed(1) : 0}% of business time.`,
-        cta: "Set a weekly minimum for revenue-driving deal work."
+        level: leadGenHours / Math.max(metrics.businessHours, 1) < 0.2 ? "high" : "good",
+        label: leadGenHours / Math.max(metrics.businessHours, 1) < 0.2 ? "High impact" : "Healthy",
+        title: "Prioritize delivered leads",
+        detail: `Direct lead-generation work totals ${formatHours(leadGenHours, 1)}, or ${metrics.businessHours ? (leadGenHours / metrics.businessHours * 100).toFixed(1) : 0}% of business time.`,
+        cta: "Track leads delivered per On Business hour and keep partner handoff as the done point."
       },
       {
         level: "good",
@@ -1852,13 +2102,13 @@
     };
   }
 
-  function doughnutOptions(total) {
+  function doughnutOptions(total, options = {}) {
     return {
       responsive: true,
       maintainAspectRatio: false,
       cutout: "62%",
       plugins: {
-        legend: { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        legend: options.legend === false ? { display: false } : { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
         tooltip: {
           callbacks: {
             label: (context) => {
@@ -1872,13 +2122,13 @@
     };
   }
 
-  function pieOptions(total) {
+  function pieOptions(total, options = {}) {
     return {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
       plugins: {
-        legend: { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        legend: options.legend === false ? { display: false } : { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
         tooltip: {
           callbacks: {
             label: (context) => {
@@ -1919,6 +2169,25 @@
       scales: {
         x: { ticks: { color: "#9ca3af", maxRotation: 0, autoSkip: false }, grid: { display: false } },
         y: { beginAtZero: true, ticks: { color: "#9ca3af", callback: (value) => `${value}h` }, grid: { color: "#1f2937" } }
+      }
+    };
+  }
+
+  function percentBarOptions() {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        tooltip: {
+          callbacks: {
+            label: (context) => `${context.dataset.label}: ${(Number(context.parsed.y) || 0).toFixed(1)}%`
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: "#9ca3af", maxRotation: 0, autoSkip: false }, grid: { display: false } },
+        y: { beginAtZero: true, max: 100, ticks: { color: "#9ca3af", callback: (value) => `${value}%` }, grid: { color: "#1f2937" } }
       }
     };
   }
