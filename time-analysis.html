@@ -502,7 +502,9 @@
   }
 
   .business-task-table th:first-child,
-  .business-task-table td:first-child {
+  .business-task-table td:first-child,
+  .personal-task-table th:first-child,
+  .personal-task-table td:first-child {
     position: sticky;
     left: 0;
     z-index: 2;
@@ -513,14 +515,28 @@
     background: var(--card);
   }
 
-  .business-task-table th:first-child {
+  .business-task-table th:first-child,
+  .personal-task-table th:first-child {
     z-index: 3;
     background: #1f2937;
   }
 
   .business-task-table th:nth-child(2),
-  .business-task-table td:nth-child(2) {
+  .business-task-table td:nth-child(2),
+  .personal-task-table th:nth-child(2),
+  .personal-task-table td:nth-child(2) {
+    position: sticky;
+    left: 260px;
+    z-index: 2;
+    min-width: 92px;
     background: #172033;
+    box-shadow: 1px 0 0 var(--border);
+  }
+
+  .business-task-table th:nth-child(2),
+  .personal-task-table th:nth-child(2) {
+    z-index: 3;
+    background: #1f2937;
   }
 
   .status-box {
@@ -573,6 +589,7 @@
     <nav class="tabs" aria-label="Time analysis sections">
       <button class="tab-btn active" type="button" data-tab="overview">Overview</button>
       <button class="tab-btn" type="button" data-tab="business">Business</button>
+      <button class="tab-btn" type="button" data-tab="personal">Personal</button>
       <button class="tab-btn" type="button" data-tab="actions">Actions</button>
       <button class="tab-btn" type="button" data-tab="details">Details</button>
     </nav>
@@ -691,6 +708,61 @@
           </div>
           <div class="chart-box short">
             <canvas id="departmentChart"></canvas>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="panel-personal" class="panel">
+      <div class="grid-4" id="personalKpis"></div>
+
+      <section class="section card" aria-labelledby="personalTrendHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="personalTrendHeading">Personal Trend</h2>
+            <p class="section-note">Weekly hours from the Personal ClickUp list only.</p>
+          </div>
+        </div>
+        <div class="bar-list" id="personalWeekBars"></div>
+      </section>
+
+      <section class="section card" aria-labelledby="personalTaskHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="personalTaskHeading">Personal Task Duration by Week</h2>
+            <p class="section-note">Ranked by total tracked time across all imported weeks.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="personal-task-table">
+            <thead id="personalTaskHead"></thead>
+            <tbody id="personalTaskBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="grid-2">
+        <section class="section card" aria-labelledby="personalSectionHeading">
+          <div class="section-header">
+            <div>
+              <h2 id="personalSectionHeading">Personal Sections</h2>
+              <p class="section-note">Sections inside Personal entries.</p>
+            </div>
+          </div>
+          <div class="chart-box short">
+            <canvas id="personalSectionChart"></canvas>
+          </div>
+        </section>
+
+        <section class="section card" aria-labelledby="personalCategoryHeading">
+          <div class="section-header">
+            <div>
+              <h2 id="personalCategoryHeading">Personal Categories</h2>
+              <p class="section-note">Task categories inside Personal entries.</p>
+            </div>
+          </div>
+          <div class="chart-box short">
+            <canvas id="personalCategoryChart"></canvas>
           </div>
         </section>
       </div>
@@ -1085,6 +1157,12 @@
     const byBusinessDepartment = new Map();
     const byBusinessTaskId = new Map();
     const byBusinessTaskWeek = new Map();
+    const byWeekPersonal = new Map();
+    const byPersonalDepartment = new Map();
+    const byPersonalSection = new Map();
+    const byPersonalCategory = new Map();
+    const byPersonalTaskId = new Map();
+    const byPersonalTaskWeek = new Map();
     const taskNames = new Map();
     const listNames = new Map();
     const weeks = new Set();
@@ -1102,6 +1180,7 @@
 
     entries.forEach((entry) => {
       const business = isBusinessList(entry);
+      const personal = isPersonalList(entry);
       weeks.add(entry.week);
       listNames.set(entry.listId, entry.listName);
       taskNames.set(entry.taskId, entry.taskName);
@@ -1118,6 +1197,14 @@
         addHours(byBusinessTaskWeek, `${entry.taskId}|||${entry.week}`, entry.hours);
       }
       if (entry.listName === "🚀 On Business") addHours(byWeekOnBusiness, entry.week, entry.hours);
+      if (personal) {
+        addHours(byWeekPersonal, entry.week, entry.hours);
+        addHours(byPersonalDepartment, entry.department || "No department", entry.hours);
+        addHours(byPersonalSection, entry.section || "No section", entry.hours);
+        addHours(byPersonalCategory, entry.taskCategory || "No category", entry.hours);
+        addHours(byPersonalTaskId, entry.taskId, entry.hours);
+        addHours(byPersonalTaskWeek, `${entry.taskId}|||${entry.week}`, entry.hours);
+      }
 
       const weekListKey = `${entry.week}|||${entry.listId}`;
       addHours(byWeekList, weekListKey, entry.hours);
@@ -1139,7 +1226,10 @@
     const businessHours = entries.filter(isBusinessList).reduce((total, entry) => total + entry.hours, 0);
     const onBusinessHours = entries.filter((entry) => entry.listName === "🚀 On Business").reduce((total, entry) => total + entry.hours, 0);
     const inBusinessHours = entries.filter((entry) => entry.listName === "👩🏻‍💻 In Business").reduce((total, entry) => total + entry.hours, 0);
+    const personalHours = entries.filter(isPersonalList).reduce((total, entry) => total + entry.hours, 0);
     const ownerHours = byRole.get("Owner") || 0;
+    const topPersonalSection = topEntries(byPersonalSection, 1)[0]?.[0] || "No section";
+    const topPersonalCategory = topEntries(byPersonalCategory, 1)[0]?.[0] || "No category";
 
     return {
       rawRowCount,
@@ -1152,6 +1242,11 @@
       inBusinessHours,
       avgOnBusiness: sortedWeeks.length ? onBusinessHours / sortedWeeks.length : 0,
       ownerPercent: businessHours ? ownerHours / businessHours * 100 : 0,
+      personalHours,
+      personalPercent: totalHours ? personalHours / totalHours * 100 : 0,
+      avgPersonal: sortedWeeks.length ? personalHours / sortedWeeks.length : 0,
+      topPersonalSection,
+      topPersonalCategory,
       byListId,
       byPriority,
       byDepartment,
@@ -1163,6 +1258,12 @@
       byBusinessDepartment,
       byBusinessTaskId,
       byBusinessTaskWeek,
+      byWeekPersonal,
+      byPersonalDepartment,
+      byPersonalSection,
+      byPersonalCategory,
+      byPersonalTaskId,
+      byPersonalTaskWeek,
       taskNames,
       listNames,
       weeks: sortedWeeks,
@@ -1173,6 +1274,10 @@
 
   function isBusinessList(entry) {
     return entry.listName === "🚀 On Business" || entry.listName === "👩🏻‍💻 In Business";
+  }
+
+  function isPersonalList(entry) {
+    return entry.listName === "🌈 Personal";
   }
 
   function renderKpi(container, items) {
@@ -1211,6 +1316,7 @@
 
     renderOverview(entries, metrics);
     renderBusiness(metrics);
+    renderPersonal(metrics);
     renderActions(metrics);
     renderDetails(entries, metrics);
   }
@@ -1360,6 +1466,68 @@
     }).join("");
   }
 
+  function renderPersonal(metrics) {
+    renderKpi(document.getElementById("personalKpis"), [
+      { label: "Personal hours", value: formatHours(metrics.personalHours, 2), sub: "Personal list only", className: "primary" },
+      { label: "Share of total", value: `${metrics.personalPercent.toFixed(1)}%`, sub: `${formatHours(metrics.totalHours, 2)} tracked total`, className: "warm" },
+      { label: "Weekly average", value: formatHours(metrics.avgPersonal, 1), sub: "per Sunday-Saturday week", className: "green" },
+      { label: "Top section", value: metrics.topPersonalSection, sub: `Top category: ${metrics.topPersonalCategory}`, className: "blue" }
+    ]);
+
+    const maxWeekly = Math.max(1, ...metrics.weeks.map((week) => metrics.byWeekPersonal.get(week) || 0));
+    renderBars(document.getElementById("personalWeekBars"), [...metrics.weeks].reverse().map((week) => {
+      const hours = metrics.byWeekPersonal.get(week) || 0;
+      return {
+        label: week,
+        value: hours,
+        display: formatHours(hours, 1),
+        color: "#f97316"
+      };
+    }), { max: maxWeekly });
+
+    const sectionEntries = topEntries(metrics.byPersonalSection, 10);
+    chart("personalSectionChart", {
+      type: "bar",
+      data: {
+        labels: sectionEntries.map(([label]) => label),
+        datasets: [{ data: sectionEntries.map(([, hours]) => hours), backgroundColor: "#f97316", borderRadius: 5 }]
+      },
+      options: horizontalBarOptions()
+    });
+
+    const categoryEntries = topEntries(metrics.byPersonalCategory, 10);
+    chart("personalCategoryChart", {
+      type: "bar",
+      data: {
+        labels: categoryEntries.map(([label]) => label),
+        datasets: [{ data: categoryEntries.map(([, hours]) => hours), backgroundColor: "#10b981", borderRadius: 5 }]
+      },
+      options: horizontalBarOptions()
+    });
+
+    renderPersonalTaskTable(metrics);
+  }
+
+  function renderPersonalTaskTable(metrics) {
+    const taskRows = topEntries(metrics.byPersonalTaskId, metrics.byPersonalTaskId.size);
+    const displayWeeks = [...metrics.weeks].reverse();
+    const headers = ["Task", "Total", ...displayWeeks];
+    document.getElementById("personalTaskHead").innerHTML = `<tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
+    document.getElementById("personalTaskBody").innerHTML = taskRows.map(([taskId, totalHours]) => {
+      const weeklyCells = displayWeeks.map((week) => {
+        const hours = metrics.byPersonalTaskWeek.get(`${taskId}|||${week}`) || 0;
+        return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
+      }).join("");
+      return `
+        <tr>
+          <td title="${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}">${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}</td>
+          <td><strong>${escapeHtml(formatHours(totalHours, 2))}</strong></td>
+          ${weeklyCells}
+        </tr>
+      `;
+    }).join("");
+  }
+
   function renderActions(metrics) {
     const checks = [
       `${metrics.duplicateCount.toLocaleString()} duplicate Time Entry ID rows ignored`,
@@ -1447,13 +1615,21 @@
       const query = searchInput.value.trim().toLowerCase();
       const listId = listFilter.value;
       const week = weekFilter.value;
-      const filtered = entries.filter((entry) => {
-        if (listId && entry.listId !== listId) return false;
-        if (week && entry.week !== week) return false;
-        if (query && !entry.searchText.includes(query)) return false;
-        return true;
-      });
-      document.getElementById("detailsNote").textContent = `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Friendly names only; technical IDs stay internal.`;
+      const filtered = entries
+        .filter((entry) => {
+          if (listId && entry.listId !== listId) return false;
+          if (week && entry.week !== week) return false;
+          if (query && !entry.searchText.includes(query)) return false;
+          return true;
+        })
+        .sort((a, b) => {
+          const newestStart = (b.start?.getTime() || 0) - (a.start?.getTime() || 0);
+          if (newestStart) return newestStart;
+          const newestWeek = compareWeeks(b.week, a.week);
+          if (newestWeek) return newestWeek;
+          return b.sourceIndex - a.sourceIndex;
+        });
+      document.getElementById("detailsNote").textContent = `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
         const values = [
           entry.displayDate,
