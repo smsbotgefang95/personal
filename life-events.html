@@ -2923,14 +2923,14 @@ W03: Cornbread`],
 
   async function returnAfterEventSave() {
     await syncLifeEventsBeforeReturn();
-    const returnUrl = previousSitePage();
-    if (returnUrl) {
-      window.location.assign(returnUrl);
-      return;
-    }
     if (returnViewState) {
       restoreReturnViewState(returnViewState);
       returnViewState = null;
+      return;
+    }
+    const returnUrl = previousSitePage();
+    if (returnUrl) {
+      window.location.assign(returnUrl);
       return;
     }
     clearToolbarSelection();
