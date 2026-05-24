@@ -396,6 +396,7 @@
 
   .details-table {
     --details-date-width: 108px;
+    --details-week-width: 70px;
     --details-start-width: 82px;
     --details-end-width: 82px;
     --details-duration-width: 90px;
@@ -429,8 +430,8 @@
 
   .empty-cell { color: #98a2b3; }
 
-  .details-table th:nth-child(-n + 6),
-  .details-table td:nth-child(-n + 6) {
+  .details-table th:nth-child(-n + 7),
+  .details-table td:nth-child(-n + 7) {
     position: sticky;
     z-index: 2;
     overflow: hidden;
@@ -438,7 +439,7 @@
     background: var(--card);
   }
 
-  .details-table th:nth-child(-n + 6) {
+  .details-table th:nth-child(-n + 7) {
     z-index: 4;
     background: #1f2937;
   }
@@ -454,45 +455,53 @@
   .details-table th:nth-child(2),
   .details-table td:nth-child(2) {
     left: var(--details-date-width);
+    width: var(--details-week-width);
+    min-width: var(--details-week-width);
+    max-width: var(--details-week-width);
+  }
+
+  .details-table th:nth-child(3),
+  .details-table td:nth-child(3) {
+    left: calc(var(--details-date-width) + var(--details-week-width));
     width: var(--details-start-width);
     min-width: var(--details-start-width);
     max-width: var(--details-start-width);
   }
 
-  .details-table th:nth-child(3),
-  .details-table td:nth-child(3) {
-    left: calc(var(--details-date-width) + var(--details-start-width));
+  .details-table th:nth-child(4),
+  .details-table td:nth-child(4) {
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width));
     width: var(--details-end-width);
     min-width: var(--details-end-width);
     max-width: var(--details-end-width);
   }
 
-  .details-table th:nth-child(4),
-  .details-table td:nth-child(4) {
-    left: calc(var(--details-date-width) + var(--details-start-width) + var(--details-end-width));
+  .details-table th:nth-child(5),
+  .details-table td:nth-child(5) {
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width) + var(--details-end-width));
     width: var(--details-duration-width);
     min-width: var(--details-duration-width);
     max-width: var(--details-duration-width);
   }
 
-  .details-table th:nth-child(5),
-  .details-table td:nth-child(5) {
-    left: calc(var(--details-date-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width));
+  .details-table th:nth-child(6),
+  .details-table td:nth-child(6) {
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width));
     width: var(--details-list-width);
     min-width: var(--details-list-width);
     max-width: var(--details-list-width);
   }
 
-  .details-table th:nth-child(6),
-  .details-table td:nth-child(6) {
-    left: calc(var(--details-date-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width) + var(--details-list-width));
+  .details-table th:nth-child(7),
+  .details-table td:nth-child(7) {
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width) + var(--details-list-width));
     width: var(--details-task-width);
     min-width: var(--details-task-width);
     max-width: var(--details-task-width);
     box-shadow: 1px 0 0 var(--border);
   }
 
-  .details-table tbody tr:hover td:nth-child(-n + 6) {
+  .details-table tbody tr:hover td:nth-child(-n + 7) {
     background: #172033;
   }
 
@@ -773,7 +782,7 @@
   let appEntries = [];
   let appMetrics = null;
 
-  const tableHeaders = ["Date", "Start", "End", "Duration", "List", "Task", "Department", "Priority", "Section", "Task Category", "Task Type", "Week"];
+  const tableHeaders = ["Date", "Week", "Start", "End", "Duration", "List", "Task", "Department", "Priority", "Section", "Task Category", "Task Type"];
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -1452,6 +1461,7 @@
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
         const values = [
           entry.displayDate,
+          entry.week,
           timeOnly(entry.start),
           timeOnly(entry.stop),
           formatDuration(entry.durationMs),
@@ -1461,8 +1471,7 @@
           entry.priority,
           entry.section,
           entry.taskCategory,
-          entry.taskType === "Other" ? "" : entry.taskType,
-          entry.week
+          entry.taskType === "Other" ? "" : entry.taskType
         ];
         return `<tr>${values.map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`).join("")}</tr>`;
       }).join("");
