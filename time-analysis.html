@@ -394,6 +394,15 @@
     font-size: 0.88rem;
   }
 
+  .details-table {
+    --details-date-width: 108px;
+    --details-start-width: 82px;
+    --details-end-width: 82px;
+    --details-duration-width: 90px;
+    --details-list-width: 130px;
+    --details-task-width: 360px;
+  }
+
   th,
   td {
     padding: 9px 10px;
@@ -419,6 +428,95 @@
   tbody tr:last-child td { border-bottom: 0; }
 
   .empty-cell { color: #98a2b3; }
+
+  .details-table th:nth-child(-n + 6),
+  .details-table td:nth-child(-n + 6) {
+    position: sticky;
+    z-index: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: var(--card);
+  }
+
+  .details-table th:nth-child(-n + 6) {
+    z-index: 4;
+    background: #1f2937;
+  }
+
+  .details-table th:nth-child(1),
+  .details-table td:nth-child(1) {
+    left: 0;
+    width: var(--details-date-width);
+    min-width: var(--details-date-width);
+    max-width: var(--details-date-width);
+  }
+
+  .details-table th:nth-child(2),
+  .details-table td:nth-child(2) {
+    left: var(--details-date-width);
+    width: var(--details-start-width);
+    min-width: var(--details-start-width);
+    max-width: var(--details-start-width);
+  }
+
+  .details-table th:nth-child(3),
+  .details-table td:nth-child(3) {
+    left: calc(var(--details-date-width) + var(--details-start-width));
+    width: var(--details-end-width);
+    min-width: var(--details-end-width);
+    max-width: var(--details-end-width);
+  }
+
+  .details-table th:nth-child(4),
+  .details-table td:nth-child(4) {
+    left: calc(var(--details-date-width) + var(--details-start-width) + var(--details-end-width));
+    width: var(--details-duration-width);
+    min-width: var(--details-duration-width);
+    max-width: var(--details-duration-width);
+  }
+
+  .details-table th:nth-child(5),
+  .details-table td:nth-child(5) {
+    left: calc(var(--details-date-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width));
+    width: var(--details-list-width);
+    min-width: var(--details-list-width);
+    max-width: var(--details-list-width);
+  }
+
+  .details-table th:nth-child(6),
+  .details-table td:nth-child(6) {
+    left: calc(var(--details-date-width) + var(--details-start-width) + var(--details-end-width) + var(--details-duration-width) + var(--details-list-width));
+    width: var(--details-task-width);
+    min-width: var(--details-task-width);
+    max-width: var(--details-task-width);
+    box-shadow: 1px 0 0 var(--border);
+  }
+
+  .details-table tbody tr:hover td:nth-child(-n + 6) {
+    background: #172033;
+  }
+
+  .business-task-table th:first-child,
+  .business-task-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    max-width: 320px;
+    min-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: var(--card);
+  }
+
+  .business-task-table th:first-child {
+    z-index: 3;
+    background: #1f2937;
+  }
+
+  .business-task-table th:nth-child(2),
+  .business-task-table td:nth-child(2) {
+    background: #172033;
+  }
 
   .status-box {
     border: 1px solid #4338ca;
@@ -614,7 +712,7 @@
           <select class="control" id="weekFilter" aria-label="Filter by week"></select>
         </div>
         <div class="table-wrap">
-          <table>
+          <table class="details-table">
             <thead id="entriesHead"></thead>
             <tbody id="entriesBody"></tbody>
           </table>
