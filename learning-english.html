@@ -1325,8 +1325,8 @@
     { id: "phrase-small-talk", phrase: "Small talk", chinese: "闲聊", pronunciation: "small talk", words: ["small", "talk"], type: "fixed-expression" },
     { id: "phrase-hard-work", phrase: "Hard work", chinese: "努力工作", pronunciation: "hard work", words: ["hard", "work"], type: "collocation" },
     { id: "phrase-good-day", phrase: "Good day", chinese: "美好的一天", pronunciation: "good day", words: ["good", "day"], type: "collocation" },
-    { id: "phrase-my-name", phrase: "My name", chinese: "我的名字", pronunciation: "my name", words: ["my", "name"], type: "collocation" },
-    { id: "phrase-your-name", phrase: "Your name", chinese: "你的名字", pronunciation: "yor name", words: ["your", "name"], type: "collocation" },
+    { id: "phrase-my-name", phrase: "My name", chinese: "我的名字", pronunciation: "my name", words: ["my", "name"], type: "noun-phrase" },
+    { id: "phrase-your-name", phrase: "Your name", chinese: "你的名字", pronunciation: "yor name", words: ["your", "name"], type: "noun-phrase" },
     { id: "phrase-first-day", phrase: "First day", chinese: "第一天", pronunciation: "furst day", words: ["first", "day"], type: "collocation" },
     { id: "phrase-last-week", phrase: "Last week", chinese: "上周", pronunciation: "last week", words: ["last", "week"], type: "collocation" },
     { id: "phrase-next-time", phrase: "Next time", chinese: "下次", pronunciation: "nekst time", words: ["next", "time"], type: "collocation" },
@@ -1478,6 +1478,7 @@
     { id: "cliche", label: "套语 Cliche" },
     { id: "sentence-frame", label: "句式 Sentence frame" },
     { id: "functional-chunk", label: "功能语块 Functional chunk" },
+    { id: "noun-phrase", label: "名词短语 Noun phrase" },
     { id: "compound-chunk", label: "复合语块 Compound chunk" }
   ];
   const CHUNK_TYPE_LABELS = Object.fromEntries(CHUNK_TYPES.map((type) => [type.id, type.label]));
