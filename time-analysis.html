@@ -142,6 +142,10 @@
     gap: 18px;
   }
 
+  .panel.active > .section {
+    min-width: 0;
+  }
+
   .grid-2,
   .grid-3,
   .grid-4 {
@@ -374,6 +378,8 @@
   }
 
   .table-wrap {
+    width: 100%;
+    max-width: 100%;
     overflow: auto;
     max-height: 620px;
     border: 1px solid var(--border);
