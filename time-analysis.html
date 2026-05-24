@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Time Analysis</title>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260522-color-home" />
+<script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #182033;
+    --muted: #667085;
+    --border: #d7deea;
+    --accent: #b42362;
+    --accent-dark: #8a184b;
+    --accent-light: #fde8f1;
+    --blue: #2754c5;
+    --blue-light: #e7efff;
+    --green: #0f766e;
+    --green-light: #e3f4ef;
+    --warm: #a85512;
+    --warm-light: #fff4df;
+    --shadow: 0 16px 34px rgba(24, 32, 51, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:
+      linear-gradient(180deg, #fff1f7 0 180px, #eef7f6 180px 380px, var(--bg) 380px),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 20px 24px 48px;
+  }
+  .page-header {
+    display: grid;
+    gap: 6px;
+    margin: 6px 0 18px;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .summary-grid,
+  .list-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .list-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(24, 32, 51, 0.06);
+  }
+  .metric-card {
+    min-height: 120px;
+    padding: 18px;
+    display: grid;
+    align-content: space-between;
+    gap: 12px;
+  }
+  .metric-label {
+    color: var(--muted);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .metric-card.primary {
+    background: linear-gradient(180deg, var(--accent-light) 0%, #ffffff 68%);
+    border-color: #f2bfd6;
+  }
+  .metric-card.blue {
+    background: linear-gradient(180deg, var(--blue-light) 0%, #ffffff 68%);
+    border-color: #c4d5fb;
+  }
+  .metric-card.green {
+    background: linear-gradient(180deg, var(--green-light) 0%, #ffffff 68%);
+    border-color: #b9dfd5;
+  }
+  .section {
+    margin-top: 18px;
+    padding: 18px;
+  }
+  .section-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .section h2 {
+    margin: 0;
+    font-size: 1.16rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+  .section-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .list-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .list-card::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 5px;
+    background: var(--accent);
+  }
+  .list-card.survival::before { background: var(--warm); }
+  .list-card.personal::before { background: var(--accent); }
+  .list-card.on-business::before { background: var(--blue); }
+  .list-card.in-business::before { background: var(--green); }
+  .check-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .check-list li {
+    border: 1px solid #f3d19a;
+    border-radius: 8px;
+    background: var(--warm-light);
+    padding: 12px 14px;
+    color: #79400f;
+    font-weight: 700;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+  }
+  table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th,
+  td {
+    padding: 10px 11px;
+    border-bottom: 1px solid #e8edf5;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #f7f9fc;
+    color: #344054;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  tbody tr:hover { background: #fbfcff; }
+  tbody tr:last-child td { border-bottom: 0; }
+  .empty-cell { color: #98a2b3; }
+  @media (max-width: 860px) {
+    main { padding: 16px 18px 34px; }
+    .summary-grid,
+    .list-grid,
+    .check-list { grid-template-columns: 1fr; }
+    .section-header { display: grid; }
+    .metric-card { min-height: 104px; }
+    .metric-value { font-size: 1.75rem; }
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="time-analysis"></site-nav>
+
+<main>
+  <header class="page-header">
+    <h1>Time Analysis</h1>
+    <p class="subtitle">Static snapshot imported from Preview Yesterday for May 23, 2026.</p>
+  </header>
+
+  <section class="summary-grid" aria-label="Time summary" id="summaryGrid"></section>
+
+  <section class="section card" aria-labelledby="listHeading">
+    <div class="section-header">
+      <h2 id="listHeading">Hours by List</h2>
+      <p class="section-note">Grouped from the imported ClickUp time entries.</p>
+    </div>
+    <div class="list-grid" id="listGrid"></div>
+  </section>
+
+  <section class="section card" aria-labelledby="checksHeading">
+    <div class="section-header">
+      <h2 id="checksHeading">Things to Check</h2>
+      <p class="section-note">Items that may need cleanup before using the day as final analysis.</p>
+    </div>
+    <ul class="check-list" id="checkList"></ul>
+  </section>
+
+  <section class="section card" aria-labelledby="entriesHeading">
+    <div class="section-header">
+      <h2 id="entriesHeading">Detailed Entries</h2>
+      <p class="section-note">66 imported rows. Scroll sideways to review all fields.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead id="entriesHead"></thead>
+        <tbody id="entriesBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+  const reportSummary = {
+  "date": "2026-05-23",
+  "entries": 66,
+  "totalTime": "23h 56m",
+  "lists": [
+    {
+      "name": "🌼 Survival Mode",
+      "time": "11h 9m",
+      "className": "survival"
+    },
+    {
+      "name": "🌈 Personal",
+      "time": "7h 20m",
+      "className": "personal"
+    },
+    {
+      "name": "🚀 On Business",
+      "time": "5h 11m",
+      "className": "on-business"
+    },
+    {
+      "name": "👩🏻‍💻 In Business",
+      "time": "0h 15m",
+      "className": "in-business"
+    }
+  ],
+  "checks": [
+    "8 entries under 1 minute",
+    "1 entry of 4 hours or more",
+    "0 business entries missing Task Category or Task Type"
+  ]
+};
+  const tableHeaders = ["Task", "Start", "End", "Duration", "List", "Department", "Priority", "Section", "Task Category", "Task Type"];
+  const timeEntries = [
+  {
+    "Task": "🛏️ Sleep",
+    "Start": "12:00 AM",
+    "End": "6:08 AM",
+    "Duration": "6h 8m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.1. Sleep well",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👗 Put on clothes",
+    "Start": "6:08 AM",
+    "End": "6:10 AM",
+    "Duration": "0h 2m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "💩 Poop",
+    "Start": "6:10 AM",
+    "End": "6:21 AM",
+    "Duration": "0h 10m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🪣 Soak butt",
+    "Start": "6:21 AM",
+    "End": "6:27 AM",
+    "Duration": "0h 6m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "⚖️ Weigh myself",
+    "Start": "6:27 AM",
+    "End": "6:29 AM",
+    "Duration": "0h 1m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👗 Put on clothes",
+    "Start": "6:29 AM",
+    "End": "6:33 AM",
+    "Duration": "0h 4m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "6:33 AM",
+    "End": "7:03 AM",
+    "Duration": "0h 29m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🍔 Eat",
+    "Start": "7:03 AM",
+    "End": "7:19 AM",
+    "Duration": "0h 15m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.2. Eat healthy food",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "7:19 AM",
+    "End": "7:46 AM",
+    "Duration": "0h 26m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "📋 Import prospects to Invelo",
+    "Start": "7:46 AM",
+    "End": "7:49 AM",
+    "Duration": "0h 2m",
+    "List": "👩🏻‍💻 In Business",
+    "Department": "4. Do deals",
+    "Priority": "📌 Job Must",
+    "Section": "4.1. Generate prospects",
+    "Task Category": "☹️ 👌 Obligation",
+    "Task Type": "Work"
+  },
+  {
+    "Task": "🕵🏻 Skip trace prospects",
+    "Start": "7:49 AM",
+    "End": "8:01 AM",
+    "Duration": "0h 11m",
+    "List": "👩🏻‍💻 In Business",
+    "Department": "4. Do deals",
+    "Priority": "📌 Job Must",
+    "Section": "4.3. Market to prospects",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Work"
+  },
+  {
+    "Task": "🌷Grow flowers and plants",
+    "Start": "8:01 AM",
+    "End": "8:05 AM",
+    "Duration": "0h 4m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.5. Others",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🧼 Do dishes",
+    "Start": "8:05 AM",
+    "End": "8:06 AM",
+    "Duration": "52s",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "🌱 Routine",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "8:06 AM",
+    "End": "8:09 AM",
+    "Duration": "0h 3m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🕵🏻 Skip trace prospects",
+    "Start": "8:09 AM",
+    "End": "8:10 AM",
+    "Duration": "55s",
+    "List": "👩🏻‍💻 In Business",
+    "Department": "4. Do deals",
+    "Priority": "📌 Job Must",
+    "Section": "4.3. Market to prospects",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Work"
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "8:10 AM",
+    "End": "8:11 AM",
+    "Duration": "0h 1m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🌷Grow flowers and plants",
+    "Start": "8:11 AM",
+    "End": "8:21 AM",
+    "Duration": "0h 10m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.5. Others",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "8:21 AM",
+    "End": "8:22 AM",
+    "Duration": "40s",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "8:22 AM",
+    "End": "9:57 AM",
+    "Duration": "1h 34m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🧼 Clean rooms",
+    "Start": "9:57 AM",
+    "End": "10:14 AM",
+    "Duration": "0h 16m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "10:14 AM",
+    "End": "10:15 AM",
+    "Duration": "0h 1m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🆘 Help family and friends",
+    "Start": "10:15 AM",
+    "End": "10:23 AM",
+    "Duration": "0h 7m",
+    "List": "🌈 Personal",
+    "Department": "9.08. Social",
+    "Priority": "📌 Life Must",
+    "Section": "9.08.1. Help family and friends",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "10:23 AM",
+    "End": "11:13 AM",
+    "Duration": "0h 50m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "11:13 AM",
+    "End": "11:20 AM",
+    "Duration": "0h 7m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🗃️ Open letters",
+    "Start": "11:20 AM",
+    "End": "11:21 AM",
+    "Duration": "54s",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.2. Organize stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "11:21 AM",
+    "End": "11:22 AM",
+    "Duration": "0h 1m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🗃️ Open letters",
+    "Start": "11:22 AM",
+    "End": "11:28 AM",
+    "Duration": "0h 5m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.2. Organize stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "11:28 AM",
+    "End": "11:42 AM",
+    "Duration": "0h 14m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🍔 Eat",
+    "Start": "11:42 AM",
+    "End": "11:53 AM",
+    "Duration": "0h 11m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.2. Eat healthy food",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "11:53 AM",
+    "End": "11:58 AM",
+    "Duration": "0h 4m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🧼 Do dishes",
+    "Start": "11:58 AM",
+    "End": "12:07 PM",
+    "Duration": "0h 8m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "🌱 Routine",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "12:07 PM",
+    "End": "12:17 PM",
+    "Duration": "0h 10m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👗 Put on clothes",
+    "Start": "12:47 PM",
+    "End": "12:51 PM",
+    "Duration": "0h 4m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "✅ Manage time tracked",
+    "Start": "12:51 PM",
+    "End": "12:52 PM",
+    "Duration": "54s",
+    "List": "🚀 On Business",
+    "Department": "2. Gain traction",
+    "Priority": "📌 Job Must",
+    "Section": "2.6. Manage time",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "💤 Nap",
+    "Start": "12:17 PM",
+    "End": "12:47 PM",
+    "Duration": "0h 30m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.1. Sleep well",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "12:52 PM",
+    "End": "1:53 PM",
+    "Duration": "1h 1m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "1:53 PM",
+    "End": "2:18 PM",
+    "Duration": "0h 24m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🧼 Clean rooms",
+    "Start": "2:18 PM",
+    "End": "2:18 PM",
+    "Duration": "29s",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🤖 Run AI agent",
+    "Start": "2:18 PM",
+    "End": "2:21 PM",
+    "Duration": "0h 2m",
+    "List": "🚀 On Business",
+    "Department": "5. Build processes",
+    "Priority": "📌 Job Must",
+    "Section": "5.7. Automate tasks",
+    "Task Category": "🙂 👌 Work",
+    "Task Type": "Owner"
+  },
+  {
+    "Task": "🧼 Clean rooms",
+    "Start": "2:21 PM",
+    "End": "2:57 PM",
+    "Duration": "0h 35m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🧾 Manage financials_Personal",
+    "Start": "2:57 PM",
+    "End": "4:17 PM",
+    "Duration": "1h 19m",
+    "List": "🌈 Personal",
+    "Department": "9.09. Financial",
+    "Priority": "📌 Life Must",
+    "Section": "9.09.1. Manage money",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👩🏻‍🍳 Search recipe",
+    "Start": "4:17 PM",
+    "End": "4:25 PM",
+    "Duration": "0h 8m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "📌 Life Must",
+    "Section": "9.01.2. Eat healthy food",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🌷Grow flowers and plants",
+    "Start": "4:25 PM",
+    "End": "4:27 PM",
+    "Duration": "0h 2m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.5. Others",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🧼 Clean rooms",
+    "Start": "4:28 PM",
+    "End": "4:44 PM",
+    "Duration": "0h 16m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👩🏻‍🍳 Cook meals",
+    "Start": "4:44 PM",
+    "End": "5:23 PM",
+    "Duration": "0h 39m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.4. Do house chores",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🍔 Eat",
+    "Start": "5:23 PM",
+    "End": "5:36 PM",
+    "Duration": "0h 12m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.2. Eat healthy food",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🧼 Do dishes",
+    "Start": "5:36 PM",
+    "End": "5:47 PM",
+    "Duration": "0h 11m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "🌱 Routine",
+    "Section": "9.11.3. Clean up stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "5:47 PM",
+    "End": "5:49 PM",
+    "Duration": "0h 2m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👩🏻‍🍳 Search recipe",
+    "Start": "5:49 PM",
+    "End": "5:49 PM",
+    "Duration": "4s",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "📌 Life Must",
+    "Section": "9.01.2. Eat healthy food",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "👩🏻‍🍳 Search recipe",
+    "Start": "5:49 PM",
+    "End": "6:02 PM",
+    "Duration": "0h 12m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "📌 Life Must",
+    "Section": "9.01.2. Eat healthy food",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🛒 Create a grocery list",
+    "Start": "6:02 PM",
+    "End": "6:03 PM",
+    "Duration": "0h 1m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.4. Do house chores",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🗃️ Organize food",
+    "Start": "6:03 PM",
+    "End": "6:23 PM",
+    "Duration": "0h 19m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.1. Manage stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🛒 Create a grocery list",
+    "Start": "6:23 PM",
+    "End": "6:25 PM",
+    "Duration": "0h 2m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.4. Do house chores",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🗃️ Organize food",
+    "Start": "6:25 PM",
+    "End": "6:48 PM",
+    "Duration": "0h 23m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.1. Manage stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🗃️ Organize food",
+    "Start": "6:48 PM",
+    "End": "6:49 PM",
+    "Duration": "32s",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.1. Manage stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🛒 Do grocery shopping",
+    "Start": "6:49 PM",
+    "End": "6:58 PM",
+    "Duration": "0h 9m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.4. Do house chores",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🛍️ Buy stuff",
+    "Start": "6:58 PM",
+    "End": "7:22 PM",
+    "Duration": "0h 24m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.1. Manage stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🏖️ Take a break",
+    "Start": "7:22 PM",
+    "End": "7:24 PM",
+    "Duration": "0h 1m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "☕️ Downtime",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🚿 Shower",
+    "Start": "7:24 PM",
+    "End": "7:41 PM",
+    "Duration": "0h 16m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🪣 Soak feet",
+    "Start": "7:41 PM",
+    "End": "8:01 PM",
+    "Duration": "0h 20m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🪥 Brush teeth",
+    "Start": "8:01 PM",
+    "End": "8:12 PM",
+    "Duration": "0h 10m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🧴 Take care of skin",
+    "Start": "8:12 PM",
+    "End": "8:15 PM",
+    "Duration": "0h 3m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "💅🏻 Cut nails",
+    "Start": "8:15 PM",
+    "End": "8:25 PM",
+    "Duration": "0h 9m",
+    "List": "🌈 Personal",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.4. Have a regular routine",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🗃️ Organize stuff",
+    "Start": "8:25 PM",
+    "End": "8:32 PM",
+    "Duration": "0h 6m",
+    "List": "🌈 Personal",
+    "Department": "9.11. Quality of life",
+    "Priority": "📌 Life Must",
+    "Section": "9.11.1. Manage stuff",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🗣️ Talk to Matt",
+    "Start": "8:32 PM",
+    "End": "9:02 PM",
+    "Duration": "0h 30m",
+    "List": "🌈 Personal",
+    "Department": "9.06. Love",
+    "Priority": "☕️ Downtime",
+    "Section": "9.06. Love",
+    "Task Category": "",
+    "Task Type": ""
+  },
+  {
+    "Task": "🛏️ Sleep",
+    "Start": "9:02 PM",
+    "End": "11:59 PM",
+    "Duration": "2h 57m",
+    "List": "🌼 Survival Mode",
+    "Department": "9.01. Health & fitness",
+    "Priority": "🌱 Routine",
+    "Section": "9.01.1. Sleep well",
+    "Task Category": "",
+    "Task Type": ""
+  }
+];
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[char]));
+  }
+
+  document.getElementById("summaryGrid").innerHTML = [
+    { label: "Date", value: reportSummary.date, className: "primary" },
+    { label: "Entries", value: reportSummary.entries, className: "blue" },
+    { label: "Total time", value: reportSummary.totalTime, className: "green" }
+  ].map((item) => `
+    <article class="metric-card card ${item.className}">
+      <div class="metric-label">${escapeHtml(item.label)}</div>
+      <div class="metric-value">${escapeHtml(item.value)}</div>
+    </article>
+  `).join("");
+
+  document.getElementById("listGrid").innerHTML = reportSummary.lists.map((item) => `
+    <article class="metric-card card list-card ${escapeHtml(item.className)}">
+      <div class="metric-label">${escapeHtml(item.name)}</div>
+      <div class="metric-value">${escapeHtml(item.time)}</div>
+    </article>
+  `).join("");
+
+  document.getElementById("checkList").innerHTML = reportSummary.checks
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
+
+  document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
+  document.getElementById("entriesBody").innerHTML = timeEntries.map((entry) => `
+    <tr>
+      ${tableHeaders.map((header) => {
+        const value = entry[header] || "";
+        return `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`;
+      }).join("")}
+    </tr>
+  `).join("");
+</script>
+</body>
+</html>
