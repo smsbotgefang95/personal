@@ -1813,6 +1813,9 @@ W03: Cornbread`],
   let events = loadEvents();
   let selectedAreaTab = "";
   let selectedAreaOption = "all";
+  let returnViewState = null;
+  let lastTimelineViewState = null;
+  let timelineViewStateTimer = null;
   let lifeEventsSyncAvailable = false;
   let lifeEventsSyncTimer = null;
   let isApplyingSharedEvents = false;
@@ -2947,8 +2950,85 @@ W03: Cornbread`],
       window.location.assign(returnUrl);
       return;
     }
+    if (returnViewState) {
+      restoreReturnViewState(returnViewState);
+      returnViewState = null;
+      return;
+    }
     clearToolbarSelection();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function captureReturnViewState() {
+    return {
+      selectedAreaTab,
+      selectedAreaOption,
+      scrollY: window.scrollY,
+      filters: {
+        area: els.filterArea.value,
+        column: els.filterColumn.value,
+        people: selectedCheckboxValues(els.filterPeople),
+        impact: els.filterImpact.value,
+        time: els.filterTime.value,
+        startDate: els.filterStartDate.value,
+        endDate: els.filterEndDate.value,
+        pattern: els.filterPattern.value
+      }
+    };
+  }
+
+  function isTimelineViewActive() {
+    return !els.timelinePanel.hidden && els.eventWorkspace.hidden;
+  }
+
+  function rememberTimelineViewState() {
+    if (!isTimelineViewActive()) return;
+    lastTimelineViewState = captureReturnViewState();
+  }
+
+  function queueTimelineViewStateRemember() {
+    if (timelineViewStateTimer) window.clearTimeout(timelineViewStateTimer);
+    timelineViewStateTimer = window.setTimeout(() => {
+      timelineViewStateTimer = null;
+      rememberTimelineViewState();
+    }, 120);
+  }
+
+  function restoreFilterPeopleSelection(selectedValues) {
+    const selected = new Set(selectedValues && selectedValues.length ? selectedValues : ["all"]);
+    els.filterPeople.querySelectorAll("input[type='checkbox']").forEach((input) => {
+      input.checked = selected.has(input.value);
+    });
+    normalizePeopleFilterSelection();
+  }
+
+  function restoreScrollPosition(top) {
+    const targetTop = top || 0;
+    window.scrollTo({ top: targetTop, behavior: "auto" });
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: targetTop, behavior: "auto" });
+      window.setTimeout(() => window.scrollTo({ top: targetTop, behavior: "auto" }), 120);
+    });
+  }
+
+  function restoreReturnViewState(state) {
+    clearToolbarSelection();
+    const filters = state.filters || {};
+    els.filterArea.value = filters.area || "all";
+    updateColumnOptions();
+    els.filterColumn.value = filters.column || "all";
+    if (!els.filterColumn.value) els.filterColumn.value = "all";
+    updatePeopleOptions();
+    restoreFilterPeopleSelection(filters.people);
+    els.filterImpact.value = filters.impact || "all";
+    els.filterTime.value = filters.time || "all";
+    els.filterStartDate.value = filters.startDate || "";
+    els.filterEndDate.value = filters.endDate || "";
+    els.filterPattern.value = filters.pattern || "all";
+    selectedAreaTab = state.selectedAreaTab || "";
+    selectedAreaOption = state.selectedAreaOption || "all";
+    render();
+    restoreScrollPosition(state.scrollY);
   }
 
   function clearToolbarSelection() {
@@ -2965,6 +3045,7 @@ W03: Cornbread`],
       tab.setAttribute("aria-selected", "false");
     });
     els.insightPanes.forEach((pane) => pane.classList.remove("active"));
+    rememberTimelineViewState();
   }
 
   function activateInsightTab(tabName) {
@@ -3000,6 +3081,7 @@ W03: Cornbread`],
   function editEvent(id) {
     const event = events.find((item) => item.id === id);
     if (!event) return;
+    returnViewState = lastTimelineViewState || captureReturnViewState();
     fillForm(event);
     activateNewEventTab();
     els.eventFormPanel.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -3044,6 +3126,7 @@ W03: Cornbread`],
   els.cancelEditBtn.addEventListener("click", resetForm);
   els.timelineTab.addEventListener("click", clearToolbarSelection);
   els.newEventBtn.addEventListener("click", () => {
+    returnViewState = lastTimelineViewState || captureReturnViewState();
     activateNewEventTab();
     resetForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -3074,11 +3157,13 @@ W03: Cornbread`],
     updateColumnOptions();
     updatePeopleOptions();
     render();
+    rememberTimelineViewState();
   });
 
   els.filterPeople.addEventListener("change", (event) => {
     normalizePeopleFilterSelection(event.target);
     render();
+    rememberTimelineViewState();
   });
 
   els.eventPeople.addEventListener("change", () => {
@@ -3109,7 +3194,10 @@ W03: Cornbread`],
   });
 
   [els.filterColumn, els.filterImpact, els.filterTime, els.filterStartDate, els.filterEndDate, els.filterPattern].forEach((node) => {
-    node.addEventListener("change", render);
+    node.addEventListener("change", () => {
+      render();
+      rememberTimelineViewState();
+    });
   });
 
   els.insightTabs.forEach((tab) => {
@@ -3124,6 +3212,7 @@ W03: Cornbread`],
       selectedAreaTab = areaTab;
       selectedAreaOption = "all";
       render();
+      rememberTimelineViewState();
       return;
     }
     if (editId) editEvent(editId);
@@ -3134,12 +3223,14 @@ W03: Cornbread`],
     if (!event.target.matches("[data-area-option-select]")) return;
     selectedAreaOption = event.target.value || "all";
     render();
+    rememberTimelineViewState();
   });
 
   initSelects();
   resetForm();
   render();
   clearToolbarSelection();
+  window.addEventListener("scroll", queueTimelineViewStateRemember, { passive: true });
   window.addEventListener("pageshow", clearToolbarSelection);
   loadSharedLifeEvents();
 })();
