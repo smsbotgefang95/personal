@@ -539,6 +539,49 @@
     background: #1f2937;
   }
 
+  .sort-header-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px;
+    width: 100%;
+    min-height: 28px;
+    border: 0;
+    border-radius: 6px;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 850;
+    letter-spacing: inherit;
+    text-align: left;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+
+  .sort-header-btn:hover,
+  .sort-header-btn:focus-visible {
+    color: #ffffff;
+    outline: none;
+  }
+
+  .sort-header-btn:focus-visible {
+    box-shadow: 0 0 0 2px var(--indigo);
+  }
+
+  .sort-indicator {
+    flex: 0 0 auto;
+    width: 1em;
+    color: var(--muted);
+    font-size: 0.8em;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .sort-header-btn.active .sort-indicator {
+    color: #ffffff;
+  }
+
   .status-box {
     border: 1px solid #4338ca;
     border-radius: 8px;
@@ -849,6 +892,10 @@
   const charts = {};
   let appEntries = [];
   let appMetrics = null;
+  const taskTableSort = {
+    business: { key: "total", direction: "desc" },
+    personal: { key: "total", direction: "desc" }
+  };
 
   const tableHeaders = ["Date", "Week", "Task", "Duration", "Start", "End", "List", "Department", "Priority", "Section", "Task Category", "Task Type"];
 
@@ -1141,6 +1188,83 @@
       .slice(0, limit);
   }
 
+  function taskSortValue(row, key) {
+    if (key === "task") return row.taskName.toLowerCase();
+    if (key === "total") return row.totalHours;
+    return row.weekHours.get(key) || 0;
+  }
+
+  function sortTaskRows(rows, sortState) {
+    return [...rows].sort((a, b) => {
+      const valueA = taskSortValue(a, sortState.key);
+      const valueB = taskSortValue(b, sortState.key);
+      const result = typeof valueA === "string"
+        ? valueA.localeCompare(valueB)
+        : valueA - valueB;
+      if (result) return sortState.direction === "asc" ? result : -result;
+      return a.taskName.localeCompare(b.taskName);
+    });
+  }
+
+  function renderSortableHeader(tableName, key, label) {
+    const sortState = taskTableSort[tableName];
+    const active = sortState.key === key;
+    const nextDirection = active && sortState.direction === "desc" ? "asc" : "desc";
+    const indicator = active ? (sortState.direction === "desc" ? "▼" : "▲") : "↕";
+    const ariaSort = active ? (sortState.direction === "desc" ? "descending" : "ascending") : "none";
+    const title = `Sort ${label} ${nextDirection === "desc" ? "descending" : "ascending"}`;
+    return `
+      <button class="sort-header-btn${active ? " active" : ""}" type="button" data-task-table="${escapeHtml(tableName)}" data-sort-key="${escapeHtml(key)}" aria-sort="${ariaSort}" title="${escapeHtml(title)}">
+        <span>${escapeHtml(label)}</span>
+        <span class="sort-indicator" aria-hidden="true">${indicator}</span>
+      </button>
+    `;
+  }
+
+  function renderTaskTable(tableName, headId, bodyId, taskHoursMap, taskWeekMap, metrics) {
+    const displayWeeks = [...metrics.weeks].reverse();
+    const rows = Array.from(taskHoursMap.entries()).map(([taskId, totalHours]) => {
+      const weekHours = new Map(displayWeeks.map((week) => [week, taskWeekMap.get(`${taskId}|||${week}`) || 0]));
+      return {
+        taskId,
+        taskName: metrics.taskNames.get(taskId) || "Untitled task",
+        totalHours,
+        weekHours
+      };
+    });
+    const sortedRows = sortTaskRows(rows, taskTableSort[tableName]);
+    const headers = [
+      renderSortableHeader(tableName, "task", "Task"),
+      renderSortableHeader(tableName, "total", "Total"),
+      ...displayWeeks.map((week) => renderSortableHeader(tableName, week, week))
+    ];
+
+    document.getElementById(headId).innerHTML = `<tr>${headers.map((header) => `<th>${header}</th>`).join("")}</tr>`;
+    document.getElementById(bodyId).innerHTML = sortedRows.map((row) => {
+      const weeklyCells = displayWeeks.map((week) => {
+        const hours = row.weekHours.get(week) || 0;
+        return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
+      }).join("");
+      return `
+        <tr>
+          <td title="${escapeHtml(row.taskName)}">${escapeHtml(row.taskName)}</td>
+          <td><strong>${escapeHtml(formatHours(row.totalHours, 2))}</strong></td>
+          ${weeklyCells}
+        </tr>
+      `;
+    }).join("");
+
+    document.getElementById(headId).querySelectorAll("[data-sort-key]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const sortState = taskTableSort[tableName];
+        const key = button.dataset.sortKey;
+        sortState.direction = sortState.key === key && sortState.direction === "desc" ? "asc" : "desc";
+        sortState.key = key;
+        renderTaskTable(tableName, headId, bodyId, taskHoursMap, taskWeekMap, metrics);
+      });
+    });
+  }
+
   function sumMap(map) {
     return Array.from(map.values()).reduce((total, value) => total + value, 0);
   }
@@ -1413,7 +1537,7 @@
     ]);
 
     const maxWeekly = Math.max(40, ...metrics.weeks.map((week) => metrics.byWeekOnBusiness.get(week) || 0));
-    renderBars(document.getElementById("onBusinessBars"), metrics.weeks.map((week) => {
+    renderBars(document.getElementById("onBusinessBars"), [...metrics.weeks].reverse().map((week) => {
       const hours = metrics.byWeekOnBusiness.get(week) || 0;
       return {
         label: week,
@@ -1447,23 +1571,7 @@
   }
 
   function renderBusinessTaskTable(metrics) {
-    const taskRows = topEntries(metrics.byBusinessTaskId, metrics.byBusinessTaskId.size);
-    const displayWeeks = [...metrics.weeks].reverse();
-    const headers = ["Task", "Total", ...displayWeeks];
-    document.getElementById("businessTaskHead").innerHTML = `<tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
-    document.getElementById("businessTaskBody").innerHTML = taskRows.map(([taskId, totalHours]) => {
-      const weeklyCells = displayWeeks.map((week) => {
-        const hours = metrics.byBusinessTaskWeek.get(`${taskId}|||${week}`) || 0;
-        return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
-      }).join("");
-      return `
-        <tr>
-          <td title="${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}">${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}</td>
-          <td><strong>${escapeHtml(formatHours(totalHours, 2))}</strong></td>
-          ${weeklyCells}
-        </tr>
-      `;
-    }).join("");
+    renderTaskTable("business", "businessTaskHead", "businessTaskBody", metrics.byBusinessTaskId, metrics.byBusinessTaskWeek, metrics);
   }
 
   function renderPersonal(metrics) {
@@ -1509,23 +1617,7 @@
   }
 
   function renderPersonalTaskTable(metrics) {
-    const taskRows = topEntries(metrics.byPersonalTaskId, metrics.byPersonalTaskId.size);
-    const displayWeeks = [...metrics.weeks].reverse();
-    const headers = ["Task", "Total", ...displayWeeks];
-    document.getElementById("personalTaskHead").innerHTML = `<tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
-    document.getElementById("personalTaskBody").innerHTML = taskRows.map(([taskId, totalHours]) => {
-      const weeklyCells = displayWeeks.map((week) => {
-        const hours = metrics.byPersonalTaskWeek.get(`${taskId}|||${week}`) || 0;
-        return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
-      }).join("");
-      return `
-        <tr>
-          <td title="${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}">${escapeHtml(metrics.taskNames.get(taskId) || "Untitled task")}</td>
-          <td><strong>${escapeHtml(formatHours(totalHours, 2))}</strong></td>
-          ${weeklyCells}
-        </tr>
-      `;
-    }).join("");
+    renderTaskTable("personal", "personalTaskHead", "personalTaskBody", metrics.byPersonalTaskId, metrics.byPersonalTaskWeek, metrics);
   }
 
   function renderActions(metrics) {
