@@ -1632,7 +1632,7 @@
       document.getElementById("detailsNote").textContent = `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
         const values = [
-          entry.displayDate,
+          entry.date,
           entry.week,
           entry.taskName,
           formatDuration(entry.durationMs),
