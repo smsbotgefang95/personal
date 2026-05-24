@@ -6,7 +6,7 @@
 <title>Time Analysis</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260522-color-home" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="assets/chart.umd.min.js?v=20260524-top-task-pies"></script>
 <style>
   :root {
     --bg: #030712;
@@ -704,16 +704,6 @@
     <section id="panel-business" class="panel">
       <div class="grid-4" id="businessKpis"></div>
 
-      <section class="section card" aria-labelledby="onBusinessHeading">
-        <div class="section-header">
-          <div>
-            <h2 id="onBusinessHeading">On Business Trend</h2>
-            <p class="section-note">Target line: 30 hours per week.</p>
-          </div>
-        </div>
-        <div class="bar-list" id="onBusinessBars"></div>
-      </section>
-
       <section class="section card" aria-labelledby="businessTaskHeading">
         <div class="section-header">
           <div>
@@ -729,7 +719,31 @@
         </div>
       </section>
 
+      <section class="section card" aria-labelledby="onBusinessHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="onBusinessHeading">On Business Trend</h2>
+            <p class="section-note">Target line: 30 hours per week.</p>
+          </div>
+        </div>
+        <div class="chart-box tall">
+          <canvas id="onBusinessTrendChart"></canvas>
+        </div>
+      </section>
+
       <div class="grid-2">
+        <section class="section card" aria-labelledby="businessTopTaskPieHeading">
+          <div class="section-header">
+            <div>
+              <h2 id="businessTopTaskPieHeading">Top 10 Business Tasks</h2>
+              <p class="section-note">Pie chart ranked by total task duration.</p>
+            </div>
+          </div>
+          <div class="chart-box short">
+            <canvas id="businessTopTaskPieChart"></canvas>
+          </div>
+        </section>
+
         <section class="section card" aria-labelledby="roleHeading">
           <div class="section-header">
             <div>
@@ -741,7 +755,9 @@
             <canvas id="roleChart"></canvas>
           </div>
         </section>
+      </div>
 
+      <div class="grid-2">
         <section class="section card" aria-labelledby="departmentHeading">
           <div class="section-header">
             <div>
@@ -754,20 +770,11 @@
           </div>
         </section>
       </div>
+
     </section>
 
     <section id="panel-personal" class="panel">
       <div class="grid-4" id="personalKpis"></div>
-
-      <section class="section card" aria-labelledby="personalTrendHeading">
-        <div class="section-header">
-          <div>
-            <h2 id="personalTrendHeading">Personal Trend</h2>
-            <p class="section-note">Weekly hours from the Personal ClickUp list only.</p>
-          </div>
-        </div>
-        <div class="bar-list" id="personalWeekBars"></div>
-      </section>
 
       <section class="section card" aria-labelledby="personalTaskHeading">
         <div class="section-header">
@@ -784,7 +791,31 @@
         </div>
       </section>
 
+      <section class="section card" aria-labelledby="personalTrendHeading">
+        <div class="section-header">
+          <div>
+            <h2 id="personalTrendHeading">Personal Trend</h2>
+            <p class="section-note">Weekly hours from the Personal ClickUp list only.</p>
+          </div>
+        </div>
+        <div class="chart-box tall">
+          <canvas id="personalTrendChart"></canvas>
+        </div>
+      </section>
+
       <div class="grid-2">
+        <section class="section card" aria-labelledby="personalTopTaskPieHeading">
+          <div class="section-header">
+            <div>
+              <h2 id="personalTopTaskPieHeading">Top 10 Personal Tasks</h2>
+              <p class="section-note">Pie chart ranked by total task duration.</p>
+            </div>
+          </div>
+          <div class="chart-box short">
+            <canvas id="personalTopTaskPieChart"></canvas>
+          </div>
+        </section>
+
         <section class="section card" aria-labelledby="personalSectionHeading">
           <div class="section-header">
             <div>
@@ -796,7 +827,9 @@
             <canvas id="personalSectionChart"></canvas>
           </div>
         </section>
+      </div>
 
+      <div class="grid-2">
         <section class="section card" aria-labelledby="personalCategoryHeading">
           <div class="section-header">
             <div>
@@ -809,6 +842,7 @@
           </div>
         </section>
       </div>
+
     </section>
 
     <section id="panel-actions" class="panel">
@@ -888,6 +922,19 @@
     Admin: "#94a3b8",
     Other: "#f59e0b"
   };
+
+  const TASK_PIE_COLORS = [
+    "#ec4899",
+    "#3b82f6",
+    "#22c55e",
+    "#f59e0b",
+    "#6366f1",
+    "#14b8a6",
+    "#f97316",
+    "#a855f7",
+    "#eab308",
+    "#38bdf8"
+  ];
 
   const charts = {};
   let appEntries = [];
@@ -1432,6 +1479,31 @@
     }).join("");
   }
 
+  function taskPieEntries(taskHoursMap, metrics) {
+    return topEntries(taskHoursMap, 10).map(([taskId, hours], index) => ({
+      label: metrics.taskNames.get(taskId) || "Untitled task",
+      value: hours,
+      color: TASK_PIE_COLORS[index % TASK_PIE_COLORS.length]
+    }));
+  }
+
+  function renderTaskPieChart(id, taskHoursMap, metrics) {
+    const entries = taskPieEntries(taskHoursMap, metrics);
+    chart(id, {
+      type: "pie",
+      data: {
+        labels: entries.map((item) => item.label),
+        datasets: [{
+          data: entries.map((item) => item.value),
+          backgroundColor: entries.map((item) => item.color),
+          borderWidth: 2,
+          borderColor: "#111827"
+        }]
+      },
+      options: pieOptions(entries.reduce((total, item) => total + item.value, 0))
+    });
+  }
+
   function renderDashboard(entries, metrics) {
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboard").hidden = false;
@@ -1536,16 +1608,34 @@
       { label: "Owner role", value: `${metrics.ownerPercent.toFixed(1)}%`, sub: `${formatHours(metrics.byRole.get("Owner") || 0)} Owner time`, className: "warm" }
     ]);
 
-    const maxWeekly = Math.max(40, ...metrics.weeks.map((week) => metrics.byWeekOnBusiness.get(week) || 0));
-    renderBars(document.getElementById("onBusinessBars"), [...metrics.weeks].reverse().map((week) => {
-      const hours = metrics.byWeekOnBusiness.get(week) || 0;
-      return {
-        label: week,
-        value: hours,
-        display: `${formatHours(hours, 1)} / 30h`,
-        color: hours >= 30 ? "#22c55e" : "#3b82f6"
-      };
-    }), { max: maxWeekly });
+    chart("onBusinessTrendChart", {
+      type: "bar",
+      data: {
+        labels: metrics.weeks,
+        datasets: [
+          {
+            label: "On Business",
+            data: metrics.weeks.map((week) => metrics.byWeekOnBusiness.get(week) || 0),
+            backgroundColor: metrics.weeks.map((week) => (metrics.byWeekOnBusiness.get(week) || 0) >= 30 ? "#22c55e" : "#3b82f6"),
+            borderRadius: 5
+          },
+          {
+            type: "line",
+            label: "30h target",
+            data: metrics.weeks.map(() => 30),
+            borderColor: "#f59e0b",
+            borderDash: [6, 5],
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            fill: false
+          }
+        ]
+      },
+      options: verticalBarOptions()
+    });
+
+    renderTaskPieChart("businessTopTaskPieChart", metrics.byBusinessTaskId, metrics);
 
     const roleEntries = topEntries(metrics.byRole, 10).map(([label, hours]) => ({ label, value: hours, color: ROLE_COLORS[label] || ROLE_COLORS.Other }));
     chart("roleChart", {
@@ -1582,16 +1672,21 @@
       { label: "Top section", value: metrics.topPersonalSection, sub: `Top category: ${metrics.topPersonalCategory}`, className: "blue" }
     ]);
 
-    const maxWeekly = Math.max(1, ...metrics.weeks.map((week) => metrics.byWeekPersonal.get(week) || 0));
-    renderBars(document.getElementById("personalWeekBars"), [...metrics.weeks].reverse().map((week) => {
-      const hours = metrics.byWeekPersonal.get(week) || 0;
-      return {
-        label: week,
-        value: hours,
-        display: formatHours(hours, 1),
-        color: "#f97316"
-      };
-    }), { max: maxWeekly });
+    chart("personalTrendChart", {
+      type: "bar",
+      data: {
+        labels: metrics.weeks,
+        datasets: [{
+          label: "Personal",
+          data: metrics.weeks.map((week) => metrics.byWeekPersonal.get(week) || 0),
+          backgroundColor: "#f97316",
+          borderRadius: 5
+        }]
+      },
+      options: verticalBarOptions()
+    });
+
+    renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics);
 
     const sectionEntries = topEntries(metrics.byPersonalSection, 10);
     chart("personalSectionChart", {
@@ -1777,6 +1872,26 @@
     };
   }
 
+  function pieOptions(total) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        tooltip: {
+          callbacks: {
+            label: (context) => {
+              const value = Number(context.parsed) || 0;
+              const percent = total ? value / total * 100 : 0;
+              return `${context.label}: ${formatHours(value, 1)} (${percent.toFixed(1)}%)`;
+            }
+          }
+        }
+      }
+    };
+  }
+
   function horizontalBarOptions() {
     return {
       indexAxis: "y",
@@ -1789,6 +1904,21 @@
       scales: {
         x: { ticks: { color: "#9ca3af", callback: (value) => `${value}h` }, grid: { color: "#1f2937" } },
         y: { ticks: { color: "#9ca3af" }, grid: { display: false } }
+      }
+    };
+  }
+
+  function verticalBarOptions() {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        tooltip: tooltipOptions()
+      },
+      scales: {
+        x: { ticks: { color: "#9ca3af", maxRotation: 0, autoSkip: false }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: "#9ca3af", callback: (value) => `${value}h` }, grid: { color: "#1f2937" } }
       }
     };
   }
