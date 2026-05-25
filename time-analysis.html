@@ -776,10 +776,10 @@
   .tracker-select,
   .tracker-textarea {
     width: 100%;
-    min-height: 46px;
+    min-height: 38px;
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 10px 12px;
+    padding: 7px 10px;
     background: #030712;
     color: var(--text);
     font: inherit;
@@ -787,8 +787,8 @@
   }
 
   .tracker-textarea {
-    height: 46px;
-    min-height: 46px;
+    height: 38px;
+    min-height: 38px;
     resize: vertical;
   }
 
@@ -3916,7 +3916,7 @@
     const status = dueStatus(entry);
     if (filter === "none") return status === "none";
     if (filter === "set") return status !== "none";
-    if (filter === "today") return status === "today";
+    if (filter === "today") return status === "today" && entry.status !== "done";
     if (filter === "tomorrow") return status === "tomorrow";
     if (filter === "overdue") return status === "overdue";
     return true;
@@ -3960,7 +3960,7 @@
     const current = select.value || "all";
     const noneCount = rows.filter((entry) => dueStatus(entry) === "none").length;
     const setCount = rows.length - noneCount;
-    const todayCount = rows.filter((entry) => dueStatus(entry) === "today").length;
+    const todayCount = rows.filter((entry) => matchesDueStatusFilter(entry, "today")).length;
     const tomorrowCount = rows.filter((entry) => dueStatus(entry) === "tomorrow").length;
     const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
     const labels = {
