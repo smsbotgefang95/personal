@@ -1484,6 +1484,7 @@
           <button class="filter-btn" data-filter="review">复习</button>
           <button class="filter-btn" data-filter="learned">已学会</button>
         </div>
+        <button class="reset-btn" id="print-marked-btn" type="button" title="Print learned, review, and learning questions">打印已学会 / 复习 / 学习中</button>
         <button class="reset-btn" id="reset-btn" title="Reset all progress">重置</button>
       </div>
     </div>
@@ -2516,6 +2517,7 @@
   const searchEl = document.getElementById("search");
   const filterGroupEl = document.getElementById("filter-group");
   const learningOrderBtn = document.getElementById("learning-order-btn");
+  const printMarkedBtn = document.getElementById("print-marked-btn");
   const resetBtn = document.getElementById("reset-btn");
 
   function getStoredStatus(idx) {
@@ -2577,6 +2579,131 @@
     else progress[idx] = status;
     saveProgress(progress);
     render();
+  }
+  function getPrintableMarkedQuestions() {
+    const printableStatuses = new Set(["learned", "review", "learning"]);
+    const statusPrintOrder = { learned: 0, review: 1, learning: 2 };
+    return QUESTIONS.map((item, idx) => ({
+      item,
+      idx,
+      status: getStoredStatus(idx)
+    }))
+      .filter(entry => printableStatuses.has(entry.status))
+      .sort((a, b) => {
+        const statusDiff = statusPrintOrder[a.status] - statusPrintOrder[b.status];
+        return statusDiff || a.idx - b.idx;
+      });
+  }
+  function buildPrintableQuestionHtml(entry) {
+    const { item, idx, status } = entry;
+    return `
+      <section class="print-question">
+        <div class="print-meta">
+          <span>Q${idx + 1}</span>
+          <span>${escapeHtml(STATUS_LABELS[status])}</span>
+          <span>${escapeHtml(item.c)} / ${escapeHtml(item.cZh)}</span>
+        </div>
+        <h2>${escapeHtml(item.q)}</h2>
+        <p class="zh">${escapeHtml(item.qZh)}</p>
+        <div class="answer">
+          <div>${escapeHtml(item.a)}</div>
+          <div class="zh">${escapeHtml(item.aZh)}</div>
+        </div>
+      </section>
+    `;
+  }
+  function printMarkedQuestions() {
+    const printableQuestions = getPrintableMarkedQuestions();
+    if (!printableQuestions.length) {
+      alert("没有已学会、复习或学习中的题目可以打印。");
+      return;
+    }
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+      alert("无法打开打印窗口。请允许弹出窗口后再试。");
+      return;
+    }
+    const now = new Date();
+    const printHtml = `
+      <!DOCTYPE html>
+      <html lang="zh-CN">
+      <head>
+        <meta charset="UTF-8" />
+        <title>已学会 / 复习 / 学习中题目</title>
+        <style>
+          @page { margin: 18mm; }
+          * { box-sizing: border-box; }
+          body {
+            margin: 0;
+            color: #111827;
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            line-height: 1.45;
+          }
+          header {
+            border-bottom: 2px solid #111827;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+          }
+          h1 {
+            font-size: 22px;
+            margin: 0 0 6px;
+          }
+          .print-summary {
+            color: #4b5563;
+            font-size: 12px;
+            margin: 0;
+          }
+          .print-question {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border-bottom: 1px solid #d1d5db;
+            padding: 14px 0;
+          }
+          .print-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            color: #4b5563;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+          }
+          h2 {
+            font-size: 16px;
+            margin: 0 0 4px;
+          }
+          p {
+            margin: 0;
+          }
+          .zh {
+            color: #374151;
+          }
+          .answer {
+            border-left: 3px solid #111827;
+            margin-top: 8px;
+            padding-left: 10px;
+            white-space: pre-line;
+          }
+        </style>
+      </head>
+      <body>
+        <header>
+          <h1>已学会 / 复习 / 学习中题目</h1>
+          <p class="print-summary">${printableQuestions.length} 道题 · ${escapeHtml(now.toLocaleString())}</p>
+        </header>
+        ${printableQuestions.map(buildPrintableQuestionHtml).join("")}
+        <script>
+          window.addEventListener("load", function() {
+            window.print();
+          });
+        <\/script>
+      </body>
+      </html>
+    `;
+    printWindow.document.open();
+    printWindow.document.write(printHtml);
+    printWindow.document.close();
   }
   function getQuestionTextWordCount(idx) {
     const item = QUESTIONS[idx];
@@ -4941,6 +5068,9 @@
       autoLearningOrderActive = true;
       render();
     });
+  }
+  if (printMarkedBtn) {
+    printMarkedBtn.addEventListener("click", printMarkedQuestions);
   }
 
   // Word filter (Word Frequency view)
