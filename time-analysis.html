@@ -848,7 +848,7 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: minmax(430px, 1.35fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(170px, 0.34fr) minmax(118px, 0.22fr) minmax(86px, auto) 46px;
+    grid-template-columns: minmax(360px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(170px, 0.35fr) minmax(118px, 0.26fr) minmax(96px, auto) 46px;
     gap: 10px;
     align-items: center;
   }
@@ -871,26 +871,22 @@
   .track-row {
     position: relative;
     display: grid;
-    gap: 3px;
-    min-height: 68px;
+    min-height: 76px;
     padding: 8px 10px;
     border-bottom: 1px solid var(--border);
   }
 
-  .track-primary-row {
+  .track-row-inner {
     display: grid;
-    grid-template-columns: minmax(300px, 0.56fr) minmax(520px, 1fr);
-    gap: 8px;
-    align-items: center;
+    grid-template-columns: minmax(360px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(170px, 0.35fr) minmax(118px, 0.26fr) minmax(96px, auto) 46px;
+    gap: 10px;
+    align-items: start;
     min-width: 0;
-    overflow: hidden;
   }
 
-  .track-controls-row {
+  .track-task-cell {
     display: grid;
-    grid-template-columns: minmax(68px, 0.16fr) minmax(82px, 0.2fr) minmax(170px, 0.42fr) minmax(0, 0.3fr) minmax(86px, auto) 46px;
-    gap: 8px;
-    align-items: center;
+    gap: 4px;
     min-width: 0;
   }
 
@@ -991,7 +987,7 @@
 
   .track-meta {
     display: grid;
-    grid-template-columns: minmax(130px, 0.85fr) minmax(150px, 1fr) minmax(132px, 0.95fr) minmax(96px, 0.7fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 4px;
     min-width: 0;
   }
@@ -1034,6 +1030,7 @@
   .track-recurrence-cell,
   .track-time {
     min-width: 0;
+    align-self: start;
   }
 
   .track-order-select {
@@ -1581,15 +1578,8 @@
     .track-row {
       min-height: 62px;
     }
-    .track-primary-row {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 3px;
-    }
-    .track-meta {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .track-controls-row {
-      grid-template-columns: minmax(62px, 0.18fr) minmax(82px, 0.24fr) minmax(150px, 0.45fr) minmax(0, 0.34fr) minmax(72px, auto) 46px;
+    .track-row-inner {
+      grid-template-columns: minmax(300px, 1fr) minmax(62px, 0.18fr) minmax(82px, 0.24fr) minmax(150px, 0.45fr) minmax(0, 0.34fr) minmax(72px, auto) 46px;
       gap: 7px;
     }
     .track-recurrence-control > .track-recurrence-custom {
@@ -1600,11 +1590,11 @@
   }
 
   @media (max-width: 720px) {
+    .track-row-inner {
+      grid-template-columns: minmax(0, 1fr) 46px;
+    }
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
-    }
-    .track-controls-row {
-      grid-template-columns: minmax(0, 1fr) 46px;
     }
     .track-order-cell,
     .track-status-cell,
@@ -1629,7 +1619,7 @@
     .track-status-cell::before { content: "Status"; }
     .track-due-cell::before { content: "Due date"; }
     .track-recurrence-cell::before { content: "Recurrence"; }
-    .track-controls-row > .track-button {
+    .track-row-inner > .track-button {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
     }
@@ -1690,12 +1680,8 @@
       grid-template-columns: minmax(0, 1fr);
       min-height: 62px;
     }
-    .track-primary-row,
-    .track-controls-row {
+    .track-row-inner {
       grid-template-columns: minmax(0, 1fr) 46px;
-    }
-    .track-primary-row {
-      align-items: start;
     }
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
@@ -1708,7 +1694,7 @@
       grid-column: 1 / 2;
       align-self: start;
     }
-    .track-controls-row > .track-button {
+    .track-row-inner > .track-button {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
       align-self: start;
@@ -3372,14 +3358,14 @@
     const order = orderOptionValue(entry.taskOrder);
     return `
       <div class="track-row">
-        <div class="track-primary-row">
-          <div class="track-name" title="${escapeHtml(entry.taskName)}">
-            <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
-            ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
+        <div class="track-row-inner">
+          <div class="track-task-cell">
+            <div class="track-name" title="${escapeHtml(entry.taskName)}">
+              <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
+              ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
+            </div>
+            <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
           </div>
-          <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
-        </div>
-        <div class="track-controls-row">
           <div class="track-order-cell">
             <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
               ${orderOptionsHtml(order)}
