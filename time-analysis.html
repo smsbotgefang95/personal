@@ -3668,7 +3668,7 @@
       await loadCsvDashboard();
     } catch (error) {
       renderTracker();
-      setTrackerStatus("Unlock to save private time entries. Showing CSV fallback for now.");
+      setTrackerStatus("Private time tracking is unavailable. Showing CSV fallback for now.");
       await loadCsvDashboard();
     }
   }
