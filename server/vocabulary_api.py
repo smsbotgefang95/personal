@@ -12,6 +12,7 @@ from pathlib import Path
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "updatedAt": None}
+DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "updatedAt": None}
 
 
 def env_path(name, default):
@@ -30,6 +31,8 @@ LIFE_EVENTS_PUBLIC_PATH = os.environ.get("LIFE_EVENTS_PUBLIC_PATH")
 LIFE_EVENTS_PUBLIC_PATH = Path(LIFE_EVENTS_PUBLIC_PATH).expanduser() if LIFE_EVENTS_PUBLIC_PATH else None
 LIFE_EVENTS_REPO_DATA_PATH = REPO_DIR / "data" / "life-events.json"
 LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
+TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
+TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
 
 
 def clean_map(value):
@@ -151,6 +154,141 @@ def load_life_events_payload():
     return clean_life_events_payload(payload)
 
 
+def clean_time_text(value, limit=240):
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        value = str(value)
+    return value.strip()[:limit]
+
+
+def clean_time_int(value):
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return 0
+    return max(0, number)
+
+
+def clean_due_date(value):
+    value = clean_time_text(value, 10)
+    if not value:
+        return ""
+    parts = value.split("-")
+    if len(parts) != 3:
+        return ""
+    year, month, day = parts
+    if len(year) != 4 or len(month) != 2 or len(day) != 2:
+        return ""
+    if not (year.isdigit() and month.isdigit() and day.isdigit()):
+        return ""
+    if not (1 <= int(month) <= 12 and 1 <= int(day) <= 31):
+        return ""
+    return value
+
+
+def clean_recurrence(value):
+    value = clean_time_text(value, 20).lower()
+    return value if value in {"none", "daily", "weekly", "monthly", "custom"} else "none"
+
+
+def clean_task_overrides(value):
+    if not isinstance(value, dict):
+        return {}
+    overrides = {}
+    for key, item in list(value.items())[:5000]:
+        key = clean_time_text(key, 260)
+        if "|||" not in key or not isinstance(item, dict):
+            continue
+        recurrence = clean_recurrence(item.get("recurrence"))
+        override = {
+            "dueDate": clean_due_date(item.get("dueDate")),
+            "recurrence": recurrence,
+            "recurringText": clean_time_text(item.get("recurringText"), 120) if recurrence == "custom" else "",
+            "updatedAt": clean_time_text(item.get("updatedAt"), 40),
+        }
+        if override["dueDate"] or override["recurrence"] != "none" or override["recurringText"]:
+            overrides[key] = override
+        elif item.get("dueDate") == "":
+            overrides[key] = override
+    return overrides
+
+
+def clean_time_entry(value, require_stop=False):
+    if not isinstance(value, dict):
+        return None
+    entry = {
+        "id": clean_time_text(value.get("id"), 120),
+        "sourceType": "native",
+        "start": clean_time_text(value.get("start"), 40),
+        "stop": clean_time_text(value.get("stop"), 40),
+        "durationMs": clean_time_int(value.get("durationMs")),
+        "listId": clean_time_text(value.get("listId"), 80),
+        "listName": clean_time_text(value.get("listName"), 120),
+        "taskId": clean_time_text(value.get("taskId"), 160),
+        "taskName": clean_time_text(value.get("taskName"), 240),
+        "department": clean_time_text(value.get("department"), 160),
+        "priority": clean_time_text(value.get("priority"), 80),
+        "section": clean_time_text(value.get("section"), 160),
+        "taskCategory": clean_time_text(value.get("taskCategory"), 160),
+        "taskType": clean_time_text(value.get("taskType"), 80),
+        "dueDate": clean_time_text(value.get("dueDate"), 40),
+        "dueDateText": clean_time_text(value.get("dueDateText"), 80),
+        "startDate": clean_time_text(value.get("startDate"), 40),
+        "startDateText": clean_time_text(value.get("startDateText"), 80),
+        "recurring": bool(value.get("recurring")),
+        "recurringText": clean_time_text(value.get("recurringText"), 120),
+        "taskOrder": clean_time_text(value.get("taskOrder"), 80),
+        "notes": clean_time_text(value.get("notes"), 4000),
+        "createdAt": clean_time_text(value.get("createdAt"), 40),
+        "updatedAt": clean_time_text(value.get("updatedAt"), 40),
+    }
+    if not entry["id"] or not entry["start"] or not entry["taskName"] or not entry["listId"]:
+        return None
+    if require_stop and (not entry["stop"] or entry["durationMs"] <= 0):
+        return None
+    if not entry["listName"]:
+        entry["listName"] = entry["listId"]
+    if not entry["taskId"]:
+        entry["taskId"] = entry["id"]
+    return entry
+
+
+def clean_time_entries_payload(value):
+    if not isinstance(value, dict):
+        value = {}
+    incoming_entries = value.get("entries", [])
+    if not isinstance(incoming_entries, list):
+        incoming_entries = []
+    entries = []
+    seen = set()
+    for item in incoming_entries[:5000]:
+        entry = clean_time_entry(item, require_stop=True)
+        if not entry or entry["id"] in seen:
+            continue
+        seen.add(entry["id"])
+        entries.append(entry)
+    active_entry = clean_time_entry(value.get("activeEntry"), require_stop=False)
+    if active_entry:
+        active_entry["stop"] = ""
+        active_entry["durationMs"] = 0
+    return {
+        "entries": entries,
+        "activeEntry": active_entry,
+        "taskOverrides": clean_task_overrides(value.get("taskOverrides")),
+        "updatedAt": value.get("updatedAt"),
+    }
+
+
+def load_time_entries_payload():
+    try:
+        with TIME_ENTRIES_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        payload = DEFAULT_TIME_ENTRIES_PAYLOAD.copy()
+    return clean_time_entries_payload(payload)
+
+
 def atomic_write(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
@@ -242,6 +380,11 @@ def write_life_events(payload):
     return git_result
 
 
+def write_time_entries(payload):
+    atomic_write(TIME_ENTRIES_DATA_PATH, payload)
+    return {"status": "stored"}
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "VocabularyAPI/1.0"
 
@@ -256,6 +399,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/time-entries":
+            if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            self.send_json(200, load_time_entries_payload())
+            return
         if path == "/api/life-events":
             self.send_json(200, load_life_events_payload())
             return
@@ -266,6 +415,22 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/time-entries":
+            if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(min(length, 1024 * 1024 * 4))
+                incoming = json.loads(raw.decode("utf-8"))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json"})
+                return
+            payload = clean_time_entries_payload(incoming)
+            payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            write_result = write_time_entries(payload)
+            self.send_json(200, {"ok": True, "payload": payload, "git": write_result})
+            return
         if path == "/api/life-events":
             if LIFE_EVENTS_ADMIN_KEY and self.headers.get("X-Life-Events-Admin-Key") != LIFE_EVENTS_ADMIN_KEY:
                 self.send_json(401, {"ok": False, "error": "admin_key_required"})
@@ -316,6 +481,9 @@ def main():
     LIFE_EVENTS_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not LIFE_EVENTS_DATA_PATH.exists():
         write_life_events(DEFAULT_LIFE_EVENTS_PAYLOAD.copy())
+    TIME_ENTRIES_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not TIME_ENTRIES_DATA_PATH.exists():
+        write_time_entries(DEFAULT_TIME_ENTRIES_PAYLOAD.copy())
     server = ThreadingHTTPServer((host, port), Handler)
     print(f"Vocabulary API listening on http://{host}:{port}", flush=True)
     server.serve_forever()

@@ -998,8 +998,7 @@
   }
 
   .track-date-input,
-  .track-recurrence-select,
-  .track-recurrence-custom {
+  .track-recurrence-select {
     width: 100%;
     min-height: 38px;
     border: 1px solid #374151;
@@ -1065,6 +1064,93 @@
 
   .track-recurrence-custom[hidden] {
     display: none;
+  }
+
+  .custom-recurrence {
+    display: grid;
+    gap: 8px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 9px;
+    background: #020617;
+  }
+
+  .custom-recurrence-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .custom-recurrence-label {
+    color: #d1d5db;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+
+  .custom-recurrence-number,
+  .custom-recurrence-select {
+    min-height: 38px;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 7px 9px;
+    background: #030712;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.88rem;
+  }
+
+  .custom-recurrence-number {
+    width: 70px;
+  }
+
+  .custom-recurrence-select {
+    min-width: 0;
+    flex: 1 1 110px;
+  }
+
+  .custom-recurrence-days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: hidden;
+    border: 1px solid #374151;
+    border-radius: 8px;
+  }
+
+  .custom-recurrence-day {
+    min-height: 36px;
+    border: 0;
+    border-right: 1px solid #374151;
+    background: #030712;
+    color: #d1d5db;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .custom-recurrence-day:last-child {
+    border-right: 0;
+  }
+
+  .custom-recurrence-day.active {
+    background: #1d4ed8;
+    color: #ffffff;
+  }
+
+  .custom-recurrence-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #d1d5db;
+    font-size: 0.88rem;
+    font-weight: 750;
+  }
+
+  .custom-recurrence-check input {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
   }
 
   .track-status {
@@ -1369,6 +1455,7 @@
               <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                 <option value="all">All tasks</option>
                 <option value="today">Due today</option>
+                <option value="tomorrow">Due tomorrow</option>
                 <option value="overdue">Overdue</option>
                 <option value="today-overdue">Due today or overdue</option>
               </select>
@@ -1754,8 +1841,8 @@
         </div>
       </div>
       <div class="tracker-field" id="editRecurrenceCustomWrap" hidden>
-        <label for="editRecurrenceCustom">Custom recurrence</label>
-        <input class="tracker-input" id="editRecurrenceCustom" type="text" />
+        <label id="editRecurrenceCustomLabel">Custom recurrence</label>
+        <div id="editRecurrenceCustom" class="custom-recurrence" aria-labelledby="editRecurrenceCustomLabel"></div>
       </div>
       <div class="advanced-fields">
         <div class="tracker-field">
@@ -1863,6 +1950,16 @@
     ["monthly", "Monthly"],
     ["custom", "Custom"]
   ];
+  const CUSTOM_RECURRENCE_DAYS = [
+    ["Su", "Sunday"],
+    ["Mo", "Monday"],
+    ["Tu", "Tuesday"],
+    ["We", "Wednesday"],
+    ["Th", "Thursday"],
+    ["Fr", "Friday"],
+    ["Sa", "Saturday"]
+  ];
+  const CUSTOM_RECURRENCE_UNITS = ["day", "week", "month"];
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
   const fallbackActivities = [
     { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
@@ -1991,6 +2088,107 @@
   function recurrenceLabel(recurrence, customText = "") {
     if (recurrence === "custom") return customText || "Custom";
     return RECURRENCE_OPTIONS.find(([value]) => value === recurrence)?.[1] || "None";
+  }
+
+  function defaultCustomRecurrence() {
+    return {
+      every: 1,
+      unit: "week",
+      days: ["Mo"],
+      statusTrigger: "done",
+      recurForever: true,
+      updateStatus: true
+    };
+  }
+
+  function parseCustomRecurrenceText(value) {
+    const settings = defaultCustomRecurrence();
+    const text = String(value || "").trim();
+    if (!text) return settings;
+    const everyMatch = text.match(/every\s+(\d+)\s+(day|week|month)s?/i);
+    if (everyMatch) {
+      settings.every = Math.max(1, Math.min(99, Number(everyMatch[1]) || 1));
+      settings.unit = everyMatch[2].toLowerCase();
+    }
+    const dayMatch = text.match(/\bon\s+([A-Z][a-z](?:,\s*[A-Z][a-z])*)/);
+    if (dayMatch) {
+      const days = dayMatch[1].split(",").map((item) => item.trim()).filter((item) => CUSTOM_RECURRENCE_DAYS.some(([day]) => day === item));
+      if (days.length) settings.days = days;
+    }
+    const statusMatch = text.match(/status change:\s*([^;]+)/i);
+    settings.statusTrigger = statusMatch ? statusMatch[1].trim().toLowerCase() : (text.includes("status change") ? "done" : "done");
+    settings.recurForever = !/do not recur forever|stop recurring/i.test(text);
+    settings.updateStatus = !/do not update status/i.test(text);
+    return settings;
+  }
+
+  function customRecurrenceText(settings) {
+    const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
+    const unit = CUSTOM_RECURRENCE_UNITS.includes(settings.unit) ? settings.unit : "week";
+    const dayText = unit === "week" && settings.days?.length ? ` on ${settings.days.join(", ")}` : "";
+    const parts = [`Every ${every} ${unit}${every === 1 ? "" : "s"}${dayText}`];
+    if (settings.statusTrigger && settings.statusTrigger !== "none") {
+      parts.push(`on status change: ${settings.statusTrigger === "done" ? "Done" : settings.statusTrigger}`);
+    }
+    if (settings.recurForever) parts.push("recur forever");
+    if (settings.updateStatus) parts.push("update status to Done");
+    return parts.join("; ");
+  }
+
+  function customRecurrenceHtml(text = "") {
+    const settings = parseCustomRecurrenceText(text);
+    const dayButtons = CUSTOM_RECURRENCE_DAYS.map(([day, label]) => `
+      <button class="custom-recurrence-day${settings.days.includes(day) ? " active" : ""}" type="button" data-custom-day="${escapeHtml(day)}" aria-pressed="${settings.days.includes(day) ? "true" : "false"}" title="${escapeHtml(label)}">${escapeHtml(day)}</button>
+    `).join("");
+    return `
+      <div class="custom-recurrence-row">
+        <span class="custom-recurrence-label">Every</span>
+        <input class="custom-recurrence-number" type="number" min="1" max="99" step="1" value="${escapeHtml(settings.every)}" data-custom-part="every" aria-label="Repeat every" />
+        <select class="custom-recurrence-select" data-custom-part="unit" aria-label="Repeat unit">
+          ${CUSTOM_RECURRENCE_UNITS.map((unit) => `<option value="${unit}"${unit === settings.unit ? " selected" : ""}>${unit}</option>`).join("")}
+        </select>
+      </div>
+      <div class="custom-recurrence-days" data-custom-days${settings.unit === "week" ? "" : " hidden"}>${dayButtons}</div>
+      <select class="custom-recurrence-select" data-custom-part="statusTrigger" aria-label="Recurrence trigger">
+        <option value="done"${settings.statusTrigger === "done" ? " selected" : ""}>On status change: Done</option>
+        <option value="none"${settings.statusTrigger === "none" ? " selected" : ""}>No status trigger</option>
+      </select>
+      <label class="custom-recurrence-check">
+        <input type="checkbox" data-custom-part="recurForever"${settings.recurForever ? " checked" : ""} />
+        Recur forever
+      </label>
+      <label class="custom-recurrence-check">
+        <input type="checkbox" data-custom-part="updateStatus"${settings.updateStatus ? " checked" : ""} />
+        Update status to Done
+      </label>
+    `;
+  }
+
+  function readCustomRecurrence(panel) {
+    const activeDays = Array.from(panel.querySelectorAll("[data-custom-day].active")).map((button) => button.dataset.customDay);
+    return {
+      every: panel.querySelector('[data-custom-part="every"]')?.value || 1,
+      unit: panel.querySelector('[data-custom-part="unit"]')?.value || "week",
+      days: activeDays.length ? activeDays : ["Mo"],
+      statusTrigger: panel.querySelector('[data-custom-part="statusTrigger"]')?.value || "done",
+      recurForever: Boolean(panel.querySelector('[data-custom-part="recurForever"]')?.checked),
+      updateStatus: Boolean(panel.querySelector('[data-custom-part="updateStatus"]')?.checked)
+    };
+  }
+
+  function syncCustomRecurrencePanel(panel) {
+    const unit = panel.querySelector('[data-custom-part="unit"]')?.value || "week";
+    const days = panel.querySelector("[data-custom-days]");
+    if (days) days.hidden = unit !== "week";
+  }
+
+  function toggleCustomRecurrenceDay(day) {
+    day.classList.toggle("active");
+    const group = day.closest("[data-custom-days]");
+    if (group && !group.querySelector("[data-custom-day].active")) {
+      day.classList.add("active");
+    }
+    day.setAttribute("aria-pressed", day.classList.contains("active") ? "true" : "false");
   }
 
   function taskOverrideFor(entry) {
@@ -2404,14 +2602,20 @@
   function dueStatus(entry) {
     const due = dueDateKey(entry);
     if (!due) return "none";
-    const today = dateKey(new Date());
+    const now = new Date();
+    const today = dateKey(now);
+    const tomorrowDate = new Date(now);
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    const tomorrow = dateKey(tomorrowDate);
     if (due === today) return "today";
+    if (due === tomorrow) return "tomorrow";
     return due < today ? "overdue" : "upcoming";
   }
 
   function matchesDueStatusFilter(entry, filter) {
     const status = dueStatus(entry);
     if (filter === "today") return status === "today";
+    if (filter === "tomorrow") return status === "tomorrow";
     if (filter === "overdue") return status === "overdue";
     if (filter === "today-overdue") return status === "today" || status === "overdue";
     return true;
@@ -2422,10 +2626,12 @@
     if (!select) return;
     const current = select.value || "all";
     const todayCount = rows.filter((entry) => dueStatus(entry) === "today").length;
+    const tomorrowCount = rows.filter((entry) => dueStatus(entry) === "tomorrow").length;
     const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
     const labels = {
       all: `All tasks (${rows.length})`,
       today: `Due today (${todayCount})`,
+      tomorrow: `Due tomorrow (${tomorrowCount})`,
       overdue: `Overdue (${overdueCount})`,
       "today-overdue": `Due today or overdue (${todayCount + overdueCount})`
     };
@@ -2510,7 +2716,9 @@
             <select class="track-recurrence-select" data-recurrence-key="${escapeHtml(key)}" aria-label="Recurrence for ${escapeHtml(entry.taskName)}">
               ${recurrenceOptionsHtml(recurrence)}
             </select>
-            <input class="track-recurrence-custom" type="text" value="${escapeHtml(customText)}" data-recurrence-custom-key="${escapeHtml(key)}" placeholder="Custom recurrence" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" ? "" : " hidden"} />
+            <div class="track-recurrence-custom custom-recurrence" data-recurrence-custom-key="${escapeHtml(key)}" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" ? "" : " hidden"}>
+              ${customRecurrenceHtml(customText)}
+            </div>
           </div>
         </div>
         <div class="track-time">${escapeHtml(timeText)}</div>
@@ -2583,15 +2791,24 @@
         if (!entry) return;
         saveTaskOverride(entry, {
           recurrence: select.value,
-          recurringText: select.value === "custom" ? custom?.value.trim() || entry.recurringText || "Custom" : ""
+          recurringText: select.value === "custom" ? customRecurrenceText(readCustomRecurrence(custom)) : ""
         }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
-    document.querySelectorAll("[data-recurrence-custom-key]").forEach((input) => {
-      input.addEventListener("change", () => {
-        const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.recurrenceCustomKey);
+    document.querySelectorAll("[data-recurrence-custom-key]").forEach((panel) => {
+      panel.addEventListener("click", (event) => {
+        const day = event.target.closest("[data-custom-day]");
+        if (!day) return;
+        toggleCustomRecurrenceDay(day);
+        const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
         if (!entry) return;
-        saveTaskOverride(entry, { recurrence: "custom", recurringText: input.value.trim() }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+      panel.addEventListener("change", () => {
+        syncCustomRecurrencePanel(panel);
+        const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
+        if (!entry) return;
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-track-key]").forEach((button) => {
@@ -3527,7 +3744,7 @@
     document.getElementById("editStop").value = toDatetimeLocal(entry.stop);
     document.getElementById("editDueDate").value = dateInputValue(effectiveEntry.dueDate);
     document.getElementById("editRecurrence").innerHTML = recurrenceOptionsHtml(effectiveEntry.recurrence || inferRecurrence(effectiveEntry));
-    document.getElementById("editRecurrenceCustom").value = effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "";
+    document.getElementById("editRecurrenceCustom").innerHTML = customRecurrenceHtml(effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "");
     document.getElementById("editRecurrenceCustomWrap").hidden = (effectiveEntry.recurrence || "none") !== "custom";
     document.getElementById("editDepartment").value = entry.department || "";
     document.getElementById("editPriority").value = entry.priority || "";
@@ -3896,6 +4113,16 @@
     document.getElementById("editRecurrenceCustomWrap").hidden = document.getElementById("editRecurrence").value !== "custom";
   });
 
+  document.getElementById("editRecurrenceCustom").addEventListener("click", (event) => {
+    const day = event.target.closest("[data-custom-day]");
+    if (!day) return;
+    toggleCustomRecurrenceDay(day);
+  });
+
+  document.getElementById("editRecurrenceCustom").addEventListener("change", (event) => {
+    syncCustomRecurrencePanel(event.currentTarget);
+  });
+
   document.getElementById("editEntryForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     const entry = (timePayload.entries || []).find((item) => item.id === editingEntryId);
@@ -3925,7 +4152,7 @@
       dueDateText: document.getElementById("editDueDate").value,
       recurring: document.getElementById("editRecurrence").value !== "none",
       recurringText: document.getElementById("editRecurrence").value === "custom"
-        ? document.getElementById("editRecurrenceCustom").value.trim()
+        ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom")))
         : (document.getElementById("editRecurrence").value === "none" ? "" : recurrenceLabel(document.getElementById("editRecurrence").value)),
       notes: document.getElementById("editNotes").value.trim(),
       updatedAt: isoNow()
@@ -3936,7 +4163,7 @@
         dueDate: document.getElementById("editDueDate").value,
         status: currentTaskOverride(entry).status,
         recurrence: document.getElementById("editRecurrence").value,
-        recurringText: document.getElementById("editRecurrence").value === "custom" ? document.getElementById("editRecurrenceCustom").value.trim() : "",
+        recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
         updatedAt: isoNow()
       }
     };

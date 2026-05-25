@@ -66,6 +66,9 @@ if [ ! -f "$DATA_DIR/life-events.json" ]; then
         printf '{\n  "events": [],\n  "updatedAt": null\n}\n' > "$DATA_DIR/life-events.json"
     fi
 fi
+if [ ! -f "$DATA_DIR/time-entries.json" ]; then
+    printf '{\n  "entries": [],\n  "activeEntry": null,\n  "updatedAt": null\n}\n' > "$DATA_DIR/time-entries.json"
+fi
 
 if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then
     VOCAB_ADMIN_KEY=$(python3 - <<'PY'
@@ -83,6 +86,8 @@ VOCAB_ADMIN_KEY=$VOCAB_ADMIN_KEY
 LIFE_EVENTS_DATA_PATH=$DATA_DIR/life-events.json
 LIFE_EVENTS_PUBLIC_PATH=$WEB_ROOT/data/life-events.json
 LIFE_EVENTS_ADMIN_KEY=$VOCAB_ADMIN_KEY
+TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
+TIME_ENTRIES_ADMIN_KEY=$VOCAB_ADMIN_KEY
 VOCAB_GIT_SYNC=1
 GIT_SSH_COMMAND="ssh -i $KEY_FILE -o IdentitiesOnly=yes"
 EOF
@@ -98,6 +103,15 @@ LIFE_EVENTS_PUBLIC_PATH=$WEB_ROOT/data/life-events.json
 LIFE_EVENTS_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
 EOF
     echo "Added Life Events API settings to $DATA_DIR/vocabulary-api.env"
+fi
+
+if ! grep -q '^TIME_ENTRIES_DATA_PATH=' "$DATA_DIR/vocabulary-api.env"; then
+    EXISTING_VOCAB_ADMIN_KEY=$(grep '^VOCAB_ADMIN_KEY=' "$DATA_DIR/vocabulary-api.env" | head -n 1 | cut -d= -f2-)
+    cat >> "$DATA_DIR/vocabulary-api.env" <<EOF
+TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
+TIME_ENTRIES_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
+EOF
+    echo "Added Time Tracking API settings to $DATA_DIR/vocabulary-api.env"
 fi
 
 # 5. Apply standard directory permissions
@@ -152,6 +166,15 @@ server {
     }
 
     location = /api/life-events {
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location = /api/time-entries {
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;
         proxy_set_header Host \$host;
