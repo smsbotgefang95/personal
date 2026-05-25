@@ -640,6 +640,13 @@
     margin-left: auto;
     flex: 0 0 auto;
     flex-wrap: nowrap;
+    align-items: center;
+  }
+  .status-source-label {
+    color: var(--muted);
+    font-size: 0.74rem;
+    font-weight: 600;
+    white-space: nowrap;
   }
   .status-btn {
     padding: 5px 11px;
@@ -2847,6 +2854,9 @@
       const item = QUESTIONS[idx];
       const storedStatus = getStoredStatus(idx);
       const effectiveStatus = getStatus(idx);
+      const statusSourceLabel = storedStatus === "auto"
+        ? "自动: " + STATUS_LABELS[effectiveStatus]
+        : "手动: " + STATUS_LABELS[storedStatus];
       const card = document.createElement("div");
       card.className = "question";
       card.setAttribute("data-status", effectiveStatus);
@@ -2870,6 +2880,7 @@
                 <button class="audio-btn" data-yt-edit="${idx}" title="Edit YouTube clip timing">时间</button>
                 <button class="reveal-btn" data-reveal="${revealId}">查看答案</button>
                 <div class="status-group">
+                  <span class="status-source-label">${escapeHtml(statusSourceLabel)}</span>
                   ${STATUSES.map(s => `
                     <button class="status-btn ${s} ${effectiveStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
                       ${STATUS_LABELS[s]}
@@ -2911,9 +2922,7 @@
     listEl.querySelectorAll(".status-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const idx = parseInt(btn.dataset.idx, 10);
-        const s = btn.dataset.status;
-        const nextStatus = getStoredStatus(idx) === s ? "auto" : s;
-        setStatus(idx, nextStatus, { render: false });
+        setStatus(idx, btn.dataset.status, { render: false });
         if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
           setActiveQuestionFilter(getStatus(idx));
         } else {
