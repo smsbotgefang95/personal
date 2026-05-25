@@ -849,7 +849,7 @@
   .track-list-header,
   .track-row {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(170px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
+    grid-template-columns: minmax(430px, 1.35fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(170px, 0.34fr) minmax(118px, 0.22fr) minmax(86px, auto) 46px;
     gap: 10px;
     align-items: center;
   }
@@ -874,6 +874,11 @@
     min-height: 58px;
     padding: 9px 10px;
     border-bottom: 1px solid var(--border);
+  }
+
+  .track-row > :first-child {
+    min-width: 0;
+    overflow: hidden;
   }
 
   .track-row:last-child { border-bottom: 0; }
@@ -973,13 +978,15 @@
 
   .track-meta {
     display: grid;
-    grid-template-columns: minmax(128px, 0.9fr) minmax(138px, 1fr) minmax(132px, 0.95fr) minmax(96px, 0.6fr);
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.85fr);
     gap: 5px;
     margin-top: 4px;
+    min-width: 0;
   }
 
   .track-meta-select,
   .track-meta-input {
+    min-width: 0;
     width: 100%;
     min-height: 30px;
     border: 1px solid transparent;
@@ -1150,6 +1157,52 @@
 
   .track-recurrence-custom[hidden] {
     display: none;
+  }
+
+  .custom-recurrence-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 8px;
+    background: #020617;
+  }
+
+  .custom-recurrence-summary[hidden] {
+    display: none;
+  }
+
+  .custom-recurrence-text {
+    min-width: 0;
+    color: #d1d5db;
+    font-size: 0.78rem;
+    font-weight: 750;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .custom-recurrence-edit {
+    flex: 0 0 auto;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 6px 9px;
+    background: #111827;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .custom-recurrence-edit:hover,
+  .custom-recurrence-edit:focus-visible {
+    border-color: #60a5fa;
+    background: #1f2937;
+    outline: none;
   }
 
   .custom-recurrence {
@@ -1492,6 +1545,48 @@
     padding: 18px;
     background: var(--card);
     box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+  }
+
+  @media (max-width: 1120px) {
+    .track-list-header {
+      display: none;
+    }
+    .track-row {
+      grid-template-columns: minmax(0, 1fr) 46px;
+      min-height: 62px;
+    }
+    .track-meta {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .track-order-cell,
+    .track-status-cell,
+    .track-due-cell,
+    .track-recurrence-cell,
+    .track-time {
+      grid-column: 1 / 2;
+      align-self: start;
+    }
+    .track-order-cell::before,
+    .track-status-cell::before,
+    .track-due-cell::before,
+    .track-recurrence-cell::before {
+      display: block;
+      margin: 6px 0 4px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .track-order-cell::before { content: "Order"; }
+    .track-status-cell::before { content: "Status"; }
+    .track-due-cell::before { content: "Due date"; }
+    .track-recurrence-cell::before { content: "Recurrence"; }
+    .track-recurrence-control > .track-recurrence-custom {
+      left: 0;
+      right: auto;
+      width: min(330px, calc(100vw - 52px));
+    }
   }
 
   @media (max-width: 940px) {
@@ -2164,6 +2259,7 @@
   let timerTick = null;
   let currentSourcePills = [];
   let collapsedTrackGroups = new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]"));
+  let expandedCustomRecurrenceKeys = new Set();
   let trackOrderDirection = "asc";
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
@@ -3213,6 +3309,8 @@
     const isDone = entry.status === "done";
     const recurrence = entry.recurrence || inferRecurrence(entry);
     const customText = recurrence === "custom" ? entry.recurringText : "";
+    const customExpanded = recurrence === "custom" && expandedCustomRecurrenceKeys.has(key);
+    const customSummary = customText || recurrenceLabel("custom", customText);
     const order = orderOptionValue(entry.taskOrder);
     return `
       <div class="track-row">
@@ -3254,7 +3352,11 @@
             <select class="track-recurrence-select" data-recurrence-key="${escapeHtml(key)}" aria-label="Recurrence for ${escapeHtml(entry.taskName)}">
               ${recurrenceOptionsHtml(recurrence)}
             </select>
-            <div class="track-recurrence-custom custom-recurrence" data-recurrence-custom-key="${escapeHtml(key)}" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" ? "" : " hidden"}>
+            <div class="custom-recurrence-summary" data-recurrence-summary-key="${escapeHtml(key)}"${recurrence === "custom" && !customExpanded ? "" : " hidden"}>
+              <span class="custom-recurrence-text" title="${escapeHtml(customSummary)}">${escapeHtml(customSummary)}</span>
+              <button class="custom-recurrence-edit" type="button" data-recurrence-edit-key="${escapeHtml(key)}" aria-label="Edit custom recurrence for ${escapeHtml(entry.taskName)}">Edit</button>
+            </div>
+            <div class="track-recurrence-custom custom-recurrence" data-recurrence-custom-key="${escapeHtml(key)}" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" && customExpanded ? "" : " hidden"}>
               ${customRecurrenceHtml(customText)}
             </div>
           </div>
@@ -3348,12 +3450,24 @@
       select.addEventListener("change", () => {
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.recurrenceKey);
         const custom = document.querySelector(`[data-recurrence-custom-key="${CSS.escape(select.dataset.recurrenceKey)}"]`);
+        const summary = document.querySelector(`[data-recurrence-summary-key="${CSS.escape(select.dataset.recurrenceKey)}"]`);
+        if (select.value === "custom") expandedCustomRecurrenceKeys.add(select.dataset.recurrenceKey);
+        else expandedCustomRecurrenceKeys.delete(select.dataset.recurrenceKey);
         if (custom) custom.hidden = select.value !== "custom";
+        if (summary) summary.hidden = true;
         if (!entry) return;
         saveTaskOverride(entry, {
           recurrence: select.value,
           recurringText: select.value === "custom" ? customRecurrenceText(readCustomRecurrence(custom)) : ""
+        }).then(() => {
+          if (select.value !== "custom") renderActivityRows();
         }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-recurrence-edit-key]").forEach((button) => {
+      button.addEventListener("click", () => {
+        expandedCustomRecurrenceKeys.add(button.dataset.recurrenceEditKey);
+        renderActivityRows();
       });
     });
     document.querySelectorAll("[data-recurrence-custom-key]").forEach((panel) => {
@@ -3363,13 +3477,19 @@
         toggleCustomRecurrenceDay(day);
         const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
         if (!entry) return;
-        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).then(() => {
+          expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
+          renderActivityRows();
+        }).catch((error) => setTrackerStatus(error.message, "error"));
       });
       panel.addEventListener("change", () => {
         syncCustomRecurrencePanel(panel);
         const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
         if (!entry) return;
-        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).then(() => {
+          expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
+          renderActivityRows();
+        }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-track-key]").forEach((button) => {
