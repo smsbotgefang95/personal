@@ -718,12 +718,14 @@
     display: grid;
     gap: 14px;
     margin-bottom: 18px;
+    min-width: 0;
   }
 
   .tracker-card {
     padding: 18px;
     border-color: #3730a3;
     background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+    min-width: 0;
   }
 
   .timer-display {
@@ -756,6 +758,7 @@
   .tracker-form {
     display: grid;
     gap: 12px;
+    min-width: 0;
   }
 
   .tracker-grid {
@@ -826,6 +829,8 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .tracker-filter-controls {
@@ -834,6 +839,9 @@
     gap: 8px;
     align-items: end;
     overflow-x: auto;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     padding-bottom: 2px;
     -webkit-overflow-scrolling: touch;
   }
@@ -855,6 +863,8 @@
     display: grid;
     gap: 2px;
     overflow: visible;
+    min-width: 0;
+    max-width: 100%;
     border: 1px solid var(--border);
     border-radius: 8px;
     background: #030712;
@@ -915,6 +925,7 @@
 
   .track-group {
     border-bottom: 1px solid var(--border);
+    min-width: 0;
   }
 
   .track-group:last-child { border-bottom: 0; }
@@ -1001,7 +1012,7 @@
 
   .track-meta {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
     gap: 4px;
     min-width: 0;
   }
@@ -1018,6 +1029,9 @@
     color: var(--muted);
     font: inherit;
     font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .track-meta-select:hover,
