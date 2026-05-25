@@ -847,7 +847,7 @@
   .track-list-header,
   .track-row {
     display: grid;
-    grid-template-columns: minmax(280px, 1fr) minmax(150px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
+    grid-template-columns: minmax(260px, 1fr) minmax(82px, 0.18fr) minmax(150px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
     gap: 10px;
     align-items: center;
   }
@@ -1087,6 +1087,24 @@
     color: #ffffff;
   }
 
+  .track-status.done {
+    background: #166534;
+    color: #dcfce7;
+  }
+
+  .track-status-select {
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 6px 8px;
+    background: #030712;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
   .track-button {
     display: inline-grid;
     place-items: center;
@@ -1278,12 +1296,14 @@
       grid-template-columns: minmax(0, 1fr) 46px;
       min-height: 62px;
     }
+    .track-status-cell,
     .track-due-cell,
     .track-recurrence-cell,
     .track-time {
       grid-column: 1 / 2;
       align-self: start;
     }
+    .track-status-cell::before,
     .track-due-cell::before,
     .track-recurrence-cell::before {
       display: block;
@@ -1294,6 +1314,7 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
+    .track-status-cell::before { content: "Status"; }
     .track-due-cell::before { content: "Due date"; }
     .track-recurrence-cell::before { content: "Recurrence"; }
     .track-group-header {
@@ -1987,6 +2008,7 @@
       ...entry,
       dueDate,
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
+      status: override?.status === "done" ? "done" : "todo",
       recurrence,
       recurring: recurrence !== "none",
       recurringText
@@ -2014,6 +2036,7 @@
       const recurrence = RECURRENCE_OPTIONS.some(([item]) => item === value?.recurrence) ? value.recurrence : "none";
       return [key, {
         dueDate: dateInputValue(value?.dueDate),
+        status: value?.status === "done" ? "done" : "todo",
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
         updatedAt: cleanLabel(value?.updatedAt, "")
@@ -2423,6 +2446,7 @@
     const existing = timePayload.taskOverrides?.[key] || {};
     return {
       dueDate: Object.prototype.hasOwnProperty.call(existing, "dueDate") ? dateInputValue(existing.dueDate) : dateInputValue(entry.dueDate || entry.dueDateText),
+      status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : "")
     };
@@ -2448,6 +2472,7 @@
     const isRunning = active && active.taskId === entry.taskId && active.listId === entry.listId;
     const timeText = isRunning ? formatClock(activeDurationMs()) : (entry.totalMs ? formatDuration(entry.totalMs) : "Tap to track");
     const key = taskOverrideKey(entry);
+    const isDone = entry.status === "done";
     const recurrence = entry.recurrence || inferRecurrence(entry);
     const customText = recurrence === "custom" ? entry.recurringText : "";
     return `
@@ -2456,9 +2481,16 @@
           <div class="track-name" title="${escapeHtml(entry.taskName)}">
             <span>${escapeHtml(entry.taskName)}</span>
             ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
-            <span class="track-status${isRunning ? " running" : ""}">${isRunning ? "DOING" : "TO DO"}</span>
           </div>
           <div class="track-meta">${escapeHtml(activityMeta(entry))}</div>
+        </div>
+        <div class="track-status-cell">
+          ${isRunning
+            ? `<span class="track-status running">DOING</span>`
+            : `<select class="track-status-select" data-status-key="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(entry.taskName)}">
+                <option value="todo"${isDone ? "" : " selected"}>TO DO</option>
+                <option value="done"${isDone ? " selected" : ""}>DONE</option>
+              </select>`}
         </div>
         <div class="track-due-cell">
           <div class="date-picker-control">
@@ -2511,6 +2543,7 @@
       trackerList.insertAdjacentHTML("afterbegin", `
         <div class="track-list-header" aria-hidden="true">
           <div>Task</div>
+          <div>Status</div>
           <div>Due date</div>
           <div>Recurrence</div>
           <div>Time</div>
@@ -2533,6 +2566,13 @@
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueKey);
         if (!entry) return;
         saveTaskOverride(entry, { dueDate: input.value }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-status-key]").forEach((select) => {
+      select.addEventListener("change", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.statusKey);
+        if (!entry) return;
+        saveTaskOverride(entry, { status: select.value === "done" ? "done" : "todo" }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
@@ -3894,6 +3934,7 @@
       ...(timePayload.taskOverrides || {}),
       [taskOverrideKey(entry)]: {
         dueDate: document.getElementById("editDueDate").value,
+        status: currentTaskOverride(entry).status,
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? document.getElementById("editRecurrenceCustom").value.trim() : "",
         updatedAt: isoNow()
