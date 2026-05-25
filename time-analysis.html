@@ -950,13 +950,55 @@
     white-space: nowrap;
   }
 
+  .track-name-input {
+    min-width: 0;
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding: 5px 7px;
+    background: transparent;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 850;
+  }
+
+  .track-name-input:hover,
+  .track-name-input:focus {
+    border-color: #374151;
+    background: #030712;
+    outline: none;
+  }
+
   .track-meta {
-    margin-top: 2px;
+    display: grid;
+    grid-template-columns: minmax(128px, 0.9fr) minmax(138px, 1fr) minmax(132px, 0.95fr) minmax(96px, 0.6fr);
+    gap: 5px;
+    margin-top: 4px;
+  }
+
+  .track-meta-select,
+  .track-meta-input {
+    width: 100%;
+    min-height: 30px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding: 4px 7px;
+    background: transparent;
     color: var(--muted);
+    font: inherit;
     font-size: 0.8rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  }
+
+  .track-meta-select:hover,
+  .track-meta-select:focus,
+  .track-meta-input:hover,
+  .track-meta-input:focus {
+    border-color: #374151;
+    background: #030712;
+    color: #f9fafb;
+    outline: none;
   }
 
   .track-order-cell {
@@ -1507,6 +1549,9 @@
       grid-template-columns: minmax(0, 1fr) 46px;
       min-height: 62px;
     }
+    .track-meta {
+      grid-template-columns: minmax(0, 1fr);
+    }
     .track-order-cell,
     .track-status-cell,
     .track-due-cell,
@@ -1583,7 +1628,7 @@
             <div class="timer-task" id="timerTask">No timer running</div>
           </div>
           <form class="tracker-form" id="trackerForm">
-            <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add custom task</button>
+            <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add new task</button>
             <div class="custom-entry" id="customFields" hidden>
               <div class="quick-chips" id="quickChips" aria-label="Recent activities"></div>
               <div class="tracker-grid">
@@ -2145,6 +2190,28 @@
   ];
   const CUSTOM_RECURRENCE_UNITS = ["day", "week", "month"];
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
+  const DEPARTMENT_OPTIONS = [
+    "1. Lead the company",
+    "2. Gain traction",
+    "3. Build the brand",
+    "4. Do deals",
+    "5. Build processes",
+    "6. Build the team",
+    "7. Fulfill fin and legal obligations",
+    "8. Knowledge center",
+    "9.01. Health & fitness",
+    "9.02. Intellectual",
+    "9.03. Emotional",
+    "9.04. Character",
+    "9.05. Spiritual",
+    "9.06. Love",
+    "9.07. Dad",
+    "9.08. Social",
+    "9.09. Financial",
+    "9.10. Career",
+    "9.11. Quality of life",
+    "9.12. Life vision"
+  ];
   const TASK_CATEGORY_OPTIONS = ["☹️ 👌 Obligation", "☹️ 👎 Incompetence", "😀 👍 Magic", "🙂 👌 Work"];
   const fallbackActivities = [
     { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
@@ -2248,6 +2315,7 @@
   }
 
   function taskOverrideKey(entry) {
+    if (entry?.overrideKey) return entry.overrideKey;
     return `${cleanLabel(entry.listId, "unknown-list")}|||${cleanLabel(entry.taskId || taskIdFor(entry.taskName), taskIdFor(entry.taskName))}`;
   }
 
@@ -2259,6 +2327,78 @@
     if (Number.isNaN(parsed.getTime())) return "";
     const local = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60000);
     return local.toISOString().slice(0, 10);
+  }
+
+  function parseDateInput(value) {
+    const text = dateInputValue(value);
+    if (!text) return null;
+    const [year, month, day] = text.split("-").map((part) => Number(part));
+    if (![year, month, day].every(Number.isInteger)) return null;
+    const date = new Date(year, month - 1, day);
+    return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+  }
+
+  function formatDateInput(date) {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
+  }
+
+  function addLocalDays(date, days) {
+    const next = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    next.setDate(next.getDate() + days);
+    return next;
+  }
+
+  function addLocalMonths(date, months) {
+    const targetMonth = date.getMonth() + months;
+    const firstOfTarget = new Date(date.getFullYear(), targetMonth, 1);
+    const lastDayOfTarget = new Date(firstOfTarget.getFullYear(), firstOfTarget.getMonth() + 1, 0).getDate();
+    return new Date(firstOfTarget.getFullYear(), firstOfTarget.getMonth(), Math.min(date.getDate(), lastDayOfTarget));
+  }
+
+  function customWeekdayIndexes(days) {
+    const dayMap = new Map(CUSTOM_RECURRENCE_DAYS.map(([day], index) => [day, index]));
+    return (days || [])
+      .map((day) => dayMap.get(day))
+      .filter((index) => Number.isInteger(index))
+      .sort((a, b) => a - b);
+  }
+
+  function nextCustomWeeklyDueDate(baseDate, settings) {
+    const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
+    const weekdays = customWeekdayIndexes(settings.days);
+    if (!weekdays.length) return "";
+    const weekStart = addLocalDays(baseDate, -baseDate.getDay());
+    const maxDays = Math.max(14, every * 7 * 12);
+    for (let offset = 1; offset <= maxDays; offset += 1) {
+      const candidate = addLocalDays(baseDate, offset);
+      if (!weekdays.includes(candidate.getDay())) continue;
+      const candidateWeekStart = addLocalDays(candidate, -candidate.getDay());
+      const weekDiff = Math.round((candidateWeekStart.getTime() - weekStart.getTime()) / 604800000);
+      if (weekDiff % every === 0) return candidate;
+    }
+    return "";
+  }
+
+  function nextRecurringDueDate(entry) {
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    if (recurrence === "none") return "";
+    const baseDate = parseDateInput(entry.dueDate || entry.dueDateText);
+    if (!baseDate) return "";
+    if (recurrence === "daily") return formatDateInput(addLocalDays(baseDate, 1));
+    if (recurrence === "weekly") return formatDateInput(addLocalDays(baseDate, 7));
+    if (recurrence === "monthly") return formatDateInput(addLocalMonths(baseDate, 1));
+    if (recurrence !== "custom") return "";
+    const settings = parseCustomRecurrenceText(entry.recurringText);
+    const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
+    if (settings.unit === "day") return formatDateInput(addLocalDays(baseDate, every));
+    if (settings.unit === "month") return formatDateInput(addLocalMonths(baseDate, every));
+    if (settings.unit === "week") return formatDateInput(nextCustomWeeklyDueDate(baseDate, settings));
+    return "";
   }
 
   function inferRecurrence(entry) {
@@ -2381,14 +2521,23 @@
   }
 
   function applyTaskOverride(entry) {
+    const key = taskOverrideKey(entry);
     const override = taskOverrideFor(entry);
     const recurrence = override?.recurrence || inferRecurrence(entry);
     const recurringText = recurrence === "custom"
       ? cleanLabel(override?.recurringText || entry.recurringText, "")
       : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
     const dueDate = override ? cleanLabel(override.dueDate, "") : dateInputValue(entry.dueDate || entry.dueDateText);
+    const listId = Object.prototype.hasOwnProperty.call(override || {}, "listId") ? cleanLabel(override.listId, entry.listId) : entry.listId;
     return {
       ...entry,
+      overrideKey: key,
+      listId,
+      listName: listNameForId(listId),
+      taskName: Object.prototype.hasOwnProperty.call(override || {}, "taskName") ? cleanLabel(override.taskName, entry.taskName) : entry.taskName,
+      department: Object.prototype.hasOwnProperty.call(override || {}, "department") ? cleanLabel(override.department, "") : entry.department,
+      taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? cleanLabel(override.taskCategory, "") : entry.taskCategory,
+      taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       dueDate,
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
       status: override?.status === "done" ? "done" : "todo",
@@ -2420,14 +2569,18 @@
     if (!overrides || typeof overrides !== "object") return {};
     return Object.fromEntries(Object.entries(overrides).map(([key, value]) => {
       const recurrence = RECURRENCE_OPTIONS.some(([item]) => item === value?.recurrence) ? value.recurrence : "none";
-      return [key, {
+      const cleaned = {
         dueDate: dateInputValue(value?.dueDate),
         status: value?.status === "done" ? "done" : "todo",
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
         taskOrder: orderOptionValue(value?.taskOrder),
         updatedAt: cleanLabel(value?.updatedAt, "")
-      }];
+      };
+      ["listId", "taskName", "department", "taskCategory", "taskType"].forEach((field) => {
+        if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = cleanLabel(value[field], "");
+      });
+      return [key, cleaned];
     }));
   }
 
@@ -2967,6 +3120,39 @@
       .join("");
   }
 
+  function listOptionsHtml(selected) {
+    return nativeListOptions
+      .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === selected ? " selected" : ""}>${escapeHtml(item.name)}</option>`)
+      .join("");
+  }
+
+  function metadataSelectOptionsHtml(values, selected, placeholder) {
+    const current = cleanLabel(selected, "");
+    const uniqueValues = Array.from(new Set(values.filter(Boolean)));
+    if (current && !uniqueValues.includes(current)) uniqueValues.unshift(current);
+    return [
+      `<option value=""${current ? "" : " selected"}>${escapeHtml(placeholder)}</option>`,
+      ...uniqueValues.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
+    ].join("");
+  }
+
+  function editableTaskMetadataHtml(entry, key) {
+    return `
+      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="listId" aria-label="List for ${escapeHtml(entry.taskName)}">
+        ${listOptionsHtml(entry.listId)}
+      </select>
+      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="department" aria-label="Department for ${escapeHtml(entry.taskName)}">
+        ${metadataSelectOptionsHtml(metadataOptions("department"), entry.department, "Department")}
+      </select>
+      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="taskCategory" aria-label="Task category for ${escapeHtml(entry.taskName)}">
+        ${metadataSelectOptionsHtml(metadataOptions("taskCategory"), entry.taskCategory, "Category")}
+      </select>
+      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="taskType" aria-label="Task type for ${escapeHtml(entry.taskName)}">
+        ${metadataSelectOptionsHtml(metadataOptions("taskType"), entry.taskType && entry.taskType !== "Other" ? entry.taskType : "", "Type")}
+      </select>
+    `;
+  }
+
   function currentTaskOverride(entry) {
     const key = taskOverrideKey(entry);
     const existing = timePayload.taskOverrides?.[key] || {};
@@ -2975,7 +3161,12 @@
       status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
-      taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder)
+      taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder),
+      listId: Object.prototype.hasOwnProperty.call(existing, "listId") ? cleanLabel(existing.listId, "") : cleanLabel(entry.listId, ""),
+      taskName: Object.prototype.hasOwnProperty.call(existing, "taskName") ? cleanLabel(existing.taskName, "") : cleanLabel(entry.taskName, ""),
+      department: Object.prototype.hasOwnProperty.call(existing, "department") ? cleanLabel(existing.department, "") : cleanLabel(entry.department, ""),
+      taskCategory: Object.prototype.hasOwnProperty.call(existing, "taskCategory") ? cleanLabel(existing.taskCategory, "") : cleanLabel(entry.taskCategory, ""),
+      taskType: Object.prototype.hasOwnProperty.call(existing, "taskType") ? cleanLabel(existing.taskType, "") : cleanLabel(entry.taskType, "")
     };
   }
 
@@ -2997,6 +3188,24 @@
     });
   }
 
+  function taskStatusPatch(entry, status) {
+    if (status !== "done") return { status: "todo" };
+    const nextDueDate = nextRecurringDueDate(entry);
+    return nextDueDate ? { dueDate: nextDueDate, status: "todo" } : { status: "done" };
+  }
+
+  function saveEditableTaskField(control, rows) {
+    const entry = rows.find((item) => taskOverrideKey(item) === control.dataset.editKey);
+    const field = control.dataset.editField;
+    if (!entry || !field) return;
+    const value = field === "listId" ? control.value : control.value.trim();
+    if (field === "taskName" && !value) {
+      control.value = entry.taskName;
+      return;
+    }
+    saveTaskOverride(entry, { [field]: value }).catch((error) => setTrackerStatus(error.message, "error"));
+  }
+
   function activityRowHtml(entry, active) {
     const isRunning = active && active.taskId === entry.taskId && active.listId === entry.listId;
     const timeText = isRunning ? formatClock(activeDurationMs()) : (entry.totalMs ? formatDuration(entry.totalMs) : "Tap to track");
@@ -3009,10 +3218,10 @@
       <div class="track-row">
         <div>
           <div class="track-name" title="${escapeHtml(entry.taskName)}">
-            <span>${escapeHtml(entry.taskName)}</span>
+            <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
             ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
           </div>
-          <div class="track-meta">${escapeHtml(activityMeta(entry))}</div>
+          <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
         </div>
         <div class="track-order-cell">
           <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
@@ -3112,7 +3321,7 @@
       select.addEventListener("change", () => {
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.statusKey);
         if (!entry) return;
-        saveTaskOverride(entry, { status: select.value === "done" ? "done" : "todo" }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, taskStatusPatch(entry, select.value)).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-order-key]").forEach((select) => {
@@ -3120,6 +3329,19 @@
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.orderKey);
         if (!entry) return;
         saveTaskOverride(entry, { taskOrder: orderOptionValue(select.value) }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-edit-key]").forEach((control) => {
+      if (control.tagName === "SELECT") {
+        control.addEventListener("change", () => saveEditableTaskField(control, rows));
+        return;
+      }
+      control.addEventListener("blur", () => saveEditableTaskField(control, rows));
+      control.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          control.blur();
+        }
       });
     });
     document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
@@ -3185,6 +3407,7 @@
   }
 
   function metadataOptions(field) {
+    if (field === "department") return DEPARTMENT_OPTIONS;
     if (field === "taskCategory") return TASK_CATEGORY_OPTIONS;
     const values = new Set();
     metadataSourcesForField(field).forEach((entry) => {
@@ -4486,7 +4709,7 @@
     const expanded = fields.hidden;
     fields.hidden = !expanded;
     startButton.hidden = !expanded;
-    document.getElementById("customToggle").textContent = expanded ? "Hide custom task" : "Add custom task";
+    document.getElementById("customToggle").textContent = expanded ? "Hide new task" : "Add new task";
     document.getElementById("customToggle").setAttribute("aria-expanded", String(expanded));
     if (expanded) window.requestAnimationFrame(() => document.getElementById("trackerTask").focus());
   });
