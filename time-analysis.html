@@ -824,7 +824,7 @@
 
   .tracker-filter-bar {
     display: grid;
-    grid-template-columns: minmax(180px, 260px) minmax(220px, 1fr) max-content;
+    grid-template-columns: minmax(145px, 200px) minmax(160px, 220px) minmax(190px, 250px) minmax(220px, 1fr) max-content;
     gap: 8px;
     align-items: end;
   }
@@ -1885,6 +1885,18 @@
                   <option value="tomorrow">Due tomorrow</option>
                   <option value="set">Due date set</option>
                   <option value="none">Due date not set</option>
+                </select>
+              </div>
+              <div class="tracker-field">
+                <label for="trackerListFilter">List filter</label>
+                <select class="tracker-select" id="trackerListFilter" aria-label="Filter tasks by list">
+                  <option value="">All lists</option>
+                </select>
+              </div>
+              <div class="tracker-field">
+                <label for="trackerDepartmentFilter">Department filter</label>
+                <select class="tracker-select" id="trackerDepartmentFilter" aria-label="Filter tasks by department">
+                  <option value="">All departments</option>
                 </select>
               </div>
               <div class="tracker-field">
@@ -3501,6 +3513,37 @@
       .join("");
   }
 
+  function populateTrackerListFilter() {
+    const select = document.getElementById("trackerListFilter");
+    if (!select) return;
+    const current = select.value || "";
+    select.innerHTML = `<option value="">All lists</option>${nativeListOptions
+      .map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)}</option>`)
+      .join("")}`;
+    select.value = nativeListOptions.some((item) => item.id === current) ? current : "";
+  }
+
+  function populateTrackerDepartmentFilter(rows = trackerActivities()) {
+    const select = document.getElementById("trackerDepartmentFilter");
+    if (!select) return;
+    const current = select.value || "";
+    const values = new Set(DEPARTMENT_OPTIONS);
+    rows.forEach((entry) => {
+      const department = cleanLabel(entry.department, "");
+      if (department) values.add(department);
+    });
+    const options = Array.from(values).sort((a, b) => {
+      const indexA = DEPARTMENT_OPTIONS.indexOf(a);
+      const indexB = DEPARTMENT_OPTIONS.indexOf(b);
+      if (indexA !== -1 || indexB !== -1) return (indexA === -1 ? DEPARTMENT_OPTIONS.length : indexA) - (indexB === -1 ? DEPARTMENT_OPTIONS.length : indexB);
+      return a.localeCompare(b);
+    });
+    select.innerHTML = `<option value="">All departments</option>${options
+      .map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`)
+      .join("")}`;
+    select.value = options.includes(current) ? current : "";
+  }
+
   function metadataSelectOptionsHtml(values, selected, placeholder) {
     const current = cleanLabel(selected, "");
     const uniqueValues = Array.from(new Set(values.filter(Boolean)));
@@ -3651,11 +3694,20 @@
   function renderActivityRows() {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
+    const listFilter = document.getElementById("trackerListFilter");
+    const departmentFilter = document.getElementById("trackerDepartmentFilter");
     const taskSearch = document.getElementById("taskSearchInput");
     const query = taskSearch?.value.trim().toLowerCase() || "";
+    const selectedListId = listFilter?.value || "";
+    const selectedDepartment = departmentFilter?.value || "";
     const allRows = trackerActivities();
+    populateTrackerDepartmentFilter(allRows);
     updateDueStatusFilterOptions(allRows);
-    const rows = allRows.filter((entry) => matchesDueStatusFilter(entry, dueFilter?.value || "all") && matchesTaskSearch(entry, query));
+    const rows = allRows.filter((entry) => {
+      if (selectedListId && entry.listId !== selectedListId) return false;
+      if (selectedDepartment && entry.department !== selectedDepartment) return false;
+      return matchesDueStatusFilter(entry, dueFilter?.value || "all") && matchesTaskSearch(entry, query);
+    });
     const trackerList = document.getElementById("trackerTaskList");
     trackerList.innerHTML = rows.length ? groupedActivities(rows).map(([group, entries]) => {
       const collapsed = collapsedTrackGroups.has(group);
@@ -3848,6 +3900,8 @@
 
   function renderTracker() {
     populateListSelect(document.getElementById("trackerList"), document.getElementById("trackerList").value || "901301650324");
+    populateTrackerListFilter();
+    populateTrackerDepartmentFilter();
     const entries = nativeCompletedEntries();
     renderTimerState();
     renderMetadataOptions();
@@ -3855,6 +3909,10 @@
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
     if (dueFilter) dueFilter.oninput = renderActivityRows;
+    const listFilter = document.getElementById("trackerListFilter");
+    if (listFilter) listFilter.oninput = renderActivityRows;
+    const departmentFilter = document.getElementById("trackerDepartmentFilter");
+    if (departmentFilter) departmentFilter.oninput = renderActivityRows;
     const taskSearch = document.getElementById("taskSearchInput");
     if (taskSearch) taskSearch.oninput = renderActivityRows;
     const trackerList = document.getElementById("trackerList");
