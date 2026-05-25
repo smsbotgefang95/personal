@@ -42,10 +42,11 @@
     @keyframes spin { to { transform:rotate(360deg); } }
 
     /* Header */
-    header { margin-bottom:20px; display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    header { margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
     header .title-block h1 { font-size:26px;font-weight:700;color:var(--text); }
     header .title-block p { color:var(--muted);font-size:14px;margin-top:4px; }
-    #toggleFormBtn { padding:9px 18px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s; }
+    .header-actions { display:flex;align-items:center;justify-content:flex-start;gap:10px;flex-wrap:nowrap;width:100%; }
+    #toggleFormBtn { height:44px;padding:0 18px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s;display:inline-flex;align-items:center;justify-content:center; }
     #toggleFormBtn:hover { opacity:.88; }
 
     /* Entry Form Panel */
@@ -102,9 +103,32 @@
     .insight-box strong { color:var(--accent); }
     .mood-chip { background:var(--danger-soft);border:1px solid rgba(239,68,68,.45);color:var(--danger);border-radius:20px;padding:4px 12px;font-size:12px; }
     .mood-grid { display:flex;flex-wrap:wrap;gap:8px; }
+    .water-quick-log { position:relative;display:flex;align-items:center;gap:8px;flex:1 1 auto;flex-wrap:nowrap;justify-content:flex-start;max-width:100%;overflow-x:auto; }
+    .water-log-total { height:44px;min-width:88px;padding:0 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);font-size:12px;font-weight:700;color:var(--warm);white-space:nowrap;text-align:center;display:inline-flex;align-items:center;justify-content:center; }
+    .water-log-form { display:flex;gap:8px;align-items:center;flex-wrap:nowrap; }
+    .water-log-form .field { margin:0; }
+    .water-log-form label { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap; }
+    .water-log-form input[type=number] { width:86px;height:44px;border:1px solid var(--border);border-radius:8px;padding:0 9px;font-size:13px;color:var(--text);background:#1f2937;outline:none; }
+    .water-log-form input:focus { border-color:var(--accent); }
+    #logWaterBtn { height:44px;padding:0 14px;background:var(--warm);color:#111827;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center; }
+    #logWaterBtn:hover { opacity:.9; }
+    #logWaterBtn:disabled { opacity:.55;cursor:not-allowed; }
+    #waterLogStatus { position:absolute;right:0;top:calc(100% + 2px);min-height:16px;font-size:12px;color:var(--muted);text-align:right;white-space:nowrap; }
+    #waterLogStatus.ok { color:var(--green); }
+    #waterLogStatus.err { color:var(--danger); }
+    .water-log-popover { order:4;flex:0 0 280px;max-width:280px;margin-left:0;padding:0;border:0;background:transparent; }
+    .water-log-popover[hidden] { display:none; }
+    .water-log-list { display:flex;gap:6px;max-width:100%;overflow:auto; }
+    .water-log-row { height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:236px;padding:0 8px;border:1px solid var(--border);border-radius:8px;background:#0f172a; }
+    .water-log-amount { font-size:13px;font-weight:700;color:var(--text); }
+    .water-log-fields { display:flex;align-items:center;gap:8px;flex-wrap:nowrap; }
+    .water-log-time { width:82px;height:44px;border:1px solid var(--border);border-radius:7px;padding:0 6px;font-size:12px;line-height:44px;color:var(--text);background:#1f2937;outline:none; }
+    .water-log-time:focus { border-color:var(--accent); }
+    .water-log-delete { width:44px;height:44px;border-radius:7px;border:1px solid var(--border);background:#1f2937;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center; }
+    .water-log-delete:hover { color:var(--danger);border-color:rgba(239,68,68,.55); }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}.water-log-popover{flex-basis:100%;max-width:100%;margin-left:0}.water-log-list{display:grid}.water-log-row{min-width:0}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}}
   </style>
 </head>
 <body>
@@ -118,7 +142,23 @@
     <h1>📊 KPI Life Tracker</h1>
     <p id="headerRange">Loading…</p>
   </div>
-  <button id="toggleFormBtn" onclick="toggleForm()">+ Log Today</button>
+  <div class="header-actions">
+    <button id="toggleFormBtn" onclick="toggleForm()">+ Log Yesterday</button>
+    <div class="water-quick-log" id="waterLogCard">
+      <div class="water-log-total" id="waterLogTotal">Water: 0 mL</div>
+      <div class="water-log-form">
+        <div class="field">
+          <label for="waterLogAmount">Amount (mL)</label>
+          <input type="number" id="waterLogAmount" min="1" step="50" value="250" aria-label="Water amount in mL">
+        </div>
+        <button id="logWaterBtn" onclick="logWaterIntake()">Log Water</button>
+      </div>
+      <div id="waterLogStatus"></div>
+      <div class="water-log-popover" id="waterLogPopover" hidden>
+        <div class="water-log-list" id="waterLogList"></div>
+      </div>
+    </div>
+  </div>
 </header>
 
 <!-- ── ENTRY FORM ─────────────────────────────────────────────────────────── -->
@@ -297,6 +337,7 @@
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbx3Jg4yrFCInTSYfRMfyS1FJO6JDPFcMrlOSDgsCFMpVGjjPY4OWd9zTYj5QqAZimA/exec';
 const MONTHS = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WATER_LOG_KEY = 'kpiWaterIntakeLog.v1';
 const segs = {};
 let charts = {};
 const THEME = {
@@ -318,12 +359,17 @@ const THEME = {
 
 // ── FORM ────────────────────────────────────────────────────────────────────
 
-function toggleForm() {
+function setEntryPanelOpen(open) {
   const panel = document.getElementById('entryPanel');
   const btn = document.getElementById('toggleFormBtn');
-  const open = panel.style.display !== 'none';
-  panel.style.display = open ? 'none' : 'block';
-  btn.textContent = open ? '+ Log Today' : '✕ Close';
+  panel.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '✕ Close' : '+ Log Yesterday';
+  renderTodayWaterLog();
+}
+
+function toggleForm() {
+  const panel = document.getElementById('entryPanel');
+  setEntryPanelOpen(panel.style.display === 'none');
 }
 
 function makeSeg(id, opts) {
@@ -374,6 +420,14 @@ function localDateStr(date = new Date()) {
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
+function yesterdayDateStr(date = new Date()) {
+  const d = new Date(date);
+  d.setDate(d.getDate() - 1);
+  return localDateStr(d);
+}
+function localTimeStr(date = new Date()) {
+  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
 function isWeekendDate(dateStr) {
   const d = new Date(dateStr + 'T12:00:00');
   return [0, 6].includes(d.getDay());
@@ -390,8 +444,146 @@ function applyEntryDefaults(dateStr, options = {}) {
   }
 }
 let todayStr = localDateStr();
-document.getElementById('entryDate').value = todayStr;
-applyEntryDefaults(todayStr);
+let defaultEntryDateStr = yesterdayDateStr();
+let loadedEntryDate = '';
+document.getElementById('entryDate').value = defaultEntryDateStr;
+applyEntryDefaults(defaultEntryDateStr);
+
+function readWaterLog() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(WATER_LOG_KEY) || '[]');
+    return Array.isArray(parsed) ? parsed.filter(e => e && isValidDateString(e.date) && Number(e.amountMl) > 0) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function writeWaterLog(entries) {
+  localStorage.setItem(WATER_LOG_KEY, JSON.stringify(entries));
+}
+
+function todayWaterEntries() {
+  return readWaterLog()
+    .filter(e => e.date === todayStr)
+    .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
+}
+
+function todayWaterTotal() {
+  return todayWaterEntries().reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
+}
+
+function latestWaterEntryTime() {
+  const entries = todayWaterEntries();
+  return entries.length ? entries[0].time : '';
+}
+
+function setWaterLogStatus(message, type = '') {
+  const el = document.getElementById('waterLogStatus');
+  el.textContent = message;
+  el.className = type;
+}
+
+function renderTodayWaterLog() {
+  const entries = todayWaterEntries();
+  const total = entries.reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
+  const popover = document.getElementById('waterLogPopover');
+  document.getElementById('waterLogTotal').textContent = 'Water: ' + total + ' mL';
+  if (popover) popover.hidden = !entries.length;
+  document.getElementById('waterLogList').innerHTML = entries.length
+    ? entries.map(e => `<div class="water-log-row"><div class="water-log-fields"><div class="water-log-amount">${Number(e.amountMl)} mL</div><input class="water-log-time" type="time" value="${e.time}" aria-label="Edit time for ${Number(e.amountMl)} mL" onchange="updateWaterEntryTime('${e.id}', this.value)"></div><button class="water-log-delete" type="button" aria-label="Delete ${Number(e.amountMl)} mL at ${e.time}" onclick="deleteWaterEntry('${e.id}')">×</button></div>`).join('')
+    : '';
+}
+
+async function prepareTodayEntryForm() {
+  setEntryPanelOpen(true);
+  const entryDate = document.getElementById('entryDate');
+  if (entryDate.value !== todayStr || loadedEntryDate !== todayStr) {
+    entryDate.value = todayStr;
+    await onDateChange();
+  }
+}
+
+async function persistTodayWaterTotal() {
+  const total = todayWaterTotal();
+  const lastTime = latestWaterEntryTime();
+  document.getElementById('water').value = String(total);
+  document.getElementById('stopWaterTime').value = lastTime;
+  const data = await submitEntry({ keepFormOpen: true, hideSaveMessage: true });
+  if (!data || !data.success) throw new Error(data?.message || 'Save failed');
+  return data;
+}
+
+async function logWaterIntake() {
+  const amountEl = document.getElementById('waterLogAmount');
+  const btn = document.getElementById('logWaterBtn');
+  const amount = Math.round(Number(amountEl.value));
+  if (!Number.isFinite(amount) || amount <= 0) {
+    setWaterLogStatus('Enter a valid amount.', 'err');
+    amountEl.focus();
+    return;
+  }
+
+  btn.disabled = true;
+  setWaterLogStatus('Saving...', '');
+  try {
+    await prepareTodayEntryForm();
+    const now = new Date();
+    const entry = {
+      id: 'water-' + now.getTime() + '-' + Math.random().toString(16).slice(2),
+      date: todayStr,
+      time: localTimeStr(now),
+      amountMl: amount,
+      createdAt: now.toISOString()
+    };
+    writeWaterLog([...readWaterLog(), entry]);
+    renderTodayWaterLog();
+    await persistTodayWaterTotal();
+    setWaterLogStatus('Saved ' + amount + ' mL at ' + entry.time + '.', 'ok');
+  } catch(e) {
+    setWaterLogStatus('Could not save: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function deleteWaterEntry(id) {
+  const entries = readWaterLog();
+  const next = entries.filter(e => e.id !== id);
+  if (next.length === entries.length) return;
+  setWaterLogStatus('Saving...', '');
+  try {
+    await prepareTodayEntryForm();
+    writeWaterLog(next);
+    renderTodayWaterLog();
+    await persistTodayWaterTotal();
+    setWaterLogStatus('Entry deleted.', 'ok');
+  } catch(e) {
+    setWaterLogStatus('Could not save: ' + e.message, 'err');
+  }
+}
+
+async function updateWaterEntryTime(id, time) {
+  if (!/^\d{2}:\d{2}$/.test(time || '')) {
+    setWaterLogStatus('Enter a valid time.', 'err');
+    renderTodayWaterLog();
+    return;
+  }
+
+  const entries = readWaterLog();
+  const target = entries.find(e => e.id === id);
+  if (!target || target.time === time) return;
+
+  setWaterLogStatus('Saving...', '');
+  try {
+    await prepareTodayEntryForm();
+    writeWaterLog(entries.map(e => e.id === id ? { ...e, time } : e));
+    renderTodayWaterLog();
+    await persistTodayWaterTotal();
+    setWaterLogStatus('Time updated.', 'ok');
+  } catch(e) {
+    setWaterLogStatus('Could not save: ' + e.message, 'err');
+  }
+}
 
 function resetEntryForm() {
   ['workout','stretch','footbath','massage','sleepOnTime','sleepTracked','wakeOnTime','badMood'].forEach(id=>{
@@ -448,11 +640,21 @@ async function onDateChange() {
           document.getElementById('stopWaterTime').value = String(h).padStart(2,'0') + ':' + min;
         }
       }
+      if (d === todayStr && todayWaterEntries().length) {
+        document.getElementById('water').value = String(todayWaterTotal());
+        document.getElementById('stopWaterTime').value = latestWaterEntryTime();
+      }
       status.textContent = '📋 Loaded';
     } else {
       applyEntryDefaults(d, { periodActive: document.getElementById('periodBtn').dataset.active === '1' });
+      if (d === todayStr && todayWaterEntries().length) {
+        document.getElementById('water').value = String(todayWaterTotal());
+        document.getElementById('stopWaterTime').value = latestWaterEntryTime();
+      }
       status.textContent = '✨ New entry';
     }
+    loadedEntryDate = d;
+    renderTodayWaterLog();
   } catch(e) { status.textContent = ''; }
 }
 
@@ -467,7 +669,7 @@ function togglePeriod() {
   }
 }
 
-async function submitEntry() {
+async function submitEntry(options = {}) {
   const btn = document.getElementById('saveBtn');
   const msg = document.getElementById('saveMsg');
   btn.disabled = true; btn.textContent = 'Saving…';
@@ -511,14 +713,21 @@ async function submitEntry() {
     if (data.success) {
       msg.className = 'ok'; msg.textContent = '✅ ' + data.message;
       // Refresh dashboard data after save
-      setTimeout(() => { loadData(); toggleForm(); }, 800);
+      setTimeout(() => {
+        loadData();
+        if (!options.keepFormOpen) toggleForm();
+      }, 800);
     } else {
       msg.className = 'err'; msg.textContent = '❌ ' + data.message;
     }
-    setTimeout(() => { msg.style.display = 'none'; }, 4000);
+    if (options.hideSaveMessage) msg.style.display = 'none';
+    else setTimeout(() => { msg.style.display = 'none'; }, 4000);
+    return data;
   } catch(e) {
     btn.disabled = false; btn.textContent = 'Save';
     msg.style.display = ''; msg.className = 'err'; msg.textContent = '❌ ' + e.message;
+    if (options.hideSaveMessage) msg.style.display = 'none';
+    throw e;
   }
 }
 
@@ -777,11 +986,15 @@ function render(rows) {
 
 function refreshIfDateChanged() {
   const nextTodayStr = localDateStr();
+  const nextDefaultEntryDateStr = yesterdayDateStr();
   if (nextTodayStr === todayStr) return;
 
   const entryDate = document.getElementById('entryDate');
-  if (entryDate.value === todayStr) entryDate.value = nextTodayStr;
+  if (entryDate.value === defaultEntryDateStr) entryDate.value = nextDefaultEntryDateStr;
   todayStr = nextTodayStr;
+  defaultEntryDateStr = nextDefaultEntryDateStr;
+  setWaterLogStatus('', '');
+  renderTodayWaterLog();
   loadData();
 }
 
@@ -791,6 +1004,7 @@ document.addEventListener('visibilitychange', () => {
   if (!document.hidden) refreshIfDateChanged();
 });
 
+renderTodayWaterLog();
 loadData();
 </script>
 </body>
