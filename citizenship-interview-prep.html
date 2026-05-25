@@ -2920,7 +2920,7 @@
                   <span class="status-source-label">${escapeHtml(statusSourceLabel)}</span>
                   <span class="status-source-label">设置为:</span>
                   ${STATUSES.map(s => `
-                    <button class="status-btn ${s} ${effectiveStatus === s ? 'active' : ''}" type="button" data-status="${s}" data-idx="${idx}">
+                    <button class="status-btn ${s} ${storedStatus === s ? 'active' : ''}" type="button" data-status="${s}" data-idx="${idx}">
                       ${STATUS_LABELS[s]}
                     </button>
                   `).join("")}
