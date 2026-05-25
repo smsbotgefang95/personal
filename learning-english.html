@@ -906,6 +906,11 @@
     </div>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
+      <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="Filter vocabulary by word match position">
+        <option value="contains">Words contain</option>
+        <option value="starts">Words start with</option>
+        <option value="ends">Words end with</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
         <option value="all">所有学习状态</option>
         <option value="auto">自动</option>
@@ -1026,6 +1031,7 @@
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
+  const STORAGE_VOCAB_WORD_MATCH_FILTER_KEY = "learningEnglishVocabularyWordMatchFilter";
   const STORAGE_VOCAB_PHRASE_FILTER_KEY = "learningEnglishVocabularyPhraseStatusFilter";
   const STORAGE_VOCAB_PHRASE_TYPE_FILTER_KEY = "learningEnglishVocabularyPhraseTypeFilter";
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
@@ -6149,6 +6155,7 @@ pass=通过；传递
   let selectedDialogueScenario = loadSelectedDialogueScenario();
   let selectedDialogueStatus = loadSelectedDialogueStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
+  let selectedVocabularyWordMatch = loadSelectedVocabularyWordMatch();
   let selectedVocabularyPhraseStatus = loadSelectedVocabularyPhraseStatus();
   let selectedVocabularyPhraseType = loadSelectedVocabularyPhraseType();
   let selectedVocabularyPart = loadSelectedVocabularyPart();
@@ -6290,6 +6297,21 @@ pass=通过；传递
   function saveSelectedVocabularyStatus() {
     try {
       localStorage.setItem(STORAGE_VOCAB_FILTER_KEY, selectedVocabularyStatus);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyWordMatch() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_WORD_MATCH_FILTER_KEY);
+      return ["contains", "starts", "ends"].includes(saved) ? saved : "contains";
+    } catch (error) {
+      return "contains";
+    }
+  }
+
+  function saveSelectedVocabularyWordMatch() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_WORD_MATCH_FILTER_KEY, selectedVocabularyWordMatch);
     } catch (error) {}
   }
 
@@ -6925,6 +6947,7 @@ pass=通过；传递
   function renderVocabularyList() {
     const container = document.getElementById("vocabularyList");
     const search = document.getElementById("vocabularySearch").value.trim().toLowerCase();
+    const wordMatchFilter = selectedVocabularyWordMatch;
     const statusFilter = selectedVocabularyStatus;
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
@@ -6937,7 +6960,19 @@ pass=通过；传递
     const vowelTeamFilter = selectedVocabularyVowelTeam;
     const ipaFilter = selectedVocabularyIpa;
     const allVocabulary = getAllVocabulary();
-    const matchesSearch = (item) => !search || [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank), ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)].some((value) => (value || "").toLowerCase().includes(search));
+    const matchesWordPosition = (word) => {
+      const normalized = (word || "").toLowerCase();
+      if (!search || wordMatchFilter === "contains") return true;
+      if (wordMatchFilter === "starts") return normalized.startsWith(search);
+      if (wordMatchFilter === "ends") return normalized.endsWith(search);
+      return true;
+    };
+    const matchesSearch = (item) => {
+      if (!search) return true;
+      if (!matchesWordPosition(item.word)) return false;
+      if (wordMatchFilter !== "contains") return true;
+      return [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank), ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)].some((value) => (value || "").toLowerCase().includes(search));
+    };
     const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
@@ -6974,10 +7009,11 @@ pass=通过；传递
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
 
-    if (search && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
+    if (search && wordMatchFilter === "contains" && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
+    document.getElementById("vocabularyWordMatchFilter").value = wordMatchFilter;
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
     document.getElementById("vocabularyThemeFilter").value = themeFilter;
@@ -7195,6 +7231,7 @@ pass=通过；传递
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   function resetVocabularyFilters() {
     document.getElementById("vocabularySearch").value = "";
+    selectedVocabularyWordMatch = "contains";
     selectedVocabularyStatus = "all";
     selectedVocabularyPart = "all";
     selectedVocabularyTheme = "all";
@@ -7206,6 +7243,7 @@ pass=通过；传递
     selectedVocabularySyllable = "all";
     selectedVocabularyVowelTeam = "all";
     selectedVocabularyIpa = "all";
+    saveSelectedVocabularyWordMatch();
     saveSelectedVocabularyStatus();
     saveSelectedVocabularyPart();
     saveSelectedVocabularyTheme();
@@ -7223,6 +7261,11 @@ pass=通过；传递
   document.getElementById("vocabularyStatusFilter").addEventListener("change", (event) => {
     selectedVocabularyStatus = event.target.value;
     saveSelectedVocabularyStatus();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyWordMatchFilter").addEventListener("change", (event) => {
+    selectedVocabularyWordMatch = event.target.value;
+    saveSelectedVocabularyWordMatch();
     renderVocabularyList();
   });
   document.getElementById("vocabularyPartFilter").addEventListener("change", (event) => {
