@@ -2674,8 +2674,8 @@
     if (statusSaveNoteEl) {
       statusSaveNoteEl.textContent = text;
       statusSaveNoteEl.className = `status-save-note open ${cls}`;
-      window.clearTimeout(showStatusSaved.timer);
-      showStatusSaved.timer = window.setTimeout(() => {
+      window.clearTimeout(showStatusMessage.timer);
+      showStatusMessage.timer = window.setTimeout(() => {
         statusSaveNoteEl.classList.remove("open");
       }, 2400);
     }
@@ -2685,10 +2685,12 @@
       window.setTimeout(() => card.classList.remove("status-saved-highlight"), 1200);
     }
   }
-  function showStatusSaved(idx, cls = "saved") {
-    const status = getStatus(idx);
-    const source = getStoredStatus(idx) === "auto" ? "自动" : "手动";
-    showStatusMessage(idx, `已保存 Q${idx + 1}: ${STATUS_LABELS[status]} (${source})`, cls);
+  function showStatusSaved(idx, savedStatus, cls = "saved") {
+    if (savedStatus === "auto") {
+      showStatusMessage(idx, `已切回自动 Q${idx + 1}: 当前 ${STATUS_LABELS[getStatus(idx)]} (按词汇)`, cls);
+      return;
+    }
+    showStatusMessage(idx, `已手动保存 Q${idx + 1}: ${STATUS_LABELS[savedStatus]}`, cls);
   }
   function questionMatchesFilter(idx, filter) {
     if (filter === "all") return true;
@@ -3523,7 +3525,7 @@
       } else {
         render();
       }
-      showStatusSaved(idx);
+      showStatusSaved(idx, status);
       return;
     } catch (err) {
       questionProgressSyncAvailable = false;
@@ -3533,7 +3535,11 @@
       } else {
         render();
       }
-      showStatusMessage(idx, `离线保存到本机 Q${idx + 1}: ${STATUS_LABELS[getStatus(idx)]}`, "offline");
+      if (status === "auto") {
+        showStatusMessage(idx, `离线切回自动 Q${idx + 1}: 当前 ${STATUS_LABELS[getStatus(idx)]} (按词汇)`, "offline");
+      } else {
+        showStatusMessage(idx, `离线手动保存 Q${idx + 1}: ${STATUS_LABELS[status]}`, "offline");
+      }
       return;
     }
   });
