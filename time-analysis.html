@@ -862,7 +862,8 @@
   .tracker-list {
     display: grid;
     gap: 2px;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: visible;
     min-width: 0;
     max-width: 100%;
     border: 1px solid var(--border);
@@ -872,9 +873,10 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(160px, 0.3fr) minmax(250px, 0.44fr) minmax(96px, auto);
+    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 96px;
     gap: 10px;
     align-items: center;
+    min-width: 1160px;
   }
 
   .track-list-header {
@@ -895,6 +897,7 @@
   .track-row {
     position: relative;
     display: grid;
+    min-width: 1160px;
     min-height: 126px;
     padding: 12px 10px;
     border-bottom: 1px solid var(--border);
@@ -902,7 +905,7 @@
 
   .track-row-inner {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(160px, 0.3fr) minmax(250px, 0.44fr) minmax(96px, auto);
+    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 96px;
     column-gap: 10px;
     row-gap: 10px;
     align-items: start;
@@ -1701,16 +1704,6 @@
   }
 
   @media (max-width: 1120px) {
-    .track-list-header {
-      display: none;
-    }
-    .track-row {
-      min-height: 76px;
-    }
-    .track-row-inner {
-      grid-template-columns: minmax(300px, 1fr) minmax(62px, 0.18fr) minmax(82px, 0.24fr) minmax(150px, 0.36fr) minmax(230px, 0.54fr) minmax(72px, auto);
-      gap: 7px;
-    }
     .track-recurrence-control > .track-recurrence-custom {
       left: 0;
       right: auto;
@@ -1719,39 +1712,12 @@
   }
 
   @media (max-width: 720px) {
-    .track-row-inner {
-      grid-template-columns: minmax(0, 1fr);
-    }
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
     }
-    .track-due-inputs,
     .edit-due-controls {
       grid-template-columns: minmax(0, 1fr);
     }
-    .track-order-cell,
-    .track-status-cell,
-    .track-due-cell,
-    .track-recurrence-cell,
-    .track-time {
-      grid-column: 1 / 2;
-    }
-    .track-order-cell::before,
-    .track-status-cell::before,
-    .track-due-cell::before,
-    .track-recurrence-cell::before {
-      display: block;
-      margin: 6px 0 4px;
-      color: var(--muted);
-      font-size: 0.7rem;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .track-order-cell::before { content: "Order"; }
-    .track-status-cell::before { content: "Status"; }
-    .track-due-cell::before { content: "Due date"; }
-    .track-recurrence-cell::before { content: "Recurrence"; }
   }
 
   @media (max-width: 940px) {
@@ -1806,46 +1772,12 @@
       min-height: 48px;
       max-width: 78vw;
     }
-    .track-list-header {
-      display: none;
-    }
-    .track-row {
-      grid-template-columns: minmax(0, 1fr);
-      min-height: 76px;
-    }
-    .track-row-inner {
-      grid-template-columns: minmax(0, 1fr);
-    }
     .track-meta-row {
       grid-column: auto;
     }
     .track-meta {
       grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
     }
-    .track-order-cell,
-    .track-status-cell,
-    .track-due-cell,
-    .track-recurrence-cell,
-    .track-time {
-      grid-column: 1 / 2;
-      align-self: start;
-    }
-    .track-order-cell::before,
-    .track-status-cell::before,
-    .track-due-cell::before,
-    .track-recurrence-cell::before {
-      display: block;
-      margin: 6px 0 4px;
-      color: var(--muted);
-      font-size: 0.7rem;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .track-order-cell::before { content: "Order"; }
-    .track-status-cell::before { content: "Status"; }
-    .track-due-cell::before { content: "Due date"; }
-    .track-recurrence-cell::before { content: "Recurrence"; }
     .track-recurrence-control > .track-recurrence-custom {
       left: 0;
       right: auto;
