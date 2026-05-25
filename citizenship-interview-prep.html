@@ -2882,7 +2882,7 @@
                 <div class="status-group">
                   <span class="status-source-label">${escapeHtml(statusSourceLabel)}</span>
                   ${STATUSES.map(s => `
-                    <button class="status-btn ${s} ${effectiveStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
+                    <button class="status-btn ${s} ${effectiveStatus === s ? 'active' : ''}" type="button" data-status="${s}" data-idx="${idx}">
                       ${STATUS_LABELS[s]}
                     </button>
                   `).join("")}
@@ -2919,17 +2919,6 @@
       listEl.innerHTML = '<div class="empty">没有匹配的题目。</div>';
     }
 
-    listEl.querySelectorAll(".status-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const idx = parseInt(btn.dataset.idx, 10);
-        setStatus(idx, btn.dataset.status, { render: false });
-        if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
-          setActiveQuestionFilter(getStatus(idx));
-        } else {
-          render();
-        }
-      });
-    });
     listEl.querySelectorAll("[data-learning-order]").forEach(input => {
       const saveOrder = (shouldRender) => {
         const idx = input.dataset.learningOrder;
@@ -3418,6 +3407,21 @@
   // Stop audio when switching tabs or leaving page
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stopAllAudio();
+  });
+
+  listEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".status-btn");
+    if (!btn || !listEl.contains(btn)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const idx = parseInt(btn.dataset.idx, 10);
+    if (!Number.isFinite(idx)) return;
+    setStatus(idx, btn.dataset.status, { render: false });
+    if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
+      setActiveQuestionFilter(getStatus(idx));
+    } else {
+      render();
+    }
   });
 
   function escapeHtml(s) {
