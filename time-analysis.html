@@ -1823,7 +1823,7 @@
                 <label for="taskSearchInput">Task search</label>
                 <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
               </div>
-              <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-20</button>
+              <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-30</button>
             </div>
             <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
             <datalist id="departmentOptions"></datalist>
@@ -3234,13 +3234,13 @@
 
   function orderOptionValue(value) {
     const number = Number(value);
-    return Number.isInteger(number) && number >= 1 && number <= 20 ? String(number).padStart(2, "0") : "";
+    return Number.isInteger(number) && number >= 1 && number <= 30 ? String(number).padStart(2, "0") : "";
   }
 
   function orderOptionsHtml(selected) {
     const current = orderOptionValue(selected);
     const options = [`<option value=""${current ? "" : " selected"}>-</option>`];
-    for (let i = 1; i <= 20; i += 1) {
+    for (let i = 1; i <= 30; i += 1) {
       const value = String(i).padStart(2, "0");
       options.push(`<option value="${value}"${value === current ? " selected" : ""}>${i}</option>`);
     }
@@ -3250,7 +3250,7 @@
   function updateOrderSortButton() {
     const button = document.getElementById("orderSortBtn");
     if (!button) return;
-    button.textContent = trackOrderDirection === "asc" ? "Sort 1-20" : "Sort 20-1";
+    button.textContent = trackOrderDirection === "asc" ? "Sort 1-30" : "Sort 30-1";
     button.setAttribute("aria-label", `Task order sort ${trackOrderDirection === "asc" ? "ascending" : "descending"}`);
   }
 
