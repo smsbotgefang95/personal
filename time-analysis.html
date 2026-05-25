@@ -30,6 +30,8 @@
     --danger: #ef4444;
     --danger-soft: #1a0000;
     --shadow: none;
+    --track-select-width: 30px;
+    --track-task-width: 340px;
   }
 
   * { box-sizing: border-box; }
@@ -477,7 +479,7 @@
 
   .toolbar {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) repeat(5, minmax(135px, 190px));
+    grid-template-columns: minmax(200px, 1fr) repeat(6, minmax(135px, 190px));
     gap: 10px;
     margin-bottom: 12px;
   }
@@ -882,7 +884,7 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 68px 82px 256px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: minmax(var(--track-task-width), 1fr) 68px 82px 256px 250px 250px 250px 180px 180px 140px 96px;
     gap: 10px;
     align-items: center;
     min-width: 2032px;
@@ -899,23 +901,38 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     position: sticky;
-    top: 0;
+    top: 43px;
     z-index: 4;
   }
 
-  .track-list-header > div:first-child,
+  .track-list-header > div:first-child {
+    position: absolute;
+    top: 7px;
+    bottom: 7px;
+    left: 10px;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--track-select-width);
+    background: #020617;
+  }
+
+  .track-list-header > div:nth-child(2),
   .track-task-cell {
     position: sticky;
     left: 0;
     z-index: 3;
-    min-width: 340px;
+    min-width: var(--track-task-width);
     overflow: visible;
     background: #030712;
     box-shadow: 1px 0 0 var(--border);
   }
 
-  .track-list-header > div:first-child {
+  .track-list-header > div:nth-child(2) {
+    grid-column: 1;
     z-index: 5;
+    padding-left: var(--track-select-width);
     background: #020617;
   }
 
@@ -929,17 +946,55 @@
   }
 
   .track-row-inner {
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 68px 82px 256px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: minmax(var(--track-task-width), 1fr) 68px 82px 256px 250px 250px 250px 180px 180px 140px 96px;
     column-gap: 10px;
     row-gap: 10px;
     align-items: start;
     min-width: 0;
   }
 
+  .track-select-cell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--track-select-width);
+    min-height: 42px;
+    background: #030712;
+  }
+
+  .track-select-checkbox,
+  .track-select-all-checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--indigo);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+  }
+
+  .track-list-header:hover .track-select-all-checkbox,
+  .track-list-header:focus-within .track-select-all-checkbox,
+  .track-select-all-checkbox:checked,
+  .track-select-all-checkbox.is-visible,
+  .track-row:hover .track-select-checkbox,
+  .track-row:focus-within .track-select-checkbox,
+  .track-select-checkbox:checked {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .track-task-cell {
     display: grid;
     gap: 4px;
+    padding-left: var(--track-select-width);
     min-width: 0;
   }
 
@@ -966,9 +1021,9 @@
     display: flex;
     align-items: center;
     gap: 9px;
-    width: 340px;
-    min-width: 340px;
-    max-width: 340px;
+    width: var(--track-task-width);
+    min-width: var(--track-task-width);
+    max-width: var(--track-task-width);
     min-height: 46px;
     border: 0;
     padding: 9px 10px;
@@ -1165,6 +1220,13 @@
     color: #f9fafb;
     font: inherit;
     font-size: 0.88rem;
+  }
+
+  .track-due-time-input.is-empty:not(:focus)::-webkit-datetime-edit,
+  .track-due-time-input.is-empty:not(:focus)::-webkit-datetime-edit-hour-field,
+  .track-due-time-input.is-empty:not(:focus)::-webkit-datetime-edit-minute-field,
+  .track-due-time-input.is-empty:not(:focus)::-webkit-datetime-edit-text {
+    color: transparent;
   }
 
   .track-due-inputs {
@@ -1581,6 +1643,107 @@
 
   .tracker-status.error { color: #fca5a5; }
   .tracker-status.saved { color: #86efac; }
+
+  .bulk-task-bar {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    z-index: 35;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 72px;
+    border: 1px solid #374151;
+    border-radius: 16px;
+    padding: 12px 16px;
+    background: #111827;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.42);
+  }
+
+  .bulk-task-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 8px 12px;
+    color: #f9fafb;
+    font-size: 1rem;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+
+  .bulk-task-clear,
+  .bulk-task-apply {
+    min-height: 40px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #1f2937;
+    color: #f9fafb;
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .bulk-task-clear {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    min-height: 30px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #d1d5db;
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .bulk-task-spacer { flex: 1 1 auto; }
+
+  .bulk-task-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #d1d5db;
+    font-size: 0.95rem;
+    font-weight: 850;
+  }
+
+  .bulk-task-status-select {
+    min-height: 40px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 7px 10px;
+    background: #030712;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 900;
+  }
+
+  .bulk-task-apply {
+    border-color: transparent;
+    background: var(--indigo);
+  }
+
+  @media (max-width: 640px) {
+    .bulk-task-bar {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bulk-task-spacer { display: none; }
+
+    .bulk-task-field,
+    .bulk-task-status-select,
+    .bulk-task-apply {
+      width: 100%;
+    }
+  }
 
   .admin-key-dialog {
     align-items: center;
@@ -2246,6 +2409,7 @@
           <select class="control" id="categoryFilter" aria-label="Filter by category"></select>
           <select class="control" id="typeFilter" aria-label="Filter by type"></select>
           <select class="control" id="weekFilter" aria-label="Filter by week"></select>
+          <input class="control" id="dateFilter" type="date" aria-label="Filter by date" />
         </div>
         <div class="table-wrap">
           <table class="details-table">
@@ -2441,6 +2605,8 @@
   let currentSourcePills = [];
   let collapsedTrackGroups = new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]"));
   let expandedCustomRecurrenceKeys = new Set();
+  let selectedTaskKeys = new Set();
+  let bulkTaskStatusValue = "done";
   let trackOrderDirection = "asc";
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
@@ -3811,6 +3977,91 @@
     saveTaskOverride(entry, { [field]: value }).catch((error) => setTrackerStatus(error.message, "error"));
   }
 
+  function visibleTaskRowsForGroups(groups) {
+    return groups.flatMap(([group, entries]) => collapsedTrackGroups.has(group) ? [] : entries);
+  }
+
+  function selectedVisibleTaskRows(visibleRows) {
+    return visibleRows.filter((entry) => selectedTaskKeys.has(taskOverrideKey(entry)));
+  }
+
+  function pruneSelectedTaskKeys(visibleRows) {
+    const visibleKeys = new Set(visibleRows.map(taskOverrideKey));
+    selectedTaskKeys = new Set(Array.from(selectedTaskKeys).filter((key) => visibleKeys.has(key)));
+  }
+
+  function syncTaskSelectionUi(visibleRows) {
+    const selectedRows = selectedVisibleTaskRows(visibleRows);
+    document.querySelectorAll("[data-select-task-key]").forEach((checkbox) => {
+      checkbox.checked = selectedTaskKeys.has(checkbox.dataset.selectTaskKey);
+    });
+    const selectAll = document.querySelector("[data-select-all-visible]");
+    if (selectAll) {
+      selectAll.checked = Boolean(visibleRows.length) && selectedRows.length === visibleRows.length;
+      selectAll.indeterminate = selectedRows.length > 0 && selectedRows.length < visibleRows.length;
+      selectAll.disabled = !visibleRows.length;
+      selectAll.classList.toggle("is-visible", Boolean(selectedRows.length));
+    }
+    renderBulkTaskBar(visibleRows);
+  }
+
+  function renderBulkTaskBar(visibleRows) {
+    document.getElementById("bulkTaskBar")?.remove();
+    const selectedRows = selectedVisibleTaskRows(visibleRows);
+    if (!selectedRows.length) return;
+    document.body.insertAdjacentHTML("beforeend", `
+      <div class="bulk-task-bar" id="bulkTaskBar" role="region" aria-label="Bulk task actions">
+        <div class="bulk-task-count">
+          <span>${selectedRows.length.toLocaleString()} ${selectedRows.length === 1 ? "Task" : "Tasks"} selected</span>
+          <button class="bulk-task-clear" type="button" data-clear-task-selection aria-label="Clear selected tasks">&times;</button>
+        </div>
+        <div class="bulk-task-spacer"></div>
+        <label class="bulk-task-field" for="bulkTaskStatus">
+          <span>Status</span>
+          <select class="bulk-task-status-select" id="bulkTaskStatus" data-bulk-status>
+            <option value="todo"${bulkTaskStatusValue === "todo" ? " selected" : ""}>TO DO</option>
+            <option value="done"${bulkTaskStatusValue === "done" ? " selected" : ""}>DONE</option>
+          </select>
+        </label>
+        <button class="bulk-task-apply" type="button" data-apply-bulk-status>Apply</button>
+      </div>
+    `);
+    document.querySelector("[data-clear-task-selection]")?.addEventListener("click", () => {
+      selectedTaskKeys.clear();
+      syncTaskSelectionUi(visibleRows);
+    });
+    document.querySelector("[data-bulk-status]")?.addEventListener("change", (event) => {
+      bulkTaskStatusValue = event.target.value === "todo" ? "todo" : "done";
+    });
+    document.querySelector("[data-apply-bulk-status]")?.addEventListener("click", () => {
+      applyBulkTaskStatus(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
+    });
+  }
+
+  async function applyBulkTaskStatus(visibleRows) {
+    const selectedRows = selectedVisibleTaskRows(visibleRows);
+    if (!selectedRows.length) return;
+    const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    selectedRows.forEach((entry) => {
+      const key = taskOverrideKey(entry);
+      const current = currentTaskOverride(entry);
+      const next = {
+        ...current,
+        ...taskStatusPatch(entry, bulkTaskStatusValue),
+        updatedAt: isoNow()
+      };
+      if (next.recurrence !== "custom") next.recurringText = "";
+      nextOverrides[key] = next;
+    });
+    const changedCount = selectedRows.length;
+    selectedTaskKeys.clear();
+    await saveTimePayload({
+      ...timePayload,
+      taskOverrides: nextOverrides
+    });
+    setTrackerStatus(`Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`, "saved");
+  }
+
   function autosizeTaskNameInput(control) {
     if (!control) return;
     control.style.height = "auto";
@@ -3829,9 +4080,13 @@
     const customSummary = customText || recurrenceLabel("custom", customText);
     const order = orderOptionValue(entry.taskOrder);
     const dueDateValue = dateInputValue(entry.dueDate);
+    const dueTimeValue = timeInputValue(entry.dueTime);
     return `
       <div class="track-row">
         <div class="track-row-inner">
+          <div class="track-select-cell">
+            <input class="track-select-checkbox" type="checkbox" data-select-task-key="${escapeHtml(key)}" aria-label="Select ${escapeHtml(entry.taskName)}" />
+          </div>
           <div class="track-task-cell">
             <div class="track-name" title="${escapeHtml(entry.taskName)}">
               <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
@@ -3867,7 +4122,7 @@
                   </button>
                 </div>
               </div>
-              <input class="track-due-time-input" type="time" value="${escapeHtml(timeInputValue(entry.dueTime))}" data-due-time-key="${escapeHtml(key)}" aria-label="Due time for ${escapeHtml(entry.taskName)}" />
+              <input class="track-due-time-input${dueTimeValue ? "" : " is-empty"}" type="time" value="${escapeHtml(dueTimeValue)}" data-due-time-key="${escapeHtml(key)}" aria-label="Due time for ${escapeHtml(entry.taskName)}" />
             </div>
           </div>
           <div class="track-recurrence-cell">
@@ -3924,7 +4179,10 @@
         && matchesTaskSearch(entry, query);
     });
     const trackerList = document.getElementById("trackerTaskList");
-    trackerList.innerHTML = rows.length ? groupedActivities(rows).map(([group, entries]) => {
+    const groups = groupedActivities(rows);
+    const visibleRows = visibleTaskRowsForGroups(groups);
+    pruneSelectedTaskKeys(visibleRows);
+    trackerList.innerHTML = rows.length ? groups.map(([group, entries]) => {
       const collapsed = collapsedTrackGroups.has(group);
       return `
         <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(group)}">
@@ -3939,7 +4197,8 @@
     }).join("") : `<div class="track-empty">No tasks match the current filters.</div>`;
     if (rows.length) {
       trackerList.insertAdjacentHTML("afterbegin", `
-        <div class="track-list-header" aria-hidden="true">
+        <div class="track-list-header">
+          <div><input class="track-select-all-checkbox" type="checkbox" data-select-all-visible aria-label="Select all visible tasks" /></div>
           <div>Task</div>
           <div>Order</div>
           <div>Status</div>
@@ -3954,6 +4213,23 @@
         </div>
       `);
     }
+    document.querySelector("[data-select-all-visible]")?.addEventListener("change", (event) => {
+      const checked = event.target.checked;
+      visibleRows.forEach((entry) => {
+        const key = taskOverrideKey(entry);
+        if (checked) selectedTaskKeys.add(key);
+        else selectedTaskKeys.delete(key);
+      });
+      syncTaskSelectionUi(visibleRows);
+    });
+    document.querySelectorAll("[data-select-task-key]").forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        if (checkbox.checked) selectedTaskKeys.add(checkbox.dataset.selectTaskKey);
+        else selectedTaskKeys.delete(checkbox.dataset.selectTaskKey);
+        syncTaskSelectionUi(visibleRows);
+      });
+    });
+    syncTaskSelectionUi(visibleRows);
     document.querySelectorAll(".track-group-header").forEach((button) => {
       button.addEventListener("click", () => {
         const group = button.closest(".track-group")?.dataset.trackGroup;
@@ -3973,6 +4249,7 @@
     });
     document.querySelectorAll("[data-due-time-key]").forEach((input) => {
       input.addEventListener("change", () => {
+        input.classList.toggle("is-empty", !input.value);
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueTimeKey);
         if (!entry) return;
         saveTaskOverride(entry, { dueTime: timeInputValue(input.value) }).catch((error) => setTrackerStatus(error.message, "error"));
@@ -5117,6 +5394,7 @@
     const categoryFilter = document.getElementById("categoryFilter");
     const typeFilter = document.getElementById("typeFilter");
     const weekFilter = document.getElementById("weekFilter");
+    const dateFilter = document.getElementById("dateFilter");
     const searchInput = document.getElementById("searchInput");
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
@@ -5124,6 +5402,9 @@
     categoryFilter.innerHTML = metadataFilterOptionsHtml(entries, "taskCategory", "All categories", categoryFilter.value || "");
     typeFilter.innerHTML = metadataFilterOptionsHtml(entries, "taskType", "All types", typeFilter.value || "");
     weekFilter.innerHTML = `<option value="">All weeks</option>${metrics.weeks.map((week) => `<option value="${escapeHtml(week)}">${escapeHtml(week)}</option>`).join("")}`;
+    const dates = Array.from(new Set(entries.map((entry) => entry.date).filter(Boolean))).sort();
+    dateFilter.min = dates[0] || "";
+    dateFilter.max = dates[dates.length - 1] || "";
     document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}<th class="actions-column">Actions</th></tr>`;
 
     const updateTable = () => {
@@ -5133,6 +5414,7 @@
       const category = categoryFilter.value;
       const type = typeFilter.value;
       const week = weekFilter.value;
+      const date = dateFilter.value;
       const filtered = entries
         .filter((entry) => {
           if (listId && entry.listId !== listId) return false;
@@ -5140,6 +5422,7 @@
           if (category && entry.taskCategory !== category) return false;
           if (type && entry.taskType !== type) return false;
           if (week && entry.week !== week) return false;
+          if (date && entry.date !== date) return false;
           if (query && !entry.searchText.includes(query)) return false;
           return true;
         })
@@ -5179,7 +5462,7 @@
       });
     };
 
-    [searchInput, listFilter, priorityFilter, categoryFilter, typeFilter, weekFilter].forEach((control) => control.addEventListener("input", updateTable));
+    [searchInput, listFilter, priorityFilter, categoryFilter, typeFilter, weekFilter, dateFilter].forEach((control) => control.addEventListener("input", updateTable));
     updateTable();
   }
 
