@@ -1813,7 +1813,7 @@
                 <label for="dueStatusFilter">Due filter</label>
                 <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                   <option value="all">All tasks</option>
-                  <option value="none">No due date</option>
+                  <option value="none">Due date not set</option>
                   <option value="set">Due date set</option>
                   <option value="today">Due today</option>
                   <option value="tomorrow">Due tomorrow</option>
@@ -3309,7 +3309,7 @@
     const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
     const labels = {
       all: `All tasks (${rows.length})`,
-      none: `No due date (${noneCount})`,
+      none: `Due date not set (${noneCount})`,
       set: `Due date set (${setCount})`,
       today: `Due today (${todayCount})`,
       tomorrow: `Due tomorrow (${tomorrowCount})`,
