@@ -823,7 +823,7 @@
 
   .tracker-filter-bar {
     display: grid;
-    grid-template-columns: minmax(180px, 260px) max-content;
+    grid-template-columns: minmax(180px, 260px) minmax(220px, 1fr) max-content;
     gap: 8px;
     align-items: end;
   }
@@ -848,7 +848,7 @@
   .track-list-header,
   .track-row {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(150px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
+    grid-template-columns: minmax(260px, 1fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(170px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
     gap: 10px;
     align-items: center;
   }
@@ -1045,6 +1045,12 @@
     min-width: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+
+  .date-picker-control input[type="date"]::-webkit-calendar-picker-indicator {
+    width: 0;
+    margin: 0;
+    opacity: 0;
   }
 
   .date-picker-button {
@@ -1505,6 +1511,10 @@
                   <option value="overdue">Overdue</option>
                   <option value="today-overdue">Due today or overdue</option>
                 </select>
+              </div>
+              <div class="tracker-field">
+                <label for="taskSearchInput">Task search</label>
+                <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
               </div>
               <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-20</button>
             </div>
@@ -2680,6 +2690,30 @@
     return true;
   }
 
+  function trackerSearchText(entry) {
+    return [
+      entry.taskName,
+      entry.listName || listNameForId(entry.listId),
+      entry.department,
+      entry.priority,
+      entry.section,
+      entry.taskCategory,
+      entry.taskType,
+      entry.dueDate,
+      entry.dueDateText,
+      entry.startDate,
+      entry.startDateText,
+      entry.recurringText,
+      entry.notes,
+      entry.searchText
+    ].filter(Boolean).join(" ").toLowerCase();
+  }
+
+  function matchesTaskSearch(entry, query) {
+    if (!query) return true;
+    return trackerSearchText(entry).includes(query);
+  }
+
   function updateDueStatusFilterOptions(rows) {
     const select = document.getElementById("dueStatusFilter");
     if (!select) return;
@@ -2818,9 +2852,11 @@
   function renderActivityRows() {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
+    const taskSearch = document.getElementById("taskSearchInput");
+    const query = taskSearch?.value.trim().toLowerCase() || "";
     const allRows = trackerActivities();
     updateDueStatusFilterOptions(allRows);
-    const rows = allRows.filter((entry) => matchesDueStatusFilter(entry, dueFilter?.value || "all"));
+    const rows = allRows.filter((entry) => matchesDueStatusFilter(entry, dueFilter?.value || "all") && matchesTaskSearch(entry, query));
     const trackerList = document.getElementById("trackerTaskList");
     trackerList.innerHTML = rows.length ? groupedActivities(rows).map(([group, entries]) => {
       const collapsed = collapsedTrackGroups.has(group);
@@ -2834,7 +2870,7 @@
           ${entries.map((entry) => activityRowHtml(entry, active)).join("")}
         </section>
       `;
-    }).join("") : `<div class="track-empty">No tasks match this due filter.</div>`;
+    }).join("") : `<div class="track-empty">No tasks match the current filters.</div>`;
     if (rows.length) {
       trackerList.insertAdjacentHTML("afterbegin", `
         <div class="track-list-header" aria-hidden="true">
@@ -2926,6 +2962,8 @@
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
     if (dueFilter) dueFilter.oninput = renderActivityRows;
+    const taskSearch = document.getElementById("taskSearchInput");
+    if (taskSearch) taskSearch.oninput = renderActivityRows;
     const orderSort = document.getElementById("orderSortBtn");
     if (orderSort) {
       updateOrderSortButton();
