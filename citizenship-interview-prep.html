@@ -302,6 +302,9 @@
     font-size: 0.85rem;
     font-weight: 700;
   }
+  .status-save-note.saving { color: var(--muted); }
+  .status-save-note.error,
+  .status-save-note.offline { color: #b91c1c; }
   .status-save-note.open { display: block; }
   .reset-btn {
     margin-left: auto;
@@ -2234,6 +2237,11 @@
   }
 
   const STORAGE_KEY = "citizenship-prep-progress-v2";
+  const QUESTION_PROGRESS_API = (
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1" ||
+    location.hostname === "::1"
+  ) ? "http://127.0.0.1:8016/api/citizenship/question-progress" : "/api/citizenship/question-progress";
   const LEARNING_ORDER_KEY = "citizenship-prep-learning-order-v1";
   const PACE_COLLAPSED_KEY = "citizenship-prep-pace-collapsed-v1";
   const STAT_COLLAPSE_CONFIG = [
@@ -2545,6 +2553,38 @@
   const statusSaveNoteEl = document.getElementById("status-save-note");
   const printMarkedBtn = document.getElementById("print-marked-btn");
   const resetBtn = document.getElementById("reset-btn");
+  let questionProgressSyncAvailable = false;
+
+  function cleanQuestionProgressMap(value) {
+    const cleaned = {};
+    if (!value || typeof value !== "object") return cleaned;
+    Object.entries(value).forEach(([key, status]) => {
+      const idx = parseInt(key, 10);
+      if (Number.isFinite(idx) && idx >= 0 && idx < QUESTIONS.length && STATUSES.includes(status) && status !== "auto") {
+        cleaned[String(idx)] = status;
+      }
+    });
+    return cleaned;
+  }
+
+  function applyQuestionProgressPayload(payload) {
+    const serverProgress = cleanQuestionProgressMap(payload && payload.progress);
+    progress = serverProgress;
+    saveProgress(progress);
+    questionProgressSyncAvailable = true;
+  }
+
+  async function loadQuestionProgressFromServer() {
+    try {
+      const res = await fetch(QUESTION_PROGRESS_API, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      applyQuestionProgressPayload(await res.json());
+      return true;
+    } catch (e) {
+      questionProgressSyncAvailable = false;
+      return false;
+    }
+  }
 
   function getStoredStatus(idx) {
     const stored = progress[idx];
@@ -2606,6 +2646,22 @@
     saveProgress(progress);
     if (options.render !== false) render();
   }
+  async function saveQuestionStatusToServer(idx, status) {
+    const url = `${QUESTION_PROGRESS_API}/${encodeURIComponent(idx)}`;
+    const options = status === "auto"
+      ? { method: "DELETE" }
+      : {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status })
+        };
+    const res = await fetch(url, options);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const result = await res.json();
+    if (!result || result.ok !== true) throw new Error("Save failed");
+    applyQuestionProgressPayload(result.payload);
+    return result;
+  }
   function setActiveQuestionFilter(filter) {
     activeFilter = filter;
     filterGroupEl.querySelectorAll("[data-filter]").forEach(btn => {
@@ -2613,13 +2669,11 @@
     });
     render();
   }
-  function showStatusSaved(idx) {
+  function showStatusMessage(idx, text, cls = "saved") {
     const card = listEl.querySelector(`[data-question-idx="${idx}"]`);
-    const status = getStatus(idx);
-    const source = getStoredStatus(idx) === "auto" ? "自动" : "手动";
     if (statusSaveNoteEl) {
-      statusSaveNoteEl.textContent = `已保存 Q${idx + 1}: ${STATUS_LABELS[status]} (${source})`;
-      statusSaveNoteEl.classList.add("open");
+      statusSaveNoteEl.textContent = text;
+      statusSaveNoteEl.className = `status-save-note open ${cls}`;
       window.clearTimeout(showStatusSaved.timer);
       showStatusSaved.timer = window.setTimeout(() => {
         statusSaveNoteEl.classList.remove("open");
@@ -2630,6 +2684,11 @@
       card.classList.add("status-saved-highlight");
       window.setTimeout(() => card.classList.remove("status-saved-highlight"), 1200);
     }
+  }
+  function showStatusSaved(idx, cls = "saved") {
+    const status = getStatus(idx);
+    const source = getStoredStatus(idx) === "auto" ? "自动" : "手动";
+    showStatusMessage(idx, `已保存 Q${idx + 1}: ${STATUS_LABELS[status]} (${source})`, cls);
   }
   function questionMatchesFilter(idx, filter) {
     if (filter === "all") return true;
@@ -3447,20 +3506,36 @@
     if (document.hidden) stopAllAudio();
   });
 
-  listEl.addEventListener("click", (e) => {
+  listEl.addEventListener("click", async (e) => {
     const btn = e.target.closest(".status-btn");
     if (!btn || !listEl.contains(btn)) return;
     e.preventDefault();
     e.stopPropagation();
     const idx = parseInt(btn.dataset.idx, 10);
     if (!Number.isFinite(idx)) return;
-    setStatus(idx, btn.dataset.status, { render: false });
-    if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
-      setActiveQuestionFilter(getStatus(idx));
-    } else {
-      render();
+    const status = btn.dataset.status;
+    btn.disabled = true;
+    showStatusMessage(idx, `保存中 Q${idx + 1}: ${STATUS_LABELS[status]}`, "saving");
+    try {
+      await saveQuestionStatusToServer(idx, status);
+      if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
+        setActiveQuestionFilter(getStatus(idx));
+      } else {
+        render();
+      }
+      showStatusSaved(idx);
+      return;
+    } catch (err) {
+      questionProgressSyncAvailable = false;
+      setStatus(idx, status, { render: false });
+      if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
+        setActiveQuestionFilter(getStatus(idx));
+      } else {
+        render();
+      }
+      showStatusMessage(idx, `离线保存到本机 Q${idx + 1}: ${STATUS_LABELS[getStatus(idx)]}`, "offline");
+      return;
     }
-    showStatusSaved(idx);
   });
 
   function escapeHtml(s) {
@@ -3735,7 +3810,10 @@
       vocabSyncAvailable = true;
       const changed = applyVocabularyPayload(payload);
       setVocabSyncStatus("服务器同步", "saved");
-      if (changed) renderFrequency();
+      if (changed) {
+        render();
+        renderFrequency();
+      }
     } catch (e) {
       vocabSyncAvailable = false;
       setVocabSyncStatus("仅本地", "");
@@ -5246,10 +5324,14 @@
 
   initStatPanelCollapse();
   initPaceCollapse();
-  render();
-  renderFrequency();
-  loadSharedVocabularyOverrides();
-  window.setTimeout(primeYouTubeAudioPlayer, 400);
+  async function initializePage() {
+    await loadQuestionProgressFromServer();
+    render();
+    renderFrequency();
+    loadSharedVocabularyOverrides();
+    window.setTimeout(primeYouTubeAudioPlayer, 400);
+  }
+  initializePage();
 </script>
 </body>
 </html>

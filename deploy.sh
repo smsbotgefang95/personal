@@ -69,6 +69,9 @@ fi
 if [ ! -f "$DATA_DIR/time-entries.json" ]; then
     printf '{\n  "entries": [],\n  "activeEntry": null,\n  "updatedAt": null\n}\n' > "$DATA_DIR/time-entries.json"
 fi
+if [ ! -f "$DATA_DIR/question-progress.json" ]; then
+    printf '{\n  "progress": {},\n  "updatedAt": null\n}\n' > "$DATA_DIR/question-progress.json"
+fi
 
 if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then
     VOCAB_ADMIN_KEY=$(python3 - <<'PY'
@@ -88,6 +91,7 @@ LIFE_EVENTS_PUBLIC_PATH=$WEB_ROOT/data/life-events.json
 LIFE_EVENTS_ADMIN_KEY=$VOCAB_ADMIN_KEY
 TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
 TIME_ENTRIES_ADMIN_KEY=$VOCAB_ADMIN_KEY
+QUESTION_PROGRESS_DATA_PATH=$DATA_DIR/question-progress.json
 VOCAB_GIT_SYNC=1
 GIT_SSH_COMMAND="ssh -i $KEY_FILE -o IdentitiesOnly=yes"
 EOF
@@ -112,6 +116,13 @@ TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
 TIME_ENTRIES_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
 EOF
     echo "Added Time Tracking API settings to $DATA_DIR/vocabulary-api.env"
+fi
+
+if ! grep -q '^QUESTION_PROGRESS_DATA_PATH=' "$DATA_DIR/vocabulary-api.env"; then
+    cat >> "$DATA_DIR/vocabulary-api.env" <<EOF
+QUESTION_PROGRESS_DATA_PATH=$DATA_DIR/question-progress.json
+EOF
+    echo "Added Citizenship Question Progress API settings to $DATA_DIR/vocabulary-api.env"
 fi
 
 # 5. Apply standard directory permissions
@@ -175,6 +186,15 @@ server {
     }
 
     location = /api/time-entries {
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location ^~ /api/citizenship/question-progress {
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;
         proxy_set_header Host \$host;

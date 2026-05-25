@@ -13,6 +13,8 @@ from pathlib import Path
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "updatedAt": None}
+DEFAULT_QUESTION_PROGRESS_PAYLOAD = {"progress": {}, "updatedAt": None}
+QUESTION_STATUSES = {"tolearn", "learning", "review", "learned"}
 
 
 def env_path(name, default):
@@ -33,6 +35,7 @@ LIFE_EVENTS_REPO_DATA_PATH = REPO_DIR / "data" / "life-events.json"
 LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
+QUESTION_PROGRESS_DATA_PATH = env_path("QUESTION_PROGRESS_DATA_PATH", "~/personal-data/question-progress.json")
 
 
 def clean_map(value):
@@ -297,6 +300,43 @@ def load_time_entries_payload():
     return clean_time_entries_payload(payload)
 
 
+def clean_question_index(value):
+    try:
+        idx = int(value)
+    except (TypeError, ValueError):
+        return None
+    if 0 <= idx <= 999:
+        return str(idx)
+    return None
+
+
+def clean_question_progress_payload(value):
+    if not isinstance(value, dict):
+        value = {}
+    incoming = value.get("progress", value)
+    if not isinstance(incoming, dict):
+        incoming = {}
+    progress = {}
+    for key, status in incoming.items():
+        idx = clean_question_index(key)
+        if idx is None or status not in QUESTION_STATUSES:
+            continue
+        progress[idx] = status
+    return {
+        "progress": progress,
+        "updatedAt": value.get("updatedAt"),
+    }
+
+
+def load_question_progress_payload():
+    try:
+        with QUESTION_PROGRESS_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        payload = DEFAULT_QUESTION_PROGRESS_PAYLOAD.copy()
+    return clean_question_progress_payload(payload)
+
+
 def atomic_write(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
@@ -393,6 +433,11 @@ def write_time_entries(payload):
     return {"status": "stored"}
 
 
+def write_question_progress(payload):
+    atomic_write(QUESTION_PROGRESS_DATA_PATH, payload)
+    return {"status": "stored"}
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "VocabularyAPI/1.0"
 
@@ -402,8 +447,19 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key")
         self.end_headers()
         self.wfile.write(body)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key")
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
@@ -416,10 +472,56 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/life-events":
             self.send_json(200, load_life_events_payload())
             return
+        if path == "/api/citizenship/question-progress":
+            self.send_json(200, load_question_progress_payload())
+            return
         if path != "/api/vocabulary-overrides":
             self.send_error(404)
             return
         self.send_json(200, load_payload())
+
+    def do_PUT(self):
+        path = self.path.split("?", 1)[0]
+        prefix = "/api/citizenship/question-progress/"
+        if not path.startswith(prefix):
+            self.send_error(404)
+            return
+        idx = clean_question_index(path.removeprefix(prefix))
+        if idx is None:
+            self.send_json(400, {"ok": False, "error": "invalid_question_index"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            raw = self.rfile.read(min(length, 1024 * 16))
+            incoming = json.loads(raw.decode("utf-8")) if raw else {}
+        except (ValueError, json.JSONDecodeError):
+            self.send_json(400, {"ok": False, "error": "invalid_json"})
+            return
+        status = incoming.get("status")
+        if status not in QUESTION_STATUSES:
+            self.send_json(400, {"ok": False, "error": "invalid_status"})
+            return
+        payload = load_question_progress_payload()
+        payload["progress"][idx] = status
+        payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        write_result = write_question_progress(payload)
+        self.send_json(200, {"ok": True, "payload": payload, "result": write_result})
+
+    def do_DELETE(self):
+        path = self.path.split("?", 1)[0]
+        prefix = "/api/citizenship/question-progress/"
+        if not path.startswith(prefix):
+            self.send_error(404)
+            return
+        idx = clean_question_index(path.removeprefix(prefix))
+        if idx is None:
+            self.send_json(400, {"ok": False, "error": "invalid_question_index"})
+            return
+        payload = load_question_progress_payload()
+        payload["progress"].pop(idx, None)
+        payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        write_result = write_question_progress(payload)
+        self.send_json(200, {"ok": True, "payload": payload, "result": write_result})
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
@@ -492,6 +594,9 @@ def main():
     TIME_ENTRIES_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not TIME_ENTRIES_DATA_PATH.exists():
         write_time_entries(DEFAULT_TIME_ENTRIES_PAYLOAD.copy())
+    QUESTION_PROGRESS_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not QUESTION_PROGRESS_DATA_PATH.exists():
+        write_question_progress(DEFAULT_QUESTION_PROGRESS_PAYLOAD.copy())
     server = ThreadingHTTPServer((host, port), Handler)
     print(f"Vocabulary API listening on http://{host}:{port}", flush=True)
     server.serve_forever()
