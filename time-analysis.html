@@ -3859,7 +3859,7 @@
   }
 
   function shouldGroupActivitiesByDueDate(filter) {
-    return ["all", "overdue", "today", "tomorrow", "set", "none"].includes(filter);
+    return filter === "all";
   }
 
   function groupedActivitiesByDueDate(rows) {
