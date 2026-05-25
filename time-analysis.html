@@ -1274,6 +1274,7 @@
   .track-due-time-input,
   .track-recurrence-select {
     width: 100%;
+    height: 42px;
     min-height: 42px;
     border: 1px solid #374151;
     border-radius: 7px;
@@ -1282,6 +1283,7 @@
     color: #f9fafb;
     font: inherit;
     font-size: 0.88rem;
+    box-sizing: border-box;
   }
 
   .track-due-time-input.is-empty:not(:focus)::-webkit-datetime-edit,
@@ -1401,10 +1403,11 @@
     gap: 8px;
     min-width: 0;
     max-width: 100%;
+    height: 42px;
     min-height: 42px;
     border: 1px solid #374151;
     border-radius: 8px;
-    padding: 6px 8px;
+    padding: 5px 8px;
     background: #020617;
     box-sizing: border-box;
     overflow: hidden;
@@ -1428,14 +1431,16 @@
 
   .custom-recurrence-edit {
     flex: 0 0 auto;
+    height: 30px;
     border: 1px solid #374151;
     border-radius: 7px;
-    padding: 6px 9px;
+    padding: 0 9px;
     background: #111827;
     color: #f9fafb;
     font: inherit;
     font-size: 0.76rem;
     font-weight: 850;
+    line-height: 1;
     cursor: pointer;
   }
 
