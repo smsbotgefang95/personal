@@ -846,8 +846,7 @@
     background: #030712;
   }
 
-  .track-list-header,
-  .track-row {
+  .track-list-header {
     display: grid;
     grid-template-columns: minmax(430px, 1.35fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(170px, 0.34fr) minmax(118px, 0.22fr) minmax(86px, auto) 46px;
     gap: 10px;
@@ -871,14 +870,28 @@
 
   .track-row {
     position: relative;
-    min-height: 58px;
-    padding: 9px 10px;
+    display: grid;
+    gap: 3px;
+    min-height: 68px;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--border);
   }
 
-  .track-row > :first-child {
+  .track-primary-row {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.56fr) minmax(520px, 1fr);
+    gap: 8px;
+    align-items: center;
     min-width: 0;
     overflow: hidden;
+  }
+
+  .track-controls-row {
+    display: grid;
+    grid-template-columns: minmax(68px, 0.16fr) minmax(82px, 0.2fr) minmax(170px, 0.42fr) minmax(0, 0.3fr) minmax(86px, auto) 46px;
+    gap: 8px;
+    align-items: center;
+    min-width: 0;
   }
 
   .track-row:last-child { border-bottom: 0; }
@@ -978,9 +991,8 @@
 
   .track-meta {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 5px;
-    margin-top: 4px;
+    grid-template-columns: minmax(130px, 0.85fr) minmax(150px, 1fr) minmax(132px, 0.95fr) minmax(96px, 0.7fr);
+    gap: 4px;
     min-width: 0;
   }
 
@@ -1014,6 +1026,14 @@
     font-size: 0.92rem;
     font-weight: 850;
     white-space: nowrap;
+  }
+
+  .track-order-cell,
+  .track-status-cell,
+  .track-due-cell,
+  .track-recurrence-cell,
+  .track-time {
+    min-width: 0;
   }
 
   .track-order-select {
@@ -1139,7 +1159,9 @@
     position: relative;
     display: grid;
     gap: 6px;
+    width: 100%;
     min-width: 0;
+    max-width: 100%;
   }
 
   .track-recurrence-control > .track-recurrence-custom {
@@ -1164,11 +1186,14 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    min-width: 0;
+    max-width: 100%;
     margin-top: 8px;
     border: 1px solid #374151;
     border-radius: 8px;
     padding: 8px;
     background: #020617;
+    box-sizing: border-box;
   }
 
   .custom-recurrence-summary[hidden] {
@@ -1176,6 +1201,8 @@
   }
 
   .custom-recurrence-text {
+    display: block;
+    flex: 1 1 auto;
     min-width: 0;
     color: #d1d5db;
     font-size: 0.78rem;
@@ -1552,11 +1579,32 @@
       display: none;
     }
     .track-row {
-      grid-template-columns: minmax(0, 1fr) 46px;
       min-height: 62px;
     }
+    .track-primary-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 3px;
+    }
+    .track-meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .track-controls-row {
+      grid-template-columns: minmax(62px, 0.18fr) minmax(82px, 0.24fr) minmax(150px, 0.45fr) minmax(0, 0.34fr) minmax(72px, auto) 46px;
+      gap: 7px;
+    }
+    .track-recurrence-control > .track-recurrence-custom {
+      left: 0;
+      right: auto;
+      width: min(330px, calc(100vw - 52px));
+    }
+  }
+
+  @media (max-width: 720px) {
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
+    }
+    .track-controls-row {
+      grid-template-columns: minmax(0, 1fr) 46px;
     }
     .track-order-cell,
     .track-status-cell,
@@ -1564,7 +1612,6 @@
     .track-recurrence-cell,
     .track-time {
       grid-column: 1 / 2;
-      align-self: start;
     }
     .track-order-cell::before,
     .track-status-cell::before,
@@ -1582,10 +1629,9 @@
     .track-status-cell::before { content: "Status"; }
     .track-due-cell::before { content: "Due date"; }
     .track-recurrence-cell::before { content: "Recurrence"; }
-    .track-recurrence-control > .track-recurrence-custom {
-      left: 0;
-      right: auto;
-      width: min(330px, calc(100vw - 52px));
+    .track-controls-row > .track-button {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
     }
   }
 
@@ -1641,8 +1687,15 @@
       display: none;
     }
     .track-row {
-      grid-template-columns: minmax(0, 1fr) 46px;
+      grid-template-columns: minmax(0, 1fr);
       min-height: 62px;
+    }
+    .track-primary-row,
+    .track-controls-row {
+      grid-template-columns: minmax(0, 1fr) 46px;
+    }
+    .track-primary-row {
+      align-items: start;
     }
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
@@ -1653,6 +1706,11 @@
     .track-recurrence-cell,
     .track-time {
       grid-column: 1 / 2;
+      align-self: start;
+    }
+    .track-controls-row > .track-button {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
       align-self: start;
     }
     .track-order-cell::before,
@@ -3314,55 +3372,57 @@
     const order = orderOptionValue(entry.taskOrder);
     return `
       <div class="track-row">
-        <div>
+        <div class="track-primary-row">
           <div class="track-name" title="${escapeHtml(entry.taskName)}">
             <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
             ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
           </div>
           <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
         </div>
-        <div class="track-order-cell">
-          <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
-            ${orderOptionsHtml(order)}
-          </select>
-        </div>
-        <div class="track-status-cell">
-          ${isRunning
-            ? `<span class="track-status running">DOING</span>`
-            : `<select class="track-status-select" data-status-key="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(entry.taskName)}">
-                <option value="todo"${isDone ? "" : " selected"}>TO DO</option>
-                <option value="done"${isDone ? " selected" : ""}>DONE</option>
-              </select>`}
-        </div>
-        <div class="track-due-cell">
-          <div class="date-picker-control">
-            <input class="track-date-input" type="date" value="${escapeHtml(dateInputValue(entry.dueDate))}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
-            <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M8 2v4"></path>
-                <path d="M16 2v4"></path>
-                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                <path d="M3 10h18"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div class="track-recurrence-cell">
-          <div class="track-recurrence-control">
-            <select class="track-recurrence-select" data-recurrence-key="${escapeHtml(key)}" aria-label="Recurrence for ${escapeHtml(entry.taskName)}">
-              ${recurrenceOptionsHtml(recurrence)}
+        <div class="track-controls-row">
+          <div class="track-order-cell">
+            <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
+              ${orderOptionsHtml(order)}
             </select>
-            <div class="custom-recurrence-summary" data-recurrence-summary-key="${escapeHtml(key)}"${recurrence === "custom" && !customExpanded ? "" : " hidden"}>
-              <span class="custom-recurrence-text" title="${escapeHtml(customSummary)}">${escapeHtml(customSummary)}</span>
-              <button class="custom-recurrence-edit" type="button" data-recurrence-edit-key="${escapeHtml(key)}" aria-label="Edit custom recurrence for ${escapeHtml(entry.taskName)}">Edit</button>
-            </div>
-            <div class="track-recurrence-custom custom-recurrence" data-recurrence-custom-key="${escapeHtml(key)}" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" && customExpanded ? "" : " hidden"}>
-              ${customRecurrenceHtml(customText)}
+          </div>
+          <div class="track-status-cell">
+            ${isRunning
+              ? `<span class="track-status running">DOING</span>`
+              : `<select class="track-status-select" data-status-key="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(entry.taskName)}">
+                  <option value="todo"${isDone ? "" : " selected"}>TO DO</option>
+                  <option value="done"${isDone ? " selected" : ""}>DONE</option>
+                </select>`}
+          </div>
+          <div class="track-due-cell">
+            <div class="date-picker-control">
+              <input class="track-date-input" type="date" value="${escapeHtml(dateInputValue(entry.dueDate))}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
+              <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M8 2v4"></path>
+                  <path d="M16 2v4"></path>
+                  <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                  <path d="M3 10h18"></path>
+                </svg>
+              </button>
             </div>
           </div>
+          <div class="track-recurrence-cell">
+            <div class="track-recurrence-control">
+              <select class="track-recurrence-select" data-recurrence-key="${escapeHtml(key)}" aria-label="Recurrence for ${escapeHtml(entry.taskName)}">
+                ${recurrenceOptionsHtml(recurrence)}
+              </select>
+              <div class="custom-recurrence-summary" data-recurrence-summary-key="${escapeHtml(key)}"${recurrence === "custom" && !customExpanded ? "" : " hidden"}>
+                <span class="custom-recurrence-text" title="${escapeHtml(customSummary)}">${escapeHtml(customSummary)}</span>
+                <button class="custom-recurrence-edit" type="button" data-recurrence-edit-key="${escapeHtml(key)}" aria-label="Edit custom recurrence for ${escapeHtml(entry.taskName)}">Edit</button>
+              </div>
+              <div class="track-recurrence-custom custom-recurrence" data-recurrence-custom-key="${escapeHtml(key)}" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" && customExpanded ? "" : " hidden"}>
+                ${customRecurrenceHtml(customText)}
+              </div>
+            </div>
+          </div>
+          <div class="track-time">${escapeHtml(timeText)}</div>
+          <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
         </div>
-        <div class="track-time">${escapeHtml(timeText)}</div>
-        <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
       </div>
     `;
   }
