@@ -833,7 +833,7 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
+    grid-template-columns: max-content minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
     gap: 8px;
     align-items: end;
     overflow-x: auto;
@@ -847,6 +847,17 @@
   .tracker-search-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .due-filter-field {
+    justify-self: start;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  #dueStatusFilter {
+    width: var(--due-status-filter-width, auto);
+    min-width: 0;
   }
 
   .tracker-filter-bar label {
@@ -1778,7 +1789,7 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: minmax(340px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
+      grid-template-columns: max-content minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
     }
     .quick-chip {
       min-height: 48px;
@@ -1879,7 +1890,7 @@
             </div>
             <div class="tracker-filter-bar">
               <div class="tracker-filter-controls">
-                <div class="tracker-field">
+                <div class="tracker-field due-filter-field">
                   <label for="dueStatusFilter">Due</label>
                   <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                     <option value="all">All</option>
@@ -3573,6 +3584,18 @@
       option.textContent = labels[option.value] || option.textContent;
     });
     select.value = current;
+    syncDueStatusFilterWidth(select);
+  }
+
+  function syncDueStatusFilterWidth(select) {
+    if (!select) return;
+    const style = window.getComputedStyle(select);
+    const canvas = syncDueStatusFilterWidth.canvas || (syncDueStatusFilterWidth.canvas = document.createElement("canvas"));
+    const context = canvas.getContext("2d");
+    context.font = style.font;
+    const longestOption = Array.from(select.options).reduce((width, option) => Math.max(width, context.measureText(option.textContent || "").width), 0);
+    const chromeWidth = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth) + 30;
+    select.style.setProperty("--due-status-filter-width", `${Math.ceil(longestOption + chromeWidth)}px`);
   }
 
   function orderOptionValue(value) {
