@@ -897,6 +897,14 @@
           <option value="medium">中句 5-7 words</option>
           <option value="long">长句 8+ words</option>
         </select>
+        <select class="vocabulary-filter" id="phraseStatusFilter" aria-label="Filter sentences by learning status">
+          <option value="all">所有学习状态</option>
+          <option value="auto">自动</option>
+          <option value="to-learn">待学</option>
+          <option value="learning">学习中</option>
+          <option value="review">复习</option>
+          <option value="learned">已学会</option>
+        </select>
         <div class="phrase-summary" id="phraseSummary">0 sentences</div>
       </div>
       <div class="phrase-list" id="phraseList"></div>
@@ -1036,6 +1044,7 @@
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
+  const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
   const STORAGE_VOCAB_WORD_MATCH_FILTER_KEY = "learningEnglishVocabularyWordMatchFilter";
   const STORAGE_VOCAB_PHRASE_FILTER_KEY = "learningEnglishVocabularyPhraseStatusFilter";
@@ -6158,6 +6167,7 @@ pass=通过；传递
 
   let selectedView = loadSelectedView();
   let selectedScenario = loadSelectedScenario();
+  let selectedPhraseStatus = loadSelectedPhraseStatus();
   let selectedDialogueScenario = loadSelectedDialogueScenario();
   let selectedDialogueStatus = loadSelectedDialogueStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
@@ -6256,6 +6266,21 @@ pass=通过；传递
     } catch (error) {
       return "all";
     }
+  }
+
+  function loadSelectedPhraseStatus() {
+    try {
+      const saved = localStorage.getItem(STORAGE_PHRASE_STATUS_FILTER_KEY);
+      return ["all", "auto", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedPhraseStatus() {
+    try {
+      localStorage.setItem(STORAGE_PHRASE_STATUS_FILTER_KEY, selectedPhraseStatus);
+    } catch (error) {}
   }
 
   function loadSelectedDialogueScenario() {
@@ -6593,8 +6618,10 @@ pass=通过；传递
     const phraseSummary = document.getElementById(view.summaryId);
     if (!container || !phraseSearch || !phraseSummary) return;
     const phraseLengthFilter = document.getElementById("phraseLengthFilter");
+    const phraseStatusFilter = document.getElementById("phraseStatusFilter");
     const search = phraseSearch.value.trim().toLowerCase();
     const lengthFilter = phraseLengthFilter?.value || "all";
+    const statusFilter = selectedPhraseStatus;
     const matchesSearch = (phrase) => {
       if (!search) return true;
       const scenario = SCENARIOS.find((item) => item.id === phrase.scenario);
@@ -6615,8 +6642,11 @@ pass=通过；传递
       if (lengthFilter === "long") return wordCount >= 8;
       return true;
     };
+    const matchesStatus = (phrase) => statusFilter === "all" || (statuses[phrase.id] || "auto") === statusFilter;
     const scenarioPhrases = selectedScenario === "all" ? PHRASES : PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
-    const phrases = scenarioPhrases.filter((phrase) => matchesSearch(phrase) && matchesLength(phrase));
+    const phrases = scenarioPhrases.filter((phrase) => matchesSearch(phrase) && matchesLength(phrase) && matchesStatus(phrase));
+
+    if (phraseStatusFilter) phraseStatusFilter.value = statusFilter;
 
     phraseSummary.textContent = `${phrases.length} of ${scenarioPhrases.length} sentences`;
 
@@ -7234,6 +7264,11 @@ pass=通过；传递
 
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
   document.getElementById("phraseLengthFilter").addEventListener("change", renderPhraseList);
+  document.getElementById("phraseStatusFilter").addEventListener("change", (event) => {
+    selectedPhraseStatus = event.target.value;
+    saveSelectedPhraseStatus();
+    renderPhraseList();
+  });
   document.getElementById("phraseTopicFilter").addEventListener("change", (event) => {
     selectedScenario = event.target.value;
     saveSelectedScenario();
