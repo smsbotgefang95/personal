@@ -1041,7 +1041,7 @@
 
   .track-meta {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    grid-template-columns: minmax(0, 250px) minmax(0, 250px) minmax(0, 180px) minmax(0, 180px) minmax(0, 140px);
     gap: 8px;
     min-width: 0;
   }
@@ -1064,8 +1064,8 @@
   }
 
   .track-meta-select-compact {
-    justify-self: start;
-    width: max-content;
+    justify-self: stretch;
+    width: 100%;
     max-width: 100%;
     padding-right: 34px;
   }
@@ -1798,12 +1798,6 @@
     .quick-chip {
       min-height: 48px;
       max-width: 78vw;
-    }
-    .track-meta-row {
-      grid-column: auto;
-    }
-    .track-meta {
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
     }
     .track-recurrence-control > .track-recurrence-custom {
       left: 0;
