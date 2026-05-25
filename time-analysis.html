@@ -2334,8 +2334,11 @@
     ["same", "Same due-date day"],
     ["first", "First day"],
     ["second", "Second day"],
+    ["eleventh", "11th day"],
+    ["twentyFirst", "21st day"],
     ["last", "Last day"]
   ];
+  const CUSTOM_MONTHLY_DAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_DAY_OPTIONS);
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
@@ -2540,6 +2543,8 @@
     const month = targetMonth.getMonth();
     if (monthlyDay === "first") return new Date(year, month, 1);
     if (monthlyDay === "second") return new Date(year, month, 2);
+    if (monthlyDay === "eleventh") return new Date(year, month, 11);
+    if (monthlyDay === "twentyFirst") return new Date(year, month, 21);
     return new Date(year, month + 1, 0);
   }
 
@@ -2600,8 +2605,13 @@
       const days = dayMatch[1].split(",").map((item) => item.trim()).filter((item) => CUSTOM_RECURRENCE_DAYS.some(([day]) => day === item));
       if (days.length) settings.days = days;
     }
-    const monthlyDayMatch = text.match(/\bon\s+(first|second|last)\s+day\b/i);
-    if (monthlyDayMatch) settings.monthlyDay = monthlyDayMatch[1].toLowerCase();
+    const monthlyDayMatch = text.match(/\bon\s+(first|second|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/i);
+    if (monthlyDayMatch) {
+      const monthlyDayText = monthlyDayMatch[1].toLowerCase();
+      if (monthlyDayText === "11th" || monthlyDayText === "11" || monthlyDayText === "eleventh") settings.monthlyDay = "eleventh";
+      else if (monthlyDayText === "21st" || monthlyDayText === "21" || monthlyDayText === "twenty-first" || monthlyDayText === "twenty first") settings.monthlyDay = "twentyFirst";
+      else settings.monthlyDay = monthlyDayText;
+    }
     const statusMatch = text.match(/status change:\s*([^;]+)/i);
     settings.statusTrigger = statusMatch ? statusMatch[1].trim().toLowerCase() : (text.includes("status change") ? "done" : "done");
     settings.recurForever = !/do not recur forever|stop recurring/i.test(text);
@@ -2615,7 +2625,7 @@
     const dayText = unit === "week" && settings.days?.length ? ` on ${settings.days.join(", ")}` : "";
     const monthlyDay = CUSTOM_MONTHLY_DAY_OPTIONS.some(([value]) => value === settings.monthlyDay) ? settings.monthlyDay : "same";
     const parts = [`Every ${every} ${unit}${every === 1 ? "" : "s"}${dayText}`];
-    if (unit === "month" && monthlyDay !== "same") parts.push(`on ${monthlyDay} day`);
+    if (unit === "month" && monthlyDay !== "same") parts.push(`on ${CUSTOM_MONTHLY_DAY_LABELS[monthlyDay].toLowerCase()}`);
     if (settings.statusTrigger && settings.statusTrigger !== "none") {
       parts.push(`on status change: ${settings.statusTrigger === "done" ? "Done" : settings.statusTrigger}`);
     }
