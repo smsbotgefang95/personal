@@ -2695,7 +2695,7 @@
   function questionMatchesFilter(idx, filter) {
     if (filter === "all") return true;
     if (filter === "auto") return getStoredStatus(idx) === "auto";
-    return getStatus(idx) === filter;
+    return getStoredStatus(idx) === filter;
   }
   function getPrintableMarkedQuestions() {
     const printableStatuses = new Set(["learned", "review", "learning"]);
