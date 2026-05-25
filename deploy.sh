@@ -70,7 +70,24 @@ if [ ! -f "$DATA_DIR/time-entries.json" ]; then
     printf '{\n  "entries": [],\n  "activeEntry": null,\n  "updatedAt": null\n}\n' > "$DATA_DIR/time-entries.json"
 fi
 if [ ! -f "$DATA_DIR/question-progress.json" ]; then
-    printf '{\n  "progress": {},\n  "updatedAt": null\n}\n' > "$DATA_DIR/question-progress.json"
+    cat > "$DATA_DIR/question-progress.json" <<'EOF'
+{
+  "progress": {
+    "1": "review",
+    "27": "learned",
+    "28": "learned",
+    "42": "review",
+    "50": "learning",
+    "68": "tolearn",
+    "69": "tolearn",
+    "91": "tolearn",
+    "92": "tolearn",
+    "93": "tolearn",
+    "99": "review"
+  },
+  "updatedAt": null
+}
+EOF
 fi
 
 if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then

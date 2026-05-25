@@ -13,7 +13,20 @@ from pathlib import Path
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "updatedAt": None}
-DEFAULT_QUESTION_PROGRESS_PAYLOAD = {"progress": {}, "updatedAt": None}
+DEFAULT_QUESTION_PROGRESS = {
+    "1": "review",
+    "27": "learned",
+    "28": "learned",
+    "42": "review",
+    "50": "learning",
+    "68": "tolearn",
+    "69": "tolearn",
+    "91": "tolearn",
+    "92": "tolearn",
+    "93": "tolearn",
+    "99": "review",
+}
+DEFAULT_QUESTION_PROGRESS_PAYLOAD = {"progress": DEFAULT_QUESTION_PROGRESS, "updatedAt": None}
 QUESTION_STATUSES = {"tolearn", "learning", "review", "learned"}
 
 
