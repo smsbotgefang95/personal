@@ -1131,9 +1131,30 @@
 
   .track-due-inputs {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(82px, 96px);
+    grid-template-columns: minmax(168px, 1fr) minmax(82px, 96px);
     gap: 6px;
     min-width: 0;
+  }
+
+  .track-due-date-stack {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .track-due-full-date {
+    min-height: 18px;
+    color: #e5e7eb;
+    font-size: 0.78rem;
+    font-weight: 850;
+    line-height: 1.15;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-due-full-date.empty {
+    color: var(--dim);
   }
 
   .date-picker-control {
@@ -2664,6 +2685,15 @@
     return local.toISOString().slice(0, 10);
   }
 
+  function fullDateLabel(value) {
+    const text = dateInputValue(value);
+    if (!text) return "";
+    const [year, month, day] = text.split("-").map((part) => Number(part));
+    const date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return "";
+    return date.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+  }
+
   function timeInputValue(value) {
     const text = String(value ?? "").trim();
     const match = text.match(/^(\d{1,2}):(\d{2})$/);
@@ -3812,6 +3842,8 @@
     const customExpanded = recurrence === "custom" && expandedCustomRecurrenceKeys.has(key);
     const customSummary = customText || recurrenceLabel("custom", customText);
     const order = orderOptionValue(entry.taskOrder);
+    const dueDateValue = dateInputValue(entry.dueDate);
+    const dueDateLabel = fullDateLabel(dueDateValue);
     return `
       <div class="track-row">
         <div class="track-row-inner">
@@ -3838,16 +3870,19 @@
           </div>
           <div class="track-due-cell">
             <div class="track-due-inputs">
-              <div class="date-picker-control">
-                <input class="track-date-input" type="date" value="${escapeHtml(dateInputValue(entry.dueDate))}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
-                <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M8 2v4"></path>
-                    <path d="M16 2v4"></path>
-                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                    <path d="M3 10h18"></path>
-                  </svg>
-                </button>
+              <div class="track-due-date-stack">
+                <span class="track-due-full-date${dueDateLabel ? "" : " empty"}">${escapeHtml(dueDateLabel || "No due date")}</span>
+                <div class="date-picker-control">
+                  <input class="track-date-input" type="date" value="${escapeHtml(dueDateValue)}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
+                  <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M8 2v4"></path>
+                      <path d="M16 2v4"></path>
+                      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <input class="track-due-time-input" type="time" value="${escapeHtml(timeInputValue(entry.dueTime))}" data-due-time-key="${escapeHtml(key)}" aria-label="Due time for ${escapeHtml(entry.taskName)}" />
             </div>
