@@ -2574,10 +2574,17 @@
     const stored = getStoredStatus(idx);
     return stored === "auto" ? getQuestionAutoStatus(idx) : stored;
   }
-  function setStatus(idx, status) {
+  function setStatus(idx, status, options = {}) {
     if (status === "auto") delete progress[idx];
     else progress[idx] = status;
     saveProgress(progress);
+    if (options.render !== false) render();
+  }
+  function setActiveQuestionFilter(filter) {
+    activeFilter = filter;
+    filterGroupEl.querySelectorAll("[data-filter]").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.filter === filter);
+    });
     render();
   }
   function questionMatchesFilter(idx, filter) {
@@ -2905,7 +2912,13 @@
       btn.addEventListener("click", () => {
         const idx = parseInt(btn.dataset.idx, 10);
         const s = btn.dataset.status;
-        setStatus(idx, getStoredStatus(idx) === s ? "auto" : s);
+        const nextStatus = getStoredStatus(idx) === s ? "auto" : s;
+        setStatus(idx, nextStatus, { render: false });
+        if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
+          setActiveQuestionFilter(getStatus(idx));
+        } else {
+          render();
+        }
       });
     });
     listEl.querySelectorAll("[data-learning-order]").forEach(input => {
@@ -5062,10 +5075,7 @@
   // Filters
   filterGroupEl.addEventListener("click", (e) => {
     if (e.target.classList.contains("filter-btn") && e.target.dataset.filter) {
-      filterGroupEl.querySelectorAll("[data-filter]").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      activeFilter = e.target.dataset.filter;
-      render();
+      setActiveQuestionFilter(e.target.dataset.filter);
     }
   });
   if (learningOrderBtn) {
