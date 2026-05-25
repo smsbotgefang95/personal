@@ -1896,16 +1896,25 @@
     right: 0;
     z-index: 2;
     min-width: 128px;
+    vertical-align: middle;
     background: var(--card);
     box-shadow: -1px 0 0 var(--border);
   }
 
+  .details-table tbody td {
+    vertical-align: middle;
+  }
+
   .row-actions {
     display: flex;
+    align-items: center;
     gap: 6px;
   }
 
   .row-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-height: 34px;
     border: 1px solid var(--border);
     border-radius: 7px;
@@ -1915,6 +1924,7 @@
     font: inherit;
     font-size: 0.8rem;
     font-weight: 800;
+    line-height: 1;
     cursor: pointer;
   }
 
@@ -2042,11 +2052,11 @@
   <div id="dashboard" hidden>
     <nav class="tabs" aria-label="Time analysis sections">
       <button class="tab-btn active" type="button" data-tab="track">Track</button>
+      <button class="tab-btn" type="button" data-tab="details">Details</button>
       <button class="tab-btn" type="button" data-tab="overview">Overview</button>
       <button class="tab-btn" type="button" data-tab="business">Business</button>
       <button class="tab-btn" type="button" data-tab="personal">Personal</button>
       <button class="tab-btn" type="button" data-tab="actions">Actions</button>
-      <button class="tab-btn" type="button" data-tab="details">Details</button>
     </nav>
 
     <section id="panel-track" class="panel active">
@@ -2659,6 +2669,7 @@
   let selectedTaskKeys = new Set();
   let bulkTaskStatusValue = "done";
   let trackOrderDirection = "asc";
+  let trackerPriorityFilterTouched = false;
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
@@ -2709,6 +2720,7 @@
     fifthThursday: 5
   };
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
+  const DEFAULT_TRACKER_PRIORITY_FILTER = "📌 Job Must";
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
     "2. Gain traction",
@@ -3902,7 +3914,9 @@
   function populateTrackerPriorityFilter(rows = trackerActivities()) {
     const select = document.getElementById("trackerPriorityFilter");
     if (!select) return;
-    select.innerHTML = priorityFilterOptionsHtml(rows, "All", select.value || "");
+    const options = priorityFilterOptions(rows);
+    const selected = select.value || (!trackerPriorityFilterTouched && options.includes(DEFAULT_TRACKER_PRIORITY_FILTER) ? DEFAULT_TRACKER_PRIORITY_FILTER : "");
+    select.innerHTML = priorityFilterOptionsHtml(rows, "All", selected);
   }
 
   function metadataFilterOptions(rows, field) {
@@ -4208,13 +4222,13 @@
     const typeFilter = document.getElementById("trackerTypeFilter");
     const taskSearch = document.getElementById("taskSearchInput");
     const query = taskSearch?.value.trim().toLowerCase() || "";
-    const selectedPriority = priorityFilter?.value || "";
     const selectedListId = listFilter?.value || "";
     const selectedDepartment = departmentFilter?.value || "";
     const selectedCategory = categoryFilter?.value || "";
     const selectedType = typeFilter?.value || "";
     const allRows = trackerActivities();
     populateTrackerPriorityFilter(allRows);
+    const selectedPriority = priorityFilter?.value || "";
     populateTrackerDepartmentFilter(allRows);
     populateTrackerMetadataFilter("trackerCategoryFilter", allRows, "taskCategory", "All");
     populateTrackerMetadataFilter("trackerTypeFilter", allRows, "taskType", "All");
@@ -4473,7 +4487,10 @@
     const recurrenceFilter = document.getElementById("recurrenceFilter");
     if (recurrenceFilter) recurrenceFilter.oninput = renderActivityRows;
     const priorityFilter = document.getElementById("trackerPriorityFilter");
-    if (priorityFilter) priorityFilter.oninput = renderActivityRows;
+    if (priorityFilter) priorityFilter.oninput = () => {
+      trackerPriorityFilterTouched = true;
+      renderActivityRows();
+    };
     const listFilter = document.getElementById("trackerListFilter");
     if (listFilter) listFilter.oninput = renderActivityRows;
     const departmentFilter = document.getElementById("trackerDepartmentFilter");
