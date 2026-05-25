@@ -483,11 +483,9 @@
     gap: 6px;
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
+    flex-wrap: wrap;
+    overflow: visible;
     padding-bottom: 2px;
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
   }
 
   .yt-time-panel {
@@ -637,10 +635,12 @@
   .status-group {
     display: flex;
     gap: 6px;
-    margin-left: auto;
-    flex: 0 0 auto;
-    flex-wrap: nowrap;
+    margin-left: 0;
+    flex: 1 1 360px;
+    min-width: min(100%, 320px);
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-end;
   }
   .status-source-label {
     color: var(--muted);
@@ -1353,7 +1353,13 @@
     .controls { flex-direction: column; align-items: stretch; }
     .reset-btn { margin-left: 0; text-align: center; }
     .q-header { flex-direction: column; }
-    .status-group { margin-left: 0; }
+    .status-group {
+      width: 100%;
+      min-width: 0;
+      flex-basis: 100%;
+      justify-content: flex-start;
+    }
+    .status-source-label { flex-basis: 100%; }
     #loop-review-learned-btn,
     #loop-vocab-btn {
       width: 100%;
@@ -2855,8 +2861,8 @@
       const storedStatus = getStoredStatus(idx);
       const effectiveStatus = getStatus(idx);
       const statusSourceLabel = storedStatus === "auto"
-        ? "自动: " + STATUS_LABELS[effectiveStatus]
-        : "手动: " + STATUS_LABELS[storedStatus];
+        ? "当前: " + STATUS_LABELS[effectiveStatus] + " (自动)"
+        : "当前: " + STATUS_LABELS[storedStatus] + " (手动)";
       const card = document.createElement("div");
       card.className = "question";
       card.setAttribute("data-status", effectiveStatus);
