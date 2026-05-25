@@ -2931,7 +2931,7 @@
       writeLocalTimePayload(timePayload);
       setTrackerStatus("Saved", "saved");
     } catch (error) {
-      setTrackerStatus("Saved locally on this browser", "saved");
+      // Local storage is already updated above; keep the fallback silent.
     }
   }
 
