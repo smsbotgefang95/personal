@@ -2638,9 +2638,12 @@
         </select>
       </div>
       <div class="custom-recurrence-days" data-custom-days${settings.unit === "week" ? "" : " hidden"}>${dayButtons}</div>
-      <select class="custom-recurrence-select" data-custom-part="monthlyDay" aria-label="Monthly recurrence day"${settings.unit === "month" ? "" : " hidden"}>
-        ${CUSTOM_MONTHLY_DAY_OPTIONS.map(([value, label]) => `<option value="${value}"${value === settings.monthlyDay ? " selected" : ""}>${label}</option>`).join("")}
-      </select>
+      <div class="custom-recurrence-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
+        <span class="custom-recurrence-label">Monthly day</span>
+        <select class="custom-recurrence-select" data-custom-part="monthlyDay" aria-label="Monthly recurrence day">
+          ${CUSTOM_MONTHLY_DAY_OPTIONS.map(([value, label]) => `<option value="${value}"${value === settings.monthlyDay ? " selected" : ""}>${label}</option>`).join("")}
+        </select>
+      </div>
       <select class="custom-recurrence-select" data-custom-part="statusTrigger" aria-label="Recurrence trigger">
         <option value="done"${settings.statusTrigger === "done" ? " selected" : ""}>On status change: Done</option>
         <option value="none"${settings.statusTrigger === "none" ? " selected" : ""}>No status trigger</option>
@@ -2672,7 +2675,7 @@
   function syncCustomRecurrencePanel(panel) {
     const unit = panel.querySelector('[data-custom-part="unit"]')?.value || "week";
     const days = panel.querySelector("[data-custom-days]");
-    const monthlyDay = panel.querySelector('[data-custom-part="monthlyDay"]');
+    const monthlyDay = panel.querySelector("[data-custom-monthly-day]");
     if (days) days.hidden = unit !== "week";
     if (monthlyDay) monthlyDay.hidden = unit !== "month";
   }
