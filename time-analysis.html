@@ -1066,7 +1066,8 @@
 
   .track-group {
     border-bottom: 1px solid var(--border);
-    min-width: 0;
+    min-width: 2176px;
+    background: linear-gradient(90deg, #111c32 0%, #111827 56%, #030712 100%);
   }
 
   .track-group:last-child { border-bottom: 0; }
@@ -1074,24 +1075,24 @@
   .track-group-header {
     position: sticky;
     left: 0;
-    z-index: 3;
+    z-index: 6;
     display: flex;
     align-items: center;
     gap: 9px;
-    width: var(--track-task-width);
-    min-width: var(--track-task-width);
-    max-width: var(--track-task-width);
+    width: min(920px, calc(100vw - 72px));
+    min-width: min(920px, calc(100vw - 72px));
+    max-width: none;
     min-height: 46px;
     border: 0;
     padding: 9px 10px;
-    background: #0f172a;
+    background: linear-gradient(90deg, #111c32 0%, #111827 56%, #030712 100%);
     color: #f9fafb;
     font: inherit;
     font-size: 1rem;
     font-weight: 850;
     text-align: left;
     cursor: pointer;
-    box-shadow: 1px 0 0 var(--border);
+    box-shadow: 0 1px 0 var(--border), 0 -1px 0 rgba(148, 163, 184, 0.18);
   }
 
   .track-group-caret {
@@ -2082,7 +2083,7 @@
     .track-group-header {
       position: sticky;
       top: 0;
-      z-index: 3;
+      z-index: 6;
     }
   }
 </style>
