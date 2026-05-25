@@ -838,7 +838,7 @@
   .tracker-list {
     display: grid;
     gap: 2px;
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid var(--border);
     border-radius: 8px;
     background: #030712;
@@ -847,7 +847,7 @@
   .track-list-header,
   .track-row {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) minmax(82px, 0.18fr) minmax(150px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
+    grid-template-columns: minmax(260px, 1fr) minmax(68px, 0.14fr) minmax(82px, 0.18fr) minmax(150px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
     gap: 10px;
     align-items: center;
   }
@@ -868,6 +868,7 @@
   }
 
   .track-row {
+    position: relative;
     min-height: 58px;
     padding: 9px 10px;
     border-bottom: 1px solid var(--border);
@@ -953,6 +954,14 @@
     font-size: 0.8rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-order-cell {
+    color: #d1d5db;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.92rem;
+    font-weight: 850;
     white-space: nowrap;
   }
 
@@ -1057,9 +1066,23 @@
   }
 
   .track-recurrence-control {
+    position: relative;
     display: grid;
     gap: 6px;
     min-width: 0;
+  }
+
+  .track-recurrence-control > .track-recurrence-custom {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 30;
+    width: min(330px, calc(100vw - 36px));
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+  }
+
+  .track-row:focus-within {
+    z-index: 20;
   }
 
   .track-recurrence-custom[hidden] {
@@ -1382,6 +1405,7 @@
       grid-template-columns: minmax(0, 1fr) 46px;
       min-height: 62px;
     }
+    .track-order-cell,
     .track-status-cell,
     .track-due-cell,
     .track-recurrence-cell,
@@ -1389,6 +1413,7 @@
       grid-column: 1 / 2;
       align-self: start;
     }
+    .track-order-cell::before,
     .track-status-cell::before,
     .track-due-cell::before,
     .track-recurrence-cell::before {
@@ -1400,9 +1425,15 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
+    .track-order-cell::before { content: "Order"; }
     .track-status-cell::before { content: "Status"; }
     .track-due-cell::before { content: "Due date"; }
     .track-recurrence-cell::before { content: "Recurrence"; }
+    .track-recurrence-control > .track-recurrence-custom {
+      left: 0;
+      right: auto;
+      width: min(330px, calc(100vw - 52px));
+    }
     .track-group-header {
       position: sticky;
       top: 0;
@@ -2681,6 +2712,7 @@
     const isDone = entry.status === "done";
     const recurrence = entry.recurrence || inferRecurrence(entry);
     const customText = recurrence === "custom" ? entry.recurringText : "";
+    const orderText = cleanLabel(entry.taskOrder, "-");
     return `
       <div class="track-row">
         <div>
@@ -2690,6 +2722,7 @@
           </div>
           <div class="track-meta">${escapeHtml(activityMeta(entry))}</div>
         </div>
+        <div class="track-order-cell">${escapeHtml(orderText)}</div>
         <div class="track-status-cell">
           ${isRunning
             ? `<span class="track-status running">DOING</span>`
@@ -2751,6 +2784,7 @@
       trackerList.insertAdjacentHTML("afterbegin", `
         <div class="track-list-header" aria-hidden="true">
           <div>Task</div>
+          <div>Order</div>
           <div>Status</div>
           <div>Due date</div>
           <div>Recurrence</div>
