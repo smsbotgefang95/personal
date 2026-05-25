@@ -203,13 +203,21 @@ def clean_task_overrides(value):
         recurrence = clean_recurrence(item.get("recurrence"))
         override = {
             "dueDate": clean_due_date(item.get("dueDate")),
+            "status": "done" if item.get("status") == "done" else "todo",
             "recurrence": recurrence,
             "recurringText": clean_time_text(item.get("recurringText"), 120) if recurrence == "custom" else "",
+            "taskOrder": clean_time_text(item.get("taskOrder"), 80),
             "updatedAt": clean_time_text(item.get("updatedAt"), 40),
         }
-        if override["dueDate"] or override["recurrence"] != "none" or override["recurringText"]:
+        if (
+            override["dueDate"]
+            or override["status"] == "done"
+            or override["recurrence"] != "none"
+            or override["recurringText"]
+            or override["taskOrder"]
+        ):
             overrides[key] = override
-        elif item.get("dueDate") == "":
+        elif item.get("dueDate") == "" or item.get("taskOrder") == "":
             overrides[key] = override
     return overrides
 

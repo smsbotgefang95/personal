@@ -33,6 +33,7 @@
   }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
 
   body {
     margin: 0;
@@ -1288,6 +1289,10 @@
     opacity: 0.55;
   }
 
+  .details-toggle {
+    justify-self: start;
+  }
+
   .tracker-status {
     min-height: 1.4em;
     color: var(--muted);
@@ -1296,6 +1301,83 @@
 
   .tracker-status.error { color: #fca5a5; }
   .tracker-status.saved { color: #86efac; }
+
+  .admin-key-dialog {
+    align-items: center;
+    background: rgba(3, 7, 18, 0.74);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: 18px;
+    position: fixed;
+    z-index: 40;
+  }
+
+  .admin-key-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.34);
+    max-width: 460px;
+    padding: 22px;
+    width: 100%;
+  }
+
+  .admin-key-panel h2 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+
+  .admin-key-panel p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+  }
+
+  .admin-key-panel label {
+    color: var(--text);
+    display: block;
+    font-size: 0.86rem;
+    font-weight: 800;
+    margin-bottom: 7px;
+  }
+
+  .admin-key-panel input {
+    background: #030712;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    min-height: 42px;
+    padding: 9px 11px;
+    width: 100%;
+  }
+
+  .admin-key-panel input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+    outline: none;
+  }
+
+  .admin-key-credential-context {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .admin-key-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 18px;
+  }
 
   .advanced-toggle {
     justify-self: start;
@@ -1519,6 +1601,7 @@
               <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-20</button>
             </div>
             <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
+            <button class="btn btn-ghost details-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
             <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add custom task</button>
             <div class="custom-entry" id="customFields" hidden>
               <div class="quick-chips" id="quickChips" aria-label="Recent activities"></div>
@@ -1533,33 +1616,37 @@
                 </div>
               </div>
             </div>
-            <button class="advanced-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
             <div class="advanced-fields" id="advancedFields" hidden>
               <div class="tracker-field">
                 <label for="trackerDepartment">Department</label>
-                <input class="tracker-input" id="trackerDepartment" type="text" autocomplete="off" />
+                <input class="tracker-input" id="trackerDepartment" type="text" autocomplete="off" list="departmentOptions" />
               </div>
               <div class="tracker-field">
                 <label for="trackerPriority">Priority</label>
-                <input class="tracker-input" id="trackerPriority" type="text" autocomplete="off" />
+                <input class="tracker-input" id="trackerPriority" type="text" autocomplete="off" list="priorityOptions" />
               </div>
               <div class="tracker-field">
                 <label for="trackerSection">Section</label>
-                <input class="tracker-input" id="trackerSection" type="text" autocomplete="off" />
+                <input class="tracker-input" id="trackerSection" type="text" autocomplete="off" list="sectionOptions" />
               </div>
               <div class="tracker-field">
                 <label for="trackerCategory">Task Category</label>
-                <input class="tracker-input" id="trackerCategory" type="text" autocomplete="off" />
+                <input class="tracker-input" id="trackerCategory" type="text" autocomplete="off" list="categoryOptions" />
               </div>
               <div class="tracker-field">
                 <label for="trackerType">Task Type</label>
-                <input class="tracker-input" id="trackerType" type="text" autocomplete="off" placeholder="Owner, Manager, Work, Admin" />
+                <input class="tracker-input" id="trackerType" type="text" autocomplete="off" list="typeOptions" placeholder="Owner, Manager, Work, Admin" />
               </div>
               <div class="tracker-field">
                 <label for="trackerNotes">Notes</label>
                 <textarea class="tracker-textarea" id="trackerNotes"></textarea>
               </div>
             </div>
+            <datalist id="departmentOptions"></datalist>
+            <datalist id="priorityOptions"></datalist>
+            <datalist id="sectionOptions"></datalist>
+            <datalist id="categoryOptions"></datalist>
+            <datalist id="typeOptions"></datalist>
             <div class="tracker-actions">
               <button class="btn btn-primary" id="startTimerBtn" type="submit" hidden>Start Custom</button>
               <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
@@ -1905,23 +1992,23 @@
       <div class="advanced-fields">
         <div class="tracker-field">
           <label for="editDepartment">Department</label>
-          <input class="tracker-input" id="editDepartment" type="text" />
+          <input class="tracker-input" id="editDepartment" type="text" list="departmentOptions" />
         </div>
         <div class="tracker-field">
           <label for="editPriority">Priority</label>
-          <input class="tracker-input" id="editPriority" type="text" />
+          <input class="tracker-input" id="editPriority" type="text" list="priorityOptions" />
         </div>
         <div class="tracker-field">
           <label for="editSection">Section</label>
-          <input class="tracker-input" id="editSection" type="text" />
+          <input class="tracker-input" id="editSection" type="text" list="sectionOptions" />
         </div>
         <div class="tracker-field">
           <label for="editCategory">Task Category</label>
-          <input class="tracker-input" id="editCategory" type="text" />
+          <input class="tracker-input" id="editCategory" type="text" list="categoryOptions" />
         </div>
         <div class="tracker-field">
           <label for="editType">Task Type</label>
-          <input class="tracker-input" id="editType" type="text" />
+          <input class="tracker-input" id="editType" type="text" list="typeOptions" />
         </div>
         <div class="tracker-field">
           <label for="editNotes">Notes</label>
@@ -1932,6 +2019,34 @@
         <button class="btn btn-primary" type="submit">Save</button>
         <button class="btn btn-ghost" id="editCancelBtn" type="button">Cancel</button>
       </div>
+    </div>
+  </form>
+</div>
+<div class="admin-key-dialog" id="timeAdminKeyDialog" role="dialog" aria-modal="true" aria-labelledby="timeAdminKeyTitle" hidden>
+  <form class="admin-key-panel" id="timeAdminKeyForm" method="post" action="/api/time-entries" autocomplete="on">
+    <h2 id="timeAdminKeyTitle">Save Time Analysis changes</h2>
+    <p>Enter the Time Analysis admin key to save due dates and recurrence changes to the server.</p>
+    <input
+      class="admin-key-credential-context"
+      id="timeAdminKeyUsername"
+      name="username"
+      type="text"
+      autocomplete="username"
+      value="time-analysis-admin"
+      tabindex="-1"
+      readonly
+    />
+    <label for="timeAdminKeyInput">Time Analysis admin key</label>
+    <input
+      id="timeAdminKeyInput"
+      name="password"
+      type="password"
+      autocomplete="current-password"
+      required
+    />
+    <div class="admin-key-actions">
+      <button class="btn btn-ghost" id="timeAdminKeyCancelBtn" type="button">Cancel</button>
+      <button class="btn btn-primary" type="submit">Save Changes</button>
     </div>
   </form>
 </div>
@@ -1990,6 +2105,9 @@
   let taskCatalogEntries = [];
   let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, updatedAt: null };
   let timeAdminKey = "";
+  let timeAdminKeyDialogResolve = null;
+  let timeAdminKeyDialogPromise = null;
+  let timeAdminKeyPreviousFocus = null;
   let editingEntryId = "";
   let timerTick = null;
   let currentSourcePills = [];
@@ -2405,8 +2523,52 @@
     return timeAdminKey;
   }
 
-  async function timeApi(method = "GET", payload = null) {
-    const key = await ensureTimeAdminKey();
+  function clearTimeAdminKey() {
+    timeAdminKey = "";
+    try { localStorage.removeItem(TIME_ADMIN_KEY_STORAGE); } catch (error) {}
+  }
+
+  function closeTimeAdminKeyDialog(value = "") {
+    if (!timeAdminKeyDialogResolve) return;
+    const resolve = timeAdminKeyDialogResolve;
+    timeAdminKeyDialogResolve = null;
+    timeAdminKeyDialogPromise = null;
+    document.getElementById("timeAdminKeyDialog").hidden = true;
+    document.getElementById("timeAdminKeyInput").value = "";
+    resolve(value);
+    if (timeAdminKeyPreviousFocus && typeof timeAdminKeyPreviousFocus.focus === "function") {
+      timeAdminKeyPreviousFocus.focus();
+    }
+    timeAdminKeyPreviousFocus = null;
+  }
+
+  function requestTimeAdminKey() {
+    if (timeAdminKeyDialogPromise) return timeAdminKeyDialogPromise;
+    timeAdminKeyPreviousFocus = document.activeElement;
+    let savedAdminKey = "";
+    try { savedAdminKey = localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || ""; } catch (error) {}
+    document.getElementById("timeAdminKeyInput").value = savedAdminKey;
+    document.getElementById("timeAdminKeyDialog").hidden = false;
+    window.requestAnimationFrame(() => document.getElementById("timeAdminKeyInput").focus());
+    timeAdminKeyDialogPromise = new Promise((resolve) => {
+      timeAdminKeyDialogResolve = resolve;
+    });
+    return timeAdminKeyDialogPromise;
+  }
+
+  async function resolveTimeAdminKey({ promptForKey = false } = {}) {
+    const storedKey = await ensureTimeAdminKey();
+    if (storedKey) return storedKey;
+    if (!promptForKey) return "";
+    const entered = await requestTimeAdminKey();
+    if (!entered) throw new Error("Save canceled. Time Analysis changes were not saved.");
+    timeAdminKey = entered;
+    try { localStorage.setItem(TIME_ADMIN_KEY_STORAGE, entered); } catch (error) {}
+    return entered;
+  }
+
+  async function timeApi(method = "GET", payload = null, { promptForKey = false, retryOnAuth = true } = {}) {
+    const key = await resolveTimeAdminKey({ promptForKey });
     if (!key) throw new Error("Private time tracking is unavailable.");
     const headers = { "X-Time-Tracking-Admin-Key": key };
     const options = { method, headers, cache: "no-store" };
@@ -2416,8 +2578,23 @@
     }
     const response = await fetch(TIME_ENTRIES_API, options);
     if (response.status === 401) {
-      localStorage.removeItem(TIME_ADMIN_KEY_STORAGE);
-      timeAdminKey = "";
+      clearTimeAdminKey();
+      if (promptForKey && retryOnAuth) {
+        const retryKey = await resolveTimeAdminKey({ promptForKey: true });
+        const retryHeaders = { "X-Time-Tracking-Admin-Key": retryKey };
+        const retryOptions = { method, headers: retryHeaders, cache: "no-store" };
+        if (payload) {
+          retryHeaders["Content-Type"] = "application/json";
+          retryOptions.body = JSON.stringify(payload);
+        }
+        const retryResponse = await fetch(TIME_ENTRIES_API, retryOptions);
+        if (retryResponse.status === 401) {
+          clearTimeAdminKey();
+          throw new Error("Time Analysis admin key was not accepted.");
+        }
+        if (!retryResponse.ok) throw new Error(`Time API returned HTTP ${retryResponse.status}`);
+        return retryResponse.json();
+      }
       throw new Error("Private time tracking is unavailable.");
     }
     if (!response.ok) throw new Error(`Time API returned HTTP ${response.status}`);
@@ -2425,7 +2602,7 @@
   }
 
   async function saveTimePayload(nextPayload) {
-    const response = await timeApi("POST", cleanClientPayload(nextPayload));
+    const response = await timeApi("POST", cleanClientPayload(nextPayload), { promptForKey: true });
     timePayload = cleanClientPayload(response.payload || nextPayload);
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
@@ -2783,11 +2960,13 @@
       updatedAt: isoNow()
     };
     if (next.recurrence !== "custom") next.recurringText = "";
-    timePayload.taskOverrides = {
-      ...(timePayload.taskOverrides || {}),
-      [key]: next
-    };
-    await saveTimePayload(timePayload);
+    await saveTimePayload({
+      ...timePayload,
+      taskOverrides: {
+        ...(timePayload.taskOverrides || {}),
+        [key]: next
+      }
+    });
   }
 
   function activityRowHtml(entry, active) {
@@ -2954,10 +3133,47 @@
     });
   }
 
+  function priorityOptionSort(a, b) {
+    const groupA = TRACK_GROUP_ORDER.indexOf(trackGroupName({ priority: a }));
+    const groupB = TRACK_GROUP_ORDER.indexOf(trackGroupName({ priority: b }));
+    const orderA = groupA === -1 ? TRACK_GROUP_ORDER.length : groupA;
+    const orderB = groupB === -1 ? TRACK_GROUP_ORDER.length : groupB;
+    return orderA - orderB || a.localeCompare(b);
+  }
+
+  function metadataOptions(field) {
+    const values = new Set();
+    [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries(), ...fallbackActivities].forEach((entry) => {
+      const value = cleanLabel(entry?.[field], "");
+      if (!value) return;
+      if (field === "taskType" && /^other$/i.test(value)) return;
+      values.add(value);
+    });
+    const options = Array.from(values);
+    return field === "priority" ? options.sort(priorityOptionSort) : options.sort((a, b) => a.localeCompare(b));
+  }
+
+  function renderMetadataOptions() {
+    [
+      ["departmentOptions", "department"],
+      ["priorityOptions", "priority"],
+      ["sectionOptions", "section"],
+      ["categoryOptions", "taskCategory"],
+      ["typeOptions", "taskType"]
+    ].forEach(([id, field]) => {
+      const datalist = document.getElementById(id);
+      if (!datalist) return;
+      datalist.innerHTML = metadataOptions(field)
+        .map((value) => `<option value="${escapeHtml(value)}"></option>`)
+        .join("");
+    });
+  }
+
   function renderTracker() {
     populateListSelect(document.getElementById("trackerList"), document.getElementById("trackerList").value || "901301650324");
     const entries = nativeCompletedEntries();
     renderTimerState();
+    renderMetadataOptions();
     renderQuickChips(entries);
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
@@ -4252,6 +4468,18 @@
 
   document.getElementById("editCancelBtn").addEventListener("click", closeEditEntry);
 
+  document.getElementById("timeAdminKeyForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    closeTimeAdminKeyDialog(document.getElementById("timeAdminKeyInput").value.trim());
+  });
+  document.getElementById("timeAdminKeyCancelBtn").addEventListener("click", () => closeTimeAdminKeyDialog(""));
+  document.getElementById("timeAdminKeyDialog").addEventListener("click", (event) => {
+    if (event.target === document.getElementById("timeAdminKeyDialog")) closeTimeAdminKeyDialog("");
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !document.getElementById("timeAdminKeyDialog").hidden) closeTimeAdminKeyDialog("");
+  });
+
   document.getElementById("editRecurrence").addEventListener("change", () => {
     document.getElementById("editRecurrenceCustomWrap").hidden = document.getElementById("editRecurrence").value !== "custom";
   });
@@ -4307,6 +4535,7 @@
         status: currentTaskOverride(entry).status,
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
+        taskOrder: currentTaskOverride(entry).taskOrder,
         updatedAt: isoNow()
       }
     };
