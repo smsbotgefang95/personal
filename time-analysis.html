@@ -2969,6 +2969,15 @@
     return date.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
   }
 
+  function shortDateLabel(value) {
+    const text = dateInputValue(value);
+    if (!text) return "";
+    const [year, month, day] = text.split("-").map((part) => Number(part));
+    const date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return "";
+    return date.toLocaleDateString(undefined, { month: "numeric", day: "numeric" });
+  }
+
   function timeInputValue(value) {
     const text = String(value ?? "").trim();
     const match = text.match(/^(\d{1,2}):(\d{2})$/);
@@ -3931,6 +3940,7 @@
 
   function matchesDueStatusFilter(entry, filter) {
     const status = dueStatus(entry);
+    if (String(filter || "").startsWith("date:")) return dueDateKey(entry) === filter.slice(5) && entry.status !== "done";
     if (filter === "none") return status === "none";
     if (filter === "set") return status !== "none";
     if (filter === "today") return status === "today" && entry.status !== "done";
@@ -3975,23 +3985,33 @@
     const select = document.getElementById("dueStatusFilter");
     if (!select) return;
     const current = select.value || "all";
+    const dueDateCounts = new Map();
+    const today = dateKey(new Date());
+    rows.forEach((entry) => {
+      const due = dueDateKey(entry);
+      if (!due || due < today || entry.status === "done") return;
+      dueDateCounts.set(due, (dueDateCounts.get(due) || 0) + 1);
+    });
     const noneCount = rows.filter((entry) => dueStatus(entry) === "none").length;
     const setCount = rows.length - noneCount;
     const todayCount = rows.filter((entry) => matchesDueStatusFilter(entry, "today")).length;
     const tomorrowCount = rows.filter((entry) => dueStatus(entry) === "tomorrow").length;
     const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
-    const labels = {
-      all: "All",
-      none: `Due date not set (${noneCount})`,
-      set: `Due date set (${setCount})`,
-      today: `Due today (${todayCount})`,
-      tomorrow: `Due tomorrow (${tomorrowCount})`,
-      overdue: `Overdue (${overdueCount})`
-    };
-    Array.from(select.options).forEach((option) => {
-      option.textContent = labels[option.value] || option.textContent;
-    });
-    select.value = current;
+    const options = [
+      ["all", "All"],
+      ["overdue", `Overdue (${overdueCount})`],
+      ["today", `Due today (${todayCount})`],
+      ["tomorrow", `Due tomorrow (${tomorrowCount})`],
+      ...Array.from(dueDateCounts.entries())
+        .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
+        .map(([date, count]) => [`date:${date}`, `${shortDateLabel(date)} (${count})`]),
+      ["set", `Due date set (${setCount})`],
+      ["none", `Due date not set (${noneCount})`]
+    ];
+    select.innerHTML = options
+      .map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
+      .join("");
+    select.value = options.some(([value]) => value === current) ? current : "all";
     syncDueStatusFilterWidth(select);
   }
 
