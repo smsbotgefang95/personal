@@ -824,7 +824,7 @@
 
   .tracker-filter-bar {
     display: grid;
-    grid-template-columns: minmax(145px, 200px) minmax(160px, 220px) minmax(190px, 250px) minmax(220px, 1fr) max-content;
+    grid-template-columns: minmax(145px, 200px) minmax(150px, 210px) minmax(160px, 220px) minmax(190px, 250px) minmax(220px, 1fr) max-content;
     gap: 8px;
     align-items: end;
   }
@@ -1088,6 +1088,7 @@
   }
 
   .track-date-input,
+  .track-due-time-input,
   .track-recurrence-select {
     width: 100%;
     min-height: 42px;
@@ -1098,6 +1099,13 @@
     color: #f9fafb;
     font: inherit;
     font-size: 0.88rem;
+  }
+
+  .track-due-inputs {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(82px, 96px);
+    gap: 6px;
+    min-width: 0;
   }
 
   .date-picker-control {
@@ -1150,6 +1158,13 @@
     min-height: 46px;
     border-color: var(--border);
     border-radius: 0 8px 8px 0;
+  }
+
+  .edit-due-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(110px, 140px);
+    gap: 8px;
+    align-items: stretch;
   }
 
   .track-recurrence-control {
@@ -1663,6 +1678,10 @@
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
     }
+    .track-due-inputs,
+    .edit-due-controls {
+      grid-template-columns: minmax(0, 1fr);
+    }
     .track-order-cell,
     .track-status-cell,
     .track-due-cell,
@@ -1885,6 +1904,18 @@
                   <option value="tomorrow">Due tomorrow</option>
                   <option value="set">Due date set</option>
                   <option value="none">Due date not set</option>
+                </select>
+              </div>
+              <div class="tracker-field">
+                <label for="recurrenceFilter">Recurrence filter</label>
+                <select class="tracker-select" id="recurrenceFilter" aria-label="Filter tasks by recurrence">
+                  <option value="all">All recurrence</option>
+                  <option value="recurring">Recurring</option>
+                  <option value="none">Not recurring</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="custom">Custom</option>
                 </select>
               </div>
               <div class="tracker-field">
@@ -2232,16 +2263,19 @@
       <div class="tracker-grid">
         <div class="tracker-field">
           <label for="editDueDate">Due date</label>
-          <div class="date-picker-control">
-            <input class="tracker-input" id="editDueDate" type="date" />
-            <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M8 2v4"></path>
-                <path d="M16 2v4"></path>
-                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                <path d="M3 10h18"></path>
-              </svg>
-            </button>
+          <div class="edit-due-controls">
+            <div class="date-picker-control">
+              <input class="tracker-input" id="editDueDate" type="date" />
+              <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M8 2v4"></path>
+                  <path d="M16 2v4"></path>
+                  <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                  <path d="M3 10h18"></path>
+                </svg>
+              </button>
+            </div>
+            <input class="tracker-input" id="editDueTime" type="time" aria-label="Due time" />
           </div>
         </div>
         <div class="tracker-field">
@@ -2572,6 +2606,16 @@
     if (Number.isNaN(parsed.getTime())) return "";
     const local = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60000);
     return local.toISOString().slice(0, 10);
+  }
+
+  function timeInputValue(value) {
+    const text = String(value ?? "").trim();
+    const match = text.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+    if (!match) return "";
+    const hour = Number(match[1]);
+    const minute = Number(match[2]);
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return "";
+    return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
   }
 
   function parseDateInput(value) {
@@ -2910,6 +2954,7 @@
       ? cleanLabel(override?.recurringText || entry.recurringText, "")
       : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
     const dueDate = override ? cleanLabel(override.dueDate, "") : dateInputValue(entry.dueDate || entry.dueDateText);
+    const dueTime = override ? timeInputValue(override.dueTime) : timeInputValue(entry.dueTime);
     const listId = Object.prototype.hasOwnProperty.call(override || {}, "listId") ? cleanLabel(override.listId, entry.listId) : entry.listId;
     return {
       ...entry,
@@ -2922,6 +2967,7 @@
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       dueDate,
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
+      dueTime,
       status: override?.status === "done" ? "done" : "todo",
       recurrence,
       recurring: recurrence !== "none",
@@ -2941,6 +2987,7 @@
           next.searchText,
           next.dueDate,
           next.dueDateText,
+          next.dueTime,
           next.recurringText
         ].filter(Boolean).join(" ").toLowerCase()
       };
@@ -2953,6 +3000,7 @@
       const recurrence = RECURRENCE_OPTIONS.some(([item]) => item === value?.recurrence) ? value.recurrence : "none";
       const cleaned = {
         dueDate: dateInputValue(value?.dueDate),
+        dueTime: timeInputValue(value?.dueTime),
         status: value?.status === "done" ? "done" : "todo",
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
@@ -3008,6 +3056,7 @@
       taskType: document.getElementById("trackerType").value.trim(),
       dueDate: "",
       dueDateText: "",
+      dueTime: "",
       startDate: "",
       startDateText: "",
       recurring: false,
@@ -3040,6 +3089,7 @@
       taskType: entry.taskType === "Other" ? "" : cleanLabel(entry.taskType, ""),
       dueDate: cleanLabel(entry.dueDate, ""),
       dueDateText: cleanLabel(entry.dueDateText, ""),
+      dueTime: timeInputValue(entry.dueTime),
       startDate: cleanLabel(entry.startDate, ""),
       startDateText: cleanLabel(entry.startDateText, ""),
       recurring: Boolean(entry.recurring),
@@ -3209,6 +3259,7 @@
       taskType,
       dueDate: cleanLabel(entry.dueDate, ""),
       dueDateText: cleanLabel(entry.dueDateText, ""),
+      dueTime: timeInputValue(entry.dueTime),
       startDate: cleanLabel(entry.startDate, ""),
       startDateText: cleanLabel(entry.startDateText, ""),
       recurring: Boolean(entry.recurring),
@@ -3219,6 +3270,7 @@
         listName,
         taskName,
         entry.dueDateText,
+        entry.dueTime,
         entry.recurringText,
         entry.department,
         entry.priority,
@@ -3311,7 +3363,7 @@
           });
         }
         const item = byTask.get(key);
-        ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
+        ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
           if ((!item[field] || item[field] === "Other") && entry[field] && entry[field] !== "Other") item[field] = entry[field];
         });
         item.recurring = Boolean(item.recurring || entry.recurring);
@@ -3429,6 +3481,14 @@
     if (filter === "today") return status === "today";
     if (filter === "tomorrow") return status === "tomorrow";
     if (filter === "overdue") return status === "overdue";
+    return true;
+  }
+
+  function matchesRecurrenceFilter(entry, filter) {
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    if (filter === "recurring") return recurrence !== "none";
+    if (filter === "none") return recurrence === "none";
+    if (["daily", "weekly", "monthly", "custom"].includes(filter)) return recurrence === filter;
     return true;
   }
 
@@ -3576,6 +3636,7 @@
     const existing = timePayload.taskOverrides?.[key] || {};
     return {
       dueDate: Object.prototype.hasOwnProperty.call(existing, "dueDate") ? dateInputValue(existing.dueDate) : dateInputValue(entry.dueDate || entry.dueDateText),
+      dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : timeInputValue(entry.dueTime),
       status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
@@ -3658,16 +3719,19 @@
                 </select>`}
           </div>
           <div class="track-due-cell">
-            <div class="date-picker-control">
-              <input class="track-date-input" type="date" value="${escapeHtml(dateInputValue(entry.dueDate))}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
-              <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M8 2v4"></path>
-                  <path d="M16 2v4"></path>
-                  <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                  <path d="M3 10h18"></path>
-                </svg>
-              </button>
+            <div class="track-due-inputs">
+              <div class="date-picker-control">
+                <input class="track-date-input" type="date" value="${escapeHtml(dateInputValue(entry.dueDate))}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
+                <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M8 2v4"></path>
+                    <path d="M16 2v4"></path>
+                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                    <path d="M3 10h18"></path>
+                  </svg>
+                </button>
+              </div>
+              <input class="track-due-time-input" type="time" value="${escapeHtml(timeInputValue(entry.dueTime))}" data-due-time-key="${escapeHtml(key)}" aria-label="Due time for ${escapeHtml(entry.taskName)}" />
             </div>
           </div>
           <div class="track-recurrence-cell">
@@ -3694,6 +3758,7 @@
   function renderActivityRows() {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
+    const recurrenceFilter = document.getElementById("recurrenceFilter");
     const listFilter = document.getElementById("trackerListFilter");
     const departmentFilter = document.getElementById("trackerDepartmentFilter");
     const taskSearch = document.getElementById("taskSearchInput");
@@ -3706,7 +3771,9 @@
     const rows = allRows.filter((entry) => {
       if (selectedListId && entry.listId !== selectedListId) return false;
       if (selectedDepartment && entry.department !== selectedDepartment) return false;
-      return matchesDueStatusFilter(entry, dueFilter?.value || "all") && matchesTaskSearch(entry, query);
+      return matchesDueStatusFilter(entry, dueFilter?.value || "all")
+        && matchesRecurrenceFilter(entry, recurrenceFilter?.value || "all")
+        && matchesTaskSearch(entry, query);
     });
     const trackerList = document.getElementById("trackerTaskList");
     trackerList.innerHTML = rows.length ? groupedActivities(rows).map(([group, entries]) => {
@@ -3750,6 +3817,13 @@
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueKey);
         if (!entry) return;
         saveTaskOverride(entry, { dueDate: input.value }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-due-time-key]").forEach((input) => {
+      input.addEventListener("change", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueTimeKey);
+        if (!entry) return;
+        saveTaskOverride(entry, { dueTime: timeInputValue(input.value) }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-status-key]").forEach((select) => {
@@ -3909,6 +3983,8 @@
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
     if (dueFilter) dueFilter.oninput = renderActivityRows;
+    const recurrenceFilter = document.getElementById("recurrenceFilter");
+    if (recurrenceFilter) recurrenceFilter.oninput = renderActivityRows;
     const listFilter = document.getElementById("trackerListFilter");
     if (listFilter) listFilter.oninput = renderActivityRows;
     const departmentFilter = document.getElementById("trackerDepartmentFilter");
@@ -4085,6 +4161,7 @@
       taskType,
       dueDate: Number(row["Due Date"]) ? new Date(Number(row["Due Date"])).toISOString() : "",
       dueDateText: cleanLabel(row["Due Date Text"], ""),
+      dueTime: "",
       startDate: Number(row["Start Date"]) ? new Date(Number(row["Start Date"])).toISOString() : "",
       startDateText: cleanLabel(row["Start Date Text"], ""),
       recurring: false,
@@ -4143,6 +4220,7 @@
       taskType,
       dueDate: "",
       dueDateText: "",
+      dueTime: "",
       startDate: "",
       startDateText: "",
       recurring: false,
@@ -4839,6 +4917,7 @@
     document.getElementById("editStart").value = toDatetimeLocal(entry.start);
     document.getElementById("editStop").value = toDatetimeLocal(entry.stop);
     document.getElementById("editDueDate").value = dateInputValue(effectiveEntry.dueDate);
+    document.getElementById("editDueTime").value = timeInputValue(effectiveEntry.dueTime);
     document.getElementById("editRecurrence").innerHTML = recurrenceOptionsHtml(effectiveEntry.recurrence || inferRecurrence(effectiveEntry));
     document.getElementById("editRecurrenceCustom").innerHTML = customRecurrenceHtml(effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "");
     document.getElementById("editRecurrenceCustomWrap").hidden = (effectiveEntry.recurrence || "none") !== "custom";
@@ -5271,6 +5350,7 @@
       taskType: document.getElementById("editType").value.trim(),
       dueDate: document.getElementById("editDueDate").value,
       dueDateText: document.getElementById("editDueDate").value,
+      dueTime: timeInputValue(document.getElementById("editDueTime").value),
       recurring: document.getElementById("editRecurrence").value !== "none",
       recurringText: document.getElementById("editRecurrence").value === "custom"
         ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom")))
@@ -5282,6 +5362,7 @@
       ...(timePayload.taskOverrides || {}),
       [taskOverrideKey(entry)]: {
         dueDate: document.getElementById("editDueDate").value,
+        dueTime: timeInputValue(document.getElementById("editDueTime").value),
         status: currentTaskOverride(entry).status,
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
