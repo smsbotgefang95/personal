@@ -2190,7 +2190,7 @@
       parts.push(`on status change: ${settings.statusTrigger === "done" ? "Done" : settings.statusTrigger}`);
     }
     if (settings.recurForever) parts.push("recur forever");
-    if (settings.updateStatus) parts.push("update status to Done");
+    if (settings.updateStatus) parts.push("update status to To Do");
     return parts.join("; ");
   }
 
@@ -2218,7 +2218,7 @@
       </label>
       <label class="custom-recurrence-check">
         <input type="checkbox" data-custom-part="updateStatus"${settings.updateStatus ? " checked" : ""} />
-        Update status to Done
+        Update status to To Do
       </label>
     `;
   }
