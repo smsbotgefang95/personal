@@ -3851,19 +3851,22 @@
   }
 
   function shouldGroupActivitiesByDueDate(filter) {
-    return ["overdue", "today", "tomorrow", "set"].includes(filter);
+    return ["all", "overdue", "today", "tomorrow", "set", "none"].includes(filter);
   }
 
   function groupedActivitiesByDueDate(rows) {
     const groups = new Map();
     rows.forEach((entry) => {
-      const due = dueDateKey(entry);
-      if (!due) return;
+      const due = dueDateKey(entry) || "none";
       if (!groups.has(due)) groups.set(due, []);
       groups.get(due).push(entry);
     });
-    return Array.from(groups.entries()).sort(([dueA], [dueB]) => dueA.localeCompare(dueB)).map(([due, entries]) => [
-      fullDateLabel(due) || due,
+    return Array.from(groups.entries()).sort(([dueA], [dueB]) => {
+      if (dueA === "none") return 1;
+      if (dueB === "none") return -1;
+      return dueA.localeCompare(dueB);
+    }).map(([due, entries]) => [
+      due === "none" ? "No due date" : fullDateLabel(due) || due,
       entries,
       `due:${due}`
     ]);
