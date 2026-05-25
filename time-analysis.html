@@ -835,15 +835,13 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: max-content minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
     gap: 8px;
     align-items: end;
-    overflow-x: auto;
+    overflow-x: visible;
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    padding-bottom: 2px;
-    -webkit-overflow-scrolling: touch;
   }
 
   .tracker-search-row {
@@ -852,13 +850,12 @@
   }
 
   .due-filter-field {
-    justify-self: start;
-    width: max-content;
+    width: 100%;
     max-width: 100%;
   }
 
   #dueStatusFilter {
-    width: var(--due-status-filter-width, auto);
+    width: 100%;
     min-width: 0;
   }
 
@@ -2016,7 +2013,7 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: max-content minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
     }
     .quick-chip {
       min-height: 48px;
