@@ -329,7 +329,7 @@
   .phrase-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) minmax(150px, auto) auto;
     margin: 16px 0;
   }
 
@@ -891,6 +891,12 @@
       <div class="phrase-tools" aria-label="Sentence search">
         <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
         <select class="vocabulary-filter phrase-topic-filter" id="phraseTopicFilter" aria-label="Filter sentences by topic"></select>
+        <select class="vocabulary-filter" id="phraseLengthFilter" aria-label="Filter sentences by length">
+          <option value="all">全部长度</option>
+          <option value="short">短句 1-4 words</option>
+          <option value="medium">中句 5-7 words</option>
+          <option value="long">长句 8+ words</option>
+        </select>
         <div class="phrase-summary" id="phraseSummary">0 sentences</div>
       </div>
       <div class="phrase-list" id="phraseList"></div>
@@ -6586,7 +6592,9 @@ pass=通过；传递
     const phraseSearch = document.getElementById(view.searchId);
     const phraseSummary = document.getElementById(view.summaryId);
     if (!container || !phraseSearch || !phraseSummary) return;
+    const phraseLengthFilter = document.getElementById("phraseLengthFilter");
     const search = phraseSearch.value.trim().toLowerCase();
+    const lengthFilter = phraseLengthFilter?.value || "all";
     const matchesSearch = (phrase) => {
       if (!search) return true;
       const scenario = SCENARIOS.find((item) => item.id === phrase.scenario);
@@ -6599,8 +6607,16 @@ pass=通过；传递
         scenario?.zh
       ].some((value) => (value || "").toLowerCase().includes(search));
     };
+    const matchesLength = (phrase) => {
+      if (lengthFilter === "all") return true;
+      const wordCount = countSentenceWords(phrase.english);
+      if (lengthFilter === "short") return wordCount >= 1 && wordCount <= 4;
+      if (lengthFilter === "medium") return wordCount >= 5 && wordCount <= 7;
+      if (lengthFilter === "long") return wordCount >= 8;
+      return true;
+    };
     const scenarioPhrases = selectedScenario === "all" ? PHRASES : PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
-    const phrases = scenarioPhrases.filter(matchesSearch);
+    const phrases = scenarioPhrases.filter((phrase) => matchesSearch(phrase) && matchesLength(phrase));
 
     phraseSummary.textContent = `${phrases.length} of ${scenarioPhrases.length} sentences`;
 
@@ -7119,6 +7135,14 @@ pass=通过；传递
     return word.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "word";
   }
 
+  function countSentenceWords(sentence) {
+    return String(sentence || "")
+      .replace(/[^a-zA-Z0-9'\s-]/g, " ")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean).length;
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -7209,6 +7233,7 @@ pass=通过；传递
   });
 
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
+  document.getElementById("phraseLengthFilter").addEventListener("change", renderPhraseList);
   document.getElementById("phraseTopicFilter").addEventListener("change", (event) => {
     selectedScenario = event.target.value;
     saveSelectedScenario();
