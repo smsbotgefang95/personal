@@ -1814,6 +1814,7 @@
                 <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                   <option value="all">All tasks</option>
                   <option value="none">No due date</option>
+                  <option value="set">Due date set</option>
                   <option value="today">Due today</option>
                   <option value="tomorrow">Due tomorrow</option>
                   <option value="overdue">Overdue</option>
@@ -2336,9 +2337,21 @@
     ["second", "Second day"],
     ["eleventh", "11th day"],
     ["twentyFirst", "21st day"],
+    ["firstThursday", "First Thursday"],
+    ["secondThursday", "Second Thursday"],
+    ["thirdThursday", "Third Thursday"],
+    ["fourthThursday", "Fourth Thursday"],
+    ["fifthThursday", "Fifth Thursday"],
     ["last", "Last day"]
   ];
   const CUSTOM_MONTHLY_DAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_DAY_OPTIONS);
+  const CUSTOM_MONTHLY_THURSDAY_ORDINALS = {
+    firstThursday: 1,
+    secondThursday: 2,
+    thirdThursday: 3,
+    fourthThursday: 4,
+    fifthThursday: 5
+  };
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
@@ -2541,11 +2554,24 @@
     const targetMonth = new Date(baseDate.getFullYear(), baseDate.getMonth() + every, 1);
     const year = targetMonth.getFullYear();
     const month = targetMonth.getMonth();
+    if (CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]) {
+      return nthWeekdayOfMonth(year, month, 4, CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]);
+    }
     if (monthlyDay === "first") return new Date(year, month, 1);
     if (monthlyDay === "second") return new Date(year, month, 2);
     if (monthlyDay === "eleventh") return new Date(year, month, 11);
     if (monthlyDay === "twentyFirst") return new Date(year, month, 21);
     return new Date(year, month + 1, 0);
+  }
+
+  function nthWeekdayOfMonth(year, month, weekday, ordinal) {
+    const firstOfMonth = new Date(year, month, 1);
+    const firstOffset = (weekday - firstOfMonth.getDay() + 7) % 7;
+    const candidate = new Date(year, month, 1 + firstOffset + (ordinal - 1) * 7);
+    if (candidate.getMonth() === month) return candidate;
+    const lastOfMonth = new Date(year, month + 1, 0);
+    const lastOffset = (lastOfMonth.getDay() - weekday + 7) % 7;
+    return new Date(year, month, lastOfMonth.getDate() - lastOffset);
   }
 
   function nextRecurringDueDate(entry) {
@@ -2605,6 +2631,15 @@
       const days = dayMatch[1].split(",").map((item) => item.trim()).filter((item) => CUSTOM_RECURRENCE_DAYS.some(([day]) => day === item));
       if (days.length) settings.days = days;
     }
+    const monthlyThursdayMatch = text.match(/\bon\s+(first|1st|second|2nd|third|3rd|fourth|4th|fifth|5th)\s+thursday\b/i);
+    if (monthlyThursdayMatch) {
+      const ordinalText = monthlyThursdayMatch[1].toLowerCase();
+      if (ordinalText === "first" || ordinalText === "1st") settings.monthlyDay = "firstThursday";
+      else if (ordinalText === "second" || ordinalText === "2nd") settings.monthlyDay = "secondThursday";
+      else if (ordinalText === "third" || ordinalText === "3rd") settings.monthlyDay = "thirdThursday";
+      else if (ordinalText === "fourth" || ordinalText === "4th") settings.monthlyDay = "fourthThursday";
+      else settings.monthlyDay = "fifthThursday";
+    }
     const monthlyDayMatch = text.match(/\bon\s+(first|second|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/i);
     if (monthlyDayMatch) {
       const monthlyDayText = monthlyDayMatch[1].toLowerCase();
@@ -2625,7 +2660,12 @@
     const dayText = unit === "week" && settings.days?.length ? ` on ${settings.days.join(", ")}` : "";
     const monthlyDay = CUSTOM_MONTHLY_DAY_OPTIONS.some(([value]) => value === settings.monthlyDay) ? settings.monthlyDay : "same";
     const parts = [`Every ${every} ${unit}${every === 1 ? "" : "s"}${dayText}`];
-    if (unit === "month" && monthlyDay !== "same") parts.push(`on ${CUSTOM_MONTHLY_DAY_LABELS[monthlyDay].toLowerCase()}`);
+    if (unit === "month" && monthlyDay !== "same") {
+      const monthlyLabel = CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]
+        ? CUSTOM_MONTHLY_DAY_LABELS[monthlyDay]
+        : CUSTOM_MONTHLY_DAY_LABELS[monthlyDay].toLowerCase();
+      parts.push(`on ${monthlyLabel}`);
+    }
     if (settings.statusTrigger && settings.statusTrigger !== "none") {
       parts.push(`on status change: ${settings.statusTrigger === "done" ? "Done" : settings.statusTrigger}`);
     }
@@ -3226,6 +3266,7 @@
   function matchesDueStatusFilter(entry, filter) {
     const status = dueStatus(entry);
     if (filter === "none") return status === "none";
+    if (filter === "set") return status !== "none";
     if (filter === "today") return status === "today";
     if (filter === "tomorrow") return status === "tomorrow";
     if (filter === "overdue") return status === "overdue";
@@ -3262,12 +3303,14 @@
     if (!select) return;
     const current = select.value || "all";
     const noneCount = rows.filter((entry) => dueStatus(entry) === "none").length;
+    const setCount = rows.length - noneCount;
     const todayCount = rows.filter((entry) => dueStatus(entry) === "today").length;
     const tomorrowCount = rows.filter((entry) => dueStatus(entry) === "tomorrow").length;
     const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
     const labels = {
       all: `All tasks (${rows.length})`,
       none: `No due date (${noneCount})`,
+      set: `Due date set (${setCount})`,
       today: `Due today (${todayCount})`,
       tomorrow: `Due tomorrow (${tomorrowCount})`,
       overdue: `Overdue (${overdueCount})`,
