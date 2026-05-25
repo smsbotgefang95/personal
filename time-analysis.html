@@ -1079,8 +1079,8 @@
     display: flex;
     align-items: center;
     gap: 9px;
-    width: min(920px, calc(100vw - 72px));
-    min-width: min(920px, calc(100vw - 72px));
+    width: 100%;
+    min-width: 100%;
     max-width: none;
     min-height: 46px;
     border: 0;
@@ -2082,7 +2082,7 @@
     }
     .track-group-header {
       position: sticky;
-      top: 0;
+      top: auto;
       z-index: 6;
     }
   }
@@ -4505,10 +4505,13 @@
     });
     const trackerList = document.getElementById("trackerTaskList");
     const dueFilterValue = dueFilter?.value || "all";
-    const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rows) : groupedActivities(rows);
+    const rowsForDisplay = shouldGroupActivitiesByDueDate(dueFilterValue)
+      ? rows.filter((entry) => entry.status !== "done")
+      : rows;
+    const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
-    trackerList.innerHTML = rows.length ? groups.map(([group, entries, collapseKey]) => {
+    trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey]) => {
       const groupKey = collapseKey || group;
       const collapsed = collapsedTrackGroups.has(groupKey);
       return `
@@ -4522,7 +4525,7 @@
         </section>
       `;
     }).join("") : `<div class="track-empty">No tasks match the current filters.</div>`;
-    if (rows.length) {
+    if (rowsForDisplay.length) {
       trackerList.insertAdjacentHTML("afterbegin", `
         <div class="track-list-header">
           <div><input class="track-select-all-checkbox" type="checkbox" data-select-all-visible aria-label="Select all visible tasks" /></div>
