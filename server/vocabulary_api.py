@@ -203,6 +203,23 @@ def clean_due_date(value):
     return value
 
 
+def clean_due_time(value):
+    value = clean_time_text(value, 20)
+    if not value:
+        return ""
+    parts = value.split(":")
+    if len(parts) != 2:
+        return ""
+    hour, minute = parts[0], parts[1]
+    if not (hour.isdigit() and minute.isdigit()):
+        return ""
+    hour_number = int(hour)
+    minute_number = int(minute)
+    if not (0 <= hour_number <= 23 and 0 <= minute_number <= 59):
+        return ""
+    return f"{hour_number:02d}:{minute_number:02d}"
+
+
 def clean_recurrence(value):
     value = clean_time_text(value, 20).lower()
     return value if value in {"none", "daily", "weekly", "monthly", "custom"} else "none"
@@ -219,6 +236,7 @@ def clean_task_overrides(value):
         recurrence = clean_recurrence(item.get("recurrence"))
         override = {
             "dueDate": clean_due_date(item.get("dueDate")),
+            "dueTime": clean_due_time(item.get("dueTime")),
             "status": "done" if item.get("status") == "done" else "todo",
             "recurrence": recurrence,
             "recurringText": clean_time_text(item.get("recurringText"), 120) if recurrence == "custom" else "",
@@ -227,13 +245,14 @@ def clean_task_overrides(value):
         }
         if (
             override["dueDate"]
+            or override["dueTime"]
             or override["status"] == "done"
             or override["recurrence"] != "none"
             or override["recurringText"]
             or override["taskOrder"]
         ):
             overrides[key] = override
-        elif item.get("dueDate") == "" or item.get("taskOrder") == "":
+        elif item.get("dueDate") == "" or item.get("dueTime") == "" or item.get("taskOrder") == "":
             overrides[key] = override
     return overrides
 
@@ -258,6 +277,7 @@ def clean_time_entry(value, require_stop=False):
         "taskType": clean_time_text(value.get("taskType"), 80),
         "dueDate": clean_time_text(value.get("dueDate"), 40),
         "dueDateText": clean_time_text(value.get("dueDateText"), 80),
+        "dueTime": clean_due_time(value.get("dueTime")),
         "startDate": clean_time_text(value.get("startDate"), 40),
         "startDateText": clean_time_text(value.get("startDateText"), 80),
         "recurring": bool(value.get("recurring")),
