@@ -1301,6 +1301,33 @@
     color: #ffffff;
   }
 
+  .custom-recurrence-monthly-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    flex: 1 1 240px;
+  }
+
+  .custom-recurrence-monthly-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 7px 9px;
+    background: #030712;
+    color: #d1d5db;
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .custom-recurrence-monthly-option input {
+    width: 16px;
+    height: 16px;
+    accent-color: #2563eb;
+  }
+
   .custom-recurrence-check {
     display: flex;
     align-items: center;
@@ -1813,12 +1840,11 @@
                 <label for="dueStatusFilter">Due filter</label>
                 <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                   <option value="all">All tasks</option>
-                  <option value="none">Due date not set</option>
-                  <option value="set">Due date set</option>
+                  <option value="overdue">Overdue</option>
                   <option value="today">Due today</option>
                   <option value="tomorrow">Due tomorrow</option>
-                  <option value="overdue">Overdue</option>
-                  <option value="today-overdue">Due today or overdue</option>
+                  <option value="set">Due date set</option>
+                  <option value="none">Due date not set</option>
                 </select>
               </div>
               <div class="tracker-field">
@@ -2549,11 +2575,24 @@
 
   function nextCustomMonthlyDueDate(baseDate, settings) {
     const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
-    const monthlyDay = CUSTOM_MONTHLY_DAY_OPTIONS.some(([value]) => value === settings.monthlyDay) ? settings.monthlyDay : "same";
-    if (monthlyDay === "same") return addLocalMonths(baseDate, every);
-    const targetMonth = new Date(baseDate.getFullYear(), baseDate.getMonth() + every, 1);
-    const year = targetMonth.getFullYear();
-    const month = targetMonth.getMonth();
+    const monthlyDays = normalizeCustomMonthlyDays(settings);
+    if (monthlyDays.length === 1 && monthlyDays[0] === "same") return addLocalMonths(baseDate, every);
+    const monthOffsets = every === 0 ? [0] : [...new Set([0, every])];
+    for (const monthOffset of monthOffsets) {
+      const targetMonth = new Date(baseDate.getFullYear(), baseDate.getMonth() + monthOffset, 1);
+      const candidates = monthlyDays
+        .filter((monthlyDay) => monthlyDay !== "same")
+        .map((monthlyDay) => monthlyDateCandidate(targetMonth.getFullYear(), targetMonth.getMonth(), monthlyDay))
+        .filter(Boolean)
+        .filter((candidate) => candidate > baseDate)
+        .sort((a, b) => a - b);
+      if (candidates.length) return candidates[0];
+    }
+    const fallbackTarget = new Date(baseDate.getFullYear(), baseDate.getMonth() + every, 1);
+    return monthlyDateCandidate(fallbackTarget.getFullYear(), fallbackTarget.getMonth(), monthlyDays.find((day) => day !== "same")) || addLocalMonths(baseDate, every);
+  }
+
+  function monthlyDateCandidate(year, month, monthlyDay) {
     if (CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]) {
       return nthWeekdayOfMonth(year, month, 4, CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]);
     }
@@ -2562,6 +2601,33 @@
     if (monthlyDay === "eleventh") return new Date(year, month, 11);
     if (monthlyDay === "twentyFirst") return new Date(year, month, 21);
     return new Date(year, month + 1, 0);
+  }
+
+  function normalizeCustomMonthlyDays(settings) {
+    const valid = new Set(CUSTOM_MONTHLY_DAY_OPTIONS.map(([value]) => value));
+    const source = Array.isArray(settings.monthlyDays) && settings.monthlyDays.length
+      ? settings.monthlyDays
+      : [settings.monthlyDay || "same"];
+    const selected = [...new Set(source.filter((value) => valid.has(value)))];
+    const withoutSame = selected.filter((value) => value !== "same");
+    return withoutSame.length ? withoutSame : ["same"];
+  }
+
+  function monthlyThursdayValue(value) {
+    const text = String(value || "").toLowerCase();
+    if (text === "first" || text === "1st") return "firstThursday";
+    if (text === "second" || text === "2nd") return "secondThursday";
+    if (text === "third" || text === "3rd") return "thirdThursday";
+    if (text === "fourth" || text === "4th") return "fourthThursday";
+    if (text === "fifth" || text === "5th") return "fifthThursday";
+    return "";
+  }
+
+  function monthlyDayValue(value) {
+    const text = String(value || "").toLowerCase();
+    if (text === "11th" || text === "11" || text === "eleventh") return "eleventh";
+    if (text === "21st" || text === "21" || text === "twenty-first" || text === "twenty first") return "twentyFirst";
+    return CUSTOM_MONTHLY_DAY_OPTIONS.some(([option]) => option === text) ? text : "";
   }
 
   function nthWeekdayOfMonth(year, month, weekday, ordinal) {
@@ -2611,6 +2677,7 @@
       unit: "week",
       days: ["Mo"],
       monthlyDay: "same",
+      monthlyDays: ["same"],
       statusTrigger: "done",
       recurForever: true,
       updateStatus: true
@@ -2631,21 +2698,18 @@
       const days = dayMatch[1].split(",").map((item) => item.trim()).filter((item) => CUSTOM_RECURRENCE_DAYS.some(([day]) => day === item));
       if (days.length) settings.days = days;
     }
-    const monthlyThursdayMatch = text.match(/\bon\s+(first|1st|second|2nd|third|3rd|fourth|4th|fifth|5th)\s+thursday\b/i);
-    if (monthlyThursdayMatch) {
-      const ordinalText = monthlyThursdayMatch[1].toLowerCase();
-      if (ordinalText === "first" || ordinalText === "1st") settings.monthlyDay = "firstThursday";
-      else if (ordinalText === "second" || ordinalText === "2nd") settings.monthlyDay = "secondThursday";
-      else if (ordinalText === "third" || ordinalText === "3rd") settings.monthlyDay = "thirdThursday";
-      else if (ordinalText === "fourth" || ordinalText === "4th") settings.monthlyDay = "fourthThursday";
-      else settings.monthlyDay = "fifthThursday";
+    const monthlyDayMatches = [];
+    for (const match of text.matchAll(/\bon\s+(first|1st|second|2nd|third|3rd|fourth|4th|fifth|5th)\s+thursday\b/gi)) {
+      const monthlyThursday = monthlyThursdayValue(match[1]);
+      if (monthlyThursday) monthlyDayMatches.push({ index: match.index, value: monthlyThursday });
     }
-    const monthlyDayMatch = text.match(/\bon\s+(first|second|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/i);
-    if (monthlyDayMatch) {
-      const monthlyDayText = monthlyDayMatch[1].toLowerCase();
-      if (monthlyDayText === "11th" || monthlyDayText === "11" || monthlyDayText === "eleventh") settings.monthlyDay = "eleventh";
-      else if (monthlyDayText === "21st" || monthlyDayText === "21" || monthlyDayText === "twenty-first" || monthlyDayText === "twenty first") settings.monthlyDay = "twentyFirst";
-      else settings.monthlyDay = monthlyDayText;
+    for (const match of text.matchAll(/\bon\s+(first|second|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/gi)) {
+      const monthlyDay = monthlyDayValue(match[1]);
+      if (monthlyDay) monthlyDayMatches.push({ index: match.index, value: monthlyDay });
+    }
+    if (monthlyDayMatches.length) {
+      settings.monthlyDays = [...new Set(monthlyDayMatches.sort((a, b) => a.index - b.index).map((match) => match.value))];
+      settings.monthlyDay = settings.monthlyDays[0];
     }
     const statusMatch = text.match(/status change:\s*([^;]+)/i);
     settings.statusTrigger = statusMatch ? statusMatch[1].trim().toLowerCase() : (text.includes("status change") ? "done" : "done");
@@ -2658,13 +2722,15 @@
     const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
     const unit = CUSTOM_RECURRENCE_UNITS.includes(settings.unit) ? settings.unit : "week";
     const dayText = unit === "week" && settings.days?.length ? ` on ${settings.days.join(", ")}` : "";
-    const monthlyDay = CUSTOM_MONTHLY_DAY_OPTIONS.some(([value]) => value === settings.monthlyDay) ? settings.monthlyDay : "same";
+    const monthlyDays = normalizeCustomMonthlyDays(settings);
     const parts = [`Every ${every} ${unit}${every === 1 ? "" : "s"}${dayText}`];
-    if (unit === "month" && monthlyDay !== "same") {
-      const monthlyLabel = CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]
-        ? CUSTOM_MONTHLY_DAY_LABELS[monthlyDay]
-        : CUSTOM_MONTHLY_DAY_LABELS[monthlyDay].toLowerCase();
-      parts.push(`on ${monthlyLabel}`);
+    if (unit === "month") {
+      monthlyDays.filter((monthlyDay) => monthlyDay !== "same").forEach((monthlyDay) => {
+        const monthlyLabel = CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]
+          ? CUSTOM_MONTHLY_DAY_LABELS[monthlyDay]
+          : CUSTOM_MONTHLY_DAY_LABELS[monthlyDay].toLowerCase();
+        parts.push(`on ${monthlyLabel}`);
+      });
     }
     if (settings.statusTrigger && settings.statusTrigger !== "none") {
       parts.push(`on status change: ${settings.statusTrigger === "done" ? "Done" : settings.statusTrigger}`);
@@ -2676,8 +2742,15 @@
 
   function customRecurrenceHtml(text = "") {
     const settings = parseCustomRecurrenceText(text);
+    const monthlyDays = normalizeCustomMonthlyDays(settings);
     const dayButtons = CUSTOM_RECURRENCE_DAYS.map(([day, label]) => `
       <button class="custom-recurrence-day${settings.days.includes(day) ? " active" : ""}" type="button" data-custom-day="${escapeHtml(day)}" aria-pressed="${settings.days.includes(day) ? "true" : "false"}" title="${escapeHtml(label)}">${escapeHtml(day)}</button>
+    `).join("");
+    const monthlyOptions = CUSTOM_MONTHLY_DAY_OPTIONS.map(([value, label]) => `
+      <label class="custom-recurrence-monthly-option">
+        <input type="checkbox" value="${escapeHtml(value)}" data-custom-monthly-day-option${monthlyDays.includes(value) ? " checked" : ""} />
+        ${escapeHtml(label)}
+      </label>
     `).join("");
     return `
       <div class="custom-recurrence-row">
@@ -2690,9 +2763,9 @@
       <div class="custom-recurrence-days" data-custom-days${settings.unit === "week" ? "" : " hidden"}>${dayButtons}</div>
       <div class="custom-recurrence-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
         <span class="custom-recurrence-label">Monthly day</span>
-        <select class="custom-recurrence-select" data-custom-part="monthlyDay" aria-label="Monthly recurrence day">
-          ${CUSTOM_MONTHLY_DAY_OPTIONS.map(([value, label]) => `<option value="${value}"${value === settings.monthlyDay ? " selected" : ""}>${label}</option>`).join("")}
-        </select>
+        <div class="custom-recurrence-monthly-options" role="group" aria-label="Monthly recurrence days">
+          ${monthlyOptions}
+        </div>
       </div>
       <select class="custom-recurrence-select" data-custom-part="statusTrigger" aria-label="Recurrence trigger">
         <option value="done"${settings.statusTrigger === "done" ? " selected" : ""}>On status change: Done</option>
@@ -2711,11 +2784,14 @@
 
   function readCustomRecurrence(panel) {
     const activeDays = Array.from(panel.querySelectorAll("[data-custom-day].active")).map((button) => button.dataset.customDay);
+    const monthlyDays = Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]:checked")).map((input) => input.value);
+    const normalizedMonthlyDays = normalizeCustomMonthlyDays({ monthlyDays });
     return {
       every: panel.querySelector('[data-custom-part="every"]')?.value || 1,
       unit: panel.querySelector('[data-custom-part="unit"]')?.value || "week",
       days: activeDays.length ? activeDays : ["Mo"],
-      monthlyDay: panel.querySelector('[data-custom-part="monthlyDay"]')?.value || "same",
+      monthlyDay: normalizedMonthlyDays[0],
+      monthlyDays: normalizedMonthlyDays,
       statusTrigger: panel.querySelector('[data-custom-part="statusTrigger"]')?.value || "done",
       recurForever: Boolean(panel.querySelector('[data-custom-part="recurForever"]')?.checked),
       updateStatus: Boolean(panel.querySelector('[data-custom-part="updateStatus"]')?.checked)
@@ -2728,6 +2804,18 @@
     const monthlyDay = panel.querySelector("[data-custom-monthly-day]");
     if (days) days.hidden = unit !== "week";
     if (monthlyDay) monthlyDay.hidden = unit !== "month";
+  }
+
+  function syncCustomMonthlyDayOptions(panel, changedOption = null) {
+    const options = Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]"));
+    if (!options.length) return;
+    const same = options.find((input) => input.value === "same");
+    if (changedOption?.value === "same" && changedOption.checked) {
+      options.filter((input) => input !== same).forEach((input) => { input.checked = false; });
+    } else if (changedOption?.checked && changedOption.value !== "same" && same) {
+      same.checked = false;
+    }
+    if (!options.some((input) => input.checked) && same) same.checked = true;
   }
 
   function toggleCustomRecurrenceDay(day) {
@@ -3270,7 +3358,6 @@
     if (filter === "today") return status === "today";
     if (filter === "tomorrow") return status === "tomorrow";
     if (filter === "overdue") return status === "overdue";
-    if (filter === "today-overdue") return status === "today" || status === "overdue";
     return true;
   }
 
@@ -3313,8 +3400,7 @@
       set: `Due date set (${setCount})`,
       today: `Due today (${todayCount})`,
       tomorrow: `Due tomorrow (${tomorrowCount})`,
-      overdue: `Overdue (${overdueCount})`,
-      "today-overdue": `Due today or overdue (${todayCount + overdueCount})`
+      overdue: `Overdue (${overdueCount})`
     };
     Array.from(select.options).forEach((option) => {
       option.textContent = labels[option.value] || option.textContent;
@@ -3618,11 +3704,14 @@
           renderActivityRows();
         }).catch((error) => setTrackerStatus(error.message, "error"));
       });
-      panel.addEventListener("change", () => {
+      panel.addEventListener("change", (event) => {
+        const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
+        if (monthlyOption) syncCustomMonthlyDayOptions(panel, monthlyOption);
         syncCustomRecurrencePanel(panel);
         const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
         if (!entry) return;
         saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).then(() => {
+          if (monthlyOption) return;
           expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
           renderActivityRows();
         }).catch((error) => setTrackerStatus(error.message, "error"));
@@ -5027,6 +5116,8 @@
   });
 
   document.getElementById("editRecurrenceCustom").addEventListener("change", (event) => {
+    const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
+    if (monthlyOption) syncCustomMonthlyDayOptions(event.currentTarget, monthlyOption);
     syncCustomRecurrencePanel(event.currentTarget);
   });
 
