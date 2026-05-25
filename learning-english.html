@@ -888,9 +888,9 @@
           <p>Choose a real-life situation and use the sentences.</p>
         </div>
       </div>
-      <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="English conversation scenarios"></div>
       <div class="phrase-tools" aria-label="Sentence search">
         <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
+        <select class="vocabulary-filter phrase-topic-filter" id="phraseTopicFilter" aria-label="Filter sentences by topic"></select>
         <div class="phrase-summary" id="phraseSummary">0 sentences</div>
       </div>
       <div class="phrase-list" id="phraseList"></div>
@@ -6246,9 +6246,9 @@ pass=通过；传递
   function loadSelectedScenario() {
     try {
       const saved = localStorage.getItem(STORAGE_SCENARIO_KEY);
-      return SCENARIOS.some((item) => item.id === saved) ? saved : "greetings";
+      return saved === "all" || SCENARIOS.some((item) => item.id === saved) ? saved : "all";
     } catch (error) {
-      return "greetings";
+      return "all";
     }
   }
 
@@ -6539,19 +6539,16 @@ pass=通过；传递
   }
 
   function renderScenarioTabs() {
-    const container = document.getElementById("scenarioTabs");
-    container.innerHTML = SCENARIOS.map((scenario) => {
-      const isActive = scenario.id === selectedScenario;
-      return `<button class="scenario-tab${isActive ? " active" : ""}" type="button" role="tab" aria-selected="${isActive}" data-scenario="${scenario.id}">${scenario.label} / ${scenario.zh}</button>`;
-    }).join("");
+    const topicFilter = document.getElementById("phraseTopicFilter");
+    const topics = [
+      { id: "all", label: "All topics", zh: "全部主题" },
+      ...SCENARIOS
+    ];
 
-    container.querySelectorAll(".scenario-tab").forEach((button) => {
-      button.addEventListener("click", () => {
-        selectedScenario = button.dataset.scenario;
-        saveSelectedScenario();
-        render();
-      });
-    });
+    if (topicFilter) {
+      topicFilter.innerHTML = topics.map((scenario) => `<option value="${scenario.id}">${scenario.label} / ${scenario.zh}</option>`).join("");
+      topicFilter.value = selectedScenario;
+    }
   }
 
   function renderDialogueTabs() {
@@ -6602,7 +6599,7 @@ pass=通过；传递
         scenario?.zh
       ].some((value) => (value || "").toLowerCase().includes(search));
     };
-    const scenarioPhrases = PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
+    const scenarioPhrases = selectedScenario === "all" ? PHRASES : PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
     const phrases = scenarioPhrases.filter(matchesSearch);
 
     phraseSummary.textContent = `${phrases.length} of ${scenarioPhrases.length} sentences`;
@@ -7212,6 +7209,11 @@ pass=通过；传递
   });
 
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
+  document.getElementById("phraseTopicFilter").addEventListener("change", (event) => {
+    selectedScenario = event.target.value;
+    saveSelectedScenario();
+    render();
+  });
   document.getElementById("dialogueStatusFilter").addEventListener("change", (event) => {
     selectedDialogueStatus = event.target.value;
     saveSelectedDialogueStatus();
