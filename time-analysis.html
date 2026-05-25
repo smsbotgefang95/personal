@@ -3850,6 +3850,25 @@
     });
   }
 
+  function shouldGroupActivitiesByDueDate(filter) {
+    return ["overdue", "today", "tomorrow", "set"].includes(filter);
+  }
+
+  function groupedActivitiesByDueDate(rows) {
+    const groups = new Map();
+    rows.forEach((entry) => {
+      const due = dueDateKey(entry);
+      if (!due) return;
+      if (!groups.has(due)) groups.set(due, []);
+      groups.get(due).push(entry);
+    });
+    return Array.from(groups.entries()).sort(([dueA], [dueB]) => dueA.localeCompare(dueB)).map(([due, entries]) => [
+      fullDateLabel(due) || due,
+      entries,
+      `due:${due}`
+    ]);
+  }
+
   function saveCollapsedTrackGroups() {
     localStorage.setItem(TRACK_COLLAPSED_STORAGE, JSON.stringify(Array.from(collapsedTrackGroups)));
   }
@@ -4180,7 +4199,7 @@
   }
 
   function visibleTaskRowsForGroups(groups) {
-    return groups.flatMap(([group, entries]) => collapsedTrackGroups.has(group) ? [] : entries);
+    return groups.flatMap(([group, entries, collapseKey]) => collapsedTrackGroups.has(collapseKey || group) ? [] : entries);
   }
 
   function selectedVisibleTaskRows(visibleRows) {
@@ -4474,13 +4493,15 @@
         && matchesTaskSearch(entry, query);
     });
     const trackerList = document.getElementById("trackerTaskList");
-    const groups = groupedActivities(rows);
+    const dueFilterValue = dueFilter?.value || "all";
+    const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rows) : groupedActivities(rows);
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
-    trackerList.innerHTML = rows.length ? groups.map(([group, entries]) => {
-      const collapsed = collapsedTrackGroups.has(group);
+    trackerList.innerHTML = rows.length ? groups.map(([group, entries, collapseKey]) => {
+      const groupKey = collapseKey || group;
+      const collapsed = collapsedTrackGroups.has(groupKey);
       return `
-        <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(group)}">
+        <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(groupKey)}">
           <button class="track-group-header" type="button" aria-expanded="${collapsed ? "false" : "true"}">
             <span class="track-group-caret">▾</span>
             <span class="track-group-name">${escapeHtml(group)}</span>
