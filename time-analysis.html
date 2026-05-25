@@ -2771,6 +2771,7 @@
     const status = document.getElementById("trackerStatus");
     status.textContent = message || "";
     status.className = `tracker-status${mode ? ` ${mode}` : ""}`;
+    status.hidden = !message;
   }
 
   function populateListSelect(select, value = "") {
@@ -4849,7 +4850,7 @@
       renderTracker();
       setTrackerStatus(
         Object.keys(timePayload.taskOverrides || {}).length
-          ? "Showing locally saved changes from this browser."
+          ? ""
           : "Private time tracking is unavailable. Showing CSV fallback for now."
       );
       await loadCsvDashboard();
