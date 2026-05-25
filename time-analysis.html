@@ -871,10 +871,10 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 96px;
+    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 250px 250px 180px 180px 140px 96px;
     gap: 10px;
     align-items: center;
-    min-width: 1160px;
+    min-width: 2068px;
   }
 
   .track-list-header {
@@ -911,7 +911,7 @@
   .track-row {
     position: relative;
     display: grid;
-    min-width: 1160px;
+    min-width: 2068px;
     min-height: 126px;
     padding: 12px 10px;
     border-bottom: 1px solid var(--border);
@@ -919,7 +919,7 @@
 
   .track-row-inner {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 96px;
+    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 250px 250px 180px 180px 140px 96px;
     column-gap: 10px;
     row-gap: 10px;
     align-items: start;
@@ -1032,18 +1032,6 @@
     border-color: #374151;
     background: #030712;
     outline: none;
-  }
-
-  .track-meta-row {
-    grid-column: 5 / -1;
-    min-width: 0;
-  }
-
-  .track-meta {
-    display: grid;
-    grid-template-columns: minmax(0, 250px) minmax(0, 250px) minmax(0, 180px) minmax(0, 180px) minmax(0, 140px);
-    gap: 8px;
-    min-width: 0;
   }
 
   .track-meta-select,
@@ -1739,9 +1727,6 @@
   }
 
   @media (max-width: 720px) {
-    .track-meta {
-      grid-template-columns: minmax(0, 1fr);
-    }
     .edit-due-controls {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -3866,10 +3851,8 @@
               </div>
             </div>
           </div>
+          ${editableTaskMetadataHtml(entry, key)}
           <div class="track-time">${escapeHtml(timeText)}</div>
-          <div class="track-meta-row">
-            <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
-          </div>
         </div>
       </div>
     `;
@@ -3929,6 +3912,11 @@
           <div>Status</div>
           <div>Due date</div>
           <div>Recurrence</div>
+          <div>List</div>
+          <div>Department</div>
+          <div>Priority</div>
+          <div>Category</div>
+          <div>Type</div>
           <div>Time</div>
         </div>
       `);
