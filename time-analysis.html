@@ -477,7 +477,7 @@
 
   .toolbar {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) minmax(150px, 210px) minmax(150px, 210px);
+    grid-template-columns: minmax(200px, 1fr) repeat(5, minmax(135px, 190px));
     gap: 10px;
     margin-bottom: 12px;
   }
@@ -823,10 +823,24 @@
   }
 
   .tracker-filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(145px, 200px) minmax(150px, 210px) minmax(160px, 220px) minmax(190px, 250px) minmax(220px, 1fr) max-content;
+    grid-template-columns: repeat(7, minmax(135px, 1fr)) max-content;
     gap: 8px;
     align-items: end;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tracker-search-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .tracker-filter-bar label {
@@ -987,7 +1001,7 @@
 
   .track-meta {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 4px;
     min-width: 0;
   }
@@ -1751,7 +1765,11 @@
       font-size: 1rem;
     }
     .tracker-filter-bar {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+    }
+    .tracker-filter-controls {
+      grid-template-columns: repeat(7, minmax(135px, 1fr)) max-content;
     }
     .quick-chip {
       min-height: 48px;
@@ -1888,46 +1906,68 @@
               </div>
             </div>
             <div class="tracker-filter-bar">
-              <div class="tracker-field">
-                <label for="dueStatusFilter">Due filter</label>
-                <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
-                  <option value="all">All tasks</option>
-                  <option value="overdue">Overdue</option>
-                  <option value="today">Due today</option>
-                  <option value="tomorrow">Due tomorrow</option>
-                  <option value="set">Due date set</option>
-                  <option value="none">Due date not set</option>
-                </select>
+              <div class="tracker-filter-controls">
+                <div class="tracker-field">
+                  <label for="dueStatusFilter">Due filter</label>
+                  <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
+                    <option value="all">All tasks</option>
+                    <option value="overdue">Overdue</option>
+                    <option value="today">Due today</option>
+                    <option value="tomorrow">Due tomorrow</option>
+                    <option value="set">Due date set</option>
+                    <option value="none">Due date not set</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
+                  <label for="recurrenceFilter">Recurrence filter</label>
+                  <select class="tracker-select" id="recurrenceFilter" aria-label="Filter tasks by recurrence">
+                    <option value="all">All recurrence</option>
+                    <option value="recurring">Recurring</option>
+                    <option value="none">Not recurring</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerPriorityFilter">Priority filter</label>
+                  <select class="tracker-select" id="trackerPriorityFilter" aria-label="Filter tasks by priority">
+                    <option value="">All priorities</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerListFilter">List filter</label>
+                  <select class="tracker-select" id="trackerListFilter" aria-label="Filter tasks by list">
+                    <option value="">All lists</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerDepartmentFilter">Department filter</label>
+                  <select class="tracker-select" id="trackerDepartmentFilter" aria-label="Filter tasks by department">
+                    <option value="">All departments</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerCategoryFilter">Category filter</label>
+                  <select class="tracker-select" id="trackerCategoryFilter" aria-label="Filter tasks by category">
+                    <option value="">All categories</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerTypeFilter">Type filter</label>
+                  <select class="tracker-select" id="trackerTypeFilter" aria-label="Filter tasks by type">
+                    <option value="">All types</option>
+                  </select>
+                </div>
+                <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-30</button>
               </div>
-              <div class="tracker-field">
-                <label for="recurrenceFilter">Recurrence filter</label>
-                <select class="tracker-select" id="recurrenceFilter" aria-label="Filter tasks by recurrence">
-                  <option value="all">All recurrence</option>
-                  <option value="recurring">Recurring</option>
-                  <option value="none">Not recurring</option>
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="custom">Custom</option>
-                </select>
+              <div class="tracker-search-row">
+                <div class="tracker-field">
+                  <label for="taskSearchInput">Task search</label>
+                  <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
+                </div>
               </div>
-              <div class="tracker-field">
-                <label for="trackerListFilter">List filter</label>
-                <select class="tracker-select" id="trackerListFilter" aria-label="Filter tasks by list">
-                  <option value="">All lists</option>
-                </select>
-              </div>
-              <div class="tracker-field">
-                <label for="trackerDepartmentFilter">Department filter</label>
-                <select class="tracker-select" id="trackerDepartmentFilter" aria-label="Filter tasks by department">
-                  <option value="">All departments</option>
-                </select>
-              </div>
-              <div class="tracker-field">
-                <label for="taskSearchInput">Task search</label>
-                <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
-              </div>
-              <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-30</button>
             </div>
             <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
             <datalist id="departmentOptions"></datalist>
@@ -2216,6 +2256,9 @@
         <div class="toolbar">
           <input class="control" id="searchInput" type="search" placeholder="Search task, department, section..." />
           <select class="control" id="listFilter" aria-label="Filter by list"></select>
+          <select class="control" id="priorityFilter" aria-label="Filter by priority"></select>
+          <select class="control" id="categoryFilter" aria-label="Filter by category"></select>
+          <select class="control" id="typeFilter" aria-label="Filter by type"></select>
           <select class="control" id="weekFilter" aria-label="Filter by week"></select>
         </div>
         <div class="table-wrap">
@@ -2956,6 +2999,7 @@
       listName: listNameForId(listId),
       taskName: Object.prototype.hasOwnProperty.call(override || {}, "taskName") ? cleanLabel(override.taskName, entry.taskName) : entry.taskName,
       department: Object.prototype.hasOwnProperty.call(override || {}, "department") ? cleanLabel(override.department, "") : entry.department,
+      priority: Object.prototype.hasOwnProperty.call(override || {}, "priority") ? cleanLabel(override.priority, "") : entry.priority,
       taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? cleanLabel(override.taskCategory, "") : entry.taskCategory,
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       dueDate,
@@ -3000,7 +3044,7 @@
         taskOrder: orderOptionValue(value?.taskOrder),
         updatedAt: cleanLabel(value?.updatedAt, "")
       };
-      ["listId", "taskName", "department", "taskCategory", "taskType"].forEach((field) => {
+      ["listId", "taskName", "department", "priority", "taskCategory", "taskType"].forEach((field) => {
         if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = cleanLabel(value[field], "");
       });
       return [key, cleaned];
@@ -3597,6 +3641,62 @@
     select.value = options.includes(current) ? current : "";
   }
 
+  function priorityFilterOptions(rows) {
+    return Array.from(new Set(rows
+      .map((entry) => trackGroupName(entry))
+      .filter((value) => value && value !== "Other")
+    )).sort(priorityOptionSort);
+  }
+
+  function priorityFilterOptionsHtml(rows, allLabel, selected = "") {
+    const options = priorityFilterOptions(rows);
+    const current = options.includes(selected) ? selected : "";
+    return [
+      `<option value=""${current ? "" : " selected"}>${escapeHtml(allLabel)}</option>`,
+      ...options.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
+    ].join("");
+  }
+
+  function populateTrackerPriorityFilter(rows = trackerActivities()) {
+    const select = document.getElementById("trackerPriorityFilter");
+    if (!select) return;
+    select.innerHTML = priorityFilterOptionsHtml(rows, "All priorities", select.value || "");
+  }
+
+  function metadataFilterOptions(rows, field) {
+    const baseOptions = field === "taskCategory" ? TASK_CATEGORY_OPTIONS : [];
+    const values = new Set(baseOptions);
+    rows.forEach((entry) => {
+      const value = cleanLabel(entry[field], "");
+      if (!value) return;
+      if (field === "taskType" && /^other$/i.test(value)) return;
+      values.add(value);
+    });
+    return Array.from(values).sort((a, b) => {
+      if (field === "taskCategory") {
+        const indexA = TASK_CATEGORY_OPTIONS.indexOf(a);
+        const indexB = TASK_CATEGORY_OPTIONS.indexOf(b);
+        if (indexA !== -1 || indexB !== -1) return (indexA === -1 ? TASK_CATEGORY_OPTIONS.length : indexA) - (indexB === -1 ? TASK_CATEGORY_OPTIONS.length : indexB);
+      }
+      return a.localeCompare(b);
+    });
+  }
+
+  function metadataFilterOptionsHtml(rows, field, allLabel, selected = "") {
+    const options = metadataFilterOptions(rows, field);
+    const current = options.includes(selected) ? selected : "";
+    return [
+      `<option value=""${current ? "" : " selected"}>${escapeHtml(allLabel)}</option>`,
+      ...options.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
+    ].join("");
+  }
+
+  function populateTrackerMetadataFilter(id, rows, field, allLabel) {
+    const select = document.getElementById(id);
+    if (!select) return;
+    select.innerHTML = metadataFilterOptionsHtml(rows, field, allLabel, select.value || "");
+  }
+
   function metadataSelectOptionsHtml(values, selected, placeholder) {
     const current = cleanLabel(selected, "");
     const uniqueValues = Array.from(new Set(values.filter(Boolean)));
@@ -3614,6 +3714,9 @@
       </select>
       <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="department" aria-label="Department for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("department"), entry.department, "Department")}
+      </select>
+      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="priority" aria-label="Priority for ${escapeHtml(entry.taskName)}">
+        ${metadataSelectOptionsHtml(metadataOptions("priority"), entry.priority, "Priority")}
       </select>
       <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="taskCategory" aria-label="Task category for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("taskCategory"), entry.taskCategory, "Category")}
@@ -3637,6 +3740,7 @@
       listId: Object.prototype.hasOwnProperty.call(existing, "listId") ? cleanLabel(existing.listId, "") : cleanLabel(entry.listId, ""),
       taskName: Object.prototype.hasOwnProperty.call(existing, "taskName") ? cleanLabel(existing.taskName, "") : cleanLabel(entry.taskName, ""),
       department: Object.prototype.hasOwnProperty.call(existing, "department") ? cleanLabel(existing.department, "") : cleanLabel(entry.department, ""),
+      priority: Object.prototype.hasOwnProperty.call(existing, "priority") ? cleanLabel(existing.priority, "") : cleanLabel(entry.priority, ""),
       taskCategory: Object.prototype.hasOwnProperty.call(existing, "taskCategory") ? cleanLabel(existing.taskCategory, "") : cleanLabel(entry.taskCategory, ""),
       taskType: Object.prototype.hasOwnProperty.call(existing, "taskType") ? cleanLabel(existing.taskType, "") : cleanLabel(entry.taskType, "")
     };
@@ -3752,18 +3856,30 @@
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
     const recurrenceFilter = document.getElementById("recurrenceFilter");
+    const priorityFilter = document.getElementById("trackerPriorityFilter");
     const listFilter = document.getElementById("trackerListFilter");
     const departmentFilter = document.getElementById("trackerDepartmentFilter");
+    const categoryFilter = document.getElementById("trackerCategoryFilter");
+    const typeFilter = document.getElementById("trackerTypeFilter");
     const taskSearch = document.getElementById("taskSearchInput");
     const query = taskSearch?.value.trim().toLowerCase() || "";
+    const selectedPriority = priorityFilter?.value || "";
     const selectedListId = listFilter?.value || "";
     const selectedDepartment = departmentFilter?.value || "";
+    const selectedCategory = categoryFilter?.value || "";
+    const selectedType = typeFilter?.value || "";
     const allRows = trackerActivities();
+    populateTrackerPriorityFilter(allRows);
     populateTrackerDepartmentFilter(allRows);
+    populateTrackerMetadataFilter("trackerCategoryFilter", allRows, "taskCategory", "All categories");
+    populateTrackerMetadataFilter("trackerTypeFilter", allRows, "taskType", "All types");
     updateDueStatusFilterOptions(allRows);
     const rows = allRows.filter((entry) => {
+      if (selectedPriority && trackGroupName(entry) !== selectedPriority) return false;
       if (selectedListId && entry.listId !== selectedListId) return false;
       if (selectedDepartment && entry.department !== selectedDepartment) return false;
+      if (selectedCategory && entry.taskCategory !== selectedCategory) return false;
+      if (selectedType && entry.taskType !== selectedType) return false;
       return matchesDueStatusFilter(entry, dueFilter?.value || "all")
         && matchesRecurrenceFilter(entry, recurrenceFilter?.value || "all")
         && matchesTaskSearch(entry, query);
@@ -3977,10 +4093,16 @@
     if (dueFilter) dueFilter.oninput = renderActivityRows;
     const recurrenceFilter = document.getElementById("recurrenceFilter");
     if (recurrenceFilter) recurrenceFilter.oninput = renderActivityRows;
+    const priorityFilter = document.getElementById("trackerPriorityFilter");
+    if (priorityFilter) priorityFilter.oninput = renderActivityRows;
     const listFilter = document.getElementById("trackerListFilter");
     if (listFilter) listFilter.oninput = renderActivityRows;
     const departmentFilter = document.getElementById("trackerDepartmentFilter");
     if (departmentFilter) departmentFilter.oninput = renderActivityRows;
+    const categoryFilter = document.getElementById("trackerCategoryFilter");
+    if (categoryFilter) categoryFilter.oninput = renderActivityRows;
+    const typeFilter = document.getElementById("trackerTypeFilter");
+    if (typeFilter) typeFilter.oninput = renderActivityRows;
     const taskSearch = document.getElementById("taskSearchInput");
     if (taskSearch) taskSearch.oninput = renderActivityRows;
     const trackerList = document.getElementById("trackerList");
@@ -4938,20 +5060,32 @@
 
   function renderDetails(entries, metrics) {
     const listFilter = document.getElementById("listFilter");
+    const priorityFilter = document.getElementById("priorityFilter");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const typeFilter = document.getElementById("typeFilter");
     const weekFilter = document.getElementById("weekFilter");
     const searchInput = document.getElementById("searchInput");
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
+    priorityFilter.innerHTML = priorityFilterOptionsHtml(entries, "All priorities", priorityFilter.value || "");
+    categoryFilter.innerHTML = metadataFilterOptionsHtml(entries, "taskCategory", "All categories", categoryFilter.value || "");
+    typeFilter.innerHTML = metadataFilterOptionsHtml(entries, "taskType", "All types", typeFilter.value || "");
     weekFilter.innerHTML = `<option value="">All weeks</option>${metrics.weeks.map((week) => `<option value="${escapeHtml(week)}">${escapeHtml(week)}</option>`).join("")}`;
     document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}<th class="actions-column">Actions</th></tr>`;
 
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
       const listId = listFilter.value;
+      const priority = priorityFilter.value;
+      const category = categoryFilter.value;
+      const type = typeFilter.value;
       const week = weekFilter.value;
       const filtered = entries
         .filter((entry) => {
           if (listId && entry.listId !== listId) return false;
+          if (priority && trackGroupName(entry) !== priority) return false;
+          if (category && entry.taskCategory !== category) return false;
+          if (type && entry.taskType !== type) return false;
           if (week && entry.week !== week) return false;
           if (query && !entry.searchText.includes(query)) return false;
           return true;
@@ -4992,7 +5126,7 @@
       });
     };
 
-    [searchInput, listFilter, weekFilter].forEach((control) => control.addEventListener("input", updateTable));
+    [searchInput, listFilter, priorityFilter, categoryFilter, typeFilter, weekFilter].forEach((control) => control.addEventListener("input", updateTable));
     updateTable();
   }
 
