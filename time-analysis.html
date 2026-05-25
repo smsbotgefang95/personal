@@ -833,7 +833,7 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr) 292px repeat(3, minmax(135px, 1fr)) max-content;
+    grid-template-columns: minmax(340px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
     gap: 8px;
     align-items: end;
     overflow-x: auto;
@@ -871,10 +871,10 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: minmax(340px, 1fr) 68px 82px 256px 250px 250px 250px 180px 180px 140px 96px;
     gap: 10px;
     align-items: center;
-    min-width: 2068px;
+    min-width: 2032px;
   }
 
   .track-list-header {
@@ -911,15 +911,15 @@
   .track-row {
     position: relative;
     display: grid;
-    min-width: 2068px;
-    min-height: 126px;
-    padding: 12px 10px;
+    min-width: 2032px;
+    min-height: 68px;
+    padding: 10px;
     border-bottom: 1px solid var(--border);
   }
 
   .track-row-inner {
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 68px 82px 292px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: minmax(340px, 1fr) 68px 82px 256px 250px 250px 250px 180px 180px 140px 96px;
     column-gap: 10px;
     row-gap: 10px;
     align-items: start;
@@ -1155,7 +1155,7 @@
 
   .track-due-inputs {
     display: grid;
-    grid-template-columns: minmax(168px, 1fr) minmax(82px, 96px);
+    grid-template-columns: 168px 82px;
     gap: 6px;
     align-items: end;
     min-width: 0;
@@ -1778,7 +1778,7 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: minmax(340px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr) 292px repeat(3, minmax(135px, 1fr)) max-content;
+      grid-template-columns: minmax(340px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr) 256px repeat(3, minmax(135px, 1fr)) max-content;
     }
     .quick-chip {
       min-height: 48px;
