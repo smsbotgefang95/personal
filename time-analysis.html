@@ -1089,8 +1089,7 @@
   }
 
   .tracker-actions,
-  .edit-actions,
-  .admin-key-actions {
+  .edit-actions {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
@@ -1201,14 +1200,6 @@
     padding: 18px;
     background: var(--card);
     box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
-  }
-
-  .admin-key-credential-context {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
   }
 
   @media (max-width: 940px) {
@@ -1374,7 +1365,6 @@
               <button class="btn btn-primary" id="startTimerBtn" type="submit" hidden>Start Custom</button>
               <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
               <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
-              <button class="btn btn-indigo" id="loadTimeKeyBtn" type="button">Unlock</button>
             </div>
             <div class="tracker-status" id="trackerStatus" role="status" aria-live="polite"></div>
           </form>
@@ -1664,31 +1654,6 @@
     </section>
   </div>
 </main>
-
-<div class="dialog-backdrop" id="timeKeyDialog" role="dialog" aria-modal="true" aria-labelledby="timeKeyTitle" hidden>
-  <form class="dialog-panel" id="timeKeyForm" method="post" action="/api/time-entries" autocomplete="on">
-    <h2 id="timeKeyTitle">Unlock Time Tracking</h2>
-    <p class="section-note">Enter the time-tracking admin key to load and save private time entries.</p>
-    <input
-      class="admin-key-credential-context"
-      id="timeKeyUsername"
-      name="username"
-      type="text"
-      autocomplete="username"
-      value="time-tracking-admin"
-      tabindex="-1"
-      readonly
-    />
-    <div class="tracker-field">
-      <label for="timeKeyInput">Admin key</label>
-      <input class="tracker-input" id="timeKeyInput" name="password" type="password" autocomplete="current-password" required />
-    </div>
-    <div class="admin-key-actions">
-      <button class="btn btn-ghost" id="timeKeyCancelBtn" type="button">Cancel</button>
-      <button class="btn btn-primary" type="submit">Unlock</button>
-    </div>
-  </form>
-</div>
 
 <div class="dialog-backdrop" id="editEntryDialog" role="dialog" aria-modal="true" aria-labelledby="editEntryTitle" hidden>
   <form class="dialog-panel" id="editEntryForm">
@@ -2118,45 +2083,14 @@
     };
   }
 
-  function requestTimeAdminKey() {
-    const dialog = document.getElementById("timeKeyDialog");
-    const input = document.getElementById("timeKeyInput");
-    input.value = timeAdminKey || localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || "";
-    dialog.hidden = false;
-    window.requestAnimationFrame(() => input.focus());
-    return new Promise((resolve) => {
-      const form = document.getElementById("timeKeyForm");
-      const cancel = document.getElementById("timeKeyCancelBtn");
-      const cleanup = () => {
-        form.removeEventListener("submit", onSubmit);
-        cancel.removeEventListener("click", onCancel);
-        dialog.hidden = true;
-      };
-      const onSubmit = (event) => {
-        event.preventDefault();
-        cleanup();
-        resolve(input.value.trim());
-      };
-      const onCancel = () => {
-        cleanup();
-        resolve("");
-      };
-      form.addEventListener("submit", onSubmit);
-      cancel.addEventListener("click", onCancel);
-    });
-  }
-
-  async function ensureTimeAdminKey({ prompt = true } = {}) {
+  async function ensureTimeAdminKey() {
     timeAdminKey = timeAdminKey || localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || "";
-    if (timeAdminKey || !prompt) return timeAdminKey;
-    timeAdminKey = await requestTimeAdminKey();
-    if (timeAdminKey) localStorage.setItem(TIME_ADMIN_KEY_STORAGE, timeAdminKey);
     return timeAdminKey;
   }
 
-  async function timeApi(method = "GET", payload = null, { prompt = true } = {}) {
-    const key = await ensureTimeAdminKey({ prompt });
-    if (!key) throw new Error("Admin key required");
+  async function timeApi(method = "GET", payload = null) {
+    const key = await ensureTimeAdminKey();
+    if (!key) throw new Error("Private time tracking is unavailable.");
     const headers = { "X-Time-Tracking-Admin-Key": key };
     const options = { method, headers, cache: "no-store" };
     if (payload) {
@@ -2164,12 +2098,10 @@
       options.body = JSON.stringify(payload);
     }
     const response = await fetch(TIME_ENTRIES_API, options);
-    if (response.status === 401 && prompt) {
+    if (response.status === 401) {
       localStorage.removeItem(TIME_ADMIN_KEY_STORAGE);
-      timeAdminKey = await requestTimeAdminKey();
-      if (!timeAdminKey) throw new Error("Admin key required");
-      localStorage.setItem(TIME_ADMIN_KEY_STORAGE, timeAdminKey);
-      return timeApi(method, payload, { prompt: false });
+      timeAdminKey = "";
+      throw new Error("Private time tracking is unavailable.");
     }
     if (!response.ok) throw new Error(`Time API returned HTTP ${response.status}`);
     return response.json();
@@ -3726,7 +3658,7 @@
       } catch (catalogError) {
         taskCatalogEntries = [];
       }
-      const response = await timeApi("GET", null, { prompt: false });
+      const response = await timeApi("GET");
       timePayload = cleanClientPayload(response);
       if ((timePayload.entries || []).length || timePayload.activeEntry) {
         renderNativeDashboard();
@@ -3839,23 +3771,6 @@
       }
     }
     input.click();
-  });
-
-  document.getElementById("loadTimeKeyBtn").addEventListener("click", async () => {
-    try {
-      localStorage.removeItem(TIME_ADMIN_KEY_STORAGE);
-      timeAdminKey = "";
-      const response = await timeApi("GET", null, { prompt: true });
-      timePayload = cleanClientPayload(response);
-      if ((timePayload.entries || []).length || timePayload.activeEntry) {
-        renderNativeDashboard();
-      } else {
-        renderTracker();
-      }
-      setTrackerStatus("Private time tracking unlocked.", "saved");
-    } catch (error) {
-      setTrackerStatus(error.message, "error");
-    }
   });
 
   document.getElementById("editCancelBtn").addEventListener("click", closeEditEntry);
