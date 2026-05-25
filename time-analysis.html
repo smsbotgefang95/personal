@@ -843,8 +843,8 @@
   }
 
   .tracker-filter-controls {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     align-items: end;
     overflow-x: visible;
@@ -853,15 +853,21 @@
     max-width: 100%;
   }
 
+  .tracker-filter-controls .tracker-field {
+    flex: 1 1 128px;
+    min-width: 128px;
+  }
+
   .tracker-search-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .due-filter-field {
-    width: 100%;
+  .tracker-filter-controls .due-filter-field {
+    flex: 0 0 min(var(--due-status-filter-width, 128px), 100%);
+    width: min(var(--due-status-filter-width, 128px), 100%);
     max-width: 100%;
-    min-width: var(--due-status-filter-width, 128px);
+    min-width: 0;
   }
 
   #dueStatusFilter {
@@ -2072,7 +2078,8 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
     }
     .quick-chip {
       min-height: 48px;
@@ -2203,6 +2210,12 @@
                   </select>
                 </div>
                 <div class="tracker-field">
+                  <label for="trackerPriorityFilter">Priority</label>
+                  <select class="tracker-select" id="trackerPriorityFilter" aria-label="Filter tasks by priority">
+                    <option value="">All</option>
+                  </select>
+                </div>
+                <div class="tracker-field">
                   <label for="trackerDepartmentFilter">Department</label>
                   <select class="tracker-select" id="trackerDepartmentFilter" aria-label="Filter tasks by department">
                     <option value="">All</option>
@@ -2217,12 +2230,6 @@
                 <div class="tracker-field">
                   <label for="trackerTypeFilter">Type</label>
                   <select class="tracker-select" id="trackerTypeFilter" aria-label="Filter tasks by type">
-                    <option value="">All</option>
-                  </select>
-                </div>
-                <div class="tracker-field">
-                  <label for="trackerPriorityFilter">Priority</label>
-                  <select class="tracker-select" id="trackerPriorityFilter" aria-label="Filter tasks by priority">
                     <option value="">All</option>
                   </select>
                 </div>
