@@ -403,7 +403,7 @@
   .dialogue-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(180px, 260px) minmax(150px, auto);
+    grid-template-columns: minmax(170px, 240px) minmax(170px, 240px) minmax(150px, auto);
   }
 
   .dialogue-card {
@@ -1019,6 +1019,7 @@
     </div>
     <div class="scenario-tabs" id="dialogueTabs" role="tablist" aria-label="Dialogue scenarios"></div>
     <div class="dialogue-tools">
+      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话"></select>
       <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
         <option value="all">所有学习状态</option>
         <option value="to-learn">待学</option>
@@ -1039,6 +1040,7 @@
   const STORAGE_VOCAB_PHRASE_STATUS_KEY = "learningEnglishVocabularyPhraseStatus";
   const STORAGE_DIALOGUE_STATUS_KEY = "learningEnglishDialogueStatus";
   const STORAGE_DIALOGUE_SCENARIO_KEY = "learningEnglishSelectedDialogueScenario";
+  const STORAGE_DIALOGUE_THEME_FILTER_KEY = "learningEnglishDialogueThemeFilter";
   const STORAGE_DIALOGUE_STATUS_FILTER_KEY = "learningEnglishDialogueStatusFilter";
   const STORAGE_CUSTOM_VOCAB_KEY = "learningEnglishCustomVocabulary";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
@@ -6169,6 +6171,7 @@ pass=通过；传递
   let selectedScenario = loadSelectedScenario();
   let selectedPhraseStatus = loadSelectedPhraseStatus();
   let selectedDialogueScenario = loadSelectedDialogueScenario();
+  let selectedDialogueTheme = loadSelectedDialogueTheme();
   let selectedDialogueStatus = loadSelectedDialogueStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyWordMatch = loadSelectedVocabularyWordMatch();
@@ -6296,6 +6299,15 @@ pass=通过；传递
     try {
       const saved = localStorage.getItem(STORAGE_DIALOGUE_STATUS_FILTER_KEY);
       return ["all", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function loadSelectedDialogueTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_DIALOGUE_THEME_FILTER_KEY);
+      return saved === "all" || DIALOGUE_SCENARIOS.some((item) => item.id === saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -6549,6 +6561,12 @@ pass=通过；传递
     } catch (error) {}
   }
 
+  function saveSelectedDialogueTheme() {
+    try {
+      localStorage.setItem(STORAGE_DIALOGUE_THEME_FILTER_KEY, selectedDialogueTheme);
+    } catch (error) {}
+  }
+
   function todayKey() {
     return new Date().toISOString().slice(0, 10);
   }
@@ -6594,7 +6612,9 @@ pass=通过；传递
     container.querySelectorAll("[data-dialogue-scenario]").forEach((button) => {
       button.addEventListener("click", () => {
         selectedDialogueScenario = button.dataset.dialogueScenario;
+        selectedDialogueTheme = selectedDialogueScenario;
         saveSelectedDialogueScenario();
+        saveSelectedDialogueTheme();
         renderDialogueList();
       });
     });
@@ -6816,18 +6836,26 @@ pass=通过；传递
   function renderDialogueList() {
     const container = document.getElementById("dialogueList");
     const summary = document.getElementById("dialogueSummary");
-    const filter = document.getElementById("dialogueStatusFilter");
+    const themeFilter = document.getElementById("dialogueThemeFilter");
+    const statusFilter = document.getElementById("dialogueStatusFilter");
     const filterSummary = document.getElementById("dialogueFilterSummary");
-    if (!container || !summary || !filter || !filterSummary) return;
+    if (!container || !summary || !themeFilter || !statusFilter || !filterSummary) return;
 
-    const scenarioDialogues = DIALOGUES.filter((dialogue) => dialogue.scenario === selectedDialogueScenario);
-    const dialogues = scenarioDialogues.filter((dialogue) => selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus);
-    filter.value = selectedDialogueStatus;
-    summary.textContent = `${scenarioDialogues.length} ${scenarioDialogues.length === 1 ? "dialogue" : "dialogues"}`;
-    filterSummary.textContent = `${dialogues.length} of ${scenarioDialogues.length} dialogues`;
+    themeFilter.innerHTML = [
+      `<option value="all">所有主题</option>`,
+      ...DIALOGUE_SCENARIOS.map((scenario) => `<option value="${escapeHtml(scenario.id)}">${escapeHtml(scenario.label)} / ${escapeHtml(scenario.zh)}</option>`)
+    ].join("");
+    const themeDialogues = selectedDialogueTheme === "all"
+      ? DIALOGUES
+      : DIALOGUES.filter((dialogue) => dialogue.scenario === selectedDialogueTheme);
+    const dialogues = themeDialogues.filter((dialogue) => selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus);
+    themeFilter.value = selectedDialogueTheme;
+    statusFilter.value = selectedDialogueStatus;
+    summary.textContent = `${themeDialogues.length} ${themeDialogues.length === 1 ? "dialogue" : "dialogues"}`;
+    filterSummary.textContent = `${dialogues.length} of ${themeDialogues.length} dialogues`;
 
     if (!dialogues.length) {
-      container.innerHTML = `<div class="empty">没有符合此状态的对话。</div>`;
+      container.innerHTML = `<div class="empty">没有符合此筛选条件的对话。</div>`;
       return;
     }
 
@@ -7277,6 +7305,16 @@ pass=通过；传递
   document.getElementById("dialogueStatusFilter").addEventListener("change", (event) => {
     selectedDialogueStatus = event.target.value;
     saveSelectedDialogueStatus();
+    renderDialogueList();
+  });
+  document.getElementById("dialogueThemeFilter").addEventListener("change", (event) => {
+    selectedDialogueTheme = event.target.value;
+    if (selectedDialogueTheme !== "all") {
+      selectedDialogueScenario = selectedDialogueTheme;
+      saveSelectedDialogueScenario();
+      renderDialogueTabs();
+    }
+    saveSelectedDialogueTheme();
     renderDialogueList();
   });
   document.getElementById("vocabularyPhraseSearch").addEventListener("input", renderVocabularyPhrases);
