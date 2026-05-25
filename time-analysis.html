@@ -823,8 +823,9 @@
 
   .tracker-filter-bar {
     display: grid;
-    grid-template-columns: minmax(180px, 260px);
+    grid-template-columns: minmax(180px, 260px) max-content;
     gap: 8px;
+    align-items: end;
   }
 
   .tracker-filter-bar label {
@@ -963,6 +964,19 @@
     font-size: 0.92rem;
     font-weight: 850;
     white-space: nowrap;
+  }
+
+  .track-order-select {
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 6px 8px;
+    background: #030712;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 900;
   }
 
   .track-extra {
@@ -1482,14 +1496,17 @@
           </div>
           <form class="tracker-form" id="trackerForm">
             <div class="tracker-filter-bar">
-              <label for="dueStatusFilter">Due filter</label>
-              <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
-                <option value="all">All tasks</option>
-                <option value="today">Due today</option>
-                <option value="tomorrow">Due tomorrow</option>
-                <option value="overdue">Overdue</option>
-                <option value="today-overdue">Due today or overdue</option>
-              </select>
+              <div class="tracker-field">
+                <label for="dueStatusFilter">Due filter</label>
+                <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
+                  <option value="all">All tasks</option>
+                  <option value="today">Due today</option>
+                  <option value="tomorrow">Due tomorrow</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="today-overdue">Due today or overdue</option>
+                </select>
+              </div>
+              <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-20</button>
             </div>
             <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
             <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add custom task</button>
@@ -1967,6 +1984,7 @@
   let timerTick = null;
   let currentSourcePills = [];
   let collapsedTrackGroups = new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]"));
+  let trackOrderDirection = "asc";
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
@@ -2240,7 +2258,10 @@
       status: override?.status === "done" ? "done" : "todo",
       recurrence,
       recurring: recurrence !== "none",
-      recurringText
+      recurringText,
+      taskOrder: Object.prototype.hasOwnProperty.call(override || {}, "taskOrder")
+        ? cleanLabel(override.taskOrder, "")
+        : cleanLabel(entry.taskOrder, "")
     };
   }
 
@@ -2268,6 +2289,7 @@
         status: value?.status === "done" ? "done" : "todo",
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
+        taskOrder: orderOptionValue(value?.taskOrder),
         updatedAt: cleanLabel(value?.updatedAt, "")
       }];
     }));
@@ -2567,8 +2589,14 @@
   }
 
   function compareTaskOrder(a, b) {
-    const orderDiff = taskOrderNumber(a) - taskOrderNumber(b);
-    if (orderDiff) return orderDiff;
+    const orderA = taskOrderNumber(a);
+    const orderB = taskOrderNumber(b);
+    const hasOrderA = Number.isFinite(orderA);
+    const hasOrderB = Number.isFinite(orderB);
+    if (hasOrderA && hasOrderB && orderA !== orderB) {
+      return trackOrderDirection === "desc" ? orderB - orderA : orderA - orderB;
+    }
+    if (hasOrderA !== hasOrderB) return hasOrderA ? -1 : 1;
     const priorityDiff = TRACK_GROUP_ORDER.indexOf(trackGroupName(a)) - TRACK_GROUP_ORDER.indexOf(trackGroupName(b));
     if (priorityDiff) return priorityDiff;
     const sourceDiff = (a.firstSourceIndex ?? Number.POSITIVE_INFINITY) - (b.firstSourceIndex ?? Number.POSITIVE_INFINITY);
@@ -2672,6 +2700,28 @@
     select.value = current;
   }
 
+  function orderOptionValue(value) {
+    const number = Number(value);
+    return Number.isInteger(number) && number >= 1 && number <= 20 ? String(number).padStart(2, "0") : "";
+  }
+
+  function orderOptionsHtml(selected) {
+    const current = orderOptionValue(selected);
+    const options = [`<option value=""${current ? "" : " selected"}>-</option>`];
+    for (let i = 1; i <= 20; i += 1) {
+      const value = String(i).padStart(2, "0");
+      options.push(`<option value="${value}"${value === current ? " selected" : ""}>${i}</option>`);
+    }
+    return options.join("");
+  }
+
+  function updateOrderSortButton() {
+    const button = document.getElementById("orderSortBtn");
+    if (!button) return;
+    button.textContent = trackOrderDirection === "asc" ? "Sort 1-20" : "Sort 20-1";
+    button.setAttribute("aria-label", `Task order sort ${trackOrderDirection === "asc" ? "ascending" : "descending"}`);
+  }
+
   function recurrenceOptionsHtml(selected) {
     return RECURRENCE_OPTIONS
       .map(([value, label]) => `<option value="${escapeHtml(value)}"${value === selected ? " selected" : ""}>${escapeHtml(label)}</option>`)
@@ -2685,7 +2735,8 @@
       dueDate: Object.prototype.hasOwnProperty.call(existing, "dueDate") ? dateInputValue(existing.dueDate) : dateInputValue(entry.dueDate || entry.dueDateText),
       status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
-      recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : "")
+      recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
+      taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder)
     };
   }
 
@@ -2712,7 +2763,7 @@
     const isDone = entry.status === "done";
     const recurrence = entry.recurrence || inferRecurrence(entry);
     const customText = recurrence === "custom" ? entry.recurringText : "";
-    const orderText = cleanLabel(entry.taskOrder, "-");
+    const order = orderOptionValue(entry.taskOrder);
     return `
       <div class="track-row">
         <div>
@@ -2722,7 +2773,11 @@
           </div>
           <div class="track-meta">${escapeHtml(activityMeta(entry))}</div>
         </div>
-        <div class="track-order-cell">${escapeHtml(orderText)}</div>
+        <div class="track-order-cell">
+          <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
+            ${orderOptionsHtml(order)}
+          </select>
+        </div>
         <div class="track-status-cell">
           ${isRunning
             ? `<span class="track-status running">DOING</span>`
@@ -2817,6 +2872,13 @@
         saveTaskOverride(entry, { status: select.value === "done" ? "done" : "todo" }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
+    document.querySelectorAll("[data-order-key]").forEach((select) => {
+      select.addEventListener("change", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.orderKey);
+        if (!entry) return;
+        saveTaskOverride(entry, { taskOrder: orderOptionValue(select.value) }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
     document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
       select.addEventListener("change", () => {
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.recurrenceKey);
@@ -2864,6 +2926,15 @@
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
     if (dueFilter) dueFilter.oninput = renderActivityRows;
+    const orderSort = document.getElementById("orderSortBtn");
+    if (orderSort) {
+      updateOrderSortButton();
+      orderSort.onclick = () => {
+        trackOrderDirection = trackOrderDirection === "asc" ? "desc" : "asc";
+        updateOrderSortButton();
+        renderActivityRows();
+      };
+    }
   }
 
   function renderNativeDashboard() {
