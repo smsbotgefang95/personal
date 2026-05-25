@@ -12,7 +12,7 @@ from pathlib import Path
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "updatedAt": None}
-DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "updatedAt": None}
+DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "updatedAt": None}
 DEFAULT_QUESTION_PROGRESS = {
     "1": "review",
     "27": "learned",
@@ -257,6 +257,33 @@ def clean_task_overrides(value):
     return overrides
 
 
+def clean_task_merges(value):
+    if not isinstance(value, dict):
+        return {}
+    merges = {}
+    for key, item in list(value.items())[:5000]:
+        key = clean_time_text(key, 260)
+        if "|||" not in key or not isinstance(item, dict):
+            continue
+        target_key = clean_time_text(item.get("targetKey"), 260)
+        if "|||" not in target_key:
+            continue
+        target_parts = target_key.split("|||", 1)
+        target_list_id = clean_time_text(item.get("targetListId"), 80) or target_parts[0]
+        target_task_id = clean_time_text(item.get("targetTaskId"), 160) or target_parts[1]
+        task_name = clean_time_text(item.get("taskName"), 240)
+        if key == target_key and not task_name:
+            continue
+        merges[key] = {
+            "targetKey": target_key,
+            "targetListId": target_list_id,
+            "targetTaskId": target_task_id,
+            "taskName": task_name,
+            "updatedAt": clean_time_text(item.get("updatedAt"), 40),
+        }
+    return merges
+
+
 def clean_time_entry(value, require_stop=False):
     if not isinstance(value, dict):
         return None
@@ -320,6 +347,7 @@ def clean_time_entries_payload(value):
         "entries": entries,
         "activeEntry": active_entry,
         "taskOverrides": clean_task_overrides(value.get("taskOverrides")),
+        "taskMerges": clean_task_merges(value.get("taskMerges")),
         "updatedAt": value.get("updatedAt"),
     }
 

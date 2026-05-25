@@ -1759,6 +1759,18 @@
 
   .bulk-task-spacer { flex: 1 1 auto; }
 
+  .bulk-task-merge {
+    min-height: 40px;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #1f2937;
+    color: #f9fafb;
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
   .bulk-task-field {
     display: flex;
     align-items: center;
@@ -1796,6 +1808,7 @@
 
     .bulk-task-field,
     .bulk-task-status-select,
+    .bulk-task-merge,
     .bulk-task-apply {
       width: 100%;
     }
@@ -1876,6 +1889,30 @@
     gap: 8px;
     justify-content: flex-end;
     margin-top: 18px;
+  }
+
+  .merge-task-options {
+    display: grid;
+    gap: 8px;
+    margin: 14px 0 16px;
+  }
+
+  .merge-task-option {
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    gap: 9px;
+    padding: 10px 11px;
+  }
+
+  .merge-task-option input {
+    min-height: auto;
+    width: auto;
+  }
+
+  .merge-task-custom {
+    margin-top: 10px;
   }
 
   .advanced-toggle {
@@ -2572,6 +2609,19 @@
     </div>
   </form>
 </div>
+<div class="admin-key-dialog" id="mergeTaskDialog" role="dialog" aria-modal="true" aria-labelledby="mergeTaskTitle" hidden>
+  <form class="admin-key-panel" id="mergeTaskForm">
+    <h2 id="mergeTaskTitle">Merge selected tasks</h2>
+    <p>Choose the task name to keep. Selected tasks will use one combined identity in the tracker and analysis.</p>
+    <div class="merge-task-options" id="mergeTaskOptions"></div>
+    <label class="merge-task-custom" for="mergeTaskCustomName">Custom task name</label>
+    <input id="mergeTaskCustomName" type="text" autocomplete="off" placeholder="Leave blank to use selected name" />
+    <div class="admin-key-actions">
+      <button class="btn btn-ghost" id="mergeTaskCancelBtn" type="button">Cancel</button>
+      <button class="btn btn-primary" type="submit">Merge Tasks</button>
+    </div>
+  </form>
+</div>
 <div class="admin-key-dialog" id="timeAdminKeyDialog" role="dialog" aria-modal="true" aria-labelledby="timeAdminKeyTitle" hidden>
   <form class="admin-key-panel" id="timeAdminKeyForm" method="post" action="/api/time-entries" autocomplete="on">
     <h2 id="timeAdminKeyTitle">Save Time Analysis changes</h2>
@@ -2661,11 +2711,14 @@
   let appEntries = [];
   let appMetrics = null;
   let taskCatalogEntries = [];
-  let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, updatedAt: null };
+  let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, taskMerges: {}, updatedAt: null };
   let timeAdminKey = "";
   let timeAdminKeyDialogResolve = null;
   let timeAdminKeyDialogPromise = null;
   let timeAdminKeyPreviousFocus = null;
+  let mergeTaskDialogResolve = null;
+  let mergeTaskDialogRows = [];
+  let mergeTaskPreviousFocus = null;
   let editingEntryId = "";
   let timerTick = null;
   let currentSourcePills = [];
@@ -2869,6 +2922,14 @@
   function taskOverrideKey(entry) {
     if (entry?.overrideKey) return entry.overrideKey;
     return `${cleanLabel(entry.listId, "unknown-list")}|||${cleanLabel(entry.taskId || taskIdFor(entry.taskName), taskIdFor(entry.taskName))}`;
+  }
+
+  function taskKeyParts(key) {
+    const [listId = "unknown-list", ...taskIdParts] = String(key || "").split("|||");
+    return {
+      listId: cleanLabel(listId, "unknown-list"),
+      taskId: cleanLabel(taskIdParts.join("|||"), "unknown-task")
+    };
   }
 
   function dateInputValue(value) {
@@ -3228,6 +3289,49 @@
     return timePayload.taskOverrides?.[taskOverrideKey(entry)] || null;
   }
 
+  function taskMergeForKey(key) {
+    const merges = timePayload.taskMerges || {};
+    let currentKey = cleanLabel(key, "");
+    let finalMerge = null;
+    const seen = new Set();
+    for (let i = 0; i < 20; i += 1) {
+      if (!currentKey || seen.has(currentKey)) break;
+      seen.add(currentKey);
+      const merge = merges[currentKey];
+      if (!merge?.targetKey) break;
+      finalMerge = merge;
+      if (merge.targetKey === currentKey) break;
+      currentKey = merge.targetKey;
+    }
+    if (!finalMerge?.targetKey) return null;
+    const parts = taskKeyParts(finalMerge.targetKey);
+    return {
+      ...finalMerge,
+      targetListId: cleanLabel(finalMerge.targetListId, parts.listId),
+      targetTaskId: cleanLabel(finalMerge.targetTaskId, parts.taskId)
+    };
+  }
+
+  function applyTaskMerge(entry) {
+    const sourceKey = taskOverrideKey(entry);
+    const merge = taskMergeForKey(sourceKey);
+    if (!merge) return entry;
+    return {
+      ...entry,
+      overrideKey: merge.targetKey,
+      listId: merge.targetListId,
+      listName: listNameForId(merge.targetListId),
+      taskId: merge.targetTaskId,
+      taskName: merge.taskName || entry.taskName,
+      searchText: [
+        entry.searchText,
+        merge.taskName,
+        merge.targetListId,
+        listNameForId(merge.targetListId)
+      ].filter(Boolean).join(" ").toLowerCase()
+    };
+  }
+
   function applyTaskOverride(entry) {
     const key = taskOverrideKey(entry);
     const override = taskOverrideFor(entry);
@@ -3263,7 +3367,8 @@
 
   function entriesWithTaskOverrides(entries) {
     return entries.map((entry) => {
-      const next = applyTaskOverride(entry);
+      const merged = applyTaskMerge(entry);
+      const next = applyTaskOverride(merged);
       return {
         ...next,
         searchText: [
@@ -3294,6 +3399,25 @@
         if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = field === "taskCategory" ? normalizeTaskCategory(value[field]) : cleanLabel(value[field], "");
       });
       return [key, cleaned];
+    }));
+  }
+
+  function cleanTaskMerges(merges) {
+    if (!merges || typeof merges !== "object") return {};
+    return Object.fromEntries(Object.entries(merges).flatMap(([key, value]) => {
+      const sourceKey = cleanLabel(key, "");
+      const targetKey = cleanLabel(value?.targetKey, "");
+      if (!sourceKey.includes("|||") || !targetKey.includes("|||")) return [];
+      const parts = taskKeyParts(targetKey);
+      const cleaned = {
+        targetKey,
+        targetListId: cleanLabel(value?.targetListId, parts.listId),
+        targetTaskId: cleanLabel(value?.targetTaskId, parts.taskId),
+        taskName: cleanLabel(value?.taskName, ""),
+        updatedAt: cleanLabel(value?.updatedAt, "")
+      };
+      if (sourceKey === targetKey && !cleaned.taskName) return [];
+      return [[sourceKey, cleaned]];
     }));
   }
 
@@ -3391,6 +3515,7 @@
       entries: entries.filter((entry) => entry && entry.id && entry.start && entry.stop),
       activeEntry: payload?.activeEntry && payload.activeEntry.id ? payload.activeEntry : null,
       taskOverrides: cleanTaskOverrides(payload?.taskOverrides),
+      taskMerges: cleanTaskMerges(payload?.taskMerges),
       updatedAt: payload?.updatedAt || null
     };
   }
@@ -3419,6 +3544,10 @@
       taskOverrides: {
         ...(serverClean.taskOverrides || {}),
         ...(localClean.taskOverrides || {})
+      },
+      taskMerges: {
+        ...(serverClean.taskMerges || {}),
+        ...(localClean.taskMerges || {})
       },
       updatedAt: localClean.updatedAt || serverClean.updatedAt
     });
@@ -3497,7 +3626,9 @@
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
     } else {
-      if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
+      if (taskCatalogEntries.length) appEntries = entriesWithTaskOverrides(taskCatalogEntries);
+      else if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
+      if (appEntries.length) appMetrics = buildMetrics(appEntries, appMetrics?.rawRowCount || appEntries.length);
       renderTracker();
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
@@ -3630,7 +3761,7 @@
   }
 
   function trackerActivities() {
-    const sources = [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries()];
+    const sources = [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries()].map(applyTaskMerge);
     const byTask = new Map();
     sources
       .filter((entry) => entry && entry.taskName)
@@ -4086,6 +4217,7 @@
           <button class="bulk-task-clear" type="button" data-clear-task-selection aria-label="Clear selected tasks">&times;</button>
         </div>
         <div class="bulk-task-spacer"></div>
+        <button class="bulk-task-merge" type="button" data-merge-selected-tasks${selectedRows.length < 2 ? " disabled" : ""}>Merge</button>
         <label class="bulk-task-field" for="bulkTaskStatus">
           <span>Status</span>
           <select class="bulk-task-status-select" id="bulkTaskStatus" data-bulk-status>
@@ -4105,6 +4237,9 @@
     });
     document.querySelector("[data-apply-bulk-status]")?.addEventListener("click", () => {
       applyBulkTaskStatus(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
+    });
+    document.querySelector("[data-merge-selected-tasks]")?.addEventListener("click", () => {
+      openMergeTaskDialog(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
     });
   }
 
@@ -4130,6 +4265,95 @@
       taskOverrides: nextOverrides
     });
     setTrackerStatus(`Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`, "saved");
+  }
+
+  function selectedTaskNameOptions(rows) {
+    const options = [];
+    const seen = new Set();
+    rows.forEach((entry) => {
+      const key = taskOverrideKey(entry);
+      if (seen.has(key)) return;
+      seen.add(key);
+      options.push({
+        key,
+        listId: entry.listId,
+        taskId: entry.taskId || taskIdFor(entry.taskName),
+        taskName: cleanLabel(entry.taskName, "Untitled task")
+      });
+    });
+    return options;
+  }
+
+  function closeMergeTaskDialog(result = null) {
+    const dialog = document.getElementById("mergeTaskDialog");
+    dialog.hidden = true;
+    mergeTaskDialogRows = [];
+    const resolve = mergeTaskDialogResolve;
+    mergeTaskDialogResolve = null;
+    if (resolve) resolve(result);
+    if (mergeTaskPreviousFocus && typeof mergeTaskPreviousFocus.focus === "function") {
+      mergeTaskPreviousFocus.focus();
+    }
+    mergeTaskPreviousFocus = null;
+  }
+
+  function requestMergeTaskChoice(selectedRows) {
+    const options = selectedTaskNameOptions(selectedRows);
+    if (options.length < 2) return Promise.resolve(null);
+    mergeTaskDialogRows = options;
+    mergeTaskPreviousFocus = document.activeElement;
+    const optionsEl = document.getElementById("mergeTaskOptions");
+    optionsEl.innerHTML = options.map((option, index) => `
+      <label class="merge-task-option">
+        <input type="radio" name="mergeTaskKeep" value="${escapeHtml(option.key)}"${index === 0 ? " checked" : ""} />
+        <span>${escapeHtml(option.taskName)}</span>
+      </label>
+    `).join("");
+    document.getElementById("mergeTaskCustomName").value = "";
+    document.getElementById("mergeTaskDialog").hidden = false;
+    window.requestAnimationFrame(() => {
+      document.querySelector('input[name="mergeTaskKeep"]:checked')?.focus();
+    });
+    return new Promise((resolve) => {
+      mergeTaskDialogResolve = resolve;
+    });
+  }
+
+  async function openMergeTaskDialog(visibleRows) {
+    const selectedRows = selectedVisibleTaskRows(visibleRows);
+    if (selectedRows.length < 2) {
+      setTrackerStatus("Select at least 2 tasks to merge.", "error");
+      return;
+    }
+    const choice = await requestMergeTaskChoice(selectedRows);
+    if (!choice) return;
+    await applyBulkTaskMerge(selectedRows, choice);
+  }
+
+  async function applyBulkTaskMerge(selectedRows, choice) {
+    const options = selectedTaskNameOptions(selectedRows);
+    const canonical = options.find((row) => row.key === choice.keepKey) || options[0];
+    if (!canonical) return;
+    const keptName = cleanLabel(choice.taskName, canonical.taskName);
+    const targetKey = canonical.key;
+    const targetParts = taskKeyParts(targetKey);
+    const nextMerges = { ...(timePayload.taskMerges || {}) };
+    selectedRows.forEach((entry) => {
+      const sourceKey = taskOverrideKey(entry);
+      nextMerges[sourceKey] = {
+        targetKey,
+        targetListId: targetParts.listId,
+        targetTaskId: targetParts.taskId,
+        taskName: keptName,
+        updatedAt: isoNow()
+      };
+    });
+    selectedTaskKeys.clear();
+    await saveTimePayload({
+      ...timePayload,
+      taskMerges: nextMerges
+    });
+    setTrackerStatus(`Merged ${selectedRows.length.toLocaleString()} tasks into "${keptName}"`, "saved");
   }
 
   function autosizeTaskNameInput(control) {
@@ -5830,6 +6054,20 @@
 
   document.getElementById("editList").addEventListener("change", renderMetadataOptions);
 
+  document.getElementById("mergeTaskForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const keepKey = document.querySelector('input[name="mergeTaskKeep"]:checked')?.value || mergeTaskDialogRows[0]?.key || "";
+    const selected = mergeTaskDialogRows.find((row) => row.key === keepKey) || mergeTaskDialogRows[0];
+    closeMergeTaskDialog({
+      keepKey,
+      taskName: cleanLabel(document.getElementById("mergeTaskCustomName").value, selected?.taskName || "")
+    });
+  });
+  document.getElementById("mergeTaskCancelBtn").addEventListener("click", () => closeMergeTaskDialog(null));
+  document.getElementById("mergeTaskDialog").addEventListener("click", (event) => {
+    if (event.target === document.getElementById("mergeTaskDialog")) closeMergeTaskDialog(null);
+  });
+
   document.getElementById("timeAdminKeyForm").addEventListener("submit", (event) => {
     event.preventDefault();
     closeTimeAdminKeyDialog(document.getElementById("timeAdminKeyInput").value.trim());
@@ -5839,6 +6077,7 @@
     if (event.target === document.getElementById("timeAdminKeyDialog")) closeTimeAdminKeyDialog("");
   });
   document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !document.getElementById("mergeTaskDialog").hidden) closeMergeTaskDialog(null);
     if (event.key === "Escape" && !document.getElementById("timeAdminKeyDialog").hidden) closeTimeAdminKeyDialog("");
   });
 
