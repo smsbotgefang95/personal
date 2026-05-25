@@ -821,6 +821,20 @@
     white-space: nowrap;
   }
 
+  .tracker-filter-bar {
+    display: grid;
+    grid-template-columns: minmax(180px, 260px);
+    gap: 8px;
+  }
+
+  .tracker-filter-bar label {
+    color: var(--muted);
+    font-size: 0.77rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
   .tracker-list {
     display: grid;
     gap: 2px;
@@ -860,6 +874,13 @@
   }
 
   .track-row:last-child { border-bottom: 0; }
+
+  .track-empty {
+    padding: 18px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    text-align: center;
+  }
 
   .track-group {
     border-bottom: 1px solid var(--border);
@@ -1243,6 +1264,9 @@
       min-height: 52px;
       font-size: 1rem;
     }
+    .tracker-filter-bar {
+      grid-template-columns: 1fr;
+    }
     .quick-chip {
       min-height: 48px;
       max-width: 78vw;
@@ -1319,6 +1343,15 @@
             <div class="timer-task" id="timerTask">No timer running</div>
           </div>
           <form class="tracker-form" id="trackerForm">
+            <div class="tracker-filter-bar">
+              <label for="dueStatusFilter">Due filter</label>
+              <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
+                <option value="all">All tasks</option>
+                <option value="today">Due today</option>
+                <option value="overdue">Overdue</option>
+                <option value="today-overdue">Due today or overdue</option>
+              </select>
+            </div>
             <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
             <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add custom task</button>
             <div class="custom-entry" id="customFields" hidden>
@@ -2341,6 +2374,44 @@
     return `Due ${text.replace(/,?\\s*\\d{1,2}:\\d{2}:\\d{2}\\s*[AP]M\\s*[A-Z]+/i, "")}`;
   }
 
+  function dueDateKey(entry) {
+    return dateInputValue(entry.dueDate || entry.dueDateText);
+  }
+
+  function dueStatus(entry) {
+    const due = dueDateKey(entry);
+    if (!due) return "none";
+    const today = dateKey(new Date());
+    if (due === today) return "today";
+    return due < today ? "overdue" : "upcoming";
+  }
+
+  function matchesDueStatusFilter(entry, filter) {
+    const status = dueStatus(entry);
+    if (filter === "today") return status === "today";
+    if (filter === "overdue") return status === "overdue";
+    if (filter === "today-overdue") return status === "today" || status === "overdue";
+    return true;
+  }
+
+  function updateDueStatusFilterOptions(rows) {
+    const select = document.getElementById("dueStatusFilter");
+    if (!select) return;
+    const current = select.value || "all";
+    const todayCount = rows.filter((entry) => dueStatus(entry) === "today").length;
+    const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
+    const labels = {
+      all: `All tasks (${rows.length})`,
+      today: `Due today (${todayCount})`,
+      overdue: `Overdue (${overdueCount})`,
+      "today-overdue": `Due today or overdue (${todayCount + overdueCount})`
+    };
+    Array.from(select.options).forEach((option) => {
+      option.textContent = labels[option.value] || option.textContent;
+    });
+    select.value = current;
+  }
+
   function recurrenceOptionsHtml(selected) {
     return RECURRENCE_OPTIONS
       .map(([value, label]) => `<option value="${escapeHtml(value)}"${value === selected ? " selected" : ""}>${escapeHtml(label)}</option>`)
@@ -2418,8 +2489,12 @@
 
   function renderActivityRows() {
     const active = timePayload.activeEntry;
-    const rows = trackerActivities();
-    document.getElementById("trackerTaskList").innerHTML = groupedActivities(rows).map(([group, entries]) => {
+    const dueFilter = document.getElementById("dueStatusFilter");
+    const allRows = trackerActivities();
+    updateDueStatusFilterOptions(allRows);
+    const rows = allRows.filter((entry) => matchesDueStatusFilter(entry, dueFilter?.value || "all"));
+    const trackerList = document.getElementById("trackerTaskList");
+    trackerList.innerHTML = rows.length ? groupedActivities(rows).map(([group, entries]) => {
       const collapsed = collapsedTrackGroups.has(group);
       return `
         <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(group)}">
@@ -2431,9 +2506,9 @@
           ${entries.map((entry) => activityRowHtml(entry, active)).join("")}
         </section>
       `;
-    }).join("");
+    }).join("") : `<div class="track-empty">No tasks match this due filter.</div>`;
     if (rows.length) {
-      document.getElementById("trackerTaskList").insertAdjacentHTML("afterbegin", `
+      trackerList.insertAdjacentHTML("afterbegin", `
         <div class="track-list-header" aria-hidden="true">
           <div>Task</div>
           <div>Due date</div>
@@ -2496,6 +2571,8 @@
     renderTimerState();
     renderQuickChips(entries);
     renderActivityRows();
+    const dueFilter = document.getElementById("dueStatusFilter");
+    if (dueFilter) dueFilter.oninput = renderActivityRows;
   }
 
   function renderNativeDashboard() {
