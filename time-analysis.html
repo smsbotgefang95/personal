@@ -2788,7 +2788,6 @@
     fifthThursday: 5
   };
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
-  const DEFAULT_TRACKER_PRIORITY_FILTER = "📌 Job Must";
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
     "2. Gain traction",
@@ -4082,8 +4081,7 @@
   function populateTrackerPriorityFilter(rows = trackerActivities()) {
     const select = document.getElementById("trackerPriorityFilter");
     if (!select) return;
-    const options = priorityFilterOptions(rows);
-    const selected = select.value || (!trackerPriorityFilterTouched && options.includes(DEFAULT_TRACKER_PRIORITY_FILTER) ? DEFAULT_TRACKER_PRIORITY_FILTER : "");
+    const selected = trackerPriorityFilterTouched ? select.value : "";
     select.innerHTML = priorityFilterOptionsHtml(rows, "All", selected);
   }
 
