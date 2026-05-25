@@ -909,7 +909,7 @@
     left: 0;
     z-index: 3;
     min-width: 340px;
-    overflow: hidden;
+    overflow: visible;
     background: #030712;
     box-shadow: 1px 0 0 var(--border);
   }
@@ -1013,15 +1013,14 @@
 
   .track-name {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 7px;
     min-width: 0;
     color: #f9fafb;
     font-size: 1rem;
     font-weight: 850;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: visible;
+    white-space: normal;
   }
 
   .track-name-input {
@@ -1036,6 +1035,10 @@
     font: inherit;
     font-size: 1rem;
     font-weight: 850;
+    line-height: 1.25;
+    overflow: hidden;
+    resize: none;
+    white-space: normal;
   }
 
   .track-name-input:hover,
@@ -3808,6 +3811,13 @@
     saveTaskOverride(entry, { [field]: value }).catch((error) => setTrackerStatus(error.message, "error"));
   }
 
+  function autosizeTaskNameInput(control) {
+    if (!control) return;
+    control.style.height = "auto";
+    if (!control.scrollHeight) return;
+    control.style.height = `${control.scrollHeight}px`;
+  }
+
   function activityRowHtml(entry, active) {
     const isRunning = active && active.taskId === entry.taskId && active.listId === entry.listId;
     const timeText = isRunning ? formatClock(activeDurationMs()) : (entry.totalMs ? formatDuration(entry.totalMs) : "Tap to track");
@@ -3825,7 +3835,7 @@
           <div class="track-task-cell">
             <div class="track-name" title="${escapeHtml(entry.taskName)}">
               <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
-              <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
+              <textarea class="track-name-input" rows="1" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name">${escapeHtml(entry.taskName)}</textarea>
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
           </div>
@@ -3987,6 +3997,10 @@
         control.addEventListener("change", () => saveEditableTaskField(control, rows));
         return;
       }
+      if (control.dataset.editField === "taskName") {
+        autosizeTaskNameInput(control);
+        control.addEventListener("input", () => autosizeTaskNameInput(control));
+      }
       control.addEventListener("blur", () => saveEditableTaskField(control, rows));
       control.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
@@ -3995,6 +4009,9 @@
         }
       });
     });
+    window.setTimeout(() => {
+      document.querySelectorAll(".track-name-input").forEach(autosizeTaskNameInput);
+    }, 0);
     document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
       select.addEventListener("change", () => {
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.recurrenceKey);
