@@ -1813,6 +1813,7 @@
                 <label for="dueStatusFilter">Due filter</label>
                 <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                   <option value="all">All tasks</option>
+                  <option value="none">No due date</option>
                   <option value="today">Due today</option>
                   <option value="tomorrow">Due tomorrow</option>
                   <option value="overdue">Overdue</option>
@@ -2329,6 +2330,12 @@
     ["Sa", "Saturday"]
   ];
   const CUSTOM_RECURRENCE_UNITS = ["day", "week", "month"];
+  const CUSTOM_MONTHLY_DAY_OPTIONS = [
+    ["same", "Same due-date day"],
+    ["first", "First day"],
+    ["second", "Second day"],
+    ["last", "Last day"]
+  ];
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
@@ -2524,6 +2531,18 @@
     return "";
   }
 
+  function nextCustomMonthlyDueDate(baseDate, settings) {
+    const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
+    const monthlyDay = CUSTOM_MONTHLY_DAY_OPTIONS.some(([value]) => value === settings.monthlyDay) ? settings.monthlyDay : "same";
+    if (monthlyDay === "same") return addLocalMonths(baseDate, every);
+    const targetMonth = new Date(baseDate.getFullYear(), baseDate.getMonth() + every, 1);
+    const year = targetMonth.getFullYear();
+    const month = targetMonth.getMonth();
+    if (monthlyDay === "first") return new Date(year, month, 1);
+    if (monthlyDay === "second") return new Date(year, month, 2);
+    return new Date(year, month + 1, 0);
+  }
+
   function nextRecurringDueDate(entry) {
     const recurrence = entry.recurrence || inferRecurrence(entry);
     if (recurrence === "none") return "";
@@ -2536,7 +2555,7 @@
     const settings = parseCustomRecurrenceText(entry.recurringText);
     const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
     if (settings.unit === "day") return formatDateInput(addLocalDays(baseDate, every));
-    if (settings.unit === "month") return formatDateInput(addLocalMonths(baseDate, every));
+    if (settings.unit === "month") return formatDateInput(nextCustomMonthlyDueDate(baseDate, settings));
     if (settings.unit === "week") return formatDateInput(nextCustomWeeklyDueDate(baseDate, settings));
     return "";
   }
@@ -2560,6 +2579,7 @@
       every: 1,
       unit: "week",
       days: ["Mo"],
+      monthlyDay: "same",
       statusTrigger: "done",
       recurForever: true,
       updateStatus: true
@@ -2580,6 +2600,8 @@
       const days = dayMatch[1].split(",").map((item) => item.trim()).filter((item) => CUSTOM_RECURRENCE_DAYS.some(([day]) => day === item));
       if (days.length) settings.days = days;
     }
+    const monthlyDayMatch = text.match(/\bon\s+(first|second|last)\s+day\b/i);
+    if (monthlyDayMatch) settings.monthlyDay = monthlyDayMatch[1].toLowerCase();
     const statusMatch = text.match(/status change:\s*([^;]+)/i);
     settings.statusTrigger = statusMatch ? statusMatch[1].trim().toLowerCase() : (text.includes("status change") ? "done" : "done");
     settings.recurForever = !/do not recur forever|stop recurring/i.test(text);
@@ -2591,7 +2613,9 @@
     const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
     const unit = CUSTOM_RECURRENCE_UNITS.includes(settings.unit) ? settings.unit : "week";
     const dayText = unit === "week" && settings.days?.length ? ` on ${settings.days.join(", ")}` : "";
+    const monthlyDay = CUSTOM_MONTHLY_DAY_OPTIONS.some(([value]) => value === settings.monthlyDay) ? settings.monthlyDay : "same";
     const parts = [`Every ${every} ${unit}${every === 1 ? "" : "s"}${dayText}`];
+    if (unit === "month" && monthlyDay !== "same") parts.push(`on ${monthlyDay} day`);
     if (settings.statusTrigger && settings.statusTrigger !== "none") {
       parts.push(`on status change: ${settings.statusTrigger === "done" ? "Done" : settings.statusTrigger}`);
     }
@@ -2614,6 +2638,9 @@
         </select>
       </div>
       <div class="custom-recurrence-days" data-custom-days${settings.unit === "week" ? "" : " hidden"}>${dayButtons}</div>
+      <select class="custom-recurrence-select" data-custom-part="monthlyDay" aria-label="Monthly recurrence day"${settings.unit === "month" ? "" : " hidden"}>
+        ${CUSTOM_MONTHLY_DAY_OPTIONS.map(([value, label]) => `<option value="${value}"${value === settings.monthlyDay ? " selected" : ""}>${label}</option>`).join("")}
+      </select>
       <select class="custom-recurrence-select" data-custom-part="statusTrigger" aria-label="Recurrence trigger">
         <option value="done"${settings.statusTrigger === "done" ? " selected" : ""}>On status change: Done</option>
         <option value="none"${settings.statusTrigger === "none" ? " selected" : ""}>No status trigger</option>
@@ -2635,6 +2662,7 @@
       every: panel.querySelector('[data-custom-part="every"]')?.value || 1,
       unit: panel.querySelector('[data-custom-part="unit"]')?.value || "week",
       days: activeDays.length ? activeDays : ["Mo"],
+      monthlyDay: panel.querySelector('[data-custom-part="monthlyDay"]')?.value || "same",
       statusTrigger: panel.querySelector('[data-custom-part="statusTrigger"]')?.value || "done",
       recurForever: Boolean(panel.querySelector('[data-custom-part="recurForever"]')?.checked),
       updateStatus: Boolean(panel.querySelector('[data-custom-part="updateStatus"]')?.checked)
@@ -2644,7 +2672,9 @@
   function syncCustomRecurrencePanel(panel) {
     const unit = panel.querySelector('[data-custom-part="unit"]')?.value || "week";
     const days = panel.querySelector("[data-custom-days]");
+    const monthlyDay = panel.querySelector('[data-custom-part="monthlyDay"]');
     if (days) days.hidden = unit !== "week";
+    if (monthlyDay) monthlyDay.hidden = unit !== "month";
   }
 
   function toggleCustomRecurrenceDay(day) {
@@ -3181,6 +3211,7 @@
 
   function matchesDueStatusFilter(entry, filter) {
     const status = dueStatus(entry);
+    if (filter === "none") return status === "none";
     if (filter === "today") return status === "today";
     if (filter === "tomorrow") return status === "tomorrow";
     if (filter === "overdue") return status === "overdue";
@@ -3216,11 +3247,13 @@
     const select = document.getElementById("dueStatusFilter");
     if (!select) return;
     const current = select.value || "all";
+    const noneCount = rows.filter((entry) => dueStatus(entry) === "none").length;
     const todayCount = rows.filter((entry) => dueStatus(entry) === "today").length;
     const tomorrowCount = rows.filter((entry) => dueStatus(entry) === "tomorrow").length;
     const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
     const labels = {
       all: `All tasks (${rows.length})`,
+      none: `No due date (${noneCount})`,
       today: `Due today (${todayCount})`,
       tomorrow: `Due tomorrow (${tomorrowCount})`,
       overdue: `Overdue (${overdueCount})`,
