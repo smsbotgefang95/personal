@@ -848,7 +848,7 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: minmax(360px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(170px, 0.35fr) minmax(118px, 0.26fr) minmax(96px, auto) 46px;
+    grid-template-columns: minmax(360px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(170px, 0.35fr) minmax(118px, 0.26fr) minmax(96px, auto);
     gap: 10px;
     align-items: center;
   }
@@ -871,14 +871,14 @@
   .track-row {
     position: relative;
     display: grid;
-    min-height: 76px;
-    padding: 8px 10px;
+    min-height: 92px;
+    padding: 10px 10px;
     border-bottom: 1px solid var(--border);
   }
 
   .track-row-inner {
     display: grid;
-    grid-template-columns: minmax(360px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(170px, 0.35fr) minmax(118px, 0.26fr) minmax(96px, auto) 46px;
+    grid-template-columns: minmax(360px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(170px, 0.35fr) minmax(118px, 0.26fr) minmax(96px, auto);
     gap: 10px;
     align-items: start;
     min-width: 0;
@@ -1438,16 +1438,18 @@
 
   .track-button {
     display: inline-grid;
+    flex: 0 0 30px;
     place-items: center;
-    width: 42px;
-    height: 42px;
+    width: 30px;
+    height: 30px;
     border: 0;
     border-radius: 999px;
     background: #6b7280;
     color: #ffffff;
     font: inherit;
-    font-size: 1.05rem;
+    font-size: 0.78rem;
     font-weight: 900;
+    line-height: 1;
     cursor: pointer;
   }
 
@@ -1658,10 +1660,10 @@
       display: none;
     }
     .track-row {
-      min-height: 62px;
+      min-height: 76px;
     }
     .track-row-inner {
-      grid-template-columns: minmax(300px, 1fr) minmax(62px, 0.18fr) minmax(82px, 0.24fr) minmax(150px, 0.45fr) minmax(0, 0.34fr) minmax(72px, auto) 46px;
+      grid-template-columns: minmax(300px, 1fr) minmax(62px, 0.18fr) minmax(82px, 0.24fr) minmax(150px, 0.45fr) minmax(0, 0.34fr) minmax(72px, auto);
       gap: 7px;
     }
     .track-recurrence-control > .track-recurrence-custom {
@@ -1673,7 +1675,7 @@
 
   @media (max-width: 720px) {
     .track-row-inner {
-      grid-template-columns: minmax(0, 1fr) 46px;
+      grid-template-columns: minmax(0, 1fr);
     }
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
@@ -1705,10 +1707,6 @@
     .track-status-cell::before { content: "Status"; }
     .track-due-cell::before { content: "Due date"; }
     .track-recurrence-cell::before { content: "Recurrence"; }
-    .track-row-inner > .track-button {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
-    }
   }
 
   @media (max-width: 940px) {
@@ -1764,10 +1762,10 @@
     }
     .track-row {
       grid-template-columns: minmax(0, 1fr);
-      min-height: 62px;
+      min-height: 76px;
     }
     .track-row-inner {
-      grid-template-columns: minmax(0, 1fr) 46px;
+      grid-template-columns: minmax(0, 1fr);
     }
     .track-meta {
       grid-template-columns: minmax(0, 1fr);
@@ -1778,11 +1776,6 @@
     .track-recurrence-cell,
     .track-time {
       grid-column: 1 / 2;
-      align-self: start;
-    }
-    .track-row-inner > .track-button {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
       align-self: start;
     }
     .track-order-cell::before,
@@ -3700,6 +3693,7 @@
         <div class="track-row-inner">
           <div class="track-task-cell">
             <div class="track-name" title="${escapeHtml(entry.taskName)}">
+              <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
               <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
@@ -3749,7 +3743,6 @@
             </div>
           </div>
           <div class="track-time">${escapeHtml(timeText)}</div>
-          <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
         </div>
       </div>
     `;
@@ -3798,7 +3791,6 @@
           <div>Due date</div>
           <div>Recurrence</div>
           <div>Time</div>
-          <div></div>
         </div>
       `);
     }
