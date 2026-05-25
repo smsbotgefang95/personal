@@ -964,20 +964,71 @@
     align-items: center;
     justify-content: center;
     width: var(--track-select-width);
-    min-height: 42px;
+    min-height: 30px;
     background: #030712;
   }
 
   .track-select-checkbox,
   .track-select-all-checkbox {
-    width: 20px;
-    height: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    display: grid;
+    place-content: center;
+    width: 16px;
+    height: 16px;
     margin: 0;
-    accent-color: var(--indigo);
+    border: 1.5px solid #64748b;
+    border-radius: 4px;
+    background: #0f172a;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9), 0 1px 2px rgba(0, 0, 0, 0.28);
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 120ms ease;
+    transition: opacity 120ms ease, border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  }
+
+  .track-select-checkbox::before,
+  .track-select-all-checkbox::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    transform: scale(0);
+    transition: transform 120ms ease;
+    background: #fff;
+    clip-path: polygon(14% 48%, 0 63%, 38% 100%, 100% 21%, 84% 8%, 35% 69%);
+  }
+
+  .track-select-checkbox:hover,
+  .track-select-all-checkbox:hover {
+    border-color: #a5b4fc;
+    background: #111827;
+  }
+
+  .track-select-checkbox:focus-visible,
+  .track-select-all-checkbox:focus-visible {
+    outline: 2px solid rgba(129, 140, 248, 0.55);
+    outline-offset: 2px;
+  }
+
+  .track-select-checkbox:checked,
+  .track-select-all-checkbox:checked,
+  .track-select-all-checkbox:indeterminate {
+    border-color: #8b5cf6;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.24), 0 3px 10px rgba(79, 70, 229, 0.28);
+  }
+
+  .track-select-checkbox:checked::before,
+  .track-select-all-checkbox:checked::before {
+    transform: scale(1);
+  }
+
+  .track-select-all-checkbox:indeterminate::before {
+    width: 8px;
+    height: 2px;
+    transform: scale(1);
+    clip-path: none;
+    border-radius: 999px;
   }
 
   .track-list-header:hover .track-select-all-checkbox,
@@ -3774,7 +3825,7 @@
 
   function orderOptionsHtml(selected) {
     const current = orderOptionValue(selected);
-    const options = [`<option value=""${current ? "" : " selected"}>-</option>`];
+    const options = [`<option value=""${current ? "" : " selected"}></option>`];
     for (let i = 1; i <= 30; i += 1) {
       const value = String(i).padStart(2, "0");
       options.push(`<option value="${value}"${value === current ? " selected" : ""}>${i}</option>`);
