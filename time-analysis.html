@@ -895,15 +895,16 @@
   .track-row {
     position: relative;
     display: grid;
-    min-height: 92px;
-    padding: 10px 10px;
+    min-height: 126px;
+    padding: 12px 10px;
     border-bottom: 1px solid var(--border);
   }
 
   .track-row-inner {
     display: grid;
     grid-template-columns: minmax(340px, 1fr) minmax(68px, 0.16fr) minmax(82px, 0.18fr) minmax(160px, 0.3fr) minmax(250px, 0.44fr) minmax(96px, auto);
-    gap: 10px;
+    column-gap: 10px;
+    row-gap: 10px;
     align-items: start;
     min-width: 0;
   }
@@ -1010,10 +1011,15 @@
     outline: none;
   }
 
+  .track-meta-row {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
   .track-meta {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
-    gap: 4px;
+    grid-template-columns: repeat(5, minmax(145px, 1fr));
+    gap: 8px;
     min-width: 0;
   }
 
@@ -1021,14 +1027,14 @@
   .track-meta-input {
     min-width: 0;
     width: 100%;
-    min-height: 30px;
-    border: 1px solid transparent;
+    min-height: 36px;
+    border: 1px solid #243041;
     border-radius: 7px;
-    padding: 4px 7px;
-    background: transparent;
+    padding: 6px 9px;
+    background: #030712;
     color: var(--muted);
     font: inherit;
-    font-size: 0.8rem;
+    font-size: 0.84rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1133,6 +1139,7 @@
     display: grid;
     grid-template-columns: minmax(168px, 1fr) minmax(82px, 96px);
     gap: 6px;
+    align-items: end;
     min-width: 0;
   }
 
@@ -1151,10 +1158,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .track-due-full-date.empty {
-    color: var(--dim);
   }
 
   .date-picker-control {
@@ -1231,12 +1234,10 @@
   }
 
   .track-recurrence-control > .track-recurrence-custom {
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
+    position: static;
     z-index: 30;
-    width: min(330px, calc(100vw - 36px));
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+    width: min(330px, 100%);
+    box-shadow: none;
   }
 
   .track-row:focus-within {
@@ -1826,8 +1827,11 @@
     .track-row-inner {
       grid-template-columns: minmax(0, 1fr);
     }
+    .track-meta-row {
+      grid-column: auto;
+    }
     .track-meta {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
     }
     .track-order-cell,
     .track-status-cell,
@@ -2568,7 +2572,13 @@
     "9.11. Quality of life",
     "9.12. Life vision"
   ];
-  const TASK_CATEGORY_OPTIONS = ["☹️ 👌 Obligation", "☹️ 👎 Incompetence", "😀 👍 Magic", "🙂 👌 Work"];
+  const TASK_CATEGORY_OPTIONS = ["😐 Obligation", "☹️ Incompetence", "😀 Magic", "🙂 Work"];
+  const TASK_CATEGORY_ALIASES = {
+    "☹️ 👌 Obligation": "😐 Obligation",
+    "☹️ 👎 Incompetence": "☹️ Incompetence",
+    "😀 👍 Magic": "😀 Magic",
+    "🙂 👌 Work": "🙂 Work"
+  };
   const fallbackActivities = [
     { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
     { taskName: "Put on clothes", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
@@ -2656,6 +2666,11 @@
   function cleanLabel(value, fallback = "Uncategorized") {
     const text = String(value ?? "").trim();
     return text || fallback;
+  }
+
+  function normalizeTaskCategory(value, fallback = "") {
+    const label = cleanLabel(value, fallback);
+    return TASK_CATEGORY_ALIASES[label] || label;
   }
 
   function isoNow() {
@@ -3050,7 +3065,7 @@
       taskName: Object.prototype.hasOwnProperty.call(override || {}, "taskName") ? cleanLabel(override.taskName, entry.taskName) : entry.taskName,
       department: Object.prototype.hasOwnProperty.call(override || {}, "department") ? cleanLabel(override.department, "") : entry.department,
       priority: Object.prototype.hasOwnProperty.call(override || {}, "priority") ? cleanLabel(override.priority, "") : entry.priority,
-      taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? cleanLabel(override.taskCategory, "") : entry.taskCategory,
+      taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? normalizeTaskCategory(override.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       dueDate,
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
@@ -3095,7 +3110,7 @@
         updatedAt: cleanLabel(value?.updatedAt, "")
       };
       ["listId", "taskName", "department", "priority", "taskCategory", "taskType"].forEach((field) => {
-        if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = cleanLabel(value[field], "");
+        if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = field === "taskCategory" ? normalizeTaskCategory(value[field]) : cleanLabel(value[field], "");
       });
       return [key, cleaned];
     }));
@@ -3139,7 +3154,7 @@
       department: document.getElementById("trackerDepartment").value.trim(),
       priority: document.getElementById("trackerPriority").value.trim(),
       section: document.getElementById("trackerSection").value.trim(),
-      taskCategory: document.getElementById("trackerCategory").value.trim(),
+      taskCategory: normalizeTaskCategory(document.getElementById("trackerCategory").value),
       taskType: document.getElementById("trackerType").value.trim(),
       dueDate: "",
       dueDateText: "",
@@ -3172,7 +3187,7 @@
       department: cleanLabel(entry.department, ""),
       priority: cleanLabel(entry.priority, ""),
       section: cleanLabel(entry.section, ""),
-      taskCategory: cleanLabel(entry.taskCategory, ""),
+      taskCategory: normalizeTaskCategory(entry.taskCategory),
       taskType: entry.taskType === "Other" ? "" : cleanLabel(entry.taskType, ""),
       dueDate: cleanLabel(entry.dueDate, ""),
       dueDateText: cleanLabel(entry.dueDateText, ""),
@@ -3323,6 +3338,7 @@
     const listName = LIST_NAME_MAP[listId] || cleanLabel(entry.listName);
     const taskName = cleanLabel(entry.taskName, "Untitled task");
     const taskType = normalizeTaskType(entry.taskType);
+    const taskCategory = normalizeTaskCategory(entry.taskCategory);
     return {
       id: cleanLabel(entry.id, `native:${index}`),
       sourceFile: "Native time tracking",
@@ -3342,7 +3358,7 @@
       department: cleanLabel(entry.department, ""),
       priority: cleanLabel(entry.priority, ""),
       section: cleanLabel(entry.section, ""),
-      taskCategory: cleanLabel(entry.taskCategory, ""),
+      taskCategory,
       taskType,
       dueDate: cleanLabel(entry.dueDate, ""),
       dueDateText: cleanLabel(entry.dueDateText, ""),
@@ -3362,7 +3378,7 @@
         entry.department,
         entry.priority,
         entry.section,
-        entry.taskCategory,
+        taskCategory,
         entry.taskType,
         entry.notes
       ].join(" ").toLowerCase()
@@ -3717,7 +3733,7 @@
     const baseOptions = field === "taskCategory" ? TASK_CATEGORY_OPTIONS : [];
     const values = new Set(baseOptions);
     rows.forEach((entry) => {
-      const value = cleanLabel(entry[field], "");
+      const value = field === "taskCategory" ? normalizeTaskCategory(entry[field]) : cleanLabel(entry[field], "");
       if (!value) return;
       if (field === "taskType" && /^other$/i.test(value)) return;
       values.add(value);
@@ -3734,7 +3750,8 @@
 
   function metadataFilterOptionsHtml(rows, field, allLabel, selected = "") {
     const options = metadataFilterOptions(rows, field);
-    const current = options.includes(selected) ? selected : "";
+    const selectedValue = field === "taskCategory" ? normalizeTaskCategory(selected) : selected;
+    const current = options.includes(selectedValue) ? selectedValue : "";
     return [
       `<option value=""${current ? "" : " selected"}>${escapeHtml(allLabel)}</option>`,
       ...options.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
@@ -3791,7 +3808,7 @@
       taskName: Object.prototype.hasOwnProperty.call(existing, "taskName") ? cleanLabel(existing.taskName, "") : cleanLabel(entry.taskName, ""),
       department: Object.prototype.hasOwnProperty.call(existing, "department") ? cleanLabel(existing.department, "") : cleanLabel(entry.department, ""),
       priority: Object.prototype.hasOwnProperty.call(existing, "priority") ? cleanLabel(existing.priority, "") : cleanLabel(entry.priority, ""),
-      taskCategory: Object.prototype.hasOwnProperty.call(existing, "taskCategory") ? cleanLabel(existing.taskCategory, "") : cleanLabel(entry.taskCategory, ""),
+      taskCategory: Object.prototype.hasOwnProperty.call(existing, "taskCategory") ? normalizeTaskCategory(existing.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(existing, "taskType") ? cleanLabel(existing.taskType, "") : cleanLabel(entry.taskType, "")
     };
   }
@@ -3799,9 +3816,12 @@
   async function saveTaskOverride(entry, patch) {
     const key = taskOverrideKey(entry);
     const current = currentTaskOverride(entry);
+    const normalizedPatch = Object.prototype.hasOwnProperty.call(patch || {}, "taskCategory")
+      ? { ...patch, taskCategory: normalizeTaskCategory(patch.taskCategory) }
+      : patch;
     const next = {
       ...current,
-      ...patch,
+      ...normalizedPatch,
       updatedAt: isoNow()
     };
     if (next.recurrence !== "custom") next.recurringText = "";
@@ -3824,7 +3844,7 @@
     const entry = rows.find((item) => taskOverrideKey(item) === control.dataset.editKey);
     const field = control.dataset.editField;
     if (!entry || !field) return;
-    const value = field === "listId" ? control.value : control.value.trim();
+    const value = field === "listId" ? control.value : (field === "taskCategory" ? normalizeTaskCategory(control.value) : control.value.trim());
     if (field === "taskName" && !value) {
       control.value = entry.taskName;
       return;
@@ -3853,7 +3873,6 @@
               <input class="track-name-input" type="text" value="${escapeHtml(entry.taskName)}" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name" />
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
-            <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
           </div>
           <div class="track-order-cell">
             <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
@@ -3871,7 +3890,7 @@
           <div class="track-due-cell">
             <div class="track-due-inputs">
               <div class="track-due-date-stack">
-                <span class="track-due-full-date${dueDateLabel ? "" : " empty"}">${escapeHtml(dueDateLabel || "No due date")}</span>
+                ${dueDateLabel ? `<span class="track-due-full-date">${escapeHtml(dueDateLabel)}</span>` : ""}
                 <div class="date-picker-control">
                   <input class="track-date-input" type="date" value="${escapeHtml(dueDateValue)}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
                   <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
@@ -3902,6 +3921,9 @@
             </div>
           </div>
           <div class="track-time">${escapeHtml(timeText)}</div>
+          <div class="track-meta-row">
+            <div class="track-meta">${editableTaskMetadataHtml(entry, key)}</div>
+          </div>
         </div>
       </div>
     `;
@@ -4306,6 +4328,7 @@
     const listName = LIST_NAME_MAP[listId] || cleanLabel(row["List Name"]);
     const taskName = cleanLabel(row["Task Name"], "Untitled task");
     const taskType = normalizeTaskType(row["Task Type"]);
+    const taskCategory = normalizeTaskCategory(row["Task Category"]);
 
     return {
       id: cleanLabel(row["Time Entry ID"], `${sourceFile}:${row.Start}:${row.Stop}:${taskId}`),
@@ -4326,7 +4349,7 @@
       department: cleanLabel(row.Department, ""),
       priority: cleanLabel(row.Priority, ""),
       section: cleanLabel(row.Section, ""),
-      taskCategory: cleanLabel(row["Task Category"], ""),
+      taskCategory,
       taskType,
       dueDate: Number(row["Due Date"]) ? new Date(Number(row["Due Date"])).toISOString() : "",
       dueDateText: cleanLabel(row["Due Date Text"], ""),
@@ -4343,7 +4366,7 @@
         row.Department,
         row.Priority,
         row.Section,
-        row["Task Category"],
+        taskCategory,
         row["Task Type"],
         sourceFile
       ].join(" ").toLowerCase()
@@ -4365,6 +4388,7 @@
     const taskName = cleanLabel(row.Task, "Untitled task");
     const taskId = cleanLabel(row["Task ID"], `legacy-task:${taskName}`);
     const taskType = normalizeTaskType(row["Task\nType"]);
+    const taskCategory = normalizeTaskCategory(row["Task\nCategory"]);
 
     return {
       id: `legacy:${sourceFile}:${index}`,
@@ -4385,7 +4409,7 @@
       department: cleanLabel(row.Department, ""),
       priority: cleanLabel(row.Priority, ""),
       section: cleanLabel(row.Section, ""),
-      taskCategory: cleanLabel(row["Task\nCategory"], ""),
+      taskCategory,
       taskType,
       dueDate: "",
       dueDateText: "",
@@ -4401,7 +4425,7 @@
         row.Department,
         row.Priority,
         row.Section,
-        row["Task\nCategory"],
+        taskCategory,
         row["Task\nType"],
         legacyWeek,
         sourceFile
@@ -5093,7 +5117,7 @@
     document.getElementById("editDepartment").value = entry.department || "";
     document.getElementById("editPriority").value = entry.priority || "";
     document.getElementById("editSection").value = entry.section || "";
-    document.getElementById("editCategory").value = entry.taskCategory || "";
+    document.getElementById("editCategory").value = effectiveEntry.taskCategory || "";
     document.getElementById("editType").value = entry.taskType || "";
     document.getElementById("editNotes").value = entry.notes || "";
     document.getElementById("editEntryDialog").hidden = false;
@@ -5527,7 +5551,7 @@
       department: document.getElementById("editDepartment").value.trim(),
       priority: document.getElementById("editPriority").value.trim(),
       section: document.getElementById("editSection").value.trim(),
-      taskCategory: document.getElementById("editCategory").value.trim(),
+      taskCategory: normalizeTaskCategory(document.getElementById("editCategory").value),
       taskType: document.getElementById("editType").value.trim(),
       dueDate: document.getElementById("editDueDate").value,
       dueDateText: document.getElementById("editDueDate").value,
