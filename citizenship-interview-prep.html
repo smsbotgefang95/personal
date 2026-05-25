@@ -2864,7 +2864,7 @@
                 <button class="reveal-btn" data-reveal="${revealId}">查看答案</button>
                 <div class="status-group">
                   ${STATUSES.map(s => `
-                    <button class="status-btn ${s} ${storedStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
+                    <button class="status-btn ${s} ${effectiveStatus === s ? 'active' : ''}" data-status="${s}" data-idx="${idx}">
                       ${STATUS_LABELS[s]}
                     </button>
                   `).join("")}
