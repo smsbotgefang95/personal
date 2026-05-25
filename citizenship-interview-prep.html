@@ -2580,13 +2580,18 @@
     saveProgress(progress);
     render();
   }
+  function questionMatchesFilter(idx, filter) {
+    if (filter === "all") return true;
+    if (filter === "auto") return getStoredStatus(idx) === "auto";
+    return getStatus(idx) === filter;
+  }
   function getPrintableMarkedQuestions() {
     const printableStatuses = new Set(["learned", "review", "learning"]);
     const statusPrintOrder = { learned: 0, review: 1, learning: 2 };
     return QUESTIONS.map((item, idx) => ({
       item,
       idx,
-      status: getStoredStatus(idx)
+      status: getStatus(idx)
     }))
       .filter(entry => printableStatuses.has(entry.status))
       .sort((a, b) => {
@@ -2797,8 +2802,8 @@
   function render() {
     const counts = { learned: 0, learning: 0, review: 0, tolearn: 0 };
     QUESTIONS.forEach((_, i) => {
-      const storedStatus = getStoredStatus(i);
-      if (counts[storedStatus] !== undefined) counts[storedStatus]++;
+      const status = getStatus(i);
+      if (counts[status] !== undefined) counts[status]++;
     });
     document.getElementById("stat-total").textContent = QUESTIONS.length;
     document.getElementById("stat-learned").textContent = counts.learned;
@@ -2818,8 +2823,7 @@
 
     const visibleIdx = [];
     QUESTIONS.forEach((item, idx) => {
-      const status = getStoredStatus(idx);
-      if (activeFilter !== "all" && status !== activeFilter) return;
+      if (!questionMatchesFilter(idx, activeFilter)) return;
       if (term) {
         const haystack = (item.q + " " + item.a + " " + item.c + " " + item.qZh + " " + item.aZh + " " + item.cZh).toLowerCase();
         if (!haystack.includes(term)) return;
@@ -2835,9 +2839,10 @@
     const appendQuestionCard = (container, idx) => {
       const item = QUESTIONS[idx];
       const storedStatus = getStoredStatus(idx);
+      const effectiveStatus = getStatus(idx);
       const card = document.createElement("div");
       card.className = "question";
-      card.setAttribute("data-status", storedStatus);
+      card.setAttribute("data-status", effectiveStatus);
       card.dataset.questionIdx = String(idx);
       const revealId = "ans-" + idx;
 
@@ -3237,7 +3242,7 @@
     const loopStatuses = new Set(["learned", "review", "learning"]);
     return QUESTIONS
       .map((_, idx) => idx)
-      .filter(idx => loopStatuses.has(getStoredStatus(idx)));
+      .filter(idx => loopStatuses.has(getStatus(idx)));
   }
 
   function updateLoopControls() {
