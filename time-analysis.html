@@ -625,33 +625,17 @@
     position: sticky;
     left: 0;
     z-index: 2;
-    max-width: 320px;
+    width: 260px;
     min-width: 260px;
+    max-width: 260px;
     overflow: hidden;
     text-overflow: ellipsis;
     background: var(--card);
+    box-shadow: 1px 0 0 var(--border);
   }
 
   .business-task-table th:first-child,
   .personal-task-table th:first-child {
-    z-index: 3;
-    background: #1f2937;
-  }
-
-  .business-task-table th:nth-child(2),
-  .business-task-table td:nth-child(2),
-  .personal-task-table th:nth-child(2),
-  .personal-task-table td:nth-child(2) {
-    position: sticky;
-    left: 260px;
-    z-index: 2;
-    min-width: 92px;
-    background: #172033;
-    box-shadow: 1px 0 0 var(--border);
-  }
-
-  .business-task-table th:nth-child(2),
-  .personal-task-table th:nth-child(2) {
     z-index: 3;
     background: #1f2937;
   }
@@ -809,7 +793,8 @@
     width: auto;
     min-width: 0;
     max-width: 100%;
-    padding-right: 38px;
+    min-height: 38px;
+    padding: 7px 34px 7px 10px;
   }
 
   .quick-chips {
