@@ -833,7 +833,7 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: repeat(7, minmax(135px, 1fr)) max-content;
+    grid-template-columns: minmax(500px, 1fr) repeat(7, minmax(135px, 1fr)) max-content;
     gap: 8px;
     align-items: end;
     overflow-x: auto;
@@ -842,6 +842,10 @@
     max-width: 100%;
     padding-bottom: 2px;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .tracker-filter-controls > *:first-child {
+    grid-column: 2;
   }
 
   .tracker-search-row {
@@ -890,6 +894,22 @@
     position: sticky;
     top: 0;
     z-index: 4;
+  }
+
+  .track-list-header > div:first-child,
+  .track-task-cell {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    min-width: 340px;
+    overflow: hidden;
+    background: #030712;
+    box-shadow: 1px 0 0 var(--border);
+  }
+
+  .track-list-header > div:first-child {
+    z-index: 5;
+    background: #020617;
   }
 
   .track-row {
@@ -1771,7 +1791,7 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: repeat(7, minmax(135px, 1fr)) max-content;
+      grid-template-columns: minmax(500px, 1fr) repeat(7, minmax(135px, 1fr)) max-content;
     }
     .quick-chip {
       min-height: 48px;
