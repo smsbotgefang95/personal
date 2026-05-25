@@ -1238,6 +1238,32 @@
     background: #020617;
   }
 
+  .custom-recurrence-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+
+  .custom-recurrence-collapse {
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 6px 9px;
+    background: #111827;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .custom-recurrence-collapse:hover,
+  .custom-recurrence-collapse:focus-visible {
+    border-color: #60a5fa;
+    background: #1f2937;
+    outline: none;
+  }
+
   .custom-recurrence-row {
     display: flex;
     align-items: center;
@@ -2777,6 +2803,9 @@
       </label>
     `).join("");
     return `
+      <div class="custom-recurrence-header">
+        <button class="custom-recurrence-collapse" type="button" data-custom-collapse>Collapse</button>
+      </div>
       <div class="custom-recurrence-row">
         <span class="custom-recurrence-label">Every</span>
         <input class="custom-recurrence-number" type="number" min="1" max="99" step="1" value="${escapeHtml(settings.every)}" data-custom-part="every" aria-label="Repeat every" />
@@ -3724,6 +3753,12 @@
     });
     document.querySelectorAll("[data-recurrence-custom-key]").forEach((panel) => {
       panel.addEventListener("click", (event) => {
+        const collapse = event.target.closest("[data-custom-collapse]");
+        if (collapse) {
+          expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
+          renderActivityRows();
+          return;
+        }
         const day = event.target.closest("[data-custom-day]");
         if (!day) return;
         toggleCustomRecurrenceDay(day);
