@@ -713,6 +713,504 @@
     color: var(--danger);
   }
 
+  .tracker-shell {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .tracker-card {
+    padding: 18px;
+    border-color: #3730a3;
+    background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+  }
+
+  .timer-display {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+
+  .timer-label {
+    color: #c7d2fe;
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .timer-value {
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(2.6rem, 12vw, 4.7rem);
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .timer-task {
+    min-height: 1.4em;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+
+  .tracker-form {
+    display: grid;
+    gap: 12px;
+  }
+
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(160px, 0.65fr);
+    gap: 10px;
+  }
+
+  .tracker-field {
+    display: grid;
+    gap: 5px;
+  }
+
+  .tracker-field label {
+    color: var(--muted);
+    font-size: 0.77rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .tracker-input,
+  .tracker-select,
+  .tracker-textarea {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #030712;
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem;
+  }
+
+  .tracker-textarea {
+    min-height: 70px;
+    resize: vertical;
+  }
+
+  .quick-chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .quick-chip {
+    flex: 0 0 auto;
+    min-height: 44px;
+    max-width: 220px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 8px 11px;
+    background: #1f2937;
+    color: #ffffff;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tracker-list {
+    display: grid;
+    gap: 2px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #030712;
+  }
+
+  .track-list-header,
+  .track-row {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(150px, 0.34fr) minmax(180px, 0.42fr) minmax(86px, auto) 46px;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .track-list-header {
+    min-height: 38px;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    background: #020617;
+    color: var(--muted);
+    font-size: 0.73rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+  }
+
+  .track-row {
+    min-height: 58px;
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .track-row:last-child { border-bottom: 0; }
+
+  .track-group {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .track-group:last-child { border-bottom: 0; }
+
+  .track-group-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 46px;
+    border: 0;
+    padding: 9px 10px;
+    background: #0f172a;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 850;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .track-group-caret {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    transition: transform 140ms ease;
+  }
+
+  .track-group.collapsed .track-group-caret {
+    transform: rotate(-90deg);
+  }
+
+  .track-group.collapsed .track-row {
+    display: none;
+  }
+
+  .track-group-name {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 3px 9px;
+    background: #111827;
+  }
+
+  .track-group-count {
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .track-name {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    color: #f9fafb;
+    font-size: 1rem;
+    font-weight: 850;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-meta {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-extra {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    min-width: 0;
+    margin-top: 4px;
+  }
+
+  .deadline-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    max-width: 100%;
+    border: 1px solid #374151;
+    border-radius: 999px;
+    padding: 2px 7px;
+    background: #111827;
+    color: #d1d5db;
+    font-size: 0.72rem;
+    font-weight: 850;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .recurring-mark {
+    flex: 0 0 auto;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .track-time {
+    color: #d1d5db;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .track-date-input,
+  .track-recurrence-select,
+  .track-recurrence-custom {
+    width: 100%;
+    min-height: 38px;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 7px 9px;
+    background: #030712;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.88rem;
+  }
+
+  .date-picker-control {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 40px;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .date-picker-control .track-date-input,
+  .date-picker-control .tracker-input {
+    min-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .date-picker-button {
+    display: inline-grid;
+    place-items: center;
+    min-width: 40px;
+    min-height: 38px;
+    border: 1px solid #374151;
+    border-left: 0;
+    border-radius: 0 7px 7px 0;
+    background: #111827;
+    color: #c7d2fe;
+    cursor: pointer;
+  }
+
+  .date-picker-button:hover,
+  .date-picker-button:focus-visible {
+    background: #1f2937;
+    color: #ffffff;
+    outline: none;
+  }
+
+  .date-picker-button svg {
+    width: 17px;
+    height: 17px;
+    pointer-events: none;
+  }
+
+  .tracker-field .date-picker-button {
+    min-height: 46px;
+    border-color: var(--border);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .track-recurrence-control {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .track-recurrence-custom[hidden] {
+    display: none;
+  }
+
+  .track-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 22px;
+    border-radius: 999px;
+    padding: 2px 7px;
+    background: #1f2937;
+    color: #d1d5db;
+    font-size: 0.68rem;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .track-status.running {
+    background: #0b7ee8;
+    color: #ffffff;
+  }
+
+  .track-button {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 999px;
+    background: #6b7280;
+    color: #ffffff;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .track-button.running { background: var(--danger); }
+
+  .custom-entry {
+    display: grid;
+    gap: 12px;
+  }
+
+  .tracker-actions,
+  .edit-actions,
+  .admin-key-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    min-height: 44px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .btn-primary { background: var(--green); }
+  .btn-danger { background: var(--danger); }
+  .btn-indigo { background: var(--indigo); }
+  .btn-ghost {
+    border-color: var(--border);
+    background: #1f2937;
+    color: #d1d5db;
+  }
+
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  .tracker-status {
+    min-height: 1.4em;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .tracker-status.error { color: #fca5a5; }
+  .tracker-status.saved { color: #86efac; }
+
+  .advanced-toggle {
+    justify-self: start;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #a5b4fc;
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .advanced-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .details-table th.actions-column,
+  .details-table td.actions-column {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    min-width: 128px;
+    background: var(--card);
+    box-shadow: -1px 0 0 var(--border);
+  }
+
+  .row-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .row-btn {
+    min-height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 6px 9px;
+    background: #1f2937;
+    color: #ffffff;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .row-btn.danger {
+    border-color: var(--danger);
+    color: #fca5a5;
+  }
+
+  .dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(3, 7, 18, 0.78);
+  }
+
+  .dialog-backdrop[hidden] { display: none; }
+
+  .dialog-panel {
+    width: min(560px, 100%);
+    max-height: min(760px, 92vh);
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    background: var(--card);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+  }
+
+  .admin-key-credential-context {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   @media (max-width: 940px) {
     main { padding: 16px 18px 34px; }
     .grid-2,
@@ -720,7 +1218,9 @@
     .grid-4,
     .checks-grid,
     .analysis-grid,
-    .toolbar { grid-template-columns: 1fr; }
+    .toolbar,
+    .tracker-grid,
+    .advanced-fields { grid-template-columns: 1fr; }
     .section-header { display: grid; }
     .metric-card { min-height: 108px; }
     .metric-value { font-size: 1.72rem; }
@@ -740,6 +1240,52 @@
       align-content: start;
     }
     .tab-btn { flex: 1 1 140px; }
+    .tracker-card { padding: 16px; }
+    .tracker-actions {
+      margin: 0 -16px -16px;
+      padding: 10px 16px 12px;
+      border-top: 1px solid var(--border);
+      background: rgba(17, 24, 39, 0.98);
+    }
+    .tracker-actions .btn {
+      flex: 1 1 120px;
+      min-height: 52px;
+      font-size: 1rem;
+    }
+    .quick-chip {
+      min-height: 48px;
+      max-width: 78vw;
+    }
+    .track-list-header {
+      display: none;
+    }
+    .track-row {
+      grid-template-columns: minmax(0, 1fr) 46px;
+      min-height: 62px;
+    }
+    .track-due-cell,
+    .track-recurrence-cell,
+    .track-time {
+      grid-column: 1 / 2;
+      align-self: start;
+    }
+    .track-due-cell::before,
+    .track-recurrence-cell::before {
+      display: block;
+      margin: 6px 0 4px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .track-due-cell::before { content: "Due date"; }
+    .track-recurrence-cell::before { content: "Recurrence"; }
+    .track-group-header {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
   }
 </style>
 </head>
@@ -750,23 +1296,93 @@
   <header class="page-header">
     <div>
       <h1>Time Analysis</h1>
-      <p class="subtitle" id="pageSubtitle">Loading ClickUp time entries...</p>
+      <p class="subtitle" id="pageSubtitle">Loading time entries...</p>
     </div>
     <div class="source-row" id="sourcePills"></div>
   </header>
 
-  <div id="statusBox" class="status-box">Loading CSV data...</div>
+  <div id="statusBox" class="status-box">Loading time data...</div>
 
   <div id="dashboard" hidden>
     <nav class="tabs" aria-label="Time analysis sections">
-      <button class="tab-btn active" type="button" data-tab="overview">Overview</button>
+      <button class="tab-btn active" type="button" data-tab="track">Track</button>
+      <button class="tab-btn" type="button" data-tab="overview">Overview</button>
       <button class="tab-btn" type="button" data-tab="business">Business</button>
       <button class="tab-btn" type="button" data-tab="personal">Personal</button>
       <button class="tab-btn" type="button" data-tab="actions">Actions</button>
       <button class="tab-btn" type="button" data-tab="details">Details</button>
     </nav>
 
-    <section id="panel-overview" class="panel active">
+    <section id="panel-track" class="panel active">
+      <section class="tracker-shell" aria-labelledby="trackerHeading">
+        <div class="tracker-card card">
+          <div class="section-header">
+            <div>
+              <h2 id="trackerHeading">Track Time</h2>
+              <p class="section-note">Tap an activity to start. No typing needed.</p>
+            </div>
+          </div>
+          <div class="timer-display">
+            <div class="timer-label" id="timerStateLabel">Ready</div>
+            <div class="timer-value" id="timerValue">00:00:00</div>
+            <div class="timer-task" id="timerTask">No timer running</div>
+          </div>
+          <form class="tracker-form" id="trackerForm">
+            <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
+            <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add custom task</button>
+            <div class="custom-entry" id="customFields" hidden>
+              <div class="quick-chips" id="quickChips" aria-label="Recent activities"></div>
+              <div class="tracker-grid">
+                <div class="tracker-field">
+                  <label for="trackerTask">Custom task</label>
+                  <input class="tracker-input" id="trackerTask" type="text" autocomplete="off" placeholder="What are you doing?" />
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerList">List</label>
+                  <select class="tracker-select" id="trackerList" required></select>
+                </div>
+              </div>
+            </div>
+            <button class="advanced-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
+            <div class="advanced-fields" id="advancedFields" hidden>
+              <div class="tracker-field">
+                <label for="trackerDepartment">Department</label>
+                <input class="tracker-input" id="trackerDepartment" type="text" autocomplete="off" />
+              </div>
+              <div class="tracker-field">
+                <label for="trackerPriority">Priority</label>
+                <input class="tracker-input" id="trackerPriority" type="text" autocomplete="off" />
+              </div>
+              <div class="tracker-field">
+                <label for="trackerSection">Section</label>
+                <input class="tracker-input" id="trackerSection" type="text" autocomplete="off" />
+              </div>
+              <div class="tracker-field">
+                <label for="trackerCategory">Task Category</label>
+                <input class="tracker-input" id="trackerCategory" type="text" autocomplete="off" />
+              </div>
+              <div class="tracker-field">
+                <label for="trackerType">Task Type</label>
+                <input class="tracker-input" id="trackerType" type="text" autocomplete="off" placeholder="Owner, Manager, Work, Admin" />
+              </div>
+              <div class="tracker-field">
+                <label for="trackerNotes">Notes</label>
+                <textarea class="tracker-textarea" id="trackerNotes"></textarea>
+              </div>
+            </div>
+            <div class="tracker-actions">
+              <button class="btn btn-primary" id="startTimerBtn" type="submit" hidden>Start Custom</button>
+              <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
+              <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
+              <button class="btn btn-indigo" id="loadTimeKeyBtn" type="button">Unlock</button>
+            </div>
+            <div class="tracker-status" id="trackerStatus" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+    </section>
+
+    <section id="panel-overview" class="panel">
       <div class="grid-4" id="overviewKpis"></div>
 
       <div class="grid-2">
@@ -774,7 +1390,7 @@
           <div class="section-header">
             <div>
               <h2 id="allocationHeading">Time Allocation</h2>
-              <p class="section-note">Grouped by stable ClickUp list identity.</p>
+              <p class="section-note">Grouped by stable list identity.</p>
             </div>
           </div>
           <div class="chart-box short">
@@ -822,7 +1438,7 @@
           <div class="section-header">
             <div>
               <h2 id="topTasksHeading">Top Activities</h2>
-              <p class="section-note">Grouped by stable ClickUp task identity.</p>
+              <p class="section-note">Grouped by stable task identity.</p>
             </div>
           </div>
           <div class="bar-list" id="topTaskBars"></div>
@@ -930,7 +1546,7 @@
         <div class="section-header">
           <div>
             <h2 id="personalTrendHeading">Personal Trend</h2>
-            <p class="section-note">Weekly hours from the Personal ClickUp list only.</p>
+            <p class="section-note">Weekly hours from the Personal list only.</p>
           </div>
         </div>
         <div class="chart-box tall">
@@ -1049,11 +1665,121 @@
   </div>
 </main>
 
+<div class="dialog-backdrop" id="timeKeyDialog" role="dialog" aria-modal="true" aria-labelledby="timeKeyTitle" hidden>
+  <form class="dialog-panel" id="timeKeyForm" method="post" action="/api/time-entries" autocomplete="on">
+    <h2 id="timeKeyTitle">Unlock Time Tracking</h2>
+    <p class="section-note">Enter the time-tracking admin key to load and save private time entries.</p>
+    <input
+      class="admin-key-credential-context"
+      id="timeKeyUsername"
+      name="username"
+      type="text"
+      autocomplete="username"
+      value="time-tracking-admin"
+      tabindex="-1"
+      readonly
+    />
+    <div class="tracker-field">
+      <label for="timeKeyInput">Admin key</label>
+      <input class="tracker-input" id="timeKeyInput" name="password" type="password" autocomplete="current-password" required />
+    </div>
+    <div class="admin-key-actions">
+      <button class="btn btn-ghost" id="timeKeyCancelBtn" type="button">Cancel</button>
+      <button class="btn btn-primary" type="submit">Unlock</button>
+    </div>
+  </form>
+</div>
+
+<div class="dialog-backdrop" id="editEntryDialog" role="dialog" aria-modal="true" aria-labelledby="editEntryTitle" hidden>
+  <form class="dialog-panel" id="editEntryForm">
+    <h2 id="editEntryTitle">Edit Time Entry</h2>
+    <div class="tracker-form">
+      <div class="tracker-grid">
+        <div class="tracker-field">
+          <label for="editTask">Task</label>
+          <input class="tracker-input" id="editTask" type="text" required />
+        </div>
+        <div class="tracker-field">
+          <label for="editList">List</label>
+          <select class="tracker-select" id="editList" required></select>
+        </div>
+      </div>
+      <div class="tracker-grid">
+        <div class="tracker-field">
+          <label for="editStart">Start</label>
+          <input class="tracker-input" id="editStart" type="datetime-local" required />
+        </div>
+        <div class="tracker-field">
+          <label for="editStop">Stop</label>
+          <input class="tracker-input" id="editStop" type="datetime-local" required />
+        </div>
+      </div>
+      <div class="tracker-grid">
+        <div class="tracker-field">
+          <label for="editDueDate">Due date</label>
+          <div class="date-picker-control">
+            <input class="tracker-input" id="editDueDate" type="date" />
+            <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M8 2v4"></path>
+                <path d="M16 2v4"></path>
+                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                <path d="M3 10h18"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="tracker-field">
+          <label for="editRecurrence">Recurrence</label>
+          <select class="tracker-select" id="editRecurrence"></select>
+        </div>
+      </div>
+      <div class="tracker-field" id="editRecurrenceCustomWrap" hidden>
+        <label for="editRecurrenceCustom">Custom recurrence</label>
+        <input class="tracker-input" id="editRecurrenceCustom" type="text" />
+      </div>
+      <div class="advanced-fields">
+        <div class="tracker-field">
+          <label for="editDepartment">Department</label>
+          <input class="tracker-input" id="editDepartment" type="text" />
+        </div>
+        <div class="tracker-field">
+          <label for="editPriority">Priority</label>
+          <input class="tracker-input" id="editPriority" type="text" />
+        </div>
+        <div class="tracker-field">
+          <label for="editSection">Section</label>
+          <input class="tracker-input" id="editSection" type="text" />
+        </div>
+        <div class="tracker-field">
+          <label for="editCategory">Task Category</label>
+          <input class="tracker-input" id="editCategory" type="text" />
+        </div>
+        <div class="tracker-field">
+          <label for="editType">Task Type</label>
+          <input class="tracker-input" id="editType" type="text" />
+        </div>
+        <div class="tracker-field">
+          <label for="editNotes">Notes</label>
+          <textarea class="tracker-textarea" id="editNotes"></textarea>
+        </div>
+      </div>
+      <div class="edit-actions">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-ghost" id="editCancelBtn" type="button">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <script>
   const TIME_CSV_FILES = [
     "data/⏰ Time Analysis_2026 - Entries.csv",
     "data/ClickUp Entries_W18~W21.csv"
   ];
+  const TIME_ENTRIES_API = "/api/time-entries";
+  const TIME_ADMIN_KEY_STORAGE = "personal.timeTracking.adminKey.v1";
+  const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
 
   const LIST_NAME_MAP = {
     "901306296518": "🌼 Survival Mode",
@@ -1097,12 +1823,48 @@
   const charts = {};
   let appEntries = [];
   let appMetrics = null;
+  let taskCatalogEntries = [];
+  let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, updatedAt: null };
+  let timeAdminKey = "";
+  let editingEntryId = "";
+  let timerTick = null;
+  let currentSourcePills = [];
+  let collapsedTrackGroups = new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]"));
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
   };
 
   const tableHeaders = ["Date", "Week", "Task", "Duration", "Start", "End", "List", "Department", "Priority", "Section", "Task Category", "Task Type"];
+  const nativeListOptions = Object.entries(LIST_NAME_MAP).map(([id, name]) => ({ id, name }));
+  const RECURRENCE_OPTIONS = [
+    ["none", "None"],
+    ["daily", "Daily"],
+    ["weekly", "Weekly"],
+    ["monthly", "Monthly"],
+    ["custom", "Custom"]
+  ];
+  const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
+  const fallbackActivities = [
+    { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
+    { taskName: "Put on clothes", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
+    { taskName: "Update daily KPIs", listId: "901306296518", listName: "🌼 Survival Mode", priority: "🌱 Routine", section: "9.04. Consistency", taskCategory: "Routine", taskType: "Admin" },
+    { taskName: "Eat", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.2. Eat healthy food", taskCategory: "Life Must", taskType: "Work" },
+    { taskName: "Do dishes", listId: "901306296518", listName: "🌼 Survival Mode", priority: "🌱 Routine", section: "9.11.3. Clean up stuff", taskCategory: "Routine", taskType: "Work" },
+    { taskName: "Brush teeth", listId: "901306296518", listName: "🌼 Survival Mode", priority: "🌱 Routine", section: "9.01.4. Have a regular routine", taskCategory: "Routine", taskType: "Work" },
+    { taskName: "Walk", listId: "901301650324", listName: "🌈 Personal", department: "9.01. Health & fitness", priority: "🌱 Routine", section: "9.01.3. Exercise", taskCategory: "Health", taskType: "Work" },
+    { taskName: "Nap", listId: "901306296518", listName: "🌼 Survival Mode", priority: "☕️ Downtime", section: "9.01.1. Sleep well", taskCategory: "Routine", taskType: "Work" },
+    { taskName: "Take a break", listId: "901301650324", listName: "🌈 Personal", priority: "☕️ Downtime", section: "9.01.4. Have a regular routine", taskCategory: "Rest", taskType: "Work" },
+    { taskName: "Plan for dad's activities", listId: "901301650324", listName: "🌈 Personal", department: "Family", priority: "✴️ Should", section: "9.07.4. Take dad to places", taskCategory: "Planning", taskType: "Owner" }
+  ].map((item, index) => ({
+    ...item,
+    id: `fallback-${index}`,
+    taskId: taskIdFor(item.taskName),
+    sourceType: "preset",
+    durationMs: 0,
+    hours: 0,
+    count: 0
+  }));
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -1170,6 +1932,647 @@
   function cleanLabel(value, fallback = "Uncategorized") {
     const text = String(value ?? "").trim();
     return text || fallback;
+  }
+
+  function isoNow() {
+    return new Date().toISOString();
+  }
+
+  function nativeId(prefix = "native") {
+    return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  }
+
+  function taskIdFor(taskName) {
+    return `native-task:${String(taskName || "untitled").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "untitled"}`;
+  }
+
+  function taskOverrideKey(entry) {
+    return `${cleanLabel(entry.listId, "unknown-list")}|||${cleanLabel(entry.taskId || taskIdFor(entry.taskName), taskIdFor(entry.taskName))}`;
+  }
+
+  function dateInputValue(value) {
+    if (!value) return "";
+    const text = String(value).trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+    const parsed = new Date(text);
+    if (Number.isNaN(parsed.getTime())) return "";
+    const local = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60000);
+    return local.toISOString().slice(0, 10);
+  }
+
+  function inferRecurrence(entry) {
+    const text = cleanLabel(entry.recurringText, "").toLowerCase();
+    if (/every\s+day|daily/.test(text)) return "daily";
+    if (/every\s+week|weekly/.test(text)) return "weekly";
+    if (/every\s+month|monthly/.test(text)) return "monthly";
+    if (text === "recurring task") return "daily";
+    return entry.recurring ? "custom" : "none";
+  }
+
+  function recurrenceLabel(recurrence, customText = "") {
+    if (recurrence === "custom") return customText || "Custom";
+    return RECURRENCE_OPTIONS.find(([value]) => value === recurrence)?.[1] || "None";
+  }
+
+  function taskOverrideFor(entry) {
+    return timePayload.taskOverrides?.[taskOverrideKey(entry)] || null;
+  }
+
+  function applyTaskOverride(entry) {
+    const override = taskOverrideFor(entry);
+    const recurrence = override?.recurrence || inferRecurrence(entry);
+    const recurringText = recurrence === "custom"
+      ? cleanLabel(override?.recurringText || entry.recurringText, "")
+      : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
+    const dueDate = override ? cleanLabel(override.dueDate, "") : dateInputValue(entry.dueDate || entry.dueDateText);
+    return {
+      ...entry,
+      dueDate,
+      dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
+      recurrence,
+      recurring: recurrence !== "none",
+      recurringText
+    };
+  }
+
+  function entriesWithTaskOverrides(entries) {
+    return entries.map((entry) => {
+      const next = applyTaskOverride(entry);
+      return {
+        ...next,
+        searchText: [
+          next.searchText,
+          next.dueDate,
+          next.dueDateText,
+          next.recurringText
+        ].filter(Boolean).join(" ").toLowerCase()
+      };
+    });
+  }
+
+  function cleanTaskOverrides(overrides) {
+    if (!overrides || typeof overrides !== "object") return {};
+    return Object.fromEntries(Object.entries(overrides).map(([key, value]) => {
+      const recurrence = RECURRENCE_OPTIONS.some(([item]) => item === value?.recurrence) ? value.recurrence : "none";
+      return [key, {
+        dueDate: dateInputValue(value?.dueDate),
+        recurrence,
+        recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
+        updatedAt: cleanLabel(value?.updatedAt, "")
+      }];
+    }));
+  }
+
+  function setTrackerStatus(message, mode = "") {
+    const status = document.getElementById("trackerStatus");
+    status.textContent = message || "";
+    status.className = `tracker-status${mode ? ` ${mode}` : ""}`;
+  }
+
+  function populateListSelect(select, value = "") {
+    select.innerHTML = nativeListOptions
+      .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === value ? " selected" : ""}>${escapeHtml(item.name)}</option>`)
+      .join("");
+  }
+
+  function listNameForId(listId) {
+    return LIST_NAME_MAP[listId] || listId || "Uncategorized";
+  }
+
+  function selectedList(selectId) {
+    const listId = document.getElementById(selectId).value;
+    return { listId, listName: listNameForId(listId) };
+  }
+
+  function trackerFormValues() {
+    const taskName = document.getElementById("trackerTask").value.trim();
+    const list = selectedList("trackerList");
+    return {
+      id: nativeId(),
+      sourceType: "native",
+      start: isoNow(),
+      stop: "",
+      durationMs: 0,
+      listId: list.listId,
+      listName: list.listName,
+      taskId: taskIdFor(taskName),
+      taskName,
+      department: document.getElementById("trackerDepartment").value.trim(),
+      priority: document.getElementById("trackerPriority").value.trim(),
+      section: document.getElementById("trackerSection").value.trim(),
+      taskCategory: document.getElementById("trackerCategory").value.trim(),
+      taskType: document.getElementById("trackerType").value.trim(),
+      dueDate: "",
+      dueDateText: "",
+      startDate: "",
+      startDateText: "",
+      recurring: false,
+      recurringText: "",
+      taskOrder: "",
+      notes: document.getElementById("trackerNotes").value.trim(),
+      createdAt: isoNow(),
+      updatedAt: isoNow()
+    };
+  }
+
+  function entryToRunningTimer(entry) {
+    const taskName = cleanLabel(entry.taskName, "Untitled task");
+    const listId = cleanLabel(entry.listId, "901301650324");
+    const listName = LIST_NAME_MAP[listId] || cleanLabel(entry.listName, listNameForId(listId));
+    return {
+      id: nativeId(),
+      sourceType: "native",
+      start: isoNow(),
+      stop: "",
+      durationMs: 0,
+      listId,
+      listName,
+      taskId: cleanLabel(entry.taskId, taskIdFor(taskName)),
+      taskName,
+      department: cleanLabel(entry.department, ""),
+      priority: cleanLabel(entry.priority, ""),
+      section: cleanLabel(entry.section, ""),
+      taskCategory: cleanLabel(entry.taskCategory, ""),
+      taskType: entry.taskType === "Other" ? "" : cleanLabel(entry.taskType, ""),
+      dueDate: cleanLabel(entry.dueDate, ""),
+      dueDateText: cleanLabel(entry.dueDateText, ""),
+      startDate: cleanLabel(entry.startDate, ""),
+      startDateText: cleanLabel(entry.startDateText, ""),
+      recurring: Boolean(entry.recurring),
+      recurringText: cleanLabel(entry.recurringText, ""),
+      recurrence: inferRecurrence(entry),
+      taskOrder: cleanLabel(entry.taskOrder, ""),
+      notes: "",
+      createdAt: isoNow(),
+      updatedAt: isoNow()
+    };
+  }
+
+  function cleanClientPayload(payload) {
+    const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+    return {
+      entries: entries.filter((entry) => entry && entry.id && entry.start && entry.stop),
+      activeEntry: payload?.activeEntry && payload.activeEntry.id ? payload.activeEntry : null,
+      taskOverrides: cleanTaskOverrides(payload?.taskOverrides),
+      updatedAt: payload?.updatedAt || null
+    };
+  }
+
+  function requestTimeAdminKey() {
+    const dialog = document.getElementById("timeKeyDialog");
+    const input = document.getElementById("timeKeyInput");
+    input.value = timeAdminKey || localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || "";
+    dialog.hidden = false;
+    window.requestAnimationFrame(() => input.focus());
+    return new Promise((resolve) => {
+      const form = document.getElementById("timeKeyForm");
+      const cancel = document.getElementById("timeKeyCancelBtn");
+      const cleanup = () => {
+        form.removeEventListener("submit", onSubmit);
+        cancel.removeEventListener("click", onCancel);
+        dialog.hidden = true;
+      };
+      const onSubmit = (event) => {
+        event.preventDefault();
+        cleanup();
+        resolve(input.value.trim());
+      };
+      const onCancel = () => {
+        cleanup();
+        resolve("");
+      };
+      form.addEventListener("submit", onSubmit);
+      cancel.addEventListener("click", onCancel);
+    });
+  }
+
+  async function ensureTimeAdminKey({ prompt = true } = {}) {
+    timeAdminKey = timeAdminKey || localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || "";
+    if (timeAdminKey || !prompt) return timeAdminKey;
+    timeAdminKey = await requestTimeAdminKey();
+    if (timeAdminKey) localStorage.setItem(TIME_ADMIN_KEY_STORAGE, timeAdminKey);
+    return timeAdminKey;
+  }
+
+  async function timeApi(method = "GET", payload = null, { prompt = true } = {}) {
+    const key = await ensureTimeAdminKey({ prompt });
+    if (!key) throw new Error("Admin key required");
+    const headers = { "X-Time-Tracking-Admin-Key": key };
+    const options = { method, headers, cache: "no-store" };
+    if (payload) {
+      headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(payload);
+    }
+    const response = await fetch(TIME_ENTRIES_API, options);
+    if (response.status === 401 && prompt) {
+      localStorage.removeItem(TIME_ADMIN_KEY_STORAGE);
+      timeAdminKey = await requestTimeAdminKey();
+      if (!timeAdminKey) throw new Error("Admin key required");
+      localStorage.setItem(TIME_ADMIN_KEY_STORAGE, timeAdminKey);
+      return timeApi(method, payload, { prompt: false });
+    }
+    if (!response.ok) throw new Error(`Time API returned HTTP ${response.status}`);
+    return response.json();
+  }
+
+  async function saveTimePayload(nextPayload) {
+    const response = await timeApi("POST", cleanClientPayload(nextPayload));
+    timePayload = cleanClientPayload(response.payload || nextPayload);
+    if ((timePayload.entries || []).length || timePayload.activeEntry) {
+      renderNativeDashboard();
+    } else {
+      if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
+      renderTracker();
+      if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
+    }
+    setTrackerStatus("Saved", "saved");
+  }
+
+  function normalizeNativeEntry(entry, index = 0) {
+    const start = entry.start ? new Date(entry.start) : null;
+    const stop = entry.stop ? new Date(entry.stop) : null;
+    const durationMs = Number(entry.durationMs) || (start && stop ? Math.max(0, stop.getTime() - start.getTime()) : 0);
+    const listId = cleanLabel(entry.listId, "unknown-list");
+    const listName = LIST_NAME_MAP[listId] || cleanLabel(entry.listName);
+    const taskName = cleanLabel(entry.taskName, "Untitled task");
+    const taskType = normalizeTaskType(entry.taskType);
+    return {
+      id: cleanLabel(entry.id, `native:${index}`),
+      sourceFile: "Native time tracking",
+      sourceIndex: index,
+      sourceType: "native",
+      start,
+      stop,
+      date: start ? dateKey(start) : "",
+      displayDate: start ? shortDate(start) : "",
+      week: start ? weekLabel(start) : "Unknown week",
+      durationMs,
+      hours: durationMs / 3600000,
+      listId,
+      listName,
+      taskId: cleanLabel(entry.taskId, taskIdFor(taskName)),
+      taskName,
+      department: cleanLabel(entry.department, ""),
+      priority: cleanLabel(entry.priority, ""),
+      section: cleanLabel(entry.section, ""),
+      taskCategory: cleanLabel(entry.taskCategory, ""),
+      taskType,
+      dueDate: cleanLabel(entry.dueDate, ""),
+      dueDateText: cleanLabel(entry.dueDateText, ""),
+      startDate: cleanLabel(entry.startDate, ""),
+      startDateText: cleanLabel(entry.startDateText, ""),
+      recurring: Boolean(entry.recurring),
+      recurringText: cleanLabel(entry.recurringText, ""),
+      taskOrder: cleanLabel(entry.taskOrder, ""),
+      notes: cleanLabel(entry.notes, ""),
+      searchText: [
+        listName,
+        taskName,
+        entry.dueDateText,
+        entry.recurringText,
+        entry.department,
+        entry.priority,
+        entry.section,
+        entry.taskCategory,
+        entry.taskType,
+        entry.notes
+      ].join(" ").toLowerCase()
+    };
+  }
+
+  function nativeCompletedEntries() {
+    return entriesWithTaskOverrides((timePayload.entries || []).map(normalizeNativeEntry));
+  }
+
+  function activeDurationMs() {
+    if (!timePayload.activeEntry?.start) return 0;
+    return Math.max(0, Date.now() - new Date(timePayload.activeEntry.start).getTime());
+  }
+
+  function formatClock(ms) {
+    const totalSeconds = Math.floor(Math.max(0, ms) / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":");
+  }
+
+  function renderTimerState() {
+    const active = timePayload.activeEntry;
+    document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
+    document.getElementById("timerValue").textContent = formatClock(active ? activeDurationMs() : 0);
+    document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
+    document.getElementById("startTimerBtn").disabled = Boolean(active);
+    document.getElementById("stopTimerBtn").disabled = !active;
+    document.getElementById("cancelTimerBtn").disabled = !active;
+    if (timerTick) window.clearInterval(timerTick);
+    timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
+  }
+
+  function renderQuickChips(entries) {
+    const byTask = new Map();
+    entries
+      .slice()
+      .sort((a, b) => (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
+      .forEach((entry) => {
+        if (!byTask.has(entry.taskId)) {
+          byTask.set(entry.taskId, { ...entry, count: 0 });
+        }
+        byTask.get(entry.taskId).count += 1;
+      });
+    const chips = Array.from(byTask.values())
+      .sort((a, b) => b.count - a.count || (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
+      .slice(0, 12);
+    document.getElementById("quickChips").innerHTML = chips.length
+      ? chips.map((entry) => `<button class="quick-chip" type="button" data-task-id="${escapeHtml(entry.taskId)}" title="${escapeHtml(entry.taskName)}">${escapeHtml(entry.taskName)}</button>`).join("")
+      : `<button class="quick-chip" type="button" data-preset-task="Review">Review</button><button class="quick-chip" type="button" data-preset-task="Plan">Plan</button><button class="quick-chip" type="button" data-preset-task="Admin">Admin</button>`;
+    document.querySelectorAll(".quick-chip").forEach((button) => {
+      button.addEventListener("click", () => {
+        const entry = chips.find((item) => item.taskId === button.dataset.taskId);
+        document.getElementById("trackerTask").value = entry?.taskName || button.dataset.presetTask || "";
+        document.getElementById("trackerList").value = entry?.listId || document.getElementById("trackerList").value;
+        ["Department", "Priority", "Section"].forEach((name) => {
+          const field = document.getElementById(`tracker${name}`);
+          if (entry) field.value = entry[name.charAt(0).toLowerCase() + name.slice(1)] || "";
+        });
+        if (entry) {
+          document.getElementById("trackerCategory").value = entry.taskCategory || "";
+          document.getElementById("trackerType").value = entry.taskType === "Other" ? "" : entry.taskType || "";
+        }
+      });
+    });
+  }
+
+  function trackerActivities() {
+    const sources = [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries()];
+    const byTask = new Map();
+    sources
+      .filter((entry) => entry && entry.taskName)
+      .forEach((entry) => {
+        const key = `${entry.listId}|||${entry.taskId || taskIdFor(entry.taskName)}`;
+        if (!byTask.has(key)) {
+          byTask.set(key, {
+            ...entry,
+            taskId: entry.taskId || taskIdFor(entry.taskName),
+            count: 0,
+            totalMs: 0,
+            lastStart: 0,
+            firstSourceIndex: Number.isFinite(entry.sourceIndex) ? entry.sourceIndex : Number.POSITIVE_INFINITY
+          });
+        }
+        const item = byTask.get(key);
+        ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
+          if ((!item[field] || item[field] === "Other") && entry[field] && entry[field] !== "Other") item[field] = entry[field];
+        });
+        item.recurring = Boolean(item.recurring || entry.recurring);
+        if (!item.dateKeys) item.dateKeys = new Set();
+        if (entry.date) item.dateKeys.add(entry.date);
+        item.count += 1;
+        item.totalMs += Number(entry.durationMs) || 0;
+        item.lastStart = Math.max(item.lastStart, entry.start?.getTime?.() || 0);
+        item.firstSourceIndex = Math.min(item.firstSourceIndex, Number.isFinite(entry.sourceIndex) ? entry.sourceIndex : Number.POSITIVE_INFINITY);
+      });
+    const rows = Array.from(byTask.values())
+      .map((entry) => ({
+        ...applyTaskOverride({
+          ...entry,
+          recurring: Boolean(entry.recurring || entry.dateKeys?.size > 1),
+          recurringText: entry.recurringText || (entry.dateKeys?.size > 1 ? "Recurring task" : "")
+        })
+      }))
+      .sort((a, b) => compareTaskOrder(a, b));
+    return rows.length ? rows : fallbackActivities.map(applyTaskOverride);
+  }
+
+  function taskOrderNumber(entry) {
+    const number = Number(entry.taskOrder);
+    return Number.isFinite(number) ? number : Number.POSITIVE_INFINITY;
+  }
+
+  function compareTaskOrder(a, b) {
+    const orderDiff = taskOrderNumber(a) - taskOrderNumber(b);
+    if (orderDiff) return orderDiff;
+    const priorityDiff = TRACK_GROUP_ORDER.indexOf(trackGroupName(a)) - TRACK_GROUP_ORDER.indexOf(trackGroupName(b));
+    if (priorityDiff) return priorityDiff;
+    const sourceDiff = (a.firstSourceIndex ?? Number.POSITIVE_INFINITY) - (b.firstSourceIndex ?? Number.POSITIVE_INFINITY);
+    if (sourceDiff) return sourceDiff;
+    return a.taskName.localeCompare(b.taskName);
+  }
+
+  function trackGroupName(entry) {
+    const priority = cleanLabel(entry.priority, "Other").trim();
+    const normalized = priority.replace(/\s+/g, " ");
+    if (/job must/i.test(normalized)) return "📌 Job Must";
+    if (/life must/i.test(normalized)) return "📌 Life Must";
+    if (/should/i.test(normalized)) return "✴️ Should";
+    if (/routine/i.test(normalized)) return "🌱 Routine";
+    if (/downtime/i.test(normalized)) return "☕️ Downtime";
+    return normalized && normalized !== "Uncategorized" ? normalized : "Other";
+  }
+
+  function groupedActivities(rows) {
+    const groups = new Map();
+    rows.forEach((entry) => {
+      const group = trackGroupName(entry);
+      if (!groups.has(group)) groups.set(group, []);
+      groups.get(group).push(entry);
+    });
+    return Array.from(groups.entries()).sort(([groupA], [groupB]) => {
+      const indexA = TRACK_GROUP_ORDER.indexOf(groupA);
+      const indexB = TRACK_GROUP_ORDER.indexOf(groupB);
+      const orderA = indexA === -1 ? TRACK_GROUP_ORDER.length : indexA;
+      const orderB = indexB === -1 ? TRACK_GROUP_ORDER.length : indexB;
+      return orderA - orderB || groupA.localeCompare(groupB);
+    });
+  }
+
+  function saveCollapsedTrackGroups() {
+    localStorage.setItem(TRACK_COLLAPSED_STORAGE, JSON.stringify(Array.from(collapsedTrackGroups)));
+  }
+
+  function activityMeta(entry) {
+    return [
+      entry.listName || listNameForId(entry.listId),
+      entry.department,
+      entry.taskCategory,
+      entry.taskType && entry.taskType !== "Other" ? entry.taskType : ""
+    ].filter(Boolean).join(" · ");
+  }
+
+  function compactDeadline(entry) {
+    const text = cleanLabel(entry.dueDateText || entry.dueDate, "");
+    if (!text) return "";
+    const date = entry.dueDate ? new Date(entry.dueDate) : new Date(text);
+    if (!Number.isNaN(date.getTime())) {
+      return `Due ${date.toLocaleDateString(undefined, { month: "numeric", day: "numeric" })}`;
+    }
+    return `Due ${text.replace(/,?\\s*\\d{1,2}:\\d{2}:\\d{2}\\s*[AP]M\\s*[A-Z]+/i, "")}`;
+  }
+
+  function recurrenceOptionsHtml(selected) {
+    return RECURRENCE_OPTIONS
+      .map(([value, label]) => `<option value="${escapeHtml(value)}"${value === selected ? " selected" : ""}>${escapeHtml(label)}</option>`)
+      .join("");
+  }
+
+  function currentTaskOverride(entry) {
+    const key = taskOverrideKey(entry);
+    const existing = timePayload.taskOverrides?.[key] || {};
+    return {
+      dueDate: Object.prototype.hasOwnProperty.call(existing, "dueDate") ? dateInputValue(existing.dueDate) : dateInputValue(entry.dueDate || entry.dueDateText),
+      recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
+      recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : "")
+    };
+  }
+
+  async function saveTaskOverride(entry, patch) {
+    const key = taskOverrideKey(entry);
+    const current = currentTaskOverride(entry);
+    const next = {
+      ...current,
+      ...patch,
+      updatedAt: isoNow()
+    };
+    if (next.recurrence !== "custom") next.recurringText = "";
+    timePayload.taskOverrides = {
+      ...(timePayload.taskOverrides || {}),
+      [key]: next
+    };
+    await saveTimePayload(timePayload);
+  }
+
+  function activityRowHtml(entry, active) {
+    const isRunning = active && active.taskId === entry.taskId && active.listId === entry.listId;
+    const timeText = isRunning ? formatClock(activeDurationMs()) : (entry.totalMs ? formatDuration(entry.totalMs) : "Tap to track");
+    const key = taskOverrideKey(entry);
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    const customText = recurrence === "custom" ? entry.recurringText : "";
+    return `
+      <div class="track-row">
+        <div>
+          <div class="track-name" title="${escapeHtml(entry.taskName)}">
+            <span>${escapeHtml(entry.taskName)}</span>
+            ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
+            <span class="track-status${isRunning ? " running" : ""}">${isRunning ? "DOING" : "TO DO"}</span>
+          </div>
+          <div class="track-meta">${escapeHtml(activityMeta(entry))}</div>
+        </div>
+        <div class="track-due-cell">
+          <div class="date-picker-control">
+            <input class="track-date-input" type="date" value="${escapeHtml(dateInputValue(entry.dueDate))}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
+            <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M8 2v4"></path>
+                <path d="M16 2v4"></path>
+                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                <path d="M3 10h18"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="track-recurrence-cell">
+          <div class="track-recurrence-control">
+            <select class="track-recurrence-select" data-recurrence-key="${escapeHtml(key)}" aria-label="Recurrence for ${escapeHtml(entry.taskName)}">
+              ${recurrenceOptionsHtml(recurrence)}
+            </select>
+            <input class="track-recurrence-custom" type="text" value="${escapeHtml(customText)}" data-recurrence-custom-key="${escapeHtml(key)}" placeholder="Custom recurrence" aria-label="Custom recurrence for ${escapeHtml(entry.taskName)}"${recurrence === "custom" ? "" : " hidden"} />
+          </div>
+        </div>
+        <div class="track-time">${escapeHtml(timeText)}</div>
+        <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
+      </div>
+    `;
+  }
+
+  function renderActivityRows() {
+    const active = timePayload.activeEntry;
+    const rows = trackerActivities();
+    document.getElementById("trackerTaskList").innerHTML = groupedActivities(rows).map(([group, entries]) => {
+      const collapsed = collapsedTrackGroups.has(group);
+      return `
+        <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(group)}">
+          <button class="track-group-header" type="button" aria-expanded="${collapsed ? "false" : "true"}">
+            <span class="track-group-caret">▾</span>
+            <span class="track-group-name">${escapeHtml(group)}</span>
+            <span class="track-group-count">${entries.length}</span>
+          </button>
+          ${entries.map((entry) => activityRowHtml(entry, active)).join("")}
+        </section>
+      `;
+    }).join("");
+    if (rows.length) {
+      document.getElementById("trackerTaskList").insertAdjacentHTML("afterbegin", `
+        <div class="track-list-header" aria-hidden="true">
+          <div>Task</div>
+          <div>Due date</div>
+          <div>Recurrence</div>
+          <div>Time</div>
+          <div></div>
+        </div>
+      `);
+    }
+    document.querySelectorAll(".track-group-header").forEach((button) => {
+      button.addEventListener("click", () => {
+        const group = button.closest(".track-group")?.dataset.trackGroup;
+        if (!group) return;
+        if (collapsedTrackGroups.has(group)) collapsedTrackGroups.delete(group);
+        else collapsedTrackGroups.add(group);
+        saveCollapsedTrackGroups();
+        renderActivityRows();
+      });
+    });
+    document.querySelectorAll("[data-due-key]").forEach((input) => {
+      input.addEventListener("change", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueKey);
+        if (!entry) return;
+        saveTaskOverride(entry, { dueDate: input.value }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
+      select.addEventListener("change", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.recurrenceKey);
+        const custom = document.querySelector(`[data-recurrence-custom-key="${CSS.escape(select.dataset.recurrenceKey)}"]`);
+        if (custom) custom.hidden = select.value !== "custom";
+        if (!entry) return;
+        saveTaskOverride(entry, {
+          recurrence: select.value,
+          recurringText: select.value === "custom" ? custom?.value.trim() || entry.recurringText || "Custom" : ""
+        }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-recurrence-custom-key]").forEach((input) => {
+      input.addEventListener("change", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.recurrenceCustomKey);
+        if (!entry) return;
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: input.value.trim() }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-track-key]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const entry = rows.find((item) => `${item.listId}|||${item.taskId}` === button.dataset.trackKey);
+        if (!entry) return;
+        const isRunning = timePayload.activeEntry && timePayload.activeEntry.taskId === entry.taskId && timePayload.activeEntry.listId === entry.listId;
+        const action = isRunning ? stopTimer() : startTimer(entry);
+        action.catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+  }
+
+  function renderTracker() {
+    populateListSelect(document.getElementById("trackerList"), document.getElementById("trackerList").value || "901301650324");
+    const entries = nativeCompletedEntries();
+    renderTimerState();
+    renderQuickChips(entries);
+    renderActivityRows();
+  }
+
+  function renderNativeDashboard() {
+    const entries = nativeCompletedEntries().sort((a, b) => (a.start?.getTime() || 0) - (b.start?.getTime() || 0));
+    currentSourcePills = ["Native time tracking"];
+    appEntries = entries;
+    appMetrics = buildMetrics(appEntries, appEntries.length);
+    renderTracker();
+    renderDashboard(appEntries, appMetrics);
   }
 
   function shortFileName(path) {
@@ -1282,12 +2685,12 @@
   }
 
   function normalizeEntry(row, sourceFile, index) {
-    if (row["Time Entry ID"]) return normalizeClickUpEntry(row, sourceFile);
+    if (row["Time Entry ID"]) return normalizeClickUpEntry(row, sourceFile, index);
     if (row["Week\n#"]) return normalizeLegacyEntry(row, sourceFile, index);
     return null;
   }
 
-  function normalizeClickUpEntry(row, sourceFile) {
+  function normalizeClickUpEntry(row, sourceFile, index = 0) {
     const start = parseTimestamp(row.Start);
     const stop = parseTimestamp(row.Stop);
     const durationMs = Number(row["Time Tracked"]) || 0;
@@ -1300,7 +2703,7 @@
     return {
       id: cleanLabel(row["Time Entry ID"], `${sourceFile}:${row.Start}:${row.Stop}:${taskId}`),
       sourceFile,
-      sourceIndex: 0,
+      sourceIndex: index,
       sourceType: "clickup",
       start,
       stop,
@@ -1318,9 +2721,17 @@
       section: cleanLabel(row.Section, ""),
       taskCategory: cleanLabel(row["Task Category"], ""),
       taskType,
+      dueDate: Number(row["Due Date"]) ? new Date(Number(row["Due Date"])).toISOString() : "",
+      dueDateText: cleanLabel(row["Due Date Text"], ""),
+      startDate: Number(row["Start Date"]) ? new Date(Number(row["Start Date"])).toISOString() : "",
+      startDateText: cleanLabel(row["Start Date Text"], ""),
+      recurring: false,
+      recurringText: "",
+      taskOrder: cleanLabel(row["Task Order"], ""),
       searchText: [
         listName,
         taskName,
+        row["Due Date Text"],
         row.Department,
         row.Priority,
         row.Section,
@@ -1368,6 +2779,13 @@
       section: cleanLabel(row.Section, ""),
       taskCategory: cleanLabel(row["Task\nCategory"], ""),
       taskType,
+      dueDate: "",
+      dueDateText: "",
+      startDate: "",
+      startDateText: "",
+      recurring: false,
+      recurringText: "",
+      taskOrder: cleanLabel(row["Task Order"], ""),
       searchText: [
         listName,
         taskName,
@@ -1682,7 +3100,7 @@
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboard").hidden = false;
     document.getElementById("pageSubtitle").textContent = `${metrics.weeks.length} Sunday-Saturday weeks · ${formatHours(metrics.totalHours, 2)} tracked · ${metrics.dedupedCount.toLocaleString()} entries`;
-    document.getElementById("sourcePills").innerHTML = TIME_CSV_FILES.map((file) => `<span class="source-pill">${escapeHtml(shortFileName(file))}</span>`).join("");
+    document.getElementById("sourcePills").innerHTML = currentSourcePills.map((label) => `<span class="source-pill">${escapeHtml(label)}</span>`).join("");
 
     renderOverview(entries, metrics);
     renderBusiness(metrics);
@@ -2039,6 +3457,51 @@
     `).join("");
   }
 
+  function toDatetimeLocal(value) {
+    const date = value ? new Date(value) : new Date();
+    const local = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+    return local.toISOString().slice(0, 16);
+  }
+
+  function fromDatetimeLocal(value) {
+    return value ? new Date(value).toISOString() : "";
+  }
+
+  function openEditEntry(entryId) {
+    const entry = (timePayload.entries || []).find((item) => item.id === entryId);
+    if (!entry) return;
+    const effectiveEntry = applyTaskOverride(normalizeNativeEntry(entry));
+    editingEntryId = entryId;
+    populateListSelect(document.getElementById("editList"), entry.listId);
+    document.getElementById("editTask").value = entry.taskName || "";
+    document.getElementById("editStart").value = toDatetimeLocal(entry.start);
+    document.getElementById("editStop").value = toDatetimeLocal(entry.stop);
+    document.getElementById("editDueDate").value = dateInputValue(effectiveEntry.dueDate);
+    document.getElementById("editRecurrence").innerHTML = recurrenceOptionsHtml(effectiveEntry.recurrence || inferRecurrence(effectiveEntry));
+    document.getElementById("editRecurrenceCustom").value = effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "";
+    document.getElementById("editRecurrenceCustomWrap").hidden = (effectiveEntry.recurrence || "none") !== "custom";
+    document.getElementById("editDepartment").value = entry.department || "";
+    document.getElementById("editPriority").value = entry.priority || "";
+    document.getElementById("editSection").value = entry.section || "";
+    document.getElementById("editCategory").value = entry.taskCategory || "";
+    document.getElementById("editType").value = entry.taskType || "";
+    document.getElementById("editNotes").value = entry.notes || "";
+    document.getElementById("editEntryDialog").hidden = false;
+  }
+
+  function closeEditEntry() {
+    editingEntryId = "";
+    document.getElementById("editEntryDialog").hidden = true;
+  }
+
+  async function deleteEntry(entryId) {
+    const entry = (timePayload.entries || []).find((item) => item.id === entryId);
+    if (!entry) return;
+    if (!window.confirm(`Delete "${entry.taskName}"?`)) return;
+    timePayload.entries = timePayload.entries.filter((item) => item.id !== entryId);
+    await saveTimePayload(timePayload);
+  }
+
   function renderDetails(entries, metrics) {
     const listFilter = document.getElementById("listFilter");
     const weekFilter = document.getElementById("weekFilter");
@@ -2046,7 +3509,7 @@
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
     weekFilter.innerHTML = `<option value="">All weeks</option>${metrics.weeks.map((week) => `<option value="${escapeHtml(week)}">${escapeHtml(week)}</option>`).join("")}`;
-    document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
+    document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}<th class="actions-column">Actions</th></tr>`;
 
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
@@ -2082,8 +3545,17 @@
           entry.taskCategory,
           entry.taskType === "Other" ? "" : entry.taskType
         ];
-        return `<tr>${values.map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`).join("")}</tr>`;
+        const nativeActions = entry.sourceType === "native"
+          ? `<td class="actions-column"><div class="row-actions"><button class="row-btn" type="button" data-edit-entry="${escapeHtml(entry.id)}">Edit</button><button class="row-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button></div></td>`
+          : `<td class="actions-column empty-cell">-</td>`;
+        return `<tr>${values.map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`).join("")}${nativeActions}</tr>`;
       }).join("");
+      document.querySelectorAll("[data-edit-entry]").forEach((button) => {
+        button.addEventListener("click", () => openEditEntry(button.dataset.editEntry));
+      });
+      document.querySelectorAll("[data-delete-entry]").forEach((button) => {
+        button.addEventListener("click", () => deleteEntry(button.dataset.deleteEntry));
+      });
     };
 
     [searchInput, listFilter, weekFilter].forEach((control) => control.addEventListener("input", updateTable));
@@ -2202,36 +3674,112 @@
     const box = document.getElementById("statusBox");
     box.hidden = false;
     box.classList.add("error");
-    box.textContent = `Could not load time analysis data. Check TIME_CSV_FILES and the CSV path. ${error.message || error}`;
+    box.textContent = `Could not load time analysis data. ${error.message || error}`;
   }
 
-  async function loadDashboard() {
-    try {
-      const rawRows = [];
-      for (const file of TIME_CSV_FILES) {
-        const response = await fetch(encodeURI(file));
-        if (!response.ok) throw new Error(`${file} returned HTTP ${response.status}`);
-        const text = await response.text();
-        parseCsv(text).forEach((row) => rawRows.push({ row, file }));
-      }
+  async function loadCsvEntries() {
+    const rawRows = [];
+    for (const file of TIME_CSV_FILES) {
+      const response = await fetch(encodeURI(file));
+      if (!response.ok) throw new Error(`${file} returned HTTP ${response.status}`);
+      const text = await response.text();
+      parseCsv(text).forEach((row) => rawRows.push({ row, file }));
+    }
 
-      const byId = new Map();
-      rawRows.forEach(({ row, file }, index) => {
-        const entry = normalizeEntry(row, file, index);
-        if (!entry) return;
-        if (!byId.has(entry.id)) byId.set(entry.id, entry);
-      });
+    const byId = new Map();
+    rawRows.forEach(({ row, file }, index) => {
+      const entry = normalizeEntry(row, file, index);
+      if (!entry) return;
+      if (!byId.has(entry.id)) byId.set(entry.id, entry);
+    });
 
-      appEntries = Array.from(byId.values()).sort((a, b) => {
+    return {
+      entries: Array.from(byId.values()).sort((a, b) => {
         const weekCompare = compareWeeks(a.week, b.week);
         if (weekCompare) return weekCompare;
         return (a.start?.getTime() || 0) - (b.start?.getTime() || 0) || a.sourceIndex - b.sourceIndex;
-      });
-      appMetrics = buildMetrics(appEntries, rawRows.length);
+      }),
+      rawRowCount: rawRows.length
+    };
+  }
+
+  async function loadCsvDashboard() {
+    try {
+      const csvData = await loadCsvEntries();
+      taskCatalogEntries = csvData.entries;
+      appEntries = entriesWithTaskOverrides(csvData.entries);
+      appMetrics = buildMetrics(appEntries, csvData.rawRowCount);
+      currentSourcePills = TIME_CSV_FILES.map(shortFileName);
+      renderTracker();
       renderDashboard(appEntries, appMetrics);
     } catch (error) {
       showError(error);
     }
+  }
+
+  async function loadDashboard() {
+    populateListSelect(document.getElementById("trackerList"), "901301650324");
+    populateListSelect(document.getElementById("editList"));
+    try {
+      try {
+        taskCatalogEntries = (await loadCsvEntries()).entries;
+      } catch (catalogError) {
+        taskCatalogEntries = [];
+      }
+      const response = await timeApi("GET", null, { prompt: false });
+      timePayload = cleanClientPayload(response);
+      if ((timePayload.entries || []).length || timePayload.activeEntry) {
+        renderNativeDashboard();
+        return;
+      }
+      renderTracker();
+      await loadCsvDashboard();
+    } catch (error) {
+      renderTracker();
+      setTrackerStatus("Unlock to save private time entries. Showing CSV fallback for now.");
+      await loadCsvDashboard();
+    }
+  }
+
+  async function startTimer(sourceEntry = null) {
+    const active = timePayload.activeEntry;
+    if (active) {
+      setTrackerStatus(`Stop or cancel "${active.taskName}" before starting another timer.`, "error");
+      return;
+    }
+    const entry = sourceEntry ? entryToRunningTimer(sourceEntry) : trackerFormValues();
+    if (!entry.taskName || !entry.listId) {
+      setTrackerStatus("Pick an activity or enter a custom task.", "error");
+      return;
+    }
+    timePayload.activeEntry = entry;
+    await saveTimePayload(timePayload);
+    setTrackerStatus(`Started ${entry.taskName}`, "saved");
+  }
+
+  async function stopTimer() {
+    const active = timePayload.activeEntry;
+    if (!active) return;
+    const stop = isoNow();
+    const completed = {
+      ...active,
+      stop,
+      durationMs: Math.max(1000, new Date(stop).getTime() - new Date(active.start).getTime()),
+      updatedAt: stop
+    };
+    timePayload.entries = [completed, ...(timePayload.entries || [])];
+    timePayload.activeEntry = null;
+    await saveTimePayload(timePayload);
+    setTrackerStatus(`Stopped ${completed.taskName}`, "saved");
+  }
+
+  async function cancelTimer() {
+    const active = timePayload.activeEntry;
+    if (!active) return;
+    if (!window.confirm(`Cancel "${active.taskName}" without saving?`)) return;
+    timePayload.activeEntry = null;
+    await saveTimePayload(timePayload);
+    setTrackerStatus("Timer canceled", "saved");
   }
 
   document.querySelectorAll(".tab-btn").forEach((button) => {
@@ -2242,6 +3790,125 @@
       document.getElementById(`panel-${button.dataset.tab}`).classList.add("active");
       Object.values(charts).forEach((item) => item.resize());
     });
+  });
+
+  document.getElementById("advancedToggle").addEventListener("click", () => {
+    const fields = document.getElementById("advancedFields");
+    const expanded = fields.hidden;
+    fields.hidden = !expanded;
+    document.getElementById("advancedToggle").textContent = expanded ? "Hide details" : "Show details";
+    document.getElementById("advancedToggle").setAttribute("aria-expanded", String(expanded));
+  });
+
+  document.getElementById("customToggle").addEventListener("click", () => {
+    const fields = document.getElementById("customFields");
+    const startButton = document.getElementById("startTimerBtn");
+    const expanded = fields.hidden;
+    fields.hidden = !expanded;
+    startButton.hidden = !expanded;
+    document.getElementById("customToggle").textContent = expanded ? "Hide custom task" : "Add custom task";
+    document.getElementById("customToggle").setAttribute("aria-expanded", String(expanded));
+    if (expanded) window.requestAnimationFrame(() => document.getElementById("trackerTask").focus());
+  });
+
+  document.getElementById("trackerForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    startTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.getElementById("stopTimerBtn").addEventListener("click", () => {
+    stopTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.getElementById("cancelTimerBtn").addEventListener("click", () => {
+    cancelTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest(".date-picker-button");
+    if (!button) return;
+    const input = button.closest(".date-picker-control")?.querySelector('input[type="date"]');
+    if (!input) return;
+    input.focus();
+    if (typeof input.showPicker === "function") {
+      try {
+        input.showPicker();
+        return;
+      } catch (error) {
+        // Some browsers only allow showPicker during direct trusted interactions.
+      }
+    }
+    input.click();
+  });
+
+  document.getElementById("loadTimeKeyBtn").addEventListener("click", async () => {
+    try {
+      localStorage.removeItem(TIME_ADMIN_KEY_STORAGE);
+      timeAdminKey = "";
+      const response = await timeApi("GET", null, { prompt: true });
+      timePayload = cleanClientPayload(response);
+      if ((timePayload.entries || []).length || timePayload.activeEntry) {
+        renderNativeDashboard();
+      } else {
+        renderTracker();
+      }
+      setTrackerStatus("Private time tracking unlocked.", "saved");
+    } catch (error) {
+      setTrackerStatus(error.message, "error");
+    }
+  });
+
+  document.getElementById("editCancelBtn").addEventListener("click", closeEditEntry);
+
+  document.getElementById("editRecurrence").addEventListener("change", () => {
+    document.getElementById("editRecurrenceCustomWrap").hidden = document.getElementById("editRecurrence").value !== "custom";
+  });
+
+  document.getElementById("editEntryForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const entry = (timePayload.entries || []).find((item) => item.id === editingEntryId);
+    if (!entry) return;
+    const list = selectedList("editList");
+    const start = fromDatetimeLocal(document.getElementById("editStart").value);
+    const stop = fromDatetimeLocal(document.getElementById("editStop").value);
+    const durationMs = Math.max(0, new Date(stop).getTime() - new Date(start).getTime());
+    if (!durationMs) {
+      setTrackerStatus("Stop time must be after start time.", "error");
+      return;
+    }
+    Object.assign(entry, {
+      start,
+      stop,
+      durationMs,
+      listId: list.listId,
+      listName: list.listName,
+      taskName: document.getElementById("editTask").value.trim(),
+      taskId: taskIdFor(document.getElementById("editTask").value.trim()),
+      department: document.getElementById("editDepartment").value.trim(),
+      priority: document.getElementById("editPriority").value.trim(),
+      section: document.getElementById("editSection").value.trim(),
+      taskCategory: document.getElementById("editCategory").value.trim(),
+      taskType: document.getElementById("editType").value.trim(),
+      dueDate: document.getElementById("editDueDate").value,
+      dueDateText: document.getElementById("editDueDate").value,
+      recurring: document.getElementById("editRecurrence").value !== "none",
+      recurringText: document.getElementById("editRecurrence").value === "custom"
+        ? document.getElementById("editRecurrenceCustom").value.trim()
+        : (document.getElementById("editRecurrence").value === "none" ? "" : recurrenceLabel(document.getElementById("editRecurrence").value)),
+      notes: document.getElementById("editNotes").value.trim(),
+      updatedAt: isoNow()
+    });
+    timePayload.taskOverrides = {
+      ...(timePayload.taskOverrides || {}),
+      [taskOverrideKey(entry)]: {
+        dueDate: document.getElementById("editDueDate").value,
+        recurrence: document.getElementById("editRecurrence").value,
+        recurringText: document.getElementById("editRecurrence").value === "custom" ? document.getElementById("editRecurrenceCustom").value.trim() : "",
+        updatedAt: isoNow()
+      }
+    };
+    closeEditEntry();
+    await saveTimePayload(timePayload);
   });
 
   loadDashboard();
