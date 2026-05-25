@@ -1149,17 +1149,6 @@
     min-width: 0;
   }
 
-  .track-due-full-date {
-    min-height: 18px;
-    color: #e5e7eb;
-    font-size: 0.78rem;
-    font-weight: 850;
-    line-height: 1.15;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   .date-picker-control {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 40px;
@@ -2447,7 +2436,7 @@
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
 
   const LIST_NAME_MAP = {
-    "901306296518": "🌼 Survival Mode",
+    "901306296518": "🌼 Survival",
     "901301650324": "🌈 Personal",
     "900601952633": "🚀 On Business",
     "901301162602": "👩🏻‍💻 In Business"
@@ -2456,9 +2445,10 @@
   const LIST_ID_BY_NAME = Object.fromEntries(
     Object.entries(LIST_NAME_MAP).map(([id, name]) => [name, id])
   );
+  LIST_ID_BY_NAME["🌼 Survival Mode"] = "901306296518";
 
   const LIST_COLORS = {
-    "🌼 Survival Mode": "#6b7280",
+    "🌼 Survival": "#6b7280",
     "🌈 Personal": "#f97316",
     "🚀 On Business": "#22c55e",
     "👩🏻‍💻 In Business": "#3b82f6"
@@ -2580,14 +2570,14 @@
     "🙂 👌 Work": "🙂 Work"
   };
   const fallbackActivities = [
-    { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
-    { taskName: "Put on clothes", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
-    { taskName: "Update daily KPIs", listId: "901306296518", listName: "🌼 Survival Mode", priority: "🌱 Routine", section: "9.04. Consistency", taskCategory: "Routine", taskType: "Admin" },
-    { taskName: "Eat", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.2. Eat healthy food", taskCategory: "Life Must", taskType: "Work" },
-    { taskName: "Do dishes", listId: "901306296518", listName: "🌼 Survival Mode", priority: "🌱 Routine", section: "9.11.3. Clean up stuff", taskCategory: "Routine", taskType: "Work" },
-    { taskName: "Brush teeth", listId: "901306296518", listName: "🌼 Survival Mode", priority: "🌱 Routine", section: "9.01.4. Have a regular routine", taskCategory: "Routine", taskType: "Work" },
+    { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
+    { taskName: "Put on clothes", listId: "901306296518", listName: "🌼 Survival", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
+    { taskName: "Update daily KPIs", listId: "901306296518", listName: "🌼 Survival", priority: "🌱 Routine", section: "9.04. Consistency", taskCategory: "Routine", taskType: "Admin" },
+    { taskName: "Eat", listId: "901306296518", listName: "🌼 Survival", priority: "📌 Life Must", section: "9.01.2. Eat healthy food", taskCategory: "Life Must", taskType: "Work" },
+    { taskName: "Do dishes", listId: "901306296518", listName: "🌼 Survival", priority: "🌱 Routine", section: "9.11.3. Clean up stuff", taskCategory: "Routine", taskType: "Work" },
+    { taskName: "Brush teeth", listId: "901306296518", listName: "🌼 Survival", priority: "🌱 Routine", section: "9.01.4. Have a regular routine", taskCategory: "Routine", taskType: "Work" },
     { taskName: "Walk", listId: "901301650324", listName: "🌈 Personal", department: "9.01. Health & fitness", priority: "🌱 Routine", section: "9.01.3. Exercise", taskCategory: "Health", taskType: "Work" },
-    { taskName: "Nap", listId: "901306296518", listName: "🌼 Survival Mode", priority: "☕️ Downtime", section: "9.01.1. Sleep well", taskCategory: "Routine", taskType: "Work" },
+    { taskName: "Nap", listId: "901306296518", listName: "🌼 Survival", priority: "☕️ Downtime", section: "9.01.1. Sleep well", taskCategory: "Routine", taskType: "Work" },
     { taskName: "Take a break", listId: "901301650324", listName: "🌈 Personal", priority: "☕️ Downtime", section: "9.01.4. Have a regular routine", taskCategory: "Rest", taskType: "Work" },
     { taskName: "Plan for dad's activities", listId: "901301650324", listName: "🌈 Personal", department: "Family", priority: "✴️ Should", section: "9.07.4. Take dad to places", taskCategory: "Planning", taskType: "Owner" }
   ].map((item, index) => ({
@@ -2666,6 +2656,11 @@
   function cleanLabel(value, fallback = "Uncategorized") {
     const text = String(value ?? "").trim();
     return text || fallback;
+  }
+
+  function displayListName(value, fallback = "Uncategorized") {
+    const label = cleanLabel(value, fallback);
+    return label === "🌼 Survival Mode" ? "🌼 Survival" : label;
   }
 
   function normalizeTaskCategory(value, fallback = "") {
@@ -3863,7 +3858,6 @@
     const customSummary = customText || recurrenceLabel("custom", customText);
     const order = orderOptionValue(entry.taskOrder);
     const dueDateValue = dateInputValue(entry.dueDate);
-    const dueDateLabel = fullDateLabel(dueDateValue);
     return `
       <div class="track-row">
         <div class="track-row-inner">
@@ -3890,7 +3884,6 @@
           <div class="track-due-cell">
             <div class="track-due-inputs">
               <div class="track-due-date-stack">
-                ${dueDateLabel ? `<span class="track-due-full-date">${escapeHtml(dueDateLabel)}</span>` : ""}
                 <div class="date-picker-control">
                   <input class="track-date-input" type="date" value="${escapeHtml(dueDateValue)}" data-due-key="${escapeHtml(key)}" aria-label="Due date for ${escapeHtml(entry.taskName)}" />
                   <button class="date-picker-button" type="button" aria-label="Open calendar for ${escapeHtml(entry.taskName)}" title="Open calendar">
@@ -4325,7 +4318,7 @@
     const durationMs = Number(row["Time Tracked"]) || 0;
     const listId = cleanLabel(row["List ID"], "unknown-list");
     const taskId = cleanLabel(row["Task ID"], "unknown-task");
-    const listName = LIST_NAME_MAP[listId] || cleanLabel(row["List Name"]);
+    const listName = LIST_NAME_MAP[listId] || displayListName(row["List Name"]);
     const taskName = cleanLabel(row["Task Name"], "Untitled task");
     const taskType = normalizeTaskType(row["Task Type"]);
     const taskCategory = normalizeTaskCategory(row["Task Category"]);
@@ -4383,7 +4376,7 @@
       stop.setDate(stop.getDate() + 1);
     }
     const durationMs = parseDurationText(row["Duration\nText"]);
-    const listName = cleanLabel(row.List);
+    const listName = displayListName(row.List);
     const listId = cleanLabel(row["List ID"], LIST_ID_BY_NAME[listName] || `legacy-list:${listName}`);
     const taskName = cleanLabel(row.Task, "Untitled task");
     const taskId = cleanLabel(row["Task ID"], `legacy-task:${taskName}`);
