@@ -656,12 +656,6 @@
     align-items: center;
     justify-content: flex-end;
   }
-  .status-source-label {
-    color: var(--muted);
-    font-size: 0.74rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
   .status-btn {
     padding: 5px 11px;
     border: 1px solid var(--border);
@@ -1373,7 +1367,6 @@
       flex-basis: 100%;
       justify-content: flex-start;
     }
-    .status-source-label { flex-basis: 100%; }
     #loop-review-learned-btn,
     #loop-vocab-btn {
       width: 100%;
@@ -2952,9 +2945,6 @@
       const item = QUESTIONS[idx];
       const storedStatus = getStoredStatus(idx);
       const effectiveStatus = getStatus(idx);
-      const statusSourceLabel = storedStatus === "auto"
-        ? "当前: " + STATUS_LABELS[effectiveStatus] + " (自动)"
-        : "当前: " + STATUS_LABELS[storedStatus] + " (手动)";
       const card = document.createElement("div");
       card.className = "question";
       card.setAttribute("data-status", effectiveStatus);
@@ -2978,8 +2968,6 @@
                 <button class="audio-btn" data-yt-edit="${idx}" title="Edit YouTube clip timing">时间</button>
                 <button class="reveal-btn" data-reveal="${revealId}">查看答案</button>
                 <div class="status-group">
-                  <span class="status-source-label">${escapeHtml(statusSourceLabel)}</span>
-                  <span class="status-source-label">设置为:</span>
                   ${STATUSES.map(s => `
                     <button class="status-btn ${s} ${storedStatus === s ? 'active' : ''}" type="button" data-status="${s}" data-idx="${idx}">
                       ${STATUS_LABELS[s]}
