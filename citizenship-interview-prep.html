@@ -659,28 +659,6 @@
     font-weight: 600;
     white-space: nowrap;
   }
-  .status-select-label {
-    color: var(--muted);
-    font-size: 0.74rem;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .status-select {
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 700;
-    min-height: 31px;
-    padding: 5px 30px 5px 11px;
-  }
-  .status-select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-light);
-    outline: none;
-  }
   .status-btn {
     padding: 5px 11px;
     border: 1px solid var(--border);
@@ -2940,14 +2918,12 @@
                 <button class="reveal-btn" data-reveal="${revealId}">查看答案</button>
                 <div class="status-group">
                   <span class="status-source-label">${escapeHtml(statusSourceLabel)}</span>
-                  <label class="status-select-label">
-                    改为
-                    <select class="status-select" data-idx="${idx}" aria-label="Change status for question ${idx + 1}">
-                      ${STATUSES.map(s => `
-                        <option value="${s}" ${storedStatus === s ? 'selected' : ''}>${STATUS_LABELS[s]}</option>
-                      `).join("")}
-                    </select>
-                  </label>
+                  <span class="status-source-label">设置为:</span>
+                  ${STATUSES.map(s => `
+                    <button class="status-btn ${s} ${effectiveStatus === s ? 'active' : ''}" type="button" data-status="${s}" data-idx="${idx}">
+                      ${STATUS_LABELS[s]}
+                    </button>
+                  `).join("")}
                 </div>
               </div>
               <div class="yt-time-panel" data-yt-panel="${idx}">
@@ -3471,12 +3447,14 @@
     if (document.hidden) stopAllAudio();
   });
 
-  listEl.addEventListener("change", (e) => {
-    const select = e.target.closest(".status-select");
-    if (!select || !listEl.contains(select)) return;
-    const idx = parseInt(select.dataset.idx, 10);
+  listEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".status-btn");
+    if (!btn || !listEl.contains(btn)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const idx = parseInt(btn.dataset.idx, 10);
     if (!Number.isFinite(idx)) return;
-    setStatus(idx, select.value, { render: false });
+    setStatus(idx, btn.dataset.status, { render: false });
     if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
       setActiveQuestionFilter(getStatus(idx));
     } else {
