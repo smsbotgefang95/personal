@@ -772,6 +772,12 @@
     gap: 5px;
   }
 
+  .tracker-list-field {
+    justify-self: start;
+    width: max-content;
+    max-width: 100%;
+  }
+
   .tracker-field label {
     color: var(--muted);
     font-size: 0.77rem;
@@ -797,6 +803,13 @@
   .tracker-textarea {
     min-height: 70px;
     resize: vertical;
+  }
+
+  .tracker-list-select {
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    padding-right: 38px;
   }
 
   .quick-chips {
@@ -1041,6 +1054,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .track-meta-select-compact {
+    justify-self: start;
+    width: max-content;
+    max-width: 100%;
+    padding-right: 34px;
   }
 
   .track-meta-select:hover,
@@ -1838,9 +1858,9 @@
                   <label for="trackerTask">Custom task</label>
                   <input class="tracker-input" id="trackerTask" type="text" autocomplete="off" placeholder="What are you doing?" />
                 </div>
-                <div class="tracker-field">
+                <div class="tracker-field tracker-list-field">
                   <label for="trackerList">List</label>
-                  <select class="tracker-select" id="trackerList" required></select>
+                  <select class="tracker-select tracker-list-select" id="trackerList" required></select>
                 </div>
               </div>
             </div>
@@ -2247,9 +2267,9 @@
           <label for="editTask">Task</label>
           <input class="tracker-input" id="editTask" type="text" required />
         </div>
-        <div class="tracker-field">
+        <div class="tracker-field tracker-list-field">
           <label for="editList">List</label>
-          <select class="tracker-select" id="editList" required></select>
+          <select class="tracker-select tracker-list-select" id="editList" required></select>
         </div>
       </div>
       <div class="tracker-grid">
@@ -3709,13 +3729,13 @@
       <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="department" aria-label="Department for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("department"), entry.department, "Department")}
       </select>
-      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="priority" aria-label="Priority for ${escapeHtml(entry.taskName)}">
+      <select class="track-meta-select track-meta-select-compact" data-edit-key="${escapeHtml(key)}" data-edit-field="priority" aria-label="Priority for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("priority"), entry.priority, "Priority")}
       </select>
-      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="taskCategory" aria-label="Task category for ${escapeHtml(entry.taskName)}">
+      <select class="track-meta-select track-meta-select-compact" data-edit-key="${escapeHtml(key)}" data-edit-field="taskCategory" aria-label="Task category for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("taskCategory"), entry.taskCategory, "Category")}
       </select>
-      <select class="track-meta-select" data-edit-key="${escapeHtml(key)}" data-edit-field="taskType" aria-label="Task type for ${escapeHtml(entry.taskName)}">
+      <select class="track-meta-select track-meta-select-compact" data-edit-key="${escapeHtml(key)}" data-edit-field="taskType" aria-label="Task type for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("taskType"), entry.taskType && entry.taskType !== "Other" ? entry.taskType : "", "Type")}
       </select>
     `;
