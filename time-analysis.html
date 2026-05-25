@@ -1303,28 +1303,42 @@
 
   .custom-recurrence-monthly-options {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    flex: 1 1 240px;
+    grid-template-columns: repeat(auto-fit, minmax(74px, 1fr));
+    gap: 6px;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .custom-recurrence-monthly-row {
+    align-items: flex-start;
+  }
+
+  .custom-recurrence-monthly-row .custom-recurrence-label {
+    padding-top: 7px;
   }
 
   .custom-recurrence-monthly-option {
     display: flex;
     align-items: center;
-    gap: 7px;
-    min-height: 36px;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
     border: 1px solid #374151;
     border-radius: 7px;
-    padding: 7px 9px;
+    padding: 5px 7px;
     background: #030712;
     color: #d1d5db;
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     font-weight: 800;
+    line-height: 1.05;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .custom-recurrence-monthly-option input {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
+    flex: 0 0 auto;
     accent-color: #2563eb;
   }
 
@@ -2358,19 +2372,23 @@
   ];
   const CUSTOM_RECURRENCE_UNITS = ["day", "week", "month"];
   const CUSTOM_MONTHLY_DAY_OPTIONS = [
-    ["same", "Same due-date day"],
-    ["first", "First day"],
-    ["second", "Second day"],
-    ["eleventh", "11th day"],
-    ["twentyFirst", "21st day"],
-    ["firstThursday", "First Thursday"],
-    ["secondThursday", "Second Thursday"],
-    ["thirdThursday", "Third Thursday"],
-    ["fourthThursday", "Fourth Thursday"],
-    ["fifthThursday", "Fifth Thursday"],
-    ["last", "Last day"]
+    ["same", "Same due-date day", "Same"],
+    ["first", "First day", "1st"],
+    ["second", "Second day", "2nd"],
+    ["eleventh", "11th day", "11th"],
+    ["twentyFirst", "21st day", "21st"],
+    ["last", "Last day", "Last"]
   ];
-  const CUSTOM_MONTHLY_DAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_DAY_OPTIONS);
+  const CUSTOM_MONTHLY_WEEKDAY_OPTIONS = [
+    ["firstThursday", "First Thursday", "1st Thu"],
+    ["secondThursday", "Second Thursday", "2nd Thu"],
+    ["thirdThursday", "Third Thursday", "3rd Thu"],
+    ["fourthThursday", "Fourth Thursday", "4th Thu"],
+    ["fifthThursday", "Fifth Thursday", "5th Thu"]
+  ];
+  const CUSTOM_MONTHLY_OPTIONS = [...CUSTOM_MONTHLY_DAY_OPTIONS, ...CUSTOM_MONTHLY_WEEKDAY_OPTIONS];
+  const CUSTOM_MONTHLY_DAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_OPTIONS);
+  const CUSTOM_MONTHLY_DAY_SHORT_LABELS = Object.fromEntries(CUSTOM_MONTHLY_OPTIONS.map(([value, , shortLabel]) => [value, shortLabel]));
   const CUSTOM_MONTHLY_THURSDAY_ORDINALS = {
     firstThursday: 1,
     secondThursday: 2,
@@ -2604,7 +2622,7 @@
   }
 
   function normalizeCustomMonthlyDays(settings) {
-    const valid = new Set(CUSTOM_MONTHLY_DAY_OPTIONS.map(([value]) => value));
+    const valid = new Set(CUSTOM_MONTHLY_OPTIONS.map(([value]) => value));
     const source = Array.isArray(settings.monthlyDays) && settings.monthlyDays.length
       ? settings.monthlyDays
       : [settings.monthlyDay || "same"];
@@ -2627,7 +2645,7 @@
     const text = String(value || "").toLowerCase();
     if (text === "11th" || text === "11" || text === "eleventh") return "eleventh";
     if (text === "21st" || text === "21" || text === "twenty-first" || text === "twenty first") return "twentyFirst";
-    return CUSTOM_MONTHLY_DAY_OPTIONS.some(([option]) => option === text) ? text : "";
+    return CUSTOM_MONTHLY_OPTIONS.some(([option]) => option === text) ? text : "";
   }
 
   function nthWeekdayOfMonth(year, month, weekday, ordinal) {
@@ -2747,9 +2765,15 @@
       <button class="custom-recurrence-day${settings.days.includes(day) ? " active" : ""}" type="button" data-custom-day="${escapeHtml(day)}" aria-pressed="${settings.days.includes(day) ? "true" : "false"}" title="${escapeHtml(label)}">${escapeHtml(day)}</button>
     `).join("");
     const monthlyOptions = CUSTOM_MONTHLY_DAY_OPTIONS.map(([value, label]) => `
-      <label class="custom-recurrence-monthly-option">
+      <label class="custom-recurrence-monthly-option" title="${escapeHtml(label)}">
         <input type="checkbox" value="${escapeHtml(value)}" data-custom-monthly-day-option${monthlyDays.includes(value) ? " checked" : ""} />
-        ${escapeHtml(label)}
+        ${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[value] || label)}
+      </label>
+    `).join("");
+    const monthlyWeekdayOptions = CUSTOM_MONTHLY_WEEKDAY_OPTIONS.map(([value, label]) => `
+      <label class="custom-recurrence-monthly-option" title="${escapeHtml(label)}">
+        <input type="checkbox" value="${escapeHtml(value)}" data-custom-monthly-day-option${monthlyDays.includes(value) ? " checked" : ""} />
+        ${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[value] || label)}
       </label>
     `).join("");
     return `
@@ -2761,10 +2785,16 @@
         </select>
       </div>
       <div class="custom-recurrence-days" data-custom-days${settings.unit === "week" ? "" : " hidden"}>${dayButtons}</div>
-      <div class="custom-recurrence-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
+      <div class="custom-recurrence-row custom-recurrence-monthly-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
         <span class="custom-recurrence-label">Monthly day</span>
         <div class="custom-recurrence-monthly-options" role="group" aria-label="Monthly recurrence days">
           ${monthlyOptions}
+        </div>
+      </div>
+      <div class="custom-recurrence-row custom-recurrence-monthly-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
+        <span class="custom-recurrence-label">Weekday</span>
+        <div class="custom-recurrence-monthly-options" role="group" aria-label="Monthly recurrence weekdays">
+          ${monthlyWeekdayOptions}
         </div>
       </div>
       <select class="custom-recurrence-select" data-custom-part="statusTrigger" aria-label="Recurrence trigger">
