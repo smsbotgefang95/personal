@@ -1583,25 +1583,6 @@
             <div class="timer-task" id="timerTask">No timer running</div>
           </div>
           <form class="tracker-form" id="trackerForm">
-            <div class="tracker-filter-bar">
-              <div class="tracker-field">
-                <label for="dueStatusFilter">Due filter</label>
-                <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
-                  <option value="all">All tasks</option>
-                  <option value="today">Due today</option>
-                  <option value="tomorrow">Due tomorrow</option>
-                  <option value="overdue">Overdue</option>
-                  <option value="today-overdue">Due today or overdue</option>
-                </select>
-              </div>
-              <div class="tracker-field">
-                <label for="taskSearchInput">Task search</label>
-                <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
-              </div>
-              <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-20</button>
-            </div>
-            <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
-            <button class="btn btn-ghost details-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
             <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add custom task</button>
             <div class="custom-entry" id="customFields" hidden>
               <div class="quick-chips" id="quickChips" aria-label="Recent activities"></div>
@@ -1616,6 +1597,7 @@
                 </div>
               </div>
             </div>
+            <button class="btn btn-ghost details-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
             <div class="advanced-fields" id="advancedFields" hidden>
               <div class="tracker-field">
                 <label for="trackerDepartment">Department</label>
@@ -1642,6 +1624,24 @@
                 <textarea class="tracker-textarea" id="trackerNotes"></textarea>
               </div>
             </div>
+            <div class="tracker-filter-bar">
+              <div class="tracker-field">
+                <label for="dueStatusFilter">Due filter</label>
+                <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
+                  <option value="all">All tasks</option>
+                  <option value="today">Due today</option>
+                  <option value="tomorrow">Due tomorrow</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="today-overdue">Due today or overdue</option>
+                </select>
+              </div>
+              <div class="tracker-field">
+                <label for="taskSearchInput">Task search</label>
+                <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
+              </div>
+              <button class="btn btn-ghost" id="orderSortBtn" type="button">Sort 1-20</button>
+            </div>
+            <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
             <datalist id="departmentOptions"></datalist>
             <datalist id="priorityOptions"></datalist>
             <datalist id="sectionOptions"></datalist>
@@ -2052,12 +2052,19 @@
 </div>
 
 <script>
+  if (window.location.protocol === "file:") {
+    window.location.replace("http://127.0.0.1:8015/time-analysis.html");
+  }
+
   const TIME_CSV_FILES = [
     "data/⏰ Time Analysis_2026 - Entries.csv",
     "data/ClickUp Entries_W18~W21.csv"
   ];
-  const TIME_ENTRIES_API = "/api/time-entries";
+  const TIME_ENTRIES_API = (
+    ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016"
+  ) ? "http://localhost:8016/api/time-entries" : "/api/time-entries";
   const TIME_ADMIN_KEY_STORAGE = "personal.timeTracking.adminKey.v1";
+  const TIME_LOCAL_PAYLOAD_STORAGE = "personal.timeTracking.localPayload.v1";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
 
   const LIST_NAME_MAP = {
@@ -2138,6 +2145,7 @@
   ];
   const CUSTOM_RECURRENCE_UNITS = ["day", "week", "month"];
   const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
+  const TASK_CATEGORY_OPTIONS = ["☹️ 👌 Obligation", "☹️ 👎 Incompetence", "😀 👍 Magic", "🙂 👌 Work"];
   const fallbackActivities = [
     { taskName: "Soak butt", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
     { taskName: "Put on clothes", listId: "901306296518", listName: "🌼 Survival Mode", priority: "📌 Life Must", section: "9.01.4. Have a regular routine", taskCategory: "Life Must", taskType: "Work" },
@@ -2518,6 +2526,35 @@
     };
   }
 
+  function readLocalTimePayload() {
+    try {
+      const stored = localStorage.getItem(TIME_LOCAL_PAYLOAD_STORAGE);
+      return stored ? cleanClientPayload(JSON.parse(stored)) : cleanClientPayload(timePayload);
+    } catch (error) {
+      return cleanClientPayload(timePayload);
+    }
+  }
+
+  function writeLocalTimePayload(payload) {
+    try {
+      localStorage.setItem(TIME_LOCAL_PAYLOAD_STORAGE, JSON.stringify(cleanClientPayload(payload)));
+    } catch (error) {}
+  }
+
+  function mergeTimePayloads(serverPayload, localPayload) {
+    const serverClean = cleanClientPayload(serverPayload);
+    const localClean = cleanClientPayload(localPayload);
+    return cleanClientPayload({
+      entries: localClean.entries.length ? localClean.entries : serverClean.entries,
+      activeEntry: localClean.activeEntry || serverClean.activeEntry,
+      taskOverrides: {
+        ...(serverClean.taskOverrides || {}),
+        ...(localClean.taskOverrides || {})
+      },
+      updatedAt: localClean.updatedAt || serverClean.updatedAt
+    });
+  }
+
   async function ensureTimeAdminKey() {
     timeAdminKey = timeAdminKey || localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || "";
     return timeAdminKey;
@@ -2567,10 +2604,9 @@
     return entered;
   }
 
-  async function timeApi(method = "GET", payload = null, { promptForKey = false, retryOnAuth = true } = {}) {
-    const key = await resolveTimeAdminKey({ promptForKey });
-    if (!key) throw new Error("Private time tracking is unavailable.");
-    const headers = { "X-Time-Tracking-Admin-Key": key };
+  async function timeApi(method = "GET", payload = null) {
+    const key = await ensureTimeAdminKey();
+    const headers = key ? { "X-Time-Tracking-Admin-Key": key } : {};
     const options = { method, headers, cache: "no-store" };
     if (payload) {
       headers["Content-Type"] = "application/json";
@@ -2579,31 +2615,16 @@
     const response = await fetch(TIME_ENTRIES_API, options);
     if (response.status === 401) {
       clearTimeAdminKey();
-      if (promptForKey && retryOnAuth) {
-        const retryKey = await resolveTimeAdminKey({ promptForKey: true });
-        const retryHeaders = { "X-Time-Tracking-Admin-Key": retryKey };
-        const retryOptions = { method, headers: retryHeaders, cache: "no-store" };
-        if (payload) {
-          retryHeaders["Content-Type"] = "application/json";
-          retryOptions.body = JSON.stringify(payload);
-        }
-        const retryResponse = await fetch(TIME_ENTRIES_API, retryOptions);
-        if (retryResponse.status === 401) {
-          clearTimeAdminKey();
-          throw new Error("Time Analysis admin key was not accepted.");
-        }
-        if (!retryResponse.ok) throw new Error(`Time API returned HTTP ${retryResponse.status}`);
-        return retryResponse.json();
-      }
-      throw new Error("Private time tracking is unavailable.");
+      throw new Error("Time Analysis autosave is unavailable.");
     }
     if (!response.ok) throw new Error(`Time API returned HTTP ${response.status}`);
     return response.json();
   }
 
   async function saveTimePayload(nextPayload) {
-    const response = await timeApi("POST", cleanClientPayload(nextPayload), { promptForKey: true });
-    timePayload = cleanClientPayload(response.payload || nextPayload);
+    const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
+    timePayload = pendingPayload;
+    writeLocalTimePayload(timePayload);
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
     } else {
@@ -2611,7 +2632,14 @@
       renderTracker();
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
-    setTrackerStatus("Saved", "saved");
+    try {
+      const response = await timeApi("POST", timePayload);
+      timePayload = cleanClientPayload(response.payload || timePayload);
+      writeLocalTimePayload(timePayload);
+      setTrackerStatus("Saved", "saved");
+    } catch (error) {
+      setTrackerStatus("Saved locally on this browser", "saved");
+    }
   }
 
   function normalizeNativeEntry(entry, index = 0) {
@@ -3141,9 +3169,25 @@
     return orderA - orderB || a.localeCompare(b);
   }
 
+  function selectedMetadataListId() {
+    const editDialog = document.getElementById("editEntryDialog");
+    if (editDialog && !editDialog.hidden) return document.getElementById("editList")?.value || "";
+    return document.getElementById("trackerList")?.value || "";
+  }
+
+  function metadataSourcesForField(field) {
+    const sources = [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries(), ...fallbackActivities];
+    if (field !== "department") return sources;
+    const listId = selectedMetadataListId();
+    if (!listId) return sources;
+    const matchingSources = sources.filter((entry) => cleanLabel(entry?.listId, "") === listId);
+    return matchingSources.length ? matchingSources : sources;
+  }
+
   function metadataOptions(field) {
+    if (field === "taskCategory") return TASK_CATEGORY_OPTIONS;
     const values = new Set();
-    [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries(), ...fallbackActivities].forEach((entry) => {
+    metadataSourcesForField(field).forEach((entry) => {
       const value = cleanLabel(entry?.[field], "");
       if (!value) return;
       if (field === "taskType" && /^other$/i.test(value)) return;
@@ -3180,6 +3224,8 @@
     if (dueFilter) dueFilter.oninput = renderActivityRows;
     const taskSearch = document.getElementById("taskSearchInput");
     if (taskSearch) taskSearch.oninput = renderActivityRows;
+    const trackerList = document.getElementById("trackerList");
+    if (trackerList) trackerList.onchange = renderMetadataOptions;
     const orderSort = document.getElementById("orderSortBtn");
     if (orderSort) {
       updateOrderSortButton();
@@ -4112,6 +4158,7 @@
     document.getElementById("editType").value = entry.taskType || "";
     document.getElementById("editNotes").value = entry.notes || "";
     document.getElementById("editEntryDialog").hidden = false;
+    renderMetadataOptions();
   }
 
   function closeEditEntry() {
@@ -4345,6 +4392,8 @@
   async function loadDashboard() {
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
+    const localPayload = readLocalTimePayload();
+    timePayload = localPayload;
     try {
       try {
         taskCatalogEntries = (await loadCsvEntries()).entries;
@@ -4352,7 +4401,8 @@
         taskCatalogEntries = [];
       }
       const response = await timeApi("GET");
-      timePayload = cleanClientPayload(response);
+      timePayload = mergeTimePayloads(response, localPayload);
+      writeLocalTimePayload(timePayload);
       if ((timePayload.entries || []).length || timePayload.activeEntry) {
         renderNativeDashboard();
         return;
@@ -4360,8 +4410,13 @@
       renderTracker();
       await loadCsvDashboard();
     } catch (error) {
+      timePayload = localPayload;
       renderTracker();
-      setTrackerStatus("Private time tracking is unavailable. Showing CSV fallback for now.");
+      setTrackerStatus(
+        Object.keys(timePayload.taskOverrides || {}).length
+          ? "Showing locally saved changes from this browser."
+          : "Private time tracking is unavailable. Showing CSV fallback for now."
+      );
       await loadCsvDashboard();
     }
   }
@@ -4467,6 +4522,8 @@
   });
 
   document.getElementById("editCancelBtn").addEventListener("click", closeEditEntry);
+
+  document.getElementById("editList").addEventListener("change", renderMetadataOptions);
 
   document.getElementById("timeAdminKeyForm").addEventListener("submit", (event) => {
     event.preventDefault();
