@@ -3520,7 +3520,9 @@
     showStatusMessage(idx, `保存中 Q${idx + 1}: ${STATUS_LABELS[status]}`, "saving");
     try {
       await saveQuestionStatusToServer(idx, status);
-      if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
+      if (status === "auto" && activeFilter !== "all") {
+        setActiveQuestionFilter("auto");
+      } else if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
         setActiveQuestionFilter(getStatus(idx));
       } else {
         render();
@@ -3530,7 +3532,9 @@
     } catch (err) {
       questionProgressSyncAvailable = false;
       setStatus(idx, status, { render: false });
-      if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
+      if (status === "auto" && activeFilter !== "all") {
+        setActiveQuestionFilter("auto");
+      } else if (activeFilter !== "all" && !questionMatchesFilter(idx, activeFilter)) {
         setActiveQuestionFilter(getStatus(idx));
       } else {
         render();
