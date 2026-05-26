@@ -5835,7 +5835,8 @@
     renderBusiness(metrics);
     renderPersonal(metrics);
     renderActions(metrics);
-    renderDetails(entries, metrics);
+    const detailsEntries = detailEntriesFor(entries);
+    renderDetails(detailsEntries, buildMetrics(detailsEntries, detailsEntries.length));
   }
 
   function renderOverview(entries, metrics) {
@@ -6237,9 +6238,9 @@
     return `${entry.sourceType || "entry"}:${entry.id || entry.sourceIndex || ""}`;
   }
 
-  function detailSearchEntries(entries, query) {
+  function detailEntriesFor(entries) {
     const baseEntries = Array.isArray(entries) ? entries : [];
-    if (!query || !baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
+    if (!baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
       return baseEntries;
     }
     const seen = new Set(baseEntries.map(detailEntryKey));
@@ -6270,14 +6271,13 @@
 
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
-      const searchEntries = detailSearchEntries(entries, query);
       const listId = listFilter.value;
       const priority = priorityFilter.value;
       const category = categoryFilter.value;
       const type = typeFilter.value;
       const week = weekFilter.value;
       const date = dateFilter.value;
-      const filtered = searchEntries
+      const filtered = entries
         .filter((entry) => {
           if (listId && entry.listId !== listId) return false;
           if (priority && trackGroupName(entry) !== priority) return false;
@@ -6296,7 +6296,7 @@
           return b.sourceIndex - a.sourceIndex;
         });
       const detailsNote = document.getElementById("detailsNote");
-      detailsNote.textContent = query && searchEntries.length !== entries.length
+      detailsNote.textContent = query
         ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.`
         : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
       if (date) {
