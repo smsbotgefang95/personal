@@ -119,7 +119,10 @@
     .water-log-popover { order:4;flex:0 0 280px;max-width:280px;margin-left:0;padding:0;border:0;background:transparent; }
     .water-log-popover[hidden] { display:none; }
     .water-log-list { display:flex;gap:6px;max-width:100%;overflow:auto; }
-    .water-log-row { height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:236px;padding:0 8px;border:1px solid var(--border);border-radius:8px;background:#0f172a; }
+    .water-log-row { min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:236px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:#0f172a; }
+    .water-log-summary-main { font-size:13px;font-weight:700;color:var(--text);white-space:nowrap; }
+    .water-log-summary-sub { font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap; }
+    .water-log-summary-time { font-size:12px;font-weight:700;color:var(--warm);white-space:nowrap; }
     .water-log-amount { font-size:13px;font-weight:700;color:var(--text); }
     .water-log-fields { display:flex;align-items:center;gap:8px;flex-wrap:nowrap; }
     .water-log-time { width:82px;height:44px;border:1px solid var(--border);border-radius:7px;padding:0 6px;font-size:12px;line-height:44px;color:var(--text);background:#1f2937;outline:none; }
@@ -536,7 +539,7 @@ function renderTodayWaterLog() {
   document.getElementById('waterLogTotal').textContent = label;
   if (popover) popover.hidden = !entries.length;
   document.getElementById('waterLogList').innerHTML = entries.length
-    ? entries.map(e => `<div class="water-log-row"><div class="water-log-fields"><div class="water-log-amount">${Number(e.amountMl)} mL</div><input class="water-log-time" type="time" value="${e.time}" aria-label="Edit time for ${Number(e.amountMl)} mL" onchange="updateWaterEntryTime('${e.id}', this.value)"></div><button class="water-log-delete" type="button" aria-label="Delete ${Number(e.amountMl)} mL at ${e.time}" onclick="deleteWaterEntry('${e.id}')">×</button></div>`).join('')
+    ? `<div class="water-log-row"><div><div class="water-log-summary-main">Logged today: ${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}</div><div class="water-log-summary-sub">Local clicks: ${total} mL</div></div><div class="water-log-summary-time">${latestWaterEntryTime()}</div></div>`
     : '';
 }
 
