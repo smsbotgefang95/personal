@@ -2378,8 +2378,6 @@
               <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
               <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
             </div>
-            <div class="tracker-status" id="trackerStatus" role="status" aria-live="polite"></div>
-            <button class="btn btn-ghost" id="loadPrivateTimeBtn" type="button" hidden>Load private data</button>
           </form>
         </div>
       </section>
@@ -3644,6 +3642,7 @@
 
   function setTrackerStatus(message, mode = "") {
     const status = document.getElementById("trackerStatus");
+    if (!status) return;
     status.textContent = message || "";
     status.className = `tracker-status${mode ? ` ${mode}` : ""}`;
     status.hidden = !message;
@@ -6586,15 +6585,18 @@
   document.getElementById("timeAdminKeyDialog").addEventListener("click", (event) => {
     if (event.target === document.getElementById("timeAdminKeyDialog")) closeTimeAdminKeyDialog("");
   });
-  document.getElementById("loadPrivateTimeBtn").addEventListener("click", async () => {
-    try {
-      setTrackerStatus("Loading private Time Analysis data...");
-      await loadPrivateTimeData({ promptForKey: true });
-    } catch (error) {
-      setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
-      showPrivateTimeLoadButton(true);
-    }
-  });
+  const loadPrivateTimeBtn = document.getElementById("loadPrivateTimeBtn");
+  if (loadPrivateTimeBtn) {
+    loadPrivateTimeBtn.addEventListener("click", async () => {
+      try {
+        setTrackerStatus("Loading private Time Analysis data...");
+        await loadPrivateTimeData({ promptForKey: true });
+      } catch (error) {
+        setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
+        showPrivateTimeLoadButton(true);
+      }
+    });
+  }
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !document.getElementById("mergeTaskDialog").hidden) closeMergeTaskDialog(null);
     if (event.key === "Escape" && !document.getElementById("timeAdminKeyDialog").hidden) closeTimeAdminKeyDialog("");
