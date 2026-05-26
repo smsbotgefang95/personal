@@ -549,6 +549,24 @@
 
   .empty-cell { color: #98a2b3; }
 
+  .details-day-total {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: 10px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(34, 197, 94, 0.1);
+    color: #bbf7d0;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .details-day-total[hidden] {
+    display: none;
+  }
+
   .details-table th:nth-child(-n + 3),
   .details-table td:nth-child(-n + 3) {
     position: sticky;
@@ -1740,6 +1758,10 @@
   .tracker-status.error { color: #fca5a5; }
   .tracker-status.saved { color: #86efac; }
 
+  #loadPrivateTimeBtn {
+    justify-self: start;
+  }
+
   .bulk-task-bar {
     position: fixed;
     right: 18px;
@@ -2278,6 +2300,7 @@
               <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
             </div>
             <div class="tracker-status" id="trackerStatus" role="status" aria-live="polite"></div>
+            <button class="btn btn-ghost" id="loadPrivateTimeBtn" type="button" hidden>Load private data</button>
           </form>
         </div>
       </section>
@@ -2548,6 +2571,7 @@
           <div>
             <h2 id="detailsHeading">Imported Entries</h2>
             <p class="section-note" id="detailsNote">Friendly names only. Technical IDs stay internal.</p>
+            <div class="details-day-total" id="detailsDayTotal" hidden></div>
           </div>
         </div>
         <div class="toolbar">
@@ -2670,7 +2694,7 @@
 <div class="admin-key-dialog" id="timeAdminKeyDialog" role="dialog" aria-modal="true" aria-labelledby="timeAdminKeyTitle" hidden>
   <form class="admin-key-panel" id="timeAdminKeyForm" method="post" action="/api/time-entries" autocomplete="on">
     <h2 id="timeAdminKeyTitle">Save Time Analysis changes</h2>
-    <p>Enter the Time Analysis admin key to save due dates and recurrence changes to the server.</p>
+    <p id="timeAdminKeyDescription">Enter the Time Analysis admin key to save due dates and recurrence changes to the server.</p>
     <input
       class="admin-key-credential-context"
       id="timeAdminKeyUsername"
@@ -2691,7 +2715,7 @@
     />
     <div class="admin-key-actions">
       <button class="btn btn-ghost" id="timeAdminKeyCancelBtn" type="button">Cancel</button>
-      <button class="btn btn-primary" type="submit">Save Changes</button>
+      <button class="btn btn-primary" id="timeAdminKeySubmit" type="submit">Save Changes</button>
     </div>
   </form>
 </div>
@@ -2710,6 +2734,7 @@
   ) ? "http://localhost:8016/api/time-entries" : "/api/time-entries";
   const TIME_ADMIN_KEY_STORAGE = "personal.timeTracking.adminKey.v1";
   const TIME_LOCAL_PAYLOAD_STORAGE = "personal.timeTracking.localPayload.v1";
+  const BUSINESS_TIME_ZONE = "America/New_York";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
 
   const LIST_NAME_MAP = {
@@ -2767,7 +2792,10 @@
   let editingEntryId = "";
   let timerTick = null;
   let currentSourcePills = [];
-  let collapsedTrackGroups = new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]"));
+  let collapsedTrackGroups = (() => {
+    try { return new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]")); }
+    catch (error) { return new Set(); }
+  })();
   let expandedCustomRecurrenceKeys = new Set();
   let selectedTaskKeys = new Set();
   let bulkTaskStatusValue = "done";
@@ -2976,14 +3004,74 @@
     };
   }
 
+  function dateKeyFromParts(year, month, day) {
+    if (![year, month, day].every(Number.isInteger)) return "";
+    const date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return "";
+    return [
+      year,
+      String(month).padStart(2, "0"),
+      String(day).padStart(2, "0")
+    ].join("-");
+  }
+
+  function dateKeyFromUsText(value) {
+    const match = String(value || "").trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\b/);
+    if (!match) return "";
+    return dateKeyFromParts(Number(match[3]), Number(match[1]), Number(match[2]));
+  }
+
+  function nthWeekdayUtc(year, monthIndex, weekday, nth, hourUtc) {
+    const first = new Date(Date.UTC(year, monthIndex, 1, hourUtc));
+    const offset = (weekday - first.getUTCDay() + 7) % 7;
+    return new Date(Date.UTC(year, monthIndex, 1 + offset + ((nth - 1) * 7), hourUtc));
+  }
+
+  function easternOffsetMinutes(date) {
+    const year = date.getUTCFullYear();
+    const dstStart = nthWeekdayUtc(year, 2, 0, 2, 7);
+    const dstEnd = nthWeekdayUtc(year, 10, 0, 1, 6);
+    return date >= dstStart && date < dstEnd ? -240 : -300;
+  }
+
+  function easternDateKey(date) {
+    const eastern = new Date(date.getTime() + easternOffsetMinutes(date) * 60000);
+    return dateKeyFromParts(eastern.getUTCFullYear(), eastern.getUTCMonth() + 1, eastern.getUTCDate());
+  }
+
+  function businessDateKey(date, timeZone = BUSINESS_TIME_ZONE) {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
+    if (timeZone === "America/New_York") return easternDateKey(date);
+    try {
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).formatToParts(date);
+      const part = (type) => Number(parts.find((item) => item.type === type)?.value);
+      return dateKeyFromParts(part("year"), part("month"), part("day"));
+    } catch (error) {
+      return dateKey(date);
+    }
+  }
+
+  function addDateKeyDays(value, days) {
+    const date = parseDateInput(value);
+    if (!date) return "";
+    date.setDate(date.getDate() + days);
+    return formatDateInput(date);
+  }
+
   function dateInputValue(value) {
     if (!value) return "";
     const text = String(value).trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+    const usDate = dateKeyFromUsText(text);
+    if (usDate) return usDate;
     const parsed = new Date(text);
     if (Number.isNaN(parsed.getTime())) return "";
-    const local = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60000);
-    return local.toISOString().slice(0, 10);
+    return businessDateKey(parsed);
   }
 
   function fullDateLabel(value) {
@@ -3472,6 +3560,11 @@
     status.hidden = !message;
   }
 
+  function showPrivateTimeLoadButton(show) {
+    const button = document.getElementById("loadPrivateTimeBtn");
+    if (button) button.hidden = !show;
+  }
+
   function populateListSelect(select, value = "") {
     select.innerHTML = nativeListOptions
       .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === value ? " selected" : ""}>${escapeHtml(item.name)}</option>`)
@@ -3579,9 +3672,18 @@
     } catch (error) {}
   }
 
-  function mergeTimePayloads(serverPayload, localPayload) {
+  function mergeTimePayloads(serverPayload, localPayload, { preferServer = false } = {}) {
     const serverClean = cleanClientPayload(serverPayload);
     const localClean = cleanClientPayload(localPayload);
+    if (preferServer) {
+      return cleanClientPayload({
+        entries: serverClean.entries.length ? serverClean.entries : localClean.entries,
+        activeEntry: serverClean.activeEntry || localClean.activeEntry,
+        taskOverrides: serverClean.taskOverrides || {},
+        taskMerges: serverClean.taskMerges || {},
+        updatedAt: serverClean.updatedAt || localClean.updatedAt
+      });
+    }
     return cleanClientPayload({
       entries: localClean.entries.length ? localClean.entries : serverClean.entries,
       activeEntry: localClean.activeEntry || serverClean.activeEntry,
@@ -3598,7 +3700,9 @@
   }
 
   async function ensureTimeAdminKey() {
-    timeAdminKey = timeAdminKey || localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || "";
+    if (!timeAdminKey) {
+      try { timeAdminKey = localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || ""; } catch (error) { timeAdminKey = ""; }
+    }
     return timeAdminKey;
   }
 
@@ -3621,11 +3725,18 @@
     timeAdminKeyPreviousFocus = null;
   }
 
-  function requestTimeAdminKey() {
+  function requestTimeAdminKey({
+    title = "Save Time Analysis changes",
+    description = "Enter the Time Analysis admin key to save due dates and recurrence changes to the server.",
+    submitLabel = "Save Changes"
+  } = {}) {
     if (timeAdminKeyDialogPromise) return timeAdminKeyDialogPromise;
     timeAdminKeyPreviousFocus = document.activeElement;
     let savedAdminKey = "";
     try { savedAdminKey = localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || ""; } catch (error) {}
+    document.getElementById("timeAdminKeyTitle").textContent = title;
+    document.getElementById("timeAdminKeyDescription").textContent = description;
+    document.getElementById("timeAdminKeySubmit").textContent = submitLabel;
     document.getElementById("timeAdminKeyInput").value = savedAdminKey;
     document.getElementById("timeAdminKeyDialog").hidden = false;
     window.requestAnimationFrame(() => document.getElementById("timeAdminKeyInput").focus());
@@ -3635,12 +3746,16 @@
     return timeAdminKeyDialogPromise;
   }
 
-  async function resolveTimeAdminKey({ promptForKey = false } = {}) {
+  async function resolveTimeAdminKey({ promptForKey = false, intent = "save" } = {}) {
     const storedKey = await ensureTimeAdminKey();
     if (storedKey) return storedKey;
     if (!promptForKey) return "";
-    const entered = await requestTimeAdminKey();
-    if (!entered) throw new Error("Save canceled. Time Analysis changes were not saved.");
+    const entered = await requestTimeAdminKey(intent === "load" ? {
+      title: "Load private Time Analysis data",
+      description: "Enter the Time Analysis admin key to load shared due dates, recurrence, status, and task merges on this device.",
+      submitLabel: "Load Private Data"
+    } : {});
+    if (!entered) throw new Error(intent === "load" ? "Private Time Analysis data was not loaded." : "Save canceled. Time Analysis changes were not saved.");
     timeAdminKey = entered;
     try { localStorage.setItem(TIME_ADMIN_KEY_STORAGE, entered); } catch (error) {}
     return entered;
@@ -3663,27 +3778,23 @@
     return response.json();
   }
 
-  async function saveTimePayload(nextPayload) {
+  async function saveTimePayload(nextPayload, { promptForKey = true } = {}) {
+    await resolveTimeAdminKey({ promptForKey, intent: "save" });
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
-    timePayload = pendingPayload;
+    const response = await timeApi("POST", pendingPayload);
+    timePayload = cleanClientPayload(response.payload || pendingPayload);
     writeLocalTimePayload(timePayload);
+    showPrivateTimeLoadButton(false);
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
     } else {
       if (taskCatalogEntries.length) appEntries = entriesWithTaskOverrides(taskCatalogEntries);
       else if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
-      if (appEntries.length) appMetrics = buildMetrics(appEntries, appMetrics?.rawRowCount || appEntries.length);
+      if (appEntries.length && appMetrics) appMetrics = buildMetrics(appEntries, appMetrics.rawRowCount || appEntries.length);
       renderTracker();
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
-    try {
-      const response = await timeApi("POST", timePayload);
-      timePayload = cleanClientPayload(response.payload || timePayload);
-      writeLocalTimePayload(timePayload);
-      setTrackerStatus("Saved", "saved");
-    } catch (error) {
-      // Local storage is already updated above; keep the fallback silent.
-    }
+    setTrackerStatus("Saved", "saved");
   }
 
   function normalizeNativeEntry(entry, index = 0) {
@@ -3924,7 +4035,7 @@
   }
 
   function saveCollapsedTrackGroups() {
-    localStorage.setItem(TRACK_COLLAPSED_STORAGE, JSON.stringify(Array.from(collapsedTrackGroups)));
+    try { localStorage.setItem(TRACK_COLLAPSED_STORAGE, JSON.stringify(Array.from(collapsedTrackGroups))); } catch (error) {}
   }
 
   function activityMeta(entry) {
@@ -3939,8 +4050,8 @@
   function compactDeadline(entry) {
     const text = cleanLabel(entry.dueDateText || entry.dueDate, "");
     if (!text) return "";
-    const date = entry.dueDate ? new Date(entry.dueDate) : new Date(text);
-    if (!Number.isNaN(date.getTime())) {
+    const date = parseDateInput(entry.dueDate || text);
+    if (date) {
       return `Due ${date.toLocaleDateString(undefined, { month: "numeric", day: "numeric" })}`;
     }
     return `Due ${text.replace(/,?\\s*\\d{1,2}:\\d{2}:\\d{2}\\s*[AP]M\\s*[A-Z]+/i, "")}`;
@@ -3953,11 +4064,8 @@
   function dueStatus(entry) {
     const due = dueDateKey(entry);
     if (!due) return "none";
-    const now = new Date();
-    const today = dateKey(now);
-    const tomorrowDate = new Date(now);
-    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-    const tomorrow = dateKey(tomorrowDate);
+    const today = businessDateKey(new Date());
+    const tomorrow = addDateKeyDays(today, 1);
     if (due === today) return "today";
     if (due === tomorrow) return "tomorrow";
     return due < today ? "overdue" : "upcoming";
@@ -4983,10 +5091,10 @@
       section: cleanLabel(row.Section, ""),
       taskCategory,
       taskType,
-      dueDate: Number(row["Due Date"]) ? new Date(Number(row["Due Date"])).toISOString() : "",
+      dueDate: dateInputValue(row["Due Date Text"]) || (Number(row["Due Date"]) ? businessDateKey(new Date(Number(row["Due Date"]))) : ""),
       dueDateText: cleanLabel(row["Due Date Text"], ""),
       dueTime: "",
-      startDate: Number(row["Start Date"]) ? new Date(Number(row["Start Date"])).toISOString() : "",
+      startDate: dateInputValue(row["Start Date Text"]) || (Number(row["Start Date"]) ? businessDateKey(new Date(Number(row["Start Date"]))) : ""),
       startDateText: cleanLabel(row["Start Date Text"], ""),
       recurring: false,
       recurringText: "",
@@ -5777,6 +5885,7 @@
     const weekFilter = document.getElementById("weekFilter");
     const dateFilter = document.getElementById("dateFilter");
     const searchInput = document.getElementById("searchInput");
+    const detailsDayTotal = document.getElementById("detailsDayTotal");
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
     priorityFilter.innerHTML = priorityFilterOptionsHtml(entries, "All priorities", priorityFilter.value || "");
@@ -5815,6 +5924,14 @@
           return b.sourceIndex - a.sourceIndex;
         });
       document.getElementById("detailsNote").textContent = `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
+      if (date) {
+        const dayTotalMs = filtered.reduce((total, entry) => total + (Number(entry.durationMs) || 0), 0);
+        detailsDayTotal.textContent = `Day total: ${formatDuration(dayTotalMs)}`;
+        detailsDayTotal.hidden = false;
+      } else {
+        detailsDayTotal.hidden = true;
+        detailsDayTotal.textContent = "";
+      }
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
         const values = [
           entry.date,
@@ -6002,34 +6119,47 @@
     }
   }
 
+  async function loadPrivateTimeData({ promptForKey = false } = {}) {
+    await resolveTimeAdminKey({ promptForKey, intent: "load" });
+    const response = await timeApi("GET");
+    timePayload = mergeTimePayloads(response, readLocalTimePayload(), { preferServer: true });
+    writeLocalTimePayload(timePayload);
+    showPrivateTimeLoadButton(false);
+    if ((timePayload.entries || []).length || timePayload.activeEntry) {
+      renderNativeDashboard();
+      return true;
+    }
+    if (taskCatalogEntries.length) {
+      appEntries = entriesWithTaskOverrides(taskCatalogEntries);
+      appMetrics = buildMetrics(appEntries, appMetrics?.rawRowCount || appEntries.length);
+      renderTracker();
+      renderDashboard(appEntries, appMetrics);
+    }
+    setTrackerStatus("Private Time Analysis data loaded.", "saved");
+    return true;
+  }
+
   async function loadDashboard() {
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
-    const localPayload = readLocalTimePayload();
-    timePayload = localPayload;
+    timePayload = cleanClientPayload({});
     try {
       try {
         taskCatalogEntries = (await loadCsvEntries()).entries;
       } catch (catalogError) {
         taskCatalogEntries = [];
       }
-      const response = await timeApi("GET");
-      timePayload = mergeTimePayloads(response, localPayload);
-      writeLocalTimePayload(timePayload);
-      if ((timePayload.entries || []).length || timePayload.activeEntry) {
-        renderNativeDashboard();
+      if (await ensureTimeAdminKey()) {
+        await loadPrivateTimeData();
         return;
       }
-      renderTracker();
+      showPrivateTimeLoadButton(true);
+      setTrackerStatus("Showing CSV fallback. Load private data to sync shared due dates on this device.");
       await loadCsvDashboard();
     } catch (error) {
-      timePayload = localPayload;
-      renderTracker();
-      setTrackerStatus(
-        Object.keys(timePayload.taskOverrides || {}).length
-          ? ""
-          : "Private time tracking is unavailable. Showing CSV fallback for now."
-      );
+      timePayload = cleanClientPayload({});
+      showPrivateTimeLoadButton(true);
+      setTrackerStatus("Private time tracking is unavailable. Showing CSV fallback for now.", "error");
       await loadCsvDashboard();
     }
   }
@@ -6199,6 +6329,15 @@
   document.getElementById("timeAdminKeyCancelBtn").addEventListener("click", () => closeTimeAdminKeyDialog(""));
   document.getElementById("timeAdminKeyDialog").addEventListener("click", (event) => {
     if (event.target === document.getElementById("timeAdminKeyDialog")) closeTimeAdminKeyDialog("");
+  });
+  document.getElementById("loadPrivateTimeBtn").addEventListener("click", async () => {
+    try {
+      setTrackerStatus("Loading private Time Analysis data...");
+      await loadPrivateTimeData({ promptForKey: true });
+    } catch (error) {
+      setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
+      showPrivateTimeLoadButton(true);
+    }
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !document.getElementById("mergeTaskDialog").hidden) closeMergeTaskDialog(null);
