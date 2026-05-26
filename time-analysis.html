@@ -6034,6 +6034,48 @@
     }
   }
 
+  function isSleepTimerEntry(entry) {
+    const taskName = cleanLabel(entry?.taskName, "").replace(/^[^A-Za-z0-9]+/, "").trim().toLowerCase();
+    return taskName === "sleep";
+  }
+
+  function sleepSplitBoundaryFor(start) {
+    const startDate = new Date(start);
+    if (Number.isNaN(startDate.getTime())) return null;
+    return new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 23, 59, 0, 0);
+  }
+
+  function completedTimerEntry(active, startIso, stopIso, patch = {}) {
+    return {
+      ...active,
+      ...patch,
+      start: startIso,
+      stop: stopIso,
+      durationMs: Math.max(1000, new Date(stopIso).getTime() - new Date(startIso).getTime()),
+      updatedAt: stopIso
+    };
+  }
+
+  function completedTimerEntries(active, stopIso) {
+    const startDate = new Date(active.start);
+    const stopDate = new Date(stopIso);
+    const boundary = sleepSplitBoundaryFor(active.start);
+    if (
+      !isSleepTimerEntry(active) ||
+      !boundary ||
+      Number.isNaN(startDate.getTime()) ||
+      Number.isNaN(stopDate.getTime()) ||
+      startDate >= boundary ||
+      stopDate <= boundary
+    ) {
+      return [completedTimerEntry(active, active.start, stopIso)];
+    }
+    const boundaryIso = boundary.toISOString();
+    const nightBefore = completedTimerEntry(active, active.start, boundaryIso);
+    const afterBoundary = completedTimerEntry(active, boundaryIso, stopIso, { id: nativeId() });
+    return [afterBoundary, nightBefore];
+  }
+
   async function startTimer(sourceEntry = null) {
     const active = timePayload.activeEntry;
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry) : trackerFormValues();
@@ -6042,17 +6084,11 @@
       return;
     }
     if (active) {
-      const stop = isoNow();
-      const completed = {
-        ...active,
-        stop,
-        durationMs: Math.max(1000, new Date(stop).getTime() - new Date(active.start).getTime()),
-        updatedAt: stop
-      };
-      timePayload.entries = [completed, ...(timePayload.entries || [])];
+      const completed = completedTimerEntries(active, isoNow());
+      timePayload.entries = [...completed, ...(timePayload.entries || [])];
       timePayload.activeEntry = entry;
       await saveTimePayload(timePayload);
-      setTrackerStatus(`Switched from ${completed.taskName} to ${entry.taskName}`, "saved");
+      setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
       return;
     }
     timePayload.activeEntry = entry;
@@ -6063,17 +6099,11 @@
   async function stopTimer() {
     const active = timePayload.activeEntry;
     if (!active) return;
-    const stop = isoNow();
-    const completed = {
-      ...active,
-      stop,
-      durationMs: Math.max(1000, new Date(stop).getTime() - new Date(active.start).getTime()),
-      updatedAt: stop
-    };
-    timePayload.entries = [completed, ...(timePayload.entries || [])];
+    const completed = completedTimerEntries(active, isoNow());
+    timePayload.entries = [...completed, ...(timePayload.entries || [])];
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
-    setTrackerStatus(`Stopped ${completed.taskName}`, "saved");
+    setTrackerStatus(`Stopped ${active.taskName}`, "saved");
   }
 
   async function cancelTimer() {
