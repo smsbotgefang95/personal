@@ -3139,9 +3139,15 @@
     return `native-task:${String(taskName || "untitled").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "untitled"}`;
   }
 
+  function effectiveTaskId(taskId, taskName) {
+    const cleaned = cleanLabel(taskId, "");
+    if (!cleaned || cleaned === "unknown-task") return taskIdFor(taskName);
+    return cleaned;
+  }
+
   function taskOverrideKey(entry) {
     if (entry?.overrideKey) return entry.overrideKey;
-    return `${cleanLabel(entry.listId, "unknown-list")}|||${cleanLabel(entry.taskId || taskIdFor(entry.taskName), taskIdFor(entry.taskName))}`;
+    return `${cleanLabel(entry.listId, "unknown-list")}|||${effectiveTaskId(entry.taskId, entry.taskName)}`;
   }
 
   function taskKeyParts(key) {
@@ -4164,11 +4170,12 @@
     sources
       .filter((entry) => entry && entry.taskName)
       .forEach((entry) => {
-        const key = `${entry.listId}|||${entry.taskId || taskIdFor(entry.taskName)}`;
+        const taskId = effectiveTaskId(entry.taskId, entry.taskName);
+        const key = `${entry.listId}|||${taskId}`;
         if (!byTask.has(key)) {
           byTask.set(key, {
             ...entry,
-            taskId: entry.taskId || taskIdFor(entry.taskName),
+            taskId,
             count: 0,
             totalMs: 0,
             lastStart: 0,
@@ -5420,9 +5427,9 @@
     const stop = parseTimestamp(row.Stop);
     const durationMs = Number(row["Time Tracked"]) || 0;
     const listId = cleanLabel(row["List ID"], "unknown-list");
-    const taskId = cleanLabel(row["Task ID"], "unknown-task");
     const listName = LIST_NAME_MAP[listId] || displayListName(row["List Name"]);
     const taskName = cleanLabel(row["Task Name"], "Untitled task");
+    const taskId = effectiveTaskId(row["Task ID"], taskName);
     const taskType = normalizeTaskType(row["Task Type"]);
     const taskCategory = normalizeTaskCategory(row["Task Category"]);
 
@@ -5482,9 +5489,9 @@
     const listName = displayListName(row.List);
     const listId = cleanLabel(row["List ID"], LIST_ID_BY_NAME[listName] || `legacy-list:${listName}`);
     const taskName = cleanLabel(row.Task, "Untitled task");
-    const taskId = cleanLabel(row["Task ID"], `legacy-task:${taskName}`);
     const taskType = normalizeTaskType(row["Task\nType"]);
     const taskCategory = normalizeTaskCategory(row["Task\nCategory"]);
+    const taskId = effectiveTaskId(row["Task ID"], taskName);
 
     return {
       id: `legacy:${sourceFile}:${index}`,
