@@ -777,23 +777,23 @@
 
   .recent-task-list {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    -webkit-overflow-scrolling: touch;
+    align-items: center;
+    min-width: 0;
   }
 
   .recent-task-btn {
-    flex: 0 0 auto;
-    min-height: 42px;
-    max-width: 240px;
+    flex: 0 1 auto;
+    min-height: 36px;
+    max-width: min(260px, 100%);
     border: 1px solid #374151;
     border-radius: 8px;
-    padding: 8px 11px;
+    padding: 6px 10px;
     background: #111827;
     color: #f9fafb;
     font: inherit;
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     font-weight: 850;
     cursor: pointer;
     overflow: hidden;
@@ -816,7 +816,7 @@
   .recent-task-empty {
     color: var(--muted);
     font-size: 0.88rem;
-    min-height: 42px;
+    min-height: 36px;
     display: inline-flex;
     align-items: center;
   }
@@ -2265,8 +2265,8 @@
       max-width: 78vw;
     }
     .recent-task-btn {
-      min-height: 46px;
-      max-width: 74vw;
+      min-height: 40px;
+      max-width: 100%;
     }
     .track-recurrence-control > .track-recurrence-custom {
       left: 0;
