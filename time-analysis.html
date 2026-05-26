@@ -5895,7 +5895,7 @@
     weekFilter.innerHTML = `<option value="">All weeks</option>${metrics.weeks.map((week) => `<option value="${escapeHtml(week)}">${escapeHtml(week)}</option>`).join("")}`;
     const dates = Array.from(new Set(entries.map((entry) => entry.date).filter(Boolean))).sort();
     dateFilter.min = dates[0] || "";
-    dateFilter.max = dates[dates.length - 1] || "";
+    dateFilter.max = [dates[dates.length - 1], businessDateKey(new Date())].filter(Boolean).sort().pop() || "";
     document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}<th class="actions-column">Actions</th></tr>`;
 
     const updateTable = () => {
