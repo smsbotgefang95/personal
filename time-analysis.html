@@ -3763,7 +3763,7 @@
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
     document.getElementById("timerValue").textContent = formatClock(active ? activeDurationMs() : 0);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
-    document.getElementById("startTimerBtn").disabled = Boolean(active);
+    document.getElementById("startTimerBtn").disabled = false;
     document.getElementById("stopTimerBtn").disabled = !active;
     document.getElementById("cancelTimerBtn").disabled = !active;
     if (timerTick) window.clearInterval(timerTick);
@@ -6036,13 +6036,23 @@
 
   async function startTimer(sourceEntry = null) {
     const active = timePayload.activeEntry;
-    if (active) {
-      setTrackerStatus(`Stop or cancel "${active.taskName}" before starting another timer.`, "error");
-      return;
-    }
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry) : trackerFormValues();
     if (!entry.taskName || !entry.listId) {
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
+      return;
+    }
+    if (active) {
+      const stop = isoNow();
+      const completed = {
+        ...active,
+        stop,
+        durationMs: Math.max(1000, new Date(stop).getTime() - new Date(active.start).getTime()),
+        updatedAt: stop
+      };
+      timePayload.entries = [completed, ...(timePayload.entries || [])];
+      timePayload.activeEntry = entry;
+      await saveTimePayload(timePayload);
+      setTrackerStatus(`Switched from ${completed.taskName} to ${entry.taskName}`, "saved");
       return;
     }
     timePayload.activeEntry = entry;
