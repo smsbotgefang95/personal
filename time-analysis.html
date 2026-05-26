@@ -931,6 +931,10 @@
     background: #020617;
   }
 
+  .track-list-header + .track-group {
+    margin-top: 38px;
+  }
+
   .track-list-header > div:nth-child(2),
   .track-task-cell {
     position: sticky;
@@ -1104,6 +1108,11 @@
     cursor: pointer;
   }
 
+  .track-group-header.due-group-header {
+    padding-left: calc(var(--track-select-width) + 10px);
+    background: #030712;
+  }
+
   .track-group-caret {
     color: #9ca3af;
     font-size: 0.9rem;
@@ -1121,14 +1130,28 @@
   .track-group-name {
     display: inline-flex;
     align-items: flex-start;
+    flex: 0 1 auto;
+    min-width: 0;
     min-height: 30px;
     border: 1px solid #374151;
     border-radius: 8px;
     padding: 3px 9px;
-    background: transparent;
+    background: #030712;
+    color: #f9fafb;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-group-name.due-group-name {
+    min-width: 62px;
+    justify-content: center;
+    border-color: #475569;
+    color: #e5e7eb;
   }
 
   .track-group-count {
+    flex: 0 0 auto;
     color: var(--muted);
     font-weight: 800;
   }
@@ -2092,6 +2115,9 @@
       position: sticky;
       top: 0;
       z-index: 3;
+    }
+    .track-group-header.due-group-header {
+      top: auto;
     }
   }
 </style>
@@ -3883,10 +3909,18 @@
       if (dueB === "none") return -1;
       return dueB.localeCompare(dueA);
     }).map(([due, entries]) => [
-      due === "none" ? "No due date" : fullDateLabel(due) || due,
+      dueGroupCompactLabel(due),
       entries,
-      `due:${due}`
+      `due:${due}`,
+      due === "none" ? "No due date" : fullDateLabel(due) || due
     ]);
+  }
+
+  function dueGroupCompactLabel(due) {
+    if (due === "none") return "No due";
+    const date = parseDateInput(due);
+    if (!date) return due;
+    return `${date.getMonth() + 1}/${date.getDate()}`;
   }
 
   function saveCollapsedTrackGroups() {
@@ -4521,14 +4555,18 @@
     const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
-    trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey]) => {
+    const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
+    trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel]) => {
       const groupKey = collapseKey || group;
       const collapsed = collapsedTrackGroups.has(groupKey);
+      const groupTitle = fullGroupLabel || group;
+      const dueGroupClass = groupedByDueDate ? " due-group-name" : "";
+      const dueHeaderClass = groupedByDueDate ? " due-group-header" : "";
       return `
         <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(groupKey)}">
-          <button class="track-group-header" type="button" aria-expanded="${collapsed ? "false" : "true"}">
+          <button class="track-group-header${dueHeaderClass}" type="button" aria-expanded="${collapsed ? "false" : "true"}">
             <span class="track-group-caret">▾</span>
-            <span class="track-group-name">${escapeHtml(group)}</span>
+            <span class="track-group-name${dueGroupClass}" title="${escapeHtml(groupTitle)}">${escapeHtml(group)}</span>
             <span class="track-group-count">${entries.length}</span>
           </button>
           ${entries.map((entry) => activityRowHtml(entry, active)).join("")}
