@@ -4082,6 +4082,16 @@
     return true;
   }
 
+  function dueStatusFilterCounts(rows) {
+    return {
+      none: rows.filter((entry) => matchesDueStatusFilter(entry, "none")).length,
+      set: rows.filter((entry) => matchesDueStatusFilter(entry, "set")).length,
+      today: rows.filter((entry) => matchesDueStatusFilter(entry, "today")).length,
+      tomorrow: rows.filter((entry) => matchesDueStatusFilter(entry, "tomorrow")).length,
+      overdue: rows.filter((entry) => matchesDueStatusFilter(entry, "overdue")).length
+    };
+  }
+
   function matchesRecurrenceFilter(entry, filter) {
     const recurrence = entry.recurrence || inferRecurrence(entry);
     if (filter === "recurring") return recurrence !== "none";
@@ -4118,18 +4128,14 @@
     const select = document.getElementById("dueStatusFilter");
     if (!select) return;
     const current = select.value || "all";
-    const noneCount = rows.filter((entry) => dueStatus(entry) === "none").length;
-    const setCount = rows.length - noneCount;
-    const todayCount = rows.filter((entry) => matchesDueStatusFilter(entry, "today")).length;
-    const tomorrowCount = rows.filter((entry) => dueStatus(entry) === "tomorrow").length;
-    const overdueCount = rows.filter((entry) => dueStatus(entry) === "overdue").length;
+    const counts = dueStatusFilterCounts(rows);
     const labels = {
       all: "All",
-      none: `Due date not set (${noneCount})`,
-      set: `Due date set (${setCount})`,
-      today: `Due today (${todayCount})`,
-      tomorrow: `Due tomorrow (${tomorrowCount})`,
-      overdue: `Overdue (${overdueCount})`
+      none: `Due date not set (${counts.none})`,
+      set: `Due date set (${counts.set})`,
+      today: `Due today (${counts.today})`,
+      tomorrow: `Due tomorrow (${counts.tomorrow})`,
+      overdue: `Overdue (${counts.overdue})`
     };
     Array.from(select.options).forEach((option) => {
       option.textContent = labels[option.value] || option.textContent;
