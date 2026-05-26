@@ -4267,7 +4267,7 @@
     return Array.from(groups.entries()).sort(([dueA], [dueB]) => {
       if (dueA === "none") return 1;
       if (dueB === "none") return -1;
-      return dueB.localeCompare(dueA);
+      return dueA.localeCompare(dueB);
     }).map(([due, entries]) => [
       dueGroupCompactLabel(due),
       entries,
