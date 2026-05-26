@@ -6233,6 +6233,21 @@
     await saveTimePayload(timePayload);
   }
 
+  function detailEntryKey(entry) {
+    return `${entry.sourceType || "entry"}:${entry.id || entry.sourceIndex || ""}`;
+  }
+
+  function detailSearchEntries(entries, query) {
+    const baseEntries = Array.isArray(entries) ? entries : [];
+    if (!query || !baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
+      return baseEntries;
+    }
+    const seen = new Set(baseEntries.map(detailEntryKey));
+    const importedEntries = entriesWithTaskOverrides(taskCatalogEntries)
+      .filter((entry) => !seen.has(detailEntryKey(entry)));
+    return [...baseEntries, ...importedEntries];
+  }
+
   function renderDetails(entries, metrics) {
     const listFilter = document.getElementById("listFilter");
     const priorityFilter = document.getElementById("priorityFilter");
@@ -6255,13 +6270,14 @@
 
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
+      const searchEntries = detailSearchEntries(entries, query);
       const listId = listFilter.value;
       const priority = priorityFilter.value;
       const category = categoryFilter.value;
       const type = typeFilter.value;
       const week = weekFilter.value;
       const date = dateFilter.value;
-      const filtered = entries
+      const filtered = searchEntries
         .filter((entry) => {
           if (listId && entry.listId !== listId) return false;
           if (priority && trackGroupName(entry) !== priority) return false;
@@ -6279,7 +6295,10 @@
           if (newestWeek) return newestWeek;
           return b.sourceIndex - a.sourceIndex;
         });
-      document.getElementById("detailsNote").textContent = `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
+      const detailsNote = document.getElementById("detailsNote");
+      detailsNote.textContent = query && searchEntries.length !== entries.length
+        ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.`
+        : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
       if (date) {
         const dayTotalMs = filtered.reduce((total, entry) => total + (Number(entry.durationMs) || 0), 0);
         detailsDayTotal.textContent = `Day total: ${formatDuration(dayTotalMs)}`;
