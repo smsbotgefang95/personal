@@ -281,6 +281,9 @@
     box-shadow: 0 0 0 3px var(--accent-light);
   }
   .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 8px 14px;
     border: 1px solid var(--border);
     background: var(--card);
@@ -294,6 +297,21 @@
     background: var(--accent);
     color: #fff;
     border-color: var(--accent);
+  }
+  .filter-count {
+    min-width: 1.55em;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.45;
+    text-align: center;
+  }
+  .filter-btn.active .filter-count {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
   }
   .status-save-note {
     display: none;
@@ -1496,13 +1514,13 @@
       <div class="controls">
         <input type="text" id="search" placeholder="中英文搜索" />
         <div class="filter-group" id="filter-group">
-          <button class="filter-btn active" data-filter="all">全部</button>
-          <button class="filter-btn" data-filter="auto">自动</button>
+          <button class="filter-btn active" data-filter="all">全部 <span class="filter-count" data-filter-count="all">0</span></button>
+          <button class="filter-btn" data-filter="auto">自动 <span class="filter-count" data-filter-count="auto">0</span></button>
           <button class="filter-btn" id="learning-order-btn" type="button">学习顺序</button>
-          <button class="filter-btn" data-filter="tolearn">待学</button>
-          <button class="filter-btn" data-filter="learning">学习中</button>
-          <button class="filter-btn" data-filter="review">复习</button>
-          <button class="filter-btn" data-filter="learned">已学会</button>
+          <button class="filter-btn" data-filter="tolearn">待学 <span class="filter-count" data-filter-count="tolearn">0</span></button>
+          <button class="filter-btn" data-filter="learning">学习中 <span class="filter-count" data-filter-count="learning">0</span></button>
+          <button class="filter-btn" data-filter="review">复习 <span class="filter-count" data-filter-count="review">0</span></button>
+          <button class="filter-btn" data-filter="learned">已学会 <span class="filter-count" data-filter-count="learned">0</span></button>
         </div>
         <div class="status-save-note" id="status-save-note" role="status" aria-live="polite"></div>
         <button class="reset-btn" id="print-marked-btn" type="button" title="Print learned, review, and learning questions">打印已学会 / 复习 / 学习中</button>
@@ -2904,6 +2922,17 @@
     learningOrderBtn.classList.toggle("active", autoLearningOrderActive);
     learningOrderBtn.setAttribute("aria-pressed", autoLearningOrderActive ? "true" : "false");
   }
+  function updateQuestionFilterCounts() {
+    const filters = ["all", "auto", "tolearn", "learning", "review", "learned"];
+    filters.forEach(filter => {
+      const countEl = filterGroupEl.querySelector(`[data-filter-count="${filter}"]`);
+      if (!countEl) return;
+      const count = QUESTIONS.reduce((total, _, idx) => {
+        return total + (questionMatchesFilter(idx, filter) ? 1 : 0);
+      }, 0);
+      countEl.textContent = count;
+    });
+  }
   function render() {
     const counts = { learned: 0, learning: 0, review: 0, tolearn: 0 };
     QUESTIONS.forEach((_, i) => {
@@ -2921,6 +2950,7 @@
 
     updatePace(counts.learned, QUESTIONS.length);
     updateLearningOrderButton();
+    updateQuestionFilterCounts();
 
     listEl.innerHTML = "";
     const term = searchTerm.toLowerCase().trim();
