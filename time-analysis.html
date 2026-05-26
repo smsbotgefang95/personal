@@ -760,6 +760,34 @@
     overflow-wrap: anywhere;
   }
 
+  .track-mode-toggle {
+    display: inline-grid;
+    grid-template-columns: repeat(2, minmax(76px, 1fr));
+    width: max-content;
+    max-width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #030712;
+  }
+
+  .track-mode-btn {
+    min-height: 38px;
+    border: 0;
+    padding: 7px 12px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 850;
+    cursor: pointer;
+  }
+
+  .track-mode-btn.active {
+    background: var(--indigo);
+    color: #ffffff;
+  }
+
   .tracker-form {
     display: grid;
     gap: 12px;
@@ -988,6 +1016,46 @@
     row-gap: 10px;
     align-items: start;
     min-width: 0;
+  }
+
+  .past-entry-editor {
+    display: grid;
+    grid-template-columns: 150px 120px 120px auto auto;
+    gap: 10px;
+    align-items: end;
+    margin-top: 10px;
+    margin-left: calc(var(--track-select-width) + 40px);
+    max-width: 720px;
+    padding: 12px;
+    border: 1px solid #3730a3;
+    border-radius: 8px;
+    background: #0f172a;
+  }
+
+  .past-entry-field {
+    display: grid;
+    gap: 4px;
+  }
+
+  .past-entry-field label {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .past-entry-input {
+    width: 100%;
+    height: 38px;
+    min-height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    background: #030712;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.96rem;
   }
 
   .track-select-cell {
@@ -1708,6 +1776,7 @@
   }
 
   .track-button.running { background: var(--danger); }
+  .track-button.past-mode { background: var(--indigo); }
 
   .custom-entry {
     display: grid;
@@ -2084,8 +2153,13 @@
     .checks-grid,
     .analysis-grid,
     .toolbar,
+    .past-entry-editor,
     .tracker-grid,
     .advanced-fields { grid-template-columns: 1fr; }
+    .past-entry-editor {
+      margin-left: 0;
+      max-width: min(420px, calc(100vw - 56px));
+    }
     .section-header { display: grid; }
     .metric-card { min-height: 108px; }
     .metric-value { font-size: 1.72rem; }
@@ -2182,6 +2256,10 @@
             <div class="timer-label" id="timerStateLabel">Ready</div>
             <div class="timer-value" id="timerValue">00:00:00</div>
             <div class="timer-task" id="timerTask">No timer running</div>
+          </div>
+          <div class="track-mode-toggle" aria-label="Tracking mode">
+            <button class="track-mode-btn active" id="trackModeNow" type="button" data-track-mode="now" aria-pressed="true">Now</button>
+            <button class="track-mode-btn" id="trackModePast" type="button" data-track-mode="past" aria-pressed="false">Past</button>
           </div>
           <form class="tracker-form" id="trackerForm">
             <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add new task</button>
@@ -2793,6 +2871,8 @@
   let editingEntryId = "";
   let timerTick = null;
   let currentSourcePills = [];
+  let trackMode = "now";
+  let pastEntryTaskKey = "";
   let collapsedTrackGroups = (() => {
     try { return new Set(JSON.parse(localStorage.getItem(TRACK_COLLAPSED_STORAGE) || "[]")); }
     catch (error) { return new Set(); }
@@ -3110,6 +3190,14 @@
       String(date.getMonth() + 1).padStart(2, "0"),
       String(date.getDate()).padStart(2, "0")
     ].join("-");
+  }
+
+  function localDateTimeFromInputs(dateValue, timeValue) {
+    const date = parseDateInput(dateValue);
+    const time = timeInputValue(timeValue);
+    if (!date || !time) return null;
+    const [hour, minute] = time.split(":").map((part) => Number(part));
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute, 0, 0);
   }
 
   function addLocalDays(date, days) {
@@ -3942,6 +4030,17 @@
     });
   }
 
+  function setTrackMode(mode) {
+    trackMode = mode === "past" ? "past" : "now";
+    if (trackMode === "now") pastEntryTaskKey = "";
+    document.querySelectorAll("[data-track-mode]").forEach((button) => {
+      const active = button.dataset.trackMode === trackMode;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    renderActivityRows();
+  }
+
   function trackerActivities() {
     const sources = [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries()].map(applyTaskMerge);
     const byTask = new Map();
@@ -4148,6 +4247,65 @@
   function matchesTaskSearch(entry, query) {
     if (!query) return true;
     return trackerSearchText(entry).includes(query);
+  }
+
+  async function savePastTimeEntry(entry, editor) {
+    const dateValue = editor.querySelector("[data-past-date]")?.value || "";
+    const startValue = editor.querySelector("[data-past-start]")?.value || "";
+    const endValue = editor.querySelector("[data-past-end]")?.value || "";
+    const startDate = localDateTimeFromInputs(dateValue, startValue);
+    let endDate = localDateTimeFromInputs(dateValue, endValue);
+    if (!dateValue || !startValue || !endValue || !startDate || !endDate) {
+      setTrackerStatus("Enter a date, start time, and end time.", "error");
+      return;
+    }
+    if (endDate.getTime() === startDate.getTime()) {
+      setTrackerStatus("End time must be after start time.", "error");
+      return;
+    }
+    if (endDate < startDate) {
+      endDate = addLocalDays(endDate, 1);
+    }
+    const startIso = startDate.toISOString();
+    const stopIso = endDate.toISOString();
+    const taskName = cleanLabel(entry.taskName, "Untitled task");
+    const listId = cleanLabel(entry.listId, "901301650324");
+    const listName = LIST_NAME_MAP[listId] || cleanLabel(entry.listName, listNameForId(listId));
+    const manualEntry = {
+      id: nativeId("manual"),
+      sourceType: "native",
+      start: startIso,
+      stop: "",
+      durationMs: 0,
+      listId,
+      listName,
+      taskId: cleanLabel(entry.taskId, taskIdFor(taskName)),
+      taskName,
+      department: cleanLabel(entry.department, ""),
+      priority: cleanLabel(entry.priority, ""),
+      section: cleanLabel(entry.section, ""),
+      taskCategory: normalizeTaskCategory(entry.taskCategory),
+      taskType: entry.taskType === "Other" ? "" : cleanLabel(entry.taskType, ""),
+      dueDate: cleanLabel(entry.dueDate, ""),
+      dueDateText: cleanLabel(entry.dueDateText, ""),
+      dueTime: timeInputValue(entry.dueTime),
+      startDate: cleanLabel(entry.startDate, ""),
+      startDateText: cleanLabel(entry.startDateText, ""),
+      recurring: Boolean(entry.recurring),
+      recurringText: cleanLabel(entry.recurringText, ""),
+      recurrence: inferRecurrence(entry),
+      taskOrder: cleanLabel(entry.taskOrder, ""),
+      notes: "",
+      createdAt: startIso,
+      updatedAt: stopIso
+    };
+    const completed = completedTimerEntries(manualEntry, stopIso);
+    pastEntryTaskKey = "";
+    await saveTimePayload({
+      ...timePayload,
+      entries: [...completed, ...(timePayload.entries || [])]
+    });
+    setTrackerStatus(`Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.`, "saved");
   }
 
   function updateDueStatusFilterOptions(rows) {
@@ -4579,10 +4737,33 @@
     control.style.height = `${control.scrollHeight}px`;
   }
 
+  function pastEntryEditorHtml(entry, key) {
+    const today = businessDateKey(new Date()) || dateKey(new Date());
+    return `
+      <div class="past-entry-editor" data-past-editor-key="${escapeHtml(key)}" aria-label="Add past time for ${escapeHtml(entry.taskName)}">
+        <div class="past-entry-field">
+          <label for="pastDate-${escapeHtml(key)}">Date</label>
+          <input class="past-entry-input" id="pastDate-${escapeHtml(key)}" type="date" value="${escapeHtml(today)}" data-past-date />
+        </div>
+        <div class="past-entry-field">
+          <label for="pastStart-${escapeHtml(key)}">Start</label>
+          <input class="past-entry-input" id="pastStart-${escapeHtml(key)}" type="time" data-past-start />
+        </div>
+        <div class="past-entry-field">
+          <label for="pastEnd-${escapeHtml(key)}">End</label>
+          <input class="past-entry-input" id="pastEnd-${escapeHtml(key)}" type="time" data-past-end />
+        </div>
+        <button class="btn btn-primary" type="button" data-save-past-key="${escapeHtml(key)}">Save</button>
+        <button class="btn btn-ghost" type="button" data-cancel-past-key="${escapeHtml(key)}">Cancel</button>
+      </div>
+    `;
+  }
+
   function activityRowHtml(entry, active) {
     const isRunning = active && active.taskId === entry.taskId && active.listId === entry.listId;
     const timeText = isRunning ? formatClock(activeDurationMs()) : (entry.totalMs ? formatDuration(entry.totalMs) : "Tap to track");
     const key = taskOverrideKey(entry);
+    const showingPastEditor = trackMode === "past" && pastEntryTaskKey === key;
     const isDone = entry.status === "done";
     const recurrence = entry.recurrence || inferRecurrence(entry);
     const customText = recurrence === "custom" ? entry.recurringText : "";
@@ -4599,7 +4780,7 @@
           </div>
           <div class="track-task-cell">
             <div class="track-name" title="${escapeHtml(entry.taskName)}">
-              <button class="track-button${isRunning ? " running" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${isRunning ? "Stop" : "Start"} ${escapeHtml(entry.taskName)}">${isRunning ? "■" : "▶"}</button>
+              <button class="track-button${isRunning ? " running" : ""}${trackMode === "past" ? " past-mode" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${trackMode === "past" ? "Add past time for" : (isRunning ? "Stop" : "Start")} ${escapeHtml(entry.taskName)}">${trackMode === "past" ? "+" : (isRunning ? "■" : "▶")}</button>
               <textarea class="track-name-input" rows="1" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name">${escapeHtml(entry.taskName)}</textarea>
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
@@ -4652,6 +4833,7 @@
           ${editableTaskMetadataHtml(entry, key)}
           <div class="track-time">${escapeHtml(timeText)}</div>
         </div>
+        ${showingPastEditor ? pastEntryEditorHtml(entry, key) : ""}
       </div>
     `;
   }
@@ -4867,9 +5049,32 @@
       button.addEventListener("click", () => {
         const entry = rows.find((item) => `${item.listId}|||${item.taskId}` === button.dataset.trackKey);
         if (!entry) return;
+        if (trackMode === "past") {
+          const key = taskOverrideKey(entry);
+          pastEntryTaskKey = pastEntryTaskKey === key ? "" : key;
+          renderActivityRows();
+          window.setTimeout(() => {
+            document.querySelector(`[data-past-editor-key="${CSS.escape(key)}"] [data-past-start]`)?.focus();
+          }, 0);
+          return;
+        }
         const isRunning = timePayload.activeEntry && timePayload.activeEntry.taskId === entry.taskId && timePayload.activeEntry.listId === entry.listId;
         const action = isRunning ? stopTimer() : startTimer(entry);
         action.catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-save-past-key]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const entry = rows.find((item) => taskOverrideKey(item) === button.dataset.savePastKey);
+        const editor = button.closest("[data-past-editor-key]");
+        if (!entry || !editor) return;
+        savePastTimeEntry(entry, editor).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    document.querySelectorAll("[data-cancel-past-key]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (pastEntryTaskKey === button.dataset.cancelPastKey) pastEntryTaskKey = "";
+        renderActivityRows();
       });
     });
   }
@@ -6332,6 +6537,10 @@
 
   document.getElementById("cancelTimerBtn").addEventListener("click", () => {
     cancelTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.querySelectorAll("[data-track-mode]").forEach((button) => {
+    button.addEventListener("click", () => setTrackMode(button.dataset.trackMode));
   });
 
   document.addEventListener("click", (event) => {
