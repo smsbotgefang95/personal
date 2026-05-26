@@ -760,6 +760,67 @@
     overflow-wrap: anywhere;
   }
 
+  .recent-task-strip {
+    display: grid;
+    gap: 7px;
+    margin: -2px 0 14px;
+    min-width: 0;
+  }
+
+  .recent-task-label {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .recent-task-list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .recent-task-btn {
+    flex: 0 0 auto;
+    min-height: 42px;
+    max-width: 240px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 8px 11px;
+    background: #111827;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 850;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .recent-task-btn:hover,
+  .recent-task-btn:focus-visible {
+    border-color: #6366f1;
+    background: #1f2937;
+  }
+
+  .recent-task-btn.active {
+    border-color: #818cf8;
+    background: var(--indigo);
+    color: #ffffff;
+  }
+
+  .recent-task-empty {
+    color: var(--muted);
+    font-size: 0.88rem;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .track-mode-toggle {
     display: inline-grid;
     grid-template-columns: repeat(2, minmax(76px, 1fr));
@@ -2203,6 +2264,10 @@
       min-height: 48px;
       max-width: 78vw;
     }
+    .recent-task-btn {
+      min-height: 46px;
+      max-width: 74vw;
+    }
     .track-recurrence-control > .track-recurrence-custom {
       left: 0;
       right: auto;
@@ -2256,6 +2321,10 @@
             <div class="timer-label" id="timerStateLabel">Ready</div>
             <div class="timer-value" id="timerValue">00:00:00</div>
             <div class="timer-task" id="timerTask">No timer running</div>
+          </div>
+          <div class="recent-task-strip" aria-label="Recent tracked tasks">
+            <div class="recent-task-label">Recent</div>
+            <div class="recent-task-list" id="recentTaskList"></div>
           </div>
           <div class="track-mode-toggle" aria-label="Tracking mode">
             <button class="track-mode-btn active" id="trackModeNow" type="button" data-track-mode="now" aria-pressed="true">Now</button>
@@ -3993,6 +4062,55 @@
     document.getElementById("cancelTimerBtn").disabled = !active;
     if (timerTick) window.clearInterval(timerTick);
     timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
+    syncRecentTaskActiveState();
+  }
+
+  function recentTaskKey(entry) {
+    return `${cleanLabel(entry?.listId, "unknown-list")}|||${cleanLabel(entry?.taskId || taskIdFor(entry?.taskName), taskIdFor(entry?.taskName))}`;
+  }
+
+  function recentTrackedTasks(entries) {
+    const byTask = new Map();
+    entries
+      .slice()
+      .sort((a, b) => (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
+      .forEach((entry) => {
+        if (!entry?.taskName) return;
+        const key = recentTaskKey(entry);
+        if (!byTask.has(key)) byTask.set(key, entry);
+      });
+    return Array.from(byTask.values()).slice(0, 8);
+  }
+
+  function syncRecentTaskActiveState() {
+    const active = timePayload.activeEntry;
+    const activeKey = active ? recentTaskKey(active) : "";
+    document.querySelectorAll("[data-recent-task-key]").forEach((button) => {
+      const isActive = Boolean(activeKey && button.dataset.recentTaskKey === activeKey);
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+
+  function renderRecentTaskSwitcher(entries) {
+    const recentList = document.getElementById("recentTaskList");
+    if (!recentList) return;
+    const tasks = recentTrackedTasks(entries);
+    recentList.innerHTML = tasks.length
+      ? tasks.map((entry) => {
+        const key = recentTaskKey(entry);
+        return `<button class="recent-task-btn" type="button" data-recent-task-key="${escapeHtml(key)}" title="${escapeHtml(`${entry.taskName} · ${entry.listName}`)}" aria-pressed="false">${escapeHtml(entry.taskName)}</button>`;
+      }).join("")
+      : `<div class="recent-task-empty">No tracked tasks yet.</div>`;
+    document.querySelectorAll("[data-recent-task-key]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const entry = tasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
+        if (!entry) return;
+        if (timePayload.activeEntry && recentTaskKey(timePayload.activeEntry) === button.dataset.recentTaskKey) return;
+        startTimer(entry).catch((error) => setTrackerStatus(error.message, "error"));
+      });
+    });
+    syncRecentTaskActiveState();
   }
 
   function renderQuickChips(entries) {
@@ -5138,6 +5256,7 @@
     const entries = nativeCompletedEntries();
     renderTimerState();
     renderMetadataOptions();
+    renderRecentTaskSwitcher(entries);
     renderQuickChips(entries);
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
