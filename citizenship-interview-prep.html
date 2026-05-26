@@ -3338,9 +3338,11 @@
 
   function getReviewLoopIndices() {
     const loopStatuses = new Set(["learned", "review", "learning"]);
+    const loopStatusOrder = { learned: 0, review: 1, learning: 2 };
     return QUESTIONS
       .map((_, idx) => idx)
-      .filter(idx => loopStatuses.has(getStatus(idx)));
+      .filter(idx => loopStatuses.has(getStoredStatus(idx)))
+      .sort((a, b) => loopStatusOrder[getStoredStatus(a)] - loopStatusOrder[getStoredStatus(b)] || a - b);
   }
 
   function updateLoopControls() {
