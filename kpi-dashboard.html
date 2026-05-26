@@ -340,6 +340,10 @@ const MONTHS = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','
 const WATER_LOG_KEY = 'kpiWaterIntakeLog.v1';
 const segs = {};
 let charts = {};
+let savedTodayWaterMl = null;
+let savedTodayWaterLoaded = false;
+let waterSavePending = false;
+let pendingTodayWaterMl = null;
 const THEME = {
   bg: '#030712',
   card: '#111827',
@@ -472,6 +476,43 @@ function todayWaterTotal() {
   return todayWaterEntries().reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
 }
 
+function waterNumber(value) {
+  const num = Number(value);
+  return Number.isFinite(num) ? Math.max(0, Math.round(num)) : 0;
+}
+
+function timeInputValue(value) {
+  const t = String(value || '').trim();
+  const m = t.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+  if (!m) return '';
+  let h = parseInt(m[1]), min = m[2], ap = (m[3] || '').toUpperCase();
+  if (ap === 'PM' && h !== 12) h += 12;
+  if (ap === 'AM' && h === 12) h = 0;
+  return String(h).padStart(2, '0') + ':' + min;
+}
+
+function currentTodayWaterBaseline() {
+  if (savedTodayWaterLoaded) return waterNumber(savedTodayWaterMl);
+  return waterNumber(document.getElementById('water')?.value || todayWaterTotal());
+}
+
+function syncTodayHydrationFields(total, stopTime = '') {
+  const entryDate = document.getElementById('entryDate');
+  if (!entryDate || entryDate.value !== todayStr) return;
+  document.getElementById('water').value = String(waterNumber(total));
+  if (stopTime) document.getElementById('stopWaterTime').value = timeInputValue(stopTime);
+}
+
+function setSavedTodayWaterFromRows(rows) {
+  const todayRow = rows.find(r => r.date === todayStr);
+  savedTodayWaterLoaded = true;
+  savedTodayWaterMl = todayRow && todayRow.water !== null && todayRow.water !== undefined && todayRow.water !== ''
+    ? Number(todayRow.water)
+    : 0;
+  if (!Number.isFinite(savedTodayWaterMl)) savedTodayWaterMl = 0;
+  syncTodayHydrationFields(savedTodayWaterMl, todayRow?.stopWaterTime || latestWaterEntryTime());
+}
+
 function latestWaterEntryTime() {
   const entries = todayWaterEntries();
   return entries.length ? entries[0].time : '';
@@ -487,7 +528,12 @@ function renderTodayWaterLog() {
   const entries = todayWaterEntries();
   const total = entries.reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
   const popover = document.getElementById('waterLogPopover');
-  document.getElementById('waterLogTotal').textContent = 'Water: ' + total + ' mL';
+  const label = waterSavePending
+    ? 'Saving: ' + waterNumber(pendingTodayWaterMl ?? total) + ' mL'
+    : savedTodayWaterLoaded
+      ? 'Today saved: ' + waterNumber(savedTodayWaterMl) + ' mL'
+      : 'Today: ' + total + ' mL';
+  document.getElementById('waterLogTotal').textContent = label;
   if (popover) popover.hidden = !entries.length;
   document.getElementById('waterLogList').innerHTML = entries.length
     ? entries.map(e => `<div class="water-log-row"><div class="water-log-fields"><div class="water-log-amount">${Number(e.amountMl)} mL</div><input class="water-log-time" type="time" value="${e.time}" aria-label="Edit time for ${Number(e.amountMl)} mL" onchange="updateWaterEntryTime('${e.id}', this.value)"></div><button class="water-log-delete" type="button" aria-label="Delete ${Number(e.amountMl)} mL at ${e.time}" onclick="deleteWaterEntry('${e.id}')">×</button></div>`).join('')
@@ -503,13 +549,16 @@ async function prepareTodayEntryForm() {
   }
 }
 
-async function persistTodayWaterTotal() {
-  const total = todayWaterTotal();
-  const lastTime = latestWaterEntryTime();
+async function persistTodayWaterTotal(total, stopTime = latestWaterEntryTime()) {
+  total = waterNumber(total);
   document.getElementById('water').value = String(total);
-  document.getElementById('stopWaterTime').value = lastTime;
+  if (stopTime) document.getElementById('stopWaterTime').value = timeInputValue(stopTime);
   const data = await submitEntry({ keepFormOpen: true, hideSaveMessage: true });
   if (!data || !data.success) throw new Error(data?.message || 'Save failed');
+  savedTodayWaterLoaded = true;
+  savedTodayWaterMl = total;
+  syncTodayHydrationFields(total, stopTime);
+  renderTodayWaterLog();
   return data;
 }
 
@@ -528,6 +577,7 @@ async function logWaterIntake() {
   try {
     await prepareTodayEntryForm();
     const now = new Date();
+    const nextTotal = currentTodayWaterBaseline() + amount;
     const entry = {
       id: 'water-' + now.getTime() + '-' + Math.random().toString(16).slice(2),
       date: todayStr,
@@ -535,11 +585,21 @@ async function logWaterIntake() {
       amountMl: amount,
       createdAt: now.toISOString()
     };
+    waterSavePending = true;
+    pendingTodayWaterMl = nextTotal;
     writeWaterLog([...readWaterLog(), entry]);
+    syncTodayHydrationFields(nextTotal, entry.time);
     renderTodayWaterLog();
-    await persistTodayWaterTotal();
+    await persistTodayWaterTotal(nextTotal, entry.time);
+    waterSavePending = false;
+    pendingTodayWaterMl = null;
+    renderTodayWaterLog();
+    await loadData();
     setWaterLogStatus('Saved ' + amount + ' mL at ' + entry.time + '.', 'ok');
   } catch(e) {
+    waterSavePending = false;
+    pendingTodayWaterMl = null;
+    renderTodayWaterLog();
     setWaterLogStatus('Could not save: ' + e.message, 'err');
   } finally {
     btn.disabled = false;
@@ -548,16 +608,31 @@ async function logWaterIntake() {
 
 async function deleteWaterEntry(id) {
   const entries = readWaterLog();
+  const entry = entries.find(e => e.id === id);
   const next = entries.filter(e => e.id !== id);
   if (next.length === entries.length) return;
+  const nextStopTime = next
+    .filter(e => e.date === todayStr)
+    .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0]?.time || '';
   setWaterLogStatus('Saving...', '');
   try {
     await prepareTodayEntryForm();
+    const nextTotal = Math.max(0, currentTodayWaterBaseline() - waterNumber(entry?.amountMl));
+    waterSavePending = true;
+    pendingTodayWaterMl = nextTotal;
     writeWaterLog(next);
+    syncTodayHydrationFields(nextTotal, nextStopTime);
     renderTodayWaterLog();
-    await persistTodayWaterTotal();
+    await persistTodayWaterTotal(nextTotal, nextStopTime);
+    waterSavePending = false;
+    pendingTodayWaterMl = null;
+    renderTodayWaterLog();
+    await loadData();
     setWaterLogStatus('Entry deleted.', 'ok');
   } catch(e) {
+    waterSavePending = false;
+    pendingTodayWaterMl = null;
+    renderTodayWaterLog();
     setWaterLogStatus('Could not save: ' + e.message, 'err');
   }
 }
@@ -576,11 +651,26 @@ async function updateWaterEntryTime(id, time) {
   setWaterLogStatus('Saving...', '');
   try {
     await prepareTodayEntryForm();
-    writeWaterLog(entries.map(e => e.id === id ? { ...e, time } : e));
+    const total = currentTodayWaterBaseline();
+    const next = entries.map(e => e.id === id ? { ...e, time } : e);
+    const nextStopTime = next
+      .filter(e => e.date === todayStr)
+      .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0]?.time || '';
+    waterSavePending = true;
+    pendingTodayWaterMl = total;
+    writeWaterLog(next);
+    syncTodayHydrationFields(total, nextStopTime);
     renderTodayWaterLog();
-    await persistTodayWaterTotal();
+    await persistTodayWaterTotal(total, nextStopTime);
+    waterSavePending = false;
+    pendingTodayWaterMl = null;
+    renderTodayWaterLog();
+    await loadData();
     setWaterLogStatus('Time updated.', 'ok');
   } catch(e) {
+    waterSavePending = false;
+    pendingTodayWaterMl = null;
+    renderTodayWaterLog();
     setWaterLogStatus('Could not save: ' + e.message, 'err');
   }
 }
@@ -628,28 +718,24 @@ async function onDateChange() {
       if (data.minutesAwake)    document.getElementById('minutesAwake').value    = data.minutesAwake;
       if (data.lateSleepReason) document.getElementById('lateSleepReason').value = data.lateSleepReason;
       if (data.moodReason)      document.getElementById('moodReason').value      = data.moodReason;
-      if (data.water)           document.getElementById('water').value           = data.water;
+      if (data.water !== null && data.water !== undefined && data.water !== '') {
+        document.getElementById('water').value = String(waterNumber(data.water));
+      }
       if (data.nightUrination)  document.getElementById('nightUrination').value  = data.nightUrination;
       if (data.stopWaterTime) {
-        const t = data.stopWaterTime.toString().trim();
-        const m = t.match(/(\d+):(\d+)\s*(AM|PM)?/i);
-        if (m) {
-          let h = parseInt(m[1]), min = m[2], ap = (m[3]||'').toUpperCase();
-          if (ap === 'PM' && h !== 12) h += 12;
-          if (ap === 'AM' && h === 12) h = 0;
-          document.getElementById('stopWaterTime').value = String(h).padStart(2,'0') + ':' + min;
-        }
+        document.getElementById('stopWaterTime').value = timeInputValue(data.stopWaterTime);
       }
-      if (d === todayStr && todayWaterEntries().length) {
-        document.getElementById('water').value = String(todayWaterTotal());
-        document.getElementById('stopWaterTime').value = latestWaterEntryTime();
+      if (d === todayStr) {
+        savedTodayWaterLoaded = true;
+        savedTodayWaterMl = waterNumber(data.water);
+        syncTodayHydrationFields(savedTodayWaterMl, data.stopWaterTime || latestWaterEntryTime());
       }
       status.textContent = '📋 Loaded';
     } else {
       applyEntryDefaults(d, { periodActive: document.getElementById('periodBtn').dataset.active === '1' });
-      if (d === todayStr && todayWaterEntries().length) {
-        document.getElementById('water').value = String(todayWaterTotal());
-        document.getElementById('stopWaterTime').value = latestWaterEntryTime();
+      if (d === todayStr) {
+        const total = savedTodayWaterLoaded ? savedTodayWaterMl : todayWaterTotal();
+        syncTodayHydrationFields(total, latestWaterEntryTime());
       }
       status.textContent = '✨ New entry';
     }
@@ -772,6 +858,8 @@ async function loadData() {
     const validRows = json
       .filter(r => isValidDateString(r.date))
       .sort((a, b) => a.date.localeCompare(b.date));
+    setSavedTodayWaterFromRows(validRows);
+    renderTodayWaterLog();
     render(validRows);
   } catch(e) {
     document.getElementById('loadingOverlay').innerHTML =
