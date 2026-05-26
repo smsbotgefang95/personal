@@ -479,10 +479,22 @@
 
   .toolbar {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) repeat(5, minmax(135px, 190px)) minmax(150px, 180px) minmax(120px, 145px);
+    grid-template-columns: repeat(5, minmax(112px, 1fr)) minmax(140px, 156px) minmax(132px, 150px);
+    grid-template-areas:
+      "list priority category type week date total"
+      "search search search search search search search";
     gap: 10px;
     margin-bottom: 12px;
   }
+
+  #searchInput { grid-area: search; }
+  #listFilter { grid-area: list; }
+  #priorityFilter { grid-area: priority; }
+  #categoryFilter { grid-area: category; }
+  #typeFilter { grid-area: type; }
+  #weekFilter { grid-area: week; }
+  #dateFilter { grid-area: date; }
+  #detailsDayTotal { grid-area: total; }
 
   .control {
     width: 100%;
@@ -2220,6 +2232,17 @@
     .past-entry-editor {
       margin-left: 0;
       max-width: min(420px, calc(100vw - 56px));
+    }
+    .toolbar {
+      grid-template-areas:
+        "list"
+        "priority"
+        "category"
+        "type"
+        "week"
+        "date"
+        "total"
+        "search";
     }
     .section-header { display: grid; }
     .metric-card { min-height: 108px; }
@@ -6307,7 +6330,7 @@
         : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
       if (date) {
         const dayTotalMs = filtered.reduce((total, entry) => total + (Number(entry.durationMs) || 0), 0);
-        detailsDayTotal.textContent = `Day total: ${formatDuration(dayTotalMs)}`;
+        detailsDayTotal.textContent = `Total: ${formatDuration(dayTotalMs)}`;
         detailsDayTotal.hidden = false;
       } else {
         detailsDayTotal.hidden = true;
