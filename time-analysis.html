@@ -3773,19 +3773,15 @@
     const response = await fetch(TIME_ENTRIES_API, options);
     if (response.status === 401) {
       clearTimeAdminKey();
-      throw new Error("Time Analysis autosave is unavailable.");
+      const error = new Error("Time Analysis sync needs the admin key again.");
+      error.status = 401;
+      throw error;
     }
     if (!response.ok) throw new Error(`Time API returned HTTP ${response.status}`);
     return response.json();
   }
 
-  async function saveTimePayload(nextPayload, { promptForKey = true } = {}) {
-    await resolveTimeAdminKey({ promptForKey, intent: "save" });
-    const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
-    const response = await timeApi("POST", pendingPayload);
-    timePayload = cleanClientPayload(response.payload || pendingPayload);
-    writeLocalTimePayload(timePayload);
-    showPrivateTimeLoadButton(false);
+  function renderTimePayloadState() {
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
     } else {
@@ -3795,6 +3791,36 @@
       renderTracker();
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
+  }
+
+  function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.") {
+    timePayload = cleanClientPayload(pendingPayload);
+    writeLocalTimePayload(timePayload);
+    showPrivateTimeLoadButton(true);
+    renderTimePayloadState();
+    setTrackerStatus(message, "saved");
+  }
+
+  async function saveTimePayload(nextPayload, { promptForKey = false } = {}) {
+    const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
+    const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
+    if (!key) {
+      saveTimePayloadLocally(pendingPayload);
+      return;
+    }
+    try {
+      const response = await timeApi("POST", pendingPayload);
+      timePayload = cleanClientPayload(response.payload || pendingPayload);
+      writeLocalTimePayload(timePayload);
+    } catch (error) {
+      if (error.status === 401) {
+        saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to resume sync.");
+        return;
+      }
+      throw error;
+    }
+    showPrivateTimeLoadButton(false);
+    renderTimePayloadState();
     setTrackerStatus("Saved", "saved");
   }
 
@@ -6129,8 +6155,12 @@
   async function loadPrivateTimeData({ promptForKey = false } = {}) {
     await resolveTimeAdminKey({ promptForKey, intent: "load" });
     const response = await timeApi("GET");
-    timePayload = mergeTimePayloads(response, readLocalTimePayload(), { preferServer: true });
+    timePayload = mergeTimePayloads(response, readLocalTimePayload());
     writeLocalTimePayload(timePayload);
+    if (timePayload.updatedAt && timePayload.updatedAt !== response.updatedAt) {
+      await saveTimePayload(timePayload);
+      return true;
+    }
     showPrivateTimeLoadButton(false);
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
@@ -6149,7 +6179,7 @@
   async function loadDashboard() {
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
-    timePayload = cleanClientPayload({});
+    timePayload = readLocalTimePayload();
     try {
       try {
         taskCatalogEntries = (await loadCsvEntries()).entries;
@@ -6161,11 +6191,21 @@
         return;
       }
       showPrivateTimeLoadButton(true);
+      if ((timePayload.entries || []).length || timePayload.activeEntry) {
+        setTrackerStatus("Showing local Time Analysis data. Load private data to sync shared changes.");
+        renderNativeDashboard();
+        return;
+      }
       setTrackerStatus("Showing CSV fallback. Load private data to sync shared due dates on this device.");
       await loadCsvDashboard();
     } catch (error) {
-      timePayload = cleanClientPayload({});
+      timePayload = readLocalTimePayload();
       showPrivateTimeLoadButton(true);
+      if ((timePayload.entries || []).length || timePayload.activeEntry) {
+        setTrackerStatus("Showing local Time Analysis data. Load private data to sync shared changes.", "error");
+        renderNativeDashboard();
+        return;
+      }
       setTrackerStatus("Private time tracking is unavailable. Showing CSV fallback for now.", "error");
       await loadCsvDashboard();
     }
