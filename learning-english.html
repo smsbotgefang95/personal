@@ -6354,7 +6354,7 @@ pass=通过；传递
   const DICTIONARY_THEME_TOPICS = [
     { id: "personal", label: "Personal Information and Family", zh: "个人信息与家庭", color: "#e8f7f1", note: "Personal details, family members, and family relationships.", topics: ["Personal Information", "Family Members I", "Family Members II"] },
     { id: "daily", label: "Common Everyday Activities and Language", zh: "日常活动与语言", color: "#fff3c4", note: "Classroom language, daily activities, conversation, and weather.", topics: ["The Classroom", "Classroom Actions", "Prepositions", "Everyday Activities I", "Everyday Activities II", "Leisure Activities", "Everyday Conversation", "The Weather"] },
-    { id: "numbers", label: "Numbers/Time/Money/Calendar", zh: "数字、时间、金钱与日历", color: "#e8f0ff", note: "Numbers, time, money, calendar language, expressions, and seasons.", topics: ["Numbers", "Time", "Money", "The Calendar", "Time Expressions and Seasons"] },
+    { id: "numbers", label: "Numbers/Time/Money/Calendar", zh: "数字、时间、金钱与日历", color: "#e8f0ff", note: "Numbers, time, money, calendar language, expressions, and seasons.", topics: ["Cardinal Numbers", "Ordinal Numbers", "Time", "Money", "The Calendar", "Time Expressions and Seasons"] },
     { id: "home", label: "Home", zh: "家居", color: "#f5eadf", note: "Housing, rooms, home supplies, repairs, cleaning, and outdoor home tasks.", topics: ["Types of Housing and Communities", "The Living Room", "The Dining Room", "The Bedroom", "The Kitchen", "The Baby's Room", "The Bathroom", "Outside the Home", "The Apartment Building", "Household Problems and Repairs", "Cleaning Your Home", "Home Supplies", "Tools and Hardware", "Gardening Tools and Actions"] },
     { id: "community", label: "Community", zh: "社区", color: "#eaf7dc", note: "Places around town and city locations.", topics: ["Places Around Town I", "Places Around Town II", "The City"] },
     { id: "describing", label: "Describing", zh: "描述", color: "#fce7f3", note: "Physical descriptions, things, states, and emotions.", topics: ["People and Physical Descriptions", "Describing People and Things", "Describing Physical States and Emotions"] },
@@ -6401,6 +6401,94 @@ pass=通过；传递
     "compound-chunk": { theme: "describing", topic: "Describing People and Things" }
   };
 
+  const DICTIONARY_CHUNK_PHRASE_MAP = {
+    "first aid": { theme: "health", topic: "First Aid" },
+    "first day": { theme: "numbers", topic: "Time Expressions and Seasons" },
+    "one more time": { theme: "numbers", topic: "Time Expressions and Seasons" },
+    "one time": { theme: "numbers", topic: "Time Expressions and Seasons" }
+  };
+
+  const CARDINAL_NUMBER_STARTERS = [
+    ["zero", "零"],
+    ["one", "一"],
+    ["two", "二"],
+    ["three", "三"],
+    ["four", "四"],
+    ["five", "五"],
+    ["six", "六"],
+    ["seven", "七"],
+    ["eight", "八"],
+    ["nine", "九"],
+    ["ten", "十"],
+    ["eleven", "十一"],
+    ["twelve", "十二"],
+    ["thirteen", "十三"],
+    ["fourteen", "十四"],
+    ["fifteen", "十五"],
+    ["sixteen", "十六"],
+    ["seventeen", "十七"],
+    ["eighteen", "十八"],
+    ["nineteen", "十九"],
+    ["twenty", "二十"],
+    ["twenty-one", "二十一"],
+    ["twenty-two", "二十二"],
+    ["thirty", "三十"],
+    ["forty", "四十"],
+    ["fifty", "五十"],
+    ["sixty", "六十"],
+    ["seventy", "七十"],
+    ["eighty", "八十"],
+    ["ninety", "九十"],
+    ["one hundred", "一百"],
+    ["one hundred one", "一百零一"],
+    ["one hundred two", "一百零二"],
+    ["one thousand", "一千"],
+    ["ten thousand", "一万"],
+    ["one hundred thousand", "十万"],
+    ["one million", "一百万"],
+    ["one billion", "十亿"]
+  ];
+
+  const ORDINAL_NUMBER_STARTERS = [
+    ["first", "第一"],
+    ["second", "第二"],
+    ["third", "第三"],
+    ["fourth", "第四"],
+    ["fifth", "第五"],
+    ["sixth", "第六"],
+    ["seventh", "第七"],
+    ["eighth", "第八"],
+    ["ninth", "第九"],
+    ["tenth", "第十"],
+    ["eleventh", "第十一"],
+    ["twelfth", "第十二"],
+    ["thirteenth", "第十三"],
+    ["fourteenth", "第十四"],
+    ["fifteenth", "第十五"],
+    ["sixteenth", "第十六"],
+    ["seventeenth", "第十七"],
+    ["eighteenth", "第十八"],
+    ["nineteenth", "第十九"],
+    ["twentieth", "第二十"],
+    ["twenty-first", "第二十一"],
+    ["twenty-second", "第二十二"],
+    ["thirtieth", "第三十"],
+    ["fortieth", "第四十"],
+    ["fiftieth", "第五十"],
+    ["sixtieth", "第六十"],
+    ["seventieth", "第七十"],
+    ["eightieth", "第八十"],
+    ["ninetieth", "第九十"],
+    ["one hundredth", "第一百"],
+    ["one hundred first", "第一百零一"],
+    ["one hundred second", "第一百零二"],
+    ["one thousandth", "第一千"],
+    ["ten thousandth", "第一万"],
+    ["one hundred thousandth", "第十万"],
+    ["one millionth", "第一百万"],
+    ["one billionth", "第十亿"]
+  ];
+
   function getDictionaryStarterTopic(item) {
     const word = normalizeWordKey(item.word);
     const topicSets = {
@@ -6414,7 +6502,8 @@ pass=通过；传递
         ["Leisure Activities", ["go shopping"]]
       ],
       numbers: [
-        ["Numbers", ["one hundred", "half"]],
+        ["Cardinal Numbers", CARDINAL_NUMBER_STARTERS.map(([starterWord]) => starterWord)],
+        ["Ordinal Numbers", ORDINAL_NUMBER_STARTERS.map(([starterWord]) => starterWord)],
         ["Time", ["quarter past"]],
         ["Money", ["dollar"]],
         ["The Calendar", ["calendar"]]
@@ -6516,8 +6605,8 @@ pass=通过；传递
     { theme: "daily", word: "go shopping", chinese: "去购物", ipa: "ɡoʊ ˈʃɑpɪŋ", partOfSpeech: "verb phrase", example: "We go shopping on Saturday." },
     { theme: "daily", word: "make dinner", chinese: "做晚饭", ipa: "meɪk ˈdɪnər", partOfSpeech: "verb phrase", example: "I make dinner at home." },
 
-    { theme: "numbers", word: "one hundred", chinese: "一百", ipa: "wʌn ˈhʌndrəd", partOfSpeech: "number", example: "The class has one hundred flashcards." },
-    { theme: "numbers", word: "half", chinese: "一半", ipa: "hæf", partOfSpeech: "noun", example: "Cut the apple in half." },
+    ...CARDINAL_NUMBER_STARTERS.map(([word, chinese]) => ({ theme: "numbers", word, chinese, ipa: "", partOfSpeech: "number", example: `Write the number ${word}.` })),
+    ...ORDINAL_NUMBER_STARTERS.map(([word, chinese]) => ({ theme: "numbers", word, chinese, ipa: "", partOfSpeech: "ordinal number", example: `This is my ${word} trip.` })),
     { theme: "numbers", word: "quarter past", chinese: "过一刻", ipa: "ˈkwɔrtər pæst", partOfSpeech: "time phrase", example: "It is quarter past eight." },
     { theme: "numbers", word: "dollar", chinese: "美元", ipa: "ˈdɑlər", partOfSpeech: "noun", example: "The snack costs one dollar." },
     { theme: "numbers", word: "calendar", chinese: "日历", ipa: "ˈkæləndər", partOfSpeech: "noun", example: "Check the date on the calendar." },
@@ -6659,7 +6748,7 @@ pass=通过；传递
     });
   }
 
-  const VOCABULARY = uniqueVocabularyEntries([...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY, ...DICTIONARY_THEME_STARTER_VOCABULARY]);
+  const VOCABULARY = uniqueVocabularyEntries([...DICTIONARY_THEME_STARTER_VOCABULARY, ...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
 
   let selectedView = loadSelectedView();
   let selectedDictionaryTheme = loadSelectedDictionaryTheme();
@@ -7437,6 +7526,7 @@ pass=通过；传递
       const word = cleanCustomText(entry?.word || entry?.text, 120);
       const key = normalizeWordKey(word);
       if (!key || existingWords.has(key) || seen.has(key)) return false;
+      if (entry?.theme === "numbers" && entry?.topic === "Numbers" && ["cardinal number", "ordinal number"].includes(key)) return false;
       seen.add(key);
       return true;
     });
@@ -7499,6 +7589,8 @@ pass=通过；传递
   }
 
   function getChunkDictionaryPlacement(item) {
+    const phraseOverride = DICTIONARY_CHUNK_PHRASE_MAP[normalizeWordKey(item.phrase)];
+    if (phraseOverride) return phraseOverride;
     const exactMatch = getAllVocabulary().find((word) => normalizeWordKey(word.word) === normalizeWordKey(item.phrase));
     if (exactMatch?.theme) {
       return { theme: exactMatch.theme, topic: getDictionaryVocabularyTopic(exactMatch) || "Starter words" };
@@ -7644,7 +7736,7 @@ pass=通过；传递
 
   function dictionaryStatusButton(item, status, label, currentStatus) {
     const active = currentStatus === status ? " active" : "";
-    return `<button class="status-button${active}" type="button" data-dictionary-status="${status}" data-dictionary-source-type="${item.sourceType}" data-dictionary-source-id="${escapeHtml(item.sourceId)}">${label}</button>`;
+    return `<button class="status-button${active}" type="button" data-status="${status}" data-dictionary-status="${status}" data-dictionary-source-type="${item.sourceType}" data-dictionary-source-id="${escapeHtml(item.sourceId)}">${label}</button>`;
   }
 
   function saveDictionaryStatus(sourceType, sourceId, nextStatus) {
