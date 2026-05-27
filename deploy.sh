@@ -152,6 +152,36 @@ EOF
     echo "Added OpenAI vocabulary auto-fill settings to $DATA_DIR/vocabulary-api.env"
 fi
 
+if [ -n "${OPENAI_API_KEY:-}" ]; then
+    python3 - "$DATA_DIR/vocabulary-api.env" "$OPENAI_API_KEY" "${OPENAI_VOCAB_MODEL:-gpt-4o-mini}" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+api_key = sys.argv[2]
+model = sys.argv[3]
+lines = path.read_text(encoding="utf-8").splitlines()
+updates = {
+    "OPENAI_API_KEY": api_key,
+    "OPENAI_VOCAB_MODEL": model,
+}
+seen = set()
+new_lines = []
+for line in lines:
+    key = line.split("=", 1)[0] if "=" in line else ""
+    if key in updates:
+        new_lines.append(f"{key}={updates[key]}")
+        seen.add(key)
+    else:
+        new_lines.append(line)
+for key, value in updates.items():
+    if key not in seen:
+        new_lines.append(f"{key}={value}")
+path.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
+PY
+    echo "Updated OpenAI vocabulary auto-fill key from deploy environment."
+fi
+
 # 5. Apply standard directory permissions
 echo "🔒 Adjusting folder permissions..."
 sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
