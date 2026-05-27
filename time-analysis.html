@@ -1908,8 +1908,15 @@
     margin-bottom: 16px;
   }
 
-  #loadPrivateTimeBtn {
+  .private-time-load-btn {
     justify-self: start;
+  }
+
+  .due-private-sync-btn {
+    min-height: 48px;
+    align-self: end;
+    padding-inline: 16px;
+    white-space: nowrap;
   }
 
   .bulk-task-bar {
@@ -2349,7 +2356,7 @@
           </div>
           <div class="tracker-sync-row">
             <p class="tracker-status" id="trackerStatus" hidden></p>
-            <button class="btn btn-indigo" id="loadPrivateTimeBtn" type="button" hidden>Load private data</button>
+            <button class="btn btn-indigo private-time-load-btn" id="loadPrivateTimeBtn" type="button" hidden data-load-private-time>Load private data</button>
           </div>
           <div class="timer-display">
             <div class="timer-label" id="timerStateLabel">Ready</div>
@@ -2419,6 +2426,7 @@
                     <option value="none">Due date not set</option>
                   </select>
                 </div>
+                <button class="btn btn-indigo private-time-load-btn due-private-sync-btn" type="button" hidden data-load-private-time>Sync due dates</button>
                 <div class="tracker-field">
                   <label for="recurrenceFilter">Recurrence</label>
                   <select class="tracker-select" id="recurrenceFilter" aria-label="Filter tasks by recurrence">
@@ -3759,8 +3767,9 @@
   }
 
   function showPrivateTimeLoadButton(show) {
-    const button = document.getElementById("loadPrivateTimeBtn");
-    if (button) button.hidden = !show;
+    document.querySelectorAll("[data-load-private-time]").forEach((button) => {
+      button.hidden = !show;
+    });
   }
 
   function populateListSelect(select, value = "") {
@@ -6807,8 +6816,7 @@
   document.getElementById("timeAdminKeyDialog").addEventListener("click", (event) => {
     if (event.target === document.getElementById("timeAdminKeyDialog")) closeTimeAdminKeyDialog("");
   });
-  const loadPrivateTimeBtn = document.getElementById("loadPrivateTimeBtn");
-  if (loadPrivateTimeBtn) {
+  document.querySelectorAll("[data-load-private-time]").forEach((loadPrivateTimeBtn) => {
     loadPrivateTimeBtn.addEventListener("click", async () => {
       try {
         setTrackerStatus("Loading private Time Analysis data...");
@@ -6818,7 +6826,7 @@
         showPrivateTimeLoadButton(true);
       }
     });
-  }
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !document.getElementById("mergeTaskDialog").hidden) closeMergeTaskDialog(null);
     if (event.key === "Escape" && !document.getElementById("timeAdminKeyDialog").hidden) closeTimeAdminKeyDialog("");
