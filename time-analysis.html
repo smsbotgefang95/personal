@@ -1065,15 +1065,15 @@
   }
 
   .track-list-header > div:first-child {
-    position: absolute;
-    top: 7px;
-    bottom: 7px;
+    position: sticky;
+    top: 0;
     left: 10px;
-    z-index: 7;
+    z-index: 12;
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--track-select-width);
+    min-height: 24px;
     background: #020617;
   }
 
@@ -1085,15 +1085,18 @@
   .track-task-cell {
     position: sticky;
     left: 0;
-    z-index: 3;
+    z-index: 8;
+    width: var(--track-task-width);
     min-width: var(--track-task-width);
-    overflow: visible;
+    max-width: var(--track-task-width);
+    overflow: hidden;
     background: #030712;
+    box-shadow: 1px 0 0 var(--border);
   }
 
   .track-list-header > div:nth-child(2) {
     grid-column: 1;
-    z-index: 5;
+    z-index: 10;
     padding-left: var(--track-select-width);
     background: #020617;
   }
@@ -1158,15 +1161,17 @@
   }
 
   .track-select-cell {
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
-    z-index: 6;
+    z-index: 11;
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--track-select-width);
-    min-height: 30px;
+    min-width: var(--track-select-width);
+    height: 100%;
+    min-height: 48px;
     background: #030712;
   }
 
@@ -1252,8 +1257,13 @@
   .track-task-cell {
     display: grid;
     gap: 4px;
+    align-self: stretch;
+    align-content: start;
+    height: 100%;
+    min-height: 48px;
     padding-left: var(--track-select-width);
-    min-width: 0;
+    min-width: var(--track-task-width);
+    max-width: var(--track-task-width);
   }
 
   .track-row:last-child { border-bottom: 0; }
@@ -1275,7 +1285,7 @@
   .track-group-header {
     position: sticky;
     left: 0;
-    z-index: 3;
+    z-index: 9;
     display: flex;
     align-items: center;
     gap: 9px;
@@ -1285,13 +1295,14 @@
     min-height: 46px;
     border: 0;
     padding: 9px 10px;
-    background: transparent;
+    background: #030712;
     color: #f9fafb;
     font: inherit;
     font-size: 1rem;
     font-weight: 850;
     text-align: left;
     cursor: pointer;
+    box-shadow: 1px 0 0 var(--border);
   }
 
   .track-group-header.due-group-header {
@@ -1347,16 +1358,18 @@
     align-items: center;
     gap: 7px;
     min-width: 0;
+    max-width: 100%;
     color: #f9fafb;
     font-size: 1rem;
     font-weight: 500;
-    overflow: visible;
+    overflow: hidden;
     white-space: normal;
   }
 
   .track-name-input {
     min-width: 0;
     width: 100%;
+    max-width: 100%;
     min-height: 34px;
     border: 1px solid transparent;
     border-radius: 7px;
