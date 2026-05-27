@@ -12,6 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML_PATH = ROOT / "learning-english.html"
+FULL_DICTIONARY_JS_PATH = ROOT / "data" / "learning-dictionary-full.js"
+FULL_DICTIONARY_REPORT_PATH = ROOT / "data" / "learning-dictionary-full-report.json"
 
 
 def extract_inline_script(html: str) -> str:
@@ -22,7 +24,7 @@ def extract_inline_script(html: str) -> str:
     return html[start + len("<script>") : end]
 
 
-def run_node_audit(script: str) -> dict:
+def run_node_audit(script: str, external_dictionary_script: str = "") -> dict:
     harness = r"""
 const element = () => ({
   addEventListener() {},
@@ -56,6 +58,7 @@ globalThis.window = window;
 """
     audit = r"""
 const items = buildDictionaryItems();
+const importedIndexEntries = Array.isArray(window.LEARNING_DICTIONARY_FULL) ? window.LEARNING_DICTIONARY_FULL : [];
 const typeCounts = items.reduce((map, item) => {
   map[item.sourceType] = (map[item.sourceType] || 0) + 1;
   return map;
@@ -84,17 +87,37 @@ const wordMetadataGaps = vocabulary.filter((item) => {
 }));
 const requiredTypes = ["word", "sentence", "phrase", "dialogue-sentence"];
 const missingTypes = requiredTypes.filter((type) => !typeCounts[type]);
+const requiredImportedWords = [
+  "3-point turn",
+  "Ace™ bandage",
+  "band",
+  "arrival and departure board",
+  "administrative assistant",
+  "bacon, lettuce, and tomato sandwich",
+  "Can you please repeat that?"
+];
+const missingImportedWords = requiredImportedWords.filter((word) => !items.some((item) => item.title.toLowerCase() === word.toLowerCase()));
+const bandEntry = importedIndexEntries.find((entry) => String(entry.word || entry.text || "").toLowerCase() === "band");
+const bandRefs = Array.isArray(bandEntry?.sourceRefs) ? bandEntry.sourceRefs : [];
+const bandHasBothRefs = bandRefs.includes("104-1") && bandRefs.includes("147-8");
 console.log(JSON.stringify({
-  ok: missingTypes.length === 0 && wordMetadataGaps.length === 0,
+  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs,
   totalItems: items.length,
   typeCounts,
   themeCounts,
+  importedIndexEntries: importedIndexEntries.length,
+  importedIndexDictionaryItems: items.filter((item) => item.importedIndex).length,
+  missingImportedWords,
   missingTypes,
+  bandRefs,
+  bandHasBothRefs,
   wordMetadataGaps,
 }, null, 2));
 """
     with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as handle:
       handle.write(harness)
+      handle.write("\n")
+      handle.write(external_dictionary_script)
       handle.write("\n")
       handle.write(script)
       handle.write("\n")
@@ -119,7 +142,10 @@ console.log(JSON.stringify({
 
 def main() -> int:
     html = HTML_PATH.read_text(encoding="utf-8")
-    report = run_node_audit(extract_inline_script(html))
+    external_dictionary_script = FULL_DICTIONARY_JS_PATH.read_text(encoding="utf-8") if FULL_DICTIONARY_JS_PATH.exists() else ""
+    report = run_node_audit(extract_inline_script(html), external_dictionary_script)
+    if FULL_DICTIONARY_REPORT_PATH.exists():
+        report["indexImportReport"] = json.loads(FULL_DICTIONARY_REPORT_PATH.read_text(encoding="utf-8"))
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0 if report["ok"] else 1
 

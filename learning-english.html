@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="assets/site-nav.css" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
 <script src="assets/openai-tts.js?v=20260523"></script>
+<script src="data/learning-dictionary-full.js?v=20260527-index-full"></script>
 <style>
   :root {
     --bg: #f6f7f2;
@@ -7371,6 +7372,50 @@ pass=通过；传递
     return [...VOCABULARY, ...customVocabulary];
   }
 
+  function getImportedIndexDictionaryEntries() {
+    const entries = Array.isArray(window.LEARNING_DICTIONARY_FULL) ? window.LEARNING_DICTIONARY_FULL : [];
+    const existingWords = new Set(getAllVocabulary().map((item) => normalizeWordKey(item.word)));
+    const seen = new Set();
+    return entries.filter((entry) => {
+      const word = cleanCustomText(entry?.word || entry?.text, 120);
+      const key = normalizeWordKey(word);
+      if (!key || existingWords.has(key) || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function normalizeImportedIndexWord(entry) {
+    const word = cleanCustomText(entry?.word || entry?.text, 120);
+    const ipa = cleanCustomText(entry?.ipa, 120) || getBritishIpa(word);
+    const localVowelTeams = getVocabularyVowelTeams(word);
+    const vowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
+    return {
+      id: cleanCustomText(entry?.id, 120) || `index-${slugifyWord(word)}`,
+      word,
+      chinese: cleanCustomText(entry?.chinese, 160),
+      partOfSpeech: cleanCustomText(entry?.partOfSpeech, 80) || "index entry",
+      ipa,
+      pronunciation: cleanCustomText(entry?.pronunciation, 120),
+      example: (entry?.sourceRefs || []).length ? `Word by Word index: ${entry.sourceRefs.join(", ")}` : "Word by Word index entry.",
+      theme: cleanVocabularyTheme(entry?.theme) || getVocabularyTheme(word),
+      topic: cleanCustomText(entry?.topic, 120) || "Starter words",
+      isCompound: typeof entry?.compound === "boolean" ? entry.compound : (COMPOUND_WORDS.has(normalizeWordKey(word)) || /[\s-]/.test(word)),
+      prefix: cleanVocabularyPrefix(entry?.prefix) !== "none" ? cleanVocabularyPrefix(entry?.prefix) : getVocabularyPrefix(word),
+      suffix: cleanVocabularySuffix(entry?.suffix) !== "none" ? cleanVocabularySuffix(entry?.suffix) : getVocabularySuffix(word),
+      roots: cleanVocabularyList(entry?.roots || getVocabularyRoots(word), new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS))),
+      syllableType: cleanVocabularySyllableType(entry?.syllableType) || getVocabularySyllableType(word),
+      vowelTeams,
+      vowelTeamSounds: getVocabularyVowelTeamSoundMap(word, ipa),
+      sourceRefs: Array.isArray(entry?.sourceRefs) ? entry.sourceRefs.map((ref) => cleanCustomText(ref, 40)).filter(Boolean) : [],
+      sourcePages: Array.isArray(entry?.sourcePages) ? entry.sourcePages : [],
+      placements: Array.isArray(entry?.placements) ? entry.placements : [],
+      alternatePlacements: Array.isArray(entry?.alternatePlacements) ? entry.alternatePlacements : [],
+      source: "word-by-word-index",
+      rank: "Word by Word index"
+    };
+  }
+
   function getVocabularyForTheme(themeId) {
     return getAllVocabulary().filter((item) => item.theme === themeId);
   }
@@ -7431,6 +7476,43 @@ pass=通过；传递
       searchParts: [item.word, item.chinese, item.example, item.partOfSpeech, item.pronunciation, getVocabularyIpa(item), item.rank]
     }));
 
+    const importedIndexWordItems = getImportedIndexDictionaryEntries().map((entry) => {
+      const item = normalizeImportedIndexWord(entry);
+      return {
+        id: `word:${item.id}`,
+        sourceId: item.id,
+        sourceType: "word",
+        statusKind: "vocabulary",
+        importedIndex: true,
+        title: item.word,
+        chinese: item.chinese,
+        pronunciation: getVocabularyIpa(item),
+        pronunciationLabel: "ipa",
+        hint: item.pronunciation,
+        example: item.example,
+        theme: item.theme || "daily",
+        topic: getDictionaryVocabularyTopic(item) || "Starter words",
+        tags: [
+          DICTIONARY_TYPE_LABELS.word,
+          "Word by Word index",
+          getVocabularyPartLabel(item.partOfSpeech),
+          item.prefix && item.prefix !== "none" ? `${item.prefix}-` : "",
+          item.suffix && item.suffix !== "none" ? (VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix) : ""
+        ],
+        searchParts: [
+          item.word,
+          item.chinese,
+          item.example,
+          item.partOfSpeech,
+          item.pronunciation,
+          getVocabularyIpa(item),
+          item.rank,
+          ...(item.sourceRefs || []),
+          ...(item.placements || []).flatMap((placement) => [placement.theme, placement.topic, String(placement.page || "")])
+        ]
+      };
+    });
+
     const sentenceItems = PHRASES.map((item) => {
       const placement = getScenarioDictionaryPlacement(item.scenario);
       const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
@@ -7490,7 +7572,7 @@ pass=通过；传递
       }));
     });
 
-    return [...wordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
+    return [...wordItems, ...importedIndexWordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
   }
 
   function getDictionaryItemsForTheme(themeId) {
@@ -7552,6 +7634,12 @@ pass=通过；传递
 
   function speakDictionaryItem(item) {
     if (item.sourceType === "word") {
+      if (item.importedIndex) {
+        speakText(item.title);
+        markDailyActivity();
+        updateProgress();
+        return;
+      }
       speakVocabulary(item.sourceId);
       return;
     }
