@@ -1919,6 +1919,15 @@
     white-space: nowrap;
   }
 
+  .due-sync-note {
+    align-self: end;
+    margin: 0 0 7px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+  }
+
   .bulk-task-bar {
     position: fixed;
     right: 18px;
@@ -2427,6 +2436,7 @@
                   </select>
                 </div>
                 <button class="btn btn-indigo private-time-load-btn due-private-sync-btn" type="button" hidden data-load-private-time>Sync due dates</button>
+                <p class="due-sync-note" hidden data-private-time-fallback-note>Fallback counts</p>
                 <div class="tracker-field">
                   <label for="recurrenceFilter">Recurrence</label>
                   <select class="tracker-select" id="recurrenceFilter" aria-label="Filter tasks by recurrence">
@@ -3770,6 +3780,9 @@
     document.querySelectorAll("[data-load-private-time]").forEach((button) => {
       button.hidden = !show;
     });
+    document.querySelectorAll("[data-private-time-fallback-note]").forEach((note) => {
+      note.hidden = !show;
+    });
   }
 
   function populateListSelect(select, value = "") {
@@ -3944,6 +3957,39 @@
     });
   }
 
+  function timePayloadHasPrivateData(payload) {
+    const clean = cleanClientPayload(payload);
+    return Boolean(
+      clean.entries.length ||
+      clean.activeEntry ||
+      Object.keys(clean.taskOverrides || {}).length ||
+      Object.keys(clean.taskMerges || {}).length
+    );
+  }
+
+  function latestTimePayloadDate(payload) {
+    const clean = cleanClientPayload(payload);
+    const dates = [
+      clean.updatedAt,
+      ...clean.entries.flatMap((entry) => [entry.updatedAt, entry.createdAt, entry.start, entry.stop]),
+      ...Object.values(clean.taskOverrides || {}).map((entry) => entry.updatedAt),
+      ...Object.values(clean.taskMerges || {}).map((entry) => entry.updatedAt)
+    ]
+      .map((value) => {
+        const date = value ? new Date(value) : null;
+        return date && !Number.isNaN(date.getTime()) ? date.getTime() : 0;
+      })
+      .filter(Boolean);
+    return dates.length ? Math.max(...dates) : 0;
+  }
+
+  function shouldUploadLocalTimePayload(localPayload, serverPayload) {
+    const localHasData = timePayloadHasPrivateData(localPayload);
+    if (!localHasData) return false;
+    if (!timePayloadHasPrivateData(serverPayload)) return true;
+    return latestTimePayloadDate(localPayload) > latestTimePayloadDate(serverPayload);
+  }
+
   async function ensureTimeAdminKey() {
     if (!timeAdminKey) {
       try { timeAdminKey = localStorage.getItem(TIME_ADMIN_KEY_STORAGE) || ""; } catch (error) { timeAdminKey = ""; }
@@ -4025,7 +4071,7 @@
     return response.json();
   }
 
-  function renderTimePayloadState() {
+  function renderTimePayloadState({ syncState = "" } = {}) {
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
     } else {
@@ -4035,6 +4081,7 @@
       renderTracker();
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
+    if (syncState) setTrackerStatus(syncState, "saved");
   }
 
   function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.") {
@@ -6588,15 +6635,22 @@
   async function loadPrivateTimeData({ promptForKey = false } = {}) {
     await resolveTimeAdminKey({ promptForKey, intent: "load" });
     const response = await timeApi("GET");
-    timePayload = mergeTimePayloads(response, readLocalTimePayload());
-    writeLocalTimePayload(timePayload);
-    if (timePayload.updatedAt && timePayload.updatedAt !== response.updatedAt) {
+    const localPayload = readLocalTimePayload();
+    if (shouldUploadLocalTimePayload(localPayload, response)) {
+      timePayload = cleanClientPayload({
+        ...mergeTimePayloads(response, localPayload),
+        updatedAt: localPayload.updatedAt || isoNow()
+      });
       await saveTimePayload(timePayload);
+      setTrackerStatus("Synced due dates from this device.", "saved");
       return true;
     }
-    showPrivateTimeLoadButton(false);
+    timePayload = mergeTimePayloads(response, localPayload, { preferServer: timePayloadHasPrivateData(response) });
+    writeLocalTimePayload(timePayload);
+    showPrivateTimeLoadButton(!timePayloadHasPrivateData(response));
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
+      setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing local data.", timePayloadHasPrivateData(response) ? "saved" : "");
       return true;
     }
     if (taskCatalogEntries.length) {
@@ -6605,7 +6659,7 @@
       renderTracker();
       renderDashboard(appEntries, appMetrics);
     }
-    setTrackerStatus("Private Time Analysis data loaded.", "saved");
+    setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing fallback counts.", timePayloadHasPrivateData(response) ? "saved" : "");
     return true;
   }
 
