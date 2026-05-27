@@ -3779,7 +3779,8 @@ pass=通过；传递
 
   const NON_COMPOUND_PHRASES = new Set([
     "get up",
-    "go shopping"
+    "go shopping",
+    "wash dishes"
   ]);
 
   const VOCABULARY_PREFIX_LABELS = {
@@ -6596,7 +6597,7 @@ pass=通过；传递
   ].map((item, index) => ({
     id: `theme-${item.theme}-${slugifyWord(item.word)}`,
     scenario: item.theme,
-    isCompound: /\s/.test(item.word),
+    isCompound: isVocabularyCompound(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
     roots: getVocabularyRoots(item.word),
@@ -7776,7 +7777,7 @@ pass=通过；传递
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
 
-    if (search && wordMatchFilter === "contains" && !words.length && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || compoundFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
+    if (search && wordMatchFilter === "contains" && !words.length && compoundFilter === "all" && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 

@@ -15,7 +15,7 @@ RAW_PATH = ROOT / "data" / "word-by-word-index-raw.txt"
 JSON_PATH = ROOT / "data" / "learning-dictionary-full.json"
 JS_PATH = ROOT / "data" / "learning-dictionary-full.js"
 REPORT_PATH = ROOT / "data" / "learning-dictionary-full-report.json"
-NON_COMPOUND_PHRASES = {"get up", "go shopping"}
+NON_COMPOUND_PHRASES = {"get up", "go shopping", "wash dishes"}
 
 REF_TOKEN = r"\d{1,3}(?:-[A-Za-z0-9]{1,3})?(?![A-Za-z0-9-])"
 REF_GROUP_RE = re.compile(rf"(?<=\s)({REF_TOKEN}(?:\s*,\s*(?:{REF_TOKEN}|[A-Za-z0-9]+))*)")
