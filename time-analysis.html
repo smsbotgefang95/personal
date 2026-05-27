@@ -3065,6 +3065,7 @@
   let bulkTaskStatusValue = "done";
   let trackOrderDirection = "asc";
   let trackerPriorityFilterTouched = false;
+  let pendingTaskNameSave = null;
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
@@ -4932,6 +4933,74 @@
     save.catch((error) => setTrackerStatus(error.message, "error"));
   }
 
+  function pendingTaskNameInput() {
+    const control = document.activeElement;
+    if (!control?.classList?.contains("track-name-input")) return null;
+    return control.dataset.nameDirty === "true" ? control : null;
+  }
+
+  async function commitTaskNameInput(control, rows) {
+    if (!control || control.dataset.nameSaving === "true") return null;
+    const entry = rows.find((item) => taskOverrideKey(item) === control.dataset.editKey);
+    if (!entry) return null;
+    const nextName = cleanLabel(control.value, "");
+    const currentName = cleanLabel(control.dataset.originalName || entry.taskName, entry.taskName);
+    if (!nextName) {
+      control.value = currentName;
+      control.dataset.nameDirty = "false";
+      autosizeTaskNameInput(control);
+      return null;
+    }
+    if (nextName === currentName) {
+      control.value = currentName;
+      control.dataset.nameDirty = "false";
+      autosizeTaskNameInput(control);
+      return entry;
+    }
+    const savePromise = (async () => {
+      control.dataset.nameSaving = "true";
+      await saveTaskOverride(entry, { taskName: nextName });
+      control.dataset.originalName = nextName;
+      control.dataset.nameDirty = "false";
+      return { ...entry, taskName: nextName };
+    })();
+    pendingTaskNameSave = savePromise;
+    try {
+      return await savePromise;
+    } finally {
+      control.dataset.nameSaving = "false";
+      if (pendingTaskNameSave === savePromise) pendingTaskNameSave = null;
+    }
+  }
+
+  async function flushPendingTaskNameInput(rows) {
+    try {
+      if (pendingTaskNameSave) await pendingTaskNameSave;
+    } catch (error) {
+      setTrackerStatus(error.message, "error");
+      return null;
+    }
+    const control = pendingTaskNameInput();
+    if (!control) return null;
+    try {
+      return await commitTaskNameInput(control, rows);
+    } catch (error) {
+      setTrackerStatus(error.message, "error");
+      return null;
+    }
+  }
+
+  function withCommittedTaskName(entry, committedEntry) {
+    if (!entry || !committedEntry || taskOverrideKey(entry) !== taskOverrideKey(committedEntry)) return entry;
+    return { ...entry, taskName: committedEntry.taskName };
+  }
+
+  function finishTaskNameInput(control, rows) {
+    commitTaskNameInput(control, rows)
+      .then(() => control.blur())
+      .catch((error) => setTrackerStatus(error.message, "error"));
+  }
+
   function visibleTaskRowsForGroups(groups) {
     return groups.flatMap(([group, entries, collapseKey]) => collapsedTrackGroups.has(collapseKey || group) ? [] : entries);
   }
@@ -5322,14 +5391,16 @@
       });
     });
     document.querySelectorAll("[data-due-key]").forEach((input) => {
-      input.addEventListener("change", () => {
+      input.addEventListener("change", async () => {
+        await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueKey);
         if (!entry) return;
         saveTaskOverride(entry, { dueDate: input.value }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-due-time-key]").forEach((input) => {
-      input.addEventListener("change", () => {
+      input.addEventListener("change", async () => {
+        await flushPendingTaskNameInput(rows);
         input.classList.toggle("is-empty", !input.value);
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueTimeKey);
         if (!entry) return;
@@ -5337,14 +5408,16 @@
       });
     });
     document.querySelectorAll("[data-status-key]").forEach((select) => {
-      select.addEventListener("change", () => {
+      select.addEventListener("change", async () => {
+        await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.statusKey);
         if (!entry) return;
         saveTaskOverride(entry, taskStatusPatch(entry, select.value)).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-order-key]").forEach((select) => {
-      select.addEventListener("change", () => {
+      select.addEventListener("change", async () => {
+        await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.orderKey);
         if (!entry) return;
         saveTaskOverride(entry, { taskOrder: orderOptionValue(select.value) }).catch((error) => setTrackerStatus(error.message, "error"));
@@ -5352,17 +5425,42 @@
     });
     document.querySelectorAll("[data-edit-key]").forEach((control) => {
       if (control.tagName === "SELECT") {
-        control.addEventListener("change", () => saveEditableTaskField(control, rows));
+        control.addEventListener("change", async () => {
+          await flushPendingTaskNameInput(rows);
+          saveEditableTaskField(control, rows);
+        });
         return;
       }
       if (control.dataset.editField === "taskName") {
         autosizeTaskNameInput(control);
-        control.addEventListener("input", () => autosizeTaskNameInput(control));
+        control.dataset.originalName = control.value.trim();
+        control.dataset.nameDirty = "false";
+        control.addEventListener("input", () => {
+          if (control.value.includes("\n")) {
+            control.value = control.value.replace(/\s*\n+\s*/g, " ").trim();
+            control.dataset.nameDirty = control.value.trim() === control.dataset.originalName ? "false" : "true";
+            autosizeTaskNameInput(control);
+            finishTaskNameInput(control, rows);
+            return;
+          }
+          control.dataset.nameDirty = control.value.trim() === control.dataset.originalName ? "false" : "true";
+          autosizeTaskNameInput(control);
+        });
       }
-      control.addEventListener("blur", () => saveEditableTaskField(control, rows));
+      control.addEventListener("blur", () => {
+        if (control.dataset.editField === "taskName") {
+          commitTaskNameInput(control, rows).catch((error) => setTrackerStatus(error.message, "error"));
+          return;
+        }
+        saveEditableTaskField(control, rows);
+      });
       control.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
+          if (control.dataset.editField === "taskName") {
+            finishTaskNameInput(control, rows);
+            return;
+          }
           control.blur();
         }
       });
@@ -5371,7 +5469,8 @@
       document.querySelectorAll(".track-name-input").forEach(autosizeTaskNameInput);
     }, 0);
     document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
-      select.addEventListener("change", () => {
+      select.addEventListener("change", async () => {
+        await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.recurrenceKey);
         const custom = document.querySelector(`[data-recurrence-custom-key="${CSS.escape(select.dataset.recurrenceKey)}"]`);
         const summary = document.querySelector(`[data-recurrence-summary-key="${CSS.escape(select.dataset.recurrenceKey)}"]`);
@@ -5389,13 +5488,15 @@
       });
     });
     document.querySelectorAll("[data-recurrence-edit-key]").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
+        await flushPendingTaskNameInput(rows);
         expandedCustomRecurrenceKeys.add(button.dataset.recurrenceEditKey);
         renderActivityRows();
       });
     });
     document.querySelectorAll("[data-recurrence-custom-key]").forEach((panel) => {
-      panel.addEventListener("click", (event) => {
+      panel.addEventListener("click", async (event) => {
+        await flushPendingTaskNameInput(rows);
         const collapse = event.target.closest("[data-custom-collapse]");
         if (collapse) {
           expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
@@ -5412,7 +5513,8 @@
           renderActivityRows();
         }).catch((error) => setTrackerStatus(error.message, "error"));
       });
-      panel.addEventListener("change", (event) => {
+      panel.addEventListener("change", async (event) => {
+        await flushPendingTaskNameInput(rows);
         const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
         if (monthlyOption) syncCustomMonthlyDayOptions(panel, monthlyOption);
         syncCustomRecurrencePanel(panel);
@@ -5426,8 +5528,10 @@
       });
     });
     document.querySelectorAll("[data-track-key]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const entry = rows.find((item) => `${item.listId}|||${item.taskId}` === button.dataset.trackKey);
+      button.addEventListener("click", async () => {
+        const committedEntry = await flushPendingTaskNameInput(rows);
+        let entry = rows.find((item) => `${item.listId}|||${item.taskId}` === button.dataset.trackKey);
+        entry = withCommittedTaskName(entry, committedEntry);
         if (!entry) return;
         if (trackMode === "past") {
           const key = taskOverrideKey(entry);
@@ -5444,15 +5548,18 @@
       });
     });
     document.querySelectorAll("[data-save-past-key]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const entry = rows.find((item) => taskOverrideKey(item) === button.dataset.savePastKey);
+      button.addEventListener("click", async () => {
+        const committedEntry = await flushPendingTaskNameInput(rows);
+        let entry = rows.find((item) => taskOverrideKey(item) === button.dataset.savePastKey);
+        entry = withCommittedTaskName(entry, committedEntry);
         const editor = button.closest("[data-past-editor-key]");
         if (!entry || !editor) return;
         savePastTimeEntry(entry, editor).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-cancel-past-key]").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
+        await flushPendingTaskNameInput(rows);
         if (pastEntryTaskKey === button.dataset.cancelPastKey) pastEntryTaskKey = "";
         renderActivityRows();
       });
