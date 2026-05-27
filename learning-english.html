@@ -1040,13 +1040,12 @@
     <section id="practice" aria-labelledby="practice-title">
       <div class="panel-header">
         <div>
-          <h2 id="practice-title">Scenario Conversation</h2>
-          <p>Choose a real-life situation and use the sentences.</p>
+          <h2 id="practice-title">Sentences</h2>
+          <p>Practice useful sentences with Chinese support.</p>
         </div>
       </div>
       <div class="phrase-tools" aria-label="Sentence search">
         <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
-        <select class="vocabulary-filter phrase-topic-filter" id="phraseTopicFilter" aria-label="Filter sentences by topic"></select>
         <select class="vocabulary-filter" id="phraseLengthFilter" aria-label="Filter sentences by length">
           <option value="all">全部长度</option>
           <option value="short">短句 1-4 words</option>
@@ -1105,9 +1104,6 @@
         <option value="modal verb">情态动词 Modal verb</option>
         <option value="contraction">缩约词 Contraction</option>
         <option value="infinitive marker">不定式标记 Infinitive marker</option>
-      </select>
-      <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
-        <option value="all">所有主题</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word type">
         <option value="all">所有单词</option>
@@ -1173,9 +1169,7 @@
       </div>
       <div class="phrase-summary" id="dialogueSummary">0 dialogues</div>
     </div>
-    <div class="scenario-tabs" id="dialogueTabs" role="tablist" aria-label="Dialogue scenarios"></div>
     <div class="dialogue-tools">
-      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话"></select>
       <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
         <option value="all">所有学习状态</option>
         <option value="to-learn">待学</option>
@@ -1195,12 +1189,9 @@
   const STORAGE_VOCAB_STATUS_KEY = "learningEnglishVocabularyStatus";
   const STORAGE_VOCAB_PHRASE_STATUS_KEY = "learningEnglishVocabularyPhraseStatus";
   const STORAGE_DIALOGUE_STATUS_KEY = "learningEnglishDialogueStatus";
-  const STORAGE_DIALOGUE_SCENARIO_KEY = "learningEnglishSelectedDialogueScenario";
-  const STORAGE_DIALOGUE_THEME_FILTER_KEY = "learningEnglishDialogueThemeFilter";
   const STORAGE_DIALOGUE_STATUS_FILTER_KEY = "learningEnglishDialogueStatusFilter";
   const STORAGE_CUSTOM_VOCAB_KEY = "learningEnglishCustomVocabulary";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
-  const STORAGE_SCENARIO_KEY = "learningEnglishSelectedScenario";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
@@ -1208,7 +1199,6 @@
   const STORAGE_VOCAB_PHRASE_FILTER_KEY = "learningEnglishVocabularyPhraseStatusFilter";
   const STORAGE_VOCAB_PHRASE_TYPE_FILTER_KEY = "learningEnglishVocabularyPhraseTypeFilter";
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
-  const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
   const STORAGE_VOCAB_COMPOUND_FILTER_KEY = "learningEnglishVocabularyCompoundFilter";
   const STORAGE_VOCAB_TENSE_FILTER_KEY = "learningEnglishVocabularyTenseFilter";
   const STORAGE_VOCAB_PREFIX_FILTER_KEY = "learningEnglishVocabularyPrefixFilter";
@@ -3696,36 +3686,39 @@ pass=通过；传递
   }
 
   const VOCABULARY_THEME_LABELS = {
-    personal: "个人信息",
-    color: "颜色",
-    family: "家庭",
-    daily: "日常活动",
+    personal: "个人信息与家庭",
+    daily: "日常活动与语言",
     numbers: "数字、时间、金钱与日历",
-    body: "身体",
-    health: "健康",
-    food: "食物",
-    time: "时间",
-    country: "国家",
-    place: "地点",
     home: "家居",
     community: "社区",
-    nature: "自然",
-    number: "数字",
-    feeling: "感受/状态 Feeling / state",
-    holiday: "美国节日",
+    describing: "描述",
+    food: "食物",
+    clothes: "颜色与衣服",
     shopping: "购物",
+    services: "社区服务",
+    health: "健康",
     school: "学校",
     work: "工作",
     transportation: "交通",
     recreation: "休闲娱乐",
-    travel: "旅行",
-    civics: "美国公民",
-    clothes: "衣服",
-    furniture: "家具",
-    sports: "运动",
-    appliance: "厨房电器",
-    services: "社区服务",
-    describing: "描述事物"
+    nature: "自然",
+    civics: "美国公民"
+  };
+
+  const LEGACY_VOCABULARY_THEME_MAP = {
+    color: "clothes",
+    family: "personal",
+    body: "health",
+    time: "numbers",
+    country: "civics",
+    place: "community",
+    number: "numbers",
+    feeling: "describing",
+    holiday: "civics",
+    furniture: "home",
+    sports: "recreation",
+    appliance: "home",
+    travel: "transportation"
   };
 
   const VOCABULARY_THEME_SETS = {
@@ -4193,7 +4186,8 @@ pass=通过；传递
 
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
-    return Object.keys(VOCABULARY_THEME_SETS).find((theme) => VOCABULARY_THEME_SETS[theme].has(normalized)) || "";
+    const theme = Object.keys(VOCABULARY_THEME_SETS).find((themeName) => VOCABULARY_THEME_SETS[themeName].has(normalized)) || "";
+    return LEGACY_VOCABULARY_THEME_MAP[theme] || theme;
   }
 
   function getVocabularyPrefix(word) {
@@ -5681,7 +5675,7 @@ pass=通过；传递
       id: `country-${slugifyWord(item.word)}`,
       scenario: "country",
       partOfSpeech: "proper noun",
-      theme: "country",
+      theme: "civics",
       isCompound: /\s/.test(item.word),
       prefix: getVocabularyPrefix(item.word),
       suffix: getVocabularySuffix(item.word),
@@ -5789,7 +5783,7 @@ pass=通过；传递
     id: `holiday-${slugifyWord(item.word)}`,
     scenario: "holiday",
     partOfSpeech: item.word.includes("Day") || item.word === "Juneteenth" || item.word === "Thanksgiving" || item.word === "Christmas" ? "proper noun" : "noun / verb",
-    theme: "holiday",
+    theme: "civics",
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
@@ -5902,7 +5896,7 @@ pass=通过；传递
     id: `furniture-${slugifyWord(item.word)}`,
     scenario: "furniture",
     partOfSpeech: "noun",
-    theme: "furniture",
+    theme: "home",
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
@@ -5973,7 +5967,7 @@ pass=通过；传递
     id: `appliance-${slugifyWord(item.word)}`,
     scenario: "appliance",
     partOfSpeech: "noun",
-    theme: "appliance",
+    theme: "home",
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
@@ -6236,7 +6230,7 @@ pass=通过；传递
   ].map((item, index) => ({
     id: `sports-${slugifyWord(item.word)}`,
     scenario: "sports",
-    theme: "sports",
+    theme: "recreation",
     isCompound: /\s/.test(item.word),
     prefix: getVocabularyPrefix(item.word),
     suffix: getVocabularySuffix(item.word),
@@ -6586,17 +6580,14 @@ pass=通过；传递
   let selectedView = loadSelectedView();
   let selectedDictionaryTheme = loadSelectedDictionaryTheme();
   let selectedDictionaryTopic = "all";
-  let selectedScenario = loadSelectedScenario();
   let selectedPhraseStatus = loadSelectedPhraseStatus();
-  let selectedDialogueScenario = loadSelectedDialogueScenario();
-  let selectedDialogueTheme = loadSelectedDialogueTheme();
   let selectedDialogueStatus = loadSelectedDialogueStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyWordMatch = loadSelectedVocabularyWordMatch();
   let selectedVocabularyPhraseStatus = loadSelectedVocabularyPhraseStatus();
   let selectedVocabularyPhraseType = loadSelectedVocabularyPhraseType();
   let selectedVocabularyPart = loadSelectedVocabularyPart();
-  let selectedVocabularyTheme = loadSelectedVocabularyTheme();
+  let selectedVocabularyTheme = "all";
   let selectedVocabularyCompound = loadSelectedVocabularyCompound();
   let selectedVocabularyTense = loadSelectedVocabularyTense();
   let selectedVocabularyPrefix = loadSelectedVocabularyPrefix();
@@ -6635,7 +6626,8 @@ pass=通过；传递
   }
 
   function cleanVocabularyTheme(value) {
-    const theme = cleanCustomText(value, 40).toLowerCase();
+    const rawTheme = cleanCustomText(value, 40).toLowerCase();
+    const theme = LEGACY_VOCABULARY_THEME_MAP[rawTheme] || rawTheme;
     return Object.prototype.hasOwnProperty.call(VOCABULARY_THEME_LABELS, theme) ? theme : "";
   }
 
@@ -6732,15 +6724,6 @@ pass=通过；传递
     }, []);
   }
 
-  function loadSelectedScenario() {
-    try {
-      const saved = localStorage.getItem(STORAGE_SCENARIO_KEY);
-      return saved === "all" || SCENARIOS.some((item) => item.id === saved) ? saved : "all";
-    } catch (error) {
-      return "all";
-    }
-  }
-
   function loadSelectedPhraseStatus() {
     try {
       const saved = localStorage.getItem(STORAGE_PHRASE_STATUS_FILTER_KEY);
@@ -6756,28 +6739,10 @@ pass=通过；传递
     } catch (error) {}
   }
 
-  function loadSelectedDialogueScenario() {
-    try {
-      const saved = localStorage.getItem(STORAGE_DIALOGUE_SCENARIO_KEY);
-      return DIALOGUE_SCENARIOS.some((item) => item.id === saved) ? saved : "greetings";
-    } catch (error) {
-      return "greetings";
-    }
-  }
-
   function loadSelectedDialogueStatus() {
     try {
       const saved = localStorage.getItem(STORAGE_DIALOGUE_STATUS_FILTER_KEY);
       return ["all", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
-    } catch (error) {
-      return "all";
-    }
-  }
-
-  function loadSelectedDialogueTheme() {
-    try {
-      const saved = localStorage.getItem(STORAGE_DIALOGUE_THEME_FILTER_KEY);
-      return saved === "all" || DIALOGUE_SCENARIOS.some((item) => item.id === saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -6890,21 +6855,6 @@ pass=通过；传递
   function saveSelectedVocabularyPart() {
     try {
       localStorage.setItem(STORAGE_VOCAB_PART_FILTER_KEY, selectedVocabularyPart);
-    } catch (error) {}
-  }
-
-  function loadSelectedVocabularyTheme() {
-    try {
-      const saved = localStorage.getItem(STORAGE_VOCAB_THEME_FILTER_KEY);
-      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_THEME_LABELS, saved) ? saved : "all";
-    } catch (error) {
-      return "all";
-    }
-  }
-
-  function saveSelectedVocabularyTheme() {
-    try {
-      localStorage.setItem(STORAGE_VOCAB_THEME_FILTER_KEY, selectedVocabularyTheme);
     } catch (error) {}
   }
 
@@ -7028,27 +6978,9 @@ pass=通过；传递
     } catch (error) {}
   }
 
-  function saveSelectedScenario() {
-    try {
-      localStorage.setItem(STORAGE_SCENARIO_KEY, selectedScenario);
-    } catch (error) {}
-  }
-
-  function saveSelectedDialogueScenario() {
-    try {
-      localStorage.setItem(STORAGE_DIALOGUE_SCENARIO_KEY, selectedDialogueScenario);
-    } catch (error) {}
-  }
-
   function saveSelectedDialogueStatus() {
     try {
       localStorage.setItem(STORAGE_DIALOGUE_STATUS_FILTER_KEY, selectedDialogueStatus);
-    } catch (error) {}
-  }
-
-  function saveSelectedDialogueTheme() {
-    try {
-      localStorage.setItem(STORAGE_DIALOGUE_THEME_FILTER_KEY, selectedDialogueTheme);
     } catch (error) {}
   }
 
@@ -7070,39 +7002,6 @@ pass=通过；传递
       cursor.setDate(cursor.getDate() - 1);
     }
     return streak;
-  }
-
-  function renderScenarioTabs() {
-    const topicFilter = document.getElementById("phraseTopicFilter");
-    const topics = [
-      { id: "all", label: "All topics", zh: "全部主题" },
-      ...SCENARIOS
-    ];
-
-    if (topicFilter) {
-      topicFilter.innerHTML = topics.map((scenario) => `<option value="${scenario.id}">${scenario.label} / ${scenario.zh}</option>`).join("");
-      topicFilter.value = selectedScenario;
-    }
-  }
-
-  function renderDialogueTabs() {
-    const container = document.getElementById("dialogueTabs");
-    if (!container) return;
-
-    container.innerHTML = DIALOGUE_SCENARIOS.map((scenario) => {
-      const isActive = scenario.id === selectedDialogueScenario;
-      return `<button class="scenario-tab${isActive ? " active" : ""}" type="button" role="tab" aria-selected="${isActive}" data-dialogue-scenario="${scenario.id}">${scenario.label} / ${scenario.zh}</button>`;
-    }).join("");
-
-    container.querySelectorAll("[data-dialogue-scenario]").forEach((button) => {
-      button.addEventListener("click", () => {
-        selectedDialogueScenario = button.dataset.dialogueScenario;
-        selectedDialogueTheme = selectedDialogueScenario;
-        saveSelectedDialogueScenario();
-        saveSelectedDialogueTheme();
-        renderDialogueList();
-      });
-    });
   }
 
   function renderLearningTabs() {
@@ -7148,7 +7047,7 @@ pass=通过；传递
       return true;
     };
     const matchesStatus = (phrase) => statusFilter === "all" || (statuses[phrase.id] || "auto") === statusFilter;
-    const scenarioPhrases = selectedScenario === "all" ? PHRASES : PHRASES.filter((phrase) => phrase.scenario === selectedScenario);
+    const scenarioPhrases = PHRASES;
     const phrases = scenarioPhrases.filter((phrase) => matchesSearch(phrase) && matchesLength(phrase) && matchesStatus(phrase));
 
     if (phraseStatusFilter) phraseStatusFilter.value = statusFilter;
@@ -7321,20 +7220,12 @@ pass=通过；传递
   function renderDialogueList() {
     const container = document.getElementById("dialogueList");
     const summary = document.getElementById("dialogueSummary");
-    const themeFilter = document.getElementById("dialogueThemeFilter");
     const statusFilter = document.getElementById("dialogueStatusFilter");
     const filterSummary = document.getElementById("dialogueFilterSummary");
-    if (!container || !summary || !themeFilter || !statusFilter || !filterSummary) return;
+    if (!container || !summary || !statusFilter || !filterSummary) return;
 
-    themeFilter.innerHTML = [
-      `<option value="all">所有主题</option>`,
-      ...DIALOGUE_SCENARIOS.map((scenario) => `<option value="${escapeHtml(scenario.id)}">${escapeHtml(scenario.label)} / ${escapeHtml(scenario.zh)}</option>`)
-    ].join("");
-    const themeDialogues = selectedDialogueTheme === "all"
-      ? DIALOGUES
-      : DIALOGUES.filter((dialogue) => dialogue.scenario === selectedDialogueTheme);
+    const themeDialogues = DIALOGUES;
     const dialogues = themeDialogues.filter((dialogue) => selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus);
-    themeFilter.value = selectedDialogueTheme;
     statusFilter.value = selectedDialogueStatus;
     summary.textContent = `${themeDialogues.length} ${themeDialogues.length === 1 ? "dialogue" : "dialogues"}`;
     filterSummary.textContent = `${dialogues.length} of ${themeDialogues.length} dialogues`;
@@ -7582,7 +7473,6 @@ pass=通过；传递
     document.getElementById("vocabularyWordMatchFilter").value = wordMatchFilter;
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
-    document.getElementById("vocabularyThemeFilter").value = themeFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
     document.getElementById("vocabularyTenseFilter").value = tenseFilter;
     vocabularyPrefixFilter.value = prefixFilter;
@@ -7603,12 +7493,10 @@ pass=通过；传递
       const currentStatus = getVocabularyStatus(item.id);
       const label = item.isCustom ? "" : (
         scenario ? scenario.zh : (
-          item.theme === "holiday" ? "美国节日" :
-          item.theme === "appliance" ? "厨房电器" :
-          item.theme === "furniture" ? "家具" :
-          item.theme === "clothes" ? "衣服" :
-          item.theme === "sports" ? "运动" :
-          item.theme === "country" ? "国家" :
+          item.theme === "home" ? "家居" :
+          item.theme === "clothes" ? "颜色与衣服" :
+          item.theme === "recreation" ? "休闲娱乐" :
+          item.theme === "civics" ? "美国公民" :
           "常用1000词"
         )
       );
@@ -7827,7 +7715,6 @@ pass=通过；传递
       saveSelectedVocabularyWordMatch();
       saveSelectedVocabularyStatus();
       saveSelectedVocabularyPart();
-      saveSelectedVocabularyTheme();
       saveSelectedVocabularyCompound();
       saveSelectedVocabularyTense();
       saveSelectedVocabularyPrefix();
@@ -7944,8 +7831,6 @@ pass=通过；传递
 
   function render() {
     renderLearningTabs();
-    renderScenarioTabs();
-    renderDialogueTabs();
     renderThemeHub();
     renderPhraseList();
     renderDialogueList();
@@ -7970,24 +7855,9 @@ pass=通过；传递
     saveSelectedPhraseStatus();
     renderPhraseList();
   });
-  document.getElementById("phraseTopicFilter").addEventListener("change", (event) => {
-    selectedScenario = event.target.value;
-    saveSelectedScenario();
-    render();
-  });
   document.getElementById("dialogueStatusFilter").addEventListener("change", (event) => {
     selectedDialogueStatus = event.target.value;
     saveSelectedDialogueStatus();
-    renderDialogueList();
-  });
-  document.getElementById("dialogueThemeFilter").addEventListener("change", (event) => {
-    selectedDialogueTheme = event.target.value;
-    if (selectedDialogueTheme !== "all") {
-      selectedDialogueScenario = selectedDialogueTheme;
-      saveSelectedDialogueScenario();
-      renderDialogueTabs();
-    }
-    saveSelectedDialogueTheme();
     renderDialogueList();
   });
   document.getElementById("vocabularyPhraseSearch").addEventListener("input", renderVocabularyPhrases);
@@ -8019,7 +7889,6 @@ pass=通过；传递
     saveSelectedVocabularyWordMatch();
     saveSelectedVocabularyStatus();
     saveSelectedVocabularyPart();
-    saveSelectedVocabularyTheme();
     saveSelectedVocabularyCompound();
     saveSelectedVocabularyTense();
     saveSelectedVocabularyPrefix();
@@ -8044,15 +7913,6 @@ pass=通过；传递
   document.getElementById("vocabularyPartFilter").addEventListener("change", (event) => {
     selectedVocabularyPart = event.target.value;
     saveSelectedVocabularyPart();
-    renderVocabularyList();
-  });
-  document.getElementById("vocabularyThemeFilter").innerHTML = [
-    `<option value="all">所有主题</option>`,
-    ...Object.entries(VOCABULARY_THEME_LABELS).map(([theme, label]) => `<option value="${theme}">${label}</option>`)
-  ].join("");
-  document.getElementById("vocabularyThemeFilter").addEventListener("change", (event) => {
-    selectedVocabularyTheme = event.target.value;
-    saveSelectedVocabularyTheme();
     renderVocabularyList();
   });
   document.getElementById("vocabularyCompoundFilter").addEventListener("change", (event) => {
