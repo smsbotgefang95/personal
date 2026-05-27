@@ -1083,10 +1083,10 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) 260px 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
     gap: 10px;
     align-items: center;
-    min-width: 2346px;
+    min-width: 2606px;
   }
 
   .track-list-header {
@@ -1143,7 +1143,7 @@
   .track-row {
     position: relative;
     display: grid;
-    min-width: 2346px;
+    min-width: 2606px;
     min-height: 68px;
     padding: 10px;
     border-bottom: 1px solid var(--border);
@@ -1152,7 +1152,7 @@
   .track-row-inner {
     position: relative;
     display: grid;
-    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) 260px 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
     column-gap: 10px;
     row-gap: 10px;
     align-items: start;
@@ -1302,6 +1302,24 @@
     min-height: 48px;
     min-width: var(--track-task-width);
     max-width: var(--track-task-width);
+  }
+
+  .track-notes-cell {
+    display: -webkit-box;
+    align-self: stretch;
+    min-width: 0;
+    max-height: 4.2em;
+    overflow: hidden;
+    color: #cbd5e1;
+    font-size: 0.84rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .track-notes-cell:empty::before {
+    content: "";
   }
 
   .track-row:last-child { border-bottom: 0; }
@@ -4431,7 +4449,7 @@
         }
         const item = byTask.get(key);
         if (!item.sourceOverrideKeys.includes(taskOverrideKey(entry))) item.sourceOverrideKeys.push(taskOverrideKey(entry));
-        ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
+        ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder", "notes"].forEach((field) => {
           if ((!item[field] || item[field] === "Other") && entry[field] && entry[field] !== "Other") item[field] = entry[field];
         });
         item.recurring = Boolean(item.recurring || entry.recurring);
@@ -4482,7 +4500,7 @@
       ),
       recurring: Boolean(primary.recurring || duplicate.recurring)
     };
-    ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
+    ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder", "notes"].forEach((field) => {
       if ((!merged[field] || merged[field] === "Other") && duplicate[field] && duplicate[field] !== "Other") merged[field] = duplicate[field];
     });
     if (primary.dateKeys || duplicate.dateKeys) {
@@ -5273,6 +5291,7 @@
     const isRunning = active && active.taskId === entry.taskId && active.listId === entry.listId;
     const timeText = isRunning ? formatClock(activeDurationMs()) : (entry.totalMs ? formatDuration(entry.totalMs) : "Tap to track");
     const key = taskOverrideKey(entry);
+    const notes = cleanLabel(entry.notes, "");
     const showingPastEditor = trackMode === "past" && pastEntryTaskKey === key;
     const isDone = entry.status === "done";
     const recurrence = entry.recurrence || inferRecurrence(entry);
@@ -5295,6 +5314,7 @@
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
           </div>
+          <div class="track-notes-cell" title="${escapeHtml(notes)}">${escapeHtml(notes)}</div>
           <div class="track-order-cell">
             <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
               ${orderOptionsHtml(order)}
@@ -5411,6 +5431,7 @@
         <div class="track-list-header">
           <div><input class="track-select-all-checkbox" type="checkbox" data-select-all-visible aria-label="Select all visible tasks" /></div>
           <div>Task</div>
+          <div>Notes</div>
           <div>Order</div>
           <div>Status</div>
           <div>Due date</div>
@@ -5887,6 +5908,7 @@
       recurring: false,
       recurringText: "",
       taskOrder: cleanLabel(row["Task Order"], ""),
+      notes: cleanLabel(row.Description, ""),
       searchText: [
         listName,
         taskName,
@@ -5896,6 +5918,7 @@
         row.Section,
         taskCategory,
         row["Task Type"],
+        row.Description,
         sourceFile
       ].join(" ").toLowerCase()
     };
@@ -5947,6 +5970,7 @@
       recurring: false,
       recurringText: "",
       taskOrder: cleanLabel(row["Task Order"], ""),
+      notes: cleanLabel(row.Notes, ""),
       searchText: [
         listName,
         taskName,
@@ -5955,6 +5979,7 @@
         row.Section,
         taskCategory,
         row["Task\nType"],
+        row.Notes,
         legacyWeek,
         sourceFile
       ].join(" ").toLowerCase()
