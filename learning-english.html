@@ -4190,6 +4190,10 @@ pass=通过；传递
     return /^[A-Za-z]+$/.test(String(item?.word || ""));
   }
 
+  function isNumericOnlyVocabularyWord(word) {
+    return /^\d+$/.test(String(word || "").trim());
+  }
+
   function matchesVocabularyVowelTeamFilter(item, filterValue) {
     if (filterValue === "all") return true;
     if (!isVocabularySingleWord(item)) return false;
@@ -4201,7 +4205,7 @@ pass=通过；传递
 
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
-    if (/^\d+$/.test(normalized)) return "numbers";
+    if (isNumericOnlyVocabularyWord(normalized)) return "numbers";
     const theme = Object.keys(VOCABULARY_THEME_SETS).find((themeName) => VOCABULARY_THEME_SETS[themeName].has(normalized)) || "";
     return LEGACY_VOCABULARY_THEME_MAP[theme] || theme || "daily";
   }
@@ -5659,7 +5663,10 @@ pass=通过；传递
     "waves", "ways", "weeks", "women", "woods", "words", "years", "cattle"
   ]);
 
-  const FILTERED_COMMON_WORDS = COMMON_WORDS_1000.filter((word) => !EXCLUDED_PLURAL_VOCABULARY_WORDS.has(word.toLowerCase()));
+  const FILTERED_COMMON_WORDS = COMMON_WORDS_1000.filter((word) => (
+    !EXCLUDED_PLURAL_VOCABULARY_WORDS.has(word.toLowerCase())
+    && !isNumericOnlyVocabularyWord(word)
+  ));
 
   const COMMON_VOCABULARY = FILTERED_COMMON_WORDS.map((word, index) => {
     const featured = FEATURED_BY_WORD[word.toLowerCase()] || {};
@@ -6367,7 +6374,7 @@ pass=通过；传递
     { id: "work", label: "Work", zh: "工作", color: "#e0e7ff", note: "Occupations, job skills, job search, workplaces, equipment, factories, construction, and safety.", topics: ["Occupations I", "Occupations II", "Job Skills and Activities", "Job Search", "The Workplace", "Office Supplies and Equipment", "The Factory", "The Construction Site", "Job Safety"] },
     { id: "transportation", label: "Transportation and Travel", zh: "交通与旅行", color: "#cffafe", note: "Transportation, vehicles, roads, traffic signs, airports, airplane travel, and hotels.", topics: ["Public Transportation", "Types of Vehicles", "Car Parts and Maintenance", "Highways and Streets", "Prepositions of Motion", "Traffic Signs and Directions", "The Airport", "Airplane Travel", "The Hotel"] },
     { id: "recreation", label: "Recreation and Entertainment", zh: "休闲娱乐", color: "#f3e8ff", note: "Hobbies, parks, beaches, outdoor activities, sports, entertainment, and music.", topics: ["Hobbies, Crafts, and Games", "Places to Go", "The Park and the Playground", "The Beach", "Outdoor Recreation", "Individual Sports and Recreation", "Team Sports", "Team Sports Equipment", "Winter Sports and Recreation", "Water Sports and Recreation", "Sport and Exercise Actions", "Entertainment", "Types of Entertainment", "Musical Instruments"] },
-    { id: "nature", label: "Nature", zh: "自然", color: "#ecfccb", note: "Farm animals, pets, birds, insects, sea animals, plants, conservation, and disasters.", topics: ["The Farm and Farm Animals", "Animals and Pets", "Birds and Insects", "Fish, Sea Animals, and Reptiles", "Trees, Plants, and Flowers", "Energy, Conservation, and the Environment", "Natural Disasters"] },
+    { id: "nature", label: "Nature", zh: "自然", color: "#ecfccb", note: "Farm animals, pets, birds, insects, sea animals, plants, conservation, weather, and disasters.", topics: ["The Farm and Farm Animals", "Animals and Pets", "Birds and Insects", "Fish, Sea Animals, and Reptiles", "Trees, Plants, and Flowers", "Energy, Conservation, and the Environment", "The Weather", "Natural Disasters"] },
     { id: "travel", label: "International Travel and Tourism", zh: "国际旅行与旅游", color: "#fce7f3", note: "Travel types, destinations, hotel communication, tourist activities, and travel conversation.", topics: ["Types of Travel", "Arriving at a Destination", "Hotel Communication", "Tourist Activities", "Tourist Communication"] },
     { id: "civics", label: "U.S. Civics", zh: "美国公民", color: "#f1f5f9", note: "Identification, U.S. government, the Constitution, history, holidays, legal system, and citizenship.", topics: ["Forms of Identification", "U.S. Government", "The Constitution and the Bill of Rights", "Events in United States History", "Holidays", "The Legal System", "Citizenship"] }
   ];
@@ -6565,7 +6572,8 @@ pass=通过；传递
         ["Sport and Exercise Actions", ["exercise"]]
       ],
       nature: [
-        ["Natural Disasters", ["weather", "rain"]],
+        ["The Weather", ["weather", "sunny", "cloudy", "clear", "hazy", "foggy", "smoggy", "windy", "humid / muggy", "raining", "drizzling", "snowing", "hailing", "sleeting", "lightning", "thunderstorm", "snowstorm", "dust storm", "heat wave", "thermometer", "fahrenheit", "celsius", "hot", "warm", "cool", "cold", "freezing"]],
+        ["Natural Disasters", ["rain"]],
         ["Trees, Plants, and Flowers", ["tree", "flower"]],
         ["Energy, Conservation, and the Environment", ["river"]]
       ],
@@ -6672,6 +6680,32 @@ pass=通过；传递
     { theme: "recreation", word: "picnic", chinese: "野餐", ipa: "ˈpɪknɪk", partOfSpeech: "noun", example: "We have a picnic in the park." },
 
     { theme: "nature", word: "weather", chinese: "天气", ipa: "ˈwedər", partOfSpeech: "noun", example: "The weather is nice today." },
+    { theme: "nature", word: "sunny", chinese: "晴朗的", ipa: "ˈsʌni", partOfSpeech: "adjective", example: "It is sunny today." },
+    { theme: "nature", word: "cloudy", chinese: "多云的", ipa: "ˈklaʊdi", partOfSpeech: "adjective", example: "The sky is cloudy." },
+    { theme: "nature", word: "clear", chinese: "晴朗的；清澈的", ipa: "klɪr", partOfSpeech: "adjective", example: "The sky is clear tonight." },
+    { theme: "nature", word: "hazy", chinese: "有薄雾的", ipa: "ˈheɪzi", partOfSpeech: "adjective", example: "The morning is hazy." },
+    { theme: "nature", word: "foggy", chinese: "有雾的", ipa: "ˈfɑɡi", partOfSpeech: "adjective", example: "It is foggy on the road." },
+    { theme: "nature", word: "smoggy", chinese: "有烟雾的", ipa: "ˈsmɑɡi", partOfSpeech: "adjective", example: "The city is smoggy today." },
+    { theme: "nature", word: "windy", chinese: "有风的", ipa: "ˈwɪndi", partOfSpeech: "adjective", example: "It is windy outside." },
+    { theme: "nature", word: "humid / muggy", chinese: "潮湿闷热的", ipa: "ˈhjumɪd / ˈmʌɡi", partOfSpeech: "adjective", example: "The air feels humid and muggy." },
+    { theme: "nature", word: "raining", chinese: "正在下雨", ipa: "ˈreɪnɪŋ", partOfSpeech: "verb", example: "It is raining now." },
+    { theme: "nature", word: "drizzling", chinese: "正在下毛毛雨", ipa: "ˈdrɪzəlɪŋ", partOfSpeech: "verb", example: "It is drizzling this morning." },
+    { theme: "nature", word: "snowing", chinese: "正在下雪", ipa: "ˈsnoʊɪŋ", partOfSpeech: "verb", example: "It is snowing outside." },
+    { theme: "nature", word: "hailing", chinese: "正在下冰雹", ipa: "ˈheɪlɪŋ", partOfSpeech: "verb", example: "It is hailing during the storm." },
+    { theme: "nature", word: "sleeting", chinese: "正在下雨夹雪", ipa: "ˈslitɪŋ", partOfSpeech: "verb", example: "It is sleeting on the way home." },
+    { theme: "nature", word: "lightning", chinese: "闪电", ipa: "ˈlaɪtnɪŋ", partOfSpeech: "noun", example: "I see lightning in the sky." },
+    { theme: "nature", word: "thunderstorm", chinese: "雷暴", ipa: "ˈθʌndərˌstɔrm", partOfSpeech: "noun", example: "A thunderstorm is coming." },
+    { theme: "nature", word: "snowstorm", chinese: "暴风雪", ipa: "ˈsnoʊˌstɔrm", partOfSpeech: "noun", example: "The snowstorm closes the school." },
+    { theme: "nature", word: "dust storm", chinese: "沙尘暴", ipa: "dʌst stɔrm", partOfSpeech: "noun", example: "A dust storm makes the air dirty." },
+    { theme: "nature", word: "heat wave", chinese: "热浪", ipa: "hit weɪv", partOfSpeech: "noun", example: "A heat wave lasts for several days." },
+    { theme: "nature", word: "thermometer", chinese: "温度计", ipa: "θərˈmɑmətər", partOfSpeech: "noun", example: "The thermometer shows the temperature." },
+    { theme: "nature", word: "Fahrenheit", chinese: "华氏温度", ipa: "ˈfærənˌhaɪt", partOfSpeech: "noun", example: "The temperature is 70 degrees Fahrenheit." },
+    { theme: "nature", word: "Celsius", chinese: "摄氏温度", ipa: "ˈselsiəs", partOfSpeech: "noun", example: "Water freezes at zero degrees Celsius." },
+    { theme: "nature", word: "hot", chinese: "热的", ipa: "hɑt", partOfSpeech: "adjective", example: "The weather is hot in summer." },
+    { theme: "nature", word: "warm", chinese: "暖和的", ipa: "wɔrm", partOfSpeech: "adjective", example: "The afternoon is warm." },
+    { theme: "nature", word: "cool", chinese: "凉爽的", ipa: "kul", partOfSpeech: "adjective", example: "The evening is cool." },
+    { theme: "nature", word: "cold", chinese: "冷的", ipa: "koʊld", partOfSpeech: "adjective", example: "The morning is cold." },
+    { theme: "nature", word: "freezing", chinese: "极冷的；冰冻的", ipa: "ˈfrizɪŋ", partOfSpeech: "adjective", example: "It is freezing outside." },
     { theme: "nature", word: "rain", chinese: "雨；下雨", ipa: "reɪn", partOfSpeech: "noun / verb", example: "Rain is coming this afternoon." },
     { theme: "nature", word: "tree", chinese: "树", ipa: "tri", partOfSpeech: "noun", example: "The tree is near the house." },
     { theme: "nature", word: "flower", chinese: "花", ipa: "ˈflaʊər", partOfSpeech: "noun", example: "The flower is yellow." },
