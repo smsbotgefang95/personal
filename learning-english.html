@@ -325,7 +325,7 @@
   }
 
   .theme-card {
-    background: #f8faf8;
+    background: var(--theme-bg, #f8faf8);
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text);
@@ -341,8 +341,8 @@
   }
 
   .theme-card.active {
-    background: #ecfdf5;
     border-color: #14b8a6;
+    box-shadow: inset 0 0 0 1px #14b8a6, 0 10px 22px rgba(20, 184, 166, 0.16);
   }
 
   .theme-card-title {
@@ -400,7 +400,7 @@
   }
 
   .theme-topic-chip {
-    background: #edf2ee;
+    background: var(--theme-bg, #edf2ee);
     border: 1px solid transparent;
     border-radius: 999px;
     color: #405047;
@@ -416,8 +416,9 @@
   }
 
   .theme-topic-chip.active {
-    background: var(--accent);
-    color: #ffffff;
+    border-color: #14b8a6;
+    box-shadow: inset 0 0 0 1px #14b8a6;
+    color: var(--text);
   }
 
   .theme-word-list {
@@ -6336,23 +6337,23 @@ pass=通过；传递
   }));
 
   const DICTIONARY_THEME_TOPICS = [
-    { id: "personal", label: "Personal Information and Family", zh: "个人信息与家庭", note: "Personal details, family members, and family relationships.", topics: ["Personal Information", "Family Members I", "Family Members II"] },
-    { id: "daily", label: "Common Everyday Activities and Language", zh: "日常活动与语言", note: "Classroom language, daily activities, conversation, and weather.", topics: ["The Classroom", "Classroom Actions", "Prepositions", "Everyday Activities I", "Everyday Activities II", "Leisure Activities", "Everyday Conversation", "The Weather"] },
-    { id: "numbers", label: "Numbers/Time/Money/Calendar", zh: "数字、时间、金钱与日历", note: "Numbers, time, money, calendar language, expressions, and seasons.", topics: ["Numbers", "Time", "Money", "The Calendar", "Time Expressions and Seasons"] },
-    { id: "home", label: "Home", zh: "家居", note: "Housing, rooms, home supplies, repairs, cleaning, and outdoor home tasks.", topics: ["Types of Housing and Communities", "The Living Room", "The Dining Room", "The Bedroom", "The Kitchen", "The Baby's Room", "The Bathroom", "Outside the Home", "The Apartment Building", "Household Problems and Repairs", "Cleaning Your Home", "Home Supplies", "Tools and Hardware", "Gardening Tools and Actions"] },
-    { id: "community", label: "Community", zh: "社区", note: "Places around town and city locations.", topics: ["Places Around Town I", "Places Around Town II", "The City"] },
-    { id: "describing", label: "Describing", zh: "描述", note: "Physical descriptions, things, states, and emotions.", topics: ["People and Physical Descriptions", "Describing People and Things", "Describing Physical States and Emotions"] },
-    { id: "food", label: "Food", zh: "食物", note: "Food groups, supermarket language, kitchen tools, eating out, and restaurant menus.", topics: ["Fruits", "Vegetables", "Meat, Poultry, and Seafood", "Dairy Products, Juices, and Beverages", "Deli, Frozen Foods, and Snack Foods", "Groceries", "Household Supplies, Baby Products, and Pet Food", "The Supermarket", "Containers and Quantities", "Units of Measure", "Food Preparation and Recipes", "Kitchen Utensils and Cookware", "Fast Food", "The Coffee Shop and Sandwiches", "The Restaurant", "A Restaurant Menu"] },
-    { id: "clothes", label: "Colors and Clothing", zh: "颜色与衣服", note: "Colors, clothing, footwear, accessories, laundry, and clothing problems.", topics: ["Colors", "Clothing", "Outerwear", "Sleepwear and Underwear", "Exercise Clothing and Footwear", "Jewelry and Accessories", "Describing Clothing", "Clothing Problems and Alterations", "Laundry"] },
-    { id: "shopping", label: "Shopping", zh: "购物", note: "Department stores, shopping, electronics, phones, cameras, computers, and toys.", topics: ["The Department Store", "Shopping", "Video and Audio Equipment", "Telephones and Cameras", "Computers", "The Toy Store"] },
-    { id: "services", label: "Community Services", zh: "社区服务", note: "Banks, post offices, libraries, community institutions, crime, and emergencies.", topics: ["The Bank", "Finances", "The Post Office", "The Library", "Community Institutions", "Crime and Emergencies"] },
-    { id: "health", label: "Health", zh: "健康", note: "Body, symptoms, first aid, medical care, hygiene, and baby care.", topics: ["The Body", "Ailments, Symptoms, and Injuries", "First Aid", "Medical Emergencies and Illnesses", "The Medical Exam", "Medical and Dental Procedures", "Medical Advice", "Medicine", "Medical Specialists", "The Hospital", "Personal Hygiene", "Baby Care"] },
-    { id: "school", label: "School, Subjects, and Activities", zh: "学校、科目与活动", note: "School types, subjects, activities, math, language arts, geography, science, and the universe.", topics: ["Types of Schools", "The School", "School Subjects", "Extracurricular Activities", "Mathematics", "Measurements and Geometric Shapes", "English Language Arts and Composition", "Literature and Writing", "Geography", "Science", "The Universe"] },
-    { id: "work", label: "Work", zh: "工作", note: "Occupations, job skills, job search, workplaces, equipment, factories, construction, and safety.", topics: ["Occupations I", "Occupations II", "Job Skills and Activities", "Job Search", "The Workplace", "Office Supplies and Equipment", "The Factory", "The Construction Site", "Job Safety"] },
-    { id: "transportation", label: "Transportation and Travel", zh: "交通与旅行", note: "Transportation, vehicles, roads, traffic signs, airports, airplane travel, and hotels.", topics: ["Public Transportation", "Types of Vehicles", "Car Parts and Maintenance", "Highways and Streets", "Prepositions of Motion", "Traffic Signs and Directions", "The Airport", "Airplane Travel", "The Hotel"] },
-    { id: "recreation", label: "Recreation and Entertainment", zh: "休闲娱乐", note: "Hobbies, parks, beaches, outdoor activities, sports, entertainment, and music.", topics: ["Hobbies, Crafts, and Games", "Places to Go", "The Park and the Playground", "The Beach", "Outdoor Recreation", "Individual Sports and Recreation", "Team Sports", "Team Sports Equipment", "Winter Sports and Recreation", "Water Sports and Recreation", "Sport and Exercise Actions", "Entertainment", "Types of Entertainment", "Musical Instruments"] },
-    { id: "nature", label: "Nature", zh: "自然", note: "Farm animals, pets, birds, insects, sea animals, plants, conservation, and disasters.", topics: ["The Farm and Farm Animals", "Animals and Pets", "Birds and Insects", "Fish, Sea Animals, and Reptiles", "Trees, Plants, and Flowers", "Energy, Conservation, and the Environment", "Natural Disasters"] },
-    { id: "civics", label: "U.S. Civics", zh: "美国公民", note: "Identification, U.S. government, the Constitution, history, holidays, legal system, and citizenship.", topics: ["Forms of Identification", "U.S. Government", "The Constitution and the Bill of Rights", "Events in United States History", "Holidays", "The Legal System", "Citizenship"] }
+    { id: "personal", label: "Personal Information and Family", zh: "个人信息与家庭", color: "#e8f7f1", note: "Personal details, family members, and family relationships.", topics: ["Personal Information", "Family Members I", "Family Members II"] },
+    { id: "daily", label: "Common Everyday Activities and Language", zh: "日常活动与语言", color: "#fff3c4", note: "Classroom language, daily activities, conversation, and weather.", topics: ["The Classroom", "Classroom Actions", "Prepositions", "Everyday Activities I", "Everyday Activities II", "Leisure Activities", "Everyday Conversation", "The Weather"] },
+    { id: "numbers", label: "Numbers/Time/Money/Calendar", zh: "数字、时间、金钱与日历", color: "#e8f0ff", note: "Numbers, time, money, calendar language, expressions, and seasons.", topics: ["Numbers", "Time", "Money", "The Calendar", "Time Expressions and Seasons"] },
+    { id: "home", label: "Home", zh: "家居", color: "#f5eadf", note: "Housing, rooms, home supplies, repairs, cleaning, and outdoor home tasks.", topics: ["Types of Housing and Communities", "The Living Room", "The Dining Room", "The Bedroom", "The Kitchen", "The Baby's Room", "The Bathroom", "Outside the Home", "The Apartment Building", "Household Problems and Repairs", "Cleaning Your Home", "Home Supplies", "Tools and Hardware", "Gardening Tools and Actions"] },
+    { id: "community", label: "Community", zh: "社区", color: "#eaf7dc", note: "Places around town and city locations.", topics: ["Places Around Town I", "Places Around Town II", "The City"] },
+    { id: "describing", label: "Describing", zh: "描述", color: "#fce7f3", note: "Physical descriptions, things, states, and emotions.", topics: ["People and Physical Descriptions", "Describing People and Things", "Describing Physical States and Emotions"] },
+    { id: "food", label: "Food", zh: "食物", color: "#e0f2fe", note: "Food groups, supermarket language, kitchen tools, eating out, and restaurant menus.", topics: ["Fruits", "Vegetables", "Meat, Poultry, and Seafood", "Dairy Products, Juices, and Beverages", "Deli, Frozen Foods, and Snack Foods", "Groceries", "Household Supplies, Baby Products, and Pet Food", "The Supermarket", "Containers and Quantities", "Units of Measure", "Food Preparation and Recipes", "Kitchen Utensils and Cookware", "Fast Food", "The Coffee Shop and Sandwiches", "The Restaurant", "A Restaurant Menu"] },
+    { id: "clothes", label: "Colors and Clothing", zh: "颜色与衣服", color: "#fff1e6", note: "Colors, clothing, footwear, accessories, laundry, and clothing problems.", topics: ["Colors", "Clothing", "Outerwear", "Sleepwear and Underwear", "Exercise Clothing and Footwear", "Jewelry and Accessories", "Describing Clothing", "Clothing Problems and Alterations", "Laundry"] },
+    { id: "shopping", label: "Shopping", zh: "购物", color: "#ede9fe", note: "Department stores, shopping, electronics, phones, cameras, computers, and toys.", topics: ["The Department Store", "Shopping", "Video and Audio Equipment", "Telephones and Cameras", "Computers", "The Toy Store"] },
+    { id: "services", label: "Community Services", zh: "社区服务", color: "#dcfce7", note: "Banks, post offices, libraries, community institutions, crime, and emergencies.", topics: ["The Bank", "Finances", "The Post Office", "The Library", "Community Institutions", "Crime and Emergencies"] },
+    { id: "health", label: "Health", zh: "健康", color: "#ffe4e6", note: "Body, symptoms, first aid, medical care, hygiene, and baby care.", topics: ["The Body", "Ailments, Symptoms, and Injuries", "First Aid", "Medical Emergencies and Illnesses", "The Medical Exam", "Medical and Dental Procedures", "Medical Advice", "Medicine", "Medical Specialists", "The Hospital", "Personal Hygiene", "Baby Care"] },
+    { id: "school", label: "School, Subjects, and Activities", zh: "学校、科目与活动", color: "#fef9c3", note: "School types, subjects, activities, math, language arts, geography, science, and the universe.", topics: ["Types of Schools", "The School", "School Subjects", "Extracurricular Activities", "Mathematics", "Measurements and Geometric Shapes", "English Language Arts and Composition", "Literature and Writing", "Geography", "Science", "The Universe"] },
+    { id: "work", label: "Work", zh: "工作", color: "#e0e7ff", note: "Occupations, job skills, job search, workplaces, equipment, factories, construction, and safety.", topics: ["Occupations I", "Occupations II", "Job Skills and Activities", "Job Search", "The Workplace", "Office Supplies and Equipment", "The Factory", "The Construction Site", "Job Safety"] },
+    { id: "transportation", label: "Transportation and Travel", zh: "交通与旅行", color: "#cffafe", note: "Transportation, vehicles, roads, traffic signs, airports, airplane travel, and hotels.", topics: ["Public Transportation", "Types of Vehicles", "Car Parts and Maintenance", "Highways and Streets", "Prepositions of Motion", "Traffic Signs and Directions", "The Airport", "Airplane Travel", "The Hotel"] },
+    { id: "recreation", label: "Recreation and Entertainment", zh: "休闲娱乐", color: "#f3e8ff", note: "Hobbies, parks, beaches, outdoor activities, sports, entertainment, and music.", topics: ["Hobbies, Crafts, and Games", "Places to Go", "The Park and the Playground", "The Beach", "Outdoor Recreation", "Individual Sports and Recreation", "Team Sports", "Team Sports Equipment", "Winter Sports and Recreation", "Water Sports and Recreation", "Sport and Exercise Actions", "Entertainment", "Types of Entertainment", "Musical Instruments"] },
+    { id: "nature", label: "Nature", zh: "自然", color: "#ecfccb", note: "Farm animals, pets, birds, insects, sea animals, plants, conservation, and disasters.", topics: ["The Farm and Farm Animals", "Animals and Pets", "Birds and Insects", "Fish, Sea Animals, and Reptiles", "Trees, Plants, and Flowers", "Energy, Conservation, and the Environment", "Natural Disasters"] },
+    { id: "civics", label: "U.S. Civics", zh: "美国公民", color: "#f1f5f9", note: "Identification, U.S. government, the Constitution, history, holidays, legal system, and citizenship.", topics: ["Forms of Identification", "U.S. Government", "The Constitution and the Bill of Rights", "Events in United States History", "Holidays", "The Legal System", "Citizenship"] }
   ];
 
   function getDictionaryStarterTopic(item) {
@@ -7604,7 +7605,7 @@ pass=通过；传递
       const words = getVocabularyForTheme(topic.id);
       const isActive = topic.id === selectedDictionaryTheme;
       return `
-        <button class="theme-card${isActive ? " active" : ""}" type="button" data-dictionary-theme="${escapeHtml(topic.id)}" aria-pressed="${isActive ? "true" : "false"}">
+        <button class="theme-card${isActive ? " active" : ""}" type="button" data-dictionary-theme="${escapeHtml(topic.id)}" style="--theme-bg: ${escapeHtml(topic.color)}" aria-pressed="${isActive ? "true" : "false"}">
           <span class="theme-card-title">${escapeHtml(topic.label)} / ${escapeHtml(topic.zh)}</span>
           <span class="theme-card-meta">${words.length} words and phrases</span>
           <span class="theme-card-topics">${topic.topics.map((topicLabel) => escapeHtml(topicLabel)).join(" · ")}</span>
@@ -7636,7 +7637,7 @@ pass=通过；传递
         </div>
         <button class="theme-open-button" type="button" id="openThemeInVocabulary">Open in Vocabulary</button>
       </div>
-      <div class="theme-topic-list" aria-label="Subtopics for ${escapeHtml(selectedTopic.label)}">
+      <div class="theme-topic-list" style="--theme-bg: ${escapeHtml(selectedTopic.color)}" aria-label="Subtopics for ${escapeHtml(selectedTopic.label)}">
         ${topicButtons.map((topicButton) => `
           <button class="theme-topic-chip${topicButton.id === selectedDictionaryTopic ? " active" : ""}" type="button" data-dictionary-topic="${escapeHtml(topicButton.id)}">
             ${escapeHtml(topicButton.label)} (${topicButton.count})
