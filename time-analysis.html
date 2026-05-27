@@ -1901,6 +1901,13 @@
   .tracker-status.error { color: #fca5a5; }
   .tracker-status.saved { color: #86efac; }
 
+  .tracker-sync-row {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+    margin-bottom: 16px;
+  }
+
   #loadPrivateTimeBtn {
     justify-self: start;
   }
@@ -2339,6 +2346,10 @@
               <h2 id="trackerHeading">Track Time</h2>
               <p class="section-note">Tap an activity to start. No typing needed.</p>
             </div>
+          </div>
+          <div class="tracker-sync-row">
+            <p class="tracker-status" id="trackerStatus" hidden></p>
+            <button class="btn btn-indigo" id="loadPrivateTimeBtn" type="button" hidden>Load private data</button>
           </div>
           <div class="timer-display">
             <div class="timer-label" id="timerStateLabel">Ready</div>
@@ -6602,6 +6613,12 @@
       if (await ensureTimeAdminKey()) {
         await loadPrivateTimeData();
         return;
+      }
+      try {
+        await loadPrivateTimeData({ promptForKey: true });
+        return;
+      } catch (initialLoadError) {
+        showPrivateTimeLoadButton(true);
       }
       showPrivateTimeLoadButton(true);
       if ((timePayload.entries || []).length || timePayload.activeEntry) {
