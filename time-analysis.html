@@ -6614,12 +6614,6 @@
         await loadPrivateTimeData();
         return;
       }
-      try {
-        await loadPrivateTimeData({ promptForKey: true });
-        return;
-      } catch (initialLoadError) {
-        showPrivateTimeLoadButton(true);
-      }
       showPrivateTimeLoadButton(true);
       if ((timePayload.entries || []).length || timePayload.activeEntry) {
         setTrackerStatus("Showing local Time Analysis data. Load private data to sync shared changes.");
