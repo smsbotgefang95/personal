@@ -424,6 +424,18 @@ def clean_task_overrides(value):
             "taskOrder": clean_time_text(item.get("taskOrder"), 80),
             "updatedAt": clean_time_text(item.get("updatedAt"), 40),
         }
+        metadata_fields_present = False
+        for field, max_length in {
+            "listId": 80,
+            "taskName": 240,
+            "department": 160,
+            "priority": 80,
+            "taskCategory": 120,
+            "taskType": 80,
+        }.items():
+            if field in item:
+                metadata_fields_present = True
+                override[field] = clean_time_text(item.get(field), max_length)
         if (
             override["dueDate"]
             or override["dueTime"]
@@ -431,6 +443,7 @@ def clean_task_overrides(value):
             or override["recurrence"] != "none"
             or override["recurringText"]
             or override["taskOrder"]
+            or metadata_fields_present
         ):
             overrides[key] = override
         elif item.get("dueDate") == "" or item.get("dueTime") == "" or item.get("taskOrder") == "":

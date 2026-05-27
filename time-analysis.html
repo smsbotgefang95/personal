@@ -4358,7 +4358,11 @@
   }
 
   function trackerActivities() {
-    const sources = [...taskCatalogEntries, ...appEntries, ...nativeCompletedEntries()].map(applyTaskMerge);
+    const appEntriesAreCatalogRows = taskCatalogEntries.length > 0 &&
+      appEntries.length === taskCatalogEntries.length &&
+      appEntries.every((entry, index) => entry?.id && entry.id === taskCatalogEntries[index]?.id);
+    const catalogSources = appEntriesAreCatalogRows ? [] : taskCatalogEntries;
+    const sources = [...catalogSources, ...appEntries, ...nativeCompletedEntries()].map(applyTaskMerge);
     const byTask = new Map();
     sources
       .filter((entry) => entry && entry.taskName)
