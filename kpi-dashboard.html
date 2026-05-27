@@ -376,7 +376,10 @@ function setEntryPanelOpen(open) {
 
 function toggleForm() {
   const panel = document.getElementById('entryPanel');
-  setEntryPanelOpen(panel.style.display === 'none');
+  const shouldOpen = panel.style.display === 'none';
+  setEntryPanelOpen(shouldOpen);
+  const entryDate = document.getElementById('entryDate')?.value || '';
+  if (shouldOpen && entryDate && loadedEntryDate !== entryDate) onDateChange();
 }
 
 function makeSeg(id, opts) {
@@ -469,14 +472,22 @@ function writeWaterLog(entries) {
   localStorage.setItem(WATER_LOG_KEY, JSON.stringify(entries));
 }
 
-function todayWaterEntries() {
+function waterEntriesForDate(dateStr) {
   return readWaterLog()
-    .filter(e => e.date === todayStr)
+    .filter(e => e.date === dateStr)
     .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
 }
 
+function todayWaterEntries() {
+  return waterEntriesForDate(todayStr);
+}
+
+function waterTotalForDate(dateStr) {
+  return waterEntriesForDate(dateStr).reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
+}
+
 function todayWaterTotal() {
-  return todayWaterEntries().reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
+  return waterTotalForDate(todayStr);
 }
 
 function waterNumber(value) {
@@ -506,6 +517,19 @@ function syncTodayHydrationFields(total, stopTime = '') {
   if (stopTime) document.getElementById('stopWaterTime').value = timeInputValue(stopTime);
 }
 
+function hasWaterValue(value) {
+  return value !== null && value !== undefined && value !== '';
+}
+
+function applyLocalHydrationForDate(dateStr) {
+  const total = waterTotalForDate(dateStr);
+  if (!total) return false;
+  document.getElementById('water').value = String(total);
+  const stopTime = latestWaterEntryTimeForDate(dateStr);
+  if (stopTime) document.getElementById('stopWaterTime').value = timeInputValue(stopTime);
+  return true;
+}
+
 function setSavedTodayWaterFromRows(rows) {
   const todayRow = rows.find(r => r.date === todayStr);
   savedTodayWaterLoaded = true;
@@ -517,7 +541,11 @@ function setSavedTodayWaterFromRows(rows) {
 }
 
 function latestWaterEntryTime() {
-  const entries = todayWaterEntries();
+  return latestWaterEntryTimeForDate(todayStr);
+}
+
+function latestWaterEntryTimeForDate(dateStr) {
+  const entries = waterEntriesForDate(dateStr);
   return entries.length ? entries[0].time : '';
 }
 
@@ -721,22 +749,25 @@ async function onDateChange() {
       if (data.minutesAwake)    document.getElementById('minutesAwake').value    = data.minutesAwake;
       if (data.lateSleepReason) document.getElementById('lateSleepReason').value = data.lateSleepReason;
       if (data.moodReason)      document.getElementById('moodReason').value      = data.moodReason;
-      if (data.water !== null && data.water !== undefined && data.water !== '') {
+      const hasRemoteWater = hasWaterValue(data.water);
+      if (hasRemoteWater) {
         document.getElementById('water').value = String(waterNumber(data.water));
       }
       if (data.nightUrination)  document.getElementById('nightUrination').value  = data.nightUrination;
       if (data.stopWaterTime) {
         document.getElementById('stopWaterTime').value = timeInputValue(data.stopWaterTime);
       }
+      if (!hasRemoteWater) applyLocalHydrationForDate(d);
       if (d === todayStr) {
         savedTodayWaterLoaded = true;
-        savedTodayWaterMl = waterNumber(data.water);
+        savedTodayWaterMl = hasRemoteWater ? waterNumber(data.water) : waterTotalForDate(todayStr);
         syncTodayHydrationFields(savedTodayWaterMl, data.stopWaterTime || latestWaterEntryTime());
       }
       status.textContent = '📋 Loaded';
     } else {
       applyEntryDefaults(d, { periodActive: document.getElementById('periodBtn').dataset.active === '1' });
-      if (d === todayStr) {
+      const usedLocalHydration = applyLocalHydrationForDate(d);
+      if (d === todayStr && !usedLocalHydration) {
         const total = savedTodayWaterLoaded ? savedTodayWaterMl : todayWaterTotal();
         syncTodayHydrationFields(total, latestWaterEntryTime());
       }
