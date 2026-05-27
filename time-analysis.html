@@ -4907,6 +4907,11 @@
       if (next.recurrence !== "custom") next.recurringText = "";
       nextOverrides[key] = next;
     });
+    timePayload = cleanClientPayload({
+      ...timePayload,
+      taskOverrides: nextOverrides,
+      updatedAt: isoNow()
+    });
     await saveTimePayload({
       ...timePayload,
       taskOverrides: nextOverrides
