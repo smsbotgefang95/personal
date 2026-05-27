@@ -7193,18 +7193,19 @@ pass=通过；传递
 
     const renderChunkCard = (item) => {
       const currentStatus = getVocabularyPhraseStatus(item.id);
+      const displayPhrase = formatChunkDisplayPhrase(item.phrase);
       return `
         <article class="vocabulary-card">
           <div>
-            <h3 class="vocabulary-word">${escapeHtml(item.phrase)}</h3>
+            <h3 class="vocabulary-word">${escapeHtml(displayPhrase)}</h3>
             <p class="vocabulary-meaning">${escapeHtml(item.chinese)}</p>
             <div class="vocabulary-meta">
               <span class="vocabulary-tag">${escapeHtml(CHUNK_TYPE_LABELS[item.type] || item.type)}</span>
             </div>
           </div>
           <div class="vocabulary-actions">
-            <button class="listen-button" type="button" data-speak-vocabulary-phrase="${escapeHtml(item.phrase)}" aria-label="Listen to ${escapeHtml(item.phrase)}">${SPEAKER_ICON}</button>
-            <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.phrase)}">
+            <button class="listen-button" type="button" data-speak-vocabulary-phrase="${escapeHtml(item.phrase)}" aria-label="Listen to ${escapeHtml(displayPhrase)}">${SPEAKER_ICON}</button>
+            <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(displayPhrase)}">
               ${vocabularyPhraseStatusButton(item.id, "auto", "自动", currentStatus)}
               ${vocabularyPhraseStatusButton(item.id, "to-learn", "待学", currentStatus)}
               ${vocabularyPhraseStatusButton(item.id, "learning", "学习中", currentStatus)}
@@ -8074,6 +8075,12 @@ pass=通过；传递
       .trim()
       .split(/\s+/)
       .filter(Boolean).length;
+  }
+
+  function formatChunkDisplayPhrase(phrase) {
+    const text = String(phrase || "");
+    if (/^I(\s|$)/.test(text)) return text;
+    return text.replace(/^([A-Z])/, (match) => match.toLowerCase());
   }
 
   function escapeHtml(value) {
