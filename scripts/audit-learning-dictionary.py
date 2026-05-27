@@ -117,8 +117,14 @@ const broadTopicEntries = importedIndexEntries.filter((entry) => broadImportedTo
   refs: entry.sourceRefs || [],
   topic: entry.topic,
 }));
+const zeroCountSubtopics = DICTIONARY_THEME_TOPICS.flatMap((theme) => {
+  const themeItems = items.filter((item) => item.theme === theme.id);
+  return theme.topics
+    .filter((topic) => !themeItems.some((item) => item.topic === topic))
+    .map((topic) => ({ theme: theme.id, topic }));
+});
 console.log(JSON.stringify({
-  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0,
+  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && zeroCountSubtopics.length === 0,
   totalItems: items.length,
   typeCounts,
   themeCounts,
@@ -129,6 +135,7 @@ console.log(JSON.stringify({
   bandRefs,
   bandHasBothRefs,
   broadTopicEntries,
+  zeroCountSubtopics,
   wordMetadataGaps,
 }, null, 2));
 """

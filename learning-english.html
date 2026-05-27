@@ -6489,6 +6489,15 @@ pass=通过；传递
       describing: [
         ["Describing People and Things", ["circle", "square", "heavy", "soft"]],
         ["Describing Physical States and Emotions", ["nervous"]]
+      ],
+      civics: [
+        ["Forms of Identification", ["id card", "driver's license", "passport", "green card", "social security number"]],
+        ["U.S. Government", ["government", "president", "congress", "senator", "representative", "governor", "mayor"]],
+        ["The Constitution and the Bill of Rights", ["constitution", "bill of rights", "amendment", "freedom of speech", "rights"]],
+        ["Events in United States History", ["american revolution", "civil war", "independence day", "memorial day", "veterans day"]],
+        ["Holidays", ["new year's day", "martin luther king jr. day", "presidents' day", "juneteenth", "labor day", "columbus day", "thanksgiving", "christmas", "holiday", "celebrate", "parade", "fireworks"]],
+        ["The Legal System", ["law", "court", "judge", "lawyer", "jury", "police"]],
+        ["Citizenship", ["citizen", "citizenship", "naturalization", "oath", "vote", "united states", "america", "england", "france", "china", "canada", "mexico", "united kingdom", "germany", "italy", "spain", "portugal", "ireland", "australia", "new zealand", "japan", "south korea", "india", "vietnam", "thailand", "philippines", "indonesia", "brazil", "argentina", "colombia", "chile", "peru", "russia", "ukraine", "poland", "netherlands", "sweden", "norway", "denmark", "greece", "turkey", "egypt", "morocco", "nigeria", "south africa", "kenya", "ethiopia", "saudi arabia", "iran", "pakistan", "bangladesh", "nepal", "israel"]]
       ]
     };
     return (topicSets[item.theme] || []).find(([, words]) => words.includes(word))?.[0] || "Starter words";
@@ -6595,7 +6604,36 @@ pass=通过；传递
     { theme: "transportation", word: "reservation", chinese: "预订", ipa: "ˌrezərˈveɪʃən", partOfSpeech: "noun", example: "I have a hotel reservation." },
     { theme: "transportation", word: "suitcase", chinese: "行李箱", ipa: "ˈsutkeɪs", partOfSpeech: "noun", example: "My suitcase is heavy." },
     { theme: "transportation", word: "boarding pass", chinese: "登机牌", ipa: "ˈbɔrdɪŋ pæs", partOfSpeech: "noun", example: "Show your boarding pass at the gate." },
-    { theme: "transportation", word: "tourist", chinese: "游客", ipa: "ˈtʊrɪst", partOfSpeech: "noun", example: "The tourist asks for directions." }
+    { theme: "transportation", word: "tourist", chinese: "游客", ipa: "ˈtʊrɪst", partOfSpeech: "noun", example: "The tourist asks for directions." },
+
+    { theme: "civics", word: "ID card", chinese: "身份证", ipa: "ˌaɪ ˈdi kɑrd", partOfSpeech: "noun", example: "Please show your ID card." },
+    { theme: "civics", word: "driver's license", chinese: "驾照", ipa: "ˈdraɪvərz ˈlaɪsəns", partOfSpeech: "noun", example: "A driver's license shows your name and photo." },
+    { theme: "civics", word: "passport", chinese: "护照", ipa: "ˈpæspɔrt", partOfSpeech: "noun", example: "A passport is used for international travel." },
+    { theme: "civics", word: "green card", chinese: "绿卡", ipa: "ɡrin kɑrd", partOfSpeech: "noun", example: "A green card is a permanent resident card." },
+    { theme: "civics", word: "social security number", chinese: "社会安全号码", ipa: "ˈsoʊʃəl səˈkjʊrəti ˈnʌmbər", partOfSpeech: "noun", example: "A Social Security number is used for work and taxes." },
+    { theme: "civics", word: "president", chinese: "总统", ipa: "ˈprezɪdənt", partOfSpeech: "noun", example: "The president leads the executive branch." },
+    { theme: "civics", word: "congress", chinese: "国会", ipa: "ˈkɑŋɡrəs", partOfSpeech: "noun", example: "Congress makes federal laws." },
+    { theme: "civics", word: "senator", chinese: "参议员", ipa: "ˈsenətər", partOfSpeech: "noun", example: "A senator works in the Senate." },
+    { theme: "civics", word: "representative", chinese: "众议员；代表", ipa: "ˌreprɪˈzentətɪv", partOfSpeech: "noun", example: "A representative works in the House." },
+    { theme: "civics", word: "governor", chinese: "州长", ipa: "ˈɡʌvərnər", partOfSpeech: "noun", example: "A governor leads a state." },
+    { theme: "civics", word: "mayor", chinese: "市长", ipa: "ˈmeɪər", partOfSpeech: "noun", example: "A mayor leads a city." },
+    { theme: "civics", word: "constitution", chinese: "宪法", ipa: "ˌkɑnstɪˈtuʃən", partOfSpeech: "noun", example: "The Constitution is the supreme law of the United States." },
+    { theme: "civics", word: "Bill of Rights", chinese: "权利法案", ipa: "bɪl əv raɪts", partOfSpeech: "noun", example: "The Bill of Rights has the first ten amendments." },
+    { theme: "civics", word: "amendment", chinese: "修正案", ipa: "əˈmendmənt", partOfSpeech: "noun", example: "An amendment is a change to the Constitution." },
+    { theme: "civics", word: "freedom of speech", chinese: "言论自由", ipa: "ˈfridəm əv spitʃ", partOfSpeech: "noun", example: "Freedom of speech is one right in the First Amendment." },
+    { theme: "civics", word: "rights", chinese: "权利", ipa: "raɪts", partOfSpeech: "noun", example: "Citizens have rights and responsibilities." },
+    { theme: "civics", word: "American Revolution", chinese: "美国独立战争", ipa: "əˈmerɪkən ˌrevəˈluʃən", partOfSpeech: "noun", example: "The American Revolution led to independence." },
+    { theme: "civics", word: "Civil War", chinese: "内战", ipa: "ˈsɪvəl wɔr", partOfSpeech: "noun", example: "The Civil War was fought in the 1800s." },
+    { theme: "civics", word: "law", chinese: "法律", ipa: "lɔ", partOfSpeech: "noun", example: "A law is a rule made by government." },
+    { theme: "civics", word: "court", chinese: "法院", ipa: "kɔrt", partOfSpeech: "noun", example: "A court hears legal cases." },
+    { theme: "civics", word: "judge", chinese: "法官", ipa: "dʒʌdʒ", partOfSpeech: "noun", example: "A judge works in a court." },
+    { theme: "civics", word: "jury", chinese: "陪审团", ipa: "ˈdʒʊri", partOfSpeech: "noun", example: "A jury listens to a trial." },
+    { theme: "civics", word: "police", chinese: "警察", ipa: "pəˈlis", partOfSpeech: "noun", example: "The police help keep people safe." },
+    { theme: "civics", word: "citizen", chinese: "公民", ipa: "ˈsɪtɪzən", partOfSpeech: "noun", example: "A citizen can vote in elections." },
+    { theme: "civics", word: "citizenship", chinese: "公民身份", ipa: "ˈsɪtɪzənˌʃɪp", partOfSpeech: "noun", example: "Citizenship includes rights and responsibilities." },
+    { theme: "civics", word: "naturalization", chinese: "入籍", ipa: "ˌnætʃərəlaɪˈzeɪʃən", partOfSpeech: "noun", example: "Naturalization is the process of becoming a citizen." },
+    { theme: "civics", word: "oath", chinese: "誓言", ipa: "oʊθ", partOfSpeech: "noun", example: "New citizens take the Oath of Allegiance." },
+    { theme: "civics", word: "vote", chinese: "投票", ipa: "voʊt", partOfSpeech: "verb / noun", example: "Citizens can vote in elections." }
   ].map((item, index) => ({
     id: `theme-${item.theme}-${slugifyWord(item.word)}`,
     scenario: item.theme,
