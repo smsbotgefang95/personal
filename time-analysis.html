@@ -4368,6 +4368,7 @@
           byTask.set(key, {
             ...entry,
             taskId,
+            sourceOverrideKeys: [taskOverrideKey(entry)],
             count: 0,
             totalMs: 0,
             lastStart: 0,
@@ -4375,6 +4376,7 @@
           });
         }
         const item = byTask.get(key);
+        if (!item.sourceOverrideKeys.includes(taskOverrideKey(entry))) item.sourceOverrideKeys.push(taskOverrideKey(entry));
         ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
           if ((!item[field] || item[field] === "Other") && entry[field] && entry[field] !== "Other") item[field] = entry[field];
         });
@@ -4432,6 +4434,10 @@
     if (primary.dateKeys || duplicate.dateKeys) {
       merged.dateKeys = new Set([...(primary.dateKeys || []), ...(duplicate.dateKeys || [])]);
     }
+    merged.sourceOverrideKeys = Array.from(new Set([
+      ...(primary.sourceOverrideKeys || [taskOverrideKey(primary)]),
+      ...(duplicate.sourceOverrideKeys || [taskOverrideKey(duplicate)])
+    ].filter(Boolean)));
     return merged;
   }
 
@@ -4858,7 +4864,10 @@
   }
 
   function currentTaskOverride(entry) {
-    const key = taskOverrideKey(entry);
+    return currentTaskOverrideForKey(entry, taskOverrideKey(entry));
+  }
+
+  function currentTaskOverrideForKey(entry, key) {
     const existing = timePayload.taskOverrides?.[key] || {};
     return {
       dueDate: Object.prototype.hasOwnProperty.call(existing, "dueDate") ? dateInputValue(existing.dueDate) : dateInputValue(entry.dueDate || entry.dueDateText),
@@ -4876,24 +4885,30 @@
     };
   }
 
+  function taskOverrideKeysForEdit(entry) {
+    return Array.from(new Set([
+      taskOverrideKey(entry),
+      ...(Array.isArray(entry.sourceOverrideKeys) ? entry.sourceOverrideKeys : [])
+    ].filter(Boolean)));
+  }
+
   async function saveTaskOverride(entry, patch) {
-    const key = taskOverrideKey(entry);
-    const current = currentTaskOverride(entry);
     const normalizedPatch = Object.prototype.hasOwnProperty.call(patch || {}, "taskCategory")
       ? { ...patch, taskCategory: normalizeTaskCategory(patch.taskCategory) }
       : patch;
-    const next = {
-      ...current,
-      ...normalizedPatch,
-      updatedAt: isoNow()
-    };
-    if (next.recurrence !== "custom") next.recurringText = "";
+    const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    taskOverrideKeysForEdit(entry).forEach((key) => {
+      const next = {
+        ...currentTaskOverrideForKey(entry, key),
+        ...normalizedPatch,
+        updatedAt: isoNow()
+      };
+      if (next.recurrence !== "custom") next.recurringText = "";
+      nextOverrides[key] = next;
+    });
     await saveTimePayload({
       ...timePayload,
-      taskOverrides: {
-        ...(timePayload.taskOverrides || {}),
-        [key]: next
-      }
+      taskOverrides: nextOverrides
     });
   }
 
@@ -4912,7 +4927,9 @@
       control.value = entry.taskName;
       return;
     }
-    saveTaskOverride(entry, { [field]: value }).catch((error) => setTrackerStatus(error.message, "error"));
+    const save = saveTaskOverride(entry, { [field]: value });
+    if (control.tagName === "SELECT") renderActivityRows();
+    save.catch((error) => setTrackerStatus(error.message, "error"));
   }
 
   function visibleTaskRowsForGroups(groups) {
