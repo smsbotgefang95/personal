@@ -645,6 +645,120 @@
     padding: 14px;
   }
 
+  .custom-vocabulary-builder {
+    background: #f8faf8;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 14px;
+  }
+
+  .custom-vocabulary-form {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: minmax(180px, 1fr) auto;
+  }
+
+  .custom-vocabulary-input,
+  .custom-vocabulary-field input,
+  .custom-vocabulary-field select,
+  .custom-vocabulary-field textarea {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font: inherit;
+    min-height: 42px;
+    min-width: 0;
+    padding: 9px 12px;
+  }
+
+  .custom-vocabulary-button,
+  .custom-vocabulary-secondary {
+    align-items: center;
+    border: 1px solid #143a34;
+    border-radius: 7px;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: 850;
+    justify-content: center;
+    min-height: 42px;
+    padding: 9px 14px;
+  }
+
+  .custom-vocabulary-button {
+    background: #143a34;
+    color: #fff;
+  }
+
+  .custom-vocabulary-secondary {
+    background: #fff;
+    color: #143a34;
+  }
+
+  .custom-vocabulary-button:disabled,
+  .custom-vocabulary-secondary:disabled {
+    cursor: wait;
+    opacity: 0.62;
+  }
+
+  .custom-vocabulary-status {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 750;
+    min-height: 20px;
+  }
+
+  .custom-vocabulary-status.error {
+    color: #b91c1c;
+  }
+
+  .custom-vocabulary-status.success {
+    color: #166534;
+  }
+
+  .custom-vocabulary-draft[hidden] {
+    display: none;
+  }
+
+  .custom-vocabulary-draft {
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .custom-vocabulary-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .custom-vocabulary-field {
+    display: grid;
+    gap: 5px;
+  }
+
+  .custom-vocabulary-field label {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 850;
+    text-transform: uppercase;
+  }
+
+  .custom-vocabulary-field-wide {
+    grid-column: 1 / -1;
+  }
+
+  .custom-vocabulary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
   .vocabulary-word {
     font-size: 1.2rem;
     font-weight: 850;
@@ -812,6 +926,8 @@
     .dialogue-line,
     .vocabulary-tools,
     .vocabulary-phrase-tools,
+    .custom-vocabulary-form,
+    .custom-vocabulary-grid,
     .vocabulary-card,
     .phrase-card,
     .status-row {
@@ -918,6 +1034,98 @@
         <p>Practice the top 1,000 common English words with saved learning status.</p>
       </div>
     </div>
+    <section class="custom-vocabulary-builder" aria-label="Add custom vocabulary">
+      <form class="custom-vocabulary-form" id="customVocabularyForm">
+        <input class="custom-vocabulary-input" id="customVocabularyWord" type="text" autocomplete="off" placeholder="Type an English word or phrase" aria-label="English word or phrase to add" />
+        <button class="custom-vocabulary-button" id="customVocabularyAutofill" type="submit">Auto-fill</button>
+      </form>
+      <div class="custom-vocabulary-status" id="customVocabularyStatus" role="status" aria-live="polite"></div>
+      <form class="custom-vocabulary-draft" id="customVocabularyDraft" hidden>
+        <div class="custom-vocabulary-grid">
+          <div class="custom-vocabulary-field">
+            <label for="customDraftId">ID</label>
+            <input id="customDraftId" data-custom-draft="id" type="text" readonly />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftWord">Word</label>
+            <input id="customDraftWord" data-custom-draft="word" type="text" />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftChinese">Chinese</label>
+            <input id="customDraftChinese" data-custom-draft="chinese" type="text" />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftScenario">Scenario</label>
+            <input id="customDraftScenario" data-custom-draft="scenario" type="text" readonly />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftPart">Part of speech</label>
+            <input id="customDraftPart" data-custom-draft="partOfSpeech" type="text" />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftIpa">IPA</label>
+            <input id="customDraftIpa" data-custom-draft="ipa" type="text" />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftPronunciation">Pronunciation</label>
+            <input id="customDraftPronunciation" data-custom-draft="pronunciation" type="text" />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftTheme">Theme</label>
+            <select id="customDraftTheme" data-custom-draft="theme"></select>
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftCompound">Compound</label>
+            <select id="customDraftCompound" data-custom-draft="isCompound">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftPrefix">Prefix</label>
+            <select id="customDraftPrefix" data-custom-draft="prefix"></select>
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftSuffix">Suffix</label>
+            <select id="customDraftSuffix" data-custom-draft="suffix"></select>
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftSyllable">Syllable</label>
+            <select id="customDraftSyllable" data-custom-draft="syllableType"></select>
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftRank">Rank</label>
+            <input id="customDraftRank" data-custom-draft="rank" type="text" readonly />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftCustom">Custom</label>
+            <select id="customDraftCustom" data-custom-draft="isCustom" disabled>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftRoots">Roots</label>
+            <input id="customDraftRoots" data-custom-draft="roots" type="text" placeholder="comma separated" />
+          </div>
+          <div class="custom-vocabulary-field">
+            <label for="customDraftVowelTeams">Vowel teams</label>
+            <input id="customDraftVowelTeams" data-custom-draft="vowelTeams" type="text" placeholder="comma separated" />
+          </div>
+          <div class="custom-vocabulary-field custom-vocabulary-field-wide">
+            <label for="customDraftVowelTeamSounds">Vowel team sounds JSON</label>
+            <textarea id="customDraftVowelTeamSounds" data-custom-draft="vowelTeamSounds" rows="3"></textarea>
+          </div>
+          <div class="custom-vocabulary-field custom-vocabulary-field-wide">
+            <label for="customDraftExample">Example</label>
+            <textarea id="customDraftExample" data-custom-draft="example" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="custom-vocabulary-actions">
+          <button class="custom-vocabulary-button" type="submit">Save word</button>
+          <button class="custom-vocabulary-secondary" id="customVocabularyCancel" type="button">Cancel</button>
+        </div>
+      </form>
+    </section>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="Filter vocabulary by word match position">
@@ -1062,6 +1270,13 @@
   const STORAGE_VOCAB_VOWEL_TEAM_FILTER_KEY = "learningEnglishVocabularyVowelTeamFilter";
   const STORAGE_VOCAB_IPA_FILTER_KEY = "learningEnglishVocabularyIpaFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+
+  function getLearningEnglishApiBase() {
+    const isLocalStaticServer = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) && window.location.port === "8015";
+    return isLocalStaticServer ? "http://127.0.0.1:8016" : "";
+  }
+
+  const VOCABULARY_AUTOFILL_API = `${getLearningEnglishApiBase()}/api/learning-english/vocabulary-autofill`;
 
   const SCENARIOS = [
     { id: "greetings", label: "Greetings", zh: "打招呼" },
@@ -6192,6 +6407,7 @@ pass=通过；传递
   let vocabularyPhraseStatuses = readJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, {});
   let dialogueStatuses = readJson(STORAGE_DIALOGUE_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
+  let customVocabularyDraftItem = null;
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
 
   function readJson(key, fallback) {
@@ -6212,32 +6428,91 @@ pass=通过；传递
     return word.trim().replace(/\s+/g, " ").toLowerCase();
   }
 
-  function normalizeCustomWordEntry(entry) {
-    if (!entry || typeof entry !== "object") return null;
-    const word = String(entry.word || "").trim().replace(/\s+/g, " ");
-    const chinese = String(entry.chinese || "").trim();
-    if (!word || !chinese) return null;
+  function cleanCustomText(value, limit = 240) {
+    return String(value ?? "").trim().replace(/\s+/g, " ").slice(0, limit);
+  }
+
+  function cleanVocabularyTheme(value) {
+    const theme = cleanCustomText(value, 40).toLowerCase();
+    return Object.prototype.hasOwnProperty.call(VOCABULARY_THEME_LABELS, theme) ? theme : "";
+  }
+
+  function cleanVocabularyPrefix(value) {
+    const prefix = cleanCustomText(value, 40).toLowerCase();
+    return Object.prototype.hasOwnProperty.call(VOCABULARY_PREFIX_LABELS, prefix) ? prefix : "none";
+  }
+
+  function cleanVocabularySuffix(value) {
+    const suffix = cleanCustomText(value, 40).toLowerCase();
+    return Object.prototype.hasOwnProperty.call(VOCABULARY_SUFFIX_LABELS, suffix) ? suffix : "none";
+  }
+
+  function cleanVocabularySyllableType(value) {
+    const syllableType = cleanCustomText(value, 40).toLowerCase();
+    return Object.prototype.hasOwnProperty.call(VOCABULARY_SYLLABLE_LABELS, syllableType) ? syllableType : "";
+  }
+
+  function cleanVocabularyList(value, allowed = null) {
+    const items = Array.isArray(value) ? value : String(value || "").split(",");
+    const seen = new Set();
+    return items.map((item) => cleanCustomText(item, 40).toLowerCase())
+      .filter((item) => item && (!allowed || allowed.has(item)) && !seen.has(item) && seen.add(item));
+  }
+
+  function cleanVowelTeamSounds(value, vowelTeams) {
+    const allowedTeams = new Set(vowelTeams);
+    const sounds = {};
+    if (!value || typeof value !== "object" || Array.isArray(value)) return sounds;
+    Object.entries(value).forEach(([team, sound]) => {
+      const cleanTeam = cleanCustomText(team, 12).toLowerCase();
+      const cleanSound = cleanCustomText(sound, 12).replaceAll("oʊ", "əʊ");
+      if (allowedTeams.has(cleanTeam) && IPA_SOUND_ORDER.includes(cleanSound)) {
+        sounds[cleanTeam] = cleanSound;
+      }
+    });
+    return sounds;
+  }
+
+  function buildCustomVocabularyEntry(entry) {
+    const word = cleanCustomText(entry?.word, 80);
+    if (!word) return null;
     const normalized = normalizeWordKey(word);
+    const localIpa = getBritishIpa(word);
+    const ipa = cleanCustomText(entry?.ipa, 120) || localIpa;
+    const localVowelTeams = getVocabularyVowelTeams(word);
+    const vowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
+    const localVowelTeamSounds = getVocabularyVowelTeamSoundMap(word, ipa);
+    const vowelTeamSounds = {
+      ...localVowelTeamSounds,
+      ...cleanVowelTeamSounds(entry?.vowelTeamSounds, vowelTeams)
+    };
+    const localRoots = getVocabularyRoots(word);
+    const roots = cleanVocabularyList(entry?.roots?.length ? entry.roots : localRoots, new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS)));
     return {
       id: `custom-${slugifyWord(normalized)}`,
-      word: word.slice(0, 80),
-      chinese: chinese.slice(0, 160),
+      word,
+      chinese: cleanCustomText(entry?.chinese, 160) || getCommonWordChinese(word),
       scenario: "custom",
-      partOfSpeech: "Custom word",
-      pronunciation: "",
-      example: "",
-      theme: "",
-      isCompound: COMPOUND_WORDS.has(normalized) || /\s/.test(normalized),
-      prefix: getVocabularyPrefix(word),
-      suffix: getVocabularySuffix(word),
-      roots: getVocabularyRoots(word),
-      syllableType: getVocabularySyllableType(word),
-      vowelTeams: getVocabularyVowelTeams(word),
-      vowelTeamSounds: getVocabularyVowelTeamSoundMap(word, getBritishIpa(word)),
-      ipa: getBritishIpa(word),
+      partOfSpeech: cleanCustomText(entry?.partOfSpeech, 80) || getCommonWordPartOfSpeech(word, {}) || "custom word",
+      pronunciation: cleanCustomText(entry?.pronunciation, 120),
+      example: cleanCustomText(entry?.example, 220),
+      theme: cleanVocabularyTheme(entry?.theme) || getVocabularyTheme(word),
+      isCompound: typeof entry?.isCompound === "boolean" ? entry.isCompound : (COMPOUND_WORDS.has(normalized) || /\s/.test(normalized)),
+      prefix: cleanVocabularyPrefix(entry?.prefix) !== "none" ? cleanVocabularyPrefix(entry?.prefix) : getVocabularyPrefix(word),
+      suffix: cleanVocabularySuffix(entry?.suffix) !== "none" ? cleanVocabularySuffix(entry?.suffix) : getVocabularySuffix(word),
+      roots,
+      syllableType: cleanVocabularySyllableType(entry?.syllableType) || getVocabularySyllableType(word),
+      vowelTeams,
+      vowelTeamSounds,
+      ipa,
       isCustom: true,
       rank: "Custom"
     };
+  }
+
+  function normalizeCustomWordEntry(entry) {
+    if (!entry || typeof entry !== "object") return null;
+    return buildCustomVocabularyEntry(entry);
   }
 
   function loadCustomVocabulary() {
@@ -6256,10 +6531,183 @@ pass=通过；传递
   }
 
   function saveCustomVocabulary() {
-    saveJson(STORAGE_CUSTOM_VOCAB_KEY, customVocabulary.map((item) => ({
-      word: item.word,
-      chinese: item.chinese
-    })));
+    saveJson(STORAGE_CUSTOM_VOCAB_KEY, customVocabulary.map((item) => buildCustomVocabularyEntry(item)).filter(Boolean));
+  }
+
+  function setCustomVocabularyStatus(message, type = "") {
+    const status = document.getElementById("customVocabularyStatus");
+    if (!status) return;
+    status.textContent = message;
+    status.className = `custom-vocabulary-status${type ? ` ${type}` : ""}`;
+  }
+
+  function setCustomVocabularyLoading(isLoading) {
+    document.getElementById("customVocabularyAutofill").disabled = isLoading;
+    document.querySelectorAll("#customVocabularyDraft button").forEach((button) => {
+      button.disabled = isLoading;
+    });
+  }
+
+  function setupCustomVocabularyControls() {
+    const themeSelect = document.getElementById("customDraftTheme");
+    themeSelect.innerHTML = [
+      `<option value="">No theme</option>`,
+      ...Object.entries(VOCABULARY_THEME_LABELS).map(([theme, label]) => `<option value="${theme}">${escapeHtml(label)}</option>`)
+    ].join("");
+
+    const prefixSelect = document.getElementById("customDraftPrefix");
+    prefixSelect.innerHTML = Object.entries(VOCABULARY_PREFIX_LABELS)
+      .map(([prefix, label]) => `<option value="${prefix}">${escapeHtml(label)}</option>`)
+      .join("");
+
+    const suffixSelect = document.getElementById("customDraftSuffix");
+    suffixSelect.innerHTML = Object.entries(VOCABULARY_SUFFIX_LABELS)
+      .map(([suffix, label]) => `<option value="${suffix}">${escapeHtml(label)}</option>`)
+      .join("");
+
+    const syllableSelect = document.getElementById("customDraftSyllable");
+    syllableSelect.innerHTML = [
+      `<option value="">No syllable type</option>`,
+      ...Object.entries(VOCABULARY_SYLLABLE_LABELS).map(([type, label]) => `<option value="${type}">${escapeHtml(label)}</option>`)
+    ].join("");
+  }
+
+  function showCustomVocabularyDraft(item) {
+    const draft = buildCustomVocabularyEntry(item);
+    if (!draft) return;
+    customVocabularyDraftItem = draft;
+    document.getElementById("customVocabularyDraft").hidden = false;
+    document.querySelector('[data-custom-draft="id"]').value = draft.id;
+    document.querySelector('[data-custom-draft="word"]').value = draft.word;
+    document.querySelector('[data-custom-draft="chinese"]').value = draft.chinese;
+    document.querySelector('[data-custom-draft="scenario"]').value = draft.scenario;
+    document.querySelector('[data-custom-draft="partOfSpeech"]').value = draft.partOfSpeech;
+    document.querySelector('[data-custom-draft="ipa"]').value = draft.ipa;
+    document.querySelector('[data-custom-draft="pronunciation"]').value = draft.pronunciation;
+    document.querySelector('[data-custom-draft="theme"]').value = draft.theme;
+    document.querySelector('[data-custom-draft="isCompound"]').value = String(Boolean(draft.isCompound));
+    document.querySelector('[data-custom-draft="prefix"]').value = draft.prefix;
+    document.querySelector('[data-custom-draft="suffix"]').value = draft.suffix;
+    document.querySelector('[data-custom-draft="syllableType"]').value = draft.syllableType;
+    document.querySelector('[data-custom-draft="rank"]').value = draft.rank;
+    document.querySelector('[data-custom-draft="isCustom"]').value = "true";
+    document.querySelector('[data-custom-draft="roots"]').value = draft.roots.join(", ");
+    document.querySelector('[data-custom-draft="vowelTeams"]').value = draft.vowelTeams.join(", ");
+    document.querySelector('[data-custom-draft="vowelTeamSounds"]').value = JSON.stringify(draft.vowelTeamSounds, null, 2);
+    document.querySelector('[data-custom-draft="example"]').value = draft.example;
+  }
+
+  function readCustomVocabularyDraft() {
+    let vowelTeamSounds = {};
+    try {
+      vowelTeamSounds = JSON.parse(document.querySelector('[data-custom-draft="vowelTeamSounds"]').value || "{}");
+    } catch (error) {
+      setCustomVocabularyStatus("Vowel team sounds must be valid JSON.", "error");
+      return null;
+    }
+    return buildCustomVocabularyEntry({
+      word: document.querySelector('[data-custom-draft="word"]').value,
+      chinese: document.querySelector('[data-custom-draft="chinese"]').value,
+      scenario: "custom",
+      partOfSpeech: document.querySelector('[data-custom-draft="partOfSpeech"]').value,
+      pronunciation: document.querySelector('[data-custom-draft="pronunciation"]').value,
+      example: document.querySelector('[data-custom-draft="example"]').value,
+      theme: document.querySelector('[data-custom-draft="theme"]').value,
+      isCompound: document.querySelector('[data-custom-draft="isCompound"]').value === "true",
+      prefix: document.querySelector('[data-custom-draft="prefix"]').value,
+      suffix: document.querySelector('[data-custom-draft="suffix"]').value,
+      roots: document.querySelector('[data-custom-draft="roots"]').value,
+      syllableType: document.querySelector('[data-custom-draft="syllableType"]').value,
+      vowelTeams: document.querySelector('[data-custom-draft="vowelTeams"]').value,
+      vowelTeamSounds,
+      ipa: document.querySelector('[data-custom-draft="ipa"]').value,
+      isCustom: true,
+      rank: "Custom"
+    });
+  }
+
+  function fallbackVocabularyDraft(word) {
+    return buildCustomVocabularyEntry({ word });
+  }
+
+  async function requestVocabularyAutofill(word) {
+    const response = await fetch(VOCABULARY_AUTOFILL_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ word })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.ok === false) {
+      throw new Error(payload.error === "openai_key_missing" ? "OpenAI key is not configured on the vocabulary API." : (payload.message || payload.error || "Auto-fill failed."));
+    }
+    return payload.item || {};
+  }
+
+  async function handleCustomVocabularyAutofill(event) {
+    event.preventDefault();
+    const word = cleanCustomText(document.getElementById("customVocabularyWord").value, 80);
+    if (!word) {
+      setCustomVocabularyStatus("Type a word first.", "error");
+      return;
+    }
+    setCustomVocabularyLoading(true);
+    setCustomVocabularyStatus("Auto-filling every field...");
+    try {
+      const generated = await requestVocabularyAutofill(word);
+      showCustomVocabularyDraft({ ...generated, word: generated.word || word });
+      setCustomVocabularyStatus("Review the generated fields, then save.", "success");
+    } catch (error) {
+      showCustomVocabularyDraft(fallbackVocabularyDraft(word));
+      setCustomVocabularyStatus(`${error.message} Local fields were filled as a draft.`, "error");
+    } finally {
+      setCustomVocabularyLoading(false);
+    }
+  }
+
+  function handleCustomVocabularySave(event) {
+    event.preventDefault();
+    const item = readCustomVocabularyDraft();
+    if (!item) return;
+    const existingIndex = customVocabulary.findIndex((existing) => normalizeWordKey(existing.word) === normalizeWordKey(item.word));
+    if (existingIndex >= 0) {
+      customVocabulary[existingIndex] = item;
+    } else {
+      customVocabulary.unshift(item);
+    }
+    saveCustomVocabulary();
+    document.getElementById("customVocabularyWord").value = "";
+    document.getElementById("customVocabularyDraft").hidden = true;
+    customVocabularyDraftItem = null;
+    setCustomVocabularyStatus(`Saved "${item.word}".`, "success");
+    renderVocabularyList();
+    updateProgress();
+  }
+
+  function handleCustomVocabularyCancel() {
+    document.getElementById("customVocabularyDraft").hidden = true;
+    customVocabularyDraftItem = null;
+    setCustomVocabularyStatus("");
+  }
+
+  function editCustomVocabulary(wordId) {
+    const item = customVocabulary.find((entry) => entry.id === wordId);
+    if (!item) return;
+    document.getElementById("customVocabularyWord").value = item.word;
+    showCustomVocabularyDraft(item);
+    setCustomVocabularyStatus("Edit the custom word fields, then save.", "success");
+    document.getElementById("customVocabularyForm").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function deleteCustomVocabulary(wordId) {
+    const item = customVocabulary.find((entry) => entry.id === wordId);
+    if (!item) return;
+    customVocabulary = customVocabulary.filter((entry) => entry.id !== wordId);
+    delete vocabularyStatuses[wordId];
+    saveJson(STORAGE_VOCAB_STATUS_KEY, vocabularyStatuses);
+    saveCustomVocabulary();
+    setCustomVocabularyStatus(`Deleted "${item.word}".`, "success");
+    renderVocabularyList();
+    updateProgress();
   }
 
   function loadSelectedScenario() {
@@ -7122,6 +7570,8 @@ pass=通过；传递
       const partOfSpeechLabel = getVocabularyPartLabel(item.partOfSpeech);
       const ipa = getVocabularyIpa(item);
       const pronunciation = ipa ? `<p class="vocabulary-ipa">/${escapeHtml(ipa)}/</p>` : "";
+      const pronunciationHint = item.pronunciation ? `<p class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</p>` : "";
+      const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
       const rankTag = item.isCustom ? `<span class="vocabulary-tag">自定义</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
       const partOfSpeechTag = partOfSpeechLabel ? `<span class="vocabulary-tag">${escapeHtml(partOfSpeechLabel)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
@@ -7155,9 +7605,15 @@ pass=通过；传递
               ${syllableTag}
               ${vowelTeamTag}
             </div>
+            ${pronunciationHint}
+            ${example}
           </div>
           <div class="vocabulary-actions">
             <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">${SPEAKER_ICON}</button>
+            ${item.isCustom ? `
+              <button class="custom-vocabulary-secondary" type="button" data-edit-custom-vocabulary="${item.id}">Edit</button>
+              <button class="custom-vocabulary-secondary" type="button" data-delete-custom-vocabulary="${item.id}">Delete</button>
+            ` : ""}
             <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
               ${vocabularyStatusButton(item.id, "auto", "自动", currentStatus)}
               ${vocabularyStatusButton(item.id, "to-learn", "待学", currentStatus)}
@@ -7172,6 +7628,14 @@ pass=通过；传递
 
     container.querySelectorAll("[data-speak-vocabulary]").forEach((button) => {
       button.addEventListener("click", () => speakVocabulary(button.dataset.speakVocabulary));
+    });
+
+    container.querySelectorAll("[data-edit-custom-vocabulary]").forEach((button) => {
+      button.addEventListener("click", () => editCustomVocabulary(button.dataset.editCustomVocabulary));
+    });
+
+    container.querySelectorAll("[data-delete-custom-vocabulary]").forEach((button) => {
+      button.addEventListener("click", () => deleteCustomVocabulary(button.dataset.deleteCustomVocabulary));
     });
 
     container.querySelectorAll("[data-vocabulary-status]").forEach((button) => {
@@ -7328,6 +7792,10 @@ pass=通过；传递
     saveSelectedVocabularyPhraseType();
     renderVocabularyPhrases();
   });
+  setupCustomVocabularyControls();
+  document.getElementById("customVocabularyForm").addEventListener("submit", handleCustomVocabularyAutofill);
+  document.getElementById("customVocabularyDraft").addEventListener("submit", handleCustomVocabularySave);
+  document.getElementById("customVocabularyCancel").addEventListener("click", handleCustomVocabularyCancel);
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   function resetVocabularyFilters() {
     document.getElementById("vocabularySearch").value = "";

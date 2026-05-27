@@ -6,6 +6,8 @@ import os
 import subprocess
 import tempfile
 import time
+import urllib.error
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -49,6 +51,8 @@ LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
 QUESTION_PROGRESS_DATA_PATH = env_path("QUESTION_PROGRESS_DATA_PATH", "~/personal-data/question-progress.json")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_VOCAB_MODEL = os.environ.get("OPENAI_VOCAB_MODEL", "gpt-4o-mini")
 
 
 def clean_map(value):
@@ -63,6 +67,183 @@ def clean_map(value):
         if key and item:
             cleaned[key] = item[:240]
     return cleaned
+
+
+VOCAB_THEMES = {
+    "",
+    "color",
+    "family",
+    "body",
+    "food",
+    "time",
+    "country",
+    "place",
+    "nature",
+    "number",
+    "feeling",
+    "holiday",
+    "clothes",
+    "furniture",
+    "sports",
+    "appliance",
+}
+VOCAB_PREFIXES = {"none", "re", "un", "in", "im", "il", "ir", "dis", "pre", "pro", "over", "under", "mis", "non", "de", "en", "em", "out", "sub", "super", "trans"}
+VOCAB_SUFFIXES = {"none", "s", "ed", "ly", "er", "est", "tion", "ment", "ness", "able", "ful", "less"}
+VOCAB_ROOTS = {"form", "ject", "duce", "fact", "act", "sect", "sign", "port"}
+VOCAB_SYLLABLES = {"", "open", "closed", "silent_e", "vowel_team", "r_controlled", "consonant_le"}
+VOCAB_VOWEL_TEAMS = {"ai", "ay", "ea", "ee", "ei", "ey", "ie", "oa", "oe", "oi", "oy", "oo", "ou", "ow", "ue", "ui"}
+VOCAB_IPA_SOUNDS = {"iː", "i", "ɪ", "e", "æ", "ɑː", "ɒ", "ɔː", "ʊ", "uː", "ʌ", "ɜː", "ə", "eɪ", "aɪ", "ɔɪ", "əʊ", "aʊ", "ɪə", "eə", "ʊə", "p", "b", "t", "d", "k", "ɡ", "g", "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ", "h", "tʃ", "dʒ", "m", "n", "ŋ", "l", "r", "j", "w"}
+
+
+def clean_vocab_text(value, limit=240):
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        value = str(value)
+    return " ".join(value.strip().split())[:limit]
+
+
+def clean_vocab_word(value):
+    word = clean_vocab_text(value, 80)
+    return word if 1 <= len(word) <= 80 else ""
+
+
+def clean_vocab_choice(value, allowed, fallback):
+    item = clean_vocab_text(value, 40).lower()
+    return item if item in allowed else fallback
+
+
+def clean_vocab_list(value, allowed):
+    if not isinstance(value, list):
+        value = []
+    cleaned = []
+    seen = set()
+    for item in value[:12]:
+        item = clean_vocab_text(item, 40).lower()
+        if item and item in allowed and item not in seen:
+            seen.add(item)
+            cleaned.append(item)
+    return cleaned
+
+
+def clean_vocab_vowel_team_sounds(value, teams):
+    if not isinstance(value, dict):
+        return {}
+    allowed_teams = set(teams)
+    cleaned = {}
+    for team, sound in value.items():
+        team = clean_vocab_text(team, 12).lower()
+        sound = clean_vocab_text(sound, 12).replace("oʊ", "əʊ")
+        if team in allowed_teams and sound in VOCAB_IPA_SOUNDS:
+            cleaned[team] = "ɡ" if sound == "g" else sound
+    return cleaned
+
+
+def clean_autofill_item(value, requested_word):
+    if not isinstance(value, dict):
+        value = {}
+    word = clean_vocab_word(value.get("word")) or requested_word
+    vowel_teams = clean_vocab_list(value.get("vowelTeams"), VOCAB_VOWEL_TEAMS)
+    return {
+        "word": word,
+        "chinese": clean_vocab_text(value.get("chinese"), 160),
+        "scenario": "custom",
+        "partOfSpeech": clean_vocab_text(value.get("partOfSpeech"), 80) or "custom word",
+        "pronunciation": clean_vocab_text(value.get("pronunciation"), 120),
+        "example": clean_vocab_text(value.get("example"), 220),
+        "theme": clean_vocab_choice(value.get("theme"), VOCAB_THEMES, ""),
+        "isCompound": bool(value.get("isCompound")) if isinstance(value.get("isCompound"), bool) else (" " in word),
+        "prefix": clean_vocab_choice(value.get("prefix"), VOCAB_PREFIXES, "none"),
+        "suffix": clean_vocab_choice(value.get("suffix"), VOCAB_SUFFIXES, "none"),
+        "roots": clean_vocab_list(value.get("roots"), VOCAB_ROOTS),
+        "syllableType": clean_vocab_choice(value.get("syllableType"), VOCAB_SYLLABLES, ""),
+        "vowelTeams": vowel_teams,
+        "vowelTeamSounds": clean_vocab_vowel_team_sounds(value.get("vowelTeamSounds"), vowel_teams),
+        "ipa": clean_vocab_text(value.get("ipa"), 120),
+        "isCustom": True,
+        "rank": "Custom",
+    }
+
+
+def extract_json_object(text):
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.strip("`")
+        if text.lower().startswith("json"):
+            text = text[4:].strip()
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        raise ValueError("No JSON object in model response")
+    return json.loads(text[start : end + 1])
+
+
+def openai_vocabulary_autofill(word):
+    if not OPENAI_API_KEY:
+        return None, "openai_key_missing"
+    schema_hint = {
+        "word": word,
+        "chinese": "简体中文释义",
+        "scenario": "custom",
+        "partOfSpeech": "noun / verb / adjective / adverb / phrase / etc.",
+        "pronunciation": "plain beginner-friendly pronunciation hint",
+        "example": "short simple English example sentence",
+        "theme": "one of: color, family, body, food, time, country, place, nature, number, feeling, holiday, clothes, furniture, sports, appliance, or empty string",
+        "isCompound": False,
+        "prefix": "one of known prefixes or none",
+        "suffix": "one of known suffixes or none",
+        "roots": ["only known roots: form, ject, duce, fact, act, sect, sign, port"],
+        "syllableType": "open, closed, silent_e, vowel_team, r_controlled, consonant_le, or empty string",
+        "vowelTeams": ["known vowel teams appearing in the word"],
+        "vowelTeamSounds": {"ea": "iː"},
+        "ipa": "IPA without slash marks",
+        "isCustom": True,
+        "rank": "Custom",
+    }
+    prompt = (
+        "Return only valid JSON for an English learner vocabulary card. "
+        "Use simple beginner-friendly language. Use Simplified Chinese for chinese. "
+        "Do not wrap the JSON in markdown. Fill every field. "
+        "If a field is not applicable, use an empty string, empty array, empty object, false, none, or Custom as appropriate. "
+        f"Allowed prefixes: {sorted(VOCAB_PREFIXES)}. "
+        f"Allowed suffixes: {sorted(VOCAB_SUFFIXES)}. "
+        f"Allowed roots: {sorted(VOCAB_ROOTS)}. "
+        f"Allowed themes: {sorted(VOCAB_THEMES)}. "
+        f"Allowed vowel teams: {sorted(VOCAB_VOWEL_TEAMS)}. "
+        f"Schema example: {json.dumps(schema_hint, ensure_ascii=False)}. "
+        f"Word or phrase: {word}"
+    )
+    payload = {
+        "model": OPENAI_VOCAB_MODEL,
+        "messages": [
+            {"role": "system", "content": "You are a careful English vocabulary assistant that returns strict JSON only."},
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0.2,
+        "response_format": {"type": "json_object"},
+    }
+    request = urllib.request.Request(
+        "https://api.openai.com/v1/chat/completions",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {OPENAI_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=45) as response:
+            body = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", "replace")[:1000]
+        return None, f"openai_http_{exc.code}: {detail}"
+    except Exception as exc:
+        return None, f"openai_request_failed: {exc}"
+    try:
+        content = body["choices"][0]["message"]["content"]
+        return extract_json_object(content), None
+    except Exception as exc:
+        return None, f"openai_parse_failed: {exc}"
 
 
 def load_payload():
@@ -617,6 +798,25 @@ class Handler(BaseHTTPRequestHandler):
             payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             git_result = write_life_events(payload)
             self.send_json(200, {"ok": True, "payload": payload, "git": git_result})
+            return
+        if path == "/api/learning-english/vocabulary-autofill":
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(min(length, 1024 * 16))
+                incoming = json.loads(raw.decode("utf-8")) if raw else {}
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json"})
+                return
+            word = clean_vocab_word(incoming.get("word"))
+            if not word:
+                self.send_json(400, {"ok": False, "error": "invalid_word"})
+                return
+            generated, error = openai_vocabulary_autofill(word)
+            if error:
+                status = 503 if error == "openai_key_missing" else 502
+                self.send_json(status, {"ok": False, "error": error})
+                return
+            self.send_json(200, {"ok": True, "item": clean_autofill_item(generated, word)})
             return
         if path != "/api/vocabulary-overrides":
             self.send_error(404)
