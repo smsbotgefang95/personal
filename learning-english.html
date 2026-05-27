@@ -305,6 +305,135 @@
     gap: 12px;
   }
 
+  .theme-hub-layout {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: minmax(230px, 0.48fr) minmax(0, 1fr);
+  }
+
+  .theme-search-row {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) minmax(160px, auto);
+    margin-bottom: 16px;
+  }
+
+  .theme-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .theme-card {
+    background: #f8faf8;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    display: grid;
+    gap: 7px;
+    padding: 13px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .theme-card:hover {
+    border-color: #a7d8ce;
+  }
+
+  .theme-card.active {
+    background: #ecfdf5;
+    border-color: #14b8a6;
+  }
+
+  .theme-card-title {
+    font-size: 1rem;
+    font-weight: 850;
+    line-height: 1.2;
+  }
+
+  .theme-card-meta {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 750;
+  }
+
+  .theme-card-topics {
+    color: #526057;
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .theme-detail {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .theme-detail-header {
+    align-items: start;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .theme-detail-title {
+    font-size: 1.25rem;
+    font-weight: 850;
+    line-height: 1.2;
+  }
+
+  .theme-detail-note {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 5px;
+  }
+
+  .theme-topic-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .theme-topic-chip {
+    background: #edf2ee;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: #405047;
+    font-size: 0.84rem;
+    font-weight: 800;
+    min-height: 34px;
+    padding: 7px 10px;
+  }
+
+  .theme-topic-chip:hover {
+    border-color: #a7d8ce;
+    color: var(--accent);
+  }
+
+  .theme-topic-chip.active {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  .theme-word-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .theme-open-button {
+    align-items: center;
+    background: #143a34;
+    border-radius: 7px;
+    color: #fff;
+    display: inline-flex;
+    font-weight: 850;
+    min-height: 42px;
+    padding: 9px 13px;
+    white-space: nowrap;
+  }
+
   .view-panel {
     display: none;
   }
@@ -924,6 +1053,8 @@
     .dialogue-tools,
     .dialogue-header,
     .dialogue-line,
+    .theme-hub-layout,
+    .theme-search-row,
     .vocabulary-tools,
     .vocabulary-phrase-tools,
     .custom-vocabulary-form,
@@ -945,6 +1076,10 @@
     .vocabulary-actions {
       justify-items: stretch;
       min-width: 0;
+    }
+
+    .theme-detail-header {
+      display: grid;
     }
 
     .dialogue-status-row {
@@ -990,11 +1125,29 @@
   </section>
 
   <div class="learning-tabs" role="tablist" aria-label="Learning English sections">
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-themes" data-view="themes">主题</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-vocabulary" data-view="vocabulary">单词</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">语块</button>
     <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">句子</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">对话</button>
   </div>
+
+  <section class="vocabulary-panel view-panel" id="view-themes" role="tabpanel" aria-label="Picture dictionary themes">
+    <div class="panel-header">
+      <div>
+        <h2>Picture Dictionary Themes / 图解主题</h2>
+        <p>Choose a real-life topic first, then practice useful words and phrases with Chinese support.</p>
+      </div>
+    </div>
+    <div class="theme-search-row">
+      <input class="vocabulary-search" id="themeSearch" type="search" placeholder="Search theme, word, Chinese, or example" aria-label="Search dictionary themes" />
+      <div class="vocabulary-summary" id="themeSummary">0 themes</div>
+    </div>
+    <div class="theme-hub-layout">
+      <div class="theme-grid" id="themeGrid" aria-label="Dictionary theme list"></div>
+      <div class="theme-detail" id="themeDetail" aria-label="Selected theme vocabulary"></div>
+    </div>
+  </section>
 
   <section class="phrase-panel view-panel active" id="view-practice" role="tabpanel" aria-label="Scenario conversation">
     <section id="practice" aria-labelledby="practice-title">
@@ -1269,6 +1422,7 @@
   const STORAGE_VOCAB_SYLLABLE_FILTER_KEY = "learningEnglishVocabularySyllableFilter";
   const STORAGE_VOCAB_VOWEL_TEAM_FILTER_KEY = "learningEnglishVocabularyVowelTeamFilter";
   const STORAGE_VOCAB_IPA_FILTER_KEY = "learningEnglishVocabularyIpaFilter";
+  const STORAGE_DICTIONARY_THEME_KEY = "learningEnglishDictionaryTheme";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   function getLearningEnglishApiBase() {
@@ -3754,17 +3908,28 @@ pass=通过；传递
   }
 
   const VOCABULARY_THEME_LABELS = {
+    personal: "个人信息",
     color: "颜色",
     family: "家庭",
+    daily: "日常活动",
     body: "身体",
+    health: "健康",
     food: "食物",
     time: "时间",
     country: "国家",
     place: "地点",
+    home: "家居",
+    community: "社区",
     nature: "自然",
     number: "数字",
     feeling: "感受/状态 Feeling / state",
     holiday: "美国节日",
+    shopping: "购物",
+    school: "学校",
+    work: "工作",
+    transportation: "交通",
+    recreation: "休闲娱乐",
+    travel: "旅行",
     clothes: "衣服",
     furniture: "家具",
     sports: "运动",
@@ -3772,17 +3937,28 @@ pass=通过；传递
   };
 
   const VOCABULARY_THEME_SETS = {
+    personal: new Set(["address", "age", "birthday", "email", "first name", "last name", "name", "phone number"]),
     color: new Set(["black", "blue", "brown", "color", "dark", "gold", "gray", "green", "orange", "pink", "purple", "red", "silver", "white", "yellow"]),
     family: new Set(["baby", "boy", "brother", "children", "dad", "daughter", "family", "father", "girl", "grandfather", "husband", "lady", "man", "man's", "men", "mother", "parents", "sister", "son", "wife", "woman", "women"]),
+    daily: new Set(["clean", "cook", "eat", "get up", "go", "listen", "read", "sleep", "study", "wash", "work", "write"]),
     body: new Set(["arms", "body", "ear", "eyes", "face", "feet", "fingers", "foot", "hair", "hand", "head", "heart", "legs", "mouth", "nose", "skin", "teeth"]),
+    health: new Set(["appointment", "doctor", "fever", "hospital", "medicine", "nurse", "pain", "sick", "symptom"]),
     food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "ice", "meat", "milk", "supper", "tea", "water"]),
     time: new Set(["afternoon", "age", "already", "always", "century", "day", "early", "evening", "friday", "future", "hour", "late", "minute", "monday", "moment", "month", "morning", "night", "noon", "now", "once", "past", "saturday", "second", "soon", "spring", "summer", "sunday", "thursday", "time", "today", "tomorrow", "tuesday", "wednesday", "week", "winter", "year", "yesterday"]),
     country: new Set(["america", "argentina", "australia", "bangladesh", "brazil", "canada", "chile", "china", "colombia", "denmark", "egypt", "england", "ethiopia", "france", "germany", "greece", "india", "indonesia", "iran", "ireland", "israel", "italy", "japan", "kenya", "mexico", "morocco", "nepal", "netherlands", "new zealand", "nigeria", "norway", "pakistan", "peru", "philippines", "poland", "portugal", "russia", "saudi arabia", "south africa", "south korea", "spain", "sweden", "thailand", "turkey", "ukraine", "united kingdom", "united states", "vietnam"]),
     place: new Set(["area", "city", "coast", "country", "earth", "farm", "field", "garden", "ground", "home", "house", "land", "mountain", "place", "preschool", "river", "road", "room", "school", "sea", "street", "town", "village", "west", "world"]),
+    home: new Set(["apartment", "bathroom", "bedroom", "chair", "door", "kitchen", "lamp", "living room", "table", "window"]),
+    community: new Set(["bank", "clinic", "library", "park", "pharmacy", "post office", "school", "store"]),
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
     feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hot", "kind", "nice", "ready", "sad", "sick", "sorry", "strong", "tired", "warm", "wrong"]),
     holiday: new Set(["celebrate", "christmas", "fireworks", "holiday", "parade", "thanksgiving"]),
+    shopping: new Set(["bag", "cash", "change", "cheap", "cost", "price", "receipt", "sale", "shopping", "size", "store"]),
+    school: new Set(["class", "classroom", "homework", "lesson", "school", "student", "teacher", "test"]),
+    work: new Set(["boss", "coworker", "job", "meeting", "office", "schedule", "work", "worker"]),
+    transportation: new Set(["airport", "bus", "car", "drive", "station", "street", "ticket", "train"]),
+    recreation: new Set(["beach", "game", "movie", "music", "park", "play", "sport", "swim"]),
+    travel: new Set(["airport", "hotel", "map", "passport", "reservation", "suitcase", "ticket", "travel", "trip"]),
     clothes: new Set(["belt", "boots", "coat", "dress", "gloves", "hat", "jacket", "pants", "scarf", "shirt", "shoe", "shoes", "shorts", "skirt", "socks", "sweater", "clothes", "wear"]),
     furniture: new Set(["bed", "blanket", "cabinet", "chair", "closet", "couch", "desk", "dresser", "drawer", "furniture", "lamp", "mirror", "pillow", "rug", "shelf", "sofa", "table"]),
     sports: new Set(["baseball", "basketball", "coach", "exercise", "football", "game", "goal", "gym", "match", "player", "practice", "race", "score", "soccer", "sport", "sports", "swim", "team", "tennis", "win"]),
@@ -6370,6 +6546,199 @@ pass=通过；传递
     ...item
   }));
 
+  const DICTIONARY_THEME_TOPICS = [
+    { id: "personal", label: "Personal & Family", zh: "个人与家庭", note: "Names, contact information, and family words for introductions.", topics: ["Personal information", "Contact information", "Family members"] },
+    { id: "daily", label: "Everyday Activities", zh: "日常活动", note: "Daily routines and simple actions used at home and outside.", topics: ["Morning routine", "Household actions", "Errands"] },
+    { id: "home", label: "Home", zh: "家居", note: "Rooms, furniture, and common items around the house.", topics: ["Rooms", "House parts", "Home chores"] },
+    { id: "community", label: "Community", zh: "社区", note: "Useful places and services around town.", topics: ["Places around town", "Public services", "Getting help"] },
+    { id: "food", label: "Food", zh: "食物", note: "Common food, drinks, and restaurant words.", topics: ["Groceries", "Meals", "Restaurant"] },
+    { id: "clothes", label: "Clothing", zh: "衣服", note: "Clothes, sizes, and everyday shopping words.", topics: ["Everyday clothes", "Sizes", "Laundry"] },
+    { id: "shopping", label: "Shopping", zh: "购物", note: "Prices, payment, receipts, and store questions.", topics: ["Prices", "Payment", "Returns"] },
+    { id: "health", label: "Health", zh: "健康", note: "Body, symptoms, appointments, and clinic words.", topics: ["Appointments", "Symptoms", "Medicine"] },
+    { id: "school", label: "School", zh: "学校", note: "Classroom, subjects, and study words.", topics: ["Classroom", "Study tasks", "Tests"] },
+    { id: "work", label: "Work", zh: "工作", note: "Jobs, workplace actions, and schedule words.", topics: ["People at work", "Schedule", "Pay"] },
+    { id: "transportation", label: "Transportation", zh: "交通", note: "Cars, buses, streets, tickets, and travel movement.", topics: ["Driving", "Public transportation", "Tickets"] },
+    { id: "recreation", label: "Recreation", zh: "休闲娱乐", note: "Games, music, parks, sports, and free-time activities.", topics: ["Places to go", "Entertainment", "Exercise"] },
+    { id: "nature", label: "Nature", zh: "自然", note: "Weather, animals, plants, and outdoor words.", topics: ["Weather", "Plants", "Water and land"] },
+    { id: "travel", label: "Travel", zh: "旅行", note: "Hotels, airports, reservations, and tourist needs.", topics: ["Documents", "Hotel", "Air travel"] }
+  ];
+
+  function getDictionaryStarterTopic(item) {
+    const word = normalizeWordKey(item.word);
+    const topicSets = {
+      personal: [
+        ["Contact information", ["address", "phone number"]],
+        ["Family members", ["daughter"]],
+        ["Personal information", ["first name", "last name"]]
+      ],
+      daily: [
+        ["Morning routine", ["get up", "take a shower"]],
+        ["Household actions", ["wash dishes", "make dinner"]],
+        ["Errands", ["go shopping"]]
+      ],
+      home: [
+        ["Rooms", ["living room", "bathroom"]],
+        ["House parts", ["front door", "window"]],
+        ["Home chores", ["laundry"]]
+      ],
+      community: [
+        ["Places around town", ["library", "bus stop", "city hall"]],
+        ["Public services", ["post office"]],
+        ["Getting help", ["pharmacy"]]
+      ],
+      food: [
+        ["Groceries", ["vegetables", "rice", "chicken"]],
+        ["Meals", ["water"]],
+        ["Restaurant", ["menu"]]
+      ],
+      shopping: [
+        ["Prices", ["price", "on sale"]],
+        ["Payment", ["cash", "receipt"]],
+        ["Returns", ["return"]]
+      ],
+      clothes: [
+        ["Everyday clothes", ["shirt", "pants"]],
+        ["Sizes", ["small size", "medium size"]],
+        ["Laundry", ["wash clothes"]]
+      ],
+      health: [
+        ["Appointments", ["appointment", "nurse"]],
+        ["Symptoms", ["fever", "throat"]],
+        ["Medicine", ["medicine"]]
+      ],
+      school: [
+        ["Classroom", ["classroom", "teacher"]],
+        ["Study tasks", ["homework", "question"]],
+        ["Tests", ["test"]]
+      ],
+      work: [
+        ["People at work", ["coworker", "manager"]],
+        ["Schedule", ["meeting", "schedule"]],
+        ["Pay", ["paycheck"]]
+      ],
+      transportation: [
+        ["Driving", ["driver's license", "traffic light", "parking lot"]],
+        ["Public transportation", ["train station"]],
+        ["Tickets", ["one-way ticket"]]
+      ],
+      recreation: [
+        ["Places to go", ["playground", "picnic"]],
+        ["Entertainment", ["movie theater", "music"]],
+        ["Exercise", ["exercise"]]
+      ],
+      nature: [
+        ["Weather", ["weather", "rain"]],
+        ["Plants", ["tree", "flower"]],
+        ["Water and land", ["river"]]
+      ],
+      travel: [
+        ["Documents", ["passport"]],
+        ["Hotel", ["reservation", "suitcase"]],
+        ["Air travel", ["boarding pass", "tourist"]]
+      ]
+    };
+    return (topicSets[item.theme] || []).find(([, words]) => words.includes(word))?.[0] || "Starter words";
+  }
+
+  const DICTIONARY_THEME_STARTER_VOCABULARY = [
+    { theme: "personal", word: "first name", chinese: "名字", ipa: "fɜrst neɪm", partOfSpeech: "noun", example: "Please write your first name." },
+    { theme: "personal", word: "last name", chinese: "姓", ipa: "læst neɪm", partOfSpeech: "noun", example: "My last name is Chen." },
+    { theme: "personal", word: "address", chinese: "地址", ipa: "əˈdres", partOfSpeech: "noun", example: "What is your address?" },
+    { theme: "personal", word: "phone number", chinese: "电话号码", ipa: "foʊn ˈnʌmbər", partOfSpeech: "noun", example: "Can I have your phone number?" },
+    { theme: "personal", word: "daughter", chinese: "女儿", ipa: "ˈdɔtər", partOfSpeech: "noun", example: "My daughter is at school." },
+
+    { theme: "daily", word: "get up", chinese: "起床", ipa: "ɡet ʌp", partOfSpeech: "phrasal verb", example: "I get up at seven." },
+    { theme: "daily", word: "wash dishes", chinese: "洗碗", ipa: "wɑʃ ˈdɪʃɪz", partOfSpeech: "verb phrase", example: "I wash dishes after dinner." },
+    { theme: "daily", word: "take a shower", chinese: "洗澡", ipa: "teɪk ə ˈʃaʊər", partOfSpeech: "verb phrase", example: "I take a shower in the morning." },
+    { theme: "daily", word: "go shopping", chinese: "去购物", ipa: "ɡoʊ ˈʃɑpɪŋ", partOfSpeech: "verb phrase", example: "We go shopping on Saturday." },
+    { theme: "daily", word: "make dinner", chinese: "做晚饭", ipa: "meɪk ˈdɪnər", partOfSpeech: "verb phrase", example: "I make dinner at home." },
+
+    { theme: "home", word: "living room", chinese: "客厅", ipa: "ˈlɪvɪŋ rum", partOfSpeech: "noun", example: "The sofa is in the living room." },
+    { theme: "home", word: "bathroom", chinese: "浴室；卫生间", ipa: "ˈbæθrum", partOfSpeech: "noun", example: "The bathroom is upstairs." },
+    { theme: "home", word: "front door", chinese: "前门", ipa: "frʌnt dɔr", partOfSpeech: "noun", example: "Please close the front door." },
+    { theme: "home", word: "window", chinese: "窗户", ipa: "ˈwɪndoʊ", partOfSpeech: "noun", example: "Open the window, please." },
+    { theme: "home", word: "laundry", chinese: "洗衣物", ipa: "ˈlɔndri", partOfSpeech: "noun", example: "I do laundry on Sunday." },
+
+    { theme: "community", word: "post office", chinese: "邮局", ipa: "poʊst ˈɔfɪs", partOfSpeech: "noun", example: "The post office is near the bank." },
+    { theme: "community", word: "library", chinese: "图书馆", ipa: "ˈlaɪbreri", partOfSpeech: "noun", example: "I borrow books from the library." },
+    { theme: "community", word: "pharmacy", chinese: "药房", ipa: "ˈfɑrməsi", partOfSpeech: "noun", example: "The pharmacy sells medicine." },
+    { theme: "community", word: "bus stop", chinese: "公交车站", ipa: "bʌs stɑp", partOfSpeech: "noun", example: "Wait at the bus stop." },
+    { theme: "community", word: "city hall", chinese: "市政厅", ipa: "ˈsɪti hɔl", partOfSpeech: "noun", example: "City hall opens at nine." },
+
+    { theme: "food", word: "vegetables", chinese: "蔬菜", ipa: "ˈvedʒtəbəlz", partOfSpeech: "noun", example: "I buy vegetables at the market." },
+    { theme: "food", word: "rice", chinese: "米饭", ipa: "raɪs", partOfSpeech: "noun", example: "We eat rice with dinner." },
+    { theme: "food", word: "chicken", chinese: "鸡肉", ipa: "ˈtʃɪkən", partOfSpeech: "noun", example: "The chicken is hot." },
+    { theme: "food", word: "menu", chinese: "菜单", ipa: "ˈmenju", partOfSpeech: "noun", example: "May I see the menu?" },
+    { theme: "food", word: "water", chinese: "水", ipa: "ˈwɔtər", partOfSpeech: "noun", example: "I would like water, please." },
+
+    { theme: "clothes", word: "shirt", chinese: "衬衫", ipa: "ʃɜrt", partOfSpeech: "noun", example: "I need a clean shirt." },
+    { theme: "clothes", word: "pants", chinese: "裤子", ipa: "pænts", partOfSpeech: "noun", example: "These pants are too long." },
+    { theme: "clothes", word: "small size", chinese: "小号", ipa: "smɔl saɪz", partOfSpeech: "noun phrase", example: "Do you have a small size?" },
+    { theme: "clothes", word: "medium size", chinese: "中号", ipa: "ˈmidiəm saɪz", partOfSpeech: "noun phrase", example: "I wear a medium size." },
+    { theme: "clothes", word: "wash clothes", chinese: "洗衣服", ipa: "wɑʃ kloʊðz", partOfSpeech: "verb phrase", example: "I wash clothes on Sunday." },
+
+    { theme: "shopping", word: "price", chinese: "价格", ipa: "praɪs", partOfSpeech: "noun", example: "What is the price?" },
+    { theme: "shopping", word: "receipt", chinese: "收据", ipa: "rɪˈsit", partOfSpeech: "noun", example: "Please keep the receipt." },
+    { theme: "shopping", word: "cash", chinese: "现金", ipa: "kæʃ", partOfSpeech: "noun", example: "I can pay with cash." },
+    { theme: "shopping", word: "on sale", chinese: "打折", ipa: "ɑn seɪl", partOfSpeech: "phrase", example: "This jacket is on sale." },
+    { theme: "shopping", word: "return", chinese: "退货；返回", ipa: "rɪˈtɜrn", partOfSpeech: "verb / noun", example: "Can I return this shirt?" },
+
+    { theme: "health", word: "appointment", chinese: "预约", ipa: "əˈpɔɪntmənt", partOfSpeech: "noun", example: "I have a doctor appointment." },
+    { theme: "health", word: "fever", chinese: "发烧", ipa: "ˈfivər", partOfSpeech: "noun", example: "My child has a fever." },
+    { theme: "health", word: "medicine", chinese: "药", ipa: "ˈmedəsən", partOfSpeech: "noun", example: "Take this medicine with food." },
+    { theme: "health", word: "throat", chinese: "喉咙", ipa: "θroʊt", partOfSpeech: "noun", example: "My throat hurts." },
+    { theme: "health", word: "nurse", chinese: "护士", ipa: "nɜrs", partOfSpeech: "noun", example: "The nurse checks my temperature." },
+
+    { theme: "school", word: "classroom", chinese: "教室", ipa: "ˈklæsrum", partOfSpeech: "noun", example: "The students are in the classroom." },
+    { theme: "school", word: "teacher", chinese: "老师", ipa: "ˈtitʃər", partOfSpeech: "noun", example: "The teacher writes on the board." },
+    { theme: "school", word: "homework", chinese: "家庭作业", ipa: "ˈhoʊmwɜrk", partOfSpeech: "noun", example: "I do homework after class." },
+    { theme: "school", word: "question", chinese: "问题", ipa: "ˈkwestʃən", partOfSpeech: "noun", example: "I have a question." },
+    { theme: "school", word: "test", chinese: "考试", ipa: "test", partOfSpeech: "noun", example: "The test is on Friday." },
+
+    { theme: "work", word: "coworker", chinese: "同事", ipa: "ˈkoʊwɜrkər", partOfSpeech: "noun", example: "My coworker helps me." },
+    { theme: "work", word: "meeting", chinese: "会议", ipa: "ˈmitɪŋ", partOfSpeech: "noun", example: "The meeting starts at three." },
+    { theme: "work", word: "schedule", chinese: "日程表", ipa: "ˈskedʒul", partOfSpeech: "noun", example: "Check your work schedule." },
+    { theme: "work", word: "manager", chinese: "经理", ipa: "ˈmænɪdʒər", partOfSpeech: "noun", example: "The manager is in the office." },
+    { theme: "work", word: "paycheck", chinese: "工资支票", ipa: "ˈpeɪtʃek", partOfSpeech: "noun", example: "I get my paycheck today." },
+
+    { theme: "transportation", word: "driver's license", chinese: "驾照", ipa: "ˈdraɪvərz ˈlaɪsəns", partOfSpeech: "noun", example: "Bring your driver's license." },
+    { theme: "transportation", word: "traffic light", chinese: "交通灯", ipa: "ˈtræfɪk laɪt", partOfSpeech: "noun", example: "Stop at the red traffic light." },
+    { theme: "transportation", word: "train station", chinese: "火车站", ipa: "treɪn ˈsteɪʃən", partOfSpeech: "noun", example: "The train station is downtown." },
+    { theme: "transportation", word: "one-way ticket", chinese: "单程票", ipa: "wʌn weɪ ˈtɪkɪt", partOfSpeech: "noun", example: "I need a one-way ticket." },
+    { theme: "transportation", word: "parking lot", chinese: "停车场", ipa: "ˈpɑrkɪŋ lɑt", partOfSpeech: "noun", example: "The parking lot is full." },
+
+    { theme: "recreation", word: "playground", chinese: "游乐场", ipa: "ˈpleɪɡraʊnd", partOfSpeech: "noun", example: "The children play at the playground." },
+    { theme: "recreation", word: "movie theater", chinese: "电影院", ipa: "ˈmuvi ˈθiətər", partOfSpeech: "noun", example: "We go to the movie theater tonight." },
+    { theme: "recreation", word: "music", chinese: "音乐", ipa: "ˈmjuzɪk", partOfSpeech: "noun", example: "I listen to music after work." },
+    { theme: "recreation", word: "exercise", chinese: "锻炼", ipa: "ˈeksərsaɪz", partOfSpeech: "noun / verb", example: "Exercise helps me feel strong." },
+    { theme: "recreation", word: "picnic", chinese: "野餐", ipa: "ˈpɪknɪk", partOfSpeech: "noun", example: "We have a picnic in the park." },
+
+    { theme: "nature", word: "weather", chinese: "天气", ipa: "ˈwedər", partOfSpeech: "noun", example: "The weather is nice today." },
+    { theme: "nature", word: "rain", chinese: "雨；下雨", ipa: "reɪn", partOfSpeech: "noun / verb", example: "Rain is coming this afternoon." },
+    { theme: "nature", word: "tree", chinese: "树", ipa: "tri", partOfSpeech: "noun", example: "The tree is near the house." },
+    { theme: "nature", word: "flower", chinese: "花", ipa: "ˈflaʊər", partOfSpeech: "noun", example: "The flower is yellow." },
+    { theme: "nature", word: "river", chinese: "河流", ipa: "ˈrɪvər", partOfSpeech: "noun", example: "The river is behind the park." },
+
+    { theme: "travel", word: "passport", chinese: "护照", ipa: "ˈpæspɔrt", partOfSpeech: "noun", example: "Do you have your passport?" },
+    { theme: "travel", word: "reservation", chinese: "预订", ipa: "ˌrezərˈveɪʃən", partOfSpeech: "noun", example: "I have a hotel reservation." },
+    { theme: "travel", word: "suitcase", chinese: "行李箱", ipa: "ˈsutkeɪs", partOfSpeech: "noun", example: "My suitcase is heavy." },
+    { theme: "travel", word: "boarding pass", chinese: "登机牌", ipa: "ˈbɔrdɪŋ pæs", partOfSpeech: "noun", example: "Show your boarding pass at the gate." },
+    { theme: "travel", word: "tourist", chinese: "游客", ipa: "ˈtʊrɪst", partOfSpeech: "noun", example: "The tourist asks for directions." }
+  ].map((item, index) => ({
+    id: `theme-${item.theme}-${slugifyWord(item.word)}`,
+    scenario: item.theme,
+    isCompound: /\s/.test(item.word),
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    roots: getVocabularyRoots(item.word),
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
+    rank: `Theme ${index + 1}`,
+    topic: getDictionaryStarterTopic(item),
+    ...item
+  }));
+
   function uniqueVocabularyEntries(items) {
     const seen = new Set();
     return items.filter((item) => {
@@ -6380,9 +6749,11 @@ pass=通过；传递
     });
   }
 
-  const VOCABULARY = uniqueVocabularyEntries([...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
+  const VOCABULARY = uniqueVocabularyEntries([...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY, ...DICTIONARY_THEME_STARTER_VOCABULARY]);
 
   let selectedView = loadSelectedView();
+  let selectedDictionaryTheme = loadSelectedDictionaryTheme();
+  let selectedDictionaryTopic = "all";
   let selectedScenario = loadSelectedScenario();
   let selectedPhraseStatus = loadSelectedPhraseStatus();
   let selectedDialogueScenario = loadSelectedDialogueScenario();
@@ -6764,7 +7135,7 @@ pass=通过；传递
   function loadSelectedView() {
     try {
       const saved = localStorage.getItem(STORAGE_VIEW_KEY);
-      return ["practice", "vocabulary", "phrase", "dialogue"].includes(saved) ? saved : "practice";
+      return ["themes", "practice", "vocabulary", "phrase", "dialogue"].includes(saved) ? saved : "practice";
     } catch (error) {
       return "practice";
     }
@@ -6773,6 +7144,21 @@ pass=通过；传递
   function saveSelectedView() {
     try {
       localStorage.setItem(STORAGE_VIEW_KEY, selectedView);
+    } catch (error) {}
+  }
+
+  function loadSelectedDictionaryTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_DICTIONARY_THEME_KEY);
+      return DICTIONARY_THEME_TOPICS.some((topic) => topic.id === saved) ? saved : DICTIONARY_THEME_TOPICS[0].id;
+    } catch (error) {
+      return DICTIONARY_THEME_TOPICS[0].id;
+    }
+  }
+
+  function saveSelectedDictionaryTheme() {
+    try {
+      localStorage.setItem(STORAGE_DICTIONARY_THEME_KEY, selectedDictionaryTheme);
     } catch (error) {}
   }
 
@@ -7406,6 +7792,16 @@ pass=通过；传递
     return [...VOCABULARY, ...customVocabulary];
   }
 
+  function getVocabularyForTheme(themeId) {
+    return getAllVocabulary().filter((item) => item.theme === themeId);
+  }
+
+  function getDictionaryVocabularyTopic(item) {
+    if (item.topic) return item.topic;
+    const inferred = getDictionaryStarterTopic(item);
+    return inferred === "Starter words" ? "" : inferred;
+  }
+
   function getVocabularyFilterOptions(sourceVocabulary, valueKey, labelMap, { exclude = [] } = {}) {
     const excluded = new Set(exclude);
     const counts = sourceVocabulary.reduce((map, item) => {
@@ -7653,6 +8049,178 @@ pass=通过；传递
     });
   }
 
+  function renderThemeHub() {
+    const grid = document.getElementById("themeGrid");
+    const detail = document.getElementById("themeDetail");
+    const searchInput = document.getElementById("themeSearch");
+    const summary = document.getElementById("themeSummary");
+    if (!grid || !detail || !searchInput || !summary) return;
+    const search = searchInput.value.trim().toLowerCase();
+    const topicMatchesSearch = (topic) => {
+      if (!search) return true;
+      const words = getVocabularyForTheme(topic.id);
+      return [
+        topic.label,
+        topic.zh,
+        topic.note,
+        ...words.flatMap((item) => [item.word, item.chinese, item.example, item.partOfSpeech])
+      ].some((value) => (value || "").toLowerCase().includes(search));
+    };
+    const topics = DICTIONARY_THEME_TOPICS.filter(topicMatchesSearch);
+    if (!topics.some((topic) => topic.id === selectedDictionaryTheme)) {
+      selectedDictionaryTheme = topics[0]?.id || DICTIONARY_THEME_TOPICS[0].id;
+      saveSelectedDictionaryTheme();
+    }
+
+    summary.textContent = `${topics.length} of ${DICTIONARY_THEME_TOPICS.length} themes`;
+    grid.innerHTML = topics.map((topic) => {
+      const words = getVocabularyForTheme(topic.id);
+      const isActive = topic.id === selectedDictionaryTheme;
+      return `
+        <button class="theme-card${isActive ? " active" : ""}" type="button" data-dictionary-theme="${escapeHtml(topic.id)}" aria-pressed="${isActive ? "true" : "false"}">
+          <span class="theme-card-title">${escapeHtml(topic.label)} / ${escapeHtml(topic.zh)}</span>
+          <span class="theme-card-meta">${words.length} words and phrases</span>
+          <span class="theme-card-topics">${topic.topics.map((topicLabel) => escapeHtml(topicLabel)).join(" · ")}</span>
+        </button>
+      `;
+    }).join("") || `<div class="empty">No themes match your search.</div>`;
+
+    const selectedTopic = DICTIONARY_THEME_TOPICS.find((topic) => topic.id === selectedDictionaryTheme) || DICTIONARY_THEME_TOPICS[0];
+    const selectedWords = getVocabularyForTheme(selectedTopic.id);
+    if (selectedDictionaryTopic !== "all" && !selectedTopic.topics.includes(selectedDictionaryTopic)) {
+      selectedDictionaryTopic = "all";
+    }
+    const topicFilteredWords = selectedDictionaryTopic === "all"
+      ? selectedWords
+      : selectedWords.filter((item) => getDictionaryVocabularyTopic(item) === selectedDictionaryTopic);
+    const topicButtons = [
+      { id: "all", label: "All topics", count: selectedWords.length },
+      ...selectedTopic.topics.map((topicLabel) => ({
+        id: topicLabel,
+        label: topicLabel,
+        count: selectedWords.filter((item) => getDictionaryVocabularyTopic(item) === topicLabel).length
+      }))
+    ];
+    detail.innerHTML = `
+      <div class="theme-detail-header">
+        <div>
+          <h3 class="theme-detail-title">${escapeHtml(selectedTopic.label)} / ${escapeHtml(selectedTopic.zh)}</h3>
+          <p class="theme-detail-note">${escapeHtml(selectedTopic.note)}</p>
+        </div>
+        <button class="theme-open-button" type="button" id="openThemeInVocabulary">Open in Vocabulary</button>
+      </div>
+      <div class="theme-topic-list" aria-label="Subtopics for ${escapeHtml(selectedTopic.label)}">
+        ${topicButtons.map((topicButton) => `
+          <button class="theme-topic-chip${topicButton.id === selectedDictionaryTopic ? " active" : ""}" type="button" data-dictionary-topic="${escapeHtml(topicButton.id)}">
+            ${escapeHtml(topicButton.label)} (${topicButton.count})
+          </button>
+        `).join("")}
+      </div>
+      <div class="theme-word-list">
+        ${topicFilteredWords.length ? topicFilteredWords.map((item) => {
+          const currentStatus = getVocabularyStatus(item.id);
+          const ipa = getVocabularyIpa(item);
+          const pronunciation = ipa ? `<p class="vocabulary-ipa">/${escapeHtml(ipa)}/</p>` : "";
+          const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
+          const partOfSpeechLabel = getVocabularyPartLabel(item.partOfSpeech);
+          const partOfSpeechTag = partOfSpeechLabel ? `<span class="vocabulary-tag">${escapeHtml(partOfSpeechLabel)}</span>` : "";
+          const topicLabel = getDictionaryVocabularyTopic(item);
+          return `
+            <article class="vocabulary-card" data-theme-vocabulary-card="${escapeHtml(item.id)}">
+              <div>
+                <h3 class="vocabulary-word">${escapeHtml(item.word)}</h3>
+                ${pronunciation}
+                <p class="vocabulary-meaning">${escapeHtml(item.chinese || "")}</p>
+                <div class="vocabulary-meta">
+                  <span class="vocabulary-tag">${escapeHtml(selectedTopic.zh)}</span>
+                  ${topicLabel ? `<span class="vocabulary-tag">${escapeHtml(topicLabel)}</span>` : ""}
+                  ${partOfSpeechTag}
+                </div>
+                ${example}
+              </div>
+              <div class="vocabulary-actions">
+                <button class="listen-button" type="button" data-speak-theme-vocabulary="${escapeHtml(item.id)}" aria-label="Listen to ${escapeHtml(item.word)}">${SPEAKER_ICON}</button>
+                <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
+                  ${vocabularyStatusButton(item.id, "auto", "自动", currentStatus)}
+                  ${vocabularyStatusButton(item.id, "to-learn", "待学", currentStatus)}
+                  ${vocabularyStatusButton(item.id, "learning", "学习中", currentStatus)}
+                  ${vocabularyStatusButton(item.id, "review", "复习", currentStatus)}
+                  ${vocabularyStatusButton(item.id, "learned", "已学会", currentStatus)}
+                </div>
+              </div>
+            </article>
+          `;
+        }).join("") : `<div class="empty">No words match this subtopic yet.</div>`}
+      </div>
+    `;
+
+    grid.querySelectorAll("[data-dictionary-theme]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedDictionaryTheme = button.dataset.dictionaryTheme;
+        selectedDictionaryTopic = "all";
+        saveSelectedDictionaryTheme();
+        renderThemeHub();
+      });
+    });
+
+    detail.querySelectorAll("[data-dictionary-topic]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedDictionaryTopic = button.dataset.dictionaryTopic;
+        renderThemeHub();
+      });
+    });
+
+    detail.querySelector("#openThemeInVocabulary")?.addEventListener("click", () => {
+      document.getElementById("vocabularySearch").value = "";
+      selectedVocabularyWordMatch = "contains";
+      selectedVocabularyStatus = "all";
+      selectedVocabularyPart = "all";
+      selectedVocabularyTheme = selectedDictionaryTheme;
+      selectedVocabularyCompound = "all";
+      selectedVocabularyTense = "all";
+      selectedVocabularyPrefix = "all";
+      selectedVocabularySuffix = "all";
+      selectedVocabularyRoot = "all";
+      selectedVocabularySyllable = "all";
+      selectedVocabularyVowelTeam = "all";
+      selectedVocabularyIpa = "all";
+      selectedView = "vocabulary";
+      saveSelectedVocabularyWordMatch();
+      saveSelectedVocabularyStatus();
+      saveSelectedVocabularyPart();
+      saveSelectedVocabularyTheme();
+      saveSelectedVocabularyCompound();
+      saveSelectedVocabularyTense();
+      saveSelectedVocabularyPrefix();
+      saveSelectedVocabularySuffix();
+      saveSelectedVocabularyRoot();
+      saveSelectedVocabularySyllable();
+      saveSelectedVocabularyVowelTeam();
+      saveSelectedVocabularyIpa();
+      saveSelectedView();
+      render();
+      document.getElementById("view-vocabulary")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    detail.querySelectorAll("[data-speak-theme-vocabulary]").forEach((button) => {
+      button.addEventListener("click", () => speakVocabulary(button.dataset.speakThemeVocabulary));
+    });
+
+    detail.querySelectorAll("[data-vocabulary-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.dataset.vocabularyStatus === "auto") {
+          delete vocabularyStatuses[button.dataset.vocabularyId];
+        } else {
+          vocabularyStatuses[button.dataset.vocabularyId] = button.dataset.vocabularyStatus;
+        }
+        saveJson(STORAGE_VOCAB_STATUS_KEY, vocabularyStatuses);
+        markDailyActivity();
+        renderThemeHub();
+        updateProgress();
+      });
+    });
+  }
+
   function slugifyWord(word) {
     return word.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "word";
   }
@@ -7739,6 +8307,7 @@ pass=通过；传递
     renderLearningTabs();
     renderScenarioTabs();
     renderDialogueTabs();
+    renderThemeHub();
     renderPhraseList();
     renderDialogueList();
     renderVocabularyList();
@@ -7754,6 +8323,7 @@ pass=通过；传递
     });
   });
 
+  document.getElementById("themeSearch").addEventListener("input", renderThemeHub);
   document.getElementById("phraseSearch").addEventListener("input", renderPhraseList);
   document.getElementById("phraseLengthFilter").addEventListener("change", renderPhraseList);
   document.getElementById("phraseStatusFilter").addEventListener("change", (event) => {
