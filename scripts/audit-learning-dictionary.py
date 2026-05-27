@@ -123,8 +123,16 @@ const zeroCountSubtopics = DICTIONARY_THEME_TOPICS.flatMap((theme) => {
     .filter((topic) => !themeItems.some((item) => item.topic === topic))
     .map((topic) => ({ theme: theme.id, topic }));
 });
+const requiredDailySubtopics = ["Classroom Actions", "Prepositions", "The Weather"];
+const dailySubtopicCounts = Object.fromEntries(requiredDailySubtopics.map((topic) => [
+  topic,
+  items.filter((item) => item.theme === "daily" && item.topic === topic).length,
+]));
+const missingDailySubtopicCounts = Object.entries(dailySubtopicCounts)
+  .filter(([, count]) => count === 0)
+  .map(([topic]) => topic);
 console.log(JSON.stringify({
-  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && zeroCountSubtopics.length === 0,
+  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && zeroCountSubtopics.length === 0 && missingDailySubtopicCounts.length === 0,
   totalItems: items.length,
   typeCounts,
   themeCounts,
@@ -136,6 +144,8 @@ console.log(JSON.stringify({
   bandHasBothRefs,
   broadTopicEntries,
   zeroCountSubtopics,
+  dailySubtopicCounts,
+  missingDailySubtopicCounts,
   wordMetadataGaps,
 }, null, 2));
 """
