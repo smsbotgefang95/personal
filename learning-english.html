@@ -1678,6 +1678,19 @@
   );
 
   const BRITISH_IPA_DATA = `
+1=wʌn
+2=tuː
+3=θriː
+4=fɔː
+5=faɪv
+6=sɪks
+7=ˈsevən
+8=eɪt
+9=naɪn
+10=ten
+12=twelv
+100=wʌn ˈhʌndrəd
+000=ˈθaʊzənd
 a=ə
 able=ˈeɪbəl
 about=əˈbaʊt
@@ -4180,8 +4193,9 @@ pass=通过；传递
 
   function getVocabularyTheme(word) {
     const normalized = word.toLowerCase();
+    if (/^\d+$/.test(normalized)) return "numbers";
     const theme = Object.keys(VOCABULARY_THEME_SETS).find((themeName) => VOCABULARY_THEME_SETS[themeName].has(normalized)) || "";
-    return LEGACY_VOCABULARY_THEME_MAP[theme] || theme;
+    return LEGACY_VOCABULARY_THEME_MAP[theme] || theme || "daily";
   }
 
   function getVocabularyPrefix(word) {
@@ -6349,6 +6363,35 @@ pass=通过；传递
     { id: "civics", label: "U.S. Civics", zh: "美国公民", color: "#f1f5f9", note: "Identification, U.S. government, the Constitution, history, holidays, legal system, and citizenship.", topics: ["Forms of Identification", "U.S. Government", "The Constitution and the Bill of Rights", "Events in United States History", "Holidays", "The Legal System", "Citizenship"] }
   ];
 
+  const DICTIONARY_TYPE_LABELS = {
+    word: "Word",
+    sentence: "Sentence",
+    phrase: "Phrase",
+    "dialogue-sentence": "Dialogue sentence"
+  };
+
+  const DICTIONARY_SCENARIO_MAP = {
+    greetings: { theme: "daily", topic: "Everyday Conversation" },
+    phone: { theme: "daily", topic: "Everyday Conversation" },
+    cooking: { theme: "food", topic: "Food Preparation and Recipes" },
+    restaurant: { theme: "food", topic: "The Restaurant" },
+    shopping: { theme: "shopping", topic: "Shopping" },
+    doctor: { theme: "health", topic: "The Medical Exam" },
+    work: { theme: "work", topic: "The Workplace" }
+  };
+
+  const DICTIONARY_CHUNK_TYPE_MAP = {
+    "sentence-frame": { theme: "daily", topic: "Everyday Conversation" },
+    "functional-chunk": { theme: "daily", topic: "Everyday Conversation" },
+    "fixed-expression": { theme: "daily", topic: "Everyday Conversation" },
+    cliche: { theme: "daily", topic: "Everyday Conversation" },
+    idiom: { theme: "daily", topic: "Everyday Conversation" },
+    collocation: { theme: "daily", topic: "Everyday Conversation" },
+    "phrasal-verb": { theme: "daily", topic: "Everyday Activities I" },
+    "noun-phrase": { theme: "describing", topic: "Describing People and Things" },
+    "compound-chunk": { theme: "describing", topic: "Describing People and Things" }
+  };
+
   function getDictionaryStarterTopic(item) {
     const word = normalizeWordKey(item.word);
     const topicSets = {
@@ -7332,10 +7375,197 @@ pass=通过；传递
     return getAllVocabulary().filter((item) => item.theme === themeId);
   }
 
+  function getDictionaryTheme(themeId) {
+    return DICTIONARY_THEME_TOPICS.find((topic) => topic.id === themeId) || DICTIONARY_THEME_TOPICS[0];
+  }
+
   function getDictionaryVocabularyTopic(item) {
     if (item.topic) return item.topic;
     const inferred = getDictionaryStarterTopic(item);
     return inferred === "Starter words" ? "" : inferred;
+  }
+
+  function getScenarioDictionaryPlacement(scenarioId) {
+    return DICTIONARY_SCENARIO_MAP[scenarioId] || { theme: "daily", topic: "Everyday Conversation" };
+  }
+
+  function getChunkDictionaryPlacement(item) {
+    const exactMatch = getAllVocabulary().find((word) => normalizeWordKey(word.word) === normalizeWordKey(item.phrase));
+    if (exactMatch?.theme) {
+      return { theme: exactMatch.theme, topic: getDictionaryVocabularyTopic(exactMatch) || "Starter words" };
+    }
+    const matchedWords = getAllVocabulary().filter((word) => (item.words || []).some((chunkWord) => normalizeWordKey(chunkWord) === normalizeWordKey(word.word)));
+    const themeCounts = matchedWords.reduce((map, word) => {
+      if (!word.theme) return map;
+      map.set(word.theme, (map.get(word.theme) || 0) + 1);
+      return map;
+    }, new Map());
+    const topTheme = [...themeCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+    if (topTheme) {
+      const topicMatch = matchedWords.find((word) => word.theme === topTheme);
+      return { theme: topTheme, topic: getDictionaryVocabularyTopic(topicMatch) || "Starter words" };
+    }
+    return DICTIONARY_CHUNK_TYPE_MAP[item.type] || { theme: "daily", topic: "Everyday Conversation" };
+  }
+
+  function buildDictionaryItems() {
+    const wordItems = getAllVocabulary().map((item) => ({
+      id: `word:${item.id}`,
+      sourceId: item.id,
+      sourceType: "word",
+      statusKind: "vocabulary",
+      title: item.word,
+      chinese: item.chinese,
+      pronunciation: getVocabularyIpa(item),
+      pronunciationLabel: "ipa",
+      hint: item.pronunciation,
+      example: item.example,
+      theme: item.theme || "daily",
+      topic: getDictionaryVocabularyTopic(item) || "Starter words",
+      tags: [
+        DICTIONARY_TYPE_LABELS.word,
+        getVocabularyPartLabel(item.partOfSpeech),
+        item.prefix && item.prefix !== "none" ? `${item.prefix}-` : "",
+        item.suffix && item.suffix !== "none" ? (VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix) : ""
+      ],
+      searchParts: [item.word, item.chinese, item.example, item.partOfSpeech, item.pronunciation, getVocabularyIpa(item), item.rank]
+    }));
+
+    const sentenceItems = PHRASES.map((item) => {
+      const placement = getScenarioDictionaryPlacement(item.scenario);
+      const scenario = SCENARIOS.find((scenarioItem) => scenarioItem.id === item.scenario);
+      return {
+        id: `sentence:${item.id}`,
+        sourceId: item.id,
+        sourceType: "sentence",
+        statusKind: "sentence",
+        title: item.english,
+        chinese: item.chinese,
+        pronunciation: item.pronunciation,
+        pronunciationLabel: "pronunciation",
+        example: item.usage,
+        theme: placement.theme,
+        topic: placement.topic,
+        tags: [DICTIONARY_TYPE_LABELS.sentence, scenario?.label],
+        searchParts: [item.english, item.chinese, item.pronunciation, item.usage, scenario?.label, scenario?.zh]
+      };
+    });
+
+    const phraseItems = VOCABULARY_PHRASES.map((item) => {
+      const placement = getChunkDictionaryPlacement(item);
+      return {
+        id: `phrase:${item.id}`,
+        sourceId: item.id,
+        sourceType: "phrase",
+        statusKind: "vocabularyPhrase",
+        title: item.phrase,
+        chinese: item.chinese,
+        pronunciation: item.pronunciation,
+        pronunciationLabel: "pronunciation",
+        theme: placement.theme,
+        topic: placement.topic,
+        tags: [DICTIONARY_TYPE_LABELS.phrase, CHUNK_TYPE_LABELS[item.type] || item.type],
+        searchParts: [item.phrase, item.chinese, item.pronunciation, CHUNK_TYPE_LABELS[item.type], ...(item.words || [])]
+      };
+    });
+
+    const dialogueItems = DIALOGUES.flatMap((dialogue) => {
+      const placement = getScenarioDictionaryPlacement(dialogue.scenario);
+      const scenario = DIALOGUE_SCENARIOS.find((scenarioItem) => scenarioItem.id === dialogue.scenario);
+      return dialogue.lines.map((line, index) => ({
+        id: `dialogue-sentence:${dialogue.id}:${index}`,
+        sourceId: dialogue.id,
+        sourceType: "dialogue-sentence",
+        statusKind: "dialogue",
+        lineIndex: index,
+        title: line.english,
+        chinese: line.chinese,
+        pronunciation: line.pronunciation,
+        pronunciationLabel: "pronunciation",
+        example: `${dialogue.title}: ${dialogue.context}`,
+        theme: placement.theme,
+        topic: placement.topic,
+        tags: [DICTIONARY_TYPE_LABELS["dialogue-sentence"], scenario?.label],
+        searchParts: [line.english, line.chinese, line.pronunciation, dialogue.title, dialogue.chineseTitle, dialogue.context, scenario?.label, scenario?.zh]
+      }));
+    });
+
+    return [...wordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
+  }
+
+  function getDictionaryItemsForTheme(themeId) {
+    return buildDictionaryItems().filter((item) => item.theme === themeId);
+  }
+
+  function getDictionaryTypeCounts(items) {
+    return items.reduce((counts, item) => {
+      counts[item.sourceType] = (counts[item.sourceType] || 0) + 1;
+      return counts;
+    }, {});
+  }
+
+  function formatDictionaryTypeCounts(items) {
+    const counts = getDictionaryTypeCounts(items);
+    return [
+      counts.word ? `${counts.word} words` : "",
+      counts.sentence ? `${counts.sentence} sentences` : "",
+      counts.phrase ? `${counts.phrase} phrases` : "",
+      counts["dialogue-sentence"] ? `${counts["dialogue-sentence"]} dialogue lines` : ""
+    ].filter(Boolean).join(" · ") || "0 items";
+  }
+
+  function getDictionaryStatus(item) {
+    if (item.statusKind === "vocabulary") return getVocabularyStatus(item.sourceId);
+    if (item.statusKind === "vocabularyPhrase") return getVocabularyPhraseStatus(item.sourceId);
+    if (item.statusKind === "dialogue") return getDialogueStatus(item.sourceId);
+    return statuses[item.sourceId] || "auto";
+  }
+
+  function dictionaryStatusButton(item, status, label, currentStatus) {
+    const active = currentStatus === status ? " active" : "";
+    return `<button class="status-button${active}" type="button" data-dictionary-status="${status}" data-dictionary-source-type="${item.sourceType}" data-dictionary-source-id="${escapeHtml(item.sourceId)}">${label}</button>`;
+  }
+
+  function saveDictionaryStatus(sourceType, sourceId, nextStatus) {
+    if (sourceType === "word") {
+      if (nextStatus === "auto") delete vocabularyStatuses[sourceId];
+      else vocabularyStatuses[sourceId] = nextStatus;
+      saveJson(STORAGE_VOCAB_STATUS_KEY, vocabularyStatuses);
+      return;
+    }
+    if (sourceType === "phrase") {
+      if (nextStatus === "auto") delete vocabularyPhraseStatuses[sourceId];
+      else vocabularyPhraseStatuses[sourceId] = nextStatus;
+      saveJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, vocabularyPhraseStatuses);
+      return;
+    }
+    if (sourceType === "dialogue-sentence") {
+      if (nextStatus === "auto") delete dialogueStatuses[sourceId];
+      else dialogueStatuses[sourceId] = nextStatus;
+      saveJson(STORAGE_DIALOGUE_STATUS_KEY, dialogueStatuses);
+      return;
+    }
+    if (nextStatus === "auto") delete statuses[sourceId];
+    else statuses[sourceId] = nextStatus;
+    saveJson(STORAGE_STATUS_KEY, statuses);
+  }
+
+  function speakDictionaryItem(item) {
+    if (item.sourceType === "word") {
+      speakVocabulary(item.sourceId);
+      return;
+    }
+    if (item.sourceType === "sentence") {
+      speakPhrase(item.sourceId);
+      return;
+    }
+    if (item.sourceType === "dialogue-sentence") {
+      speakDialogueLine(item.sourceId, Number(item.lineIndex));
+      return;
+    }
+    speakText(item.title);
+    markDailyActivity();
+    updateProgress();
   }
 
   function getVocabularyFilterOptions(sourceVocabulary, valueKey, labelMap, { exclude = [] } = {}) {
@@ -7577,14 +7807,16 @@ pass=通过；传递
     const summary = document.getElementById("themeSummary");
     if (!grid || !detail || !searchInput || !summary) return;
     const search = searchInput.value.trim().toLowerCase();
+    const dictionaryItems = buildDictionaryItems();
     const topicMatchesSearch = (topic) => {
       if (!search) return true;
-      const words = getVocabularyForTheme(topic.id);
+      const items = dictionaryItems.filter((item) => item.theme === topic.id);
       return [
         topic.label,
         topic.zh,
         topic.note,
-        ...words.flatMap((item) => [item.word, item.chinese, item.example, item.partOfSpeech])
+        ...topic.topics,
+        ...items.flatMap((item) => [item.title, item.chinese, item.example, item.pronunciation, item.topic, ...(item.tags || []), ...(item.searchParts || [])])
       ].some((value) => (value || "").toLowerCase().includes(search));
     };
     const topics = DICTIONARY_THEME_TOPICS.filter(topicMatchesSearch);
@@ -7593,40 +7825,44 @@ pass=通过；传递
       saveSelectedDictionaryTheme();
     }
 
-    summary.textContent = `${topics.length} of ${DICTIONARY_THEME_TOPICS.length} themes`;
+    summary.textContent = `${topics.length} of ${DICTIONARY_THEME_TOPICS.length} themes · ${dictionaryItems.length} items`;
     grid.innerHTML = topics.map((topic) => {
-      const words = getVocabularyForTheme(topic.id);
+      const items = dictionaryItems.filter((item) => item.theme === topic.id);
       const isActive = topic.id === selectedDictionaryTheme;
       return `
         <button class="theme-card${isActive ? " active" : ""}" type="button" data-dictionary-theme="${escapeHtml(topic.id)}" style="--theme-bg: ${escapeHtml(topic.color)}" aria-pressed="${isActive ? "true" : "false"}">
           <span class="theme-card-title">${escapeHtml(topic.label)} / ${escapeHtml(topic.zh)}</span>
-          <span class="theme-card-meta">${words.length} words and phrases</span>
+          <span class="theme-card-meta">${escapeHtml(formatDictionaryTypeCounts(items))}</span>
           <span class="theme-card-topics">${topic.topics.map((topicLabel) => escapeHtml(topicLabel)).join(" · ")}</span>
         </button>
       `;
     }).join("") || `<div class="empty">No themes match your search.</div>`;
 
-    const selectedTopic = DICTIONARY_THEME_TOPICS.find((topic) => topic.id === selectedDictionaryTheme) || DICTIONARY_THEME_TOPICS[0];
-    const selectedWords = getVocabularyForTheme(selectedTopic.id);
-    if (selectedDictionaryTopic !== "all" && !selectedTopic.topics.includes(selectedDictionaryTopic)) {
+    const selectedTopic = getDictionaryTheme(selectedDictionaryTheme);
+    const selectedItems = dictionaryItems.filter((item) => item.theme === selectedTopic.id);
+    const selectedTopicLabels = [...new Set([
+      ...selectedTopic.topics,
+      ...selectedItems.map((item) => item.topic).filter(Boolean)
+    ])];
+    if (selectedDictionaryTopic !== "all" && !selectedTopicLabels.includes(selectedDictionaryTopic)) {
       selectedDictionaryTopic = "all";
     }
-    const topicFilteredWords = selectedDictionaryTopic === "all"
-      ? selectedWords
-      : selectedWords.filter((item) => getDictionaryVocabularyTopic(item) === selectedDictionaryTopic);
+    const topicFilteredItems = selectedDictionaryTopic === "all"
+      ? selectedItems
+      : selectedItems.filter((item) => item.topic === selectedDictionaryTopic);
     const topicButtons = [
-      { id: "all", label: "All topics", count: selectedWords.length },
-      ...selectedTopic.topics.map((topicLabel) => ({
+      { id: "all", label: "All topics", count: selectedItems.length },
+      ...selectedTopicLabels.map((topicLabel) => ({
         id: topicLabel,
         label: topicLabel,
-        count: selectedWords.filter((item) => getDictionaryVocabularyTopic(item) === topicLabel).length
+        count: selectedItems.filter((item) => item.topic === topicLabel).length
       }))
     ];
     detail.innerHTML = `
       <div class="theme-detail-header">
         <div>
           <h3 class="theme-detail-title">${escapeHtml(selectedTopic.label)} / ${escapeHtml(selectedTopic.zh)}</h3>
-          <p class="theme-detail-note">${escapeHtml(selectedTopic.note)}</p>
+          <p class="theme-detail-note">${escapeHtml(selectedTopic.note)} ${escapeHtml(formatDictionaryTypeCounts(selectedItems))}.</p>
         </div>
         <button class="theme-open-button" type="button" id="openThemeInVocabulary">Open in Vocabulary</button>
       </div>
@@ -7638,40 +7874,43 @@ pass=通过；传递
         `).join("")}
       </div>
       <div class="theme-word-list">
-        ${topicFilteredWords.length ? topicFilteredWords.map((item) => {
-          const currentStatus = getVocabularyStatus(item.id);
-          const ipa = getVocabularyIpa(item);
-          const pronunciation = ipa ? `<p class="vocabulary-ipa">/${escapeHtml(ipa)}/</p>` : "";
+        ${topicFilteredItems.length ? topicFilteredItems.map((item) => {
+          const currentStatus = getDictionaryStatus(item);
+          const pronunciation = item.pronunciation
+            ? `<p class="${item.pronunciationLabel === "ipa" ? "vocabulary-ipa" : "vocabulary-pronunciation"}">${item.pronunciationLabel === "ipa" ? `/${escapeHtml(item.pronunciation)}/` : escapeHtml(item.pronunciation)}</p>`
+            : "";
+          const hint = item.hint ? `<p class="vocabulary-pronunciation">${escapeHtml(item.hint)}</p>` : "";
           const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
-          const partOfSpeechLabel = getVocabularyPartLabel(item.partOfSpeech);
-          const partOfSpeechTag = partOfSpeechLabel ? `<span class="vocabulary-tag">${escapeHtml(partOfSpeechLabel)}</span>` : "";
-          const topicLabel = getDictionaryVocabularyTopic(item);
+          const tags = [selectedTopic.zh, item.topic, ...(item.tags || [])]
+            .filter(Boolean)
+            .filter((tag, index, allTags) => allTags.indexOf(tag) === index)
+            .map((tag) => `<span class="vocabulary-tag">${escapeHtml(tag)}</span>`)
+            .join("");
           return `
-            <article class="vocabulary-card" data-theme-vocabulary-card="${escapeHtml(item.id)}">
+            <article class="vocabulary-card" data-theme-dictionary-card="${escapeHtml(item.id)}">
               <div>
-                <h3 class="vocabulary-word">${escapeHtml(item.word)}</h3>
+                <h3 class="vocabulary-word">${escapeHtml(item.title)}</h3>
                 ${pronunciation}
                 <p class="vocabulary-meaning">${escapeHtml(item.chinese || "")}</p>
                 <div class="vocabulary-meta">
-                  <span class="vocabulary-tag">${escapeHtml(selectedTopic.zh)}</span>
-                  ${topicLabel ? `<span class="vocabulary-tag">${escapeHtml(topicLabel)}</span>` : ""}
-                  ${partOfSpeechTag}
+                  ${tags}
                 </div>
+                ${hint}
                 ${example}
               </div>
               <div class="vocabulary-actions">
-                <button class="listen-button" type="button" data-speak-theme-vocabulary="${escapeHtml(item.id)}" aria-label="Listen to ${escapeHtml(item.word)}">${SPEAKER_ICON}</button>
-                <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
-                  ${vocabularyStatusButton(item.id, "auto", "自动", currentStatus)}
-                  ${vocabularyStatusButton(item.id, "to-learn", "待学", currentStatus)}
-                  ${vocabularyStatusButton(item.id, "learning", "学习中", currentStatus)}
-                  ${vocabularyStatusButton(item.id, "review", "复习", currentStatus)}
-                  ${vocabularyStatusButton(item.id, "learned", "已学会", currentStatus)}
+                <button class="listen-button" type="button" data-speak-dictionary-item="${escapeHtml(item.id)}" aria-label="Listen to ${escapeHtml(item.title)}">${SPEAKER_ICON}</button>
+                <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.title)}">
+                  ${dictionaryStatusButton(item, "auto", "自动", currentStatus)}
+                  ${dictionaryStatusButton(item, "to-learn", "待学", currentStatus)}
+                  ${dictionaryStatusButton(item, "learning", "学习中", currentStatus)}
+                  ${dictionaryStatusButton(item, "review", "复习", currentStatus)}
+                  ${dictionaryStatusButton(item, "learned", "已学会", currentStatus)}
                 </div>
               </div>
             </article>
           `;
-        }).join("") : `<div class="empty">No words match this subtopic yet.</div>`}
+        }).join("") : `<div class="empty">No dictionary items match this subtopic yet.</div>`}
       </div>
     `;
 
@@ -7722,18 +7961,16 @@ pass=通过；传递
       document.getElementById("view-vocabulary")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
-    detail.querySelectorAll("[data-speak-theme-vocabulary]").forEach((button) => {
-      button.addEventListener("click", () => speakVocabulary(button.dataset.speakThemeVocabulary));
+    detail.querySelectorAll("[data-speak-dictionary-item]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = dictionaryItems.find((dictionaryItem) => dictionaryItem.id === button.dataset.speakDictionaryItem);
+        if (item) speakDictionaryItem(item);
+      });
     });
 
-    detail.querySelectorAll("[data-vocabulary-status]").forEach((button) => {
+    detail.querySelectorAll("[data-dictionary-status]").forEach((button) => {
       button.addEventListener("click", () => {
-        if (button.dataset.vocabularyStatus === "auto") {
-          delete vocabularyStatuses[button.dataset.vocabularyId];
-        } else {
-          vocabularyStatuses[button.dataset.vocabularyId] = button.dataset.vocabularyStatus;
-        }
-        saveJson(STORAGE_VOCAB_STATUS_KEY, vocabularyStatuses);
+        saveDictionaryStatus(button.dataset.dictionarySourceType, button.dataset.dictionarySourceId, button.dataset.dictionaryStatus);
         markDailyActivity();
         renderThemeHub();
         updateProgress();
