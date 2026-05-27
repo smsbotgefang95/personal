@@ -3719,6 +3719,7 @@ pass=通过；传递
     transportation: "交通",
     recreation: "休闲娱乐",
     travel: "旅行",
+    civics: "美国公民",
     clothes: "衣服",
     furniture: "家具",
     sports: "运动",
@@ -6341,43 +6342,39 @@ pass=通过；传递
   }));
 
   const DICTIONARY_THEME_TOPICS = [
-    { id: "personal", label: "Personal Information and Family", zh: "个人信息与家庭", note: "Names, addresses, identification, family relationships, and family life.", topics: ["First Names", "Last Names", "Titles", "Addresses", "Telephone Numbers", "Identification", "The Family", "Describing the Family", "Life Events and Documents", "A Family Tree", "Family Activities"] },
-    { id: "daily", label: "Common Everyday Activities", zh: "日常活动", note: "Daily routines and repeated actions at home, outside, and during free time.", topics: ["Common Everyday Activities", "The Daily Routine", "The Morning Routine", "In the Bathroom", "In the Kitchen", "Cleaning the House", "Doing the Laundry", "Outdoor Activities", "Leisure Activities"] },
-    { id: "numbers", label: "Numbers, Time, Money, and the Calendar", zh: "数字、时间、金钱与日历", note: "Numbers, dates, money, time, seasons, weekdays, months, and holidays.", topics: ["Cardinal Numbers", "Ordinal Numbers", "Fractions and Decimals", "Basic Math", "Time", "Digital Time", "Time Zones", "Money", "The Calendar", "Years", "The Seasons", "Days of the Week", "Months of the Year", "Holidays"] },
-    { id: "food", label: "Food", zh: "食物", note: "Food groups, supermarket language, kitchen tools, eating out, and restaurant menus.", topics: ["Fruits", "Vegetables", "Meat, Poultry, and Seafood", "Deli and Dairy", "Beverages", "Groceries", "Containers and Quantities", "The Supermarket", "Food Preparation", "Kitchen Utensils", "A Place Setting", "Fast Food", "A Coffee Shop", "A Restaurant", "A Restaurant Place Setting", "A Chinese Restaurant Menu", "An Italian Restaurant Menu", "A Mexican Restaurant Menu"] },
-    { id: "clothes", label: "Clothing", zh: "衣服", note: "Clothes, footwear, accessories, sizes, descriptions, sewing, and laundry.", topics: ["Everyday Clothes", "Outerwear and Accessories", "Sleepwear and Underwear", "Shoes and Footwear", "Jewelry and Accessories", "Describing Clothes", "Sizes", "Sewing and Laundry Supplies"] },
-    { id: "health", label: "Health", zh: "健康", note: "Body parts, symptoms, injuries, emergencies, medicine, appointments, and insurance.", topics: ["The Body", "The Face", "The Hand", "The Eye", "The Mouth", "Internal Organs", "Reproductive Organs", "Ailments and Symptoms", "Injuries", "Describing Symptoms", "Medical Emergencies", "First Aid", "Medicine", "Medical Specialists", "Medical Staff", "Medical Instruments and Equipment", "A Medical Exam", "Medical Procedures", "Medical Insurance"] },
-    { id: "community", label: "Community", zh: "社区", note: "People, places, and settings around town, in the city, suburbs, country, and outdoors.", topics: ["People and Places in the Community", "Around Town", "The City", "The Suburbs", "The Country", "The Beach", "The Mountains", "A Farm"] },
-    { id: "home", label: "Housing", zh: "住房", note: "Homes, apartments, rooms, household storage, and common repair problems.", topics: ["A House", "An Apartment Building", "Buying, Renting, and Finding a Home", "The Living Room", "The Dining Room", "The Kitchen", "A Baby's Room", "A Bedroom", "A Bathroom", "A Bathroom Medicine Cabinet", "A Linen Closet", "Household Problems and Repairs"] },
-    { id: "transportation", label: "Transportation", zh: "交通", note: "Vehicles, driving, car care, bicycles, city movement, airports, and air travel.", topics: ["Vehicles", "A Car", "A Car's Instrument Panel", "A Gas Station", "Car Problems and Maintenance", "Bicycles", "In the City", "At the Airport", "Air Travel"] },
-    { id: "work", label: "Work", zh: "工作", note: "Office work, workstations, supplies, computers, occupations, skills, and job search.", topics: ["Office Work", "A Workstation", "Office Supplies", "A Computer", "Occupations", "Job Skills and Qualifications", "Job Search"] },
-    { id: "school", label: "School", zh: "学校", note: "Classroom learning, subjects, adult education, supplies, and study tasks.", topics: ["The Classroom", "A Science Lab", "School Subjects", "Mathematics", "An Adult Education Class", "School Supplies", "Studying"] },
-    { id: "recreation", label: "Recreation", zh: "休闲娱乐", note: "Sports, games, hobbies, music, exercise, movies, and entertainment.", topics: ["Baseball", "Basketball", "Soccer", "Football", "Individual Sports", "Games", "Hobbies", "Music", "Exercise and Dance", "The Gym", "Movies", "Entertainment"] },
-    { id: "nature", label: "Plants and Nature", zh: "植物与自然", note: "Plants, animals, birds, insects, nature, environment, and natural disasters.", topics: ["Plants", "Trees", "Flowers", "Animals", "Birds", "Insects", "Nature", "The Environment", "Natural Disasters"] },
-    { id: "services", label: "Community Services", zh: "社区服务", note: "Banks, libraries, mail, emergency services, legal help, and public safety roles.", topics: ["The Bank", "Basic Banking", "Bank Accounts and Services", "The Library", "Postal Services", "A Firefighter", "A Police Officer", "Emergency Services", "A Lawyer", "Legal Services"] },
-    { id: "shopping", label: "Shopping", zh: "购物", note: "Stores, electronics, hardware, pharmacy, checkout language, receipts, and prices.", topics: ["A Department Store", "Electronics and Appliances", "Cameras and Photography", "The Hardware Store", "The Pharmacy", "Money", "Shopping", "At the Checkout Counter", "Receipts"] },
-    { id: "describing", label: "Describing Things", zh: "描述事物", note: "Colors, shapes, sizes, materials, patterns, textures, feelings, and opinions.", topics: ["Colors", "Shapes", "Lines", "Sizes and Measurements", "Materials", "Patterns", "Textures", "Describing Things", "Describing People", "Feelings and Emotions", "Physical States and Conditions", "Evaluation and Opinion", "Quantity"] },
-    { id: "travel", label: "International Travel and Tourism", zh: "国际旅行与旅游", note: "Travel types, arrival, hotels, tourist activities, and tourist communication.", topics: ["Types of Travel", "Arriving at a Destination", "Hotel Communication", "Tourist Activities", "Tourist Communication"] }
+    { id: "personal", label: "Personal Information and Family", zh: "个人信息与家庭", note: "Personal details, family members, and family relationships.", topics: ["Personal Information", "Family Members I", "Family Members II"] },
+    { id: "daily", label: "Common Everyday Activities and Language", zh: "日常活动与语言", note: "Classroom language, daily activities, conversation, and weather.", topics: ["The Classroom", "Classroom Actions", "Prepositions", "Everyday Activities I", "Everyday Activities II", "Leisure Activities", "Everyday Conversation", "The Weather"] },
+    { id: "numbers", label: "Numbers/Time/Money/Calendar", zh: "数字、时间、金钱与日历", note: "Numbers, time, money, calendar language, expressions, and seasons.", topics: ["Numbers", "Time", "Money", "The Calendar", "Time Expressions and Seasons"] },
+    { id: "home", label: "Home", zh: "家居", note: "Housing, rooms, home supplies, repairs, cleaning, and outdoor home tasks.", topics: ["Types of Housing and Communities", "The Living Room", "The Dining Room", "The Bedroom", "The Kitchen", "The Baby's Room", "The Bathroom", "Outside the Home", "The Apartment Building", "Household Problems and Repairs", "Cleaning Your Home", "Home Supplies", "Tools and Hardware", "Gardening Tools and Actions"] },
+    { id: "community", label: "Community", zh: "社区", note: "Places around town and city locations.", topics: ["Places Around Town I", "Places Around Town II", "The City"] },
+    { id: "describing", label: "Describing", zh: "描述", note: "Physical descriptions, things, states, and emotions.", topics: ["People and Physical Descriptions", "Describing People and Things", "Describing Physical States and Emotions"] },
+    { id: "food", label: "Food", zh: "食物", note: "Food groups, supermarket language, kitchen tools, eating out, and restaurant menus.", topics: ["Fruits", "Vegetables", "Meat, Poultry, and Seafood", "Dairy Products, Juices, and Beverages", "Deli, Frozen Foods, and Snack Foods", "Groceries", "Household Supplies, Baby Products, and Pet Food", "The Supermarket", "Containers and Quantities", "Units of Measure", "Food Preparation and Recipes", "Kitchen Utensils and Cookware", "Fast Food", "The Coffee Shop and Sandwiches", "The Restaurant", "A Restaurant Menu"] },
+    { id: "clothes", label: "Colors and Clothing", zh: "颜色与衣服", note: "Colors, clothing, footwear, accessories, laundry, and clothing problems.", topics: ["Colors", "Clothing", "Outerwear", "Sleepwear and Underwear", "Exercise Clothing and Footwear", "Jewelry and Accessories", "Describing Clothing", "Clothing Problems and Alterations", "Laundry"] },
+    { id: "shopping", label: "Shopping", zh: "购物", note: "Department stores, shopping, electronics, phones, cameras, computers, and toys.", topics: ["The Department Store", "Shopping", "Video and Audio Equipment", "Telephones and Cameras", "Computers", "The Toy Store"] },
+    { id: "services", label: "Community Services", zh: "社区服务", note: "Banks, post offices, libraries, community institutions, crime, and emergencies.", topics: ["The Bank", "Finances", "The Post Office", "The Library", "Community Institutions", "Crime and Emergencies"] },
+    { id: "health", label: "Health", zh: "健康", note: "Body, symptoms, first aid, medical care, hygiene, and baby care.", topics: ["The Body", "Ailments, Symptoms, and Injuries", "First Aid", "Medical Emergencies and Illnesses", "The Medical Exam", "Medical and Dental Procedures", "Medical Advice", "Medicine", "Medical Specialists", "The Hospital", "Personal Hygiene", "Baby Care"] },
+    { id: "school", label: "School, Subjects, and Activities", zh: "学校、科目与活动", note: "School types, subjects, activities, math, language arts, geography, science, and the universe.", topics: ["Types of Schools", "The School", "School Subjects", "Extracurricular Activities", "Mathematics", "Measurements and Geometric Shapes", "English Language Arts and Composition", "Literature and Writing", "Geography", "Science", "The Universe"] },
+    { id: "work", label: "Work", zh: "工作", note: "Occupations, job skills, job search, workplaces, equipment, factories, construction, and safety.", topics: ["Occupations I", "Occupations II", "Job Skills and Activities", "Job Search", "The Workplace", "Office Supplies and Equipment", "The Factory", "The Construction Site", "Job Safety"] },
+    { id: "transportation", label: "Transportation and Travel", zh: "交通与旅行", note: "Transportation, vehicles, roads, traffic signs, airports, airplane travel, and hotels.", topics: ["Public Transportation", "Types of Vehicles", "Car Parts and Maintenance", "Highways and Streets", "Prepositions of Motion", "Traffic Signs and Directions", "The Airport", "Airplane Travel", "The Hotel"] },
+    { id: "recreation", label: "Recreation and Entertainment", zh: "休闲娱乐", note: "Hobbies, parks, beaches, outdoor activities, sports, entertainment, and music.", topics: ["Hobbies, Crafts, and Games", "Places to Go", "The Park and the Playground", "The Beach", "Outdoor Recreation", "Individual Sports and Recreation", "Team Sports", "Team Sports Equipment", "Winter Sports and Recreation", "Water Sports and Recreation", "Sport and Exercise Actions", "Entertainment", "Types of Entertainment", "Musical Instruments"] },
+    { id: "nature", label: "Nature", zh: "自然", note: "Farm animals, pets, birds, insects, sea animals, plants, conservation, and disasters.", topics: ["The Farm and Farm Animals", "Animals and Pets", "Birds and Insects", "Fish, Sea Animals, and Reptiles", "Trees, Plants, and Flowers", "Energy, Conservation, and the Environment", "Natural Disasters"] },
+    { id: "civics", label: "U.S. Civics", zh: "美国公民", note: "Identification, U.S. government, the Constitution, history, holidays, legal system, and citizenship.", topics: ["Forms of Identification", "U.S. Government", "The Constitution and the Bill of Rights", "Events in United States History", "Holidays", "The Legal System", "Citizenship"] }
   ];
 
   function getDictionaryStarterTopic(item) {
     const word = normalizeWordKey(item.word);
     const topicSets = {
       personal: [
-        ["First Names", ["first name"]],
-        ["Last Names", ["last name"]],
-        ["Addresses", ["address"]],
-        ["Telephone Numbers", ["phone number"]],
-        ["The Family", ["daughter"]]
+        ["Personal Information", ["first name", "last name", "address", "phone number"]],
+        ["Family Members I", ["daughter"]]
       ],
       daily: [
-        ["The Morning Routine", ["get up", "take a shower"]],
-        ["In the Kitchen", ["wash dishes", "make dinner"]],
-        ["Outdoor Activities", ["go shopping"]]
+        ["Everyday Activities I", ["get up", "take a shower"]],
+        ["Everyday Activities II", ["wash dishes", "make dinner"]],
+        ["Leisure Activities", ["go shopping"]]
       ],
       numbers: [
-        ["Cardinal Numbers", ["one hundred"]],
-        ["Fractions and Decimals", ["half"]],
+        ["Numbers", ["one hundred", "half"]],
         ["Time", ["quarter past"]],
         ["Money", ["dollar"]],
         ["The Calendar", ["calendar"]]
@@ -6385,78 +6382,73 @@ pass=通过；传递
       home: [
         ["The Living Room", ["living room"]],
         ["A Bathroom", ["bathroom"]],
-        ["A House", ["front door", "window"]],
+        ["Types of Housing and Communities", ["front door", "window"]],
         ["Household Problems and Repairs", ["laundry"]]
       ],
       community: [
-        ["People and Places in the Community", ["library", "bus stop", "city hall"]],
-        ["Around Town", ["post office", "pharmacy"]]
+        ["Places Around Town I", ["library", "bus stop", "city hall"]],
+        ["Places Around Town II", ["post office", "pharmacy"]]
       ],
       food: [
         ["Vegetables", ["vegetables"]],
         ["Groceries", ["rice"]],
         ["Meat, Poultry, and Seafood", ["chicken"]],
-        ["Beverages", ["water"]],
-        ["A Restaurant", ["menu"]]
+        ["Dairy Products, Juices, and Beverages", ["water"]],
+        ["A Restaurant Menu", ["menu"]]
       ],
       shopping: [
         ["Shopping", ["price", "on sale", "return"]],
-        ["At the Checkout Counter", ["cash"]],
-        ["Receipts", ["receipt"]]
+        ["The Department Store", ["cash"]],
+        ["Shopping", ["receipt"]]
       ],
       clothes: [
-        ["Everyday Clothes", ["shirt", "pants"]],
-        ["Sizes", ["small size", "medium size"]],
-        ["Sewing and Laundry Supplies", ["wash clothes"]]
+        ["Clothing", ["shirt", "pants", "small size", "medium size"]],
+        ["Laundry", ["wash clothes"]]
       ],
       health: [
-        ["A Medical Exam", ["appointment"]],
-        ["Medical Staff", ["nurse"]],
-        ["Ailments and Symptoms", ["fever", "throat"]],
+        ["The Medical Exam", ["appointment"]],
+        ["The Hospital", ["nurse"]],
+        ["Ailments, Symptoms, and Injuries", ["fever", "throat"]],
         ["Medicine", ["medicine"]]
       ],
       school: [
-        ["The Classroom", ["classroom", "teacher"]],
-        ["Studying", ["homework", "question", "test"]]
+        ["The School", ["classroom", "teacher"]],
+        ["School Subjects", ["homework", "question", "test"]]
       ],
       work: [
-        ["Office Work", ["coworker", "meeting", "schedule", "manager"]],
+        ["The Workplace", ["coworker", "meeting", "schedule", "manager"]],
         ["Job Search", ["paycheck"]]
       ],
       transportation: [
-        ["A Car", ["driver's license"]],
-        ["In the City", ["traffic light", "parking lot", "train station"]],
-        ["Air Travel", ["one-way ticket"]]
+        ["Types of Vehicles", ["driver's license"]],
+        ["Traffic Signs and Directions", ["traffic light"]],
+        ["Public Transportation", ["train station", "one-way ticket"]],
+        ["Highways and Streets", ["parking lot"]],
+        ["The Airport", ["passport", "boarding pass", "suitcase"]],
+        ["The Hotel", ["reservation"]],
+        ["Airplane Travel", ["tourist"]]
       ],
       recreation: [
-        ["Hobbies", ["playground", "picnic"]],
-        ["Movies", ["movie theater"]],
-        ["Music", ["music"]],
-        ["Exercise and Dance", ["exercise"]]
+        ["The Park and the Playground", ["playground"]],
+        ["Outdoor Recreation", ["picnic"]],
+        ["Entertainment", ["movie theater"]],
+        ["Musical Instruments", ["music"]],
+        ["Sport and Exercise Actions", ["exercise"]]
       ],
       nature: [
-        ["Nature", ["weather", "rain"]],
-        ["Trees", ["tree"]],
-        ["Flowers", ["flower"]],
-        ["The Environment", ["river"]]
+        ["Natural Disasters", ["weather", "rain"]],
+        ["Trees, Plants, and Flowers", ["tree", "flower"]],
+        ["Energy, Conservation, and the Environment", ["river"]]
       ],
       services: [
         ["The Bank", ["bank account"]],
         ["The Library", ["library card"]],
-        ["Postal Services", ["stamp"]],
-        ["Emergency Services", ["emergency"]],
-        ["A Lawyer", ["lawyer"]]
+        ["The Post Office", ["stamp"]],
+        ["Crime and Emergencies", ["emergency", "lawyer"]]
       ],
       describing: [
-        ["Shapes", ["circle", "square"]],
-        ["Sizes and Measurements", ["heavy"]],
-        ["Textures", ["soft"]],
-        ["Feelings and Emotions", ["nervous"]]
-      ],
-      travel: [
-        ["Arriving at a Destination", ["passport", "boarding pass", "suitcase"]],
-        ["Hotel Communication", ["reservation"]],
-        ["Tourist Communication", ["tourist"]]
+        ["Describing People and Things", ["circle", "square", "heavy", "soft"]],
+        ["Describing Physical States and Emotions", ["nervous"]]
       ]
     };
     return (topicSets[item.theme] || []).find(([, words]) => words.includes(word))?.[0] || "Starter words";
@@ -6559,11 +6551,11 @@ pass=通过；传递
     { theme: "describing", word: "soft", chinese: "柔软的", ipa: "sɔft", partOfSpeech: "adjective", example: "The blanket is soft." },
     { theme: "describing", word: "nervous", chinese: "紧张的", ipa: "ˈnɜrvəs", partOfSpeech: "adjective", example: "I feel nervous before the test." },
 
-    { theme: "travel", word: "passport", chinese: "护照", ipa: "ˈpæspɔrt", partOfSpeech: "noun", example: "Do you have your passport?" },
-    { theme: "travel", word: "reservation", chinese: "预订", ipa: "ˌrezərˈveɪʃən", partOfSpeech: "noun", example: "I have a hotel reservation." },
-    { theme: "travel", word: "suitcase", chinese: "行李箱", ipa: "ˈsutkeɪs", partOfSpeech: "noun", example: "My suitcase is heavy." },
-    { theme: "travel", word: "boarding pass", chinese: "登机牌", ipa: "ˈbɔrdɪŋ pæs", partOfSpeech: "noun", example: "Show your boarding pass at the gate." },
-    { theme: "travel", word: "tourist", chinese: "游客", ipa: "ˈtʊrɪst", partOfSpeech: "noun", example: "The tourist asks for directions." }
+    { theme: "transportation", word: "passport", chinese: "护照", ipa: "ˈpæspɔrt", partOfSpeech: "noun", example: "Do you have your passport?" },
+    { theme: "transportation", word: "reservation", chinese: "预订", ipa: "ˌrezərˈveɪʃən", partOfSpeech: "noun", example: "I have a hotel reservation." },
+    { theme: "transportation", word: "suitcase", chinese: "行李箱", ipa: "ˈsutkeɪs", partOfSpeech: "noun", example: "My suitcase is heavy." },
+    { theme: "transportation", word: "boarding pass", chinese: "登机牌", ipa: "ˈbɔrdɪŋ pæs", partOfSpeech: "noun", example: "Show your boarding pass at the gate." },
+    { theme: "transportation", word: "tourist", chinese: "游客", ipa: "ˈtʊrɪst", partOfSpeech: "noun", example: "The tourist asks for directions." }
   ].map((item, index) => ({
     id: `theme-${item.theme}-${slugifyWord(item.word)}`,
     scenario: item.theme,
