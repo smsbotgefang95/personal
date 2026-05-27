@@ -61270,7 +61270,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": true
+    "compound": false
   },
   {
     "id": "index-1615-go-sightseeing",

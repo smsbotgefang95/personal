@@ -15,6 +15,7 @@ RAW_PATH = ROOT / "data" / "word-by-word-index-raw.txt"
 JSON_PATH = ROOT / "data" / "learning-dictionary-full.json"
 JS_PATH = ROOT / "data" / "learning-dictionary-full.js"
 REPORT_PATH = ROOT / "data" / "learning-dictionary-full-report.json"
+NON_COMPOUND_PHRASES = {"get up", "go shopping"}
 
 REF_TOKEN = r"\d{1,3}(?:-[A-Za-z0-9]{1,3})?(?![A-Za-z0-9-])"
 REF_GROUP_RE = re.compile(rf"(?<=\s)({REF_TOKEN}(?:\s*,\s*(?:{REF_TOKEN}|[A-Za-z0-9]+))*)")
@@ -333,7 +334,7 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
             "roots": [],
             "syllableType": get_syllable_type(entry.text),
             "vowelTeams": [team for team in VOWEL_TEAMS if team in normalized],
-            "compound": bool(re.search(r"[\s-]", entry.text)),
+            "compound": entry.text.casefold() not in NON_COMPOUND_PHRASES and bool(re.search(r"[\s-]", entry.text)),
         }
         report["missingIpa"].append(entry.text)
         entries.append(word)
