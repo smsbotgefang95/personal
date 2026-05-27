@@ -774,120 +774,6 @@
     padding: 14px;
   }
 
-  .custom-vocabulary-builder {
-    background: #f8faf8;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    display: grid;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding: 14px;
-  }
-
-  .custom-vocabulary-form {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: minmax(180px, 1fr) auto;
-  }
-
-  .custom-vocabulary-input,
-  .custom-vocabulary-field input,
-  .custom-vocabulary-field select,
-  .custom-vocabulary-field textarea {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: var(--text);
-    font: inherit;
-    min-height: 42px;
-    min-width: 0;
-    padding: 9px 12px;
-  }
-
-  .custom-vocabulary-button,
-  .custom-vocabulary-secondary {
-    align-items: center;
-    border: 1px solid #143a34;
-    border-radius: 7px;
-    cursor: pointer;
-    display: inline-flex;
-    font: inherit;
-    font-weight: 850;
-    justify-content: center;
-    min-height: 42px;
-    padding: 9px 14px;
-  }
-
-  .custom-vocabulary-button {
-    background: #143a34;
-    color: #fff;
-  }
-
-  .custom-vocabulary-secondary {
-    background: #fff;
-    color: #143a34;
-  }
-
-  .custom-vocabulary-button:disabled,
-  .custom-vocabulary-secondary:disabled {
-    cursor: wait;
-    opacity: 0.62;
-  }
-
-  .custom-vocabulary-status {
-    color: var(--muted);
-    font-size: 0.9rem;
-    font-weight: 750;
-    min-height: 20px;
-  }
-
-  .custom-vocabulary-status.error {
-    color: #b91c1c;
-  }
-
-  .custom-vocabulary-status.success {
-    color: #166534;
-  }
-
-  .custom-vocabulary-draft[hidden] {
-    display: none;
-  }
-
-  .custom-vocabulary-draft {
-    border-top: 1px solid var(--border);
-    display: grid;
-    gap: 12px;
-    padding-top: 12px;
-  }
-
-  .custom-vocabulary-grid {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .custom-vocabulary-field {
-    display: grid;
-    gap: 5px;
-  }
-
-  .custom-vocabulary-field label {
-    color: var(--muted);
-    font-size: 0.76rem;
-    font-weight: 850;
-    text-transform: uppercase;
-  }
-
-  .custom-vocabulary-field-wide {
-    grid-column: 1 / -1;
-  }
-
-  .custom-vocabulary-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
   .vocabulary-word {
     font-size: 1.2rem;
     font-weight: 850;
@@ -1057,8 +943,6 @@
     .theme-search-row,
     .vocabulary-tools,
     .vocabulary-phrase-tools,
-    .custom-vocabulary-form,
-    .custom-vocabulary-grid,
     .vocabulary-card,
     .phrase-card,
     .status-row {
@@ -1187,98 +1071,6 @@
         <p>Practice the top 1,000 common English words with saved learning status.</p>
       </div>
     </div>
-    <section class="custom-vocabulary-builder" aria-label="Add custom vocabulary">
-      <form class="custom-vocabulary-form" id="customVocabularyForm">
-        <input class="custom-vocabulary-input" id="customVocabularyWord" type="text" autocomplete="off" placeholder="Type an English word or phrase" aria-label="English word or phrase to add" />
-        <button class="custom-vocabulary-button" id="customVocabularyAutofill" type="submit">Auto-fill</button>
-      </form>
-      <div class="custom-vocabulary-status" id="customVocabularyStatus" role="status" aria-live="polite"></div>
-      <form class="custom-vocabulary-draft" id="customVocabularyDraft" hidden>
-        <div class="custom-vocabulary-grid">
-          <div class="custom-vocabulary-field">
-            <label for="customDraftId">ID</label>
-            <input id="customDraftId" data-custom-draft="id" type="text" readonly />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftWord">Word</label>
-            <input id="customDraftWord" data-custom-draft="word" type="text" />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftChinese">Chinese</label>
-            <input id="customDraftChinese" data-custom-draft="chinese" type="text" />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftScenario">Scenario</label>
-            <input id="customDraftScenario" data-custom-draft="scenario" type="text" readonly />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftPart">Part of speech</label>
-            <input id="customDraftPart" data-custom-draft="partOfSpeech" type="text" />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftIpa">IPA</label>
-            <input id="customDraftIpa" data-custom-draft="ipa" type="text" />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftPronunciation">Pronunciation</label>
-            <input id="customDraftPronunciation" data-custom-draft="pronunciation" type="text" />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftTheme">Theme</label>
-            <select id="customDraftTheme" data-custom-draft="theme"></select>
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftCompound">Compound</label>
-            <select id="customDraftCompound" data-custom-draft="isCompound">
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select>
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftPrefix">Prefix</label>
-            <select id="customDraftPrefix" data-custom-draft="prefix"></select>
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftSuffix">Suffix</label>
-            <select id="customDraftSuffix" data-custom-draft="suffix"></select>
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftSyllable">Syllable</label>
-            <select id="customDraftSyllable" data-custom-draft="syllableType"></select>
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftRank">Rank</label>
-            <input id="customDraftRank" data-custom-draft="rank" type="text" readonly />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftCustom">Custom</label>
-            <select id="customDraftCustom" data-custom-draft="isCustom" disabled>
-              <option value="true">Yes</option>
-            </select>
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftRoots">Roots</label>
-            <input id="customDraftRoots" data-custom-draft="roots" type="text" placeholder="comma separated" />
-          </div>
-          <div class="custom-vocabulary-field">
-            <label for="customDraftVowelTeams">Vowel teams</label>
-            <input id="customDraftVowelTeams" data-custom-draft="vowelTeams" type="text" placeholder="comma separated" />
-          </div>
-          <div class="custom-vocabulary-field custom-vocabulary-field-wide">
-            <label for="customDraftVowelTeamSounds">Vowel team sounds JSON</label>
-            <textarea id="customDraftVowelTeamSounds" data-custom-draft="vowelTeamSounds" rows="3"></textarea>
-          </div>
-          <div class="custom-vocabulary-field custom-vocabulary-field-wide">
-            <label for="customDraftExample">Example</label>
-            <textarea id="customDraftExample" data-custom-draft="example" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="custom-vocabulary-actions">
-          <button class="custom-vocabulary-button" type="submit">Save word</button>
-          <button class="custom-vocabulary-secondary" id="customVocabularyCancel" type="button">Cancel</button>
-        </div>
-      </form>
-    </section>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="Filter vocabulary by word match position">
@@ -1424,13 +1216,6 @@
   const STORAGE_VOCAB_IPA_FILTER_KEY = "learningEnglishVocabularyIpaFilter";
   const STORAGE_DICTIONARY_THEME_KEY = "learningEnglishDictionaryTheme";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
-
-  function getLearningEnglishApiBase() {
-    const isLocalStaticServer = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) && window.location.port === "8015";
-    return isLocalStaticServer ? "http://127.0.0.1:8016" : "";
-  }
-
-  const VOCABULARY_AUTOFILL_API = `${getLearningEnglishApiBase()}/api/learning-english/vocabulary-autofill`;
 
   const SCENARIOS = [
     { id: "greetings", label: "Greetings", zh: "打招呼" },
@@ -3912,6 +3697,7 @@ pass=通过；传递
     color: "颜色",
     family: "家庭",
     daily: "日常活动",
+    numbers: "数字、时间、金钱与日历",
     body: "身体",
     health: "健康",
     food: "食物",
@@ -3933,7 +3719,9 @@ pass=通过；传递
     clothes: "衣服",
     furniture: "家具",
     sports: "运动",
-    appliance: "厨房电器"
+    appliance: "厨房电器",
+    services: "社区服务",
+    describing: "描述事物"
   };
 
   const VOCABULARY_THEME_SETS = {
@@ -3941,6 +3729,7 @@ pass=通过；传递
     color: new Set(["black", "blue", "brown", "color", "dark", "gold", "gray", "green", "orange", "pink", "purple", "red", "silver", "white", "yellow"]),
     family: new Set(["baby", "boy", "brother", "children", "dad", "daughter", "family", "father", "girl", "grandfather", "husband", "lady", "man", "man's", "men", "mother", "parents", "sister", "son", "wife", "woman", "women"]),
     daily: new Set(["clean", "cook", "eat", "get up", "go", "listen", "read", "sleep", "study", "wash", "work", "write"]),
+    numbers: new Set(["calendar", "cent", "clock", "date", "december", "dollar", "half", "hour", "minute", "money", "number", "quarter", "time", "year"]),
     body: new Set(["arms", "body", "ear", "eyes", "face", "feet", "fingers", "foot", "hair", "hand", "head", "heart", "legs", "mouth", "nose", "skin", "teeth"]),
     health: new Set(["appointment", "doctor", "fever", "hospital", "medicine", "nurse", "pain", "sick", "symptom"]),
     food: new Set(["bread", "breakfast", "cake", "coffee", "corn", "dinner", "drink", "egg", "fish", "food", "fruit", "ice", "meat", "milk", "supper", "tea", "water"]),
@@ -3962,7 +3751,9 @@ pass=通过；传递
     clothes: new Set(["belt", "boots", "coat", "dress", "gloves", "hat", "jacket", "pants", "scarf", "shirt", "shoe", "shoes", "shorts", "skirt", "socks", "sweater", "clothes", "wear"]),
     furniture: new Set(["bed", "blanket", "cabinet", "chair", "closet", "couch", "desk", "dresser", "drawer", "furniture", "lamp", "mirror", "pillow", "rug", "shelf", "sofa", "table"]),
     sports: new Set(["baseball", "basketball", "coach", "exercise", "football", "game", "goal", "gym", "match", "player", "practice", "race", "score", "soccer", "sport", "sports", "swim", "team", "tennis", "win"]),
-    appliance: new Set(["appliance", "blender", "dishwasher", "kettle", "microwave", "oven", "refrigerator", "stove", "toaster"])
+    appliance: new Set(["appliance", "blender", "dishwasher", "kettle", "microwave", "oven", "refrigerator", "stove", "toaster"]),
+    services: new Set(["bank account", "emergency", "firefighter", "lawyer", "library card", "police officer", "postal service", "stamp"]),
+    describing: new Set(["circle", "heavy", "light", "material", "nervous", "pattern", "rectangle", "shape", "soft", "square", "texture"])
   };
 
   const COMPOUND_WORDS = new Set([
@@ -6547,94 +6338,122 @@ pass=通过；传递
   }));
 
   const DICTIONARY_THEME_TOPICS = [
-    { id: "personal", label: "Personal & Family", zh: "个人与家庭", note: "Names, contact information, and family words for introductions.", topics: ["Personal information", "Contact information", "Family members"] },
-    { id: "daily", label: "Everyday Activities", zh: "日常活动", note: "Daily routines and simple actions used at home and outside.", topics: ["Morning routine", "Household actions", "Errands"] },
-    { id: "home", label: "Home", zh: "家居", note: "Rooms, furniture, and common items around the house.", topics: ["Rooms", "House parts", "Home chores"] },
-    { id: "community", label: "Community", zh: "社区", note: "Useful places and services around town.", topics: ["Places around town", "Public services", "Getting help"] },
-    { id: "food", label: "Food", zh: "食物", note: "Common food, drinks, and restaurant words.", topics: ["Groceries", "Meals", "Restaurant"] },
-    { id: "clothes", label: "Clothing", zh: "衣服", note: "Clothes, sizes, and everyday shopping words.", topics: ["Everyday clothes", "Sizes", "Laundry"] },
-    { id: "shopping", label: "Shopping", zh: "购物", note: "Prices, payment, receipts, and store questions.", topics: ["Prices", "Payment", "Returns"] },
-    { id: "health", label: "Health", zh: "健康", note: "Body, symptoms, appointments, and clinic words.", topics: ["Appointments", "Symptoms", "Medicine"] },
-    { id: "school", label: "School", zh: "学校", note: "Classroom, subjects, and study words.", topics: ["Classroom", "Study tasks", "Tests"] },
-    { id: "work", label: "Work", zh: "工作", note: "Jobs, workplace actions, and schedule words.", topics: ["People at work", "Schedule", "Pay"] },
-    { id: "transportation", label: "Transportation", zh: "交通", note: "Cars, buses, streets, tickets, and travel movement.", topics: ["Driving", "Public transportation", "Tickets"] },
-    { id: "recreation", label: "Recreation", zh: "休闲娱乐", note: "Games, music, parks, sports, and free-time activities.", topics: ["Places to go", "Entertainment", "Exercise"] },
-    { id: "nature", label: "Nature", zh: "自然", note: "Weather, animals, plants, and outdoor words.", topics: ["Weather", "Plants", "Water and land"] },
-    { id: "travel", label: "Travel", zh: "旅行", note: "Hotels, airports, reservations, and tourist needs.", topics: ["Documents", "Hotel", "Air travel"] }
+    { id: "personal", label: "Personal Information and Family", zh: "个人信息与家庭", note: "Names, addresses, identification, family relationships, and family life.", topics: ["First Names", "Last Names", "Titles", "Addresses", "Telephone Numbers", "Identification", "The Family", "Describing the Family", "Life Events and Documents", "A Family Tree", "Family Activities"] },
+    { id: "daily", label: "Common Everyday Activities", zh: "日常活动", note: "Daily routines and repeated actions at home, outside, and during free time.", topics: ["Common Everyday Activities", "The Daily Routine", "The Morning Routine", "In the Bathroom", "In the Kitchen", "Cleaning the House", "Doing the Laundry", "Outdoor Activities", "Leisure Activities"] },
+    { id: "numbers", label: "Numbers, Time, Money, and the Calendar", zh: "数字、时间、金钱与日历", note: "Numbers, dates, money, time, seasons, weekdays, months, and holidays.", topics: ["Cardinal Numbers", "Ordinal Numbers", "Fractions and Decimals", "Basic Math", "Time", "Digital Time", "Time Zones", "Money", "The Calendar", "Years", "The Seasons", "Days of the Week", "Months of the Year", "Holidays"] },
+    { id: "food", label: "Food", zh: "食物", note: "Food groups, supermarket language, kitchen tools, eating out, and restaurant menus.", topics: ["Fruits", "Vegetables", "Meat, Poultry, and Seafood", "Deli and Dairy", "Beverages", "Groceries", "Containers and Quantities", "The Supermarket", "Food Preparation", "Kitchen Utensils", "A Place Setting", "Fast Food", "A Coffee Shop", "A Restaurant", "A Restaurant Place Setting", "A Chinese Restaurant Menu", "An Italian Restaurant Menu", "A Mexican Restaurant Menu"] },
+    { id: "clothes", label: "Clothing", zh: "衣服", note: "Clothes, footwear, accessories, sizes, descriptions, sewing, and laundry.", topics: ["Everyday Clothes", "Outerwear and Accessories", "Sleepwear and Underwear", "Shoes and Footwear", "Jewelry and Accessories", "Describing Clothes", "Sizes", "Sewing and Laundry Supplies"] },
+    { id: "health", label: "Health", zh: "健康", note: "Body parts, symptoms, injuries, emergencies, medicine, appointments, and insurance.", topics: ["The Body", "The Face", "The Hand", "The Eye", "The Mouth", "Internal Organs", "Reproductive Organs", "Ailments and Symptoms", "Injuries", "Describing Symptoms", "Medical Emergencies", "First Aid", "Medicine", "Medical Specialists", "Medical Staff", "Medical Instruments and Equipment", "A Medical Exam", "Medical Procedures", "Medical Insurance"] },
+    { id: "community", label: "Community", zh: "社区", note: "People, places, and settings around town, in the city, suburbs, country, and outdoors.", topics: ["People and Places in the Community", "Around Town", "The City", "The Suburbs", "The Country", "The Beach", "The Mountains", "A Farm"] },
+    { id: "home", label: "Housing", zh: "住房", note: "Homes, apartments, rooms, household storage, and common repair problems.", topics: ["A House", "An Apartment Building", "Buying, Renting, and Finding a Home", "The Living Room", "The Dining Room", "The Kitchen", "A Baby's Room", "A Bedroom", "A Bathroom", "A Bathroom Medicine Cabinet", "A Linen Closet", "Household Problems and Repairs"] },
+    { id: "transportation", label: "Transportation", zh: "交通", note: "Vehicles, driving, car care, bicycles, city movement, airports, and air travel.", topics: ["Vehicles", "A Car", "A Car's Instrument Panel", "A Gas Station", "Car Problems and Maintenance", "Bicycles", "In the City", "At the Airport", "Air Travel"] },
+    { id: "work", label: "Work", zh: "工作", note: "Office work, workstations, supplies, computers, occupations, skills, and job search.", topics: ["Office Work", "A Workstation", "Office Supplies", "A Computer", "Occupations", "Job Skills and Qualifications", "Job Search"] },
+    { id: "school", label: "School", zh: "学校", note: "Classroom learning, subjects, adult education, supplies, and study tasks.", topics: ["The Classroom", "A Science Lab", "School Subjects", "Mathematics", "An Adult Education Class", "School Supplies", "Studying"] },
+    { id: "recreation", label: "Recreation", zh: "休闲娱乐", note: "Sports, games, hobbies, music, exercise, movies, and entertainment.", topics: ["Baseball", "Basketball", "Soccer", "Football", "Individual Sports", "Games", "Hobbies", "Music", "Exercise and Dance", "The Gym", "Movies", "Entertainment"] },
+    { id: "nature", label: "Plants and Nature", zh: "植物与自然", note: "Plants, animals, birds, insects, nature, environment, and natural disasters.", topics: ["Plants", "Trees", "Flowers", "Animals", "Birds", "Insects", "Nature", "The Environment", "Natural Disasters"] },
+    { id: "services", label: "Community Services", zh: "社区服务", note: "Banks, libraries, mail, emergency services, legal help, and public safety roles.", topics: ["The Bank", "Basic Banking", "Bank Accounts and Services", "The Library", "Postal Services", "A Firefighter", "A Police Officer", "Emergency Services", "A Lawyer", "Legal Services"] },
+    { id: "shopping", label: "Shopping", zh: "购物", note: "Stores, electronics, hardware, pharmacy, checkout language, receipts, and prices.", topics: ["A Department Store", "Electronics and Appliances", "Cameras and Photography", "The Hardware Store", "The Pharmacy", "Money", "Shopping", "At the Checkout Counter", "Receipts"] },
+    { id: "describing", label: "Describing Things", zh: "描述事物", note: "Colors, shapes, sizes, materials, patterns, textures, feelings, and opinions.", topics: ["Colors", "Shapes", "Lines", "Sizes and Measurements", "Materials", "Patterns", "Textures", "Describing Things", "Describing People", "Feelings and Emotions", "Physical States and Conditions", "Evaluation and Opinion", "Quantity"] },
+    { id: "travel", label: "International Travel and Tourism", zh: "国际旅行与旅游", note: "Travel types, arrival, hotels, tourist activities, and tourist communication.", topics: ["Types of Travel", "Arriving at a Destination", "Hotel Communication", "Tourist Activities", "Tourist Communication"] }
   ];
 
   function getDictionaryStarterTopic(item) {
     const word = normalizeWordKey(item.word);
     const topicSets = {
       personal: [
-        ["Contact information", ["address", "phone number"]],
-        ["Family members", ["daughter"]],
-        ["Personal information", ["first name", "last name"]]
+        ["First Names", ["first name"]],
+        ["Last Names", ["last name"]],
+        ["Addresses", ["address"]],
+        ["Telephone Numbers", ["phone number"]],
+        ["The Family", ["daughter"]]
       ],
       daily: [
-        ["Morning routine", ["get up", "take a shower"]],
-        ["Household actions", ["wash dishes", "make dinner"]],
-        ["Errands", ["go shopping"]]
+        ["The Morning Routine", ["get up", "take a shower"]],
+        ["In the Kitchen", ["wash dishes", "make dinner"]],
+        ["Outdoor Activities", ["go shopping"]]
+      ],
+      numbers: [
+        ["Cardinal Numbers", ["one hundred"]],
+        ["Fractions and Decimals", ["half"]],
+        ["Time", ["quarter past"]],
+        ["Money", ["dollar"]],
+        ["The Calendar", ["calendar"]]
       ],
       home: [
-        ["Rooms", ["living room", "bathroom"]],
-        ["House parts", ["front door", "window"]],
-        ["Home chores", ["laundry"]]
+        ["The Living Room", ["living room"]],
+        ["A Bathroom", ["bathroom"]],
+        ["A House", ["front door", "window"]],
+        ["Household Problems and Repairs", ["laundry"]]
       ],
       community: [
-        ["Places around town", ["library", "bus stop", "city hall"]],
-        ["Public services", ["post office"]],
-        ["Getting help", ["pharmacy"]]
+        ["People and Places in the Community", ["library", "bus stop", "city hall"]],
+        ["Around Town", ["post office", "pharmacy"]]
       ],
       food: [
-        ["Groceries", ["vegetables", "rice", "chicken"]],
-        ["Meals", ["water"]],
-        ["Restaurant", ["menu"]]
+        ["Vegetables", ["vegetables"]],
+        ["Groceries", ["rice"]],
+        ["Meat, Poultry, and Seafood", ["chicken"]],
+        ["Beverages", ["water"]],
+        ["A Restaurant", ["menu"]]
       ],
       shopping: [
-        ["Prices", ["price", "on sale"]],
-        ["Payment", ["cash", "receipt"]],
-        ["Returns", ["return"]]
+        ["Shopping", ["price", "on sale", "return"]],
+        ["At the Checkout Counter", ["cash"]],
+        ["Receipts", ["receipt"]]
       ],
       clothes: [
-        ["Everyday clothes", ["shirt", "pants"]],
+        ["Everyday Clothes", ["shirt", "pants"]],
         ["Sizes", ["small size", "medium size"]],
-        ["Laundry", ["wash clothes"]]
+        ["Sewing and Laundry Supplies", ["wash clothes"]]
       ],
       health: [
-        ["Appointments", ["appointment", "nurse"]],
-        ["Symptoms", ["fever", "throat"]],
+        ["A Medical Exam", ["appointment"]],
+        ["Medical Staff", ["nurse"]],
+        ["Ailments and Symptoms", ["fever", "throat"]],
         ["Medicine", ["medicine"]]
       ],
       school: [
-        ["Classroom", ["classroom", "teacher"]],
-        ["Study tasks", ["homework", "question"]],
-        ["Tests", ["test"]]
+        ["The Classroom", ["classroom", "teacher"]],
+        ["Studying", ["homework", "question", "test"]]
       ],
       work: [
-        ["People at work", ["coworker", "manager"]],
-        ["Schedule", ["meeting", "schedule"]],
-        ["Pay", ["paycheck"]]
+        ["Office Work", ["coworker", "meeting", "schedule", "manager"]],
+        ["Job Search", ["paycheck"]]
       ],
       transportation: [
-        ["Driving", ["driver's license", "traffic light", "parking lot"]],
-        ["Public transportation", ["train station"]],
-        ["Tickets", ["one-way ticket"]]
+        ["A Car", ["driver's license"]],
+        ["In the City", ["traffic light", "parking lot", "train station"]],
+        ["Air Travel", ["one-way ticket"]]
       ],
       recreation: [
-        ["Places to go", ["playground", "picnic"]],
-        ["Entertainment", ["movie theater", "music"]],
-        ["Exercise", ["exercise"]]
+        ["Hobbies", ["playground", "picnic"]],
+        ["Movies", ["movie theater"]],
+        ["Music", ["music"]],
+        ["Exercise and Dance", ["exercise"]]
       ],
       nature: [
-        ["Weather", ["weather", "rain"]],
-        ["Plants", ["tree", "flower"]],
-        ["Water and land", ["river"]]
+        ["Nature", ["weather", "rain"]],
+        ["Trees", ["tree"]],
+        ["Flowers", ["flower"]],
+        ["The Environment", ["river"]]
+      ],
+      services: [
+        ["The Bank", ["bank account"]],
+        ["The Library", ["library card"]],
+        ["Postal Services", ["stamp"]],
+        ["Emergency Services", ["emergency"]],
+        ["A Lawyer", ["lawyer"]]
+      ],
+      describing: [
+        ["Shapes", ["circle", "square"]],
+        ["Sizes and Measurements", ["heavy"]],
+        ["Textures", ["soft"]],
+        ["Feelings and Emotions", ["nervous"]]
       ],
       travel: [
-        ["Documents", ["passport"]],
-        ["Hotel", ["reservation", "suitcase"]],
-        ["Air travel", ["boarding pass", "tourist"]]
+        ["Arriving at a Destination", ["passport", "boarding pass", "suitcase"]],
+        ["Hotel Communication", ["reservation"]],
+        ["Tourist Communication", ["tourist"]]
       ]
     };
     return (topicSets[item.theme] || []).find(([, words]) => words.includes(word))?.[0] || "Starter words";
@@ -6652,6 +6471,12 @@ pass=通过；传递
     { theme: "daily", word: "take a shower", chinese: "洗澡", ipa: "teɪk ə ˈʃaʊər", partOfSpeech: "verb phrase", example: "I take a shower in the morning." },
     { theme: "daily", word: "go shopping", chinese: "去购物", ipa: "ɡoʊ ˈʃɑpɪŋ", partOfSpeech: "verb phrase", example: "We go shopping on Saturday." },
     { theme: "daily", word: "make dinner", chinese: "做晚饭", ipa: "meɪk ˈdɪnər", partOfSpeech: "verb phrase", example: "I make dinner at home." },
+
+    { theme: "numbers", word: "one hundred", chinese: "一百", ipa: "wʌn ˈhʌndrəd", partOfSpeech: "number", example: "The class has one hundred flashcards." },
+    { theme: "numbers", word: "half", chinese: "一半", ipa: "hæf", partOfSpeech: "noun", example: "Cut the apple in half." },
+    { theme: "numbers", word: "quarter past", chinese: "过一刻", ipa: "ˈkwɔrtər pæst", partOfSpeech: "time phrase", example: "It is quarter past eight." },
+    { theme: "numbers", word: "dollar", chinese: "美元", ipa: "ˈdɑlər", partOfSpeech: "noun", example: "The snack costs one dollar." },
+    { theme: "numbers", word: "calendar", chinese: "日历", ipa: "ˈkæləndər", partOfSpeech: "noun", example: "Check the date on the calendar." },
 
     { theme: "home", word: "living room", chinese: "客厅", ipa: "ˈlɪvɪŋ rum", partOfSpeech: "noun", example: "The sofa is in the living room." },
     { theme: "home", word: "bathroom", chinese: "浴室；卫生间", ipa: "ˈbæθrum", partOfSpeech: "noun", example: "The bathroom is upstairs." },
@@ -6719,6 +6544,18 @@ pass=通过；传递
     { theme: "nature", word: "flower", chinese: "花", ipa: "ˈflaʊər", partOfSpeech: "noun", example: "The flower is yellow." },
     { theme: "nature", word: "river", chinese: "河流", ipa: "ˈrɪvər", partOfSpeech: "noun", example: "The river is behind the park." },
 
+    { theme: "services", word: "bank account", chinese: "银行账户", ipa: "bæŋk əˈkaʊnt", partOfSpeech: "noun", example: "I open a bank account." },
+    { theme: "services", word: "library card", chinese: "借书证", ipa: "ˈlaɪbreri kɑrd", partOfSpeech: "noun", example: "She uses a library card to borrow books." },
+    { theme: "services", word: "stamp", chinese: "邮票", ipa: "stæmp", partOfSpeech: "noun", example: "Put a stamp on the envelope." },
+    { theme: "services", word: "emergency", chinese: "紧急情况", ipa: "ɪˈmɜrdʒənsi", partOfSpeech: "noun", example: "Call for help in an emergency." },
+    { theme: "services", word: "lawyer", chinese: "律师", ipa: "ˈlɔjər", partOfSpeech: "noun", example: "The lawyer explains the form." },
+
+    { theme: "describing", word: "circle", chinese: "圆形", ipa: "ˈsɜrkəl", partOfSpeech: "noun", example: "Draw a circle on the paper." },
+    { theme: "describing", word: "square", chinese: "正方形", ipa: "skwer", partOfSpeech: "noun", example: "The tile is a square." },
+    { theme: "describing", word: "heavy", chinese: "重的", ipa: "ˈhevi", partOfSpeech: "adjective", example: "This box is heavy." },
+    { theme: "describing", word: "soft", chinese: "柔软的", ipa: "sɔft", partOfSpeech: "adjective", example: "The blanket is soft." },
+    { theme: "describing", word: "nervous", chinese: "紧张的", ipa: "ˈnɜrvəs", partOfSpeech: "adjective", example: "I feel nervous before the test." },
+
     { theme: "travel", word: "passport", chinese: "护照", ipa: "ˈpæspɔrt", partOfSpeech: "noun", example: "Do you have your passport?" },
     { theme: "travel", word: "reservation", chinese: "预订", ipa: "ˌrezərˈveɪʃən", partOfSpeech: "noun", example: "I have a hotel reservation." },
     { theme: "travel", word: "suitcase", chinese: "行李箱", ipa: "ˈsutkeɪs", partOfSpeech: "noun", example: "My suitcase is heavy." },
@@ -6778,7 +6615,6 @@ pass=通过；传递
   let vocabularyPhraseStatuses = readJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, {});
   let dialogueStatuses = readJson(STORAGE_DIALOGUE_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
-  let customVocabularyDraftItem = null;
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
 
   function readJson(key, fallback) {
@@ -6899,186 +6735,6 @@ pass=通过；传递
       items.push(item);
       return items;
     }, []);
-  }
-
-  function saveCustomVocabulary() {
-    saveJson(STORAGE_CUSTOM_VOCAB_KEY, customVocabulary.map((item) => buildCustomVocabularyEntry(item)).filter(Boolean));
-  }
-
-  function setCustomVocabularyStatus(message, type = "") {
-    const status = document.getElementById("customVocabularyStatus");
-    if (!status) return;
-    status.textContent = message;
-    status.className = `custom-vocabulary-status${type ? ` ${type}` : ""}`;
-  }
-
-  function setCustomVocabularyLoading(isLoading) {
-    document.getElementById("customVocabularyAutofill").disabled = isLoading;
-    document.querySelectorAll("#customVocabularyDraft button").forEach((button) => {
-      button.disabled = isLoading;
-    });
-  }
-
-  function setupCustomVocabularyControls() {
-    const themeSelect = document.getElementById("customDraftTheme");
-    themeSelect.innerHTML = [
-      `<option value="">No theme</option>`,
-      ...Object.entries(VOCABULARY_THEME_LABELS).map(([theme, label]) => `<option value="${theme}">${escapeHtml(label)}</option>`)
-    ].join("");
-
-    const prefixSelect = document.getElementById("customDraftPrefix");
-    prefixSelect.innerHTML = Object.entries(VOCABULARY_PREFIX_LABELS)
-      .map(([prefix, label]) => `<option value="${prefix}">${escapeHtml(label)}</option>`)
-      .join("");
-
-    const suffixSelect = document.getElementById("customDraftSuffix");
-    suffixSelect.innerHTML = Object.entries(VOCABULARY_SUFFIX_LABELS)
-      .map(([suffix, label]) => `<option value="${suffix}">${escapeHtml(label)}</option>`)
-      .join("");
-
-    const syllableSelect = document.getElementById("customDraftSyllable");
-    syllableSelect.innerHTML = [
-      `<option value="">No syllable type</option>`,
-      ...Object.entries(VOCABULARY_SYLLABLE_LABELS).map(([type, label]) => `<option value="${type}">${escapeHtml(label)}</option>`)
-    ].join("");
-  }
-
-  function showCustomVocabularyDraft(item) {
-    const draft = buildCustomVocabularyEntry(item);
-    if (!draft) return;
-    customVocabularyDraftItem = draft;
-    document.getElementById("customVocabularyDraft").hidden = false;
-    document.querySelector('[data-custom-draft="id"]').value = draft.id;
-    document.querySelector('[data-custom-draft="word"]').value = draft.word;
-    document.querySelector('[data-custom-draft="chinese"]').value = draft.chinese;
-    document.querySelector('[data-custom-draft="scenario"]').value = draft.scenario;
-    document.querySelector('[data-custom-draft="partOfSpeech"]').value = draft.partOfSpeech;
-    document.querySelector('[data-custom-draft="ipa"]').value = draft.ipa;
-    document.querySelector('[data-custom-draft="pronunciation"]').value = draft.pronunciation;
-    document.querySelector('[data-custom-draft="theme"]').value = draft.theme;
-    document.querySelector('[data-custom-draft="isCompound"]').value = String(Boolean(draft.isCompound));
-    document.querySelector('[data-custom-draft="prefix"]').value = draft.prefix;
-    document.querySelector('[data-custom-draft="suffix"]').value = draft.suffix;
-    document.querySelector('[data-custom-draft="syllableType"]').value = draft.syllableType;
-    document.querySelector('[data-custom-draft="rank"]').value = draft.rank;
-    document.querySelector('[data-custom-draft="isCustom"]').value = "true";
-    document.querySelector('[data-custom-draft="roots"]').value = draft.roots.join(", ");
-    document.querySelector('[data-custom-draft="vowelTeams"]').value = draft.vowelTeams.join(", ");
-    document.querySelector('[data-custom-draft="vowelTeamSounds"]').value = JSON.stringify(draft.vowelTeamSounds, null, 2);
-    document.querySelector('[data-custom-draft="example"]').value = draft.example;
-  }
-
-  function readCustomVocabularyDraft() {
-    let vowelTeamSounds = {};
-    try {
-      vowelTeamSounds = JSON.parse(document.querySelector('[data-custom-draft="vowelTeamSounds"]').value || "{}");
-    } catch (error) {
-      setCustomVocabularyStatus("Vowel team sounds must be valid JSON.", "error");
-      return null;
-    }
-    return buildCustomVocabularyEntry({
-      word: document.querySelector('[data-custom-draft="word"]').value,
-      chinese: document.querySelector('[data-custom-draft="chinese"]').value,
-      scenario: "custom",
-      partOfSpeech: document.querySelector('[data-custom-draft="partOfSpeech"]').value,
-      pronunciation: document.querySelector('[data-custom-draft="pronunciation"]').value,
-      example: document.querySelector('[data-custom-draft="example"]').value,
-      theme: document.querySelector('[data-custom-draft="theme"]').value,
-      isCompound: document.querySelector('[data-custom-draft="isCompound"]').value === "true",
-      prefix: document.querySelector('[data-custom-draft="prefix"]').value,
-      suffix: document.querySelector('[data-custom-draft="suffix"]').value,
-      roots: document.querySelector('[data-custom-draft="roots"]').value,
-      syllableType: document.querySelector('[data-custom-draft="syllableType"]').value,
-      vowelTeams: document.querySelector('[data-custom-draft="vowelTeams"]').value,
-      vowelTeamSounds,
-      ipa: document.querySelector('[data-custom-draft="ipa"]').value,
-      isCustom: true,
-      rank: "Custom"
-    });
-  }
-
-  function fallbackVocabularyDraft(word) {
-    return buildCustomVocabularyEntry({ word });
-  }
-
-  async function requestVocabularyAutofill(word) {
-    const response = await fetch(VOCABULARY_AUTOFILL_API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ word })
-    });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || payload.ok === false) {
-      throw new Error(payload.error === "openai_key_missing" ? "OpenAI key is not configured on the vocabulary API." : (payload.message || payload.error || "Auto-fill failed."));
-    }
-    return payload.item || {};
-  }
-
-  async function handleCustomVocabularyAutofill(event) {
-    event.preventDefault();
-    const word = cleanCustomText(document.getElementById("customVocabularyWord").value, 80);
-    if (!word) {
-      setCustomVocabularyStatus("Type a word first.", "error");
-      return;
-    }
-    setCustomVocabularyLoading(true);
-    setCustomVocabularyStatus("Auto-filling every field...");
-    try {
-      const generated = await requestVocabularyAutofill(word);
-      showCustomVocabularyDraft({ ...generated, word: generated.word || word });
-      setCustomVocabularyStatus("Review the generated fields, then save.", "success");
-    } catch (error) {
-      showCustomVocabularyDraft(fallbackVocabularyDraft(word));
-      setCustomVocabularyStatus(`${error.message} Local fields were filled as a draft.`, "error");
-    } finally {
-      setCustomVocabularyLoading(false);
-    }
-  }
-
-  function handleCustomVocabularySave(event) {
-    event.preventDefault();
-    const item = readCustomVocabularyDraft();
-    if (!item) return;
-    const existingIndex = customVocabulary.findIndex((existing) => normalizeWordKey(existing.word) === normalizeWordKey(item.word));
-    if (existingIndex >= 0) {
-      customVocabulary[existingIndex] = item;
-    } else {
-      customVocabulary.unshift(item);
-    }
-    saveCustomVocabulary();
-    document.getElementById("customVocabularyWord").value = "";
-    document.getElementById("customVocabularyDraft").hidden = true;
-    customVocabularyDraftItem = null;
-    setCustomVocabularyStatus(`Saved "${item.word}".`, "success");
-    renderVocabularyList();
-    updateProgress();
-  }
-
-  function handleCustomVocabularyCancel() {
-    document.getElementById("customVocabularyDraft").hidden = true;
-    customVocabularyDraftItem = null;
-    setCustomVocabularyStatus("");
-  }
-
-  function editCustomVocabulary(wordId) {
-    const item = customVocabulary.find((entry) => entry.id === wordId);
-    if (!item) return;
-    document.getElementById("customVocabularyWord").value = item.word;
-    showCustomVocabularyDraft(item);
-    setCustomVocabularyStatus("Edit the custom word fields, then save.", "success");
-    document.getElementById("customVocabularyForm").scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
-  function deleteCustomVocabulary(wordId) {
-    const item = customVocabulary.find((entry) => entry.id === wordId);
-    if (!item) return;
-    customVocabulary = customVocabulary.filter((entry) => entry.id !== wordId);
-    delete vocabularyStatuses[wordId];
-    saveJson(STORAGE_VOCAB_STATUS_KEY, vocabularyStatuses);
-    saveCustomVocabulary();
-    setCustomVocabularyStatus(`Deleted "${item.word}".`, "success");
-    renderVocabularyList();
-    updateProgress();
   }
 
   function loadSelectedScenario() {
@@ -8006,10 +7662,6 @@ pass=通过；传递
           </div>
           <div class="vocabulary-actions">
             <button class="listen-button" type="button" data-speak-vocabulary="${item.id}" aria-label="Listen to ${escapeHtml(item.word)}">${SPEAKER_ICON}</button>
-            ${item.isCustom ? `
-              <button class="custom-vocabulary-secondary" type="button" data-edit-custom-vocabulary="${item.id}">Edit</button>
-              <button class="custom-vocabulary-secondary" type="button" data-delete-custom-vocabulary="${item.id}">Delete</button>
-            ` : ""}
             <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.word)}">
               ${vocabularyStatusButton(item.id, "auto", "自动", currentStatus)}
               ${vocabularyStatusButton(item.id, "to-learn", "待学", currentStatus)}
@@ -8024,14 +7676,6 @@ pass=通过；传递
 
     container.querySelectorAll("[data-speak-vocabulary]").forEach((button) => {
       button.addEventListener("click", () => speakVocabulary(button.dataset.speakVocabulary));
-    });
-
-    container.querySelectorAll("[data-edit-custom-vocabulary]").forEach((button) => {
-      button.addEventListener("click", () => editCustomVocabulary(button.dataset.editCustomVocabulary));
-    });
-
-    container.querySelectorAll("[data-delete-custom-vocabulary]").forEach((button) => {
-      button.addEventListener("click", () => deleteCustomVocabulary(button.dataset.deleteCustomVocabulary));
     });
 
     container.querySelectorAll("[data-vocabulary-status]").forEach((button) => {
@@ -8362,10 +8006,6 @@ pass=通过；传递
     saveSelectedVocabularyPhraseType();
     renderVocabularyPhrases();
   });
-  setupCustomVocabularyControls();
-  document.getElementById("customVocabularyForm").addEventListener("submit", handleCustomVocabularyAutofill);
-  document.getElementById("customVocabularyDraft").addEventListener("submit", handleCustomVocabularySave);
-  document.getElementById("customVocabularyCancel").addEventListener("click", handleCustomVocabularyCancel);
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   function resetVocabularyFilters() {
     document.getElementById("vocabularySearch").value = "";
