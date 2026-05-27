@@ -3833,14 +3833,52 @@
     };
   }
 
+  function isMalformedMorningSleepSplit(entry) {
+    if (!entry || !entry.start || !entry.stop || !isSleepTimerEntry(entry)) return false;
+    const start = new Date(entry.start);
+    const stop = new Date(entry.stop);
+    if (Number.isNaN(start.getTime()) || Number.isNaN(stop.getTime())) return false;
+    if (start.getHours() !== 23 || start.getMinutes() !== 59 || start.getSeconds() !== 0) return false;
+    const nextMidnight = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1, 0, 0, 0, 0);
+    const stopMidnight = new Date(stop.getFullYear(), stop.getMonth(), stop.getDate(), 0, 0, 0, 0);
+    return (
+      stopMidnight.getTime() === nextMidnight.getTime() &&
+      stop.getHours() < 12 &&
+      stop.getTime() > nextMidnight.getTime()
+    );
+  }
+
+  function repairMalformedMorningSleepSplit(entry) {
+    if (!isMalformedMorningSleepSplit(entry)) return { entry, repaired: false };
+    const stop = new Date(entry.stop);
+    const morningStart = new Date(stop.getFullYear(), stop.getMonth(), stop.getDate(), 0, 0, 0, 0);
+    return {
+      entry: {
+        ...entry,
+        start: morningStart.toISOString(),
+        durationMs: Math.max(1000, stop.getTime() - morningStart.getTime()),
+        updatedAt: isoNow()
+      },
+      repaired: true
+    };
+  }
+
   function cleanClientPayload(payload) {
     const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+    let repaired = false;
+    const cleanEntries = entries
+      .filter((entry) => entry && entry.id && entry.start && entry.stop)
+      .map((entry) => {
+        const result = repairMalformedMorningSleepSplit(entry);
+        if (result.repaired) repaired = true;
+        return result.entry;
+      });
     return {
-      entries: entries.filter((entry) => entry && entry.id && entry.start && entry.stop),
+      entries: cleanEntries,
       activeEntry: payload?.activeEntry && payload.activeEntry.id ? payload.activeEntry : null,
       taskOverrides: cleanTaskOverrides(payload?.taskOverrides),
       taskMerges: cleanTaskMerges(payload?.taskMerges),
-      updatedAt: payload?.updatedAt || null
+      updatedAt: repaired ? isoNow() : (payload?.updatedAt || null)
     };
   }
 
@@ -6594,7 +6632,10 @@
   function sleepSplitBoundaryFor(start) {
     const startDate = new Date(start);
     if (Number.isNaN(startDate.getTime())) return null;
-    return new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 23, 59, 0, 0);
+    return {
+      nightEnd: new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 23, 59, 0, 0),
+      morningStart: new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1, 0, 0, 0, 0)
+    };
   }
 
   function completedTimerEntry(active, startIso, stopIso, patch = {}) {
@@ -6611,20 +6652,19 @@
   function completedTimerEntries(active, stopIso) {
     const startDate = new Date(active.start);
     const stopDate = new Date(stopIso);
-    const boundary = sleepSplitBoundaryFor(active.start);
+    const boundaries = sleepSplitBoundaryFor(active.start);
     if (
       !isSleepTimerEntry(active) ||
-      !boundary ||
+      !boundaries ||
       Number.isNaN(startDate.getTime()) ||
       Number.isNaN(stopDate.getTime()) ||
-      startDate >= boundary ||
-      stopDate <= boundary
+      startDate >= boundaries.nightEnd ||
+      stopDate <= boundaries.morningStart
     ) {
       return [completedTimerEntry(active, active.start, stopIso)];
     }
-    const boundaryIso = boundary.toISOString();
-    const nightBefore = completedTimerEntry(active, active.start, boundaryIso);
-    const afterBoundary = completedTimerEntry(active, boundaryIso, stopIso, { id: nativeId() });
+    const nightBefore = completedTimerEntry(active, active.start, boundaries.nightEnd.toISOString());
+    const afterBoundary = completedTimerEntry(active, boundaries.morningStart.toISOString(), stopIso, { id: nativeId() });
     return [afterBoundary, nightBefore];
   }
 
