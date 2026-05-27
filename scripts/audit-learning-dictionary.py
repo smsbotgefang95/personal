@@ -100,8 +100,25 @@ const missingImportedWords = requiredImportedWords.filter((word) => !items.some(
 const bandEntry = importedIndexEntries.find((entry) => String(entry.word || entry.text || "").toLowerCase() === "band");
 const bandRefs = Array.isArray(bandEntry?.sourceRefs) ? bandEntry.sourceRefs : [];
 const bandHasBothRefs = bandRefs.includes("104-1") && bandRefs.includes("147-8");
+const broadImportedTopics = new Set([
+  "Home",
+  "Food",
+  "Health",
+  "Work",
+  "Transportation and Travel",
+  "Recreation and Entertainment",
+  "Nature",
+  "School, Subjects, and Activities",
+  "Colors and Clothing",
+  "Community Services",
+]);
+const broadTopicEntries = importedIndexEntries.filter((entry) => broadImportedTopics.has(entry.topic)).map((entry) => ({
+  word: entry.word || entry.text,
+  refs: entry.sourceRefs || [],
+  topic: entry.topic,
+}));
 console.log(JSON.stringify({
-  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs,
+  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0,
   totalItems: items.length,
   typeCounts,
   themeCounts,
@@ -111,6 +128,7 @@ console.log(JSON.stringify({
   missingTypes,
   bandRefs,
   bandHasBothRefs,
+  broadTopicEntries,
   wordMetadataGaps,
 }, null, 2));
 """

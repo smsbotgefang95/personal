@@ -5105,19 +5105,20 @@
     "themeCounts": {
       "clothes": 250,
       "community": 104,
-      "daily": 376,
+      "daily": 282,
       "describing": 146,
       "food": 450,
       "health": 392,
       "home": 472,
       "nature": 282,
-      "numbers": 81,
+      "numbers": 83,
       "personal": 52,
       "recreation": 435,
       "school": 290,
       "services": 170,
-      "shopping": 124,
-      "transportation": 313,
+      "shopping": 157,
+      "transportation": 264,
+      "travel": 108,
       "work": 266
     }
   }
