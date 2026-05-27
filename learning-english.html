@@ -1065,7 +1065,7 @@
     <div class="panel-header">
       <div>
         <h2>Vocabulary</h2>
-        <p>Practice the top 1,000 common English words with saved learning status.</p>
+        <p>Practice the expanded Word by Word index and saved learning status.</p>
       </div>
     </div>
     <div class="vocabulary-tools">
@@ -7368,13 +7368,17 @@ pass=通过；传递
     return normalized.split(/\s*\/\s*/).some((part) => part === selectedPart || part.endsWith(` ${selectedPart}`));
   }
 
-  function getAllVocabulary() {
+  function getBaseVocabulary() {
     return [...VOCABULARY, ...customVocabulary];
+  }
+
+  function getAllVocabulary() {
+    return [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()];
   }
 
   function getImportedIndexDictionaryEntries() {
     const entries = Array.isArray(window.LEARNING_DICTIONARY_FULL) ? window.LEARNING_DICTIONARY_FULL : [];
-    const existingWords = new Set(getAllVocabulary().map((item) => normalizeWordKey(item.word)));
+    const existingWords = new Set(getBaseVocabulary().map((item) => normalizeWordKey(item.word)));
     const seen = new Set();
     return entries.filter((entry) => {
       const word = cleanCustomText(entry?.word || entry?.text, 120);
@@ -7414,6 +7418,13 @@ pass=通过；传递
       source: "word-by-word-index",
       rank: "Word by Word index"
     };
+  }
+
+  function getImportedIndexVocabularyEntries() {
+    return getImportedIndexDictionaryEntries().map((entry) => ({
+      ...normalizeImportedIndexWord(entry),
+      importedIndex: true
+    }));
   }
 
   function getVocabularyForTheme(themeId) {
@@ -7459,6 +7470,7 @@ pass=通过；传递
       sourceId: item.id,
       sourceType: "word",
       statusKind: "vocabulary",
+      importedIndex: Boolean(item.importedIndex),
       title: item.word,
       chinese: item.chinese,
       pronunciation: getVocabularyIpa(item),
@@ -7469,49 +7481,23 @@ pass=通过；传递
       topic: getDictionaryVocabularyTopic(item) || "Starter words",
       tags: [
         DICTIONARY_TYPE_LABELS.word,
+        item.importedIndex ? "Word by Word index" : "",
         getVocabularyPartLabel(item.partOfSpeech),
         item.prefix && item.prefix !== "none" ? `${item.prefix}-` : "",
         item.suffix && item.suffix !== "none" ? (VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix) : ""
       ],
-      searchParts: [item.word, item.chinese, item.example, item.partOfSpeech, item.pronunciation, getVocabularyIpa(item), item.rank]
+      searchParts: [
+        item.word,
+        item.chinese,
+        item.example,
+        item.partOfSpeech,
+        item.pronunciation,
+        getVocabularyIpa(item),
+        item.rank,
+        ...(item.sourceRefs || []),
+        ...(item.placements || []).flatMap((placement) => [placement.theme, placement.topic, String(placement.page || "")])
+      ]
     }));
-
-    const importedIndexWordItems = getImportedIndexDictionaryEntries().map((entry) => {
-      const item = normalizeImportedIndexWord(entry);
-      return {
-        id: `word:${item.id}`,
-        sourceId: item.id,
-        sourceType: "word",
-        statusKind: "vocabulary",
-        importedIndex: true,
-        title: item.word,
-        chinese: item.chinese,
-        pronunciation: getVocabularyIpa(item),
-        pronunciationLabel: "ipa",
-        hint: item.pronunciation,
-        example: item.example,
-        theme: item.theme || "daily",
-        topic: getDictionaryVocabularyTopic(item) || "Starter words",
-        tags: [
-          DICTIONARY_TYPE_LABELS.word,
-          "Word by Word index",
-          getVocabularyPartLabel(item.partOfSpeech),
-          item.prefix && item.prefix !== "none" ? `${item.prefix}-` : "",
-          item.suffix && item.suffix !== "none" ? (VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix) : ""
-        ],
-        searchParts: [
-          item.word,
-          item.chinese,
-          item.example,
-          item.partOfSpeech,
-          item.pronunciation,
-          getVocabularyIpa(item),
-          item.rank,
-          ...(item.sourceRefs || []),
-          ...(item.placements || []).flatMap((placement) => [placement.theme, placement.topic, String(placement.page || "")])
-        ]
-      };
-    });
 
     const sentenceItems = PHRASES.map((item) => {
       const placement = getScenarioDictionaryPlacement(item.scenario);
@@ -7572,7 +7558,7 @@ pass=通过；传递
       }));
     });
 
-    return [...wordItems, ...importedIndexWordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
+    return [...wordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
   }
 
   function getDictionaryItemsForTheme(themeId) {
@@ -7805,6 +7791,7 @@ pass=通过；传递
       const currentStatus = getVocabularyStatus(item.id);
       const label = item.isCustom ? "" : (
         scenario ? scenario.zh : (
+          item.importedIndex ? "Word by Word index" :
           item.theme === "home" ? "家居" :
           item.theme === "clothes" ? "颜色与衣服" :
           item.theme === "recreation" ? "休闲娱乐" :
