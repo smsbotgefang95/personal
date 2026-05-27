@@ -4382,16 +4382,63 @@
         item.lastStart = Math.max(item.lastStart, entry.start?.getTime?.() || 0);
         item.firstSourceIndex = Math.min(item.firstSourceIndex, Number.isFinite(entry.sourceIndex) ? entry.sourceIndex : Number.POSITIVE_INFINITY);
       });
-    const rows = Array.from(byTask.values())
+    const rows = dedupeVisibleTrackerRows(Array.from(byTask.values())
       .map((entry) => ({
         ...applyTaskOverride({
           ...entry,
           recurring: Boolean(entry.recurring || entry.dateKeys?.size > 1),
           recurringText: entry.recurringText || (entry.dateKeys?.size > 1 ? "Recurring task" : "")
         })
-      }))
+      })))
       .sort((a, b) => compareTaskOrder(a, b));
     return rows.length ? rows : fallbackActivities.map(applyTaskOverride);
+  }
+
+  function visibleTrackerTaskKey(entry) {
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    return [
+      cleanLabel(entry.listId, ""),
+      cleanLabel(entry.taskName, "").toLowerCase().replace(/\s+/g, " "),
+      trackGroupName(entry),
+      dateInputValue(entry.dueDate || entry.dueDateText),
+      timeInputValue(entry.dueTime),
+      entry.status === "done" ? "done" : "todo",
+      recurrence,
+      recurrence === "custom" ? cleanLabel(entry.recurringText, "").toLowerCase().replace(/\s+/g, " ") : "",
+      normalizeTaskCategory(entry.taskCategory),
+      cleanLabel(entry.taskType, "").toLowerCase().replace(/\s+/g, " ")
+    ].join("|||");
+  }
+
+  function mergeVisibleTrackerRows(primary, duplicate) {
+    const merged = {
+      ...primary,
+      count: (Number(primary.count) || 0) + (Number(duplicate.count) || 0),
+      totalMs: (Number(primary.totalMs) || 0) + (Number(duplicate.totalMs) || 0),
+      lastStart: Math.max(Number(primary.lastStart) || 0, Number(duplicate.lastStart) || 0),
+      firstSourceIndex: Math.min(
+        Number.isFinite(primary.firstSourceIndex) ? primary.firstSourceIndex : Number.POSITIVE_INFINITY,
+        Number.isFinite(duplicate.firstSourceIndex) ? duplicate.firstSourceIndex : Number.POSITIVE_INFINITY
+      ),
+      recurring: Boolean(primary.recurring || duplicate.recurring)
+    };
+    ["listName", "department", "priority", "section", "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate", "startDateText", "recurringText", "taskOrder"].forEach((field) => {
+      if ((!merged[field] || merged[field] === "Other") && duplicate[field] && duplicate[field] !== "Other") merged[field] = duplicate[field];
+    });
+    if (primary.dateKeys || duplicate.dateKeys) {
+      merged.dateKeys = new Set([...(primary.dateKeys || []), ...(duplicate.dateKeys || [])]);
+    }
+    return merged;
+  }
+
+  function dedupeVisibleTrackerRows(rows) {
+    const byVisibleTask = new Map();
+    rows.forEach((entry) => {
+      const key = visibleTrackerTaskKey(entry);
+      const existing = byVisibleTask.get(key);
+      byVisibleTask.set(key, existing ? mergeVisibleTrackerRows(existing, entry) : entry);
+    });
+    return Array.from(byVisibleTask.values());
   }
 
   function taskOrderNumber(entry) {
