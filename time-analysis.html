@@ -5683,14 +5683,21 @@
     }
     document.querySelectorAll("[data-track-key]").forEach((button) => {
       let touchHandledAt = 0;
+      let lastActivationAt = 0;
+      const runTrackButton = () => {
+        const now = Date.now();
+        if (now - lastActivationAt < 900) return;
+        lastActivationAt = now;
+        activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
+      };
       button.addEventListener("touchend", (event) => {
         event.preventDefault();
         touchHandledAt = Date.now();
-        activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
+        runTrackButton();
       }, { passive: false });
       button.addEventListener("click", () => {
         if (Date.now() - touchHandledAt < 700) return;
-        activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
+        runTrackButton();
       });
     });
     document.querySelectorAll("[data-save-past-key]").forEach((button) => {
