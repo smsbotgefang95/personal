@@ -1493,6 +1493,7 @@
     { id: "phrase-last-night", phrase: "Last night", chinese: "昨晚", pronunciation: "last night", words: ["last", "night"], type: "collocation" },
     { id: "phrase-at-home", phrase: "At home", chinese: "在家", pronunciation: "at home", words: ["at", "home"], type: "collocation" },
     { id: "phrase-first-name", phrase: "First name", chinese: "名字", pronunciation: "furst name", words: ["first", "name"], type: "compound-chunk" },
+    { id: "phrase-last-name", phrase: "Last name", chinese: "姓", pronunciation: "last name", words: ["last", "name"], type: "compound-chunk" },
     { id: "phrase-small-talk", phrase: "Small talk", chinese: "闲聊", pronunciation: "small talk", words: ["small", "talk"], type: "fixed-expression" },
     { id: "phrase-hard-work", phrase: "Hard work", chinese: "努力工作", pronunciation: "hard work", words: ["hard", "work"], type: "collocation" },
     { id: "phrase-good-day", phrase: "Good day", chinese: "美好的一天", pronunciation: "good day", words: ["good", "day"], type: "collocation" },
@@ -1530,6 +1531,7 @@
     { id: "phrase-clean-water", phrase: "Clean water", chinese: "干净的水", pronunciation: "kleen WAW-ter", words: ["clean", "water"], type: "collocation" },
     { id: "phrase-hot-water", phrase: "Hot water", chinese: "热水", pronunciation: "hot WAW-ter", words: ["hot", "water"], type: "collocation" },
     { id: "phrase-cold-water", phrase: "Cold water", chinese: "冷水", pronunciation: "kohld WAW-ter", words: ["cold", "water"], type: "collocation" },
+    { id: "phrase-living-room", phrase: "Living room", chinese: "客厅", pronunciation: "LIV-ing room", words: ["living", "room"], type: "compound-chunk" },
     { id: "phrase-fresh-air", phrase: "Fresh air", chinese: "新鲜空气", pronunciation: "fresh air", words: ["fresh", "air"], type: "collocation" },
     { id: "phrase-good-food", phrase: "Good food", chinese: "好吃的食物", pronunciation: "good food", words: ["good", "food"], type: "collocation" },
     { id: "phrase-hot-food", phrase: "Hot food", chinese: "热食", pronunciation: "hot food", words: ["hot", "food"], type: "collocation" },
@@ -1624,13 +1626,44 @@
     { id: "chunk-turn-off", phrase: "Turn off", chinese: "关掉", pronunciation: "turn off", words: ["turn", "off"], type: "phrasal-verb" },
     { id: "chunk-take-off", phrase: "Take off", chinese: "脱下；起飞", pronunciation: "tayk off", words: ["take", "off"], type: "phrasal-verb" },
     { id: "chunk-put-on", phrase: "Put on", chinese: "穿上；戴上", pronunciation: "put on", words: ["put", "on"], type: "phrasal-verb" },
+    { id: "chunk-wash-dishes", phrase: "Wash dishes", chinese: "洗碗", pronunciation: "wahsh DISH-iz", words: ["wash", "dishes"], type: "collocation" },
+    { id: "chunk-take-a-shower", phrase: "Take a shower", chinese: "洗澡", pronunciation: "tayk uh SHOU-er", words: ["take", "a", "shower"], type: "collocation" },
+    { id: "chunk-go-shopping", phrase: "Go shopping", chinese: "去购物", pronunciation: "goh SHOP-ing", words: ["go", "shopping"], type: "collocation" },
+    { id: "chunk-make-dinner", phrase: "Make dinner", chinese: "做晚饭", pronunciation: "mayk DIN-er", words: ["make", "dinner"], type: "collocation" },
     { id: "chunk-make-breakfast", phrase: "Make breakfast", chinese: "做早餐", pronunciation: "mayk BREK-fust", words: ["make", "breakfast"], type: "collocation" },
     { id: "chunk-take-a-break", phrase: "Take a break", chinese: "休息一下", pronunciation: "tayk uh brayk", words: ["take", "a", "break"], type: "collocation" },
     { id: "chunk-pay-by-card", phrase: "Pay by card", chinese: "刷卡付款", pronunciation: "pay by kard", words: ["pay", "by", "card"], type: "collocation" },
     { id: "chunk-ask-for-help", phrase: "Ask for help", chinese: "寻求帮助", pronunciation: "ask for help", words: ["ask", "for", "help"], type: "collocation" },
+    { id: "chunk-quarter-past", phrase: "Quarter past", chinese: "过一刻", pronunciation: "KWOR-ter past", words: ["quarter", "past"], type: "fixed-expression" },
+    { id: "chunk-post-office", phrase: "Post office", chinese: "邮局", pronunciation: "pohst AW-fis", words: ["post", "office"], type: "compound-chunk" },
+    { id: "chunk-city-hall", phrase: "City hall", chinese: "市政厅", pronunciation: "SIT-ee hawl", words: ["city", "hall"], type: "compound-chunk" },
+    { id: "chunk-small-size", phrase: "Small size", chinese: "小号", pronunciation: "small size", words: ["small", "size"], type: "noun-phrase" },
+    { id: "chunk-medium-size", phrase: "Medium size", chinese: "中号", pronunciation: "MEE-dee-um size", words: ["medium", "size"], type: "noun-phrase" },
+    { id: "chunk-wash-clothes", phrase: "Wash clothes", chinese: "洗衣服", pronunciation: "wahsh klohz", words: ["wash", "clothes"], type: "collocation" },
+    { id: "chunk-on-sale", phrase: "On sale", chinese: "打折", pronunciation: "on sayl", words: ["on", "sale"], type: "fixed-expression" },
+    { id: "chunk-drivers-license", phrase: "Driver's license", chinese: "驾照", pronunciation: "DRY-verz LYE-sens", words: ["driver's", "license"], type: "compound-chunk" },
+    { id: "chunk-traffic-light", phrase: "Traffic light", chinese: "交通灯", pronunciation: "TRAF-ik light", words: ["traffic", "light"], type: "compound-chunk" },
+    { id: "chunk-train-station", phrase: "Train station", chinese: "火车站", pronunciation: "trayn STAY-shun", words: ["train", "station"], type: "compound-chunk" },
+    { id: "chunk-one-way-ticket", phrase: "One-way ticket", chinese: "单程票", pronunciation: "wun way TIK-it", words: ["one-way", "ticket"], type: "compound-chunk" },
+    { id: "chunk-parking-lot", phrase: "Parking lot", chinese: "停车场", pronunciation: "PAR-king lot", words: ["parking", "lot"], type: "compound-chunk" },
+    { id: "chunk-movie-theater", phrase: "Movie theater", chinese: "电影院", pronunciation: "MOO-vee THEE-uh-ter", words: ["movie", "theater"], type: "compound-chunk" },
+    { id: "chunk-humid-muggy", phrase: "Humid / muggy", chinese: "潮湿闷热的", pronunciation: "HYOO-mid / MUG-ee", words: ["humid", "muggy"], type: "fixed-expression" },
+    { id: "chunk-dust-storm", phrase: "Dust storm", chinese: "沙尘暴", pronunciation: "dust storm", words: ["dust", "storm"], type: "compound-chunk" },
+    { id: "chunk-heat-wave", phrase: "Heat wave", chinese: "热浪", pronunciation: "heet wayv", words: ["heat", "wave"], type: "compound-chunk" },
+    { id: "chunk-bank-account", phrase: "Bank account", chinese: "银行账户", pronunciation: "bank uh-KOUNT", words: ["bank", "account"], type: "compound-chunk" },
+    { id: "chunk-library-card", phrase: "Library card", chinese: "借书证", pronunciation: "LYE-brer-ee kard", words: ["library", "card"], type: "compound-chunk" },
     { id: "chunk-phone-number", phrase: "Phone number", chinese: "电话号码", pronunciation: "fohn NUM-ber", words: ["phone", "number"], type: "compound-chunk" },
+    { id: "chunk-telephone-number", phrase: "Telephone number", chinese: "电话号码", pronunciation: "TEL-uh-fohn NUM-ber", words: ["telephone", "number"], type: "compound-chunk" },
     { id: "chunk-credit-card", phrase: "Credit card", chinese: "信用卡", pronunciation: "KRED-it kard", words: ["credit", "card"], type: "compound-chunk" },
     { id: "chunk-bus-stop", phrase: "Bus stop", chinese: "公交车站", pronunciation: "bus stop", words: ["bus", "stop"], type: "compound-chunk" },
+    { id: "chunk-boarding-pass", phrase: "Boarding pass", chinese: "登机牌", pronunciation: "BOR-ding pass", words: ["boarding", "pass"], type: "compound-chunk" },
+    { id: "chunk-id-card", phrase: "ID card", chinese: "身份证", pronunciation: "eye dee kard", words: ["ID", "card"], type: "compound-chunk" },
+    { id: "chunk-green-card", phrase: "Green card", chinese: "绿卡", pronunciation: "green kard", words: ["green", "card"], type: "compound-chunk" },
+    { id: "chunk-social-security-number", phrase: "Social Security number", chinese: "社会安全号码", pronunciation: "SOH-shul si-KYOOR-uh-tee NUM-ber", words: ["social", "security", "number"], type: "compound-chunk" },
+    { id: "chunk-bill-of-rights", phrase: "Bill of Rights", chinese: "权利法案", pronunciation: "bil uv rights", words: ["bill", "of", "rights"], type: "compound-chunk" },
+    { id: "chunk-freedom-of-speech", phrase: "Freedom of speech", chinese: "言论自由", pronunciation: "FREE-dum uv speech", words: ["freedom", "of", "speech"], type: "compound-chunk" },
+    { id: "chunk-american-revolution", phrase: "American Revolution", chinese: "美国独立战争", pronunciation: "uh-MER-ih-kun rev-uh-LOO-shun", words: ["american", "revolution"], type: "compound-chunk" },
+    { id: "chunk-civil-war", phrase: "Civil War", chinese: "内战", pronunciation: "SIV-ul war", words: ["civil", "war"], type: "compound-chunk" },
     { id: "chunk-first-aid", phrase: "First aid", chinese: "急救", pronunciation: "furst ayd", words: ["first", "aid"], type: "compound-chunk" }
   ];
 
@@ -3790,11 +3823,54 @@ pass=通过；传递
     "wash dishes"
   ]);
 
-  const VOCABULARY_TAB_EXCLUDED_PHRASES = new Set([
-    "phone number",
+  const DELETED_VOCABULARY_WORDS = new Set([
+    "american revolution",
+    "ants",
+    "appetizers",
+    "attachments",
+    "bank account",
+    "bill of rights",
+    "boarding pass",
+    "bus stop",
+    "city hall",
+    "civil war",
+    "driver's license",
+    "dust storm",
+    "fireworks",
+    "first name",
+    "freedom of speech",
+    "front door",
     "get up",
+    "go shopping",
+    "green card",
+    "heat wave",
+    "humid / muggy",
+    "id card",
+    "last name",
+    "library card",
+    "living room",
+    "make dinner",
+    "medium size",
+    "movie theater",
+    "on sale",
+    "one-way ticket",
+    "parking lot",
+    "man's",
+    "phone number",
+    "post office",
+    "quarter past",
+    "rights",
+    "shoes",
+    "small size",
+    "social security number",
+    "sports",
+    "take a shower",
+    "telephone number",
+    "there's",
+    "traffic light",
+    "train station",
+    "wash clothes",
     "wash dishes",
-    "take a shower"
   ]);
 
   const VOCABULARY_PREFIX_LABELS = {
@@ -6422,10 +6498,48 @@ pass=通过；传递
   };
 
   const DICTIONARY_CHUNK_PHRASE_MAP = {
+    "american revolution": { theme: "civics", topic: "Events in United States History" },
+    "bank account": { theme: "services", topic: "The Bank" },
+    "bill of rights": { theme: "civics", topic: "The Constitution and the Bill of Rights" },
+    "boarding pass": { theme: "transportation", topic: "The Airport" },
+    "bus stop": { theme: "community", topic: "Places Around Town I" },
+    "city hall": { theme: "community", topic: "Places Around Town I" },
+    "civil war": { theme: "civics", topic: "Events in United States History" },
+    "driver's license": { theme: "transportation", topic: "Types of Vehicles" },
+    "dust storm": { theme: "nature", topic: "The Weather" },
     "first aid": { theme: "health", topic: "First Aid" },
     "first day": { theme: "numbers", topic: "Time Expressions and Seasons" },
+    "first name": { theme: "personal", topic: "Personal Information" },
+    "freedom of speech": { theme: "civics", topic: "The Constitution and the Bill of Rights" },
+    "front door": { theme: "home", topic: "Types of Housing and Communities" },
+    "get up": { theme: "daily", topic: "Everyday Activities I" },
+    "go shopping": { theme: "daily", topic: "Leisure Activities" },
+    "green card": { theme: "civics", topic: "Forms of Identification" },
+    "heat wave": { theme: "nature", topic: "The Weather" },
+    "humid / muggy": { theme: "nature", topic: "The Weather" },
+    "id card": { theme: "civics", topic: "Forms of Identification" },
+    "last name": { theme: "personal", topic: "Personal Information" },
+    "library card": { theme: "services", topic: "The Library" },
+    "living room": { theme: "home", topic: "The Living Room" },
+    "make dinner": { theme: "daily", topic: "Everyday Activities II" },
+    "medium size": { theme: "clothes", topic: "Clothing" },
+    "movie theater": { theme: "recreation", topic: "Entertainment" },
+    "on sale": { theme: "shopping", topic: "Shopping" },
     "one more time": { theme: "numbers", topic: "Time Expressions and Seasons" },
-    "one time": { theme: "numbers", topic: "Time Expressions and Seasons" }
+    "one-way ticket": { theme: "transportation", topic: "Public Transportation" },
+    "one time": { theme: "numbers", topic: "Time Expressions and Seasons" },
+    "parking lot": { theme: "transportation", topic: "Highways and Streets" },
+    "phone number": { theme: "personal", topic: "Personal Information" },
+    "post office": { theme: "community", topic: "Places Around Town II" },
+    "quarter past": { theme: "numbers", topic: "Time" },
+    "small size": { theme: "clothes", topic: "Clothing" },
+    "social security number": { theme: "civics", topic: "Forms of Identification" },
+    "take a shower": { theme: "daily", topic: "Everyday Activities I" },
+    "telephone number": { theme: "personal", topic: "Personal Information" },
+    "traffic light": { theme: "transportation", topic: "Traffic Signs and Directions" },
+    "train station": { theme: "transportation", topic: "Public Transportation" },
+    "wash clothes": { theme: "clothes", topic: "Laundry" },
+    "wash dishes": { theme: "daily", topic: "Everyday Activities II" }
   };
 
   const CARDINAL_NUMBER_STARTERS = [
@@ -6914,6 +7028,10 @@ pass=通过；传递
     const seen = new Set();
     return items.map((item) => cleanCustomText(item, 40).toLowerCase())
       .filter((item) => item && (!allowed || allowed.has(item)) && !seen.has(item) && seen.add(item));
+  }
+
+  function isDeletedVocabularyWord(word) {
+    return DELETED_VOCABULARY_WORDS.has(normalizeWordKey(String(word || "")));
   }
 
   function cleanVowelTeamSounds(value, vowelTeams) {
@@ -7616,12 +7734,12 @@ pass=通过；传递
   }
 
   function getBaseVocabulary() {
-    return [...VOCABULARY, ...customVocabulary];
+    return [...VOCABULARY, ...customVocabulary].filter((item) => !isDeletedVocabularyWord(item.word));
   }
 
   function getAllVocabulary() {
     if (!allVocabularyCache) {
-      allVocabularyCache = [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()];
+      allVocabularyCache = [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()].filter((item) => !isDeletedVocabularyWord(item.word));
     }
     return allVocabularyCache;
   }
@@ -7682,7 +7800,7 @@ pass=通过；传递
     importedIndexDictionaryEntriesCache = entries.filter((entry) => {
       const word = cleanCustomText(entry?.word || entry?.text, 120);
       const key = normalizeWordKey(word);
-      if (!key || existingWords.has(key) || seen.has(key)) return false;
+      if (!key || isDeletedVocabularyWord(key) || existingWords.has(key) || seen.has(key)) return false;
       const singularWord = IMPORTED_INDEX_PLURAL_CLEANUP[key];
       if (singularWord) {
         const singularKey = normalizeWordKey(singularWord);
@@ -8041,7 +8159,7 @@ pass=通过；传递
     const syllableFilter = selectedVocabularySyllable;
     const vowelTeamFilter = selectedVocabularyVowelTeam;
     const ipaFilter = selectedVocabularyIpa;
-    const allVocabulary = getAllVocabulary().filter((item) => !VOCABULARY_TAB_EXCLUDED_PHRASES.has(normalizeWordKey(item.word || "")));
+    const allVocabulary = getAllVocabulary();
     const matchesWordPosition = (word) => {
       const normalized = (word || "").toLowerCase();
       if (!search || wordMatchFilter === "contains") return true;
@@ -8051,6 +8169,8 @@ pass=通过；传递
     };
     const matchesSearch = (item) => {
       if (!search) return true;
+      const normalizedSearch = normalizeWordKey(search);
+      if (DELETED_VOCABULARY_WORDS.has(normalizedSearch)) return false;
       if (!matchesWordPosition(item.word)) return false;
       if (wordMatchFilter !== "contains") return true;
       return [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank), ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)].some((value) => (value || "").toLowerCase().includes(search));
