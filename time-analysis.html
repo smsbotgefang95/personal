@@ -3098,6 +3098,7 @@
     "data/ClickUp Entries_W18~W21.csv",
     "data/⏰ Time Analysis_2026 - Entries.csv"
   ];
+  const TIME_TASK_CATALOG_FILE = "data/time-task-catalog.json";
   const TIME_ENTRIES_API = (
     ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016"
   ) ? "http://localhost:8016/api/time-entries" : "/api/time-entries";
@@ -3161,6 +3162,8 @@
   let editingEntryId = "";
   let timerTick = null;
   let currentSourcePills = [];
+  let fullDashboardLoaded = false;
+  let fullDashboardLoadPromise = null;
   let trackMode = "now";
   let pastEntryTaskKey = "";
   let collapsedTrackGroups = (() => {
@@ -7010,6 +7013,61 @@
     };
   }
 
+  function normalizeCatalogEntry(entry, index) {
+    const taskName = cleanLabel(entry?.taskName, "Untitled task");
+    const listId = cleanLabel(entry?.listId, "901301650324");
+    const listName = LIST_NAME_MAP[listId] || cleanLabel(entry?.listName, listNameForId(listId));
+    return {
+      id: cleanLabel(entry?.id, `catalog:${listId}:${taskIdFor(taskName)}:${index}`),
+      sourceFile: cleanLabel(entry?.sourceFile, TIME_TASK_CATALOG_FILE),
+      sourceIndex: Number.isFinite(Number(entry?.sourceIndex)) ? Number(entry.sourceIndex) : index,
+      sourceType: "task-catalog",
+      start: null,
+      stop: null,
+      date: "",
+      displayDate: "",
+      week: "Catalog",
+      durationMs: 0,
+      hours: 0,
+      listId,
+      listName,
+      taskId: effectiveTaskId(entry?.taskId, taskName),
+      taskName,
+      department: cleanLabel(entry?.department, ""),
+      priority: cleanLabel(entry?.priority, ""),
+      section: cleanLabel(entry?.section, ""),
+      taskCategory: normalizeTaskCategory(entry?.taskCategory),
+      taskType: cleanLabel(entry?.taskType, ""),
+      dueDate: dateInputValue(entry?.dueDate),
+      dueDateText: cleanLabel(entry?.dueDateText, ""),
+      dueTime: timeInputValue(entry?.dueTime),
+      startDate: dateInputValue(entry?.startDate),
+      startDateText: cleanLabel(entry?.startDateText, ""),
+      recurring: Boolean(entry?.recurring),
+      recurringText: cleanLabel(entry?.recurringText, ""),
+      taskOrder: cleanLabel(entry?.taskOrder, ""),
+      notes: cleanLabel(entry?.notes, ""),
+      searchText: [
+        listName,
+        taskName,
+        entry?.department,
+        entry?.priority,
+        entry?.section,
+        entry?.taskCategory,
+        entry?.taskType,
+        entry?.notes
+      ].filter(Boolean).join(" ").toLowerCase()
+    };
+  }
+
+  async function loadTaskCatalogEntries() {
+    const response = await fetch(TIME_TASK_CATALOG_FILE, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${TIME_TASK_CATALOG_FILE} returned HTTP ${response.status}`);
+    const payload = await response.json();
+    const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+    return entries.map(normalizeCatalogEntry);
+  }
+
   async function loadCsvDashboard() {
     try {
       const csvData = await loadCsvEntries();
@@ -7019,9 +7077,28 @@
       currentSourcePills = TIME_CSV_FILES.map(shortFileName);
       renderTracker();
       renderDashboard(appEntries, appMetrics);
+      return true;
     } catch (error) {
       showError(error);
+      return false;
     }
+  }
+
+  async function ensureFullDashboardLoaded() {
+    if (fullDashboardLoaded) return true;
+    if (fullDashboardLoadPromise) return fullDashboardLoadPromise;
+    setTrackerStatus("Loading full Time Analysis dashboard...");
+    fullDashboardLoadPromise = loadCsvDashboard().then((loaded) => {
+      fullDashboardLoaded = Boolean(loaded);
+      if (fullDashboardLoaded) setTrackerStatus("Full Time Analysis dashboard loaded.", "saved");
+      fullDashboardLoadPromise = null;
+      return fullDashboardLoaded;
+    }).catch((error) => {
+      fullDashboardLoadPromise = null;
+      setTrackerStatus(error.message || "Full Time Analysis dashboard could not be loaded.", "error");
+      throw error;
+    });
+    return fullDashboardLoadPromise;
   }
 
   async function loadPrivateTimeData({ promptForKey = false } = {}) {
@@ -7059,34 +7136,30 @@
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
     timePayload = readLocalTimePayload();
+    currentSourcePills = ["Task catalog"];
+    document.getElementById("statusBox").hidden = true;
+    document.getElementById("dashboard").hidden = false;
+    document.getElementById("pageSubtitle").textContent = "Track time now · analysis loads on demand";
+    document.getElementById("sourcePills").innerHTML = `<span class="source-pill">Task catalog</span>`;
     try {
-      try {
-        taskCatalogEntries = (await loadCsvEntries()).entries;
-      } catch (catalogError) {
-        taskCatalogEntries = [];
-      }
+      taskCatalogEntries = await loadTaskCatalogEntries();
+    } catch (catalogError) {
+      taskCatalogEntries = [];
+    }
+    showPrivateTimeLoadButton(true);
+    renderTracker();
+    setTrackerStatus("Track ready. Open an analysis tab to load the full dashboard.", "saved");
+    try {
       if (await ensureTimeAdminKey()) {
-        await loadPrivateTimeData();
-        return;
+        window.setTimeout(() => {
+          loadPrivateTimeData().catch((error) => {
+            setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
+            showPrivateTimeLoadButton(true);
+          });
+        }, 0);
       }
-      showPrivateTimeLoadButton(true);
-      if ((timePayload.entries || []).length || timePayload.activeEntry) {
-        setTrackerStatus("Showing local Time Analysis data. Load private data to sync shared changes.");
-        renderNativeDashboard();
-        return;
-      }
-      setTrackerStatus("Showing CSV fallback. Load private data to sync shared due dates on this device.");
-      await loadCsvDashboard();
     } catch (error) {
-      timePayload = readLocalTimePayload();
       showPrivateTimeLoadButton(true);
-      if ((timePayload.entries || []).length || timePayload.activeEntry) {
-        setTrackerStatus("Showing local Time Analysis data. Load private data to sync shared changes.", "error");
-        renderNativeDashboard();
-        return;
-      }
-      setTrackerStatus("Private time tracking is unavailable. Showing CSV fallback for now.", "error");
-      await loadCsvDashboard();
     }
   }
 
@@ -7179,6 +7252,9 @@
       document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
       button.classList.add("active");
       document.getElementById(`panel-${button.dataset.tab}`).classList.add("active");
+      if (button.dataset.tab !== "track") {
+        ensureFullDashboardLoaded().catch((error) => setTrackerStatus(error.message, "error"));
+      }
       Object.values(charts).forEach((item) => item.resize());
     });
   });
