@@ -3790,6 +3790,13 @@ pass=通过；传递
     "wash dishes"
   ]);
 
+  const VOCABULARY_TAB_EXCLUDED_PHRASES = new Set([
+    "phone number",
+    "get up",
+    "wash dishes",
+    "take a shower"
+  ]);
+
   const VOCABULARY_PREFIX_LABELS = {
     none: "No prefix",
     re: "re- again",
@@ -6532,7 +6539,7 @@ pass=通过；传递
         ["Places Around Town II", ["post office", "pharmacy"]]
       ],
       food: [
-        ["Vegetables", ["vegetables"]],
+        ["Vegetables", ["vegetable"]],
         ["Groceries", ["rice"]],
         ["Meat, Poultry, and Seafood", ["chicken"]],
         ["Dairy Products, Juices, and Beverages", ["water"]],
@@ -6637,7 +6644,7 @@ pass=通过；传递
     { theme: "community", word: "bus stop", chinese: "公交车站", ipa: "bʌs stɑp", partOfSpeech: "noun", example: "Wait at the bus stop." },
     { theme: "community", word: "city hall", chinese: "市政厅", ipa: "ˈsɪti hɔl", partOfSpeech: "noun", example: "City hall opens at nine." },
 
-    { theme: "food", word: "vegetables", chinese: "蔬菜", ipa: "ˈvedʒtəbəlz", partOfSpeech: "noun", example: "I buy vegetables at the market." },
+    { theme: "food", word: "vegetable", chinese: "蔬菜", ipa: "ˈvedʒtəbəl", partOfSpeech: "noun", example: "I buy vegetables at the market." },
     { theme: "food", word: "rice", chinese: "米饭", ipa: "raɪs", partOfSpeech: "noun", example: "We eat rice with dinner." },
     { theme: "food", word: "chicken", chinese: "鸡肉", ipa: "ˈtʃɪkən", partOfSpeech: "noun", example: "The chicken is hot." },
     { theme: "food", word: "menu", chinese: "菜单", ipa: "ˈmenju", partOfSpeech: "noun", example: "May I see the menu?" },
@@ -6788,7 +6795,30 @@ pass=通过；传递
     });
   }
 
-  const VOCABULARY = uniqueVocabularyEntries([...DICTIONARY_THEME_STARTER_VOCABULARY, ...COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
+  const COMMON_VOCABULARY_THIRD_PERSON_CLEANUP = new Set([
+    "begins",
+    "comes",
+    "ends",
+    "gets",
+    "gives",
+    "happens",
+    "helps",
+    "knows",
+    "makes",
+    "means",
+    "needs",
+    "seems",
+    "shows",
+    "stands",
+    "takes",
+    "tells",
+    "uses",
+    "works"
+  ]);
+
+  const CLEANED_COMMON_VOCABULARY = COMMON_VOCABULARY.filter((item) => !COMMON_VOCABULARY_THIRD_PERSON_CLEANUP.has(normalizeWordKey(item.word)));
+
+  const VOCABULARY = uniqueVocabularyEntries([...DICTIONARY_THEME_STARTER_VOCABULARY, ...CLEANED_COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
 
   let selectedView = loadSelectedView();
   let selectedDictionaryTheme = loadSelectedDictionaryTheme();
@@ -7617,10 +7647,13 @@ pass=通过；传递
     shelves: "shelf",
     straws: "straw",
     trunks: "trunk",
+    vegetables: "vegetable",
     weights: "weight",
     wipes: "wipe",
     woods: "wood"
   };
+
+  const IMPORTED_INDEX_SOURCE_REF_REPLACEMENTS = new Set(["mountain"]);
 
   function makeSingularImportedIndexEntry(entry, singularWord) {
     return {
@@ -7653,7 +7686,8 @@ pass=通过；传递
       const singularWord = IMPORTED_INDEX_PLURAL_CLEANUP[key];
       if (singularWord) {
         const singularKey = normalizeWordKey(singularWord);
-        if (!importedWords.has(singularKey) && !replacementKeys.has(singularKey)) {
+        const shouldKeepSourceRef = IMPORTED_INDEX_SOURCE_REF_REPLACEMENTS.has(singularKey);
+        if (!importedWords.has(singularKey) && !replacementKeys.has(singularKey) && (!existingWords.has(singularKey) || shouldKeepSourceRef)) {
           singularReplacements.push(makeSingularImportedIndexEntry(entry, singularWord));
           replacementKeys.add(singularKey);
         }
@@ -8007,7 +8041,7 @@ pass=通过；传递
     const syllableFilter = selectedVocabularySyllable;
     const vowelTeamFilter = selectedVocabularyVowelTeam;
     const ipaFilter = selectedVocabularyIpa;
-    const allVocabulary = getAllVocabulary();
+    const allVocabulary = getAllVocabulary().filter((item) => !VOCABULARY_TAB_EXCLUDED_PHRASES.has(normalizeWordKey(item.word || "")));
     const matchesWordPosition = (word) => {
       const normalized = (word || "").toLowerCase();
       if (!search || wordMatchFilter === "contains") return true;
