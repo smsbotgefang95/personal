@@ -33,7 +33,7 @@
     --shadow: none;
     --track-select-width: 30px;
     --track-task-width: 340px;
-    --track-notes-width: 72px;
+    --track-notes-width: 160px;
   }
 
   * { box-sizing: border-box; }
@@ -1155,7 +1155,7 @@
     grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
     column-gap: 10px;
     row-gap: 10px;
-    align-items: start;
+    align-items: center;
     min-width: 0;
   }
 
@@ -1297,7 +1297,7 @@
     display: grid;
     gap: 4px;
     align-self: stretch;
-    align-content: start;
+    align-content: center;
     height: 100%;
     min-height: 48px;
     min-width: var(--track-task-width);
@@ -1305,21 +1305,29 @@
   }
 
   .track-notes-cell {
-    display: -webkit-box;
-    align-self: stretch;
+    width: 100%;
     min-width: 0;
-    max-height: 4.2em;
-    overflow: hidden;
-    color: #cbd5e1;
-    font-size: 0.84rem;
-    line-height: 1.4;
+    height: 42px;
+    min-height: 42px;
+    max-height: 84px;
+    border: 1px solid #374151;
+    border-radius: 7px;
+    padding: 7px 8px;
+    background: #030712;
+    color: #f9fafb;
+    font: inherit;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    overflow: auto;
     overflow-wrap: anywhere;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    resize: vertical;
   }
 
-  .track-notes-cell:empty::before {
-    content: "";
+  .track-notes-cell:hover,
+  .track-notes-cell:focus {
+    border-color: #64748b;
+    background: #020617;
+    outline: none;
   }
 
   .track-row:last-child { border-bottom: 0; }
@@ -2411,7 +2419,7 @@
       max-width: 100%;
     }
     .track-name {
-      align-items: flex-start;
+      align-items: center;
       gap: 9px;
     }
     .track-button {
@@ -2419,14 +2427,16 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      flex: 0 0 76px;
-      width: 76px;
-      min-width: 76px;
-      height: 44px;
-      min-height: 44px;
+      flex: 0 0 112px;
+      width: 112px;
+      min-width: 112px;
+      height: 52px;
+      min-height: 52px;
       padding: 0 10px;
       border-radius: 8px;
       font-size: 0.88rem;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(99, 102, 241, 0.28);
     }
     .track-button::after {
       content: "Track";
@@ -3862,6 +3872,7 @@
       priority: Object.prototype.hasOwnProperty.call(override || {}, "priority") ? cleanLabel(override.priority, "") : entry.priority,
       taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? normalizeTaskCategory(override.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
+      notes: Object.prototype.hasOwnProperty.call(override || {}, "notes") ? cleanLabel(override.notes, "") : cleanLabel(entry.notes, ""),
       dueDate,
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
       dueTime,
@@ -3905,7 +3916,7 @@
         taskOrder: orderOptionValue(value?.taskOrder),
         updatedAt: cleanLabel(value?.updatedAt, "")
       };
-      ["listId", "taskName", "department", "priority", "taskCategory", "taskType"].forEach((field) => {
+      ["listId", "taskName", "department", "priority", "taskCategory", "taskType", "notes"].forEach((field) => {
         if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = field === "taskCategory" ? normalizeTaskCategory(value[field]) : cleanLabel(value[field], "");
       });
       return [key, cleaned];
@@ -4990,7 +5001,8 @@
       department: Object.prototype.hasOwnProperty.call(existing, "department") ? cleanLabel(existing.department, "") : cleanLabel(entry.department, ""),
       priority: Object.prototype.hasOwnProperty.call(existing, "priority") ? cleanLabel(existing.priority, "") : cleanLabel(entry.priority, ""),
       taskCategory: Object.prototype.hasOwnProperty.call(existing, "taskCategory") ? normalizeTaskCategory(existing.taskCategory) : normalizeTaskCategory(entry.taskCategory),
-      taskType: Object.prototype.hasOwnProperty.call(existing, "taskType") ? cleanLabel(existing.taskType, "") : cleanLabel(entry.taskType, "")
+      taskType: Object.prototype.hasOwnProperty.call(existing, "taskType") ? cleanLabel(existing.taskType, "") : cleanLabel(entry.taskType, ""),
+      notes: Object.prototype.hasOwnProperty.call(existing, "notes") ? cleanLabel(existing.notes, "") : cleanLabel(entry.notes, "")
     };
   }
 
@@ -5348,7 +5360,7 @@
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
           </div>
-          <div class="track-notes-cell" title="${escapeHtml(notes)}">${escapeHtml(notes)}</div>
+          <textarea class="track-notes-cell" rows="2" data-edit-key="${escapeHtml(key)}" data-edit-field="notes" aria-label="Notes for ${escapeHtml(entry.taskName)}" title="${escapeHtml(notes)}">${escapeHtml(notes)}</textarea>
           <div class="track-order-cell">
             <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
               ${orderOptionsHtml(order)}
@@ -5572,6 +5584,13 @@
         saveEditableTaskField(control, rows);
       });
       control.addEventListener("keydown", (event) => {
+        if (control.dataset.editField === "notes") {
+          if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+            event.preventDefault();
+            control.blur();
+          }
+          return;
+        }
         if (event.key === "Enter") {
           event.preventDefault();
           if (control.dataset.editField === "taskName") {
@@ -5644,8 +5663,7 @@
         }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
-    document.querySelectorAll("[data-track-key]").forEach((button) => {
-      button.addEventListener("click", async () => {
+    async function activateTrackButton(button) {
         const committedEntry = await flushPendingTaskNameInput(rows);
         let entry = rows.find((item) => `${item.listId}|||${item.taskId}` === button.dataset.trackKey);
         entry = withCommittedTaskName(entry, committedEntry);
@@ -5661,7 +5679,18 @@
         }
         const isRunning = timePayload.activeEntry && timePayload.activeEntry.taskId === entry.taskId && timePayload.activeEntry.listId === entry.listId;
         const action = isRunning ? stopTimer() : startTimer(entry);
-        action.catch((error) => setTrackerStatus(error.message, "error"));
+        await action;
+    }
+    document.querySelectorAll("[data-track-key]").forEach((button) => {
+      let touchHandledAt = 0;
+      button.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        touchHandledAt = Date.now();
+        activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
+      }, { passive: false });
+      button.addEventListener("click", () => {
+        if (Date.now() - touchHandledAt < 700) return;
+        activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-save-past-key]").forEach((button) => {
@@ -7301,6 +7330,7 @@
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
         taskOrder: currentTaskOverride(entry).taskOrder,
+        notes: document.getElementById("editNotes").value.trim(),
         updatedAt: isoNow()
       }
     };
