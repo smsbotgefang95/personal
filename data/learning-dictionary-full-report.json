@@ -906,24 +906,119 @@
     }
   ],
   "suspiciousRefs": [],
+  "discardedMalformedEntries": [
+    {
+      "line": 2,
+      "text": ".add",
+      "refs": [
+        "58-10"
+      ]
+    },
+    {
+      "line": 5,
+      "text": "-27 brake pedal",
+      "refs": [
+        "127-72",
+        "143-F",
+        "143-21"
+      ]
+    },
+    {
+      "line": 8,
+      "text": "'2-2 cellophane tape",
+      "refs": [
+        "120-33"
+      ]
+    },
+    {
+      "line": 11,
+      "text": "-19a country",
+      "refs": [
+        "20-15"
+      ]
+    },
+    {
+      "line": 14,
+      "text": "/63-29 delivery person",
+      "refs": [
+        "113-23"
+      ]
+    },
+    {
+      "line": 20,
+      "text": "-' O garment worker",
+      "refs": [
+        "113-33"
+      ]
+    },
+    {
+      "line": 23,
+      "text": ". hot water heater",
+      "refs": [
+        "30-3"
+      ]
+    },
+    {
+      "line": 23,
+      "text": ". gum",
+      "refs": [
+        "55-9"
+      ]
+    },
+    {
+      "line": 23,
+      "text": ".60-14, hall",
+      "refs": [
+        "133-20"
+      ]
+    },
+    {
+      "line": 29,
+      "text": "íurnber",
+      "refs": [
+        "122-23"
+      ]
+    },
+    {
+      "line": 29,
+      "text": "-in-law",
+      "refs": [
+        "3-6"
+      ]
+    },
+    {
+      "line": 29,
+      "text": "'-22,123-10, microscope",
+      "refs": [
+        "110-1"
+      ]
+    },
+    {
+      "line": 32,
+      "text": ".E.",
+      "refs": [
+        "103-17"
+      ]
+    },
+    {
+      "line": 32,
+      "text": "-E, onto",
+      "refs": [
+        "129-13"
+      ]
+    },
+    {
+      "line": 53,
+      "text": "['d like to order ....",
+      "refs": [
+        "162-a"
+      ]
+    }
+  ],
   "missingIpa": [
     "\"handyman\"",
     "\"surf\" the net",
-    "'-22,123-10, microscope",
-    "'2-2 cellophane tape",
-    "-' O garment worker",
-    "-19a country",
-    "-27 brake pedal",
-    "-E, onto",
-    "-in-law",
-    ". gum",
-    ". hot water heater",
-    ".60-14, hall",
-    ".add",
-    ".E.",
-    "/63-29 delivery person",
     "3-point turn",
-    "['d like to order ....",
     "A.M.",
     "A.v. crew",
     "abdomen",
@@ -5104,33 +5199,32 @@
     "zip code",
     "zipper",
     "zoo",
-    "zucchini",
-    "íurnber"
+    "zucchini"
   ],
   "missingCategory": [],
   "missingPlacements": [],
   "summary": {
     "rawLines": 53,
     "parsedEntries": 4297,
-    "uniqueEntries": 4199,
+    "uniqueEntries": 4184,
     "themeCounts": {
       "clothes": 250,
       "community": 104,
       "daily": 281,
       "describing": 145,
-      "food": 450,
+      "food": 448,
       "health": 393,
-      "home": 472,
+      "home": 470,
       "nature": 281,
       "numbers": 83,
-      "personal": 51,
+      "personal": 50,
       "recreation": 433,
-      "school": 290,
+      "school": 288,
       "services": 170,
       "shopping": 157,
-      "transportation": 264,
-      "travel": 109,
-      "work": 266
+      "transportation": 261,
+      "travel": 108,
+      "work": 262
     }
   }
 }

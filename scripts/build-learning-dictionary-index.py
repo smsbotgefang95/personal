@@ -296,6 +296,8 @@ def is_malformed_entry_text(value: str) -> bool:
     text = clean_entry_text(value)
     if not text:
         return True
+    if not re.match(r"""^[A-Za-z0-9"]""", text):
+        return True
     if LEADING_REFERENCE_JUNK_RE.match(text):
         return True
     return not re.search(r"[A-Za-z0-9]", text)

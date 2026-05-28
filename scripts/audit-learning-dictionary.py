@@ -117,6 +117,18 @@ const broadTopicEntries = importedIndexEntries.filter((entry) => broadImportedTo
   refs: entry.sourceRefs || [],
   topic: entry.topic,
 }));
+const malformedImportedWordPattern = /^(?![A-Za-z0-9"])(?:.|$)|^(?:['./\[]\s*\d|['./\[]?\s*-\s*(?:['./\[]?\s*)?(?:\d|[A-Za-z]\b|[A-Za-z],)|\[\s*['’]?[A-Za-z]\b)/;
+const forbiddenMalformedImportedWords = [
+  "'-22,123-10, microscope",
+  "'2-2 cellophane tape",
+  "-' O garment worker",
+  "['d like to order ...."
+];
+const malformedImportedWords = importedIndexEntries
+  .map((entry) => String(entry.word || entry.text || ""))
+  .filter((word) => malformedImportedWordPattern.test(word));
+const presentForbiddenMalformedWords = forbiddenMalformedImportedWords
+  .filter((word) => importedIndexEntries.some((entry) => String(entry.word || entry.text || "") === word));
 const zeroCountSubtopics = DICTIONARY_THEME_TOPICS.flatMap((theme) => {
   const themeItems = items.filter((item) => item.theme === theme.id);
   return theme.topics
@@ -132,7 +144,7 @@ const missingDailySubtopicCounts = Object.entries(dailySubtopicCounts)
   .filter(([, count]) => count === 0)
   .map(([topic]) => topic);
 console.log(JSON.stringify({
-  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && zeroCountSubtopics.length === 0 && missingDailySubtopicCounts.length === 0,
+  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && malformedImportedWords.length === 0 && presentForbiddenMalformedWords.length === 0 && zeroCountSubtopics.length === 0 && missingDailySubtopicCounts.length === 0,
   totalItems: items.length,
   typeCounts,
   themeCounts,
@@ -143,6 +155,8 @@ console.log(JSON.stringify({
   bandRefs,
   bandHasBothRefs,
   broadTopicEntries,
+  malformedImportedWords,
+  presentForbiddenMalformedWords,
   zeroCountSubtopics,
   dailySubtopicCounts,
   missingDailySubtopicCounts,
