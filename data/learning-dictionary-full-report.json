@@ -12,11 +12,6 @@
     },
     {
       "line": 8,
-      "text": "·7",
-      "reason": "discarded marker-only entry"
-    },
-    {
-      "line": 8,
       "text": "¡",
       "reason": "discarded marker-only entry"
     },
@@ -923,10 +918,7 @@
     "-in-law",
     ". gum",
     ". hot water heater",
-    ".2-4 taxi",
-    ".42 hill",
     ".60-14, hall",
-    ".72 gray",
     ".add",
     ".E.",
     "/63-29 delivery person",
@@ -2577,6 +2569,7 @@
     "grasshopper",
     "grate",
     "grater",
+    "gray",
     "Greek salad",
     "green",
     "green bean",
@@ -2716,6 +2709,7 @@
     "highway",
     "hiking",
     "hiking boots",
+    "hill",
     "hip",
     "hip hop",
     "hippopotamus",
@@ -4517,7 +4511,7 @@
     "sweep the floor",
     "sweet pepper",
     "sweet potato",
-    "swim 11-~2",
+    "swim",
     "swimmer",
     "swimming",
     "swimming trunks",
@@ -4579,6 +4573,7 @@
     "tape recorder",
     "target",
     "tarnbourine",
+    "taxi",
     "taxi driver",
     "taxi stand",
     "taxicab",
@@ -5116,7 +5111,7 @@
   "missingPlacements": [],
   "summary": {
     "rawLines": 53,
-    "parsedEntries": 4298,
+    "parsedEntries": 4297,
     "uniqueEntries": 4199,
     "themeCounts": {
       "clothes": 250,
@@ -5124,17 +5119,17 @@
       "daily": 281,
       "describing": 145,
       "food": 450,
-      "health": 392,
+      "health": 393,
       "home": 472,
       "nature": 281,
       "numbers": 83,
-      "personal": 52,
-      "recreation": 434,
+      "personal": 51,
+      "recreation": 433,
       "school": 290,
       "services": 170,
       "shopping": 157,
       "transportation": 264,
-      "travel": 108,
+      "travel": 109,
       "work": 266
     }
   }

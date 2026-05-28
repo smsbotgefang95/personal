@@ -17,7 +17,7 @@ JS_PATH = ROOT / "data" / "learning-dictionary-full.js"
 REPORT_PATH = ROOT / "data" / "learning-dictionary-full-report.json"
 NON_COMPOUND_PHRASES = {"get up", "go shopping", "wash dishes"}
 
-REF_TOKEN = r"\d{1,3}(?:-[A-Za-z0-9]{1,3})?(?![A-Za-z0-9-])"
+REF_TOKEN = r"\d{1,3}(?:[-~·.][~A-Za-z0-9]{1,3}){0,2}(?![A-Za-z0-9-])"
 REF_GROUP_RE = re.compile(rf"(?<=\s)({REF_TOKEN}(?:\s*,\s*(?:{REF_TOKEN}|[A-Za-z0-9]+))*)")
 REF_ONLY_RE = re.compile(rf"^{REF_TOKEN}(?:\s*,\s*(?:{REF_TOKEN}|[A-Za-z0-9]+))*$")
 TRAILING_REF_COMMA_RE = re.compile(rf"{REF_TOKEN},\s*$")
@@ -287,10 +287,32 @@ def normalize_entry_text(value: str) -> str:
     return ""
 
 
+def normalize_ref_token(token: str) -> str:
+    clean_token = token.strip()
+    page_digit_ocr = re.fullmatch(r"(\d)[~·](\d)-([A-Za-z0-9]+)", clean_token)
+    if page_digit_ocr:
+        return f"{page_digit_ocr.group(1)}6{page_digit_ocr.group(2)}-{page_digit_ocr.group(3)}"
+
+    dotted_page = re.fullmatch(r"(\d)\.(\d)-([A-Za-z0-9]+)", clean_token)
+    if dotted_page:
+        return f"{dotted_page.group(1)}{dotted_page.group(2)}-{dotted_page.group(3)}"
+
+    missing_hyphen = re.fullmatch(r"(\d{1,3})[~·]([A-Za-z0-9]+)", clean_token)
+    if missing_hyphen:
+        return f"{missing_hyphen.group(1)}-{missing_hyphen.group(2)}"
+
+    marked_item = re.fullmatch(r"(\d{1,3})-[~·]?([A-Za-z0-9]+)", clean_token)
+    if marked_item:
+        return f"{marked_item.group(1)}-{marked_item.group(2)}"
+
+    return clean_token
+
+
 def parse_ref_group(value: str) -> list[str]:
     refs: list[str] = []
     current_page = ""
     for token in [part.strip() for part in value.split(",") if part.strip()]:
+        token = normalize_ref_token(token)
         if "-" in token:
             page, item = token.split("-", 1)
             if page.isdigit():

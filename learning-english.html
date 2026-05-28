@@ -7587,19 +7587,74 @@ pass=通过；传递
     return allVocabularyCache;
   }
 
+  const IMPORTED_INDEX_PLURAL_CLEANUP = {
+    beds: "bed",
+    blocks: "block",
+    cards: "card",
+    cherries: "cherry",
+    diapers: "diaper",
+    dishes: "dish",
+    groups: "group",
+    heels: "heel",
+    leaves: "leaf",
+    lights: "light",
+    mountains: "mountain",
+    notes: "note",
+    nuts: "nut",
+    plays: "play",
+    problems: "problem",
+    rolls: "roll",
+    scales: "scale",
+    shelves: "shelf",
+    straws: "straw",
+    trunks: "trunk",
+    weights: "weight",
+    wipes: "wipe",
+    woods: "wood"
+  };
+
+  function makeSingularImportedIndexEntry(entry, singularWord) {
+    return {
+      ...entry,
+      id: `${cleanCustomText(entry?.id, 120) || `index-${slugifyWord(singularWord)}`}-singular`,
+      text: singularWord,
+      word: singularWord,
+      partOfSpeech: cleanCustomText(entry?.partOfSpeech, 80) || "index entry",
+      compound: isVocabularyCompound(singularWord),
+      prefix: getVocabularyPrefix(singularWord),
+      suffix: getVocabularySuffix(singularWord),
+      roots: getVocabularyRoots(singularWord),
+      syllableType: getVocabularySyllableType(singularWord),
+      vowelTeams: getVocabularyVowelTeams(singularWord)
+    };
+  }
+
   function getImportedIndexDictionaryEntries() {
     if (importedIndexDictionaryEntriesCache) return importedIndexDictionaryEntriesCache;
     const entries = Array.isArray(window.LEARNING_DICTIONARY_FULL) ? window.LEARNING_DICTIONARY_FULL : [];
     const existingWords = new Set(getBaseVocabulary().map((item) => normalizeWordKey(item.word)));
+    const importedWords = new Set(entries.map((entry) => normalizeWordKey(cleanCustomText(entry?.word || entry?.text, 120))).filter(Boolean));
     const seen = new Set();
+    const singularReplacements = [];
+    const replacementKeys = new Set();
     importedIndexDictionaryEntriesCache = entries.filter((entry) => {
       const word = cleanCustomText(entry?.word || entry?.text, 120);
       const key = normalizeWordKey(word);
       if (!key || existingWords.has(key) || seen.has(key)) return false;
+      const singularWord = IMPORTED_INDEX_PLURAL_CLEANUP[key];
+      if (singularWord) {
+        const singularKey = normalizeWordKey(singularWord);
+        if (!importedWords.has(singularKey) && !replacementKeys.has(singularKey)) {
+          singularReplacements.push(makeSingularImportedIndexEntry(entry, singularWord));
+          replacementKeys.add(singularKey);
+        }
+        return false;
+      }
       if (entry?.theme === "numbers" && entry?.topic === "Numbers" && ["cardinal number", "ordinal number"].includes(key)) return false;
       seen.add(key);
       return true;
     });
+    importedIndexDictionaryEntriesCache = [...importedIndexDictionaryEntriesCache, ...singularReplacements];
     return importedIndexDictionaryEntriesCache;
   }
 
