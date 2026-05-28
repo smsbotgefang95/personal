@@ -4,6 +4,81 @@
       "line": 50,
       "text": "troweI35-7,122-10",
       "reason": "unmatched wrapped fragment"
+    },
+    {
+      "line": 5,
+      "text": "/",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 8,
+      "text": "·7",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 8,
+      "text": "¡",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
+    },
+    {
+      "line": 23,
+      "text": ".",
+      "reason": "discarded marker-only entry"
     }
   ],
   "wrappedLines": [
@@ -480,39 +555,9 @@
       "mergedIntoLine": 8
     },
     {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
       "text": "room",
       "line": 23,
       "mergedIntoLine": 11
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
     },
     {
       "text": "clothesline",
@@ -525,37 +570,12 @@
       "mergedIntoLine": 23
     },
     {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
       "text": "sandwich",
       "line": 23,
       "mergedIntoLine": 2
     },
     {
-      "text": ".",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
       "text": "Department",
-      "line": 23,
-      "mergedIntoLine": 23
-    },
-    {
-      "text": ".",
       "line": 23,
       "mergedIntoLine": 23
     },
@@ -901,7 +921,6 @@
     "-27 brake pedal",
     "-E, onto",
     "-in-law",
-    ".",
     ". gum",
     ". hot water heater",
     ".2-4 taxi",
@@ -910,7 +929,6 @@
     ".72 gray",
     ".add",
     ".E.",
-    "/",
     "/63-29 delivery person",
     "3-point turn",
     "['d like to order ....",
@@ -1447,7 +1465,9 @@
     "cabbaqe",
     "cabinet",
     "cable",
+    "cable TV",
     "cable TV bill",
+    "cable TV company",
     "cactus",
     "Caesar salad",
     "cafe",
@@ -1496,11 +1516,13 @@
     "canyon",
     "cap",
     "caplet",
+    "capsule",
     "captain",
     "car",
     "car dealership",
     "car jacking",
     "car payment",
+    "car rental counters",
     "card",
     "card cataloq",
     "card machine",
@@ -2206,6 +2228,7 @@
     "Excuse me.",
     "exercise",
     "exercise bike",
+    "exercise equipment",
     "exhaust pipe",
     "exhausted",
     "exit ramp",
@@ -2875,6 +2898,7 @@
     "jealous",
     "jeans",
     "jeep",
+    "jello",
     "jelly",
     "jellyfish",
     "jersey",
@@ -3307,6 +3331,7 @@
     "noisy",
     "non-aspirin pain ointment",
     "non-fiction",
+    "non-smoking room",
     "noodles",
     "noon",
     "north",
@@ -4504,6 +4529,7 @@
     "Swiss army knife",
     "Swiss cheese",
     "swivel chaír",
+    "swollen",
     "swordfish",
     "synagogue",
     "syringe",
@@ -5084,16 +5110,6 @@
     "zipper",
     "zoo",
     "zucchini",
-    "~12 swollen",
-    "~20 non-smoking room",
-    "~4-4 car rental counters",
-    "~62 jello",
-    "~71 exercise equipment",
-    "¡",
-    "·13 cable TV",
-    "·14 capsule",
-    "·7",
-    "·A cable TV company",
     "íurnber"
   ],
   "missingCategory": [],
@@ -5101,19 +5117,19 @@
   "summary": {
     "rawLines": 53,
     "parsedEntries": 4298,
-    "uniqueEntries": 4203,
+    "uniqueEntries": 4199,
     "themeCounts": {
       "clothes": 250,
       "community": 104,
-      "daily": 282,
-      "describing": 146,
+      "daily": 281,
+      "describing": 145,
       "food": 450,
       "health": 392,
       "home": 472,
-      "nature": 282,
+      "nature": 281,
       "numbers": 83,
       "personal": 52,
-      "recreation": 435,
+      "recreation": 434,
       "school": 290,
       "services": 170,
       "shopping": 157,

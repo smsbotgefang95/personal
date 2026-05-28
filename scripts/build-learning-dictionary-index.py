@@ -274,6 +274,19 @@ def clean_entry_text(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip(" ,;")
 
 
+LEADING_OCR_MARKER_RE = re.compile(r"^[~·]\s*[A-Za-z0-9]+(?:-[A-Za-z0-9]+)?\s+")
+
+
+def normalize_entry_text(value: str) -> str:
+    text = clean_entry_text(value)
+    cleaned = clean_entry_text(LEADING_OCR_MARKER_RE.sub("", text))
+    if cleaned and re.search(r"[A-Za-z]", cleaned):
+        return cleaned
+    if re.search(r"[A-Za-z]", text):
+        return text
+    return ""
+
+
 def parse_ref_group(value: str) -> list[str]:
     refs: list[str] = []
     current_page = ""
@@ -417,6 +430,11 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
 
     merged: dict[str, ParsedEntry] = {}
     for entry in parsed:
+        normalized_text = normalize_entry_text(entry.text)
+        if not normalized_text:
+            report["unparsedLines"].append({"line": entry.line, "text": entry.text, "reason": "discarded marker-only entry"})
+            continue
+        entry.text = normalized_text
         key = entry.text.casefold()
         if key not in merged:
             merged[key] = entry
