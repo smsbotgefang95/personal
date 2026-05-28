@@ -4731,11 +4731,16 @@ pass=通过；传递
       .join(" / ");
   }
 
+  function isStandaloneContractionWord(word) {
+    return /^[A-Za-z]+(?:'[A-Za-z]+)+$/.test(String(word || "").trim());
+  }
+
   function getCommonWordPartOfSpeech(word, featured = {}) {
     if (featured.partOfSpeech) return featured.partOfSpeech;
     const normalized = word.toLowerCase();
     const exact = COMMON_WORD_PARTS[word] || COMMON_WORD_PARTS[normalized];
     if (exact) return exact;
+    if (isStandaloneContractionWord(word)) return "contraction";
     if (/^\d+$/.test(normalized)) return "number";
     if (normalized.endsWith("ly")) return "adverb";
     if (/(ous|ful|less|able|ible|al|ic|ive|est)$/.test(normalized)) return "adjective";
@@ -7758,6 +7763,11 @@ pass=通过；传递
     return normalized.split(/\s*\/\s*/).some((part) => part === selectedPart || part.endsWith(` ${selectedPart}`));
   }
 
+  function isContractionVocabularyItem(item) {
+    if (matchesVocabularyPart(item?.partOfSpeech, "contraction")) return true;
+    return isStandaloneContractionWord(item?.word);
+  }
+
   function getBaseVocabulary() {
     return [...VOCABULARY, ...customVocabulary].filter((item) => !isDeletedVocabularyWord(item.word));
   }
@@ -8252,7 +8262,10 @@ pass=通过；传递
     const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
-      const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
+      const isContraction = isContractionVocabularyItem(item);
+      const matchesPart = partFilter === "all"
+        ? !isContraction
+        : (partFilter === "contraction" ? isContraction : matchesVocabularyPart(item.partOfSpeech, partFilter));
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
       const matchesLetterCount = letterCountFilter === "all" || getVocabularyLetterCount(item.word) === Number(letterCountFilter);
