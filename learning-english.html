@@ -4122,6 +4122,7 @@ pass=通过；传递
   };
 
   const VOCABULARY_VOWEL_TEAM_ORDER = [
+    "air",
     "ai",
     "ay",
     "ea",
@@ -4146,6 +4147,7 @@ pass=通过；传递
 
   const VOCABULARY_VOWEL_TEAM_CHILD_SOUND_ORDER = IPA_VOWEL_SOUNDS;
   const VOCABULARY_VOWEL_TEAM_DEFAULT_SOUNDS = {
+    air: "eə",
     ai: "eɪ",
     ay: "eɪ",
     ea: "iː",
@@ -4164,6 +4166,7 @@ pass=通过；传递
     ui: "uː"
   };
   const VOCABULARY_VOWEL_TEAM_SOUND_CANDIDATES = {
+    air: ["eə"],
     ai: ["eɪ", "e", "ɪ", "ə", "aɪ"],
     ay: ["eɪ", "e", "i"],
     ea: ["iː", "e", "eɪ", "eə", "ɪə", "ɜː", "ɑː", "uː"],
@@ -7885,7 +7888,8 @@ pass=通过；传递
     const word = cleanImportedIndexWordText(entry?.word || entry?.text, 120);
     const ipa = cleanCustomText(entry?.ipa, 120) || getBritishIpa(word);
     const localVowelTeams = getVocabularyVowelTeams(word);
-    const vowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
+    const importedVowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
+    const vowelTeams = localVowelTeams.includes("air") ? localVowelTeams : importedVowelTeams;
     return {
       id: cleanCustomText(entry?.id, 120) || `index-${slugifyWord(word)}`,
       word,
