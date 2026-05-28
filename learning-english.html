@@ -6809,6 +6809,10 @@ pass=通过；传递
   let dialogueStatuses = readJson(STORAGE_DIALOGUE_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
+  let importedIndexDictionaryEntriesCache = null;
+  let importedIndexVocabularyEntriesCache = null;
+  let allVocabularyCache = null;
+  let dictionaryItemsCache = null;
 
   function readJson(key, fallback) {
     try {
@@ -7549,14 +7553,18 @@ pass=通过；传递
   }
 
   function getAllVocabulary() {
-    return [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()];
+    if (!allVocabularyCache) {
+      allVocabularyCache = [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()];
+    }
+    return allVocabularyCache;
   }
 
   function getImportedIndexDictionaryEntries() {
+    if (importedIndexDictionaryEntriesCache) return importedIndexDictionaryEntriesCache;
     const entries = Array.isArray(window.LEARNING_DICTIONARY_FULL) ? window.LEARNING_DICTIONARY_FULL : [];
     const existingWords = new Set(getBaseVocabulary().map((item) => normalizeWordKey(item.word)));
     const seen = new Set();
-    return entries.filter((entry) => {
+    importedIndexDictionaryEntriesCache = entries.filter((entry) => {
       const word = cleanCustomText(entry?.word || entry?.text, 120);
       const key = normalizeWordKey(word);
       if (!key || existingWords.has(key) || seen.has(key)) return false;
@@ -7564,6 +7572,7 @@ pass=通过；传递
       seen.add(key);
       return true;
     });
+    return importedIndexDictionaryEntriesCache;
   }
 
   function normalizeImportedIndexWord(entry) {
@@ -7598,10 +7607,13 @@ pass=通过；传递
   }
 
   function getImportedIndexVocabularyEntries() {
-    return getImportedIndexDictionaryEntries().map((entry) => ({
-      ...normalizeImportedIndexWord(entry),
-      importedIndex: true
-    }));
+    if (!importedIndexVocabularyEntriesCache) {
+      importedIndexVocabularyEntriesCache = getImportedIndexDictionaryEntries().map((entry) => ({
+        ...normalizeImportedIndexWord(entry),
+        importedIndex: true
+      }));
+    }
+    return importedIndexVocabularyEntriesCache;
   }
 
   function getVocabularyForTheme(themeId) {
@@ -7644,6 +7656,7 @@ pass=通过；传递
   }
 
   function buildDictionaryItems() {
+    if (dictionaryItemsCache) return dictionaryItemsCache;
     const wordItems = getAllVocabulary().map((item) => ({
       id: `word:${item.id}`,
       sourceId: item.id,
@@ -7737,7 +7750,8 @@ pass=通过；传递
       }));
     });
 
-    return [...wordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
+    dictionaryItemsCache = [...wordItems, ...sentenceItems, ...phraseItems, ...dialogueItems];
+    return dictionaryItemsCache;
   }
 
   function getDictionaryItemsForTheme(themeId) {
@@ -7771,6 +7785,14 @@ pass=通过；传递
   function dictionaryStatusButton(item, status, label, currentStatus) {
     const active = currentStatus === status ? " active" : "";
     return `<button class="status-button${active}" type="button" data-status="${status}" data-dictionary-status="${status}" data-dictionary-source-type="${item.sourceType}" data-dictionary-source-id="${escapeHtml(item.sourceId)}">${label}</button>`;
+  }
+
+  function updateStatusButtonGroup(clickedButton, nextStatus) {
+    const statusRow = clickedButton.closest(".status-row");
+    if (!statusRow) return;
+    statusRow.querySelectorAll("[data-dictionary-status]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.dictionaryStatus === nextStatus);
+    });
   }
 
   function saveDictionaryStatus(sourceType, sourceId, nextStatus) {
@@ -8071,7 +8093,7 @@ pass=通过；传递
         topic.note,
         ...topic.topics,
         ...items.flatMap((item) => [item.title, item.chinese, item.example, item.pronunciation, item.topic, ...(item.tags || []), ...(item.searchParts || [])])
-      ].some((value) => (value || "").toLowerCase().includes(search));
+      ].some((value) => String(value || "").toLowerCase().includes(search));
     };
     const topics = DICTIONARY_THEME_TOPICS.filter(topicMatchesSearch);
     if (!topics.some((topic) => topic.id === selectedDictionaryTheme)) {
@@ -8226,7 +8248,7 @@ pass=通过；传递
       button.addEventListener("click", () => {
         saveDictionaryStatus(button.dataset.dictionarySourceType, button.dataset.dictionarySourceId, button.dataset.dictionaryStatus);
         markDailyActivity();
-        renderThemeHub();
+        updateStatusButtonGroup(button, button.dataset.dictionaryStatus);
         updateProgress();
       });
     });
