@@ -422,6 +422,7 @@ def clean_task_overrides(value):
             "recurrence": recurrence,
             "recurringText": clean_time_text(item.get("recurringText"), 120) if recurrence == "custom" else "",
             "taskOrder": clean_time_text(item.get("taskOrder"), 80),
+            "notes": clean_time_text(item.get("notes"), 4000),
             "updatedAt": clean_time_text(item.get("updatedAt"), 40),
         }
         metadata_fields_present = False
@@ -443,10 +444,11 @@ def clean_task_overrides(value):
             or override["recurrence"] != "none"
             or override["recurringText"]
             or override["taskOrder"]
+            or override["notes"]
             or metadata_fields_present
         ):
             overrides[key] = override
-        elif item.get("dueDate") == "" or item.get("dueTime") == "" or item.get("taskOrder") == "":
+        elif item.get("dueDate") == "" or item.get("dueTime") == "" or item.get("taskOrder") == "" or item.get("notes") == "":
             overrides[key] = override
     return overrides
 

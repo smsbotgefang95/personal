@@ -1309,7 +1309,7 @@
     min-width: 0;
     height: 42px;
     min-height: 42px;
-    max-height: 84px;
+    max-height: 42px;
     border: 1px solid #374151;
     border-radius: 7px;
     padding: 7px 8px;
@@ -1320,7 +1320,7 @@
     line-height: 1.3;
     overflow: auto;
     overflow-wrap: anywhere;
-    resize: vertical;
+    resize: none;
   }
 
   .track-notes-cell:hover,
@@ -1503,7 +1503,7 @@
   .track-recurrence-cell,
   .track-time {
     min-width: 0;
-    align-self: start;
+    align-self: center;
   }
 
   .track-order-select {
@@ -5360,7 +5360,7 @@
               ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
           </div>
-          <textarea class="track-notes-cell" rows="2" data-edit-key="${escapeHtml(key)}" data-edit-field="notes" aria-label="Notes for ${escapeHtml(entry.taskName)}" title="${escapeHtml(notes)}">${escapeHtml(notes)}</textarea>
+          <textarea class="track-notes-cell" rows="1" data-edit-key="${escapeHtml(key)}" data-edit-field="notes" aria-label="Notes for ${escapeHtml(entry.taskName)}" title="${escapeHtml(notes)}">${escapeHtml(notes)}</textarea>
           <div class="track-order-cell">
             <select class="track-order-select" data-order-key="${escapeHtml(key)}" aria-label="Order for ${escapeHtml(entry.taskName)}">
               ${orderOptionsHtml(order)}
