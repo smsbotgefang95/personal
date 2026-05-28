@@ -275,6 +275,11 @@ def clean_entry_text(value: str) -> str:
 
 
 LEADING_OCR_MARKER_RE = re.compile(r"^[~·]\s*[A-Za-z0-9]+(?:-[A-Za-z0-9]+)?\s+")
+LEADING_REFERENCE_JUNK_RE = re.compile(r"""^(?:
+    ['./\[]\s*\d |
+    ['./\[]?\s*-\s*(?:['./\[]?\s*)?(?:\d|[A-Za-z]\b|[A-Za-z],) |
+    \[\s*['’]?[A-Za-z]\b
+)""", re.VERBOSE)
 
 
 def normalize_entry_text(value: str) -> str:
@@ -285,6 +290,15 @@ def normalize_entry_text(value: str) -> str:
     if re.search(r"[A-Za-z]", text):
         return text
     return ""
+
+
+def is_malformed_entry_text(value: str) -> bool:
+    text = clean_entry_text(value)
+    if not text:
+        return True
+    if LEADING_REFERENCE_JUNK_RE.match(text):
+        return True
+    return not re.search(r"[A-Za-z0-9]", text)
 
 
 def normalize_ref_token(token: str) -> str:
@@ -377,6 +391,7 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         "wrappedLines": [],
         "duplicateEntries": [],
         "suspiciousRefs": [],
+        "discardedMalformedEntries": [],
         "missingIpa": [],
         "missingCategory": [],
         "missingPlacements": [],
@@ -455,6 +470,9 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         normalized_text = normalize_entry_text(entry.text)
         if not normalized_text:
             report["unparsedLines"].append({"line": entry.line, "text": entry.text, "reason": "discarded marker-only entry"})
+            continue
+        if is_malformed_entry_text(normalized_text):
+            report["discardedMalformedEntries"].append({"line": entry.line, "text": normalized_text, "refs": entry.refs})
             continue
         entry.text = normalized_text
         key = entry.text.casefold()
