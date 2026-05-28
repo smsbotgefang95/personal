@@ -1075,6 +1075,9 @@
         <option value="starts">Words start with</option>
         <option value="ends">Words end with</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularyLetterCountFilter" aria-label="Filter vocabulary by exact letter count">
+        <option value="all">All letter counts</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
         <option value="all">所有学习状态</option>
         <option value="auto">自动</option>
@@ -1196,6 +1199,7 @@
   const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
   const STORAGE_VOCAB_WORD_MATCH_FILTER_KEY = "learningEnglishVocabularyWordMatchFilter";
+  const STORAGE_VOCAB_LETTER_COUNT_FILTER_KEY = "learningEnglishVocabularyLetterCountFilter";
   const STORAGE_VOCAB_PHRASE_FILTER_KEY = "learningEnglishVocabularyPhraseStatusFilter";
   const STORAGE_VOCAB_PHRASE_MATCH_FILTER_KEY = "learningEnglishVocabularyPhraseMatchFilter";
   const STORAGE_VOCAB_PHRASE_TYPE_FILTER_KEY = "learningEnglishVocabularyPhraseTypeFilter";
@@ -3786,7 +3790,7 @@ pass=通过；传递
     nature: new Set(["air", "animal", "bear", "bird", "cloud", "dog", "earth", "fire", "fish", "flower", "horse", "moon", "mountain", "plant", "rain", "river", "sea", "seed", "seeds", "sky", "snow", "star", "sun", "tree", "water", "wind", "wood"]),
     number: new Set(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "hundred", "thousand", "100"]),
     feeling: new Set(["afraid", "angry", "bad", "beautiful", "best", "better", "busy", "cold", "cool", "easy", "fine", "funny", "good", "happy", "hot", "kind", "nice", "ready", "sad", "sick", "sorry", "strong", "tired", "warm", "wrong"]),
-    holiday: new Set(["celebrate", "christmas", "fireworks", "holiday", "parade", "thanksgiving"]),
+    holiday: new Set(["celebrate", "christmas", "firework", "holiday", "parade", "thanksgiving"]),
     shopping: new Set(["bag", "cash", "change", "cheap", "cost", "price", "receipt", "sale", "shopping", "size", "store"]),
     school: new Set(["class", "classroom", "homework", "lesson", "school", "student", "teacher", "test"]),
     work: new Set(["boss", "coworker", "job", "meeting", "office", "schedule", "work", "worker"]),
@@ -3832,6 +3836,7 @@ pass=通过；传递
     "bill of rights",
     "boarding pass",
     "bus stop",
+    "can you please send someone to get my bags?",
     "city hall",
     "civil war",
     "driver's license",
@@ -3840,6 +3845,9 @@ pass=通过；传递
     "first name",
     "freedom of speech",
     "front door",
+    "fuel injection system get away",
+    "get away from me!",
+    "get awayfrom me!",
     "get up",
     "go shopping",
     "green card",
@@ -3864,6 +3872,7 @@ pass=通过；传递
     "small size",
     "social security number",
     "sports",
+    "swinqs",
     "take a shower",
     "telephone number",
     "there's",
@@ -5886,10 +5895,10 @@ pass=通过；传递
       example: "A parade may have music and flags."
     },
     {
-      word: "fireworks",
+      word: "firework",
       chinese: "烟花",
-      ipa: "ˈfaɪərwɜrks",
-      example: "Fireworks are bright lights in the sky."
+      ipa: "ˈfaɪərwɜrk",
+      example: "A firework is a bright light in the sky."
     }
   ].map((item, index) => ({
     id: `holiday-${slugifyWord(item.word)}`,
@@ -6719,7 +6728,7 @@ pass=通过；传递
         ["U.S. Government", ["government", "president", "congress", "senator", "representative", "governor", "mayor"]],
         ["The Constitution and the Bill of Rights", ["constitution", "bill of rights", "amendment", "freedom of speech", "rights"]],
         ["Events in United States History", ["american revolution", "civil war", "independence day", "memorial day", "veterans day"]],
-        ["Holidays", ["new year's day", "martin luther king jr. day", "presidents' day", "juneteenth", "labor day", "columbus day", "thanksgiving", "christmas", "holiday", "celebrate", "parade", "fireworks"]],
+        ["Holidays", ["new year's day", "martin luther king jr. day", "presidents' day", "juneteenth", "labor day", "columbus day", "thanksgiving", "christmas", "holiday", "celebrate", "parade", "firework"]],
         ["The Legal System", ["law", "court", "judge", "lawyer", "jury", "police"]],
         ["Citizenship", ["citizen", "citizenship", "naturalization", "oath", "vote", "united states", "america", "england", "france", "china", "canada", "mexico", "united kingdom", "germany", "italy", "spain", "portugal", "ireland", "australia", "new zealand", "japan", "south korea", "india", "vietnam", "thailand", "philippines", "indonesia", "brazil", "argentina", "colombia", "chile", "peru", "russia", "ukraine", "poland", "netherlands", "sweden", "norway", "denmark", "greece", "turkey", "egypt", "morocco", "nigeria", "south africa", "kenya", "ethiopia", "saudi arabia", "iran", "pakistan", "bangladesh", "nepal", "israel"]]
       ]
@@ -6934,6 +6943,21 @@ pass=通过；传递
 
   const VOCABULARY = uniqueVocabularyEntries([...DICTIONARY_THEME_STARTER_VOCABULARY, ...CLEANED_COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
 
+  function loadSelectedVocabularyLetterCount() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_LETTER_COUNT_FILTER_KEY);
+      return saved === "all" || /^[1-9]\d*$/.test(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyLetterCount() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_LETTER_COUNT_FILTER_KEY, selectedVocabularyLetterCount);
+    } catch (error) {}
+  }
+
   let selectedView = loadSelectedView();
   let selectedDictionaryTheme = loadSelectedDictionaryTheme();
   let selectedDictionaryTopic = "all";
@@ -6941,6 +6965,7 @@ pass=通过；传递
   let selectedDialogueStatus = loadSelectedDialogueStatus();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyWordMatch = loadSelectedVocabularyWordMatch();
+  let selectedVocabularyLetterCount = loadSelectedVocabularyLetterCount();
   let selectedVocabularyPhraseMatch = loadSelectedVocabularyPhraseMatch();
   let selectedVocabularyPhraseStatus = loadSelectedVocabularyPhraseStatus();
   let selectedVocabularyPhraseType = loadSelectedVocabularyPhraseType();
@@ -7746,24 +7771,42 @@ pass=通过；传递
 
   const IMPORTED_INDEX_PLURAL_CLEANUP = {
     beds: "bed",
+    berries: "berry",
+    beverages: "beverage",
+    birds: "bird",
     blocks: "block",
+    blueberries: "blueberry",
+    braces: "brace",
     cards: "card",
     cherries: "cherry",
+    copies: "copy",
     diapers: "diaper",
     dishes: "dish",
+    fines: "fine",
+    fireworks: "firework",
     groups: "group",
     heels: "heel",
+    ideas: "idea",
     leaves: "leaf",
     lights: "light",
+    matches: "match",
     mountains: "mountain",
     notes: "note",
     nuts: "nut",
+    parents: "parent",
     plays: "play",
     problems: "problem",
+    raspberries: "raspberry",
+    rights: "right",
     rolls: "roll",
     scales: "scale",
     shelves: "shelf",
+    sports: "sport",
+    steps: "step",
+    strawberries: "strawberry",
     straws: "straw",
+    tests: "test",
+    times: "time",
     trunks: "trunk",
     vegetables: "vegetable",
     weights: "weight",
@@ -7771,7 +7814,15 @@ pass=通过；传递
     woods: "wood"
   };
 
-  const IMPORTED_INDEX_SOURCE_REF_REPLACEMENTS = new Set(["mountain"]);
+  const IMPORTED_INDEX_SOURCE_REF_REPLACEMENTS = new Set([
+    "berry",
+    "beverage",
+    "blueberry",
+    "firework",
+    "mountain",
+    "raspberry",
+    "strawberry"
+  ]);
 
   function makeSingularImportedIndexEntry(entry, singularWord) {
     return {
@@ -7800,7 +7851,7 @@ pass=通过；传递
     importedIndexDictionaryEntriesCache = entries.filter((entry) => {
       const word = cleanCustomText(entry?.word || entry?.text, 120);
       const key = normalizeWordKey(word);
-      if (!key || isDeletedVocabularyWord(key) || existingWords.has(key) || seen.has(key)) return false;
+      if (!key || seen.has(key)) return false;
       const singularWord = IMPORTED_INDEX_PLURAL_CLEANUP[key];
       if (singularWord) {
         const singularKey = normalizeWordKey(singularWord);
@@ -7811,6 +7862,7 @@ pass=通过；传递
         }
         return false;
       }
+      if (isDeletedVocabularyWord(key) || existingWords.has(key)) return false;
       if (entry?.theme === "numbers" && entry?.topic === "Numbers" && ["cardinal number", "ordinal number"].includes(key)) return false;
       seen.add(key);
       return true;
@@ -8120,6 +8172,27 @@ pass=通过；传递
     return vocabularySuffixFilter;
   }
 
+  function getVocabularyLetterCount(word) {
+    return (String(word || "").match(/[A-Za-z]/g) || []).length;
+  }
+
+  function renderVocabularyLetterCountOptions(sourceVocabulary = getAllVocabulary()) {
+    const vocabularyLetterCountFilter = document.getElementById("vocabularyLetterCountFilter");
+    const counts = sourceVocabulary.reduce((map, item) => {
+      const letterCount = getVocabularyLetterCount(item.word);
+      if (!letterCount) return map;
+      map.set(letterCount, (map.get(letterCount) || 0) + 1);
+      return map;
+    }, new Map());
+    vocabularyLetterCountFilter.innerHTML = [
+      `<option value="all">All letter counts</option>`,
+      ...[...counts.entries()]
+        .sort(([countA], [countB]) => countA - countB)
+        .map(([letterCount, count]) => `<option value="${letterCount}">${letterCount} ${letterCount === 1 ? "letter" : "letters"} (${count})</option>`)
+    ].join("");
+    return vocabularyLetterCountFilter;
+  }
+
   function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
     const counts = sourceVocabulary.reduce((map, item) => {
       (item.roots || []).forEach((root) => {
@@ -8148,6 +8221,7 @@ pass=通过；传递
     const container = document.getElementById("vocabularyList");
     const search = document.getElementById("vocabularySearch").value.trim().toLowerCase();
     const wordMatchFilter = selectedVocabularyWordMatch;
+    let letterCountFilter = selectedVocabularyLetterCount;
     const statusFilter = selectedVocabularyStatus;
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
@@ -8181,6 +8255,7 @@ pass=通过；传递
       const matchesPart = matchesVocabularyPart(item.partOfSpeech, partFilter);
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
+      const matchesLetterCount = letterCountFilter === "all" || getVocabularyLetterCount(item.word) === Number(letterCountFilter);
       const matchesTense = tenseFilter === "all" || isPastTenseForm(item.word);
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
@@ -8188,8 +8263,14 @@ pass=通过；传递
       const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
       const matchesVowelTeam = matchesVocabularyVowelTeamFilter(item, vowelTeamFilter);
       const matchesIpa = ipaMatchesFilter(getVocabularyIpa(item), ipaFilter);
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
+      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesLetterCount && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
     };
+    const vocabularyLetterCountFilter = renderVocabularyLetterCountOptions(allVocabulary);
+    if (letterCountFilter !== "all" && ![...vocabularyLetterCountFilter.options].some((option) => option.value === letterCountFilter)) {
+      letterCountFilter = "all";
+      selectedVocabularyLetterCount = "all";
+      saveSelectedVocabularyLetterCount();
+    }
     const vocabularyPrefixFilter = renderVocabularyPrefixOptions(allVocabulary);
     if (prefixFilter !== "all" && ![...vocabularyPrefixFilter.options].some((option) => option.value === prefixFilter)) {
       prefixFilter = "all";
@@ -8211,11 +8292,12 @@ pass=通过；传递
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
 
-    if (search && wordMatchFilter === "contains" && !words.length && compoundFilter === "all" && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
+    if (search && wordMatchFilter === "contains" && !words.length && compoundFilter === "all" && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || letterCountFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
       words = allVocabulary.filter(matchesSearch);
     }
 
     document.getElementById("vocabularyWordMatchFilter").value = wordMatchFilter;
+    vocabularyLetterCountFilter.value = letterCountFilter;
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
     document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
@@ -8455,6 +8537,7 @@ pass=通过；传递
     detail.querySelector("#openThemeInVocabulary")?.addEventListener("click", () => {
       document.getElementById("vocabularySearch").value = "";
       selectedVocabularyWordMatch = "contains";
+      selectedVocabularyLetterCount = "all";
       selectedVocabularyStatus = "all";
       selectedVocabularyPart = "all";
       selectedVocabularyTheme = selectedDictionaryTheme;
@@ -8468,6 +8551,7 @@ pass=通过；传递
       selectedVocabularyIpa = "all";
       selectedView = "vocabulary";
       saveSelectedVocabularyWordMatch();
+      saveSelectedVocabularyLetterCount();
       saveSelectedVocabularyStatus();
       saveSelectedVocabularyPart();
       saveSelectedVocabularyCompound();
@@ -8639,6 +8723,7 @@ pass=通过；传递
   function resetVocabularyFilters() {
     document.getElementById("vocabularySearch").value = "";
     selectedVocabularyWordMatch = "contains";
+    selectedVocabularyLetterCount = "all";
     selectedVocabularyStatus = "all";
     selectedVocabularyPart = "all";
     selectedVocabularyTheme = "all";
@@ -8651,6 +8736,7 @@ pass=通过；传递
     selectedVocabularyVowelTeam = "all";
     selectedVocabularyIpa = "all";
     saveSelectedVocabularyWordMatch();
+    saveSelectedVocabularyLetterCount();
     saveSelectedVocabularyStatus();
     saveSelectedVocabularyPart();
     saveSelectedVocabularyCompound();
@@ -8672,6 +8758,11 @@ pass=通过；传递
   document.getElementById("vocabularyWordMatchFilter").addEventListener("change", (event) => {
     selectedVocabularyWordMatch = event.target.value;
     saveSelectedVocabularyWordMatch();
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyLetterCountFilter").addEventListener("change", (event) => {
+    selectedVocabularyLetterCount = event.target.value;
+    saveSelectedVocabularyLetterCount();
     renderVocabularyList();
   });
   document.getElementById("vocabularyPartFilter").addEventListener("change", (event) => {
