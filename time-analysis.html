@@ -5685,25 +5685,20 @@
       const action = isRunning ? stopTimer() : startTimer(entry);
       await action;
     }
-    let lastTrackActivation = { key: "", at: 0 };
-    function runTrackButton(button, event) {
-      const key = button.dataset.trackKey || "";
-      const now = Date.now();
-      if (key === lastTrackActivation.key && now - lastTrackActivation.at < 900) return;
-      lastTrackActivation = { key, at: now };
-      if (event?.type === "pointerup") event.preventDefault();
-      activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
-    }
-    trackerList.onpointerup = (event) => {
-      const button = event.target.closest("[data-track-key]");
-      if (!button || !trackerList.contains(button)) return;
-      runTrackButton(button, event);
-    };
-    trackerList.onclick = (event) => {
-      const button = event.target.closest("[data-track-key]");
-      if (!button || !trackerList.contains(button)) return;
-      runTrackButton(button, event);
-    };
+    document.querySelectorAll("[data-track-key]").forEach((button) => {
+      let lastActivationAt = 0;
+      const runTrackButton = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const now = Date.now();
+        if (now - lastActivationAt < 900) return;
+        lastActivationAt = now;
+        setTrackerStatus("Track tap received...");
+        activateTrackButton(button).catch((error) => setTrackerStatus(error.message, "error"));
+      };
+      button.addEventListener("touchend", runTrackButton, { passive: false });
+      button.addEventListener("click", runTrackButton);
+    });
     document.querySelectorAll("[data-save-past-key]").forEach((button) => {
       button.addEventListener("click", async () => {
         const committedEntry = await flushPendingTaskNameInput(rows);
