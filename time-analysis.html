@@ -3102,6 +3102,7 @@
   const TIME_LOCAL_PAYLOAD_STORAGE = "personal.timeTracking.localPayload.v1";
   const BUSINESS_TIME_ZONE = "America/New_York";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
+  const SEARCH_RENDER_DELAY_MS = 200;
 
   const LIST_NAME_MAP = {
     "901306296518": "🌼 Survival",
@@ -3172,6 +3173,7 @@
   let trackOrderDirection = "asc";
   let trackerPriorityFilterTouched = false;
   let pendingTaskNameSave = null;
+  let trackerSearchRenderTimer = null;
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
@@ -5714,6 +5716,14 @@
     });
   }
 
+  function scheduleTrackerSearchRender() {
+    window.clearTimeout(trackerSearchRenderTimer);
+    trackerSearchRenderTimer = window.setTimeout(() => {
+      trackerSearchRenderTimer = null;
+      renderActivityRows();
+    }, SEARCH_RENDER_DELAY_MS);
+  }
+
   function priorityOptionSort(a, b) {
     const groupA = TRACK_GROUP_ORDER.indexOf(trackGroupName({ priority: a }));
     const groupB = TRACK_GROUP_ORDER.indexOf(trackGroupName({ priority: b }));
@@ -5795,7 +5805,7 @@
     const typeFilter = document.getElementById("trackerTypeFilter");
     if (typeFilter) typeFilter.oninput = renderActivityRows;
     const taskSearch = document.getElementById("taskSearchInput");
-    if (taskSearch) taskSearch.oninput = renderActivityRows;
+    if (taskSearch) taskSearch.oninput = scheduleTrackerSearchRender;
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
     const orderSort = document.getElementById("orderSortBtn");
@@ -6856,9 +6866,20 @@
       });
     };
 
-    [searchInput, listFilter, priorityFilter, categoryFilter, typeFilter, weekFilter, dateFilter].forEach((control) => {
-      control.addEventListener("input", updateTable);
-      control.addEventListener("change", updateTable);
+    let detailsSearchRenderTimer = null;
+    const scheduleDetailsSearchRender = () => {
+      window.clearTimeout(detailsSearchRenderTimer);
+      detailsSearchRenderTimer = window.setTimeout(() => {
+        detailsSearchRenderTimer = null;
+        updateTable();
+      }, SEARCH_RENDER_DELAY_MS);
+    };
+
+    searchInput.oninput = scheduleDetailsSearchRender;
+    searchInput.onchange = updateTable;
+    [listFilter, priorityFilter, categoryFilter, typeFilter, weekFilter, dateFilter].forEach((control) => {
+      control.oninput = updateTable;
+      control.onchange = updateTable;
     });
     updateTable();
   }
