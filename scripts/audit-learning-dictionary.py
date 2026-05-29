@@ -47,6 +47,7 @@ const localStorage = {
   removeItem(key) { delete storage[key]; },
 };
 const document = {
+  addEventListener() {},
   getElementById() { return element(); },
   querySelector() { return null; },
   querySelectorAll() { return []; },

@@ -89,6 +89,11 @@ PAGE_HEADER_RE = re.compile(r"^(?:Page|P:)\s*\d+\s*$", re.IGNORECASE)
 INDEX_INTRO_RE = re.compile(r"^.*?(?=3-point turn\s+130-25)", re.IGNORECASE | re.DOTALL)
 
 MANUAL_WRAPPED_ENTRIES = [
+    ("avocado", ["48-14"]),
+    ("bald", ["43-35"]),
+    ("cardiologist", ["96-1"]),
+    ("child", ["42-3"]),
+    ("e-mail", ["108-19"]),
     ("airplane", ["132-23"]),
     ("arrival and departure board", ["124-13"]),
     ("arrival and departure monitor", ["131-5"]),
@@ -121,7 +126,7 @@ MANUAL_WRAPPED_ENTRIES = [
     ("Good evening.", ["12-4"]),
     ("Good morning.", ["12-2"]),
     ("Good night.", ["12-10"]),
-    ("Good-bye.", ["12-9"]),
+    ("Good-bye", ["12-9"]),
     ("Hello.", ["12-1"]),
     ("Hello. My name is...", ["13-12"]),
     ("Hello. This is... May I please speak to..?", ["13-22"]),
@@ -169,7 +174,18 @@ MANUAL_WRAPPED_ENTRIES = [
     ("What's new?", ["12-7"]),
     ("Yes. Hold on a moment.", ["13-23"]),
     ("You're welcome.", ["13-19"]),
+    ("long-sleeved shirt", ["71-1"]),
+    ("make breakfast", ["9-15"]),
 ]
+
+CORRECTED_MALFORMED_ENTRIES = {
+    "avocado 48--14 bald",
+    "child 42-' cardiologist",
+    "e-rnail",
+    "Good-bye.",
+    "long-sleeved shirt 71-'",
+    "make breakfast 9-'",
+}
 
 
 PAGE_TOPIC_STARTS = [
@@ -569,6 +585,9 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         normalized_text = normalize_entry_text(entry.text)
         if not normalized_text:
             report["unparsedLines"].append({"line": entry.line, "text": entry.text, "reason": "discarded marker-only entry"})
+            continue
+        if normalized_text in CORRECTED_MALFORMED_ENTRIES:
+            report["discardedMalformedEntries"].append({"line": entry.line, "text": normalized_text, "refs": entry.refs, "reason": "replaced by manual correction"})
             continue
         if is_malformed_entry_text(normalized_text):
             report["discardedMalformedEntries"].append({"line": entry.line, "text": normalized_text, "refs": entry.refs})

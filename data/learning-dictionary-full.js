@@ -6359,30 +6359,30 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0174-avocado-48-14-bald",
+    "id": "index-0174-avocado",
     "type": "word",
-    "text": "avocado 48--14 bald",
-    "word": "avocado 48--14 bald",
+    "text": "avocado",
+    "word": "avocado",
     "chinese": "",
     "source": "word-by-word-index",
     "sourceRefs": [
-      "43-35"
+      "48-14"
     ],
     "sourcePages": [
-      43
+      48
     ],
     "placements": [
       {
-        "ref": "43-35",
-        "page": 43,
-        "theme": "describing",
-        "topic": "People and Physical Descriptions"
+        "ref": "48-14",
+        "page": 48,
+        "theme": "food",
+        "topic": "Fruits"
       }
     ],
     "alternatePlacements": [],
-    "sourceLine": 2,
-    "theme": "describing",
-    "topic": "People and Physical Descriptions",
+    "sourceLine": 0,
+    "theme": "food",
+    "topic": "Fruits",
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
@@ -6390,7 +6390,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": true
+    "compound": false
   },
   {
     "id": "index-0175-ax",
@@ -8564,7 +8564,41 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0231-ballerina",
+    "id": "index-0231-bald",
+    "type": "word",
+    "text": "bald",
+    "word": "bald",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "43-35"
+    ],
+    "sourcePages": [
+      43
+    ],
+    "placements": [
+      {
+        "ref": "43-35",
+        "page": 43,
+        "theme": "describing",
+        "topic": "People and Physical Descriptions"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "describing",
+    "topic": "People and Physical Descriptions",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "open",
+    "vowelTeams": [],
+    "compound": false
+  },
+  {
+    "id": "index-0232-ballerina",
     "type": "word",
     "text": "ballerina",
     "word": "ballerina",
@@ -8598,7 +8632,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0232-ballet",
+    "id": "index-0233-ballet",
     "type": "word",
     "text": "ballet",
     "word": "ballet",
@@ -8632,7 +8666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0233-ballet-dancer",
+    "id": "index-0234-ballet-dancer",
     "type": "word",
     "text": "ballet dancer",
     "word": "ballet dancer",
@@ -8666,7 +8700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0234-ballfield",
+    "id": "index-0235-ballfield",
     "type": "word",
     "text": "ballfield",
     "word": "ballfield",
@@ -8730,7 +8764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0235-banana",
+    "id": "index-0236-banana",
     "type": "word",
     "text": "banana",
     "word": "banana",
@@ -8764,7 +8798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0236-band",
+    "id": "index-0237-band",
     "type": "word",
     "text": "band",
     "word": "band",
@@ -8813,7 +8847,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0237-band-aid",
+    "id": "index-0238-band-aid",
     "type": "word",
     "text": "Band-Aid™",
     "word": "Band-Aid™",
@@ -8849,7 +8883,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0238-bandage",
+    "id": "index-0239-bandage",
     "type": "word",
     "text": "bandage",
     "word": "bandage",
@@ -8897,7 +8931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0239-banjo",
+    "id": "index-0240-banjo",
     "type": "word",
     "text": "banjo",
     "word": "banjo",
@@ -8931,7 +8965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0240-bank",
+    "id": "index-0241-bank",
     "type": "word",
     "text": "bank",
     "word": "bank",
@@ -8965,7 +8999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0241-bank-onl-ne",
+    "id": "index-0242-bank-onl-ne",
     "type": "word",
     "text": "bank onlíne",
     "word": "bank onlíne",
@@ -8999,7 +9033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0242-bank-robbery",
+    "id": "index-0243-bank-robbery",
     "type": "word",
     "text": "bank robbery",
     "word": "bank robbery",
@@ -9033,7 +9067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0243-bank-vault",
+    "id": "index-0244-bank-vault",
     "type": "word",
     "text": "bank vault",
     "word": "bank vault",
@@ -9069,7 +9103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0244-bankbook",
+    "id": "index-0245-bankbook",
     "type": "word",
     "text": "bankbook",
     "word": "bankbook",
@@ -9105,7 +9139,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0245-barbar-shop",
+    "id": "index-0246-barbar-shop",
     "type": "word",
     "text": "barbar shop",
     "word": "barbar shop",
@@ -9139,7 +9173,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0246-barbecue",
+    "id": "index-0247-barbecue",
     "type": "word",
     "text": "barbecue",
     "word": "barbecue",
@@ -9190,7 +9224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0247-barbell",
+    "id": "index-0248-barbell",
     "type": "word",
     "text": "barbell",
     "word": "barbell",
@@ -9224,7 +9258,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0248-barber",
+    "id": "index-0249-barber",
     "type": "word",
     "text": "barber",
     "word": "barber",
@@ -9258,7 +9292,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0249-bark",
+    "id": "index-0250-bark",
     "type": "word",
     "text": "bark",
     "word": "bark",
@@ -9292,7 +9326,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0250-barn",
+    "id": "index-0251-barn",
     "type": "word",
     "text": "barn",
     "word": "barn",
@@ -9326,7 +9360,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0251-barnyard",
+    "id": "index-0252-barnyard",
     "type": "word",
     "text": "barnyard",
     "word": "barnyard",
@@ -9360,7 +9394,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0252-barrette",
+    "id": "index-0253-barrette",
     "type": "word",
     "text": "barrette",
     "word": "barrette",
@@ -9409,7 +9443,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0253-barrier",
+    "id": "index-0254-barrier",
     "type": "word",
     "text": "barrier",
     "word": "barrier",
@@ -9445,7 +9479,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0254-base",
+    "id": "index-0255-base",
     "type": "word",
     "text": "base",
     "word": "base",
@@ -9494,7 +9528,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0255-baseball",
+    "id": "index-0256-baseball",
     "type": "word",
     "text": "baseball",
     "word": "baseball",
@@ -9556,7 +9590,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0256-baseball-cap",
+    "id": "index-0257-baseball-cap",
     "type": "word",
     "text": "baseball cap",
     "word": "baseball cap",
@@ -9590,7 +9624,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0257-baseball-field",
+    "id": "index-0258-baseball-field",
     "type": "word",
     "text": "baseball field",
     "word": "baseball field",
@@ -9626,7 +9660,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0258-baseball-glove",
+    "id": "index-0259-baseball-glove",
     "type": "word",
     "text": "baseball glove",
     "word": "baseball glove",
@@ -9660,7 +9694,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0259-baseball-piayer",
+    "id": "index-0260-baseball-piayer",
     "type": "word",
     "text": "baseball piayer",
     "word": "baseball piayer",
@@ -9696,7 +9730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0260-baseball-uniform",
+    "id": "index-0261-baseball-uniform",
     "type": "word",
     "text": "baseball uniform",
     "word": "baseball uniform",
@@ -9730,7 +9764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0261-basement",
+    "id": "index-0262-basement",
     "type": "word",
     "text": "basement",
     "word": "basement",
@@ -9764,7 +9798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0262-basketball",
+    "id": "index-0263-basketball",
     "type": "word",
     "text": "basketball",
     "word": "basketball",
@@ -9840,7 +9874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0263-basketball-court",
+    "id": "index-0264-basketball-court",
     "type": "word",
     "text": "basketball court",
     "word": "basketball court",
@@ -9891,7 +9925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0264-basketball-hoop",
+    "id": "index-0265-basketball-hoop",
     "type": "word",
     "text": "basketball hoop",
     "word": "basketball hoop",
@@ -9927,7 +9961,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0265-basketball-piayer",
+    "id": "index-0266-basketball-piayer",
     "type": "word",
     "text": "basketball piayer",
     "word": "basketball piayer",
@@ -9963,7 +9997,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0266-bass",
+    "id": "index-0267-bass",
     "type": "word",
     "text": "bass",
     "word": "bass",
@@ -10012,7 +10046,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0267-bat",
+    "id": "index-0268-bat",
     "type": "word",
     "text": "bat",
     "word": "bat",
@@ -10061,7 +10095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0268-bath",
+    "id": "index-0269-bath",
     "type": "word",
     "text": "bath",
     "word": "bath",
@@ -10110,7 +10144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0269-bath-mat",
+    "id": "index-0270-bath-mat",
     "type": "word",
     "text": "bath mat",
     "word": "bath mat",
@@ -10144,7 +10178,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0270-bathe",
+    "id": "index-0271-bathe",
     "type": "word",
     "text": "bathe",
     "word": "bathe",
@@ -10193,7 +10227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0271-bathing-cap",
+    "id": "index-0272-bathing-cap",
     "type": "word",
     "text": "bathing cap",
     "word": "bathing cap",
@@ -10227,7 +10261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0272-bathinq-suit",
+    "id": "index-0273-bathinq-suit",
     "type": "word",
     "text": "bathinq suit",
     "word": "bathinq suit",
@@ -10302,7 +10336,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0273-bathrobe",
+    "id": "index-0274-bathrobe",
     "type": "word",
     "text": "bathrobe",
     "word": "bathrobe",
@@ -10336,7 +10370,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0274-bathroom-sink",
+    "id": "index-0275-bathroom-sink",
     "type": "word",
     "text": "bathroom sink",
     "word": "bathroom sink",
@@ -10372,7 +10406,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0275-bathroorn",
+    "id": "index-0276-bathroorn",
     "type": "word",
     "text": "bathroorn",
     "word": "bathroorn",
@@ -10423,7 +10457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0276-bathtub",
+    "id": "index-0277-bathtub",
     "type": "word",
     "text": "bathtub",
     "word": "bathtub",
@@ -10472,7 +10506,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0277-battery",
+    "id": "index-0278-battery",
     "type": "word",
     "text": "battery",
     "word": "battery",
@@ -10521,7 +10555,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0278-battery-pack",
+    "id": "index-0279-battery-pack",
     "type": "word",
     "text": "battery pack",
     "word": "battery pack",
@@ -10555,7 +10589,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0279-batting-helmet",
+    "id": "index-0280-batting-helmet",
     "type": "word",
     "text": "batting helmet",
     "word": "batting helmet",
@@ -10589,7 +10623,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0280-batt-ries",
+    "id": "index-0281-batt-ries",
     "type": "word",
     "text": "battéries",
     "word": "battéries",
@@ -10625,7 +10659,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0281-bay",
+    "id": "index-0282-bay",
     "type": "word",
     "text": "bay",
     "word": "bay",
@@ -10661,7 +10695,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0282-beach",
+    "id": "index-0283-beach",
     "type": "word",
     "text": "beach",
     "word": "beach",
@@ -10697,7 +10731,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0283-beach-ball",
+    "id": "index-0284-beach-ball",
     "type": "word",
     "text": "beach ball",
     "word": "beach ball",
@@ -10748,7 +10782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0284-beach-blanket",
+    "id": "index-0285-beach-blanket",
     "type": "word",
     "text": "beach blanket",
     "word": "beach blanket",
@@ -10784,7 +10818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0285-beach-towel",
+    "id": "index-0286-beach-towel",
     "type": "word",
     "text": "beach towel",
     "word": "beach towel",
@@ -10821,7 +10855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0286-beach-umbrella",
+    "id": "index-0287-beach-umbrella",
     "type": "word",
     "text": "beach umbrella",
     "word": "beach umbrella",
@@ -10857,7 +10891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0287-beads",
+    "id": "index-0288-beads",
     "type": "word",
     "text": "beads",
     "word": "beads",
@@ -10893,7 +10927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0288-beak",
+    "id": "index-0289-beak",
     "type": "word",
     "text": "beak",
     "word": "beak",
@@ -10929,7 +10963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0289-beaker",
+    "id": "index-0290-beaker",
     "type": "word",
     "text": "beaker",
     "word": "beaker",
@@ -10965,7 +10999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0290-beam",
+    "id": "index-0291-beam",
     "type": "word",
     "text": "beam",
     "word": "beam",
@@ -11001,7 +11035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0291-bear",
+    "id": "index-0292-bear",
     "type": "word",
     "text": "bear",
     "word": "bear",
@@ -11051,7 +11085,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0292-beard",
+    "id": "index-0293-beard",
     "type": "word",
     "text": "beard",
     "word": "beard",
@@ -11087,7 +11121,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0293-beat",
+    "id": "index-0294-beat",
     "type": "word",
     "text": "beat",
     "word": "beat",
@@ -11123,7 +11157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0294-beater",
+    "id": "index-0295-beater",
     "type": "word",
     "text": "beater",
     "word": "beater",
@@ -11159,7 +11193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0295-beautiful",
+    "id": "index-0296-beautiful",
     "type": "word",
     "text": "beautiful",
     "word": "beautiful",
@@ -11196,7 +11230,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0296-beaver",
+    "id": "index-0297-beaver",
     "type": "word",
     "text": "beaver",
     "word": "beaver",
@@ -11232,7 +11266,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0297-bed",
+    "id": "index-0298-bed",
     "type": "word",
     "text": "bed",
     "word": "bed",
@@ -11295,7 +11329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0298-bed-control",
+    "id": "index-0299-bed-control",
     "type": "word",
     "text": "bed control",
     "word": "bed control",
@@ -11329,7 +11363,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0299-bed-frame",
+    "id": "index-0300-bed-frame",
     "type": "word",
     "text": "bed frame",
     "word": "bed frame",
@@ -11363,7 +11397,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0300-bed-pan",
+    "id": "index-0301-bed-pan",
     "type": "word",
     "text": "bed pan",
     "word": "bed pan",
@@ -11397,7 +11431,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0301-bed-table",
+    "id": "index-0302-bed-table",
     "type": "word",
     "text": "bed table",
     "word": "bed table",
@@ -11431,7 +11465,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0302-beds",
+    "id": "index-0303-beds",
     "type": "word",
     "text": "beds",
     "word": "beds",
@@ -11465,7 +11499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0303-bedspread",
+    "id": "index-0304-bedspread",
     "type": "word",
     "text": "bedspread",
     "word": "bedspread",
@@ -11501,7 +11535,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0304-bee",
+    "id": "index-0305-bee",
     "type": "word",
     "text": "bee",
     "word": "bee",
@@ -11537,7 +11571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0305-beehive",
+    "id": "index-0306-beehive",
     "type": "word",
     "text": "beehive",
     "word": "beehive",
@@ -11573,7 +11607,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0306-beet",
+    "id": "index-0307-beet",
     "type": "word",
     "text": "beet",
     "word": "beet",
@@ -11609,7 +11643,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0307-beetle",
+    "id": "index-0308-beetle",
     "type": "word",
     "text": "beetle",
     "word": "beetle",
@@ -11645,7 +11679,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0308-behind",
+    "id": "index-0309-behind",
     "type": "word",
     "text": "behind",
     "word": "behind",
@@ -11679,7 +11713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0309-beige",
+    "id": "index-0310-beige",
     "type": "word",
     "text": "beige",
     "word": "beige",
@@ -11713,7 +11747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0310-bell-captain",
+    "id": "index-0311-bell-captain",
     "type": "word",
     "text": "bell captain",
     "word": "bell captain",
@@ -11749,7 +11783,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0311-bell-desk",
+    "id": "index-0312-bell-desk",
     "type": "word",
     "text": "bell desk",
     "word": "bell desk",
@@ -11783,7 +11817,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0312-bellhop",
+    "id": "index-0313-bellhop",
     "type": "word",
     "text": "bellhop",
     "word": "bellhop",
@@ -11817,7 +11851,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0313-below",
+    "id": "index-0314-below",
     "type": "word",
     "text": "below",
     "word": "below",
@@ -11853,7 +11887,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0314-belt",
+    "id": "index-0315-belt",
     "type": "word",
     "text": "belt",
     "word": "belt",
@@ -11887,7 +11921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0315-bench",
+    "id": "index-0316-bench",
     "type": "word",
     "text": "bench",
     "word": "bench",
@@ -11921,7 +11955,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0316-bend",
+    "id": "index-0317-bend",
     "type": "word",
     "text": "bend",
     "word": "bend",
@@ -11955,7 +11989,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0317-benefits",
+    "id": "index-0318-benefits",
     "type": "word",
     "text": "benefits",
     "word": "benefits",
@@ -11989,7 +12023,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0318-berries",
+    "id": "index-0319-berries",
     "type": "word",
     "text": "berries",
     "word": "berries",
@@ -12025,7 +12059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0319-between",
+    "id": "index-0320-between",
     "type": "word",
     "text": "between",
     "word": "between",
@@ -12061,7 +12095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0320-beverages",
+    "id": "index-0321-beverages",
     "type": "word",
     "text": "beverages",
     "word": "beverages",
@@ -12095,7 +12129,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0321-bicycle",
+    "id": "index-0322-bicycle",
     "type": "word",
     "text": "bicycle",
     "word": "bicycle",
@@ -12157,7 +12191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0322-bicycle-hejmet",
+    "id": "index-0323-bicycle-hejmet",
     "type": "word",
     "text": "bicycle heJmet",
     "word": "bicycle heJmet",
@@ -12191,7 +12225,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0323-bicycle-path",
+    "id": "index-0324-bicycle-path",
     "type": "word",
     "text": "bicycle path",
     "word": "bicycle path",
@@ -12225,7 +12259,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0324-big",
+    "id": "index-0325-big",
     "type": "word",
     "text": "big",
     "word": "big",
@@ -12274,7 +12308,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0325-big-dipper",
+    "id": "index-0326-big-dipper",
     "type": "word",
     "text": "Big Dipper",
     "word": "Big Dipper",
@@ -12308,7 +12342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0326-bike",
+    "id": "index-0327-bike",
     "type": "word",
     "text": "bike",
     "word": "bike",
@@ -12357,7 +12391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0327-bike-helmet",
+    "id": "index-0328-bike-helmet",
     "type": "word",
     "text": "bike helmet",
     "word": "bike helmet",
@@ -12406,7 +12440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0328-bike-path",
+    "id": "index-0329-bike-path",
     "type": "word",
     "text": "bike path",
     "word": "bike path",
@@ -12440,7 +12474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0329-bike-rack",
+    "id": "index-0330-bike-rack",
     "type": "word",
     "text": "bike rack",
     "word": "bike rack",
@@ -12474,7 +12508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0330-bike-shorts",
+    "id": "index-0331-bike-shorts",
     "type": "word",
     "text": "bike shorts",
     "word": "bike shorts",
@@ -12508,7 +12542,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0331-bikeway",
+    "id": "index-0332-bikeway",
     "type": "word",
     "text": "bikeway",
     "word": "bikeway",
@@ -12545,7 +12579,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0332-bikini-panties",
+    "id": "index-0333-bikini-panties",
     "type": "word",
     "text": "bikini panties",
     "word": "bikini panties",
@@ -12596,7 +12630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0333-billiard-balls",
+    "id": "index-0334-billiard-balls",
     "type": "word",
     "text": "billiard balls",
     "word": "billiard balls",
@@ -12630,7 +12664,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0334-billiards",
+    "id": "index-0335-billiards",
     "type": "word",
     "text": "billiards",
     "word": "billiards",
@@ -12664,7 +12698,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0335-binder",
+    "id": "index-0336-binder",
     "type": "word",
     "text": "binder",
     "word": "binder",
@@ -12698,7 +12732,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0336-bindings",
+    "id": "index-0337-bindings",
     "type": "word",
     "text": "bindings",
     "word": "bindings",
@@ -12732,7 +12766,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0337-binoculars",
+    "id": "index-0338-binoculars",
     "type": "word",
     "text": "binoculars",
     "word": "binoculars",
@@ -12766,7 +12800,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0338-biography",
+    "id": "index-0339-biography",
     "type": "word",
     "text": "biography",
     "word": "biography",
@@ -12800,7 +12834,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0339-biohazard",
+    "id": "index-0340-biohazard",
     "type": "word",
     "text": "biohazard",
     "word": "biohazard",
@@ -12834,7 +12868,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0340-biology",
+    "id": "index-0341-biology",
     "type": "word",
     "text": "biology",
     "word": "biology",
@@ -12868,7 +12902,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0341-birch",
+    "id": "index-0342-birch",
     "type": "word",
     "text": "birch",
     "word": "birch",
@@ -12902,7 +12936,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0342-bird-watching",
+    "id": "index-0343-bird-watching",
     "type": "word",
     "text": "bird watching",
     "word": "bird watching",
@@ -12936,7 +12970,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0343-birdie",
+    "id": "index-0344-birdie",
     "type": "word",
     "text": "birdie",
     "word": "birdie",
@@ -12972,7 +13006,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0344-birds",
+    "id": "index-0345-birds",
     "type": "word",
     "text": "birds",
     "word": "birds",
@@ -13006,7 +13040,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0345-birthing-room",
+    "id": "index-0346-birthing-room",
     "type": "word",
     "text": "birthing room",
     "word": "birthing room",
@@ -13042,7 +13076,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0346-biscuit",
+    "id": "index-0347-biscuit",
     "type": "word",
     "text": "biscuit",
     "word": "biscuit",
@@ -13076,7 +13110,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0347-bison",
+    "id": "index-0348-bison",
     "type": "word",
     "text": "bison",
     "word": "bison",
@@ -13110,7 +13144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0348-bit",
+    "id": "index-0349-bit",
     "type": "word",
     "text": "bit",
     "word": "bit",
@@ -13144,7 +13178,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0349-black",
+    "id": "index-0350-black",
     "type": "word",
     "text": "black",
     "word": "black",
@@ -13193,7 +13227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0350-black-bean",
+    "id": "index-0351-black-bean",
     "type": "word",
     "text": "black bean",
     "word": "black bean",
@@ -13229,7 +13263,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0351-black-bear",
+    "id": "index-0352-black-bear",
     "type": "word",
     "text": "black bear",
     "word": "black bear",
@@ -13265,7 +13299,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0352-black-belt",
+    "id": "index-0353-black-belt",
     "type": "word",
     "text": "black belt",
     "word": "black belt",
@@ -13299,7 +13333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0353-blackout",
+    "id": "index-0354-blackout",
     "type": "word",
     "text": "blackout",
     "word": "blackout",
@@ -13335,7 +13369,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0354-bladder",
+    "id": "index-0355-bladder",
     "type": "word",
     "text": "bladder",
     "word": "bladder",
@@ -13369,7 +13403,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0355-blade",
+    "id": "index-0356-blade",
     "type": "word",
     "text": "blade",
     "word": "blade",
@@ -13403,7 +13437,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0356-blank",
+    "id": "index-0357-blank",
     "type": "word",
     "text": "blank",
     "word": "blank",
@@ -13437,7 +13471,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0357-blanket",
+    "id": "index-0358-blanket",
     "type": "word",
     "text": "blanket",
     "word": "blanket",
@@ -13499,7 +13533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0358-blanket-sleeper",
+    "id": "index-0359-blanket-sleeper",
     "type": "word",
     "text": "blanket sleeper",
     "word": "blanket sleeper",
@@ -13550,7 +13584,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0359-blazer",
+    "id": "index-0360-blazer",
     "type": "word",
     "text": "blazer",
     "word": "blazer",
@@ -13584,7 +13618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0360-bleach",
+    "id": "index-0361-bleach",
     "type": "word",
     "text": "bleach",
     "word": "bleach",
@@ -13620,7 +13654,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0361-bleachers",
+    "id": "index-0362-bleachers",
     "type": "word",
     "text": "bleachers",
     "word": "bleachers",
@@ -13656,7 +13690,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0362-bleed",
+    "id": "index-0363-bleed",
     "type": "word",
     "text": "bleed",
     "word": "bleed",
@@ -13692,7 +13726,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0363-bleeding",
+    "id": "index-0364-bleeding",
     "type": "word",
     "text": "bleeding",
     "word": "bleeding",
@@ -13728,7 +13762,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0364-blender",
+    "id": "index-0365-blender",
     "type": "word",
     "text": "blender",
     "word": "blender",
@@ -13762,7 +13796,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0365-blinds",
+    "id": "index-0366-blinds",
     "type": "word",
     "text": "blinds",
     "word": "blinds",
@@ -13796,7 +13830,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0366-blister",
+    "id": "index-0367-blister",
     "type": "word",
     "text": "blister",
     "word": "blister",
@@ -13830,7 +13864,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0367-blizzard",
+    "id": "index-0368-blizzard",
     "type": "word",
     "text": "blizzard",
     "word": "blizzard",
@@ -13864,7 +13898,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0368-blll",
+    "id": "index-0369-blll",
     "type": "word",
     "text": "blll",
     "word": "blll",
@@ -13913,7 +13947,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0369-bloated",
+    "id": "index-0370-bloated",
     "type": "word",
     "text": "bloated",
     "word": "bloated",
@@ -13949,7 +13983,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0370-block",
+    "id": "index-0371-block",
     "type": "word",
     "text": "block",
     "word": "block",
@@ -13983,7 +14017,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0371-blocks",
+    "id": "index-0372-blocks",
     "type": "word",
     "text": "blocks",
     "word": "blocks",
@@ -14017,7 +14051,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0372-blond",
+    "id": "index-0373-blond",
     "type": "word",
     "text": "blond",
     "word": "blond",
@@ -14051,7 +14085,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0373-blood",
+    "id": "index-0374-blood",
     "type": "word",
     "text": "blood",
     "word": "blood",
@@ -14087,7 +14121,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0374-blood-pressure",
+    "id": "index-0375-blood-pressure",
     "type": "word",
     "text": "blood pressure",
     "word": "blood pressure",
@@ -14123,7 +14157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0375-blood-pressure-gauge",
+    "id": "index-0376-blood-pressure-gauge",
     "type": "word",
     "text": "blood pressure gauge",
     "word": "blood pressure gauge",
@@ -14160,7 +14194,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0376-blood-tests",
+    "id": "index-0377-blood-tests",
     "type": "word",
     "text": "blood tests",
     "word": "blood tests",
@@ -14196,7 +14230,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0377-blood-work",
+    "id": "index-0378-blood-work",
     "type": "word",
     "text": "blood work",
     "word": "blood work",
@@ -14232,7 +14266,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0378-bloody-nose",
+    "id": "index-0379-bloody-nose",
     "type": "word",
     "text": "bloody nose",
     "word": "bloody nose",
@@ -14268,7 +14302,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0379-blouse",
+    "id": "index-0380-blouse",
     "type": "word",
     "text": "blouse",
     "word": "blouse",
@@ -14304,7 +14338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0380-blow-dryer",
+    "id": "index-0381-blow-dryer",
     "type": "word",
     "text": "blow dryer",
     "word": "blow dryer",
@@ -14340,7 +14374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0381-blrthday",
+    "id": "index-0382-blrthday",
     "type": "word",
     "text": "blrthday",
     "word": "blrthday",
@@ -14376,7 +14410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0382-blue",
+    "id": "index-0383-blue",
     "type": "word",
     "text": "blue",
     "word": "blue",
@@ -14412,7 +14446,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0383-blue-jay",
+    "id": "index-0384-blue-jay",
     "type": "word",
     "text": "blue jay",
     "word": "blue jay",
@@ -14449,7 +14483,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0384-blueberries",
+    "id": "index-0385-blueberries",
     "type": "word",
     "text": "blueberries",
     "word": "blueberries",
@@ -14486,7 +14520,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0385-bluegrass",
+    "id": "index-0386-bluegrass",
     "type": "word",
     "text": "bluegrass",
     "word": "bluegrass",
@@ -14522,7 +14556,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0386-blueprints",
+    "id": "index-0387-blueprints",
     "type": "word",
     "text": "blueprints",
     "word": "blueprints",
@@ -14558,7 +14592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0387-blues",
+    "id": "index-0388-blues",
     "type": "word",
     "text": "blues",
     "word": "blues",
@@ -14594,7 +14628,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0388-blush",
+    "id": "index-0389-blush",
     "type": "word",
     "text": "blush",
     "word": "blush",
@@ -14643,7 +14677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0389-boa-constrictor",
+    "id": "index-0390-boa-constrictor",
     "type": "word",
     "text": "boa constrictor",
     "word": "boa constrictor",
@@ -14679,7 +14713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0390-board",
+    "id": "index-0391-board",
     "type": "word",
     "text": "board",
     "word": "board",
@@ -14730,7 +14764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0391-board-game",
+    "id": "index-0392-board-game",
     "type": "word",
     "text": "board game",
     "word": "board game",
@@ -14781,7 +14815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0392-board-the-plane",
+    "id": "index-0393-board-the-plane",
     "type": "word",
     "text": "board the plane",
     "word": "board the plane",
@@ -14817,7 +14851,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0393-boarding-pass",
+    "id": "index-0394-boarding-pass",
     "type": "word",
     "text": "boarding pass",
     "word": "boarding pass",
@@ -14907,7 +14941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0394-boat-trip",
+    "id": "index-0395-boat-trip",
     "type": "word",
     "text": "boat trip",
     "word": "boat trip",
@@ -14943,7 +14977,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0395-bobby-pin",
+    "id": "index-0396-bobby-pin",
     "type": "word",
     "text": "bobby pin",
     "word": "bobby pin",
@@ -14977,7 +15011,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0396-bobsled",
+    "id": "index-0397-bobsled",
     "type": "word",
     "text": "bobsled",
     "word": "bobsled",
@@ -15011,7 +15045,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0397-bobsledding",
+    "id": "index-0398-bobsledding",
     "type": "word",
     "text": "bobsledding",
     "word": "bobsledding",
@@ -15045,7 +15079,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0398-body-lotion",
+    "id": "index-0399-body-lotion",
     "type": "word",
     "text": "body lotion",
     "word": "body lotion",
@@ -15079,7 +15113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0399-boil",
+    "id": "index-0400-boil",
     "type": "word",
     "text": "boil",
     "word": "boil",
@@ -15115,7 +15149,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0400-bok-choy",
+    "id": "index-0401-bok-choy",
     "type": "word",
     "text": "bok choy",
     "word": "bok choy",
@@ -15151,7 +15185,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0401-bologna",
+    "id": "index-0402-bologna",
     "type": "word",
     "text": "bologna",
     "word": "bologna",
@@ -15185,7 +15219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0402-bolt",
+    "id": "index-0403-bolt",
     "type": "word",
     "text": "bolt",
     "word": "bolt",
@@ -15234,7 +15268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0403-bones",
+    "id": "index-0404-bones",
     "type": "word",
     "text": "bones",
     "word": "bones",
@@ -15268,7 +15302,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0404-boogie-board",
+    "id": "index-0405-boogie-board",
     "type": "word",
     "text": "boogie board",
     "word": "boogie board",
@@ -15306,7 +15340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0405-book",
+    "id": "index-0406-book",
     "type": "word",
     "text": "book",
     "word": "book",
@@ -15397,7 +15431,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0406-book-bag",
+    "id": "index-0407-book-bag",
     "type": "word",
     "text": "book bag",
     "word": "book bag",
@@ -15433,7 +15467,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0407-book-of-stamps",
+    "id": "index-0408-book-of-stamps",
     "type": "word",
     "text": "book of stamps",
     "word": "book of stamps",
@@ -15469,7 +15503,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0408-book-store",
+    "id": "index-0409-book-store",
     "type": "word",
     "text": "book store",
     "word": "book store",
@@ -15505,7 +15539,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0409-bookcase",
+    "id": "index-0410-bookcase",
     "type": "word",
     "text": "bookcase",
     "word": "bookcase",
@@ -15624,7 +15658,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0410-booking-a-trip",
+    "id": "index-0411-booking-a-trip",
     "type": "word",
     "text": "booking a trip",
     "word": "booking a trip",
@@ -15660,7 +15694,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0411-bookshelf",
+    "id": "index-0412-bookshelf",
     "type": "word",
     "text": "bookshelf",
     "word": "bookshelf",
@@ -15696,7 +15730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0412-booksontape",
+    "id": "index-0413-booksontape",
     "type": "word",
     "text": "booksontape",
     "word": "booksontape",
@@ -15732,7 +15766,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0413-boornbox",
+    "id": "index-0414-boornbox",
     "type": "word",
     "text": "boornbox",
     "word": "boornbox",
@@ -15768,7 +15802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0414-booth",
+    "id": "index-0415-booth",
     "type": "word",
     "text": "booth",
     "word": "booth",
@@ -15804,7 +15838,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0415-boots",
+    "id": "index-0416-boots",
     "type": "word",
     "text": "boots",
     "word": "boots",
@@ -15840,7 +15874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0416-bored",
+    "id": "index-0417-bored",
     "type": "word",
     "text": "bored",
     "word": "bored",
@@ -15874,7 +15908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0417-boss",
+    "id": "index-0418-boss",
     "type": "word",
     "text": "boss",
     "word": "boss",
@@ -15908,7 +15942,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0418-botanical-gardens",
+    "id": "index-0419-botanical-gardens",
     "type": "word",
     "text": "botanical gardens",
     "word": "botanical gardens",
@@ -15942,7 +15976,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0419-bottle",
+    "id": "index-0420-bottle",
     "type": "word",
     "text": "bottle",
     "word": "bottle",
@@ -15991,7 +16025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0420-bottle-opener",
+    "id": "index-0421-bottle-opener",
     "type": "word",
     "text": "bottle opener",
     "word": "bottle opener",
@@ -16025,7 +16059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0421-bottle-return-machine",
+    "id": "index-0422-bottle-return-machine",
     "type": "word",
     "text": "bottle-return machine",
     "word": "bottle-return machine",
@@ -16059,7 +16093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0422-bottle-return-machine-bank-officer",
+    "id": "index-0423-bottle-return-machine-bank-officer",
     "type": "word",
     "text": "bottle-return machine bank officer",
     "word": "bottle-return machine bank officer",
@@ -16093,7 +16127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0423-bounce",
+    "id": "index-0424-bounce",
     "type": "word",
     "text": "bounce",
     "word": "bounce",
@@ -16129,7 +16163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0424-bow-and-arrow",
+    "id": "index-0425-bow-and-arrow",
     "type": "word",
     "text": "bow and arrow",
     "word": "bow and arrow",
@@ -16165,7 +16199,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0425-bow-tie",
+    "id": "index-0426-bow-tie",
     "type": "word",
     "text": "bow tie",
     "word": "bow tie",
@@ -16202,7 +16236,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0426-bowl",
+    "id": "index-0427-bowl",
     "type": "word",
     "text": "bowl",
     "word": "bowl",
@@ -16267,7 +16301,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0427-bowling-shoes",
+    "id": "index-0428-bowling-shoes",
     "type": "word",
     "text": "bowling shoes",
     "word": "bowling shoes",
@@ -16304,7 +16338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0428-bowllng-ball",
+    "id": "index-0429-bowllng-ball",
     "type": "word",
     "text": "bowllng ball",
     "word": "bowllng ball",
@@ -16340,7 +16374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0429-bowl-ng",
+    "id": "index-0430-bowl-ng",
     "type": "word",
     "text": "bowlíng",
     "word": "bowlíng",
@@ -16376,7 +16410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0430-box",
+    "id": "index-0431-box",
     "type": "word",
     "text": "box",
     "word": "box",
@@ -16439,7 +16473,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0431-box-spring",
+    "id": "index-0432-box-spring",
     "type": "word",
     "text": "box spring",
     "word": "box spring",
@@ -16473,7 +16507,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0432-boxer-shorts",
+    "id": "index-0433-boxer-shorts",
     "type": "word",
     "text": "boxer shorts",
     "word": "boxer shorts",
@@ -16507,7 +16541,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0433-boxers",
+    "id": "index-0434-boxers",
     "type": "word",
     "text": "boxers",
     "word": "boxers",
@@ -16541,7 +16575,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0434-boxing-gloves",
+    "id": "index-0435-boxing-gloves",
     "type": "word",
     "text": "boxing gloves",
     "word": "boxing gloves",
@@ -16575,7 +16609,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0435-boxing-trunks",
+    "id": "index-0436-boxing-trunks",
     "type": "word",
     "text": "boxing trunks",
     "word": "boxing trunks",
@@ -16609,7 +16643,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0436-boy",
+    "id": "index-0437-boy",
     "type": "word",
     "text": "boy",
     "word": "boy",
@@ -16645,7 +16679,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0437-bra",
+    "id": "index-0438-bra",
     "type": "word",
     "text": "bra",
     "word": "bra",
@@ -16679,7 +16713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0438-brace",
+    "id": "index-0439-brace",
     "type": "word",
     "text": "brace",
     "word": "brace",
@@ -16713,7 +16747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0439-bracelet",
+    "id": "index-0440-bracelet",
     "type": "word",
     "text": "bracelet",
     "word": "bracelet",
@@ -16747,7 +16781,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0440-braces",
+    "id": "index-0441-braces",
     "type": "word",
     "text": "braces",
     "word": "braces",
@@ -16781,7 +16815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0441-brain",
+    "id": "index-0442-brain",
     "type": "word",
     "text": "brain",
     "word": "brain",
@@ -16817,7 +16851,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0442-brainstorm-ideas",
+    "id": "index-0443-brainstorm-ideas",
     "type": "word",
     "text": "brainstorm ideas",
     "word": "brainstorm ideas",
@@ -16854,7 +16888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0443-brake",
+    "id": "index-0444-brake",
     "type": "word",
     "text": "brake",
     "word": "brake",
@@ -16888,7 +16922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0444-brake-light",
+    "id": "index-0445-brake-light",
     "type": "word",
     "text": "brake light",
     "word": "brake light",
@@ -16922,7 +16956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0445-branch",
+    "id": "index-0446-branch",
     "type": "word",
     "text": "branch",
     "word": "branch",
@@ -16956,7 +16990,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0446-brass",
+    "id": "index-0447-brass",
     "type": "word",
     "text": "brass",
     "word": "brass",
@@ -16990,7 +17024,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0447-bread",
+    "id": "index-0448-bread",
     "type": "word",
     "text": "bread",
     "word": "bread",
@@ -17026,7 +17060,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0448-bread-basket",
+    "id": "index-0449-bread-basket",
     "type": "word",
     "text": "bread basket",
     "word": "bread basket",
@@ -17062,7 +17096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0449-bread-and-butter-plate",
+    "id": "index-0450-bread-and-butter-plate",
     "type": "word",
     "text": "bread-and-butter plate",
     "word": "bread-and-butter plate",
@@ -17098,7 +17132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0450-bread-and-butter-plate-bassoon",
+    "id": "index-0451-bread-and-butter-plate-bassoon",
     "type": "word",
     "text": "bread-and-butter plate bassoon",
     "word": "bread-and-butter plate bassoon",
@@ -17135,7 +17169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0451-break",
+    "id": "index-0452-break",
     "type": "word",
     "text": "break",
     "word": "break",
@@ -17186,7 +17220,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0452-break-up-into-small-bath-towel",
+    "id": "index-0453-break-up-into-small-bath-towel",
     "type": "word",
     "text": "break up into small bath towel",
     "word": "break up into small bath towel",
@@ -17223,7 +17257,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0453-breast",
+    "id": "index-0454-breast",
     "type": "word",
     "text": "breast",
     "word": "breast",
@@ -17259,7 +17293,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0454-breath",
+    "id": "index-0455-breath",
     "type": "word",
     "text": "breath",
     "word": "breath",
@@ -17310,7 +17344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0455-breathinq",
+    "id": "index-0456-breathinq",
     "type": "word",
     "text": "breathinq",
     "word": "breathinq",
@@ -17360,7 +17394,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0456-brick",
+    "id": "index-0457-brick",
     "type": "word",
     "text": "brick",
     "word": "brick",
@@ -17394,7 +17428,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0457-bricklayer",
+    "id": "index-0458-bricklayer",
     "type": "word",
     "text": "bricklayer",
     "word": "bricklayer",
@@ -17430,7 +17464,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0458-bridge",
+    "id": "index-0459-bridge",
     "type": "word",
     "text": "bridge",
     "word": "bridge",
@@ -17479,7 +17513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0459-briefcase",
+    "id": "index-0460-briefcase",
     "type": "word",
     "text": "briefcase",
     "word": "briefcase",
@@ -17515,7 +17549,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0460-briefs",
+    "id": "index-0461-briefs",
     "type": "word",
     "text": "briefs",
     "word": "briefs",
@@ -17565,7 +17599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0461-bring-in-your-homework",
+    "id": "index-0462-bring-in-your-homework",
     "type": "word",
     "text": "bring in your homework",
     "word": "bring in your homework",
@@ -17602,7 +17636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0462-bring-in-your-homework-battery-charger",
+    "id": "index-0463-bring-in-your-homework-battery-charger",
     "type": "word",
     "text": "bring in your homework battery charger",
     "word": "bring in your homework battery charger",
@@ -17654,7 +17688,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0463-broccoli",
+    "id": "index-0464-broccoli",
     "type": "word",
     "text": "broccoli",
     "word": "broccoli",
@@ -17688,7 +17722,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0464-broil",
+    "id": "index-0465-broil",
     "type": "word",
     "text": "broil",
     "word": "broil",
@@ -17724,7 +17758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0465-broiled-fish",
+    "id": "index-0466-broiled-fish",
     "type": "word",
     "text": "broiled fish",
     "word": "broiled fish",
@@ -17760,7 +17794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0466-broke-a-finqer",
+    "id": "index-0467-broke-a-finqer",
     "type": "word",
     "text": "broke a finqer",
     "word": "broke a finqer",
@@ -17794,7 +17828,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0467-broken",
+    "id": "index-0468-broken",
     "type": "word",
     "text": "broken",
     "word": "broken",
@@ -17855,7 +17889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0468-broken-line",
+    "id": "index-0469-broken-line",
     "type": "word",
     "text": "broken line",
     "word": "broken line",
@@ -17889,7 +17923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0469-brooch",
+    "id": "index-0470-brooch",
     "type": "word",
     "text": "brooch",
     "word": "brooch",
@@ -17925,7 +17959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0470-brook",
+    "id": "index-0471-brook",
     "type": "word",
     "text": "brook",
     "word": "brook",
@@ -17961,7 +17995,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0471-brother",
+    "id": "index-0472-brother",
     "type": "word",
     "text": "brother",
     "word": "brother",
@@ -17995,7 +18029,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0472-brother-in-iaw",
+    "id": "index-0473-brother-in-iaw",
     "type": "word",
     "text": "brother-in-Iaw",
     "word": "brother-in-Iaw",
@@ -18031,7 +18065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0473-browse-the-web",
+    "id": "index-0474-browse-the-web",
     "type": "word",
     "text": "browse the Web",
     "word": "browse the Web",
@@ -18067,7 +18101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0474-bruise",
+    "id": "index-0475-bruise",
     "type": "word",
     "text": "bruise",
     "word": "bruise",
@@ -18101,7 +18135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0475-brush",
+    "id": "index-0476-brush",
     "type": "word",
     "text": "brush",
     "word": "brush",
@@ -18150,7 +18184,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0476-brush-my-hair",
+    "id": "index-0477-brush-my-hair",
     "type": "word",
     "text": "brush my hair",
     "word": "brush my hair",
@@ -18201,7 +18235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0477-brush-myteeth",
+    "id": "index-0478-brush-myteeth",
     "type": "word",
     "text": "brush myteeth",
     "word": "brush myteeth",
@@ -18252,7 +18286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0478-bubble-bath",
+    "id": "index-0479-bubble-bath",
     "type": "word",
     "text": "bubble bath",
     "word": "bubble bath",
@@ -18286,7 +18320,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0479-bubble-soap",
+    "id": "index-0480-bubble-soap",
     "type": "word",
     "text": "bubble soap",
     "word": "bubble soap",
@@ -18322,7 +18356,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0480-bucket",
+    "id": "index-0481-bucket",
     "type": "word",
     "text": "bucket",
     "word": "bucket",
@@ -18356,7 +18390,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0481-bud",
+    "id": "index-0482-bud",
     "type": "word",
     "text": "bud",
     "word": "bud",
@@ -18390,7 +18424,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0482-buffalo",
+    "id": "index-0483-buffalo",
     "type": "word",
     "text": "buffalo",
     "word": "buffalo",
@@ -18424,7 +18458,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0483-buffet",
+    "id": "index-0484-buffet",
     "type": "word",
     "text": "buffet",
     "word": "buffet",
@@ -18458,7 +18492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0484-bug-spray",
+    "id": "index-0485-bug-spray",
     "type": "word",
     "text": "bug spray",
     "word": "bug spray",
@@ -18494,7 +18528,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0485-build",
+    "id": "index-0486-build",
     "type": "word",
     "text": "build",
     "word": "build",
@@ -18528,7 +18562,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0486-build-models",
+    "id": "index-0487-build-models",
     "type": "word",
     "text": "build models",
     "word": "build models",
@@ -18562,7 +18596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0487-building-blocks",
+    "id": "index-0488-building-blocks",
     "type": "word",
     "text": "building blocks",
     "word": "building blocks",
@@ -18596,7 +18630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0488-building-manager",
+    "id": "index-0489-building-manager",
     "type": "word",
     "text": "building manager",
     "word": "building manager",
@@ -18630,7 +18664,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0489-bulb",
+    "id": "index-0490-bulb",
     "type": "word",
     "text": "bulb",
     "word": "bulb",
@@ -18664,7 +18698,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0490-buljetin-board",
+    "id": "index-0491-buljetin-board",
     "type": "word",
     "text": "bulJetin board",
     "word": "bulJetin board",
@@ -18700,7 +18734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0491-bulldozer",
+    "id": "index-0492-bulldozer",
     "type": "word",
     "text": "bulldozer",
     "word": "bulldozer",
@@ -18734,7 +18768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0492-bumper-pad",
+    "id": "index-0493-bumper-pad",
     "type": "word",
     "text": "bumper pad",
     "word": "bumper pad",
@@ -18768,7 +18802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0493-bun",
+    "id": "index-0494-bun",
     "type": "word",
     "text": "bun",
     "word": "bun",
@@ -18802,7 +18836,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0494-bunch",
+    "id": "index-0495-bunch",
     "type": "word",
     "text": "bunch",
     "word": "bunch",
@@ -18836,7 +18870,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0495-bunsen-burner",
+    "id": "index-0496-bunsen-burner",
     "type": "word",
     "text": "Bunsen burner",
     "word": "Bunsen burner",
@@ -18870,7 +18904,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0496-bureau",
+    "id": "index-0497-bureau",
     "type": "word",
     "text": "bureau",
     "word": "bureau",
@@ -18907,7 +18941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0497-burglary",
+    "id": "index-0498-burglary",
     "type": "word",
     "text": "burglary",
     "word": "burglary",
@@ -18941,7 +18975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0498-burn",
+    "id": "index-0499-burn",
     "type": "word",
     "text": "burn",
     "word": "burn",
@@ -18975,7 +19009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0499-burner",
+    "id": "index-0500-burner",
     "type": "word",
     "text": "burner",
     "word": "burner",
@@ -19009,7 +19043,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0500-burnper",
+    "id": "index-0501-burnper",
     "type": "word",
     "text": "burnper",
     "word": "burnper",
@@ -19043,7 +19077,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0501-burp",
+    "id": "index-0502-burp",
     "type": "word",
     "text": "burp",
     "word": "burp",
@@ -19077,7 +19111,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0502-burrito",
+    "id": "index-0503-burrito",
     "type": "word",
     "text": "burrito",
     "word": "burrito",
@@ -19111,7 +19145,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0503-bus",
+    "id": "index-0504-bus",
     "type": "word",
     "text": "bus",
     "word": "bus",
@@ -19160,7 +19194,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0504-bus-driver",
+    "id": "index-0505-bus-driver",
     "type": "word",
     "text": "bus driver",
     "word": "bus driver",
@@ -19209,7 +19243,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0505-bus-iare",
+    "id": "index-0506-bus-iare",
     "type": "word",
     "text": "bus iare",
     "word": "bus iare",
@@ -19243,7 +19277,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0506-bus-route",
+    "id": "index-0507-bus-route",
     "type": "word",
     "text": "bus route",
     "word": "bus route",
@@ -19279,7 +19313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0507-bus-station",
+    "id": "index-0508-bus-station",
     "type": "word",
     "text": "bus station",
     "word": "bus station",
@@ -19328,7 +19362,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0508-bus-stop",
+    "id": "index-0509-bus-stop",
     "type": "word",
     "text": "bus stop",
     "word": "bus stop",
@@ -19377,7 +19411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0509-bus-tour",
+    "id": "index-0510-bus-tour",
     "type": "word",
     "text": "bus tour",
     "word": "bus tour",
@@ -19428,7 +19462,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0510-bush",
+    "id": "index-0511-bush",
     "type": "word",
     "text": "bush",
     "word": "bush",
@@ -19462,7 +19496,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0511-business-education",
+    "id": "index-0512-business-education",
     "type": "word",
     "text": "business education",
     "word": "business education",
@@ -19496,7 +19530,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0512-business-trip",
+    "id": "index-0513-business-trip",
     "type": "word",
     "text": "business trip",
     "word": "business trip",
@@ -19530,7 +19564,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0513-businessman",
+    "id": "index-0514-businessman",
     "type": "word",
     "text": "businessman",
     "word": "businessman",
@@ -19564,7 +19598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0514-businesswornan",
+    "id": "index-0515-businesswornan",
     "type": "word",
     "text": "businesswornan",
     "word": "businesswornan",
@@ -19598,7 +19632,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0515-busperson",
+    "id": "index-0516-busperson",
     "type": "word",
     "text": "busperson",
     "word": "busperson",
@@ -19632,7 +19666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0516-butcher",
+    "id": "index-0517-butcher",
     "type": "word",
     "text": "butcher",
     "word": "butcher",
@@ -19666,7 +19700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0517-butter",
+    "id": "index-0518-butter",
     "type": "word",
     "text": "butter",
     "word": "butter",
@@ -19700,7 +19734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0518-butter-knife",
+    "id": "index-0519-butter-knife",
     "type": "word",
     "text": "butter knife",
     "word": "butter knife",
@@ -19734,7 +19768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0519-butterfly",
+    "id": "index-0520-butterfly",
     "type": "word",
     "text": "butterfly",
     "word": "butterfly",
@@ -19768,7 +19802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0520-butternut-squash",
+    "id": "index-0521-butternut-squash",
     "type": "word",
     "text": "butternut squash",
     "word": "butternut squash",
@@ -19802,7 +19836,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0521-buttocks",
+    "id": "index-0522-buttocks",
     "type": "word",
     "text": "buttocks",
     "word": "buttocks",
@@ -19836,7 +19870,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0522-button",
+    "id": "index-0523-button",
     "type": "word",
     "text": "button",
     "word": "button",
@@ -19870,7 +19904,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0523-buttonhole",
+    "id": "index-0524-buttonhole",
     "type": "word",
     "text": "buttonhole",
     "word": "buttonhole",
@@ -19904,7 +19938,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0524-buy",
+    "id": "index-0525-buy",
     "type": "word",
     "text": "buy",
     "word": "buy",
@@ -19938,7 +19972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0525-buy-two-tlckets",
+    "id": "index-0526-buy-two-tlckets",
     "type": "word",
     "text": "buy two tlckets",
     "word": "buy two tlckets",
@@ -19972,7 +20006,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0526-buythis",
+    "id": "index-0527-buythis",
     "type": "word",
     "text": "buythis",
     "word": "buythis",
@@ -20006,7 +20040,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0527-buzzer",
+    "id": "index-0528-buzzer",
     "type": "word",
     "text": "buzzer",
     "word": "buzzer",
@@ -20040,7 +20074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0528-bye",
+    "id": "index-0529-bye",
     "type": "word",
     "text": "Bye.",
     "word": "Bye.",
@@ -20074,7 +20108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0529-cab",
+    "id": "index-0530-cab",
     "type": "word",
     "text": "cab",
     "word": "cab",
@@ -20123,7 +20157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0530-cab-driver",
+    "id": "index-0531-cab-driver",
     "type": "word",
     "text": "cab driver",
     "word": "cab driver",
@@ -20172,7 +20206,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0531-cabbaqe",
+    "id": "index-0532-cabbaqe",
     "type": "word",
     "text": "cabbaqe",
     "word": "cabbaqe",
@@ -20206,7 +20240,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0532-cabinet",
+    "id": "index-0533-cabinet",
     "type": "word",
     "text": "cabinet",
     "word": "cabinet",
@@ -20240,7 +20274,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0533-cable",
+    "id": "index-0534-cable",
     "type": "word",
     "text": "cable",
     "word": "cable",
@@ -20274,7 +20308,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0534-cable-tv",
+    "id": "index-0535-cable-tv",
     "type": "word",
     "text": "cable TV",
     "word": "cable TV",
@@ -20308,7 +20342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0535-cable-tv-bill",
+    "id": "index-0536-cable-tv-bill",
     "type": "word",
     "text": "cable TV bill",
     "word": "cable TV bill",
@@ -20342,7 +20376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0536-cable-tv-company",
+    "id": "index-0537-cable-tv-company",
     "type": "word",
     "text": "cable TV company",
     "word": "cable TV company",
@@ -20376,7 +20410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0537-cactus",
+    "id": "index-0538-cactus",
     "type": "word",
     "text": "cactus",
     "word": "cactus",
@@ -20410,7 +20444,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0538-caesar-salad",
+    "id": "index-0539-caesar-salad",
     "type": "word",
     "text": "Caesar salad",
     "word": "Caesar salad",
@@ -20444,7 +20478,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0539-cafe",
+    "id": "index-0540-cafe",
     "type": "word",
     "text": "cafe",
     "word": "cafe",
@@ -20478,7 +20512,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0540-cafeteria",
+    "id": "index-0541-cafeteria",
     "type": "word",
     "text": "cafeteria",
     "word": "cafeteria",
@@ -20512,7 +20546,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0541-cafeteria-worker",
+    "id": "index-0542-cafeteria-worker",
     "type": "word",
     "text": "cafeteria worker",
     "word": "cafeteria worker",
@@ -20546,7 +20580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0542-cake",
+    "id": "index-0543-cake",
     "type": "word",
     "text": "cake",
     "word": "cake",
@@ -20580,7 +20614,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0543-cake-pan",
+    "id": "index-0544-cake-pan",
     "type": "word",
     "text": "cake pan",
     "word": "cake pan",
@@ -20614,7 +20648,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0544-cake-rnix",
+    "id": "index-0545-cake-rnix",
     "type": "word",
     "text": "cake rnix",
     "word": "cake rnix",
@@ -20648,7 +20682,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0545-calculator",
+    "id": "index-0546-calculator",
     "type": "word",
     "text": "calculator",
     "word": "calculator",
@@ -20697,7 +20731,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0546-calculus",
+    "id": "index-0547-calculus",
     "type": "word",
     "text": "calculus",
     "word": "calculus",
@@ -20731,7 +20765,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0547-calf",
+    "id": "index-0548-calf",
     "type": "word",
     "text": "calf",
     "word": "calf",
@@ -20765,7 +20799,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0548-call-button-97",
+    "id": "index-0549-call-button-97",
     "type": "word",
     "text": "call button 97-?",
     "word": "call button 97-?",
@@ -20799,7 +20833,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0549-callular-phone",
+    "id": "index-0550-callular-phone",
     "type": "word",
     "text": "callular phone",
     "word": "callular phone",
@@ -20833,7 +20867,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0550-camcorder",
+    "id": "index-0551-camcorder",
     "type": "word",
     "text": "camcorder",
     "word": "camcorder",
@@ -20867,7 +20901,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0551-camera",
+    "id": "index-0552-camera",
     "type": "word",
     "text": "camera",
     "word": "camera",
@@ -20916,7 +20950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0552-camera-case",
+    "id": "index-0553-camera-case",
     "type": "word",
     "text": "camera case",
     "word": "camera case",
@@ -20950,7 +20984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0553-camisole",
+    "id": "index-0554-camisole",
     "type": "word",
     "text": "camisole",
     "word": "camisole",
@@ -20984,7 +21018,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0554-camper",
+    "id": "index-0555-camper",
     "type": "word",
     "text": "camper",
     "word": "camper",
@@ -21033,7 +21067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0555-camping",
+    "id": "index-0556-camping",
     "type": "word",
     "text": "camping",
     "word": "camping",
@@ -21067,7 +21101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0556-camping-stove",
+    "id": "index-0557-camping-stove",
     "type": "word",
     "text": "camping stove",
     "word": "camping stove",
@@ -21101,7 +21135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0557-can",
+    "id": "index-0558-can",
     "type": "word",
     "text": "can",
     "word": "can",
@@ -21135,7 +21169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0558-can-opener",
+    "id": "index-0559-can-opener",
     "type": "word",
     "text": "can opener",
     "word": "can opener",
@@ -21184,7 +21218,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0559-can-you-please-repeat-okay",
+    "id": "index-0560-can-you-please-repeat-okay",
     "type": "word",
     "text": "Can you please repeat Okay.",
     "word": "Can you please repeat Okay.",
@@ -21222,7 +21256,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0560-can-you-please-repeat-that",
+    "id": "index-0561-can-you-please-repeat-that",
     "type": "word",
     "text": "Can you please repeat that?",
     "word": "Can you please repeat that?",
@@ -21259,7 +21293,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0561-can-you-please-say-that-again",
+    "id": "index-0562-can-you-please-say-that-again",
     "type": "word",
     "text": "Can you please say that again?",
     "word": "Can you please say that again?",
@@ -21298,7 +21332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0562-can-you-please-say-that-me",
+    "id": "index-0563-can-you-please-say-that-me",
     "type": "word",
     "text": "Can you please say that me!",
     "word": "Can you please say that me!",
@@ -21336,7 +21370,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0563-can-you-please-send-pleasespeak-slowly-wheat",
+    "id": "index-0564-can-you-please-send-pleasespeak-slowly-wheat",
     "type": "word",
     "text": "Can you please send Pleasespeak slowly. wheat",
     "word": "Can you please send Pleasespeak slowly. wheat",
@@ -21374,7 +21408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0564-can-you-please-send-someone-to-get-my-bags",
+    "id": "index-0565-can-you-please-send-someone-to-get-my-bags",
     "type": "word",
     "text": "Can you please send someone to get my bags?",
     "word": "Can you please send someone to get my bags?",
@@ -21411,7 +21445,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0565-can-return-machine",
+    "id": "index-0566-can-return-machine",
     "type": "word",
     "text": "can-return machine",
     "word": "can-return machine",
@@ -21445,7 +21479,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0566-canary",
+    "id": "index-0567-canary",
     "type": "word",
     "text": "canary",
     "word": "canary",
@@ -21479,7 +21513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0567-cancer",
+    "id": "index-0568-cancer",
     "type": "word",
     "text": "cancer",
     "word": "cancer",
@@ -21513,7 +21547,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0568-candle",
+    "id": "index-0569-candle",
     "type": "word",
     "text": "candle",
     "word": "candle",
@@ -21547,7 +21581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0569-candlestick",
+    "id": "index-0570-candlestick",
     "type": "word",
     "text": "candlestick",
     "word": "candlestick",
@@ -21581,7 +21615,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0570-candy",
+    "id": "index-0571-candy",
     "type": "word",
     "text": "candy",
     "word": "candy",
@@ -21615,7 +21649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0571-candy-sto-re",
+    "id": "index-0572-candy-sto-re",
     "type": "word",
     "text": "candy sto re",
     "word": "candy sto re",
@@ -21649,7 +21683,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0572-cane",
+    "id": "index-0573-cane",
     "type": "word",
     "text": "cane",
     "word": "cane",
@@ -21683,7 +21717,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0573-canister",
+    "id": "index-0574-canister",
     "type": "word",
     "text": "canister",
     "word": "canister",
@@ -21717,7 +21751,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0574-canned-fruit",
+    "id": "index-0575-canned-fruit",
     "type": "word",
     "text": "canned fruit",
     "word": "canned fruit",
@@ -21751,7 +21785,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0575-canned-goods",
+    "id": "index-0576-canned-goods",
     "type": "word",
     "text": "canned goods",
     "word": "canned goods",
@@ -21787,7 +21821,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0576-canned-vegetables",
+    "id": "index-0577-canned-vegetables",
     "type": "word",
     "text": "canned vegetables",
     "word": "canned vegetables",
@@ -21821,7 +21855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0577-canoe",
+    "id": "index-0578-canoe",
     "type": "word",
     "text": "canoe",
     "word": "canoe",
@@ -21857,7 +21891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0578-canoeinq",
+    "id": "index-0579-canoeinq",
     "type": "word",
     "text": "canoeinq",
     "word": "canoeinq",
@@ -21893,7 +21927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0579-cantaloupe",
+    "id": "index-0580-cantaloupe",
     "type": "word",
     "text": "cantaloupe",
     "word": "cantaloupe",
@@ -21929,7 +21963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0580-canteen",
+    "id": "index-0581-canteen",
     "type": "word",
     "text": "canteen",
     "word": "canteen",
@@ -21965,7 +21999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0581-canvas",
+    "id": "index-0582-canvas",
     "type": "word",
     "text": "canvas",
     "word": "canvas",
@@ -21999,7 +22033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0582-canyon",
+    "id": "index-0583-canyon",
     "type": "word",
     "text": "canyon",
     "word": "canyon",
@@ -22033,7 +22067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0583-cap",
+    "id": "index-0584-cap",
     "type": "word",
     "text": "cap",
     "word": "cap",
@@ -22067,7 +22101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0584-caplet",
+    "id": "index-0585-caplet",
     "type": "word",
     "text": "caplet",
     "word": "caplet",
@@ -22101,7 +22135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0585-capsule",
+    "id": "index-0586-capsule",
     "type": "word",
     "text": "capsule",
     "word": "capsule",
@@ -22135,7 +22169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0586-captain",
+    "id": "index-0587-captain",
     "type": "word",
     "text": "captain",
     "word": "captain",
@@ -22171,7 +22205,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0587-car",
+    "id": "index-0588-car",
     "type": "word",
     "text": "car",
     "word": "car",
@@ -22220,7 +22254,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0588-car-dealership",
+    "id": "index-0589-car-dealership",
     "type": "word",
     "text": "car dealership",
     "word": "car dealership",
@@ -22256,7 +22290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0589-car-jacking",
+    "id": "index-0590-car-jacking",
     "type": "word",
     "text": "car jacking",
     "word": "car jacking",
@@ -22290,7 +22324,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0590-car-payment",
+    "id": "index-0591-car-payment",
     "type": "word",
     "text": "car payment",
     "word": "car payment",
@@ -22326,7 +22360,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0591-car-rental-counters",
+    "id": "index-0592-car-rental-counters",
     "type": "word",
     "text": "car rental counters",
     "word": "car rental counters",
@@ -22362,7 +22396,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0592-card",
+    "id": "index-0593-card",
     "type": "word",
     "text": "card",
     "word": "card",
@@ -22411,7 +22445,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0593-card-cataloq",
+    "id": "index-0594-card-cataloq",
     "type": "word",
     "text": "card cataloq",
     "word": "card cataloq",
@@ -22445,7 +22479,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0594-card-machine",
+    "id": "index-0595-card-machine",
     "type": "word",
     "text": "card machine",
     "word": "card machine",
@@ -22479,7 +22513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0595-card-store",
+    "id": "index-0596-card-store",
     "type": "word",
     "text": "card store",
     "word": "card store",
@@ -22513,7 +22547,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0596-cardigan-sweater",
+    "id": "index-0597-cardigan-sweater",
     "type": "word",
     "text": "cardigan sweater",
     "word": "cardigan sweater",
@@ -22549,7 +22583,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0597-cardinal",
+    "id": "index-0598-cardinal",
     "type": "word",
     "text": "cardinal",
     "word": "cardinal",
@@ -22583,7 +22617,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0598-cardinal-number",
+    "id": "index-0599-cardinal-number",
     "type": "word",
     "text": "cardinal number",
     "word": "cardinal number",
@@ -22632,7 +22666,41 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0599-cardiopulmonary-chalk",
+    "id": "index-0600-cardiologist",
+    "type": "word",
+    "text": "cardiologist",
+    "word": "cardiologist",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "96-1"
+    ],
+    "sourcePages": [
+      96
+    ],
+    "placements": [
+      {
+        "ref": "96-1",
+        "page": 96,
+        "theme": "health",
+        "topic": "Medical Specialists"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "health",
+    "topic": "Medical Specialists",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "ist",
+    "roots": [],
+    "syllableType": "open",
+    "vowelTeams": [],
+    "compound": false
+  },
+  {
+    "id": "index-0601-cardiopulmonary-chalk",
     "type": "word",
     "text": "cardiopulmonary chalk",
     "word": "cardiopulmonary chalk",
@@ -22666,7 +22734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0600-cards",
+    "id": "index-0602-cards",
     "type": "word",
     "text": "cards",
     "word": "cards",
@@ -22728,7 +22796,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0601-care-instructions",
+    "id": "index-0603-care-instructions",
     "type": "word",
     "text": "care instructions",
     "word": "care instructions",
@@ -22762,7 +22830,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0602-carnation",
+    "id": "index-0604-carnation",
     "type": "word",
     "text": "carnation",
     "word": "carnation",
@@ -22796,7 +22864,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0603-carnel",
+    "id": "index-0605-carnel",
     "type": "word",
     "text": "carnel",
     "word": "carnel",
@@ -22830,7 +22898,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0604-carnival",
+    "id": "index-0606-carnival",
     "type": "word",
     "text": "carnival",
     "word": "carnival",
@@ -22864,7 +22932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0605-carousel",
+    "id": "index-0607-carousel",
     "type": "word",
     "text": "carousel",
     "word": "carousel",
@@ -22900,7 +22968,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0606-carpenter",
+    "id": "index-0608-carpenter",
     "type": "word",
     "text": "carpenter",
     "word": "carpenter",
@@ -22949,7 +23017,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0607-carpet",
+    "id": "index-0609-carpet",
     "type": "word",
     "text": "carpet",
     "word": "carpet",
@@ -22983,7 +23051,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0608-carpet-sweeper",
+    "id": "index-0610-carpet-sweeper",
     "type": "word",
     "text": "carpet sweeper",
     "word": "carpet sweeper",
@@ -23019,7 +23087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0609-carpool",
+    "id": "index-0611-carpool",
     "type": "word",
     "text": "carpool",
     "word": "carpool",
@@ -23055,7 +23123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0610-carrot",
+    "id": "index-0612-carrot",
     "type": "word",
     "text": "carrot",
     "word": "carrot",
@@ -23089,7 +23157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0611-carry-on-bag",
+    "id": "index-0613-carry-on-bag",
     "type": "word",
     "text": "carry-on bag",
     "word": "carry-on bag",
@@ -23138,7 +23206,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0612-carton",
+    "id": "index-0614-carton",
     "type": "word",
     "text": "carton",
     "word": "carton",
@@ -23172,7 +23240,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0613-cartoon",
+    "id": "index-0615-cartoon",
     "type": "word",
     "text": "cartoon",
     "word": "cartoon",
@@ -23222,7 +23290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0614-cartwheel",
+    "id": "index-0616-cartwheel",
     "type": "word",
     "text": "cartwheel",
     "word": "cartwheel",
@@ -23258,7 +23326,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0615-carving-knife",
+    "id": "index-0617-carving-knife",
     "type": "word",
     "text": "carving knife",
     "word": "carving knife",
@@ -23292,7 +23360,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0616-cash",
+    "id": "index-0618-cash",
     "type": "word",
     "text": "cash",
     "word": "cash",
@@ -23340,7 +23408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0617-cash-a-check",
+    "id": "index-0619-cash-a-check",
     "type": "word",
     "text": "cash a check",
     "word": "cash a check",
@@ -23374,7 +23442,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0618-cash-a-traveler-s-check-checkbook",
+    "id": "index-0620-cash-a-traveler-s-check-checkbook",
     "type": "word",
     "text": "cash a traveler's check checkbook",
     "word": "cash a traveler's check checkbook",
@@ -23424,7 +23492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0619-cash-machine",
+    "id": "index-0621-cash-machine",
     "type": "word",
     "text": "cash machine",
     "word": "cash machine",
@@ -23458,7 +23526,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0620-cash-register",
+    "id": "index-0622-cash-register",
     "type": "word",
     "text": "cash register",
     "word": "cash register",
@@ -23492,7 +23560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0621-cashier",
+    "id": "index-0623-cashier",
     "type": "word",
     "text": "cashier",
     "word": "cashier",
@@ -23543,7 +23611,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0622-casserole-dish",
+    "id": "index-0624-casserole-dish",
     "type": "word",
     "text": "casserole dish",
     "word": "casserole dish",
@@ -23577,7 +23645,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0623-cassette",
+    "id": "index-0625-cassette",
     "type": "word",
     "text": "cassette",
     "word": "cassette",
@@ -23611,7 +23679,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0624-cassette-deck",
+    "id": "index-0626-cassette-deck",
     "type": "word",
     "text": "cassette deck",
     "word": "cassette deck",
@@ -23645,7 +23713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0625-cassette-recorder",
+    "id": "index-0627-cassette-recorder",
     "type": "word",
     "text": "cassette recorder",
     "word": "cassette recorder",
@@ -23679,7 +23747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0626-cast",
+    "id": "index-0628-cast",
     "type": "word",
     "text": "cast",
     "word": "cast",
@@ -23713,7 +23781,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0627-cat",
+    "id": "index-0629-cat",
     "type": "word",
     "text": "cat",
     "word": "cat",
@@ -23762,7 +23830,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0628-cat-food",
+    "id": "index-0630-cat-food",
     "type": "word",
     "text": "cat food",
     "word": "cat food",
@@ -23798,7 +23866,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0629-catch",
+    "id": "index-0631-catch",
     "type": "word",
     "text": "catch",
     "word": "catch",
@@ -23832,7 +23900,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0630-catcher-s-mas-k",
+    "id": "index-0632-catcher-s-mas-k",
     "type": "word",
     "text": "catcher's mas k",
     "word": "catcher's mas k",
@@ -23866,7 +23934,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0631-catcher-s-mitt",
+    "id": "index-0633-catcher-s-mitt",
     "type": "word",
     "text": "catcher's mitt",
     "word": "catcher's mitt",
@@ -23900,7 +23968,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0632-caterpillar",
+    "id": "index-0634-caterpillar",
     "type": "word",
     "text": "caterpillar",
     "word": "caterpillar",
@@ -23934,7 +24002,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0633-catfish",
+    "id": "index-0635-catfish",
     "type": "word",
     "text": "catfish",
     "word": "catfish",
@@ -23968,7 +24036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0634-cauliflower",
+    "id": "index-0636-cauliflower",
     "type": "word",
     "text": "cauliflower",
     "word": "cauliflower",
@@ -24005,7 +24073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0635-cavity",
+    "id": "index-0637-cavity",
     "type": "word",
     "text": "cavity",
     "word": "cavity",
@@ -24054,7 +24122,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0636-cd",
+    "id": "index-0638-cd",
     "type": "word",
     "text": "CD",
     "word": "CD",
@@ -24103,7 +24171,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0637-cd-player",
+    "id": "index-0639-cd-player",
     "type": "word",
     "text": "CD player",
     "word": "CD player",
@@ -24154,7 +24222,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0638-cd-rom",
+    "id": "index-0640-cd-rom",
     "type": "word",
     "text": "CD-ROM",
     "word": "CD-ROM",
@@ -24188,7 +24256,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0639-cd-rom-drive",
+    "id": "index-0641-cd-rom-drive",
     "type": "word",
     "text": "CD-ROM drive",
     "word": "CD-ROM drive",
@@ -24222,7 +24290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0640-ceiling",
+    "id": "index-0642-ceiling",
     "type": "word",
     "text": "ceiling",
     "word": "ceiling",
@@ -24256,7 +24324,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0641-celery",
+    "id": "index-0643-celery",
     "type": "word",
     "text": "celery",
     "word": "celery",
@@ -24290,7 +24358,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0642-cell-phone",
+    "id": "index-0644-cell-phone",
     "type": "word",
     "text": "cell phone",
     "word": "cell phone",
@@ -24353,7 +24421,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0643-cell-phone-number",
+    "id": "index-0645-cell-phone-number",
     "type": "word",
     "text": "cell phone number",
     "word": "cell phone number",
@@ -24387,7 +24455,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0644-cello",
+    "id": "index-0646-cello",
     "type": "word",
     "text": "cello",
     "word": "cello",
@@ -24421,7 +24489,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0645-celsius",
+    "id": "index-0647-celsius",
     "type": "word",
     "text": "Celsius",
     "word": "Celsius",
@@ -24455,7 +24523,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0646-cement",
+    "id": "index-0648-cement",
     "type": "word",
     "text": "cement",
     "word": "cement",
@@ -24489,7 +24557,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0647-cement-mixer",
+    "id": "index-0649-cement-mixer",
     "type": "word",
     "text": "cement mixer",
     "word": "cement mixer",
@@ -24523,7 +24591,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0648-cent",
+    "id": "index-0650-cent",
     "type": "word",
     "text": "cent",
     "word": "cent",
@@ -24557,7 +24625,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0649-center",
+    "id": "index-0651-center",
     "type": "word",
     "text": "center",
     "word": "center",
@@ -24591,7 +24659,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0650-center-lane",
+    "id": "index-0652-center-lane",
     "type": "word",
     "text": "center lane",
     "word": "center lane",
@@ -24625,7 +24693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0651-centigrade",
+    "id": "index-0653-centigrade",
     "type": "word",
     "text": "Centigrade",
     "word": "Centigrade",
@@ -24674,7 +24742,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0652-centimeter",
+    "id": "index-0654-centimeter",
     "type": "word",
     "text": "centimeter",
     "word": "centimeter",
@@ -24708,7 +24776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0653-centipede",
+    "id": "index-0655-centipede",
     "type": "word",
     "text": "centipede",
     "word": "centipede",
@@ -24742,7 +24810,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0654-central-processing-un-t-chicken-wings",
+    "id": "index-0656-central-processing-un-t-chicken-wings",
     "type": "word",
     "text": "central processing unít chicken wings",
     "word": "central processing unít chicken wings",
@@ -24791,7 +24859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0655-cereal",
+    "id": "index-0657-cereal",
     "type": "word",
     "text": "cereal",
     "word": "cereal",
@@ -24827,7 +24895,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0656-chain",
+    "id": "index-0658-chain",
     "type": "word",
     "text": "chain",
     "word": "chain",
@@ -24892,7 +24960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0657-chair",
+    "id": "index-0659-chair",
     "type": "word",
     "text": "chair",
     "word": "chair",
@@ -24957,7 +25025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0658-chalkboard",
+    "id": "index-0660-chalkboard",
     "type": "word",
     "text": "chalkboard",
     "word": "chalkboard",
@@ -24993,7 +25061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0659-chandelier",
+    "id": "index-0661-chandelier",
     "type": "word",
     "text": "chandelier",
     "word": "chandelier",
@@ -25029,7 +25097,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0660-change-purse",
+    "id": "index-0662-change-purse",
     "type": "word",
     "text": "change purse",
     "word": "change purse",
@@ -25063,7 +25131,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0661-change-the-baby-s-brussels-sprout",
+    "id": "index-0663-change-the-baby-s-brussels-sprout",
     "type": "word",
     "text": "change the baby's brussels sprout",
     "word": "change the baby's brussels sprout",
@@ -25099,7 +25167,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0662-change-of-address-bubble-the-answer",
+    "id": "index-0664-change-of-address-bubble-the-answer",
     "type": "word",
     "text": "change-of-address bubble the answer",
     "word": "change-of-address bubble the answer",
@@ -25133,7 +25201,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0663-changing-pad",
+    "id": "index-0665-changing-pad",
     "type": "word",
     "text": "changing pad",
     "word": "changing pad",
@@ -25167,7 +25235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0664-changing-table",
+    "id": "index-0666-changing-table",
     "type": "word",
     "text": "changing table",
     "word": "changing table",
@@ -25201,7 +25269,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0665-cheap",
+    "id": "index-0667-cheap",
     "type": "word",
     "text": "cheap",
     "word": "cheap",
@@ -25237,7 +25305,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0666-check",
+    "id": "index-0668-check",
     "type": "word",
     "text": "check",
     "word": "check",
@@ -25313,7 +25381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0667-check-in-at-the-gate",
+    "id": "index-0669-check-in-at-the-gate",
     "type": "word",
     "text": "check in at the gate",
     "word": "check in at the gate",
@@ -25347,7 +25415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0668-check-number",
+    "id": "index-0670-check-number",
     "type": "word",
     "text": "check number",
     "word": "check number",
@@ -25381,7 +25449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0669-check-out",
+    "id": "index-0671-check-out",
     "type": "word",
     "text": "check out",
     "word": "check out",
@@ -25417,7 +25485,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0670-check-register",
+    "id": "index-0672-check-register",
     "type": "word",
     "text": "check register",
     "word": "check register",
@@ -25451,7 +25519,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0671-check-your-answers",
+    "id": "index-0673-check-your-answers",
     "type": "word",
     "text": "check your answers",
     "word": "check your answers",
@@ -25487,7 +25555,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0672-check-your-blood-bulbs",
+    "id": "index-0674-check-your-blood-bulbs",
     "type": "word",
     "text": "check your blood bulbs",
     "word": "check your blood bulbs",
@@ -25524,7 +25592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0673-check-in",
+    "id": "index-0675-check-in",
     "type": "word",
     "text": "check-in",
     "word": "check-in",
@@ -25558,7 +25626,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0674-check-in-counter",
+    "id": "index-0676-check-in-counter",
     "type": "word",
     "text": "check-in counter",
     "word": "check-in counter",
@@ -25594,7 +25662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0675-checked",
+    "id": "index-0677-checked",
     "type": "word",
     "text": "checked",
     "word": "checked",
@@ -25628,7 +25696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0676-checkers",
+    "id": "index-0678-checkers",
     "type": "word",
     "text": "checkers",
     "word": "checkers",
@@ -25662,7 +25730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0677-checkout",
+    "id": "index-0679-checkout",
     "type": "word",
     "text": "checkout",
     "word": "checkout",
@@ -25698,7 +25766,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0678-checkout-counter",
+    "id": "index-0680-checkout-counter",
     "type": "word",
     "text": "checkout counter",
     "word": "checkout counter",
@@ -25734,7 +25802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0679-checkout-desk",
+    "id": "index-0681-checkout-desk",
     "type": "word",
     "text": "checkout desk",
     "word": "checkout desk",
@@ -25770,7 +25838,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0680-checkout-line",
+    "id": "index-0682-checkout-line",
     "type": "word",
     "text": "checkout line",
     "word": "checkout line",
@@ -25806,7 +25874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0681-cheddar-cheese",
+    "id": "index-0683-cheddar-cheese",
     "type": "word",
     "text": "cheddar cheese",
     "word": "cheddar cheese",
@@ -25842,7 +25910,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0682-cheek",
+    "id": "index-0684-cheek",
     "type": "word",
     "text": "cheek",
     "word": "cheek",
@@ -25878,7 +25946,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0683-cheerleading",
+    "id": "index-0685-cheerleading",
     "type": "word",
     "text": "cheerleading",
     "word": "cheerleading",
@@ -25915,7 +25983,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0684-cheese",
+    "id": "index-0686-cheese",
     "type": "word",
     "text": "cheese",
     "word": "cheese",
@@ -25951,7 +26019,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0685-cheeseburger",
+    "id": "index-0687-cheeseburger",
     "type": "word",
     "text": "cheeseburger",
     "word": "cheeseburger",
@@ -25987,7 +26055,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0686-chef",
+    "id": "index-0688-chef",
     "type": "word",
     "text": "chef",
     "word": "chef",
@@ -26036,7 +26104,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0687-chemical-spill",
+    "id": "index-0689-chemical-spill",
     "type": "word",
     "text": "chemical spill",
     "word": "chemical spill",
@@ -26070,7 +26138,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0688-chemicals",
+    "id": "index-0690-chemicals",
     "type": "word",
     "text": "chemicals",
     "word": "chemicals",
@@ -26104,7 +26172,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0689-chemistry",
+    "id": "index-0691-chemistry",
     "type": "word",
     "text": "chemistry",
     "word": "chemistry",
@@ -26138,7 +26206,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0690-cherries",
+    "id": "index-0692-cherries",
     "type": "word",
     "text": "cherries",
     "word": "cherries",
@@ -26174,7 +26242,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0691-cherry",
+    "id": "index-0693-cherry",
     "type": "word",
     "text": "cherry",
     "word": "cherry",
@@ -26208,7 +26276,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0692-cherry-picker",
+    "id": "index-0694-cherry-picker",
     "type": "word",
     "text": "cherry picker",
     "word": "cherry picker",
@@ -26242,7 +26310,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0693-chess",
+    "id": "index-0695-chess",
     "type": "word",
     "text": "chess",
     "word": "chess",
@@ -26276,7 +26344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0694-chess-club",
+    "id": "index-0696-chess-club",
     "type": "word",
     "text": "chess club",
     "word": "chess club",
@@ -26310,7 +26378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0695-chest",
+    "id": "index-0697-chest",
     "type": "word",
     "text": "chest",
     "word": "chest",
@@ -26373,7 +26441,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0696-chest-of-drawers",
+    "id": "index-0698-chest-of-drawers",
     "type": "word",
     "text": "chest of drawers",
     "word": "chest of drawers",
@@ -26423,7 +26491,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0697-chest-pain",
+    "id": "index-0699-chest-pain",
     "type": "word",
     "text": "chest pain",
     "word": "chest pain",
@@ -26459,7 +26527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0698-chest-x-ray",
+    "id": "index-0700-chest-x-ray",
     "type": "word",
     "text": "chest X-ray",
     "word": "chest X-ray",
@@ -26495,7 +26563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0699-chewing-gum",
+    "id": "index-0701-chewing-gum",
     "type": "word",
     "text": "chewing gum",
     "word": "chewing gum",
@@ -26531,7 +26599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0700-chicken-breasts",
+    "id": "index-0702-chicken-breasts",
     "type": "word",
     "text": "chicken breasts",
     "word": "chicken breasts",
@@ -26567,7 +26635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0701-chicken-coop",
+    "id": "index-0703-chicken-coop",
     "type": "word",
     "text": "chicken coop",
     "word": "chicken coop",
@@ -26603,7 +26671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0702-chicken-legs",
+    "id": "index-0704-chicken-legs",
     "type": "word",
     "text": "chicken legs",
     "word": "chicken legs",
@@ -26637,7 +26705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0703-chicken-pox",
+    "id": "index-0705-chicken-pox",
     "type": "word",
     "text": "chicken pox",
     "word": "chicken pox",
@@ -26671,7 +26739,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0704-chicken-salad-sandwich-car-seat",
+    "id": "index-0706-chicken-salad-sandwich-car-seat",
     "type": "word",
     "text": "chicken salad sandwich car seat",
     "word": "chicken salad sandwich car seat",
@@ -26707,7 +26775,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0705-chicken-sandwich",
+    "id": "index-0707-chicken-sandwich",
     "type": "word",
     "text": "chicken sandwich",
     "word": "chicken sandwich",
@@ -26741,7 +26809,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0706-chicken-thighs",
+    "id": "index-0708-chicken-thighs",
     "type": "word",
     "text": "chicken thighs",
     "word": "chicken thighs",
@@ -26775,7 +26843,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0707-chicleen",
+    "id": "index-0709-chicleen",
     "type": "word",
     "text": "chicleen",
     "word": "chicleen",
@@ -26826,7 +26894,41 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0708-child-care-center",
+    "id": "index-0710-child",
+    "type": "word",
+    "text": "child",
+    "word": "child",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "42-3"
+    ],
+    "sourcePages": [
+      42
+    ],
+    "placements": [
+      {
+        "ref": "42-3",
+        "page": 42,
+        "theme": "describing",
+        "topic": "People and Physical Descriptions"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "describing",
+    "topic": "People and Physical Descriptions",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "open",
+    "vowelTeams": [],
+    "compound": false
+  },
+  {
+    "id": "index-0711-child-care-center",
     "type": "word",
     "text": "child-care center",
     "word": "child-care center",
@@ -26889,7 +26991,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0709-child-care-worker",
+    "id": "index-0712-child-care-worker",
     "type": "word",
     "text": "child-care worker",
     "word": "child-care worker",
@@ -26938,7 +27040,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0710-children",
+    "id": "index-0713-children",
     "type": "word",
     "text": "children",
     "word": "children",
@@ -26987,7 +27089,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0711-children-s-book",
+    "id": "index-0714-children-s-book",
     "type": "word",
     "text": "children's book",
     "word": "children's book",
@@ -27023,7 +27125,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0712-children-s-clothing-dogged",
+    "id": "index-0715-children-s-clothing-dogged",
     "type": "word",
     "text": "Children's Clothing dogged",
     "word": "Children's Clothing dogged",
@@ -27057,7 +27159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0713-children-s-program",
+    "id": "index-0716-children-s-program",
     "type": "word",
     "text": "children's program",
     "word": "children's program",
@@ -27091,7 +27193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0714-children-s-section",
+    "id": "index-0717-children-s-section",
     "type": "word",
     "text": "children's section",
     "word": "children's section",
@@ -27125,7 +27227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0715-chili",
+    "id": "index-0718-chili",
     "type": "word",
     "text": "chili",
     "word": "chili",
@@ -27159,7 +27261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0716-chills",
+    "id": "index-0719-chills",
     "type": "word",
     "text": "chills",
     "word": "chills",
@@ -27193,7 +27295,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0717-chimney",
+    "id": "index-0720-chimney",
     "type": "word",
     "text": "chimney",
     "word": "chimney",
@@ -27242,7 +27344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0718-chimneysweep",
+    "id": "index-0721-chimneysweep",
     "type": "word",
     "text": "chimneysweep",
     "word": "chimneysweep",
@@ -27278,7 +27380,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0719-chimpanzee",
+    "id": "index-0722-chimpanzee",
     "type": "word",
     "text": "chimpanzee",
     "word": "chimpanzee",
@@ -27314,7 +27416,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0720-chin",
+    "id": "index-0723-chin",
     "type": "word",
     "text": "chin",
     "word": "chin",
@@ -27348,7 +27450,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0721-china",
+    "id": "index-0724-china",
     "type": "word",
     "text": "china",
     "word": "china",
@@ -27382,7 +27484,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0722-china-cabinet",
+    "id": "index-0725-china-cabinet",
     "type": "word",
     "text": "china cabinet",
     "word": "china cabinet",
@@ -27416,7 +27518,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0723-chipmunk",
+    "id": "index-0726-chipmunk",
     "type": "word",
     "text": "chipmunk",
     "word": "chipmunk",
@@ -27450,7 +27552,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0724-chiropractor",
+    "id": "index-0727-chiropractor",
     "type": "word",
     "text": "chiropractor",
     "word": "chiropractor",
@@ -27484,7 +27586,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0725-chisel",
+    "id": "index-0728-chisel",
     "type": "word",
     "text": "chisel",
     "word": "chisel",
@@ -27518,7 +27620,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0726-chocolate-cake",
+    "id": "index-0729-chocolate-cake",
     "type": "word",
     "text": "chocolate cake",
     "word": "chocolate cake",
@@ -27552,7 +27654,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0727-chocolate-milk",
+    "id": "index-0730-chocolate-milk",
     "type": "word",
     "text": "chocolate milk",
     "word": "chocolate milk",
@@ -27586,7 +27688,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0728-choir",
+    "id": "index-0731-choir",
     "type": "word",
     "text": "choir",
     "word": "choir",
@@ -27622,7 +27724,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0729-choking",
+    "id": "index-0732-choking",
     "type": "word",
     "text": "choking",
     "word": "choking",
@@ -27656,7 +27758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0730-choose-the-correct-cocoa",
+    "id": "index-0733-choose-the-correct-cocoa",
     "type": "word",
     "text": "choose the correct cocoa",
     "word": "choose the correct cocoa",
@@ -27693,7 +27795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0731-chop",
+    "id": "index-0734-chop",
     "type": "word",
     "text": "chop",
     "word": "chop",
@@ -27727,7 +27829,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0732-chop-up",
+    "id": "index-0735-chop-up",
     "type": "word",
     "text": "chop up",
     "word": "chop up",
@@ -27761,7 +27863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0733-chorus",
+    "id": "index-0736-chorus",
     "type": "word",
     "text": "chorus",
     "word": "chorus",
@@ -27795,7 +27897,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0734-chrysanthemum",
+    "id": "index-0737-chrysanthemum",
     "type": "word",
     "text": "chrysanthemum",
     "word": "chrysanthemum",
@@ -27829,7 +27931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0735-church",
+    "id": "index-0738-church",
     "type": "word",
     "text": "church",
     "word": "church",
@@ -27863,7 +27965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0736-ch-ld-day-care-worker-certified-mail",
+    "id": "index-0739-ch-ld-day-care-worker-certified-mail",
     "type": "word",
     "text": "chíld day-care worker certified mail",
     "word": "chíld day-care worker certified mail",
@@ -27901,7 +28003,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0737-circular-saw",
+    "id": "index-0740-circular-saw",
     "type": "word",
     "text": "circular saw",
     "word": "circular saw",
@@ -27937,7 +28039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0738-circumference",
+    "id": "index-0741-circumference",
     "type": "word",
     "text": "circumference",
     "word": "circumference",
@@ -27971,7 +28073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0739-cirele",
+    "id": "index-0742-cirele",
     "type": "word",
     "text": "cirele",
     "word": "cirele",
@@ -28005,7 +28107,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0740-cirele-the-correct-answer-coffeemaker",
+    "id": "index-0743-cirele-the-correct-answer-coffeemaker",
     "type": "word",
     "text": "cirele the correct answer coffeemaker",
     "word": "cirele the correct answer coffeemaker",
@@ -28041,7 +28143,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0741-city",
+    "id": "index-0744-city",
     "type": "word",
     "text": "city",
     "word": "city",
@@ -28090,7 +28192,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0742-city-hall",
+    "id": "index-0745-city-hall",
     "type": "word",
     "text": "city hall",
     "word": "city hall",
@@ -28139,7 +28241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0743-city-manager",
+    "id": "index-0746-city-manager",
     "type": "word",
     "text": "city manager",
     "word": "city manager",
@@ -28188,7 +28290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0744-clarinet",
+    "id": "index-0747-clarinet",
     "type": "word",
     "text": "clarinet",
     "word": "clarinet",
@@ -28222,7 +28324,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0745-clarns",
+    "id": "index-0748-clarns",
     "type": "word",
     "text": "clarns",
     "word": "clarns",
@@ -28256,7 +28358,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0746-class",
+    "id": "index-0749-class",
     "type": "word",
     "text": "class",
     "word": "class",
@@ -28290,7 +28392,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0747-classical-music",
+    "id": "index-0750-classical-music",
     "type": "word",
     "text": "classical music",
     "word": "classical music",
@@ -28324,7 +28426,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0748-classified-ad",
+    "id": "index-0751-classified-ad",
     "type": "word",
     "text": "classified ad",
     "word": "classified ad",
@@ -28375,7 +28477,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0749-claw",
+    "id": "index-0752-claw",
     "type": "word",
     "text": "claw",
     "word": "claw",
@@ -28426,7 +28528,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0750-clean-the-bathroom",
+    "id": "index-0753-clean-the-bathroom",
     "type": "word",
     "text": "clean the bathroom",
     "word": "clean the bathroom",
@@ -28463,7 +28565,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0751-clean-the-house",
+    "id": "index-0754-clean-the-house",
     "type": "word",
     "text": "clean the house",
     "word": "clean the house",
@@ -28500,7 +28602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0752-cleanser",
+    "id": "index-0755-cleanser",
     "type": "word",
     "text": "cleanser",
     "word": "cleanser",
@@ -28536,7 +28638,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0753-clear",
+    "id": "index-0756-clear",
     "type": "word",
     "text": "clear",
     "word": "clear",
@@ -28572,7 +28674,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0754-clear-the-table",
+    "id": "index-0757-clear-the-table",
     "type": "word",
     "text": "clear the table",
     "word": "clear the table",
@@ -28608,7 +28710,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0755-climber",
+    "id": "index-0758-climber",
     "type": "word",
     "text": "climber",
     "word": "climber",
@@ -28642,7 +28744,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0756-climb-ng-wall",
+    "id": "index-0759-climb-ng-wall",
     "type": "word",
     "text": "climbíng wall",
     "word": "climbíng wall",
@@ -28676,7 +28778,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0757-clip-on-earrings",
+    "id": "index-0760-clip-on-earrings",
     "type": "word",
     "text": "clip-on earrings",
     "word": "clip-on earrings",
@@ -28712,7 +28814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0758-clippers",
+    "id": "index-0761-clippers",
     "type": "word",
     "text": "clippers",
     "word": "clippers",
@@ -28746,7 +28848,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0759-cllnic",
+    "id": "index-0762-cllnic",
     "type": "word",
     "text": "cllnic",
     "word": "cllnic",
@@ -28780,7 +28882,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0760-cllpboard",
+    "id": "index-0763-cllpboard",
     "type": "word",
     "text": "cllpboard",
     "word": "cllpboard",
@@ -28816,7 +28918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0761-closet",
+    "id": "index-0764-closet",
     "type": "word",
     "text": "closet",
     "word": "closet",
@@ -28850,7 +28952,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0762-cloth-diaper",
+    "id": "index-0765-cloth-diaper",
     "type": "word",
     "text": "cloth diaper",
     "word": "cloth diaper",
@@ -28884,7 +28986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0763-clothes",
+    "id": "index-0766-clothes",
     "type": "word",
     "text": "clothes",
     "word": "clothes",
@@ -28918,7 +29020,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0764-clothesline",
+    "id": "index-0767-clothesline",
     "type": "word",
     "text": "clothesline",
     "word": "clothesline",
@@ -28966,7 +29068,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0765-clothespin",
+    "id": "index-0768-clothespin",
     "type": "word",
     "text": "clothespin",
     "word": "clothespin",
@@ -29000,7 +29102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0766-co-pilot",
+    "id": "index-0769-co-pilot",
     "type": "word",
     "text": "co-pilot",
     "word": "co-pilot",
@@ -29034,7 +29136,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0767-coach",
+    "id": "index-0770-coach",
     "type": "word",
     "text": "coach",
     "word": "coach",
@@ -29070,7 +29172,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0768-coal",
+    "id": "index-0771-coal",
     "type": "word",
     "text": "coal",
     "word": "coal",
@@ -29106,7 +29208,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0769-coat",
+    "id": "index-0772-coat",
     "type": "word",
     "text": "coat",
     "word": "coat",
@@ -29157,7 +29259,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0770-coat-closet",
+    "id": "index-0773-coat-closet",
     "type": "word",
     "text": "coat closet",
     "word": "coat closet",
@@ -29207,7 +29309,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0771-coat-rack",
+    "id": "index-0774-coat-rack",
     "type": "word",
     "text": "coat rack",
     "word": "coat rack",
@@ -29243,7 +29345,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0772-cockpit",
+    "id": "index-0775-cockpit",
     "type": "word",
     "text": "cockpit",
     "word": "cockpit",
@@ -29277,7 +29379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0773-cockroaches",
+    "id": "index-0776-cockroaches",
     "type": "word",
     "text": "cockroaches",
     "word": "cockroaches",
@@ -29313,7 +29415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0774-coconut",
+    "id": "index-0777-coconut",
     "type": "word",
     "text": "coconut",
     "word": "coconut",
@@ -29347,7 +29449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0775-cocoon",
+    "id": "index-0778-cocoon",
     "type": "word",
     "text": "cocoon",
     "word": "cocoon",
@@ -29383,7 +29485,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0776-cod",
+    "id": "index-0779-cod",
     "type": "word",
     "text": "cod",
     "word": "cod",
@@ -29417,7 +29519,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0777-coffee",
+    "id": "index-0780-coffee",
     "type": "word",
     "text": "coffee",
     "word": "coffee",
@@ -29468,7 +29570,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0778-coffee-machine",
+    "id": "index-0781-coffee-machine",
     "type": "word",
     "text": "coffee machine",
     "word": "coffee machine",
@@ -29504,7 +29606,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0779-coffee-pot",
+    "id": "index-0782-coffee-pot",
     "type": "word",
     "text": "coffee pot",
     "word": "coffee pot",
@@ -29555,7 +29657,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0780-coffee-shop",
+    "id": "index-0783-coffee-shop",
     "type": "word",
     "text": "coffee shop",
     "word": "coffee shop",
@@ -29591,7 +29693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0781-coffee-table",
+    "id": "index-0784-coffee-table",
     "type": "word",
     "text": "coffee table",
     "word": "coffee table",
@@ -29627,7 +29729,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0782-coin-catalog",
+    "id": "index-0785-coin-catalog",
     "type": "word",
     "text": "coin catalog",
     "word": "coin catalog",
@@ -29663,7 +29765,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0783-coin-collection",
+    "id": "index-0786-coin-collection",
     "type": "word",
     "text": "coin collection",
     "word": "coin collection",
@@ -29699,7 +29801,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0784-coins",
+    "id": "index-0787-coins",
     "type": "word",
     "text": "coins",
     "word": "coins",
@@ -29735,7 +29837,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0785-colander",
+    "id": "index-0788-colander",
     "type": "word",
     "text": "colander",
     "word": "colander",
@@ -29769,7 +29871,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0786-cold",
+    "id": "index-0789-cold",
     "type": "word",
     "text": "cold",
     "word": "cold",
@@ -29845,7 +29947,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0787-cold-tablets",
+    "id": "index-0790-cold-tablets",
     "type": "word",
     "text": "cold tablets",
     "word": "cold tablets",
@@ -29879,7 +29981,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0788-cole-slaw",
+    "id": "index-0791-cole-slaw",
     "type": "word",
     "text": "cole slaw",
     "word": "cole slaw",
@@ -29915,7 +30017,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0789-collar",
+    "id": "index-0792-collar",
     "type": "word",
     "text": "collar",
     "word": "collar",
@@ -29949,7 +30051,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0790-collect-coins",
+    "id": "index-0793-collect-coins",
     "type": "word",
     "text": "collect coins",
     "word": "collect coins",
@@ -29985,7 +30087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0791-collect-stamps",
+    "id": "index-0794-collect-stamps",
     "type": "word",
     "text": "collect stamps",
     "word": "collect stamps",
@@ -30019,7 +30121,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0792-collect-the-tests",
+    "id": "index-0795-collect-the-tests",
     "type": "word",
     "text": "collect the tests",
     "word": "collect the tests",
@@ -30053,7 +30155,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0793-college",
+    "id": "index-0796-college",
     "type": "word",
     "text": "college",
     "word": "college",
@@ -30087,7 +30189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0794-cologne",
+    "id": "index-0797-cologne",
     "type": "word",
     "text": "cologne",
     "word": "cologne",
@@ -30121,7 +30223,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0795-colon",
+    "id": "index-0798-colon",
     "type": "word",
     "text": "colon",
     "word": "colon",
@@ -30155,7 +30257,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0796-color-markers",
+    "id": "index-0799-color-markers",
     "type": "word",
     "text": "color markers",
     "word": "color markers",
@@ -30189,7 +30291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0797-colored-pencils",
+    "id": "index-0800-colored-pencils",
     "type": "word",
     "text": "colored pencils",
     "word": "colored pencils",
@@ -30223,7 +30325,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0798-coloring-book",
+    "id": "index-0801-coloring-book",
     "type": "word",
     "text": "coloring book",
     "word": "coloring book",
@@ -30259,7 +30361,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0799-comb",
+    "id": "index-0802-comb",
     "type": "word",
     "text": "comb",
     "word": "comb",
@@ -30293,7 +30395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0800-comb-my-hair",
+    "id": "index-0803-comb-my-hair",
     "type": "word",
     "text": "comb my hair",
     "word": "comb my hair",
@@ -30344,7 +30446,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0801-combine",
+    "id": "index-0804-combine",
     "type": "word",
     "text": "combine",
     "word": "combine",
@@ -30393,7 +30495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0802-come-home",
+    "id": "index-0805-come-home",
     "type": "word",
     "text": "come home",
     "word": "come home",
@@ -30442,7 +30544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0803-comed-beef",
+    "id": "index-0806-comed-beef",
     "type": "word",
     "text": "comed beef",
     "word": "comed beef",
@@ -30478,7 +30580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0804-comed-beef-sandwich-chili-pepper",
+    "id": "index-0807-comed-beef-sandwich-chili-pepper",
     "type": "word",
     "text": "comed beef sandwich chili pepper",
     "word": "comed beef sandwich chili pepper",
@@ -30514,7 +30616,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0805-comedian",
+    "id": "index-0808-comedian",
     "type": "word",
     "text": "comedian",
     "word": "comedian",
@@ -30548,7 +30650,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0806-comedy",
+    "id": "index-0809-comedy",
     "type": "word",
     "text": "comedy",
     "word": "comedy",
@@ -30610,7 +30712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0807-comedy-club",
+    "id": "index-0810-comedy-club",
     "type": "word",
     "text": "comedy club",
     "word": "comedy club",
@@ -30644,7 +30746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0808-comet",
+    "id": "index-0811-comet",
     "type": "word",
     "text": "comet",
     "word": "comet",
@@ -30678,7 +30780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0809-comfortable",
+    "id": "index-0812-comfortable",
     "type": "word",
     "text": "comfortable",
     "word": "comfortable",
@@ -30712,7 +30814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0810-comforter",
+    "id": "index-0813-comforter",
     "type": "word",
     "text": "comforter",
     "word": "comforter",
@@ -30746,7 +30848,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0811-comma",
+    "id": "index-0814-comma",
     "type": "word",
     "text": "comma",
     "word": "comma",
@@ -30780,7 +30882,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0812-community-college",
+    "id": "index-0815-community-college",
     "type": "word",
     "text": "community college",
     "word": "community college",
@@ -30814,7 +30916,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0813-community-serv-ce",
+    "id": "index-0816-community-serv-ce",
     "type": "word",
     "text": "community servíce",
     "word": "community servíce",
@@ -30848,7 +30950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0814-compact-disc",
+    "id": "index-0817-compact-disc",
     "type": "word",
     "text": "compact disc",
     "word": "compact disc",
@@ -30882,7 +30984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0815-compartment",
+    "id": "index-0818-compartment",
     "type": "word",
     "text": "compartment",
     "word": "compartment",
@@ -30916,7 +31018,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0816-compass",
+    "id": "index-0819-compass",
     "type": "word",
     "text": "compass",
     "word": "compass",
@@ -30950,7 +31052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0817-compass-directions",
+    "id": "index-0820-compass-directions",
     "type": "word",
     "text": "compass directions",
     "word": "compass directions",
@@ -30984,7 +31086,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0818-computer",
+    "id": "index-0821-computer",
     "type": "word",
     "text": "computer",
     "word": "computer",
@@ -31074,7 +31176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0819-computer-elub",
+    "id": "index-0822-computer-elub",
     "type": "word",
     "text": "computer elub",
     "word": "computer elub",
@@ -31108,7 +31210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0820-computer-game",
+    "id": "index-0823-computer-game",
     "type": "word",
     "text": "computer game",
     "word": "computer game",
@@ -31142,7 +31244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0821-computer-hardware",
+    "id": "index-0824-computer-hardware",
     "type": "word",
     "text": "computer hardware",
     "word": "computer hardware",
@@ -31176,7 +31278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0822-computer-science",
+    "id": "index-0825-computer-science",
     "type": "word",
     "text": "computer science",
     "word": "computer science",
@@ -31227,7 +31329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0823-computer-software",
+    "id": "index-0826-computer-software",
     "type": "word",
     "text": "computer software",
     "word": "computer software",
@@ -31289,7 +31391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0824-computer-software-correction-fluid",
+    "id": "index-0827-computer-software-correction-fluid",
     "type": "word",
     "text": "computer software correction fluid",
     "word": "computer software correction fluid",
@@ -31323,7 +31425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0825-computer-store",
+    "id": "index-0828-computer-store",
     "type": "word",
     "text": "computer store",
     "word": "computer store",
@@ -31357,7 +31459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0826-computer-workstation-cotton",
+    "id": "index-0829-computer-workstation-cotton",
     "type": "word",
     "text": "computer workstation cotton",
     "word": "computer workstation cotton",
@@ -31406,7 +31508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0827-concert",
+    "id": "index-0830-concert",
     "type": "word",
     "text": "concert",
     "word": "concert",
@@ -31482,7 +31584,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0828-concert-hall",
+    "id": "index-0831-concert-hall",
     "type": "word",
     "text": "concert hall",
     "word": "concert hall",
@@ -31516,7 +31618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0829-concierge",
+    "id": "index-0832-concierge",
     "type": "word",
     "text": "concierge",
     "word": "concierge",
@@ -31567,7 +31669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0830-concierge-desk",
+    "id": "index-0833-concierge-desk",
     "type": "word",
     "text": "concierge desk",
     "word": "concierge desk",
@@ -31603,7 +31705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0831-conclusions",
+    "id": "index-0834-conclusions",
     "type": "word",
     "text": "conclusions",
     "word": "conclusions",
@@ -31637,7 +31739,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0832-concrete",
+    "id": "index-0835-concrete",
     "type": "word",
     "text": "concrete",
     "word": "concrete",
@@ -31671,7 +31773,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0833-concrete-mixer-truck-country-rnusic",
+    "id": "index-0836-concrete-mixer-truck-country-rnusic",
     "type": "word",
     "text": "concrete mixer truck country rnusic",
     "word": "concrete mixer truck country rnusic",
@@ -31707,7 +31809,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0834-condiments",
+    "id": "index-0837-condiments",
     "type": "word",
     "text": "condiments",
     "word": "condiments",
@@ -31741,7 +31843,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0835-conditioner",
+    "id": "index-0838-conditioner",
     "type": "word",
     "text": "conditioner",
     "word": "conditioner",
@@ -31775,7 +31877,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0836-condo",
+    "id": "index-0839-condo",
     "type": "word",
     "text": "condo",
     "word": "condo",
@@ -31809,7 +31911,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0837-condominium",
+    "id": "index-0840-condominium",
     "type": "word",
     "text": "condominium",
     "word": "condominium",
@@ -31843,7 +31945,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0838-conductor",
+    "id": "index-0841-conductor",
     "type": "word",
     "text": "conductor",
     "word": "conductor",
@@ -31892,7 +31994,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0839-cone",
+    "id": "index-0842-cone",
     "type": "word",
     "text": "cone",
     "word": "cone",
@@ -31926,7 +32028,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0840-conference-table",
+    "id": "index-0843-conference-table",
     "type": "word",
     "text": "conference table",
     "word": "conference table",
@@ -31960,7 +32062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0841-confused",
+    "id": "index-0844-confused",
     "type": "word",
     "text": "confused",
     "word": "confused",
@@ -31994,7 +32096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0842-congested",
+    "id": "index-0845-congested",
     "type": "word",
     "text": "congested",
     "word": "congested",
@@ -32028,7 +32130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0843-conservation",
+    "id": "index-0846-conservation",
     "type": "word",
     "text": "conservation",
     "word": "conservation",
@@ -32062,7 +32164,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0844-conserve-energy",
+    "id": "index-0847-conserve-energy",
     "type": "word",
     "text": "conserve energy",
     "word": "conserve energy",
@@ -32096,7 +32198,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0845-conserve-water",
+    "id": "index-0848-conserve-water",
     "type": "word",
     "text": "conserve water",
     "word": "conserve water",
@@ -32130,7 +32232,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0846-constellation",
+    "id": "index-0849-constellation",
     "type": "word",
     "text": "constellation",
     "word": "constellation",
@@ -32164,7 +32266,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0847-construct",
+    "id": "index-0850-construct",
     "type": "word",
     "text": "construct",
     "word": "construct",
@@ -32198,7 +32300,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0848-construction-paper",
+    "id": "index-0851-construction-paper",
     "type": "word",
     "text": "construction paper",
     "word": "construction paper",
@@ -32232,7 +32334,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0849-construction-worker",
+    "id": "index-0852-construction-worker",
     "type": "word",
     "text": "construction worker",
     "word": "construction worker",
@@ -32266,7 +32368,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0850-construct-on-set",
+    "id": "index-0853-construct-on-set",
     "type": "word",
     "text": "constructíon set",
     "word": "constructíon set",
@@ -32300,7 +32402,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0851-container",
+    "id": "index-0854-container",
     "type": "word",
     "text": "container",
     "word": "container",
@@ -32336,7 +32438,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0852-control-tower",
+    "id": "index-0855-control-tower",
     "type": "word",
     "text": "control tower",
     "word": "control tower",
@@ -32372,7 +32474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0853-convenience-store",
+    "id": "index-0856-convenience-store",
     "type": "word",
     "text": "convenience store",
     "word": "convenience store",
@@ -32408,7 +32510,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0854-convertible",
+    "id": "index-0857-convertible",
     "type": "word",
     "text": "convertible",
     "word": "convertible",
@@ -32442,7 +32544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0855-conveyor-belt",
+    "id": "index-0858-conveyor-belt",
     "type": "word",
     "text": "conveyor belt",
     "word": "conveyor belt",
@@ -32518,7 +32620,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0856-cook",
+    "id": "index-0859-cook",
     "type": "word",
     "text": "cook",
     "word": "cook",
@@ -32583,7 +32685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0857-cook-dinner",
+    "id": "index-0860-cook-dinner",
     "type": "word",
     "text": "cook dinner",
     "word": "cook dinner",
@@ -32619,7 +32721,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0858-cookbook",
+    "id": "index-0861-cookbook",
     "type": "word",
     "text": "cookbook",
     "word": "cookbook",
@@ -32655,7 +32757,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0859-cookie-cutter",
+    "id": "index-0862-cookie-cutter",
     "type": "word",
     "text": "cookie cutter",
     "word": "cookie cutter",
@@ -32692,7 +32794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0860-cookie-sheet",
+    "id": "index-0863-cookie-sheet",
     "type": "word",
     "text": "cookie sheet",
     "word": "cookie sheet",
@@ -32730,7 +32832,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0861-cookies",
+    "id": "index-0864-cookies",
     "type": "word",
     "text": "cookies",
     "word": "cookies",
@@ -32767,7 +32869,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0862-cooking-oil",
+    "id": "index-0865-cooking-oil",
     "type": "word",
     "text": "cooking oil",
     "word": "cooking oil",
@@ -32804,7 +32906,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0863-cool",
+    "id": "index-0866-cool",
     "type": "word",
     "text": "cool",
     "word": "cool",
@@ -32840,7 +32942,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0864-coolant",
+    "id": "index-0867-coolant",
     "type": "word",
     "text": "coolant",
     "word": "coolant",
@@ -32876,7 +32978,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0865-cooler",
+    "id": "index-0868-cooler",
     "type": "word",
     "text": "cooler",
     "word": "cooler",
@@ -32912,7 +33014,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0866-copier",
+    "id": "index-0869-copier",
     "type": "word",
     "text": "copier",
     "word": "copier",
@@ -32963,7 +33065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0867-copies",
+    "id": "index-0870-copies",
     "type": "word",
     "text": "copies",
     "word": "copies",
@@ -32999,7 +33101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0868-copy-center",
+    "id": "index-0871-copy-center",
     "type": "word",
     "text": "copy center",
     "word": "copy center",
@@ -33033,7 +33135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0869-copy-machine",
+    "id": "index-0872-copy-machine",
     "type": "word",
     "text": "copy machine",
     "word": "copy machine",
@@ -33067,7 +33169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0870-copy-the-word",
+    "id": "index-0873-copy-the-word",
     "type": "word",
     "text": "copy the word",
     "word": "copy the word",
@@ -33101,7 +33203,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0871-cordless-phone",
+    "id": "index-0874-cordless-phone",
     "type": "word",
     "text": "cordless phone",
     "word": "cordless phone",
@@ -33135,7 +33237,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0872-corn",
+    "id": "index-0875-corn",
     "type": "word",
     "text": "corn",
     "word": "corn",
@@ -33184,7 +33286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0873-cornea",
+    "id": "index-0876-cornea",
     "type": "word",
     "text": "cornea",
     "word": "cornea",
@@ -33220,7 +33322,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0874-correct",
+    "id": "index-0877-correct",
     "type": "word",
     "text": "correct",
     "word": "correct",
@@ -33268,7 +33370,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0875-correct-your-mistakes",
+    "id": "index-0878-correct-your-mistakes",
     "type": "word",
     "text": "correct your mistakes",
     "word": "correct your mistakes",
@@ -33304,7 +33406,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0876-corrections",
+    "id": "index-0879-corrections",
     "type": "word",
     "text": "corrections",
     "word": "corrections",
@@ -33338,7 +33440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0877-corrosive",
+    "id": "index-0880-corrosive",
     "type": "word",
     "text": "corrosive",
     "word": "corrosive",
@@ -33372,7 +33474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0878-cottage-cheese",
+    "id": "index-0881-cottage-cheese",
     "type": "word",
     "text": "cottage cheese",
     "word": "cottage cheese",
@@ -33408,7 +33510,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0879-cotton-balls",
+    "id": "index-0882-cotton-balls",
     "type": "word",
     "text": "cotton balls",
     "word": "cotton balls",
@@ -33442,7 +33544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0880-cotton-swab",
+    "id": "index-0883-cotton-swab",
     "type": "word",
     "text": "cotton swab",
     "word": "cotton swab",
@@ -33476,7 +33578,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0881-cough",
+    "id": "index-0884-cough",
     "type": "word",
     "text": "cough",
     "word": "cough",
@@ -33527,7 +33629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0882-cough-drops",
+    "id": "index-0885-cough-drops",
     "type": "word",
     "text": "cough drops",
     "word": "cough drops",
@@ -33563,7 +33665,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0883-cough-syrup",
+    "id": "index-0886-cough-syrup",
     "type": "word",
     "text": "cough syrup",
     "word": "cough syrup",
@@ -33599,7 +33701,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0884-counseling",
+    "id": "index-0887-counseling",
     "type": "word",
     "text": "counseling",
     "word": "counseling",
@@ -33635,7 +33737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0885-counselor",
+    "id": "index-0888-counselor",
     "type": "word",
     "text": "counselor",
     "word": "counselor",
@@ -33686,7 +33788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0886-counter",
+    "id": "index-0889-counter",
     "type": "word",
     "text": "counter",
     "word": "counter",
@@ -33751,7 +33853,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0887-coupons",
+    "id": "index-0890-coupons",
     "type": "word",
     "text": "coupons",
     "word": "coupons",
@@ -33787,7 +33889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0888-courier",
+    "id": "index-0891-courier",
     "type": "word",
     "text": "courier",
     "word": "courier",
@@ -33824,7 +33926,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0889-courthouse",
+    "id": "index-0892-courthouse",
     "type": "word",
     "text": "courthouse",
     "word": "courthouse",
@@ -33860,7 +33962,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0890-courtyard",
+    "id": "index-0893-courtyard",
     "type": "word",
     "text": "courtyard",
     "word": "courtyard",
@@ -33896,7 +33998,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0891-cousin",
+    "id": "index-0894-cousin",
     "type": "word",
     "text": "cousin",
     "word": "cousin",
@@ -33947,7 +34049,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0892-cover",
+    "id": "index-0895-cover",
     "type": "word",
     "text": "cover",
     "word": "cover",
@@ -33981,7 +34083,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0893-cover-up",
+    "id": "index-0896-cover-up",
     "type": "word",
     "text": "cover-up",
     "word": "cover-up",
@@ -34015,7 +34117,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0894-cow",
+    "id": "index-0897-cow",
     "type": "word",
     "text": "cow",
     "word": "cow",
@@ -34051,7 +34153,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0895-cowboy-boots",
+    "id": "index-0898-cowboy-boots",
     "type": "word",
     "text": "cowboy boots",
     "word": "cowboy boots",
@@ -34089,7 +34191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0896-coyote",
+    "id": "index-0899-coyote",
     "type": "word",
     "text": "coyote",
     "word": "coyote",
@@ -34125,7 +34227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0897-cpr",
+    "id": "index-0900-cpr",
     "type": "word",
     "text": "CPR",
     "word": "CPR",
@@ -34159,7 +34261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0898-cpu",
+    "id": "index-0901-cpu",
     "type": "word",
     "text": "CPU",
     "word": "CPU",
@@ -34193,7 +34295,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0899-crab",
+    "id": "index-0902-crab",
     "type": "word",
     "text": "crab",
     "word": "crab",
@@ -34242,7 +34344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0900-cracked",
+    "id": "index-0903-cracked",
     "type": "word",
     "text": "cracked",
     "word": "cracked",
@@ -34276,7 +34378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0901-crackers",
+    "id": "index-0904-crackers",
     "type": "word",
     "text": "crackers",
     "word": "crackers",
@@ -34310,7 +34412,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0902-cradle",
+    "id": "index-0905-cradle",
     "type": "word",
     "text": "cradle",
     "word": "cradle",
@@ -34344,7 +34446,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0903-craft-fa-r",
+    "id": "index-0906-craft-fa-r",
     "type": "word",
     "text": "craft faír",
     "word": "craft faír",
@@ -34378,7 +34480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0904-cramps",
+    "id": "index-0907-cramps",
     "type": "word",
     "text": "cramps",
     "word": "cramps",
@@ -34412,7 +34514,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0905-crane",
+    "id": "index-0908-crane",
     "type": "word",
     "text": "crane",
     "word": "crane",
@@ -34461,7 +34563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0906-crayons",
+    "id": "index-0909-crayons",
     "type": "word",
     "text": "crayons",
     "word": "crayons",
@@ -34497,7 +34599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0907-crea-m",
+    "id": "index-0910-crea-m",
     "type": "word",
     "text": "crea m",
     "word": "crea m",
@@ -34533,7 +34635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0908-cream-cheese",
+    "id": "index-0911-cream-cheese",
     "type": "word",
     "text": "cream cheese",
     "word": "cream cheese",
@@ -34570,7 +34672,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0909-creamer",
+    "id": "index-0912-creamer",
     "type": "word",
     "text": "creamer",
     "word": "creamer",
@@ -34606,7 +34708,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0910-credit-card",
+    "id": "index-0913-credit-card",
     "type": "word",
     "text": "credit card",
     "word": "credit card",
@@ -34668,7 +34770,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0911-credit-card-bill",
+    "id": "index-0914-credit-card-bill",
     "type": "word",
     "text": "credit card bill",
     "word": "credit card bill",
@@ -34702,7 +34804,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0912-credit-card-number",
+    "id": "index-0915-credit-card-number",
     "type": "word",
     "text": "credit card number",
     "word": "credit card number",
@@ -34736,7 +34838,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0913-creme",
+    "id": "index-0916-creme",
     "type": "word",
     "text": "creme",
     "word": "creme",
@@ -34770,7 +34872,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0914-crescent-moon",
+    "id": "index-0917-crescent-moon",
     "type": "word",
     "text": "crescent moon",
     "word": "crescent moon",
@@ -34806,7 +34908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0915-crew-socks",
+    "id": "index-0918-crew-socks",
     "type": "word",
     "text": "crew socks",
     "word": "crew socks",
@@ -34842,7 +34944,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0916-crewneck-sweater",
+    "id": "index-0919-crewneck-sweater",
     "type": "word",
     "text": "crewneck sweater",
     "word": "crewneck sweater",
@@ -34879,7 +34981,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0917-crib",
+    "id": "index-0920-crib",
     "type": "word",
     "text": "crib",
     "word": "crib",
@@ -34913,7 +35015,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0918-crib-bumper",
+    "id": "index-0921-crib-bumper",
     "type": "word",
     "text": "crib bumper",
     "word": "crib bumper",
@@ -34947,7 +35049,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0919-cricket",
+    "id": "index-0922-cricket",
     "type": "word",
     "text": "cricket",
     "word": "cricket",
@@ -34981,7 +35083,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0920-crochet",
+    "id": "index-0923-crochet",
     "type": "word",
     "text": "crochet",
     "word": "crochet",
@@ -35015,7 +35117,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0921-crochet-hook",
+    "id": "index-0924-crochet-hook",
     "type": "word",
     "text": "crochet hook",
     "word": "crochet hook",
@@ -35051,7 +35153,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0922-crocodile",
+    "id": "index-0925-crocodile",
     "type": "word",
     "text": "crocodile",
     "word": "crocodile",
@@ -35085,7 +35187,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0923-crocus",
+    "id": "index-0926-crocus",
     "type": "word",
     "text": "crocus",
     "word": "crocus",
@@ -35119,7 +35221,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0924-croissant",
+    "id": "index-0927-croissant",
     "type": "word",
     "text": "croissant",
     "word": "croissant",
@@ -35155,7 +35257,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0925-crooked",
+    "id": "index-0928-crooked",
     "type": "word",
     "text": "crooked",
     "word": "crooked",
@@ -35191,7 +35293,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0926-cross-out-the-word",
+    "id": "index-0929-cross-out-the-word",
     "type": "word",
     "text": "cross out the word",
     "word": "cross out the word",
@@ -35227,7 +35329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0927-cross-country-skiing",
+    "id": "index-0930-cross-country-skiing",
     "type": "word",
     "text": "cross-country skiing",
     "word": "cross-country skiing",
@@ -35263,7 +35365,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0928-cross-country-skis",
+    "id": "index-0931-cross-country-skis",
     "type": "word",
     "text": "cross-country skis",
     "word": "cross-country skis",
@@ -35299,7 +35401,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0929-crosswalk",
+    "id": "index-0932-crosswalk",
     "type": "word",
     "text": "crosswalk",
     "word": "crosswalk",
@@ -35348,7 +35450,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0930-crow",
+    "id": "index-0933-crow",
     "type": "word",
     "text": "crow",
     "word": "crow",
@@ -35384,7 +35486,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0931-crucible-tongs",
+    "id": "index-0934-crucible-tongs",
     "type": "word",
     "text": "crucible tongs",
     "word": "crucible tongs",
@@ -35418,7 +35520,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0932-cruise",
+    "id": "index-0935-cruise",
     "type": "word",
     "text": "cruise",
     "word": "cruise",
@@ -35452,7 +35554,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0933-crutches",
+    "id": "index-0936-crutches",
     "type": "word",
     "text": "crutches",
     "word": "crutches",
@@ -35486,7 +35588,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0934-csr-accident",
+    "id": "index-0937-csr-accident",
     "type": "word",
     "text": "csr accident",
     "word": "csr accident",
@@ -35520,7 +35622,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0935-cubby",
+    "id": "index-0938-cubby",
     "type": "word",
     "text": "cubby",
     "word": "cubby",
@@ -35554,7 +35656,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0936-cube",
+    "id": "index-0939-cube",
     "type": "word",
     "text": "cube",
     "word": "cube",
@@ -35588,7 +35690,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0937-cucumber",
+    "id": "index-0940-cucumber",
     "type": "word",
     "text": "cucumber",
     "word": "cucumber",
@@ -35622,7 +35724,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0938-cuff-links",
+    "id": "index-0941-cuff-links",
     "type": "word",
     "text": "cuff links",
     "word": "cuff links",
@@ -35656,7 +35758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0939-cup",
+    "id": "index-0942-cup",
     "type": "word",
     "text": "cup",
     "word": "cup",
@@ -35718,7 +35820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0940-curb",
+    "id": "index-0943-curb",
     "type": "word",
     "text": "curb",
     "word": "curb",
@@ -35752,7 +35854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0941-curling-iron",
+    "id": "index-0944-curling-iron",
     "type": "word",
     "text": "curling iron",
     "word": "curling iron",
@@ -35786,7 +35888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0942-curly",
+    "id": "index-0945-curly",
     "type": "word",
     "text": "curly",
     "word": "curly",
@@ -35835,7 +35937,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0943-currency",
+    "id": "index-0946-currency",
     "type": "word",
     "text": "currency",
     "word": "currency",
@@ -35884,7 +35986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0944-curtains",
+    "id": "index-0947-curtains",
     "type": "word",
     "text": "curtains",
     "word": "curtains",
@@ -35920,7 +36022,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0945-curved-line",
+    "id": "index-0948-curved-line",
     "type": "word",
     "text": "curved line",
     "word": "curved line",
@@ -35954,7 +36056,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0946-custodian",
+    "id": "index-0949-custodian",
     "type": "word",
     "text": "custodian",
     "word": "custodian",
@@ -36003,7 +36105,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0947-customer",
+    "id": "index-0950-customer",
     "type": "word",
     "text": "customer",
     "word": "customer",
@@ -36065,7 +36167,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0948-customer-assistance-deposit",
+    "id": "index-0951-customer-assistance-deposit",
     "type": "word",
     "text": "Customer Assistance deposit",
     "word": "Customer Assistance deposit",
@@ -36114,7 +36216,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0949-customer-pick-up-area",
+    "id": "index-0952-customer-pick-up-area",
     "type": "word",
     "text": "customer pick-up area",
     "word": "customer pick-up area",
@@ -36150,7 +36252,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0950-customer-service-describe",
+    "id": "index-0953-customer-service-describe",
     "type": "word",
     "text": "Customer Service describe",
     "word": "Customer Service describe",
@@ -36184,7 +36286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0951-customer-service-desk",
+    "id": "index-0954-customer-service-desk",
     "type": "word",
     "text": "customer service desk",
     "word": "customer service desk",
@@ -36233,7 +36335,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0952-customs-and-desktop-computer",
+    "id": "index-0955-customs-and-desktop-computer",
     "type": "word",
     "text": "customs and desktop computer",
     "word": "customs and desktop computer",
@@ -36267,7 +36369,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0953-customs-declaration-detour",
+    "id": "index-0956-customs-declaration-detour",
     "type": "word",
     "text": "customs declaration detour",
     "word": "customs declaration detour",
@@ -36303,7 +36405,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0954-customs-officer",
+    "id": "index-0957-customs-officer",
     "type": "word",
     "text": "customs officer",
     "word": "customs officer",
@@ -36337,7 +36439,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0955-cut",
+    "id": "index-0958-cut",
     "type": "word",
     "text": "cut",
     "word": "cut",
@@ -36386,7 +36488,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0956-cutting-board",
+    "id": "index-0959-cutting-board",
     "type": "word",
     "text": "cutting board",
     "word": "cutting board",
@@ -36422,7 +36524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0957-cuy-souvenirs",
+    "id": "index-0960-cuy-souvenirs",
     "type": "word",
     "text": "cuy souvenirs",
     "word": "cuy souvenirs",
@@ -36458,7 +36560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0958-cycling",
+    "id": "index-0961-cycling",
     "type": "word",
     "text": "cycling",
     "word": "cycling",
@@ -36492,7 +36594,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0959-cylinder",
+    "id": "index-0962-cylinder",
     "type": "word",
     "text": "cylinder",
     "word": "cylinder",
@@ -36526,7 +36628,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0960-cymbals",
+    "id": "index-0963-cymbals",
     "type": "word",
     "text": "cymbals",
     "word": "cymbals",
@@ -36560,7 +36662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0961-daffodll",
+    "id": "index-0964-daffodll",
     "type": "word",
     "text": "daffodll",
     "word": "daffodll",
@@ -36594,7 +36696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0962-dairy-products",
+    "id": "index-0965-dairy-products",
     "type": "word",
     "text": "dairy products",
     "word": "dairy products",
@@ -36630,7 +36732,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0963-daisy",
+    "id": "index-0966-daisy",
     "type": "word",
     "text": "daisy",
     "word": "daisy",
@@ -36666,7 +36768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0964-dangerous",
+    "id": "index-0967-dangerous",
     "type": "word",
     "text": "dangerous",
     "word": "dangerous",
@@ -36702,7 +36804,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0965-danish",
+    "id": "index-0968-danish",
     "type": "word",
     "text": "danish",
     "word": "danish",
@@ -36736,7 +36838,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0966-dark",
+    "id": "index-0969-dark",
     "type": "word",
     "text": "dark",
     "word": "dark",
@@ -36785,7 +36887,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0967-dark-clothing",
+    "id": "index-0970-dark-clothing",
     "type": "word",
     "text": "dark clothing",
     "word": "dark clothing",
@@ -36819,7 +36921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0968-dark-green",
+    "id": "index-0971-dark-green",
     "type": "word",
     "text": "dark green",
     "word": "dark green",
@@ -36855,7 +36957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0969-dashboard",
+    "id": "index-0972-dashboard",
     "type": "word",
     "text": "dashboard",
     "word": "dashboard",
@@ -36906,7 +37008,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0970-data-entry-clerk",
+    "id": "index-0973-data-entry-clerk",
     "type": "word",
     "text": "data entry clerk",
     "word": "data entry clerk",
@@ -36940,7 +37042,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0971-date-of-birth",
+    "id": "index-0974-date-of-birth",
     "type": "word",
     "text": "date of birth",
     "word": "date of birth",
@@ -36974,7 +37076,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0972-dates",
+    "id": "index-0975-dates",
     "type": "word",
     "text": "dates",
     "word": "dates",
@@ -37008,7 +37110,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0973-daughter",
+    "id": "index-0976-daughter",
     "type": "word",
     "text": "daughter",
     "word": "daughter",
@@ -37044,7 +37146,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0974-daughter-in-iaw",
+    "id": "index-0977-daughter-in-iaw",
     "type": "word",
     "text": "daughter-in-Iaw",
     "word": "daughter-in-Iaw",
@@ -37081,7 +37183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0975-day",
+    "id": "index-0978-day",
     "type": "word",
     "text": "day",
     "word": "day",
@@ -37117,7 +37219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0976-day-care-center",
+    "id": "index-0979-day-care-center",
     "type": "word",
     "text": "day-care center",
     "word": "day-care center",
@@ -37153,7 +37255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0977-dead-end",
+    "id": "index-0980-dead-end",
     "type": "word",
     "text": "dead end",
     "word": "dead end",
@@ -37189,7 +37291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0978-dead-bolt-lock",
+    "id": "index-0981-dead-bolt-lock",
     "type": "word",
     "text": "dead-bolt lock",
     "word": "dead-bolt lock",
@@ -37225,7 +37327,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-0979-debate-club",
+    "id": "index-0982-debate-club",
     "type": "word",
     "text": "debate club",
     "word": "debate club",
@@ -37259,7 +37361,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0980-decaf",
+    "id": "index-0983-decaf",
     "type": "word",
     "text": "decaf",
     "word": "decaf",
@@ -37293,7 +37395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0981-decaf-coffee",
+    "id": "index-0984-decaf-coffee",
     "type": "word",
     "text": "decaf coffee",
     "word": "decaf coffee",
@@ -37329,7 +37431,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0982-december",
+    "id": "index-0985-december",
     "type": "word",
     "text": "December",
     "word": "December",
@@ -37363,7 +37465,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0983-deck",
+    "id": "index-0986-deck",
     "type": "word",
     "text": "deck",
     "word": "deck",
@@ -37397,7 +37499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0984-deck-of-cards",
+    "id": "index-0987-deck-of-cards",
     "type": "word",
     "text": "deck of cards",
     "word": "deck of cards",
@@ -37431,7 +37533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0985-declarative",
+    "id": "index-0988-declarative",
     "type": "word",
     "text": "declarative",
     "word": "declarative",
@@ -37465,7 +37567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0986-deeaffeinated-coffee",
+    "id": "index-0989-deeaffeinated-coffee",
     "type": "word",
     "text": "deeaffeinated coffee",
     "word": "deeaffeinated coffee",
@@ -37502,7 +37604,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0987-deeongestant-spray",
+    "id": "index-0990-deeongestant-spray",
     "type": "word",
     "text": "deeongestant spray",
     "word": "deeongestant spray",
@@ -37539,7 +37641,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0988-deep-knee-bend",
+    "id": "index-0991-deep-knee-bend",
     "type": "word",
     "text": "deep knee bend",
     "word": "deep knee bend",
@@ -37575,7 +37677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0989-deer",
+    "id": "index-0992-deer",
     "type": "word",
     "text": "deer",
     "word": "deer",
@@ -37611,7 +37713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0990-defibrillator",
+    "id": "index-0993-defibrillator",
     "type": "word",
     "text": "defibrillator",
     "word": "defibrillator",
@@ -37645,7 +37747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0991-definition",
+    "id": "index-0994-definition",
     "type": "word",
     "text": "definition",
     "word": "definition",
@@ -37679,7 +37781,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0992-defroster",
+    "id": "index-0995-defroster",
     "type": "word",
     "text": "defroster",
     "word": "defroster",
@@ -37713,7 +37815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0993-deli",
+    "id": "index-0996-deli",
     "type": "word",
     "text": "deli",
     "word": "deli",
@@ -37761,7 +37863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0994-delicatessen",
+    "id": "index-0997-delicatessen",
     "type": "word",
     "text": "delicatessen",
     "word": "delicatessen",
@@ -37795,7 +37897,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0995-deliver",
+    "id": "index-0998-deliver",
     "type": "word",
     "text": "deliver",
     "word": "deliver",
@@ -37829,7 +37931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0996-delivery-room",
+    "id": "index-0999-delivery-room",
     "type": "word",
     "text": "delivery room",
     "word": "delivery room",
@@ -37865,7 +37967,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0997-denim",
+    "id": "index-1000-denim",
     "type": "word",
     "text": "denim",
     "word": "denim",
@@ -37899,7 +38001,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0998-dental-assistant",
+    "id": "index-1001-dental-assistant",
     "type": "word",
     "text": "dental assistant",
     "word": "dental assistant",
@@ -37933,7 +38035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0999-dental-floss",
+    "id": "index-1002-dental-floss",
     "type": "word",
     "text": "dental floss",
     "word": "dental floss",
@@ -37982,7 +38084,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1000-dental-hygienist",
+    "id": "index-1003-dental-hygienist",
     "type": "word",
     "text": "dental hygienist",
     "word": "dental hygienist",
@@ -38018,7 +38120,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1001-dent-st",
+    "id": "index-1004-dent-st",
     "type": "word",
     "text": "dentíst",
     "word": "dentíst",
@@ -38052,7 +38154,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1002-deodorant",
+    "id": "index-1005-deodorant",
     "type": "word",
     "text": "deodorant",
     "word": "deodorant",
@@ -38086,7 +38188,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1003-department",
+    "id": "index-1006-department",
     "type": "word",
     "text": "Department",
     "word": "Department",
@@ -38160,7 +38262,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1004-department-store",
+    "id": "index-1007-department-store",
     "type": "word",
     "text": "department store",
     "word": "department store",
@@ -38194,7 +38296,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1005-departrnent",
+    "id": "index-1008-departrnent",
     "type": "word",
     "text": "Departrnent",
     "word": "Departrnent",
@@ -38228,7 +38330,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1006-deposit-slip",
+    "id": "index-1009-deposit-slip",
     "type": "word",
     "text": "deposit slip",
     "word": "deposit slip",
@@ -38262,7 +38364,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1007-depression",
+    "id": "index-1010-depression",
     "type": "word",
     "text": "depression",
     "word": "depression",
@@ -38296,7 +38398,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1008-depth",
+    "id": "index-1011-depth",
     "type": "word",
     "text": "depth",
     "word": "depth",
@@ -38330,7 +38432,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1009-desert",
+    "id": "index-1012-desert",
     "type": "word",
     "text": "desert",
     "word": "desert",
@@ -38364,7 +38466,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1010-design",
+    "id": "index-1013-design",
     "type": "word",
     "text": "design",
     "word": "design",
@@ -38398,7 +38500,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1011-desk-c1erk",
+    "id": "index-1014-desk-c1erk",
     "type": "word",
     "text": "desk c1erk",
     "word": "desk c1erk",
@@ -38432,7 +38534,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1012-desk-calendar",
+    "id": "index-1015-desk-calendar",
     "type": "word",
     "text": "desk calendar",
     "word": "desk calendar",
@@ -38466,7 +38568,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1013-desk-pad",
+    "id": "index-1016-desk-pad",
     "type": "word",
     "text": "desk pad",
     "word": "desk pad",
@@ -38500,7 +38602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1014-dessert",
+    "id": "index-1017-dessert",
     "type": "word",
     "text": "dessert",
     "word": "dessert",
@@ -38534,7 +38636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1015-dessert-cart",
+    "id": "index-1018-dessert-cart",
     "type": "word",
     "text": "dessert cart",
     "word": "dessert cart",
@@ -38568,7 +38670,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1016-detector",
+    "id": "index-1019-detector",
     "type": "word",
     "text": "detector",
     "word": "detector",
@@ -38602,7 +38704,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1017-diabetes",
+    "id": "index-1020-diabetes",
     "type": "word",
     "text": "diabetes",
     "word": "diabetes",
@@ -38636,7 +38738,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1018-diagonal",
+    "id": "index-1021-diagonal",
     "type": "word",
     "text": "diagonal",
     "word": "diagonal",
@@ -38670,7 +38772,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1019-diameter",
+    "id": "index-1022-diameter",
     "type": "word",
     "text": "diameter",
     "word": "diameter",
@@ -38704,7 +38806,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1020-diamond",
+    "id": "index-1023-diamond",
     "type": "word",
     "text": "diamond",
     "word": "diamond",
@@ -38738,7 +38840,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1021-diaper",
+    "id": "index-1024-diaper",
     "type": "word",
     "text": "diaper",
     "word": "diaper",
@@ -38772,7 +38874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1022-diaper-pin",
+    "id": "index-1025-diaper-pin",
     "type": "word",
     "text": "diaper pin",
     "word": "diaper pin",
@@ -38806,7 +38908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1023-diapers",
+    "id": "index-1026-diapers",
     "type": "word",
     "text": "diapers",
     "word": "diapers",
@@ -38840,7 +38942,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1024-diarrhea",
+    "id": "index-1027-diarrhea",
     "type": "word",
     "text": "diarrhea",
     "word": "diarrhea",
@@ -38876,7 +38978,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1025-dice",
+    "id": "index-1028-dice",
     "type": "word",
     "text": "dice",
     "word": "dice",
@@ -38910,7 +39012,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1026-dictionary",
+    "id": "index-1029-dictionary",
     "type": "word",
     "text": "dictionary",
     "word": "dictionary",
@@ -38959,7 +39061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1027-diet",
+    "id": "index-1030-diet",
     "type": "word",
     "text": "diet",
     "word": "diet",
@@ -38995,7 +39097,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1028-dietitian",
+    "id": "index-1031-dietitian",
     "type": "word",
     "text": "dietitian",
     "word": "dietitian",
@@ -39031,7 +39133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1029-difficult",
+    "id": "index-1032-difficult",
     "type": "word",
     "text": "difficult",
     "word": "difficult",
@@ -39065,7 +39167,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1030-digital-camera",
+    "id": "index-1033-digital-camera",
     "type": "word",
     "text": "digital camera",
     "word": "digital camera",
@@ -39099,7 +39201,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1031-dime",
+    "id": "index-1034-dime",
     "type": "word",
     "text": "dime",
     "word": "dime",
@@ -39133,7 +39235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1032-diner",
+    "id": "index-1035-diner",
     "type": "word",
     "text": "diner",
     "word": "diner",
@@ -39167,7 +39269,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1033-dining-room",
+    "id": "index-1036-dining-room",
     "type": "word",
     "text": "dining room",
     "word": "dining room",
@@ -39203,7 +39305,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1034-dining-room-chair",
+    "id": "index-1037-dining-room-chair",
     "type": "word",
     "text": "dining room chair",
     "word": "dining room chair",
@@ -39240,7 +39342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1035-dining-room-table",
+    "id": "index-1038-dining-room-table",
     "type": "word",
     "text": "dining room table",
     "word": "dining room table",
@@ -39276,7 +39378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1036-dinner",
+    "id": "index-1039-dinner",
     "type": "word",
     "text": "dinner",
     "word": "dinner",
@@ -39338,7 +39440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1037-dinner-fork",
+    "id": "index-1040-dinner-fork",
     "type": "word",
     "text": "dinner fork",
     "word": "dinner fork",
@@ -39372,7 +39474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1038-dinner-plate",
+    "id": "index-1041-dinner-plate",
     "type": "word",
     "text": "dinner plate",
     "word": "dinner plate",
@@ -39406,7 +39508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1039-dipstiek",
+    "id": "index-1042-dipstiek",
     "type": "word",
     "text": "dipstiek",
     "word": "dipstiek",
@@ -39442,7 +39544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1040-directory",
+    "id": "index-1043-directory",
     "type": "word",
     "text": "directory",
     "word": "directory",
@@ -39476,7 +39578,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1041-dirty",
+    "id": "index-1044-dirty",
     "type": "word",
     "text": "dirty",
     "word": "dirty",
@@ -39525,7 +39627,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1042-disappointed",
+    "id": "index-1045-disappointed",
     "type": "word",
     "text": "disappointed",
     "word": "disappointed",
@@ -39561,7 +39663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1043-discount",
+    "id": "index-1046-discount",
     "type": "word",
     "text": "discount",
     "word": "discount",
@@ -39597,7 +39699,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1044-discount-store",
+    "id": "index-1047-discount-store",
     "type": "word",
     "text": "discount store",
     "word": "discount store",
@@ -39633,7 +39735,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1045-discuss-the-question",
+    "id": "index-1048-discuss-the-question",
     "type": "word",
     "text": "discuss the question",
     "word": "discuss the question",
@@ -39669,7 +39771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1046-disgusted",
+    "id": "index-1049-disgusted",
     "type": "word",
     "text": "disgusted",
     "word": "disgusted",
@@ -39703,7 +39805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1047-dish",
+    "id": "index-1050-dish",
     "type": "word",
     "text": "dish",
     "word": "dish",
@@ -39737,7 +39839,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1048-dish-drainer",
+    "id": "index-1051-dish-drainer",
     "type": "word",
     "text": "dish drainer",
     "word": "dish drainer",
@@ -39773,7 +39875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1049-dish-rack",
+    "id": "index-1052-dish-rack",
     "type": "word",
     "text": "dish rack",
     "word": "dish rack",
@@ -39807,7 +39909,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1050-dishes",
+    "id": "index-1053-dishes",
     "type": "word",
     "text": "dishes",
     "word": "dishes",
@@ -39841,7 +39943,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1051-dishonest",
+    "id": "index-1054-dishonest",
     "type": "word",
     "text": "dishonest",
     "word": "dishonest",
@@ -39875,7 +39977,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1052-dishroom",
+    "id": "index-1055-dishroom",
     "type": "word",
     "text": "dishroom",
     "word": "dishroom",
@@ -39911,7 +40013,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1053-dishwasher",
+    "id": "index-1056-dishwasher",
     "type": "word",
     "text": "dishwasher",
     "word": "dishwasher",
@@ -39960,7 +40062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1054-dishwasher-detergent",
+    "id": "index-1057-dishwasher-detergent",
     "type": "word",
     "text": "dishwasher detergent",
     "word": "dishwasher detergent",
@@ -39994,7 +40096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1055-dishwashing-iiquid",
+    "id": "index-1058-dishwashing-iiquid",
     "type": "word",
     "text": "dishwashing Iiquid",
     "word": "dishwashing Iiquid",
@@ -40056,7 +40158,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1056-disk",
+    "id": "index-1059-disk",
     "type": "word",
     "text": "disk",
     "word": "disk",
@@ -40090,7 +40192,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1057-disk-drive",
+    "id": "index-1060-disk-drive",
     "type": "word",
     "text": "disk drive",
     "word": "disk drive",
@@ -40124,7 +40226,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1058-dislocate",
+    "id": "index-1061-dislocate",
     "type": "word",
     "text": "dislocate",
     "word": "dislocate",
@@ -40158,7 +40260,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1059-disposable-diaper",
+    "id": "index-1062-disposable-diaper",
     "type": "word",
     "text": "disposable diaper",
     "word": "disposable diaper",
@@ -40206,7 +40308,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1060-disposal",
+    "id": "index-1063-disposal",
     "type": "word",
     "text": "disposal",
     "word": "disposal",
@@ -40240,7 +40342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1061-distance",
+    "id": "index-1064-distance",
     "type": "word",
     "text": "distance",
     "word": "distance",
@@ -40274,7 +40376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1062-dive",
+    "id": "index-1065-dive",
     "type": "word",
     "text": "dive",
     "word": "dive",
@@ -40308,7 +40410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1063-divided-by",
+    "id": "index-1066-divided-by",
     "type": "word",
     "text": "divided by",
     "word": "divided by",
@@ -40342,7 +40444,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1064-divider",
+    "id": "index-1067-divider",
     "type": "word",
     "text": "divider",
     "word": "divider",
@@ -40376,7 +40478,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1065-diving-mask",
+    "id": "index-1068-diving-mask",
     "type": "word",
     "text": "diving mask",
     "word": "diving mask",
@@ -40410,7 +40512,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1066-division",
+    "id": "index-1069-division",
     "type": "word",
     "text": "division",
     "word": "division",
@@ -40444,7 +40546,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1067-dizzy",
+    "id": "index-1070-dizzy",
     "type": "word",
     "text": "dizzy",
     "word": "dizzy",
@@ -40478,7 +40580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1068-dlet-soda",
+    "id": "index-1071-dlet-soda",
     "type": "word",
     "text": "dlet soda",
     "word": "dlet soda",
@@ -40512,7 +40614,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1069-do-a-procedure",
+    "id": "index-1072-do-a-procedure",
     "type": "word",
     "text": "do a procedure",
     "word": "do a procedure",
@@ -40546,7 +40648,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1070-do-embroidery",
+    "id": "index-1073-do-embroidery",
     "type": "word",
     "text": "do embroidery",
     "word": "do embroidery",
@@ -40582,7 +40684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1071-do-my-nails",
+    "id": "index-1074-do-my-nails",
     "type": "word",
     "text": "do my nails",
     "word": "do my nails",
@@ -40618,7 +40720,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1072-do-needlepoint",
+    "id": "index-1075-do-needlepoint",
     "type": "word",
     "text": "do needlepoint",
     "word": "do needlepoint",
@@ -40655,7 +40757,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1073-do-not-enter",
+    "id": "index-1076-do-not-enter",
     "type": "word",
     "text": "do not enter",
     "word": "do not enter",
@@ -40689,7 +40791,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1074-do-origami",
+    "id": "index-1077-do-origami",
     "type": "word",
     "text": "do origami",
     "word": "do origami",
@@ -40723,7 +40825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1075-do-the-laundry",
+    "id": "index-1078-do-the-laundry",
     "type": "word",
     "text": "do the laundry",
     "word": "do the laundry",
@@ -40759,7 +40861,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1076-do-woodworking",
+    "id": "index-1079-do-woodworking",
     "type": "word",
     "text": "do woodworking",
     "word": "do woodworking",
@@ -40810,7 +40912,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1077-do-you-speak",
+    "id": "index-1080-do-you-speak",
     "type": "word",
     "text": "Do you speak..?",
     "word": "Do you speak..?",
@@ -40847,7 +40949,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1078-do-your-homework",
+    "id": "index-1081-do-your-homework",
     "type": "word",
     "text": "do your homework",
     "word": "do your homework",
@@ -40884,7 +40986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1079-do-your-own-work",
+    "id": "index-1082-do-your-own-work",
     "type": "word",
     "text": "do your own work",
     "word": "do your own work",
@@ -40921,7 +41023,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1080-dock",
+    "id": "index-1083-dock",
     "type": "word",
     "text": "dock",
     "word": "dock",
@@ -40955,7 +41057,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1081-dock-radio",
+    "id": "index-1084-dock-radio",
     "type": "word",
     "text": "dock radio",
     "word": "dock radio",
@@ -41004,7 +41106,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1082-dockworker",
+    "id": "index-1085-dockworker",
     "type": "word",
     "text": "dockworker",
     "word": "dockworker",
@@ -41038,7 +41140,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1083-doctor",
+    "id": "index-1086-doctor",
     "type": "word",
     "text": "doctor",
     "word": "doctor",
@@ -41087,7 +41189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1084-documentary",
+    "id": "index-1087-documentary",
     "type": "word",
     "text": "documentary",
     "word": "documentary",
@@ -41121,7 +41223,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1085-dog",
+    "id": "index-1088-dog",
     "type": "word",
     "text": "dog",
     "word": "dog",
@@ -41183,7 +41285,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1086-dog-food",
+    "id": "index-1089-dog-food",
     "type": "word",
     "text": "dog food",
     "word": "dog food",
@@ -41219,7 +41321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1087-dogwood",
+    "id": "index-1090-dogwood",
     "type": "word",
     "text": "dogwood",
     "word": "dogwood",
@@ -41255,7 +41357,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1088-dol-house-furniture",
+    "id": "index-1091-dol-house-furniture",
     "type": "word",
     "text": "dol! house furniture",
     "word": "dol! house furniture",
@@ -41291,7 +41393,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1089-doll-clothing",
+    "id": "index-1092-doll-clothing",
     "type": "word",
     "text": "doll clothing",
     "word": "doll clothing",
@@ -41325,7 +41427,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1090-doll-house",
+    "id": "index-1093-doll-house",
     "type": "word",
     "text": "doll house",
     "word": "doll house",
@@ -41361,7 +41463,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1091-dollar",
+    "id": "index-1094-dollar",
     "type": "word",
     "text": "dollar",
     "word": "dollar",
@@ -41395,7 +41497,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1092-dolly",
+    "id": "index-1095-dolly",
     "type": "word",
     "text": "dolly",
     "word": "dolly",
@@ -41429,7 +41531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1093-dolphin",
+    "id": "index-1096-dolphin",
     "type": "word",
     "text": "dolphin",
     "word": "dolphin",
@@ -41463,7 +41565,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1094-dol",
+    "id": "index-1097-dol",
     "type": "word",
     "text": "dolí",
     "word": "dolí",
@@ -41512,7 +41614,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1095-don-t-move",
+    "id": "index-1098-don-t-move",
     "type": "word",
     "text": "Don't move!",
     "word": "Don't move!",
@@ -41546,7 +41648,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1096-donkey",
+    "id": "index-1099-donkey",
     "type": "word",
     "text": "donkey",
     "word": "donkey",
@@ -41580,7 +41682,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1097-donut",
+    "id": "index-1100-donut",
     "type": "word",
     "text": "donut",
     "word": "donut",
@@ -41614,7 +41716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1098-donut-shop",
+    "id": "index-1101-donut-shop",
     "type": "word",
     "text": "donut shop",
     "word": "donut shop",
@@ -41648,7 +41750,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1099-door",
+    "id": "index-1102-door",
     "type": "word",
     "text": "door",
     "word": "door",
@@ -41684,7 +41786,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1100-door-chain",
+    "id": "index-1103-door-chain",
     "type": "word",
     "text": "door chain",
     "word": "door chain",
@@ -41721,7 +41823,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1101-door-handle",
+    "id": "index-1104-door-handle",
     "type": "word",
     "text": "door handle",
     "word": "door handle",
@@ -41757,7 +41859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1102-door-knob",
+    "id": "index-1105-door-knob",
     "type": "word",
     "text": "door knob",
     "word": "door knob",
@@ -41793,7 +41895,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1103-door-lock",
+    "id": "index-1106-door-lock",
     "type": "word",
     "text": "door lock",
     "word": "door lock",
@@ -41829,7 +41931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1104-doorbell",
+    "id": "index-1107-doorbell",
     "type": "word",
     "text": "doorbell",
     "word": "doorbell",
@@ -41880,7 +41982,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1105-doorman",
+    "id": "index-1108-doorman",
     "type": "word",
     "text": "doorman",
     "word": "doorman",
@@ -41931,7 +42033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1106-doorway",
+    "id": "index-1109-doorway",
     "type": "word",
     "text": "doorway",
     "word": "doorway",
@@ -41968,7 +42070,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1107-dorm",
+    "id": "index-1110-dorm",
     "type": "word",
     "text": "dorm",
     "word": "dorm",
@@ -42002,7 +42104,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1108-dormitory",
+    "id": "index-1111-dormitory",
     "type": "word",
     "text": "dormitory",
     "word": "dormitory",
@@ -42036,7 +42138,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1109-dose-your-book",
+    "id": "index-1112-dose-your-book",
     "type": "word",
     "text": "dose your book",
     "word": "dose your book",
@@ -42073,7 +42175,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1110-dosed",
+    "id": "index-1113-dosed",
     "type": "word",
     "text": "dosed",
     "word": "dosed",
@@ -42136,7 +42238,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1111-dothing",
+    "id": "index-1114-dothing",
     "type": "word",
     "text": "dothing",
     "word": "dothing",
@@ -42185,7 +42287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1112-dothing-store",
+    "id": "index-1115-dothing-store",
     "type": "word",
     "text": "dothing store",
     "word": "dothing store",
@@ -42234,7 +42336,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1113-double-bed",
+    "id": "index-1116-double-bed",
     "type": "word",
     "text": "double bed",
     "word": "double bed",
@@ -42270,7 +42372,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1114-double-boiler",
+    "id": "index-1117-double-boiler",
     "type": "word",
     "text": "double boiler",
     "word": "double boiler",
@@ -42307,7 +42409,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1115-double-yellow-line",
+    "id": "index-1118-double-yellow-line",
     "type": "word",
     "text": "double yellow line",
     "word": "double yellow line",
@@ -42344,7 +42446,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1116-doudy",
+    "id": "index-1119-doudy",
     "type": "word",
     "text": "doudy",
     "word": "doudy",
@@ -42380,7 +42482,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1117-down",
+    "id": "index-1120-down",
     "type": "word",
     "text": "down",
     "word": "down",
@@ -42416,7 +42518,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1118-down-jacket",
+    "id": "index-1121-down-jacket",
     "type": "word",
     "text": "down jacket",
     "word": "down jacket",
@@ -42452,7 +42554,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1119-down-vest",
+    "id": "index-1122-down-vest",
     "type": "word",
     "text": "down vest",
     "word": "down vest",
@@ -42488,7 +42590,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1120-downed-power-line",
+    "id": "index-1123-downed-power-line",
     "type": "word",
     "text": "downed power line",
     "word": "downed power line",
@@ -42524,7 +42626,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1121-downhill-skiing",
+    "id": "index-1124-downhill-skiing",
     "type": "word",
     "text": "downhill skiing",
     "word": "downhill skiing",
@@ -42560,7 +42662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1122-dozen",
+    "id": "index-1125-dozen",
     "type": "word",
     "text": "dozen",
     "word": "dozen",
@@ -42594,7 +42696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1123-dragonfly",
+    "id": "index-1126-dragonfly",
     "type": "word",
     "text": "dragonfly",
     "word": "dragonfly",
@@ -42628,7 +42730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1124-drainpipe",
+    "id": "index-1127-drainpipe",
     "type": "word",
     "text": "drainpipe",
     "word": "drainpipe",
@@ -42664,7 +42766,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1125-drama",
+    "id": "index-1128-drama",
     "type": "word",
     "text": "drama",
     "word": "drama",
@@ -42740,7 +42842,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1126-drapes",
+    "id": "index-1129-drapes",
     "type": "word",
     "text": "drapes",
     "word": "drapes",
@@ -42774,7 +42876,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1127-draw",
+    "id": "index-1130-draw",
     "type": "word",
     "text": "draw",
     "word": "draw",
@@ -42825,7 +42927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1128-draw-conclusions",
+    "id": "index-1131-draw-conclusions",
     "type": "word",
     "text": "draw conclusions",
     "word": "draw conclusions",
@@ -42861,7 +42963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1129-drawer",
+    "id": "index-1132-drawer",
     "type": "word",
     "text": "drawer",
     "word": "drawer",
@@ -42897,7 +42999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1130-drawing-pencil",
+    "id": "index-1133-drawing-pencil",
     "type": "word",
     "text": "drawing pencil",
     "word": "drawing pencil",
@@ -42933,7 +43035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1131-dra-n",
+    "id": "index-1134-dra-n",
     "type": "word",
     "text": "draín",
     "word": "draín",
@@ -42967,7 +43069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1132-dress",
+    "id": "index-1135-dress",
     "type": "word",
     "text": "dress",
     "word": "dress",
@@ -43030,7 +43132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1133-dress-appropriately",
+    "id": "index-1136-dress-appropriately",
     "type": "word",
     "text": "dress appropriately",
     "word": "dress appropriately",
@@ -43064,7 +43166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1134-dress-the-wound",
+    "id": "index-1137-dress-the-wound",
     "type": "word",
     "text": "dress the wound",
     "word": "dress the wound",
@@ -43100,7 +43202,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1135-dresser",
+    "id": "index-1138-dresser",
     "type": "word",
     "text": "dresser",
     "word": "dresser",
@@ -43134,7 +43236,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1136-dribble",
+    "id": "index-1139-dribble",
     "type": "word",
     "text": "dribble",
     "word": "dribble",
@@ -43168,7 +43270,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1137-dril-bit",
+    "id": "index-1140-dril-bit",
     "type": "word",
     "text": "dril! bit",
     "word": "dril! bit",
@@ -43202,7 +43304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1138-dril-the-cavity",
+    "id": "index-1141-dril-the-cavity",
     "type": "word",
     "text": "dril! the cavity",
     "word": "dril! the cavity",
@@ -43236,7 +43338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1139-drill",
+    "id": "index-1142-drill",
     "type": "word",
     "text": "drill",
     "word": "drill",
@@ -43270,7 +43372,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1140-drink-fluids",
+    "id": "index-1143-drink-fluids",
     "type": "word",
     "text": "drink fluids",
     "word": "drink fluids",
@@ -43304,7 +43406,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1141-driuling",
+    "id": "index-1144-driuling",
     "type": "word",
     "text": "driuling",
     "word": "driuling",
@@ -43338,7 +43440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1142-drive",
+    "id": "index-1145-drive",
     "type": "word",
     "text": "drive",
     "word": "drive",
@@ -43372,7 +43474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1143-drive-to-work",
+    "id": "index-1146-drive-to-work",
     "type": "word",
     "text": "drive to work",
     "word": "drive to work",
@@ -43406,7 +43508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1144-drive-through-window-customs",
+    "id": "index-1147-drive-through-window-customs",
     "type": "word",
     "text": "drive-through window customs",
     "word": "drive-through window customs",
@@ -43458,7 +43560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1145-driver-s-ed",
+    "id": "index-1148-driver-s-ed",
     "type": "word",
     "text": "driver's ed",
     "word": "driver's ed",
@@ -43492,7 +43594,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1146-driver-s-education",
+    "id": "index-1149-driver-s-education",
     "type": "word",
     "text": "driver's education",
     "word": "driver's education",
@@ -43526,7 +43628,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1147-driveway",
+    "id": "index-1150-driveway",
     "type": "word",
     "text": "driveway",
     "word": "driveway",
@@ -43563,7 +43665,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1148-dropper",
+    "id": "index-1151-dropper",
     "type": "word",
     "text": "dropper",
     "word": "dropper",
@@ -43597,7 +43699,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1149-drought",
+    "id": "index-1152-drought",
     "type": "word",
     "text": "drought",
     "word": "drought",
@@ -43633,7 +43735,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1150-drug-dealing",
+    "id": "index-1153-drug-dealing",
     "type": "word",
     "text": "drug dealing",
     "word": "drug dealing",
@@ -43669,7 +43771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1151-drug-store",
+    "id": "index-1154-drug-store",
     "type": "word",
     "text": "drug store",
     "word": "drug store",
@@ -43703,7 +43805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1152-drugs",
+    "id": "index-1155-drugs",
     "type": "word",
     "text": "drugs",
     "word": "drugs",
@@ -43737,7 +43839,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1153-drums",
+    "id": "index-1156-drums",
     "type": "word",
     "text": "drums",
     "word": "drums",
@@ -43771,7 +43873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1154-drumsticks",
+    "id": "index-1157-drumsticks",
     "type": "word",
     "text": "drumsticks",
     "word": "drumsticks",
@@ -43805,7 +43907,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1155-drunk-driving",
+    "id": "index-1158-drunk-driving",
     "type": "word",
     "text": "drunk driving",
     "word": "drunk driving",
@@ -43839,7 +43941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1156-dry",
+    "id": "index-1159-dry",
     "type": "word",
     "text": "dry",
     "word": "dry",
@@ -43873,7 +43975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1157-dry-cleaners",
+    "id": "index-1160-dry-cleaners",
     "type": "word",
     "text": "dry cleaners",
     "word": "dry cleaners",
@@ -43909,7 +44011,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1158-dry-mop",
+    "id": "index-1161-dry-mop",
     "type": "word",
     "text": "dry mop",
     "word": "dry mop",
@@ -43943,7 +44045,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1159-dry-my-hair",
+    "id": "index-1162-dry-my-hair",
     "type": "word",
     "text": "dry my hair",
     "word": "dry my hair",
@@ -43979,7 +44081,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1160-dryer",
+    "id": "index-1163-dryer",
     "type": "word",
     "text": "dryer",
     "word": "dryer",
@@ -44027,7 +44129,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1161-drywal",
+    "id": "index-1164-drywal",
     "type": "word",
     "text": "drywal!",
     "word": "drywal!",
@@ -44061,7 +44163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1162-dub",
+    "id": "index-1165-dub",
     "type": "word",
     "text": "dub",
     "word": "dub",
@@ -44110,7 +44212,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1163-duck",
+    "id": "index-1166-duck",
     "type": "word",
     "text": "duck",
     "word": "duck",
@@ -44159,7 +44261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1164-duck-pond",
+    "id": "index-1167-duck-pond",
     "type": "word",
     "text": "duck pond",
     "word": "duck pond",
@@ -44193,7 +44295,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1165-duct-tape",
+    "id": "index-1168-duct-tape",
     "type": "word",
     "text": "duct tape",
     "word": "duct tape",
@@ -44227,7 +44329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1166-dull",
+    "id": "index-1169-dull",
     "type": "word",
     "text": "dull",
     "word": "dull",
@@ -44275,7 +44377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1167-dump",
+    "id": "index-1170-dump",
     "type": "word",
     "text": "dump",
     "word": "dump",
@@ -44309,7 +44411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1168-dump-truck",
+    "id": "index-1171-dump-truck",
     "type": "word",
     "text": "dump truck",
     "word": "dump truck",
@@ -44343,7 +44445,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1169-dune",
+    "id": "index-1172-dune",
     "type": "word",
     "text": "dune",
     "word": "dune",
@@ -44377,7 +44479,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1170-duplex",
+    "id": "index-1173-duplex",
     "type": "word",
     "text": "duplex",
     "word": "duplex",
@@ -44411,7 +44513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1171-dust",
+    "id": "index-1174-dust",
     "type": "word",
     "text": "dust",
     "word": "dust",
@@ -44445,7 +44547,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1172-dust-cloth",
+    "id": "index-1175-dust-cloth",
     "type": "word",
     "text": "dust cloth",
     "word": "dust cloth",
@@ -44479,7 +44581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1173-dust-mop",
+    "id": "index-1176-dust-mop",
     "type": "word",
     "text": "dust mop",
     "word": "dust mop",
@@ -44513,7 +44615,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1174-dust-ruffle",
+    "id": "index-1177-dust-ruffle",
     "type": "word",
     "text": "dust ruffle",
     "word": "dust ruffle",
@@ -44576,7 +44678,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1175-dust-storm",
+    "id": "index-1178-dust-storm",
     "type": "word",
     "text": "dust storm",
     "word": "dust storm",
@@ -44610,7 +44712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1176-dustpan",
+    "id": "index-1179-dustpan",
     "type": "word",
     "text": "dustpan",
     "word": "dustpan",
@@ -44644,7 +44746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1177-d-sh-towel",
+    "id": "index-1180-d-sh-towel",
     "type": "word",
     "text": "dísh towel",
     "word": "dísh towel",
@@ -44680,7 +44782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1178-e",
+    "id": "index-1181-e",
     "type": "word",
     "text": "e",
     "word": "e",
@@ -44714,7 +44816,43 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1179-e-mail-address",
+    "id": "index-1182-e-mail",
+    "type": "word",
+    "text": "e-mail",
+    "word": "e-mail",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "108-19"
+    ],
+    "sourcePages": [
+      108
+    ],
+    "placements": [
+      {
+        "ref": "108-19",
+        "page": 108,
+        "theme": "school",
+        "topic": "Literature and Writing"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "school",
+    "topic": "Literature and Writing",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ai"
+    ],
+    "compound": true
+  },
+  {
+    "id": "index-1183-e-mail-address",
     "type": "word",
     "text": "e-mail address",
     "word": "e-mail address",
@@ -44750,43 +44888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1180-e-rnail",
-    "type": "word",
-    "text": "e-rnail",
-    "word": "e-rnail",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "108-19"
-    ],
-    "sourcePages": [
-      108
-    ],
-    "placements": [
-      {
-        "ref": "108-19",
-        "page": 108,
-        "theme": "school",
-        "topic": "Literature and Writing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 17,
-    "theme": "school",
-    "topic": "Literature and Writing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ai"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-1181-eagle",
+    "id": "index-1184-eagle",
     "type": "word",
     "text": "eagle",
     "word": "eagle",
@@ -44822,7 +44924,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1182-ear",
+    "id": "index-1185-ear",
     "type": "word",
     "text": "ear",
     "word": "ear",
@@ -44858,7 +44960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1183-ear-infection",
+    "id": "index-1186-ear-infection",
     "type": "word",
     "text": "ear infection",
     "word": "ear infection",
@@ -44909,7 +45011,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1184-ear-muffs",
+    "id": "index-1187-ear-muffs",
     "type": "word",
     "text": "ear muffs",
     "word": "ear muffs",
@@ -44945,7 +45047,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1185-earache",
+    "id": "index-1188-earache",
     "type": "word",
     "text": "earache",
     "word": "earache",
@@ -44981,7 +45083,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1186-earplugs",
+    "id": "index-1189-earplugs",
     "type": "word",
     "text": "earplugs",
     "word": "earplugs",
@@ -45017,7 +45119,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1187-earrings",
+    "id": "index-1190-earrings",
     "type": "word",
     "text": "earrings",
     "word": "earrings",
@@ -45053,7 +45155,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1188-ears-nose-and-throat-expensive",
+    "id": "index-1191-ears-nose-and-throat-expensive",
     "type": "word",
     "text": "ears, nose, and throat expensive",
     "word": "ears, nose, and throat expensive",
@@ -45090,7 +45192,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1189-earth",
+    "id": "index-1192-earth",
     "type": "word",
     "text": "Earth",
     "word": "Earth",
@@ -45126,7 +45228,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1190-earthquake",
+    "id": "index-1193-earthquake",
     "type": "word",
     "text": "earthquake",
     "word": "earthquake",
@@ -45162,7 +45264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1191-easel",
+    "id": "index-1194-easel",
     "type": "word",
     "text": "easel",
     "word": "easel",
@@ -45213,7 +45315,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1192-east",
+    "id": "index-1195-east",
     "type": "word",
     "text": "east",
     "word": "east",
@@ -45249,7 +45351,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1193-easy",
+    "id": "index-1196-easy",
     "type": "word",
     "text": "easy",
     "word": "easy",
@@ -45285,7 +45387,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1194-eat-breakfast",
+    "id": "index-1197-eat-breakfast",
     "type": "word",
     "text": "eat breakfast",
     "word": "eat breakfast",
@@ -45321,7 +45423,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1195-eat-dinner",
+    "id": "index-1198-eat-dinner",
     "type": "word",
     "text": "eat dinner",
     "word": "eat dinner",
@@ -45357,7 +45459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1196-eat-here",
+    "id": "index-1199-eat-here",
     "type": "word",
     "text": "eat here",
     "word": "eat here",
@@ -45393,7 +45495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1197-eat-lunch",
+    "id": "index-1200-eat-lunch",
     "type": "word",
     "text": "eat lunch",
     "word": "eat lunch",
@@ -45429,7 +45531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1198-ecid-rain",
+    "id": "index-1201-ecid-rain",
     "type": "word",
     "text": "ecid rain",
     "word": "ecid rain",
@@ -45465,7 +45567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1199-eco-tour",
+    "id": "index-1202-eco-tour",
     "type": "word",
     "text": "eco-tour",
     "word": "eco-tour",
@@ -45501,7 +45603,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1200-edit",
+    "id": "index-1203-edit",
     "type": "word",
     "text": "edit",
     "word": "edit",
@@ -45535,7 +45637,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1201-editorial",
+    "id": "index-1204-editorial",
     "type": "word",
     "text": "editorial",
     "word": "editorial",
@@ -45569,7 +45671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1202-educational-software-energy",
+    "id": "index-1205-educational-software-energy",
     "type": "word",
     "text": "educational software energy",
     "word": "educational software energy",
@@ -45603,7 +45705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1203-eel",
+    "id": "index-1206-eel",
     "type": "word",
     "text": "eel",
     "word": "eel",
@@ -45639,7 +45741,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1204-egg-beater",
+    "id": "index-1207-egg-beater",
     "type": "word",
     "text": "egg beater",
     "word": "egg beater",
@@ -45675,7 +45777,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1205-egg-sajad-sandwich",
+    "id": "index-1208-egg-sajad-sandwich",
     "type": "word",
     "text": "egg sajad sandwich",
     "word": "egg sajad sandwich",
@@ -45709,7 +45811,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1206-eggplant",
+    "id": "index-1209-eggplant",
     "type": "word",
     "text": "eggplant",
     "word": "eggplant",
@@ -45743,7 +45845,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1207-ejm",
+    "id": "index-1210-ejm",
     "type": "word",
     "text": "eJm",
     "word": "eJm",
@@ -45777,7 +45879,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1208-elassroom",
+    "id": "index-1211-elassroom",
     "type": "word",
     "text": "elassroom",
     "word": "elassroom",
@@ -45813,7 +45915,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1209-elastic-bandage",
+    "id": "index-1212-elastic-bandage",
     "type": "word",
     "text": "elastic bandage",
     "word": "elastic bandage",
@@ -45847,7 +45949,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1210-elay",
+    "id": "index-1213-elay",
     "type": "word",
     "text": "elay",
     "word": "elay",
@@ -45898,7 +46000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1211-elbow",
+    "id": "index-1214-elbow",
     "type": "word",
     "text": "elbow",
     "word": "elbow",
@@ -45934,7 +46036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1212-elbow-pads",
+    "id": "index-1215-elbow-pads",
     "type": "word",
     "text": "elbow pads",
     "word": "elbow pads",
@@ -45985,7 +46087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1213-elclerly-person",
+    "id": "index-1216-elclerly-person",
     "type": "word",
     "text": "elclerly person",
     "word": "elclerly person",
@@ -46019,7 +46121,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1214-eldercare-worker",
+    "id": "index-1217-eldercare-worker",
     "type": "word",
     "text": "eldercare worker",
     "word": "eldercare worker",
@@ -46053,7 +46155,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1215-elderly",
+    "id": "index-1218-elderly",
     "type": "word",
     "text": "elderly",
     "word": "elderly",
@@ -46102,7 +46204,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1216-elean",
+    "id": "index-1219-elean",
     "type": "word",
     "text": "elean",
     "word": "elean",
@@ -46153,7 +46255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1217-elean-elothing",
+    "id": "index-1220-elean-elothing",
     "type": "word",
     "text": "elean elothing",
     "word": "elean elothing",
@@ -46189,7 +46291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1218-elean-the-apartment",
+    "id": "index-1221-elean-the-apartment",
     "type": "word",
     "text": "elean the apartment",
     "word": "elean the apartment",
@@ -46225,7 +46327,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1219-eleaners",
+    "id": "index-1222-eleaners",
     "type": "word",
     "text": "eleaners",
     "word": "eleaners",
@@ -46261,7 +46363,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1220-elear-tape",
+    "id": "index-1223-elear-tape",
     "type": "word",
     "text": "elear tape",
     "word": "elear tape",
@@ -46297,7 +46399,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1221-electric-bill",
+    "id": "index-1224-electric-bill",
     "type": "word",
     "text": "electric bill",
     "word": "electric bill",
@@ -46331,7 +46433,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1222-electric-blanket",
+    "id": "index-1225-electric-blanket",
     "type": "word",
     "text": "electric blanket",
     "word": "electric blanket",
@@ -46365,7 +46467,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1223-electric-can-opener",
+    "id": "index-1226-electric-can-opener",
     "type": "word",
     "text": "electric can opener",
     "word": "electric can opener",
@@ -46399,7 +46501,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1224-electric-drill",
+    "id": "index-1227-electric-drill",
     "type": "word",
     "text": "electric drill",
     "word": "electric drill",
@@ -46433,7 +46535,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1225-electric-guitar",
+    "id": "index-1228-electric-guitar",
     "type": "word",
     "text": "electric guitar",
     "word": "electric guitar",
@@ -46467,7 +46569,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1226-electric-keyboard",
+    "id": "index-1229-electric-keyboard",
     "type": "word",
     "text": "electric keyboard",
     "word": "electric keyboard",
@@ -46503,7 +46605,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1227-electric-mixer",
+    "id": "index-1230-electric-mixer",
     "type": "word",
     "text": "electric mixer",
     "word": "electric mixer",
@@ -46537,7 +46639,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1228-electric-pencil-eraser",
+    "id": "index-1231-electric-pencil-eraser",
     "type": "word",
     "text": "electric pencil eraser",
     "word": "electric pencil eraser",
@@ -46585,7 +46687,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1229-electric-shaver",
+    "id": "index-1232-electric-shaver",
     "type": "word",
     "text": "electric shaver",
     "word": "electric shaver",
@@ -46619,7 +46721,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1230-electric-shock",
+    "id": "index-1233-electric-shock",
     "type": "word",
     "text": "electric shock",
     "word": "electric shock",
@@ -46653,7 +46755,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1231-electric-toothbrush",
+    "id": "index-1234-electric-toothbrush",
     "type": "word",
     "text": "electric toothbrush",
     "word": "electric toothbrush",
@@ -46689,7 +46791,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1232-electrical-hazard",
+    "id": "index-1235-electrical-hazard",
     "type": "word",
     "text": "electrical hazard",
     "word": "electrical hazard",
@@ -46723,7 +46825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1233-electrical-tape",
+    "id": "index-1236-electrical-tape",
     "type": "word",
     "text": "electrical tape",
     "word": "electrical tape",
@@ -46757,7 +46859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1234-electronic-personal-examination-table",
+    "id": "index-1237-electronic-personal-examination-table",
     "type": "word",
     "text": "electronic personal examination table",
     "word": "electronic personal examination table",
@@ -46791,7 +46893,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1235-electronics-department-examine-your-teeth",
+    "id": "index-1238-electronics-department-examine-your-teeth",
     "type": "word",
     "text": "Electronics Department examine your teeth",
     "word": "Electronics Department examine your teeth",
@@ -46828,7 +46930,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1236-electronics-store",
+    "id": "index-1239-electronics-store",
     "type": "word",
     "text": "electronics store",
     "word": "electronics store",
@@ -46862,7 +46964,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1237-eledrician",
+    "id": "index-1240-eledrician",
     "type": "word",
     "text": "eledrician",
     "word": "eledrician",
@@ -46911,7 +47013,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1238-elementary-school",
+    "id": "index-1241-elementary-school",
     "type": "word",
     "text": "elementary school",
     "word": "elementary school",
@@ -46947,7 +47049,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1239-elephant",
+    "id": "index-1242-elephant",
     "type": "word",
     "text": "elephant",
     "word": "elephant",
@@ -46981,7 +47083,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1240-elerk",
+    "id": "index-1243-elerk",
     "type": "word",
     "text": "elerk",
     "word": "elerk",
@@ -47030,7 +47132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1241-elevator",
+    "id": "index-1244-elevator",
     "type": "word",
     "text": "elevator",
     "word": "elevator",
@@ -47092,7 +47194,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1242-ellipse",
+    "id": "index-1245-ellipse",
     "type": "word",
     "text": "ellipse",
     "word": "ellipse",
@@ -47126,7 +47228,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1243-elose-the-wound",
+    "id": "index-1246-elose-the-wound",
     "type": "word",
     "text": "elose the wound",
     "word": "elose the wound",
@@ -47162,7 +47264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1244-elutch",
+    "id": "index-1247-elutch",
     "type": "word",
     "text": "elutch",
     "word": "elutch",
@@ -47196,7 +47298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1245-embarrassed",
+    "id": "index-1248-embarrassed",
     "type": "word",
     "text": "embarrassed",
     "word": "embarrassed",
@@ -47230,7 +47332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1246-emergency-brake",
+    "id": "index-1249-emergency-brake",
     "type": "word",
     "text": "emergency brake",
     "word": "emergency brake",
@@ -47264,7 +47366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1247-emergency-exit",
+    "id": "index-1250-emergency-exit",
     "type": "word",
     "text": "emergency exit",
     "word": "emergency exit",
@@ -47312,7 +47414,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1248-emergency-instruction-exit",
+    "id": "index-1251-emergency-instruction-exit",
     "type": "word",
     "text": "emergency instruction exit",
     "word": "emergency instruction exit",
@@ -47346,7 +47448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1249-emergency-medical-expedition",
+    "id": "index-1252-emergency-medical-expedition",
     "type": "word",
     "text": "emergency medical expedition",
     "word": "emergency medical expedition",
@@ -47380,7 +47482,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1250-emergency-operator",
+    "id": "index-1253-emergency-operator",
     "type": "word",
     "text": "emergency operator",
     "word": "emergency operator",
@@ -47414,7 +47516,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1251-emergency-room",
+    "id": "index-1254-emergency-room",
     "type": "word",
     "text": "emergency room",
     "word": "emergency room",
@@ -47464,7 +47566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1252-emergency-stairway",
+    "id": "index-1255-emergency-stairway",
     "type": "word",
     "text": "emergency stairway",
     "word": "emergency stairway",
@@ -47516,7 +47618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1253-emery-board",
+    "id": "index-1256-emery-board",
     "type": "word",
     "text": "emery board",
     "word": "emery board",
@@ -47552,7 +47654,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1254-employee-lounge",
+    "id": "index-1257-employee-lounge",
     "type": "word",
     "text": "employee lounge",
     "word": "employee lounge",
@@ -47590,7 +47692,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1255-employer",
+    "id": "index-1258-employer",
     "type": "word",
     "text": "employer",
     "word": "employer",
@@ -47626,7 +47728,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1256-empty",
+    "id": "index-1259-empty",
     "type": "word",
     "text": "empty",
     "word": "empty",
@@ -47660,7 +47762,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1257-empty-your-pockets",
+    "id": "index-1260-empty-your-pockets",
     "type": "word",
     "text": "empty your pockets",
     "word": "empty your pockets",
@@ -47696,7 +47798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1258-emt",
+    "id": "index-1261-emt",
     "type": "word",
     "text": "EMT",
     "word": "EMT",
@@ -47745,7 +47847,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1259-encyclopedia",
+    "id": "index-1262-encyclopedia",
     "type": "word",
     "text": "encyclopedia",
     "word": "encyclopedia",
@@ -47779,7 +47881,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1260-end-table",
+    "id": "index-1263-end-table",
     "type": "word",
     "text": "end table",
     "word": "end table",
@@ -47813,7 +47915,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1261-engagement-ring",
+    "id": "index-1264-engagement-ring",
     "type": "word",
     "text": "engagement ring",
     "word": "engagement ring",
@@ -47847,7 +47949,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1262-engine",
+    "id": "index-1265-engine",
     "type": "word",
     "text": "engine",
     "word": "engine",
@@ -47881,7 +47983,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1263-engineer",
+    "id": "index-1266-engineer",
     "type": "word",
     "text": "engineer",
     "word": "engineer",
@@ -47932,7 +48034,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1264-english",
+    "id": "index-1267-english",
     "type": "word",
     "text": "English",
     "word": "English",
@@ -47966,7 +48068,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1265-english-muffins",
+    "id": "index-1268-english-muffins",
     "type": "word",
     "text": "English muffins",
     "word": "English muffins",
@@ -48000,7 +48102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1266-ent-specialist",
+    "id": "index-1269-ent-specialist",
     "type": "word",
     "text": "ENT specialist",
     "word": "ENT specialist",
@@ -48034,7 +48136,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1267-enter-your-p1nnumber-face-powder",
+    "id": "index-1270-enter-your-p1nnumber-face-powder",
     "type": "word",
     "text": "enter your P1Nnumber face powder",
     "word": "enter your P1Nnumber face powder",
@@ -48071,7 +48173,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1268-enter-your-personal-filling",
+    "id": "index-1271-enter-your-personal-filling",
     "type": "word",
     "text": "enter your personal filling",
     "word": "enter your personal filling",
@@ -48107,7 +48209,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1269-entra-nce-ramp",
+    "id": "index-1272-entra-nce-ramp",
     "type": "word",
     "text": "entra nce ramp",
     "word": "entra nce ramp",
@@ -48141,7 +48243,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1270-entree",
+    "id": "index-1273-entree",
     "type": "word",
     "text": "entree",
     "word": "entree",
@@ -48177,7 +48279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1271-envelope",
+    "id": "index-1274-envelope",
     "type": "word",
     "text": "envelope",
     "word": "envelope",
@@ -48240,7 +48342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1272-environmental-fahrenheit",
+    "id": "index-1275-environmental-fahrenheit",
     "type": "word",
     "text": "environmental Fahrenheit",
     "word": "environmental Fahrenheit",
@@ -48274,7 +48376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1273-equals",
+    "id": "index-1276-equals",
     "type": "word",
     "text": "equals",
     "word": "equals",
@@ -48308,7 +48410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1274-er",
+    "id": "index-1277-er",
     "type": "word",
     "text": "ER",
     "word": "ER",
@@ -48342,7 +48444,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1275-erase-the-board",
+    "id": "index-1278-erase-the-board",
     "type": "word",
     "text": "erase the board",
     "word": "erase the board",
@@ -48378,7 +48480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1276-ernbroidery",
+    "id": "index-1279-ernbroidery",
     "type": "word",
     "text": "ernbroidery",
     "word": "ernbroidery",
@@ -48428,7 +48530,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1277-erop",
+    "id": "index-1280-erop",
     "type": "word",
     "text": "erop",
     "word": "erop",
@@ -48462,7 +48564,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1278-escalator",
+    "id": "index-1281-escalator",
     "type": "word",
     "text": "escalator",
     "word": "escalator",
@@ -48496,7 +48598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1279-esophagus",
+    "id": "index-1282-esophagus",
     "type": "word",
     "text": "esophagus",
     "word": "esophagus",
@@ -48530,7 +48632,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1280-essay",
+    "id": "index-1283-essay",
     "type": "word",
     "text": "essay",
     "word": "essay",
@@ -48566,7 +48668,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1281-evening",
+    "id": "index-1284-evening",
     "type": "word",
     "text": "evening",
     "word": "evening",
@@ -48615,7 +48717,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1282-evening-gown",
+    "id": "index-1285-evening-gown",
     "type": "word",
     "text": "evening gown",
     "word": "evening gown",
@@ -48651,7 +48753,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1283-every-day",
+    "id": "index-1286-every-day",
     "type": "word",
     "text": "every day",
     "word": "every day",
@@ -48687,7 +48789,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1284-examine-your-eyes-ears-farmer",
+    "id": "index-1287-examine-your-eyes-ears-farmer",
     "type": "word",
     "text": "examine your eyes, ears, farmer",
     "word": "examine your eyes, ears, farmer",
@@ -48739,7 +48841,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1285-exam-nation-room",
+    "id": "index-1288-exam-nation-room",
     "type": "word",
     "text": "examínation room",
     "word": "examínation room",
@@ -48789,7 +48891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1286-excellent",
+    "id": "index-1289-excellent",
     "type": "word",
     "text": "excellent",
     "word": "excellent",
@@ -48823,7 +48925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1287-exchange",
+    "id": "index-1290-exchange",
     "type": "word",
     "text": "exchange",
     "word": "exchange",
@@ -48857,7 +48959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1288-exchange-currency",
+    "id": "index-1291-exchange-currency",
     "type": "word",
     "text": "exchange currency",
     "word": "exchange currency",
@@ -48906,7 +49008,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1289-excited",
+    "id": "index-1292-excited",
     "type": "word",
     "text": "excited",
     "word": "excited",
@@ -48940,7 +49042,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1290-excjamation-point",
+    "id": "index-1293-excjamation-point",
     "type": "word",
     "text": "excJamation point",
     "word": "excJamation point",
@@ -48976,7 +49078,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1291-exclamatory",
+    "id": "index-1294-exclamatory",
     "type": "word",
     "text": "exclamatory",
     "word": "exclamatory",
@@ -49010,7 +49112,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1292-excuse-me",
+    "id": "index-1295-excuse-me",
     "type": "word",
     "text": "Excuse me.",
     "word": "Excuse me.",
@@ -49044,7 +49146,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1293-exercise",
+    "id": "index-1296-exercise",
     "type": "word",
     "text": "exercise",
     "word": "exercise",
@@ -49107,7 +49209,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1294-exercise-bike",
+    "id": "index-1297-exercise-bike",
     "type": "word",
     "text": "exercise bike",
     "word": "exercise bike",
@@ -49141,7 +49243,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1295-exercise-equipment",
+    "id": "index-1298-exercise-equipment",
     "type": "word",
     "text": "exercise equipment",
     "word": "exercise equipment",
@@ -49175,7 +49277,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1296-exhaust-pipe",
+    "id": "index-1299-exhaust-pipe",
     "type": "word",
     "text": "exhaust pipe",
     "word": "exhaust pipe",
@@ -49211,7 +49313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1297-exhausted",
+    "id": "index-1300-exhausted",
     "type": "word",
     "text": "exhausted",
     "word": "exhausted",
@@ -49262,7 +49364,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1298-exit-ramp",
+    "id": "index-1301-exit-ramp",
     "type": "word",
     "text": "exit ramp",
     "word": "exit ramp",
@@ -49296,7 +49398,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1299-exit-sign",
+    "id": "index-1302-exit-sign",
     "type": "word",
     "text": "exit sign",
     "word": "exit sign",
@@ -49330,7 +49432,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1300-experience",
+    "id": "index-1303-experience",
     "type": "word",
     "text": "experience",
     "word": "experience",
@@ -49380,7 +49482,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1301-explosion",
+    "id": "index-1304-explosion",
     "type": "word",
     "text": "explosion",
     "word": "explosion",
@@ -49414,7 +49516,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1302-express-checkout-line-fever",
+    "id": "index-1305-express-checkout-line-fever",
     "type": "word",
     "text": "express checkout line fever",
     "word": "express checkout line fever",
@@ -49450,7 +49552,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1303-express-mail",
+    "id": "index-1306-express-mail",
     "type": "word",
     "text": "express mail",
     "word": "express mail",
@@ -49486,7 +49588,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1304-expressions-not-mucho",
+    "id": "index-1307-expressions-not-mucho",
     "type": "word",
     "text": "Expressions Not mucho",
     "word": "Expressions Not mucho",
@@ -49520,7 +49622,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1305-extension-cord",
+    "id": "index-1308-extension-cord",
     "type": "word",
     "text": "extension cord",
     "word": "extension cord",
@@ -49554,7 +49656,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1306-exterminator",
+    "id": "index-1309-exterminator",
     "type": "word",
     "text": "exterminator",
     "word": "exterminator",
@@ -49588,7 +49690,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1307-extra-iarge",
+    "id": "index-1310-extra-iarge",
     "type": "word",
     "text": "extra-Iarge",
     "word": "extra-Iarge",
@@ -49622,7 +49724,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1308-extra-small",
+    "id": "index-1311-extra-small",
     "type": "word",
     "text": "extra-small",
     "word": "extra-small",
@@ -49656,7 +49758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1309-eye",
+    "id": "index-1312-eye",
     "type": "word",
     "text": "eye",
     "word": "eye",
@@ -49690,7 +49792,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1310-eye-chart",
+    "id": "index-1313-eye-chart",
     "type": "word",
     "text": "eye chart",
     "word": "eye chart",
@@ -49724,7 +49826,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1311-eye-drops",
+    "id": "index-1314-eye-drops",
     "type": "word",
     "text": "eye drops",
     "word": "eye drops",
@@ -49758,7 +49860,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1312-eye-shadow",
+    "id": "index-1315-eye-shadow",
     "type": "word",
     "text": "eye shadow",
     "word": "eye shadow",
@@ -49794,7 +49896,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1313-eye-care-center",
+    "id": "index-1316-eye-care-center",
     "type": "word",
     "text": "eye-care center",
     "word": "eye-care center",
@@ -49828,7 +49930,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1314-eyebrow",
+    "id": "index-1317-eyebrow",
     "type": "word",
     "text": "eyebrow",
     "word": "eyebrow",
@@ -49864,7 +49966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1315-eyebrow-pencil",
+    "id": "index-1318-eyebrow-pencil",
     "type": "word",
     "text": "eyebrow pencil",
     "word": "eyebrow pencil",
@@ -49900,7 +50002,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1316-eyelashes",
+    "id": "index-1319-eyelashes",
     "type": "word",
     "text": "eyelashes",
     "word": "eyelashes",
@@ -49934,7 +50036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1317-eyelid",
+    "id": "index-1320-eyelid",
     "type": "word",
     "text": "eyelid",
     "word": "eyelid",
@@ -49968,7 +50070,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1318-eyeliner",
+    "id": "index-1321-eyeliner",
     "type": "word",
     "text": "eyeliner",
     "word": "eyeliner",
@@ -50002,7 +50104,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1319-fabric-softener",
+    "id": "index-1322-fabric-softener",
     "type": "word",
     "text": "fabric softener",
     "word": "fabric softener",
@@ -50036,7 +50138,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1320-face-guard",
+    "id": "index-1323-face-guard",
     "type": "word",
     "text": "face guard",
     "word": "face guard",
@@ -50070,7 +50172,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1321-facecloth",
+    "id": "index-1324-facecloth",
     "type": "word",
     "text": "facecloth",
     "word": "facecloth",
@@ -50104,7 +50206,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1322-factory-worker",
+    "id": "index-1325-factory-worker",
     "type": "word",
     "text": "factory worker",
     "word": "factory worker",
@@ -50166,7 +50268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1323-faint",
+    "id": "index-1326-faint",
     "type": "word",
     "text": "faint",
     "word": "faint",
@@ -50202,7 +50304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1324-fair",
+    "id": "index-1327-fair",
     "type": "word",
     "text": "fair",
     "word": "fair",
@@ -50238,7 +50340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1325-fall",
+    "id": "index-1328-fall",
     "type": "word",
     "text": "fall",
     "word": "fall",
@@ -50287,7 +50389,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1326-family-finan-ces",
+    "id": "index-1329-family-finan-ces",
     "type": "word",
     "text": "family finan ces",
     "word": "family finan ces",
@@ -50321,7 +50423,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1327-family-name",
+    "id": "index-1330-family-name",
     "type": "word",
     "text": "family name",
     "word": "family name",
@@ -50355,7 +50457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1328-family-trip",
+    "id": "index-1331-family-trip",
     "type": "word",
     "text": "family trip",
     "word": "family trip",
@@ -50389,7 +50491,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1329-fan",
+    "id": "index-1332-fan",
     "type": "word",
     "text": "fan",
     "word": "fan",
@@ -50423,7 +50525,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1330-fancy",
+    "id": "index-1333-fancy",
     "type": "word",
     "text": "fancy",
     "word": "fancy",
@@ -50472,7 +50574,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1331-fare",
+    "id": "index-1334-fare",
     "type": "word",
     "text": "fare",
     "word": "fare",
@@ -50506,7 +50608,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1332-fare-card",
+    "id": "index-1335-fare-card",
     "type": "word",
     "text": "fare card",
     "word": "fare card",
@@ -50540,7 +50642,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1333-farm",
+    "id": "index-1336-farm",
     "type": "word",
     "text": "farm",
     "word": "farm",
@@ -50574,7 +50676,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1334-farm-worker",
+    "id": "index-1337-farm-worker",
     "type": "word",
     "text": "farm worker",
     "word": "farm worker",
@@ -50608,7 +50710,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1335-farmhouse",
+    "id": "index-1338-farmhouse",
     "type": "word",
     "text": "farmhouse",
     "word": "farmhouse",
@@ -50644,7 +50746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1336-fast",
+    "id": "index-1339-fast",
     "type": "word",
     "text": "fast",
     "word": "fast",
@@ -50678,7 +50780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1337-fast-food-restaurant",
+    "id": "index-1340-fast-food-restaurant",
     "type": "word",
     "text": "fast-food restaurant",
     "word": "fast-food restaurant",
@@ -50715,7 +50817,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1338-fasten-seat-belt-sign-fisher",
+    "id": "index-1341-fasten-seat-belt-sign-fisher",
     "type": "word",
     "text": "Fasten Seat Belt sign fisher",
     "word": "Fasten Seat Belt sign fisher",
@@ -50766,7 +50868,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1339-fat",
+    "id": "index-1342-fat",
     "type": "word",
     "text": "fat",
     "word": "fat",
@@ -50800,7 +50902,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1340-father",
+    "id": "index-1343-father",
     "type": "word",
     "text": "father",
     "word": "father",
@@ -50834,7 +50936,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1341-father-in-law",
+    "id": "index-1344-father-in-law",
     "type": "word",
     "text": "father-in-law",
     "word": "father-in-law",
@@ -50870,7 +50972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1342-faucet",
+    "id": "index-1345-faucet",
     "type": "word",
     "text": "faucet",
     "word": "faucet",
@@ -50921,7 +51023,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1343-fax-machine",
+    "id": "index-1346-fax-machine",
     "type": "word",
     "text": "fax machine",
     "word": "fax machine",
@@ -50955,7 +51057,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1344-feather",
+    "id": "index-1347-feather",
     "type": "word",
     "text": "feather",
     "word": "feather",
@@ -50991,7 +51093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1345-feather-duster",
+    "id": "index-1348-feather-duster",
     "type": "word",
     "text": "feather duster",
     "word": "feather duster",
@@ -51027,7 +51129,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1346-february",
+    "id": "index-1349-february",
     "type": "word",
     "text": "February",
     "word": "February",
@@ -51061,7 +51163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1347-feed",
+    "id": "index-1350-feed",
     "type": "word",
     "text": "feed",
     "word": "feed",
@@ -51097,7 +51199,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1348-feed-the-baby",
+    "id": "index-1351-feed-the-baby",
     "type": "word",
     "text": "feed the baby",
     "word": "feed the baby",
@@ -51133,7 +51235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1349-feed-the-cat",
+    "id": "index-1352-feed-the-cat",
     "type": "word",
     "text": "feed the cat",
     "word": "feed the cat",
@@ -51169,7 +51271,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1350-feedback",
+    "id": "index-1353-feedback",
     "type": "word",
     "text": "feedback",
     "word": "feedback",
@@ -51205,7 +51307,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1351-fence",
+    "id": "index-1354-fence",
     "type": "word",
     "text": "fence",
     "word": "fence",
@@ -51239,7 +51341,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1352-fender",
+    "id": "index-1355-fender",
     "type": "word",
     "text": "fender",
     "word": "fender",
@@ -51273,7 +51375,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1353-fern",
+    "id": "index-1356-fern",
     "type": "word",
     "text": "fern",
     "word": "fern",
@@ -51307,7 +51409,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1354-ferry",
+    "id": "index-1357-ferry",
     "type": "word",
     "text": "ferry",
     "word": "ferry",
@@ -51341,7 +51443,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1355-fertilizer",
+    "id": "index-1358-fertilizer",
     "type": "word",
     "text": "fertilizer",
     "word": "fertilizer",
@@ -51375,7 +51477,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1356-fiare",
+    "id": "index-1359-fiare",
     "type": "word",
     "text": "fiare",
     "word": "fiare",
@@ -51409,7 +51511,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1357-fiction",
+    "id": "index-1360-fiction",
     "type": "word",
     "text": "fiction",
     "word": "fiction",
@@ -51443,7 +51545,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1358-field",
+    "id": "index-1361-field",
     "type": "word",
     "text": "field",
     "word": "field",
@@ -51494,7 +51596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1359-field-guide",
+    "id": "index-1362-field-guide",
     "type": "word",
     "text": "field guide",
     "word": "field guide",
@@ -51530,7 +51632,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1360-fig",
+    "id": "index-1363-fig",
     "type": "word",
     "text": "fig",
     "word": "fig",
@@ -51564,7 +51666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1361-figure-skates",
+    "id": "index-1364-figure-skates",
     "type": "word",
     "text": "figure skates",
     "word": "figure skates",
@@ -51598,7 +51700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1362-figure-skating",
+    "id": "index-1365-figure-skating",
     "type": "word",
     "text": "figure skating",
     "word": "figure skating",
@@ -51632,7 +51734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1363-fil-the-tooth",
+    "id": "index-1366-fil-the-tooth",
     "type": "word",
     "text": "fil! the tooth",
     "word": "fil! the tooth",
@@ -51668,7 +51770,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1364-file",
+    "id": "index-1367-file",
     "type": "word",
     "text": "file",
     "word": "file",
@@ -51717,7 +51819,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1365-file-cabinet",
+    "id": "index-1368-file-cabinet",
     "type": "word",
     "text": "file cabinet",
     "word": "file cabinet",
@@ -51751,7 +51853,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1366-file-clerk",
+    "id": "index-1369-file-clerk",
     "type": "word",
     "text": "file clerk",
     "word": "file clerk",
@@ -51785,7 +51887,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1367-file-folder",
+    "id": "index-1370-file-folder",
     "type": "word",
     "text": "file folder",
     "word": "file folder",
@@ -51819,7 +51921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1368-filet-of-sole",
+    "id": "index-1371-filet-of-sole",
     "type": "word",
     "text": "filet of sole",
     "word": "filet of sole",
@@ -51853,7 +51955,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1369-fill-in-the-blank",
+    "id": "index-1372-fill-in-the-blank",
     "type": "word",
     "text": "fill in the blank",
     "word": "fill in the blank",
@@ -51887,7 +51989,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1370-fill-out-an-application",
+    "id": "index-1373-fill-out-an-application",
     "type": "word",
     "text": "fill out an application",
     "word": "fill out an application",
@@ -51923,7 +52025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1371-fill-out-an-application-egg",
+    "id": "index-1374-fill-out-an-application-egg",
     "type": "word",
     "text": "fill out an application egg",
     "word": "fill out an application egg",
@@ -51988,7 +52090,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1372-film",
+    "id": "index-1375-film",
     "type": "word",
     "text": "film",
     "word": "film",
@@ -52037,7 +52139,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1373-fin",
+    "id": "index-1376-fin",
     "type": "word",
     "text": "fin",
     "word": "fin",
@@ -52071,7 +52173,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1374-find-your-seat",
+    "id": "index-1377-find-your-seat",
     "type": "word",
     "text": "find your-seat",
     "word": "find your-seat",
@@ -52108,7 +52210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1375-fine-thanks",
+    "id": "index-1378-fine-thanks",
     "type": "word",
     "text": "Fine, thanks.",
     "word": "Fine, thanks.",
@@ -52142,7 +52244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1376-fine",
+    "id": "index-1379-fine",
     "type": "word",
     "text": "Fine.",
     "word": "Fine.",
@@ -52176,7 +52278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1377-finen",
+    "id": "index-1380-finen",
     "type": "word",
     "text": "finen",
     "word": "finen",
@@ -52210,7 +52312,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1378-fines",
+    "id": "index-1381-fines",
     "type": "word",
     "text": "fines",
     "word": "fines",
@@ -52244,7 +52346,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1379-finger",
+    "id": "index-1382-finger",
     "type": "word",
     "text": "finger",
     "word": "finger",
@@ -52278,7 +52380,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1380-fingernail",
+    "id": "index-1383-fingernail",
     "type": "word",
     "text": "fingernail",
     "word": "fingernail",
@@ -52314,7 +52416,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1381-fip",
+    "id": "index-1384-fip",
     "type": "word",
     "text": "fip",
     "word": "fip",
@@ -52348,7 +52450,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1382-fire",
+    "id": "index-1385-fire",
     "type": "word",
     "text": "fire",
     "word": "fire",
@@ -52382,7 +52484,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1383-fire-exit",
+    "id": "index-1386-fire-exit",
     "type": "word",
     "text": "fire exit",
     "word": "fire exit",
@@ -52416,7 +52518,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1384-fire-extinguisher",
+    "id": "index-1387-fire-extinguisher",
     "type": "word",
     "text": "fire extinguisher",
     "word": "fire extinguisher",
@@ -52450,7 +52552,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1385-fire-hydrant",
+    "id": "index-1388-fire-hydrant",
     "type": "word",
     "text": "fire hydrant",
     "word": "fire hydrant",
@@ -52484,7 +52586,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1386-fire-station",
+    "id": "index-1389-fire-station",
     "type": "word",
     "text": "fire station",
     "word": "fire station",
@@ -52533,7 +52635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1387-fire",
+    "id": "index-1390-fire",
     "type": "word",
     "text": "Fire!",
     "word": "Fire!",
@@ -52567,7 +52669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1388-fireescape",
+    "id": "index-1391-fireescape",
     "type": "word",
     "text": "fireescape",
     "word": "fireescape",
@@ -52603,7 +52705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1389-firefighter",
+    "id": "index-1392-firefighter",
     "type": "word",
     "text": "firefighter",
     "word": "firefighter",
@@ -52652,7 +52754,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1390-firefly",
+    "id": "index-1393-firefly",
     "type": "word",
     "text": "firefly",
     "word": "firefly",
@@ -52686,7 +52788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1391-fireplace",
+    "id": "index-1394-fireplace",
     "type": "word",
     "text": "fireplace",
     "word": "fireplace",
@@ -52720,7 +52822,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1392-fireplace-screen",
+    "id": "index-1395-fireplace-screen",
     "type": "word",
     "text": "fireplace screen",
     "word": "fireplace screen",
@@ -52756,7 +52858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1393-first-name",
+    "id": "index-1396-first-name",
     "type": "word",
     "text": "first name",
     "word": "first name",
@@ -52790,7 +52892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1394-first-aid-kit",
+    "id": "index-1397-first-aid-kit",
     "type": "word",
     "text": "first-aid kit",
     "word": "first-aid kit",
@@ -52841,7 +52943,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1395-fish",
+    "id": "index-1398-fish",
     "type": "word",
     "text": "fish",
     "word": "fish",
@@ -52889,7 +52991,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1396-fishing",
+    "id": "index-1399-fishing",
     "type": "word",
     "text": "fishing",
     "word": "fishing",
@@ -52923,7 +53025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1397-fishing-line",
+    "id": "index-1400-fishing-line",
     "type": "word",
     "text": "fishing line",
     "word": "fishing line",
@@ -52957,7 +53059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1398-fishing-net",
+    "id": "index-1401-fishing-net",
     "type": "word",
     "text": "fishing net",
     "word": "fishing net",
@@ -52991,7 +53093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1399-fitness-club",
+    "id": "index-1402-fitness-club",
     "type": "word",
     "text": "fitness club",
     "word": "fitness club",
@@ -53025,7 +53127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1400-fitted-sheet",
+    "id": "index-1403-fitted-sheet",
     "type": "word",
     "text": "fitted sheet",
     "word": "fitted sheet",
@@ -53061,7 +53163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1401-flamingo",
+    "id": "index-1404-flamingo",
     "type": "word",
     "text": "flamingo",
     "word": "flamingo",
@@ -53095,7 +53197,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1402-flammable",
+    "id": "index-1405-flammable",
     "type": "word",
     "text": "flammable",
     "word": "flammable",
@@ -53129,7 +53231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1403-flannel",
+    "id": "index-1406-flannel",
     "type": "word",
     "text": "flannel",
     "word": "flannel",
@@ -53163,7 +53265,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1404-flash",
+    "id": "index-1407-flash",
     "type": "word",
     "text": "flash",
     "word": "flash",
@@ -53197,7 +53299,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1405-flash-attachment",
+    "id": "index-1408-flash-attachment",
     "type": "word",
     "text": "flash attachment",
     "word": "flash attachment",
@@ -53231,7 +53333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1406-flashlight",
+    "id": "index-1409-flashlight",
     "type": "word",
     "text": "flashlight",
     "word": "flashlight",
@@ -53265,7 +53367,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1407-flask",
+    "id": "index-1410-flask",
     "type": "word",
     "text": "flask",
     "word": "flask",
@@ -53299,7 +53401,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1408-flat-panel-screen",
+    "id": "index-1411-flat-panel-screen",
     "type": "word",
     "text": "flat panel screen",
     "word": "flat panel screen",
@@ -53335,7 +53437,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1409-flat-sheet",
+    "id": "index-1412-flat-sheet",
     "type": "word",
     "text": "flat sheet",
     "word": "flat sheet",
@@ -53371,7 +53473,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1410-flea-market",
+    "id": "index-1413-flea-market",
     "type": "word",
     "text": "flea market",
     "word": "flea market",
@@ -53407,7 +53509,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1411-fleas",
+    "id": "index-1414-fleas",
     "type": "word",
     "text": "fleas",
     "word": "fleas",
@@ -53443,7 +53545,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1412-flight-attendant",
+    "id": "index-1415-flight-attendant",
     "type": "word",
     "text": "flight attendant",
     "word": "flight attendant",
@@ -53477,7 +53579,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1413-flip-flops",
+    "id": "index-1416-flip-flops",
     "type": "word",
     "text": "flip-flops",
     "word": "flip-flops",
@@ -53511,7 +53613,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1414-flood",
+    "id": "index-1417-flood",
     "type": "word",
     "text": "flood",
     "word": "flood",
@@ -53547,7 +53649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1415-floor",
+    "id": "index-1418-floor",
     "type": "word",
     "text": "floor",
     "word": "floor",
@@ -53611,7 +53713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1416-floor-lamp",
+    "id": "index-1419-floor-lamp",
     "type": "word",
     "text": "floor lamp",
     "word": "floor lamp",
@@ -53647,7 +53749,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1417-floor-wax",
+    "id": "index-1420-floor-wax",
     "type": "word",
     "text": "floor wax",
     "word": "floor wax",
@@ -53683,7 +53785,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1418-floppy-disk",
+    "id": "index-1421-floppy-disk",
     "type": "word",
     "text": "floppy disk",
     "word": "floppy disk",
@@ -53717,7 +53819,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1419-floral",
+    "id": "index-1422-floral",
     "type": "word",
     "text": "floral",
     "word": "floral",
@@ -53751,7 +53853,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1420-florist",
+    "id": "index-1423-florist",
     "type": "word",
     "text": "florist",
     "word": "florist",
@@ -53785,7 +53887,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1421-floss-my-teeth",
+    "id": "index-1424-floss-my-teeth",
     "type": "word",
     "text": "floss my teeth",
     "word": "floss my teeth",
@@ -53821,7 +53923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1422-flounder",
+    "id": "index-1425-flounder",
     "type": "word",
     "text": "flounder",
     "word": "flounder",
@@ -53872,7 +53974,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1423-flower",
+    "id": "index-1426-flower",
     "type": "word",
     "text": "flower",
     "word": "flower",
@@ -53949,7 +54051,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1424-flower-shop",
+    "id": "index-1427-flower-shop",
     "type": "word",
     "text": "flower shop",
     "word": "flower shop",
@@ -53985,7 +54087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1425-flowered",
+    "id": "index-1428-flowered",
     "type": "word",
     "text": "flowered",
     "word": "flowered",
@@ -54021,7 +54123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1426-flu",
+    "id": "index-1429-flu",
     "type": "word",
     "text": "flu",
     "word": "flu",
@@ -54055,7 +54157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1427-flute",
+    "id": "index-1430-flute",
     "type": "word",
     "text": "flute",
     "word": "flute",
@@ -54089,7 +54191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1428-fly",
+    "id": "index-1431-fly",
     "type": "word",
     "text": "fly",
     "word": "fly",
@@ -54138,7 +54240,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1429-fly-swatter",
+    "id": "index-1432-fly-swatter",
     "type": "word",
     "text": "fly swatter",
     "word": "fly swatter",
@@ -54172,7 +54274,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1430-flying-disc",
+    "id": "index-1433-flying-disc",
     "type": "word",
     "text": "flying disc",
     "word": "flying disc",
@@ -54206,7 +54308,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1431-flying-saucer",
+    "id": "index-1434-flying-saucer",
     "type": "word",
     "text": "flying saucer",
     "word": "flying saucer",
@@ -54242,7 +54344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1432-foggy",
+    "id": "index-1435-foggy",
     "type": "word",
     "text": "foggy",
     "word": "foggy",
@@ -54276,7 +54378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1433-fold-the-laundry",
+    "id": "index-1436-fold-the-laundry",
     "type": "word",
     "text": "fold the laundry",
     "word": "fold the laundry",
@@ -54312,7 +54414,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1434-folk-music",
+    "id": "index-1437-folk-music",
     "type": "word",
     "text": "folk music",
     "word": "folk music",
@@ -54346,7 +54448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1435-food-processor",
+    "id": "index-1438-food-processor",
     "type": "word",
     "text": "food processor",
     "word": "food processor",
@@ -54382,7 +54484,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1436-food-warmer",
+    "id": "index-1439-food-warmer",
     "type": "word",
     "text": "food warmer",
     "word": "food warmer",
@@ -54433,7 +54535,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1437-food-service-worker",
+    "id": "index-1440-food-service-worker",
     "type": "word",
     "text": "food-service worker",
     "word": "food-service worker",
@@ -54469,7 +54571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1438-foot",
+    "id": "index-1441-foot",
     "type": "word",
     "text": "foot",
     "word": "foot",
@@ -54520,7 +54622,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1439-football",
+    "id": "index-1442-football",
     "type": "word",
     "text": "football",
     "word": "football",
@@ -54598,7 +54700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1440-football-field",
+    "id": "index-1443-football-field",
     "type": "word",
     "text": "football field",
     "word": "football field",
@@ -54635,7 +54737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1441-football-helmet",
+    "id": "index-1444-football-helmet",
     "type": "word",
     "text": "football helmet",
     "word": "football helmet",
@@ -54671,7 +54773,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1442-football-player",
+    "id": "index-1445-football-player",
     "type": "word",
     "text": "football player",
     "word": "football player",
@@ -54708,7 +54810,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1443-forceps",
+    "id": "index-1446-forceps",
     "type": "word",
     "text": "forceps",
     "word": "forceps",
@@ -54742,7 +54844,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1444-forehead",
+    "id": "index-1447-forehead",
     "type": "word",
     "text": "forehead",
     "word": "forehead",
@@ -54778,7 +54880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1445-foreign-film",
+    "id": "index-1448-foreign-film",
     "type": "word",
     "text": "foreign film",
     "word": "foreign film",
@@ -54812,7 +54914,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1446-foreign-language-book",
+    "id": "index-1449-foreign-language-book",
     "type": "word",
     "text": "foreign language book",
     "word": "foreign language book",
@@ -54848,7 +54950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1447-foreign-language-fuses",
+    "id": "index-1450-foreign-language-fuses",
     "type": "word",
     "text": "foreign language fuses",
     "word": "foreign language fuses",
@@ -54882,7 +54984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1448-foreman",
+    "id": "index-1451-foreman",
     "type": "word",
     "text": "foreman",
     "word": "foreman",
@@ -54916,7 +55018,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1449-forest",
+    "id": "index-1452-forest",
     "type": "word",
     "text": "forest",
     "word": "forest",
@@ -54950,7 +55052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1450-forest-fire",
+    "id": "index-1453-forest-fire",
     "type": "word",
     "text": "forest fire",
     "word": "forest fire",
@@ -54984,7 +55086,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1451-fork",
+    "id": "index-1454-fork",
     "type": "word",
     "text": "fork",
     "word": "fork",
@@ -55018,7 +55120,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1452-forklift",
+    "id": "index-1455-forklift",
     "type": "word",
     "text": "forklift",
     "word": "forklift",
@@ -55052,7 +55154,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1453-form",
+    "id": "index-1456-form",
     "type": "word",
     "text": "form",
     "word": "form",
@@ -55142,7 +55244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1454-form-a-hypothesis",
+    "id": "index-1457-form-a-hypothesis",
     "type": "word",
     "text": "form a hypothesis",
     "word": "form a hypothesis",
@@ -55176,7 +55278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1455-forms-of-payment",
+    "id": "index-1458-forms-of-payment",
     "type": "word",
     "text": "forms of payment",
     "word": "forms of payment",
@@ -55212,7 +55314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1456-formula",
+    "id": "index-1459-formula",
     "type": "word",
     "text": "formula",
     "word": "formula",
@@ -55261,7 +55363,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1457-foundation",
+    "id": "index-1460-foundation",
     "type": "word",
     "text": "foundation",
     "word": "foundation",
@@ -55297,7 +55399,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1458-fountain",
+    "id": "index-1461-fountain",
     "type": "word",
     "text": "fountain",
     "word": "fountain",
@@ -55334,7 +55436,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1459-fourth-floor",
+    "id": "index-1462-fourth-floor",
     "type": "word",
     "text": "fourth floor",
     "word": "fourth floor",
@@ -55371,7 +55473,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1460-fox",
+    "id": "index-1463-fox",
     "type": "word",
     "text": "fox",
     "word": "fox",
@@ -55405,7 +55507,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1461-fractions",
+    "id": "index-1464-fractions",
     "type": "word",
     "text": "fractions",
     "word": "fractions",
@@ -55439,7 +55541,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1462-freeze",
+    "id": "index-1465-freeze",
     "type": "word",
     "text": "Freeze!",
     "word": "Freeze!",
@@ -55475,7 +55577,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1463-freezer",
+    "id": "index-1466-freezer",
     "type": "word",
     "text": "freezer",
     "word": "freezer",
@@ -55511,7 +55613,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1464-freezing",
+    "id": "index-1467-freezing",
     "type": "word",
     "text": "freezing",
     "word": "freezing",
@@ -55547,7 +55649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1465-freight-elevator",
+    "id": "index-1468-freight-elevator",
     "type": "word",
     "text": "freight elevator",
     "word": "freight elevator",
@@ -55581,7 +55683,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1466-french",
+    "id": "index-1469-french",
     "type": "word",
     "text": "French",
     "word": "French",
@@ -55615,7 +55717,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1467-french-fries",
+    "id": "index-1470-french-fries",
     "type": "word",
     "text": "french fries",
     "word": "french fries",
@@ -55666,7 +55768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1468-french-horn",
+    "id": "index-1471-french-horn",
     "type": "word",
     "text": "French horn",
     "word": "French horn",
@@ -55700,7 +55802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1469-friday",
+    "id": "index-1472-friday",
     "type": "word",
     "text": "Friday",
     "word": "Friday",
@@ -55751,7 +55853,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1470-fried-chicken",
+    "id": "index-1473-fried-chicken",
     "type": "word",
     "text": "fried chicken",
     "word": "fried chicken",
@@ -55787,7 +55889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1471-friend",
+    "id": "index-1474-friend",
     "type": "word",
     "text": "friend",
     "word": "friend",
@@ -55823,7 +55925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1472-frisbee",
+    "id": "index-1475-frisbee",
     "type": "word",
     "text": "Frisbee",
     "word": "Frisbee",
@@ -55873,7 +55975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1473-frog",
+    "id": "index-1476-frog",
     "type": "word",
     "text": "frog",
     "word": "frog",
@@ -55907,7 +56009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1474-front-desk",
+    "id": "index-1477-front-desk",
     "type": "word",
     "text": "front desk",
     "word": "front desk",
@@ -55955,7 +56057,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1475-front-door",
+    "id": "index-1478-front-door",
     "type": "word",
     "text": "front door",
     "word": "front door",
@@ -55991,7 +56093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1476-front-light",
+    "id": "index-1479-front-light",
     "type": "word",
     "text": "front light",
     "word": "front light",
@@ -56040,7 +56142,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1477-front-porch",
+    "id": "index-1480-front-porch",
     "type": "word",
     "text": "front porch",
     "word": "front porch",
@@ -56074,7 +56176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1478-front-steps",
+    "id": "index-1481-front-steps",
     "type": "word",
     "text": "front steps",
     "word": "front steps",
@@ -56108,7 +56210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1479-front-walk",
+    "id": "index-1482-front-walk",
     "type": "word",
     "text": "front walk",
     "word": "front walk",
@@ -56142,7 +56244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1480-front-yard",
+    "id": "index-1483-front-yard",
     "type": "word",
     "text": "front yard",
     "word": "front yard",
@@ -56176,7 +56278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1481-front-end-loader",
+    "id": "index-1484-front-end-loader",
     "type": "word",
     "text": "front-end loader",
     "word": "front-end loader",
@@ -56212,7 +56314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1482-frostbite",
+    "id": "index-1485-frostbite",
     "type": "word",
     "text": "frostbite",
     "word": "frostbite",
@@ -56246,7 +56348,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1483-frozen-dinners",
+    "id": "index-1486-frozen-dinners",
     "type": "word",
     "text": "frozen dinners",
     "word": "frozen dinners",
@@ -56280,7 +56382,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1484-frozen-foods",
+    "id": "index-1487-frozen-foods",
     "type": "word",
     "text": "frozen foods",
     "word": "frozen foods",
@@ -56316,7 +56418,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1485-frozen-orange-juice",
+    "id": "index-1488-frozen-orange-juice",
     "type": "word",
     "text": "frozen orange juice",
     "word": "frozen orange juice",
@@ -56350,7 +56452,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1486-frozen-vegeta-bies",
+    "id": "index-1489-frozen-vegeta-bies",
     "type": "word",
     "text": "frozen vegeta bies",
     "word": "frozen vegeta bies",
@@ -56386,7 +56488,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1487-frozen-yogurt",
+    "id": "index-1490-frozen-yogurt",
     "type": "word",
     "text": "frozen yogurt",
     "word": "frozen yogurt",
@@ -56420,7 +56522,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1488-fruit",
+    "id": "index-1491-fruit",
     "type": "word",
     "text": "fruit",
     "word": "fruit",
@@ -56454,7 +56556,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1489-fruit-cocktail",
+    "id": "index-1492-fruit-cocktail",
     "type": "word",
     "text": "fruit cocktail",
     "word": "fruit cocktail",
@@ -56490,7 +56592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1490-fruit-cup",
+    "id": "index-1493-fruit-cup",
     "type": "word",
     "text": "fruit cup",
     "word": "fruit cup",
@@ -56524,7 +56626,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1491-fruit-punch",
+    "id": "index-1494-fruit-punch",
     "type": "word",
     "text": "fruit punch",
     "word": "fruit punch",
@@ -56558,7 +56660,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1492-fruit-tree",
+    "id": "index-1495-fruit-tree",
     "type": "word",
     "text": "fruit tree",
     "word": "fruit tree",
@@ -56594,7 +56696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1493-frustrated",
+    "id": "index-1496-frustrated",
     "type": "word",
     "text": "frustrated",
     "word": "frustrated",
@@ -56628,7 +56730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1494-fry",
+    "id": "index-1497-fry",
     "type": "word",
     "text": "fry",
     "word": "fry",
@@ -56662,7 +56764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1495-frying-pan",
+    "id": "index-1498-frying-pan",
     "type": "word",
     "text": "frying pan",
     "word": "frying pan",
@@ -56696,7 +56798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1496-fuel-gauge",
+    "id": "index-1499-fuel-gauge",
     "type": "word",
     "text": "fuel gauge",
     "word": "fuel gauge",
@@ -56733,7 +56835,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1497-fuel-injection-system-get-away",
+    "id": "index-1500-fuel-injection-system-get-away",
     "type": "word",
     "text": "fuel injection system get away",
     "word": "fuel injection system get away",
@@ -56771,7 +56873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1498-full",
+    "id": "index-1501-full",
     "type": "word",
     "text": "full",
     "word": "full",
@@ -56820,7 +56922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1499-full-moon",
+    "id": "index-1502-full-moon",
     "type": "word",
     "text": "full moon",
     "word": "full moon",
@@ -56856,7 +56958,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1500-full-time",
+    "id": "index-1503-full-time",
     "type": "word",
     "text": "full-time",
     "word": "full-time",
@@ -56890,7 +56992,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1501-funds",
+    "id": "index-1504-funds",
     "type": "word",
     "text": "funds",
     "word": "funds",
@@ -56924,7 +57026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1502-funnel",
+    "id": "index-1505-funnel",
     "type": "word",
     "text": "funnel",
     "word": "funnel",
@@ -56958,7 +57060,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1503-fur",
+    "id": "index-1506-fur",
     "type": "word",
     "text": "fur",
     "word": "fur",
@@ -56992,7 +57094,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1504-furious",
+    "id": "index-1507-furious",
     "type": "word",
     "text": "furious",
     "word": "furious",
@@ -57028,7 +57130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1505-furniture",
+    "id": "index-1508-furniture",
     "type": "word",
     "text": "furniture",
     "word": "furniture",
@@ -57062,7 +57164,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1506-furniture-oepartment-get-up",
+    "id": "index-1509-furniture-oepartment-get-up",
     "type": "word",
     "text": "Furniture Oepartment get up",
     "word": "Furniture Oepartment get up",
@@ -57098,7 +57200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1507-furniture-polish",
+    "id": "index-1510-furniture-polish",
     "type": "word",
     "text": "furniture polish",
     "word": "furniture polish",
@@ -57132,7 +57234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1508-furniture-store",
+    "id": "index-1511-furniture-store",
     "type": "word",
     "text": "furniture store",
     "word": "furniture store",
@@ -57166,7 +57268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1509-f-rst-class",
+    "id": "index-1512-f-rst-class",
     "type": "word",
     "text": "fírst class",
     "word": "fírst class",
@@ -57200,7 +57302,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1510-f-rst-floor",
+    "id": "index-1513-f-rst-floor",
     "type": "word",
     "text": "fírst floor",
     "word": "fírst floor",
@@ -57236,7 +57338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1511-f-rst-aid-manual",
+    "id": "index-1514-f-rst-aid-manual",
     "type": "word",
     "text": "fírst-aid manual",
     "word": "fírst-aid manual",
@@ -57272,7 +57374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1512-f-sh-sandwich",
+    "id": "index-1515-f-sh-sandwich",
     "type": "word",
     "text": "físh sandwich",
     "word": "físh sandwich",
@@ -57306,7 +57408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1513-galaxy",
+    "id": "index-1516-galaxy",
     "type": "word",
     "text": "galaxy",
     "word": "galaxy",
@@ -57340,7 +57442,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1514-gallbladder",
+    "id": "index-1517-gallbladder",
     "type": "word",
     "text": "gallbladder",
     "word": "gallbladder",
@@ -57374,7 +57476,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1515-gallon",
+    "id": "index-1518-gallon",
     "type": "word",
     "text": "gallon",
     "word": "gallon",
@@ -57422,7 +57524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1516-game-room",
+    "id": "index-1519-game-room",
     "type": "word",
     "text": "game room",
     "word": "game room",
@@ -57458,7 +57560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1517-game-show",
+    "id": "index-1520-game-show",
     "type": "word",
     "text": "game show",
     "word": "game show",
@@ -57494,7 +57596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1518-gang-violence",
+    "id": "index-1521-gang-violence",
     "type": "word",
     "text": "gang violence",
     "word": "gang violence",
@@ -57528,7 +57630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1519-garage",
+    "id": "index-1522-garage",
     "type": "word",
     "text": "garage",
     "word": "garage",
@@ -57562,7 +57664,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1520-garage-door",
+    "id": "index-1523-garage-door",
     "type": "word",
     "text": "garage door",
     "word": "garage door",
@@ -57598,7 +57700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1521-garbage",
+    "id": "index-1524-garbage",
     "type": "word",
     "text": "garbage",
     "word": "garbage",
@@ -57632,7 +57734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1522-garbage-can",
+    "id": "index-1525-garbage-can",
     "type": "word",
     "text": "garbage can",
     "word": "garbage can",
@@ -57666,7 +57768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1523-garbage-chute",
+    "id": "index-1526-garbage-chute",
     "type": "word",
     "text": "garbage chute",
     "word": "garbage chute",
@@ -57700,7 +57802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1524-garbage-disposal",
+    "id": "index-1527-garbage-disposal",
     "type": "word",
     "text": "garbage disposal",
     "word": "garbage disposal",
@@ -57734,7 +57836,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1525-garbage-pail",
+    "id": "index-1528-garbage-pail",
     "type": "word",
     "text": "garbage pail",
     "word": "garbage pail",
@@ -57770,7 +57872,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1526-garbage-truck",
+    "id": "index-1529-garbage-truck",
     "type": "word",
     "text": "garbage truck",
     "word": "garbage truck",
@@ -57804,7 +57906,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1527-garden",
+    "id": "index-1530-garden",
     "type": "word",
     "text": "garden",
     "word": "garden",
@@ -57838,7 +57940,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1528-garden-hose",
+    "id": "index-1531-garden-hose",
     "type": "word",
     "text": "garden hose",
     "word": "garden hose",
@@ -57872,7 +57974,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1529-garden-salad",
+    "id": "index-1532-garden-salad",
     "type": "word",
     "text": "garden salad",
     "word": "garden salad",
@@ -57906,7 +58008,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1530-gardener",
+    "id": "index-1533-gardener",
     "type": "word",
     "text": "gardener",
     "word": "gardener",
@@ -57940,7 +58042,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1531-gardenia",
+    "id": "index-1534-gardenia",
     "type": "word",
     "text": "gardenia",
     "word": "gardenia",
@@ -57974,7 +58076,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1532-gargle",
+    "id": "index-1535-gargle",
     "type": "word",
     "text": "gargle",
     "word": "gargle",
@@ -58023,7 +58125,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1533-garlic",
+    "id": "index-1536-garlic",
     "type": "word",
     "text": "garlic",
     "word": "garlic",
@@ -58057,7 +58159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1534-garlic-press",
+    "id": "index-1537-garlic-press",
     "type": "word",
     "text": "garlic press",
     "word": "garlic press",
@@ -58091,7 +58193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1535-garment-bag",
+    "id": "index-1538-garment-bag",
     "type": "word",
     "text": "garment bag",
     "word": "garment bag",
@@ -58125,7 +58227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1536-gas",
+    "id": "index-1539-gas",
     "type": "word",
     "text": "gas",
     "word": "gas",
@@ -58174,7 +58276,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1537-gas-bill",
+    "id": "index-1540-gas-bill",
     "type": "word",
     "text": "gas bill",
     "word": "gas bill",
@@ -58208,7 +58310,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1538-gas-can",
+    "id": "index-1541-gas-can",
     "type": "word",
     "text": "gas can",
     "word": "gas can",
@@ -58242,7 +58344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1539-gas-cap",
+    "id": "index-1542-gas-cap",
     "type": "word",
     "text": "gas cap",
     "word": "gas cap",
@@ -58276,7 +58378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1540-gas-gauge",
+    "id": "index-1543-gas-gauge",
     "type": "word",
     "text": "gas gauge",
     "word": "gas gauge",
@@ -58312,7 +58414,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1541-gas-pedal",
+    "id": "index-1544-gas-pedal",
     "type": "word",
     "text": "gas pedal",
     "word": "gas pedal",
@@ -58346,7 +58448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1542-gas-pump",
+    "id": "index-1545-gas-pump",
     "type": "word",
     "text": "gas pump",
     "word": "gas pump",
@@ -58380,7 +58482,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1543-gas-station",
+    "id": "index-1546-gas-station",
     "type": "word",
     "text": "gas station",
     "word": "gas station",
@@ -58414,7 +58516,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1544-gas-tank",
+    "id": "index-1547-gas-tank",
     "type": "word",
     "text": "gas tank",
     "word": "gas tank",
@@ -58448,7 +58550,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1545-gasleak",
+    "id": "index-1548-gasleak",
     "type": "word",
     "text": "gasleak",
     "word": "gasleak",
@@ -58484,7 +58586,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1546-gastroenterologist",
+    "id": "index-1549-gastroenterologist",
     "type": "word",
     "text": "gastroenterologist",
     "word": "gastroenterologist",
@@ -58520,7 +58622,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1547-gate",
+    "id": "index-1550-gate",
     "type": "word",
     "text": "gate",
     "word": "gate",
@@ -58582,7 +58684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1548-gauze",
+    "id": "index-1551-gauze",
     "type": "word",
     "text": "gauze",
     "word": "gauze",
@@ -58633,7 +58735,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1549-gearshift",
+    "id": "index-1552-gearshift",
     "type": "word",
     "text": "gearshift",
     "word": "gearshift",
@@ -58669,7 +58771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1550-geography",
+    "id": "index-1553-geography",
     "type": "word",
     "text": "geography",
     "word": "geography",
@@ -58703,7 +58805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1551-geometric-shapes",
+    "id": "index-1554-geometric-shapes",
     "type": "word",
     "text": "geometric shapes",
     "word": "geometric shapes",
@@ -58737,7 +58839,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1552-geometry",
+    "id": "index-1555-geometry",
     "type": "word",
     "text": "geometry",
     "word": "geometry",
@@ -58771,7 +58873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1553-geothermal-energy",
+    "id": "index-1556-geothermal-energy",
     "type": "word",
     "text": "geothermal energy",
     "word": "geothermal energy",
@@ -58805,7 +58907,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1554-geranium",
+    "id": "index-1557-geranium",
     "type": "word",
     "text": "geranium",
     "word": "geranium",
@@ -58839,7 +58941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1555-gerbil",
+    "id": "index-1558-gerbil",
     "type": "word",
     "text": "gerbil",
     "word": "gerbil",
@@ -58873,7 +58975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1556-gerontologist",
+    "id": "index-1559-gerontologist",
     "type": "word",
     "text": "gerontologist",
     "word": "gerontologist",
@@ -58907,7 +59009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1557-get-acupljncture",
+    "id": "index-1560-get-acupljncture",
     "type": "word",
     "text": "get acuplJncture",
     "word": "get acuplJncture",
@@ -58941,7 +59043,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1558-get-an-electric-shock",
+    "id": "index-1561-get-an-electric-shock",
     "type": "word",
     "text": "get an electric shock",
     "word": "get an electric shock",
@@ -58975,7 +59077,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1559-get-away-from-me",
+    "id": "index-1562-get-away-from-me",
     "type": "word",
     "text": "Get away from me!",
     "word": "Get away from me!",
@@ -59012,7 +59114,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1560-get-awayfrom-me",
+    "id": "index-1563-get-awayfrom-me",
     "type": "word",
     "text": "Get awayfrom me!",
     "word": "Get awayfrom me!",
@@ -59064,7 +59166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1561-get-cash",
+    "id": "index-1564-get-cash",
     "type": "word",
     "text": "get cash",
     "word": "get cash",
@@ -59098,7 +59200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1562-get-dressed",
+    "id": "index-1565-get-dressed",
     "type": "word",
     "text": "get dressed",
     "word": "get dressed",
@@ -59132,7 +59234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1563-get-feedback",
+    "id": "index-1566-get-feedback",
     "type": "word",
     "text": "get feedback",
     "word": "get feedback",
@@ -59168,7 +59270,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1564-get-home",
+    "id": "index-1567-get-home",
     "type": "word",
     "text": "get home",
     "word": "get home",
@@ -59202,7 +59304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1565-get-some-informat-on-gospel-music",
+    "id": "index-1568-get-some-informat-on-gospel-music",
     "type": "word",
     "text": "get some informatíon gospel music",
     "word": "get some informatíon gospel music",
@@ -59264,7 +59366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1566-get-tickets",
+    "id": "index-1569-get-tickets",
     "type": "word",
     "text": "get tickets",
     "word": "get tickets",
@@ -59298,7 +59400,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1567-get-traveler-s-checks",
+    "id": "index-1570-get-traveler-s-checks",
     "type": "word",
     "text": "get traveler's checks",
     "word": "get traveler's checks",
@@ -59332,7 +59434,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1568-get-undressed",
+    "id": "index-1571-get-undressed",
     "type": "word",
     "text": "get undressed",
     "word": "get undressed",
@@ -59366,7 +59468,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1569-get-your-boarding-granddaughter",
+    "id": "index-1572-get-your-boarding-granddaughter",
     "type": "word",
     "text": "get your boarding granddaughter",
     "word": "get your boarding granddaughter",
@@ -59404,7 +59506,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1570-gethired",
+    "id": "index-1573-gethired",
     "type": "word",
     "text": "gethired",
     "word": "gethired",
@@ -59438,7 +59540,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1571-gibbon",
+    "id": "index-1574-gibbon",
     "type": "word",
     "text": "gibbon",
     "word": "gibbon",
@@ -59472,7 +59574,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1572-gift-shop",
+    "id": "index-1575-gift-shop",
     "type": "word",
     "text": "gift shop",
     "word": "gift shop",
@@ -59506,7 +59608,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1573-gift-wrap-counter",
+    "id": "index-1576-gift-wrap-counter",
     "type": "word",
     "text": "Gift Wrap Counter",
     "word": "Gift Wrap Counter",
@@ -59542,7 +59644,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1574-gil",
+    "id": "index-1577-gil",
     "type": "word",
     "text": "gil!",
     "word": "gil!",
@@ -59576,7 +59678,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1575-giraffe",
+    "id": "index-1578-giraffe",
     "type": "word",
     "text": "giraffe",
     "word": "giraffe",
@@ -59610,7 +59712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1576-girder",
+    "id": "index-1579-girder",
     "type": "word",
     "text": "girder",
     "word": "girder",
@@ -59644,7 +59746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1577-girl",
+    "id": "index-1580-girl",
     "type": "word",
     "text": "girl",
     "word": "girl",
@@ -59678,7 +59780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1578-give-a-presentation",
+    "id": "index-1581-give-a-presentation",
     "type": "word",
     "text": "give a presentation",
     "word": "give a presentation",
@@ -59712,7 +59814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1579-give-you-a-shot-of-fishing-rod",
+    "id": "index-1582-give-you-a-shot-of-fishing-rod",
     "type": "word",
     "text": "give you a shot of fishing rod",
     "word": "give you a shot of fishing rod",
@@ -59748,7 +59850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1580-give-you-a-shot-of-fix",
+    "id": "index-1583-give-you-a-shot-of-fix",
     "type": "word",
     "text": "give you a shot of fix",
     "word": "give you a shot of fix",
@@ -59799,7 +59901,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1581-glass",
+    "id": "index-1584-glass",
     "type": "word",
     "text": "glass",
     "word": "glass",
@@ -59833,7 +59935,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1582-global-warming",
+    "id": "index-1585-global-warming",
     "type": "word",
     "text": "global warming",
     "word": "global warming",
@@ -59867,7 +59969,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1583-globe",
+    "id": "index-1586-globe",
     "type": "word",
     "text": "globe",
     "word": "globe",
@@ -59901,7 +60003,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1584-glove-compartment",
+    "id": "index-1587-glove-compartment",
     "type": "word",
     "text": "glove compartment",
     "word": "glove compartment",
@@ -59935,7 +60037,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1585-gloves",
+    "id": "index-1588-gloves",
     "type": "word",
     "text": "gloves",
     "word": "gloves",
@@ -59998,7 +60100,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1586-glue",
+    "id": "index-1589-glue",
     "type": "word",
     "text": "glue",
     "word": "glue",
@@ -60063,7 +60165,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1587-glue-stick",
+    "id": "index-1590-glue-stick",
     "type": "word",
     "text": "glue stick",
     "word": "glue stick",
@@ -60099,7 +60201,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1588-go-away",
+    "id": "index-1591-go-away",
     "type": "word",
     "text": "go away",
     "word": "go away",
@@ -60136,7 +60238,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1589-go-bird-watching",
+    "id": "index-1592-go-bird-watching",
     "type": "word",
     "text": "go bird-watching",
     "word": "go bird-watching",
@@ -60170,7 +60272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1590-go-in",
+    "id": "index-1593-go-in",
     "type": "word",
     "text": "go in",
     "word": "go in",
@@ -60204,7 +60306,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1591-go-on",
+    "id": "index-1594-go-on",
     "type": "word",
     "text": "go on",
     "word": "go on",
@@ -60238,7 +60340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1592-go-on-a-diet",
+    "id": "index-1595-go-on-a-diet",
     "type": "word",
     "text": "go on a diet",
     "word": "go on a diet",
@@ -60274,7 +60376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1593-go-online",
+    "id": "index-1596-go-online",
     "type": "word",
     "text": "go online",
     "word": "go online",
@@ -60308,7 +60410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1594-go-over-the-answers",
+    "id": "index-1597-go-over-the-answers",
     "type": "word",
     "text": "go over the answers",
     "word": "go over the answers",
@@ -60342,7 +60444,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1595-go-shopping",
+    "id": "index-1598-go-shopping",
     "type": "word",
     "text": "go shopping",
     "word": "go shopping",
@@ -60376,7 +60478,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1596-go-sightseeing",
+    "id": "index-1599-go-sightseeing",
     "type": "word",
     "text": "go sightseeing",
     "word": "go sightseeing",
@@ -60412,7 +60514,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1597-go-straight",
+    "id": "index-1600-go-straight",
     "type": "word",
     "text": "go straight",
     "word": "go straight",
@@ -60448,7 +60550,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1598-go-to-a-club",
+    "id": "index-1601-go-to-a-club",
     "type": "word",
     "text": "go to a club",
     "word": "go to a club",
@@ -60482,7 +60584,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1599-go-to-a-fitness-club",
+    "id": "index-1602-go-to-a-fitness-club",
     "type": "word",
     "text": "go to a fitness club",
     "word": "go to a fitness club",
@@ -60516,7 +60618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1600-go-to-a-health-club",
+    "id": "index-1603-go-to-a-health-club",
     "type": "word",
     "text": "go to a health club",
     "word": "go to a health club",
@@ -60552,7 +60654,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1601-go-to-a-museum",
+    "id": "index-1604-go-to-a-museum",
     "type": "word",
     "text": "go to a museum",
     "word": "go to a museum",
@@ -60586,7 +60688,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1602-go-to-a-park",
+    "id": "index-1605-go-to-a-park",
     "type": "word",
     "text": "go to a park",
     "word": "go to a park",
@@ -60620,7 +60722,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1603-go-to-an-internet-hour",
+    "id": "index-1606-go-to-an-internet-hour",
     "type": "word",
     "text": "go to an Internet Hour",
     "word": "go to an Internet Hour",
@@ -60656,7 +60758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1604-go-to-an-interview",
+    "id": "index-1607-go-to-an-interview",
     "type": "word",
     "text": "go to an interview",
     "word": "go to an interview",
@@ -60708,7 +60810,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1605-go-to-bed",
+    "id": "index-1608-go-to-bed",
     "type": "word",
     "text": "go to bed",
     "word": "go to bed",
@@ -60742,7 +60844,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1606-go-to-school",
+    "id": "index-1609-go-to-school",
     "type": "word",
     "text": "go to school",
     "word": "go to school",
@@ -60778,7 +60880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1607-go-to-the-board",
+    "id": "index-1610-go-to-the-board",
     "type": "word",
     "text": "go to the board",
     "word": "go to the board",
@@ -60814,7 +60916,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1608-go-to-the-store",
+    "id": "index-1611-go-to-the-store",
     "type": "word",
     "text": "go to the store",
     "word": "go to the store",
@@ -60848,7 +60950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1609-go-to-work",
+    "id": "index-1612-go-to-work",
     "type": "word",
     "text": "go to work",
     "word": "go to work",
@@ -60882,7 +60984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1610-goat",
+    "id": "index-1613-goat",
     "type": "word",
     "text": "goat",
     "word": "goat",
@@ -60918,7 +61020,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1611-goggles",
+    "id": "index-1614-goggles",
     "type": "word",
     "text": "goggles",
     "word": "goggles",
@@ -60967,7 +61069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1612-gold",
+    "id": "index-1615-gold",
     "type": "word",
     "text": "gold",
     "word": "gold",
@@ -61001,7 +61103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1613-goldfish",
+    "id": "index-1616-goldfish",
     "type": "word",
     "text": "goldfish",
     "word": "goldfish",
@@ -61035,7 +61137,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1614-golf",
+    "id": "index-1617-golf",
     "type": "word",
     "text": "golf",
     "word": "golf",
@@ -61069,7 +61171,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1615-golf-ball",
+    "id": "index-1618-golf-ball",
     "type": "word",
     "text": "golf ball",
     "word": "golf ball",
@@ -61103,7 +61205,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1616-golf-clubs",
+    "id": "index-1619-golf-clubs",
     "type": "word",
     "text": "golf clubs",
     "word": "golf clubs",
@@ -61137,7 +61239,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1617-good",
+    "id": "index-1620-good",
     "type": "word",
     "text": "good",
     "word": "good",
@@ -61173,7 +61275,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1618-good-afternoon",
+    "id": "index-1621-good-afternoon",
     "type": "word",
     "text": "Good afternoon.",
     "word": "Good afternoon.",
@@ -61209,7 +61311,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1619-good-evening",
+    "id": "index-1622-good-evening",
     "type": "word",
     "text": "Good evening.",
     "word": "Good evening.",
@@ -61245,7 +61347,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1620-good-morning",
+    "id": "index-1623-good-morning",
     "type": "word",
     "text": "Good morning.",
     "word": "Good morning.",
@@ -61281,7 +61383,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1621-good-night",
+    "id": "index-1624-good-night",
     "type": "word",
     "text": "Good night.",
     "word": "Good night.",
@@ -61317,10 +61419,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1622-good-bye",
+    "id": "index-1625-good-bye",
     "type": "word",
-    "text": "Good-bye.",
-    "word": "Good-bye.",
+    "text": "Good-bye",
+    "word": "Good-bye",
     "chinese": "",
     "source": "word-by-word-index",
     "sourceRefs": [
@@ -61338,7 +61440,7 @@ window.LEARNING_DICTIONARY_FULL = [
       }
     ],
     "alternatePlacements": [],
-    "sourceLine": 53,
+    "sourceLine": 0,
     "theme": "daily",
     "topic": "Everyday Conversation",
     "partOfSpeech": "index entry",
@@ -61353,7 +61455,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1623-goose",
+    "id": "index-1626-goose",
     "type": "word",
     "text": "goose",
     "word": "goose",
@@ -61389,7 +61491,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1624-gopher",
+    "id": "index-1627-gopher",
     "type": "word",
     "text": "gopher",
     "word": "gopher",
@@ -61423,7 +61525,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1625-gorilla",
+    "id": "index-1628-gorilla",
     "type": "word",
     "text": "gorilla",
     "word": "gorilla",
@@ -61457,7 +61559,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1626-government",
+    "id": "index-1629-government",
     "type": "word",
     "text": "government",
     "word": "government",
@@ -61491,7 +61593,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1627-gown",
+    "id": "index-1630-gown",
     "type": "word",
     "text": "gown",
     "word": "gown",
@@ -61527,7 +61629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1628-gpsdevice",
+    "id": "index-1631-gpsdevice",
     "type": "word",
     "text": "GPSdevice",
     "word": "GPSdevice",
@@ -61561,7 +61663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1629-graduate-school",
+    "id": "index-1632-graduate-school",
     "type": "word",
     "text": "graduate school",
     "word": "graduate school",
@@ -61597,7 +61699,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1630-graduated-cylinder",
+    "id": "index-1633-graduated-cylinder",
     "type": "word",
     "text": "graduated cylinder",
     "word": "graduated cylinder",
@@ -61631,7 +61733,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1631-grandchildren",
+    "id": "index-1634-grandchildren",
     "type": "word",
     "text": "grandchildren",
     "word": "grandchildren",
@@ -61665,7 +61767,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1632-grandfather",
+    "id": "index-1635-grandfather",
     "type": "word",
     "text": "grandfather",
     "word": "grandfather",
@@ -61699,7 +61801,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1633-grandmother",
+    "id": "index-1636-grandmother",
     "type": "word",
     "text": "grandmother",
     "word": "grandmother",
@@ -61748,7 +61850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1634-grandparents",
+    "id": "index-1637-grandparents",
     "type": "word",
     "text": "grandparents",
     "word": "grandparents",
@@ -61782,7 +61884,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1635-grandson",
+    "id": "index-1638-grandson",
     "type": "word",
     "text": "grandson",
     "word": "grandson",
@@ -61816,7 +61918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1636-grape-juice",
+    "id": "index-1639-grape-juice",
     "type": "word",
     "text": "grape juice",
     "word": "grape juice",
@@ -61850,7 +61952,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1637-grapefruit",
+    "id": "index-1640-grapefruit",
     "type": "word",
     "text": "grapefruit",
     "word": "grapefruit",
@@ -61884,7 +61986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1638-grapefruitjuice",
+    "id": "index-1641-grapefruitjuice",
     "type": "word",
     "text": "grapefruitjuice",
     "word": "grapefruitjuice",
@@ -61918,7 +62020,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1639-grapes",
+    "id": "index-1642-grapes",
     "type": "word",
     "text": "grapes",
     "word": "grapes",
@@ -61952,7 +62054,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1640-graph-paper",
+    "id": "index-1643-graph-paper",
     "type": "word",
     "text": "graph paper",
     "word": "graph paper",
@@ -61986,7 +62088,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1641-grasshopper",
+    "id": "index-1644-grasshopper",
     "type": "word",
     "text": "grasshopper",
     "word": "grasshopper",
@@ -62020,7 +62122,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1642-grate",
+    "id": "index-1645-grate",
     "type": "word",
     "text": "grate",
     "word": "grate",
@@ -62054,7 +62156,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1643-grater",
+    "id": "index-1646-grater",
     "type": "word",
     "text": "grater",
     "word": "grater",
@@ -62088,7 +62190,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1644-gray",
+    "id": "index-1647-gray",
     "type": "word",
     "text": "gray",
     "word": "gray",
@@ -62139,7 +62241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1645-greek-salad",
+    "id": "index-1648-greek-salad",
     "type": "word",
     "text": "Greek salad",
     "word": "Greek salad",
@@ -62175,7 +62277,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1646-green",
+    "id": "index-1649-green",
     "type": "word",
     "text": "green",
     "word": "green",
@@ -62211,7 +62313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1647-green-bean",
+    "id": "index-1650-green-bean",
     "type": "word",
     "text": "green bean",
     "word": "green bean",
@@ -62248,7 +62350,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1648-green-onion",
+    "id": "index-1651-green-onion",
     "type": "word",
     "text": "green onion",
     "word": "green onion",
@@ -62284,7 +62386,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1649-green-pepper",
+    "id": "index-1652-green-pepper",
     "type": "word",
     "text": "green pepper",
     "word": "green pepper",
@@ -62320,7 +62422,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1650-grill",
+    "id": "index-1653-grill",
     "type": "word",
     "text": "grill",
     "word": "grill",
@@ -62354,7 +62456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1651-grocery-store",
+    "id": "index-1654-grocery-store",
     "type": "word",
     "text": "grocery store",
     "word": "grocery store",
@@ -62388,7 +62490,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1652-ground-beef",
+    "id": "index-1655-ground-beef",
     "type": "word",
     "text": "ground beef",
     "word": "ground beef",
@@ -62425,7 +62527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1653-group",
+    "id": "index-1656-group",
     "type": "word",
     "text": "group",
     "word": "group",
@@ -62475,7 +62577,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1654-groups",
+    "id": "index-1657-groups",
     "type": "word",
     "text": "groups",
     "word": "groups",
@@ -62511,7 +62613,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1655-grow",
+    "id": "index-1658-grow",
     "type": "word",
     "text": "grow",
     "word": "grow",
@@ -62547,7 +62649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1656-guard",
+    "id": "index-1659-guard",
     "type": "word",
     "text": "guard",
     "word": "guard",
@@ -62596,7 +62698,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1657-guest",
+    "id": "index-1660-guest",
     "type": "word",
     "text": "guest",
     "word": "guest",
@@ -62632,7 +62734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1658-guest-room",
+    "id": "index-1661-guest-room",
     "type": "word",
     "text": "guest room",
     "word": "guest room",
@@ -62669,7 +62771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1659-guidance-office",
+    "id": "index-1662-guidance-office",
     "type": "word",
     "text": "guidance office",
     "word": "guidance office",
@@ -62703,7 +62805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1660-guided-tour",
+    "id": "index-1663-guided-tour",
     "type": "word",
     "text": "guided tour",
     "word": "guided tour",
@@ -62739,7 +62841,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1661-guinea-pig",
+    "id": "index-1664-guinea-pig",
     "type": "word",
     "text": "guinea pig",
     "word": "guinea pig",
@@ -62775,7 +62877,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1662-guitar",
+    "id": "index-1665-guitar",
     "type": "word",
     "text": "guitar",
     "word": "guitar",
@@ -62824,7 +62926,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1663-gums",
+    "id": "index-1666-gums",
     "type": "word",
     "text": "gums",
     "word": "gums",
@@ -62858,7 +62960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1664-gurney",
+    "id": "index-1667-gurney",
     "type": "word",
     "text": "gurney",
     "word": "gurney",
@@ -62892,7 +62994,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1665-gutter",
+    "id": "index-1668-gutter",
     "type": "word",
     "text": "gutter",
     "word": "gutter",
@@ -62926,7 +63028,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1666-gym",
+    "id": "index-1669-gym",
     "type": "word",
     "text": "gym",
     "word": "gym",
@@ -62960,7 +63062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1667-gymnastics",
+    "id": "index-1670-gymnastics",
     "type": "word",
     "text": "gymnastics",
     "word": "gymnastics",
@@ -62994,7 +63096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1668-gynecologist",
+    "id": "index-1671-gynecologist",
     "type": "word",
     "text": "gynecologist",
     "word": "gynecologist",
@@ -63028,7 +63130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1669-hacksaw",
+    "id": "index-1672-hacksaw",
     "type": "word",
     "text": "hacksaw",
     "word": "hacksaw",
@@ -63064,7 +63166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1670-haddock",
+    "id": "index-1673-haddock",
     "type": "word",
     "text": "haddock",
     "word": "haddock",
@@ -63098,7 +63200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1671-hailing",
+    "id": "index-1674-hailing",
     "type": "word",
     "text": "hailing",
     "word": "hailing",
@@ -63134,7 +63236,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1672-hair",
+    "id": "index-1675-hair",
     "type": "word",
     "text": "hair",
     "word": "hair",
@@ -63212,7 +63314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1673-hair-brush",
+    "id": "index-1676-hair-brush",
     "type": "word",
     "text": "hair brush",
     "word": "hair brush",
@@ -63248,7 +63350,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1674-hair-gel",
+    "id": "index-1677-hair-gel",
     "type": "word",
     "text": "hair gel",
     "word": "hair gel",
@@ -63284,7 +63386,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1675-hair-sal-n",
+    "id": "index-1678-hair-sal-n",
     "type": "word",
     "text": "hair salón",
     "word": "hair salón",
@@ -63320,7 +63422,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1676-hairclip",
+    "id": "index-1679-hairclip",
     "type": "word",
     "text": "hairclip",
     "word": "hairclip",
@@ -63356,7 +63458,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1677-hairdresser",
+    "id": "index-1680-hairdresser",
     "type": "word",
     "text": "hairdresser",
     "word": "hairdresser",
@@ -63392,7 +63494,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1678-hairdryer",
+    "id": "index-1681-hairdryer",
     "type": "word",
     "text": "hairdryer",
     "word": "hairdryer",
@@ -63443,7 +63545,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1679-hairnet",
+    "id": "index-1682-hairnet",
     "type": "word",
     "text": "hairnet",
     "word": "hairnet",
@@ -63479,7 +63581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1680-hairspray",
+    "id": "index-1683-hairspray",
     "type": "word",
     "text": "hairspray",
     "word": "hairspray",
@@ -63516,7 +63618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1681-half",
+    "id": "index-1684-half",
     "type": "word",
     "text": "half",
     "word": "half",
@@ -63550,7 +63652,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1682-half-dollar",
+    "id": "index-1685-half-dollar",
     "type": "word",
     "text": "half dollar",
     "word": "half dollar",
@@ -63584,7 +63686,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1683-half-past",
+    "id": "index-1686-half-past",
     "type": "word",
     "text": "half past",
     "word": "half past",
@@ -63618,7 +63720,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1684-half-slip",
+    "id": "index-1687-half-slip",
     "type": "word",
     "text": "half slip",
     "word": "half slip",
@@ -63652,7 +63754,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1685-half-gallon",
+    "id": "index-1688-half-gallon",
     "type": "word",
     "text": "half-gallon",
     "word": "half-gallon",
@@ -63686,7 +63788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1686-halibut",
+    "id": "index-1689-halibut",
     "type": "word",
     "text": "halibut",
     "word": "halibut",
@@ -63720,7 +63822,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1687-hallway",
+    "id": "index-1690-hallway",
     "type": "word",
     "text": "hallway",
     "word": "hallway",
@@ -63771,7 +63873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1688-ham",
+    "id": "index-1691-ham",
     "type": "word",
     "text": "ham",
     "word": "ham",
@@ -63820,7 +63922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1689-ham-and-cheese-headlight",
+    "id": "index-1692-ham-and-cheese-headlight",
     "type": "word",
     "text": "ham and cheese headlight",
     "word": "ham and cheese headlight",
@@ -63857,7 +63959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1690-hamburger",
+    "id": "index-1693-hamburger",
     "type": "word",
     "text": "hamburger",
     "word": "hamburger",
@@ -63891,7 +63993,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1691-hammer",
+    "id": "index-1694-hammer",
     "type": "word",
     "text": "hammer",
     "word": "hammer",
@@ -63925,7 +64027,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1692-hamper",
+    "id": "index-1695-hamper",
     "type": "word",
     "text": "hamper",
     "word": "hamper",
@@ -63959,7 +64061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1693-hamster",
+    "id": "index-1696-hamster",
     "type": "word",
     "text": "hamster",
     "word": "hamster",
@@ -63993,7 +64095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1694-hand",
+    "id": "index-1697-hand",
     "type": "word",
     "text": "hand",
     "word": "hand",
@@ -64042,7 +64144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1695-hand-in-your-homework-hearing-impaired",
+    "id": "index-1698-hand-in-your-homework-hearing-impaired",
     "type": "word",
     "text": "hand In your homework hearing impaired",
     "word": "hand In your homework hearing impaired",
@@ -64081,7 +64183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1696-hand-lotion",
+    "id": "index-1699-hand-lotion",
     "type": "word",
     "text": "hand lotion",
     "word": "hand lotion",
@@ -64115,7 +64217,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1697-hand-signals",
+    "id": "index-1700-hand-signals",
     "type": "word",
     "text": "hand signals",
     "word": "hand signals",
@@ -64149,7 +64251,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1698-hand-towel",
+    "id": "index-1701-hand-towel",
     "type": "word",
     "text": "hand towel",
     "word": "hand towel",
@@ -64185,7 +64287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1699-hand-truck",
+    "id": "index-1702-hand-truck",
     "type": "word",
     "text": "hand truck",
     "word": "hand truck",
@@ -64219,7 +64321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1700-hand-vacuum",
+    "id": "index-1703-hand-vacuum",
     "type": "word",
     "text": "hand vacuum",
     "word": "hand vacuum",
@@ -64253,7 +64355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1701-hand-held-video-game-helmet",
+    "id": "index-1704-hand-held-video-game-helmet",
     "type": "word",
     "text": "hand-held video game helmet",
     "word": "hand-held video game helmet",
@@ -64302,7 +64404,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1702-handbag",
+    "id": "index-1705-handbag",
     "type": "word",
     "text": "handbag",
     "word": "handbag",
@@ -64336,7 +64438,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1703-handicapped-parking-hen",
+    "id": "index-1706-handicapped-parking-hen",
     "type": "word",
     "text": "handicapped parking hen",
     "word": "handicapped parking hen",
@@ -64370,7 +64472,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1704-handicapped-accessible-help-each-other",
+    "id": "index-1707-handicapped-accessible-help-each-other",
     "type": "word",
     "text": "handicapped-accessible help each other",
     "word": "handicapped-accessible help each other",
@@ -64406,7 +64508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1705-handkerchief",
+    "id": "index-1708-handkerchief",
     "type": "word",
     "text": "handkerchief",
     "word": "handkerchief",
@@ -64442,7 +64544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1706-handsaw",
+    "id": "index-1709-handsaw",
     "type": "word",
     "text": "handsaw",
     "word": "handsaw",
@@ -64478,7 +64580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1707-handsome",
+    "id": "index-1710-handsome",
     "type": "word",
     "text": "handsome",
     "word": "handsome",
@@ -64512,7 +64614,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1708-handstand",
+    "id": "index-1711-handstand",
     "type": "word",
     "text": "handstand",
     "word": "handstand",
@@ -64546,7 +64648,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1709-hang-clothes-on-the-high-school",
+    "id": "index-1712-hang-clothes-on-the-high-school",
     "type": "word",
     "text": "hang clothes on the high school",
     "word": "hang clothes on the high school",
@@ -64582,7 +64684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1710-hang-up-clothinq",
+    "id": "index-1713-hang-up-clothinq",
     "type": "word",
     "text": "hang up clothinq",
     "word": "hang up clothinq",
@@ -64616,7 +64718,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1711-hanger",
+    "id": "index-1714-hanger",
     "type": "word",
     "text": "hanger",
     "word": "hanger",
@@ -64650,7 +64752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1712-happy",
+    "id": "index-1715-happy",
     "type": "word",
     "text": "happy",
     "word": "happy",
@@ -64684,7 +64786,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1713-hard",
+    "id": "index-1716-hard",
     "type": "word",
     "text": "hard",
     "word": "hard",
@@ -64718,7 +64820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1714-hard-hat",
+    "id": "index-1717-hard-hat",
     "type": "word",
     "text": "hard hat",
     "word": "hard hat",
@@ -64752,7 +64854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1715-hardware-store",
+    "id": "index-1718-hardware-store",
     "type": "word",
     "text": "hardware store",
     "word": "hardware store",
@@ -64786,7 +64888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1716-harmonica",
+    "id": "index-1719-harmonica",
     "type": "word",
     "text": "harmonica",
     "word": "harmonica",
@@ -64820,7 +64922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1717-harness",
+    "id": "index-1720-harness",
     "type": "word",
     "text": "harness",
     "word": "harness",
@@ -64854,7 +64956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1718-harp",
+    "id": "index-1721-harp",
     "type": "word",
     "text": "harp",
     "word": "harp",
@@ -64888,7 +64990,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1719-harrd-drill",
+    "id": "index-1722-harrd-drill",
     "type": "word",
     "text": "harrd drill",
     "word": "harrd drill",
@@ -64937,7 +65039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1720-has-no-pulse",
+    "id": "index-1723-has-no-pulse",
     "type": "word",
     "text": "has no pulse",
     "word": "has no pulse",
@@ -64971,7 +65073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1721-hat",
+    "id": "index-1724-hat",
     "type": "word",
     "text": "hat",
     "word": "hat",
@@ -65005,7 +65107,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1722-hatchback",
+    "id": "index-1725-hatchback",
     "type": "word",
     "text": "hatchback",
     "word": "hatchback",
@@ -65039,7 +65141,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1723-hatchet",
+    "id": "index-1726-hatchet",
     "type": "word",
     "text": "hatchet",
     "word": "hatchet",
@@ -65073,7 +65175,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1724-have-breakfast",
+    "id": "index-1727-have-breakfast",
     "type": "word",
     "text": "have breakfast",
     "word": "have breakfast",
@@ -65109,7 +65211,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1725-have-dinner",
+    "id": "index-1728-have-dinner",
     "type": "word",
     "text": "have dinner",
     "word": "have dinner",
@@ -65143,7 +65245,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1726-have-lunch",
+    "id": "index-1729-have-lunch",
     "type": "word",
     "text": "have lunch",
     "word": "have lunch",
@@ -65177,7 +65279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1727-hawk",
+    "id": "index-1730-hawk",
     "type": "word",
     "text": "hawk",
     "word": "hawk",
@@ -65213,7 +65315,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1728-hay",
+    "id": "index-1731-hay",
     "type": "word",
     "text": "hay",
     "word": "hay",
@@ -65249,7 +65351,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1729-hazardous",
+    "id": "index-1732-hazardous",
     "type": "word",
     "text": "hazardous",
     "word": "hazardous",
@@ -65285,7 +65387,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1730-hazardous-waste",
+    "id": "index-1733-hazardous-waste",
     "type": "word",
     "text": "hazardous waste",
     "word": "hazardous waste",
@@ -65321,7 +65423,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1731-hazy",
+    "id": "index-1734-hazy",
     "type": "word",
     "text": "hazy",
     "word": "hazy",
@@ -65355,7 +65457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1732-head",
+    "id": "index-1735-head",
     "type": "word",
     "text": "head",
     "word": "head",
@@ -65391,7 +65493,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1733-headache",
+    "id": "index-1736-headache",
     "type": "word",
     "text": "headache",
     "word": "headache",
@@ -65427,7 +65529,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1734-headboard",
+    "id": "index-1737-headboard",
     "type": "word",
     "text": "headboard",
     "word": "headboard",
@@ -65464,7 +65566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1735-headphones",
+    "id": "index-1738-headphones",
     "type": "word",
     "text": "headphones",
     "word": "headphones",
@@ -65500,7 +65602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1736-headrest",
+    "id": "index-1739-headrest",
     "type": "word",
     "text": "headrest",
     "word": "headrest",
@@ -65536,7 +65638,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1737-health",
+    "id": "index-1740-health",
     "type": "word",
     "text": "health",
     "word": "health",
@@ -65572,7 +65674,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1738-health-club",
+    "id": "index-1741-health-club",
     "type": "word",
     "text": "health club",
     "word": "health club",
@@ -65623,7 +65725,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1739-health-care-aide",
+    "id": "index-1742-health-care-aide",
     "type": "word",
     "text": "health-care aide",
     "word": "health-care aide",
@@ -65660,7 +65762,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1740-health-care-attendant-homemaker",
+    "id": "index-1743-health-care-attendant-homemaker",
     "type": "word",
     "text": "health-care attendant homemaker",
     "word": "health-care attendant homemaker",
@@ -65696,7 +65798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1741-heart",
+    "id": "index-1744-heart",
     "type": "word",
     "text": "heart",
     "word": "heart",
@@ -65747,7 +65849,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1742-heart-attack",
+    "id": "index-1745-heart-attack",
     "type": "word",
     "text": "heart attack",
     "word": "heart attack",
@@ -65783,7 +65885,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1743-heart-disease",
+    "id": "index-1746-heart-disease",
     "type": "word",
     "text": "heart disease",
     "word": "heart disease",
@@ -65819,7 +65921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1744-heat-wave",
+    "id": "index-1747-heat-wave",
     "type": "word",
     "text": "heat wave",
     "word": "heat wave",
@@ -65855,7 +65957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1745-heater",
+    "id": "index-1748-heater",
     "type": "word",
     "text": "heater",
     "word": "heater",
@@ -65891,7 +65993,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1746-heating-and-air-conditioning-horror-movie",
+    "id": "index-1749-heating-and-air-conditioning-horror-movie",
     "type": "word",
     "text": "heating and air conditioning horror movie",
     "word": "heating and air conditioning horror movie",
@@ -65929,7 +66031,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1747-heating-bill",
+    "id": "index-1750-heating-bill",
     "type": "word",
     "text": "heating bill",
     "word": "heating bill",
@@ -65965,7 +66067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1748-heating-pad",
+    "id": "index-1751-heating-pad",
     "type": "word",
     "text": "heating pad",
     "word": "heating pad",
@@ -66001,7 +66103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1749-heating-system",
+    "id": "index-1752-heating-system",
     "type": "word",
     "text": "heating system",
     "word": "heating system",
@@ -66037,7 +66139,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1750-heatstroke",
+    "id": "index-1753-heatstroke",
     "type": "word",
     "text": "heatstroke",
     "word": "heatstroke",
@@ -66073,7 +66175,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1751-heavy",
+    "id": "index-1754-heavy",
     "type": "word",
     "text": "heavy",
     "word": "heavy",
@@ -66151,7 +66253,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1752-hedge-c1-ppers",
+    "id": "index-1755-hedge-c1-ppers",
     "type": "word",
     "text": "hedge c1íppers",
     "word": "hedge c1íppers",
@@ -66185,7 +66287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1753-hedge-trimmer",
+    "id": "index-1756-hedge-trimmer",
     "type": "word",
     "text": "hedge trimmer",
     "word": "hedge trimmer",
@@ -66219,7 +66321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1754-heedlepoint",
+    "id": "index-1757-heedlepoint",
     "type": "word",
     "text": "heedlepoint",
     "word": "heedlepoint",
@@ -66270,7 +66372,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1755-heel",
+    "id": "index-1758-heel",
     "type": "word",
     "text": "heel",
     "word": "heel",
@@ -66306,7 +66408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1756-heels",
+    "id": "index-1759-heels",
     "type": "word",
     "text": "heels",
     "word": "heels",
@@ -66342,7 +66444,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1757-height",
+    "id": "index-1760-height",
     "type": "word",
     "text": "height",
     "word": "height",
@@ -66376,7 +66478,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1758-heimlich-maneuver",
+    "id": "index-1761-heimlich-maneuver",
     "type": "word",
     "text": "Heimlich maneuver",
     "word": "Heimlich maneuver",
@@ -66410,7 +66512,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1759-helio",
+    "id": "index-1762-helio",
     "type": "word",
     "text": "Helio.",
     "word": "Helio.",
@@ -66444,7 +66546,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1760-helio-my-name-is-we-need-some-willow",
+    "id": "index-1763-helio-my-name-is-we-need-some-willow",
     "type": "word",
     "text": "Helio. My name is .... We need some willow",
     "word": "Helio. My name is .... We need some willow",
@@ -66496,7 +66598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1761-helio-this-is-may-i-windbreaker",
+    "id": "index-1764-helio-this-is-may-i-windbreaker",
     "type": "word",
     "text": "Helio. This is . ... May I windbreaker",
     "word": "Helio. This is . ... May I windbreaker",
@@ -66533,7 +66635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1762-hello",
+    "id": "index-1765-hello",
     "type": "word",
     "text": "Hello.",
     "word": "Hello.",
@@ -66567,7 +66669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1763-hello-my-name-is",
+    "id": "index-1766-hello-my-name-is",
     "type": "word",
     "text": "Hello. My name is...",
     "word": "Hello. My name is...",
@@ -66601,7 +66703,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1764-hello-this-is-may-i-please-speak-to",
+    "id": "index-1767-hello-this-is-may-i-please-speak-to",
     "type": "word",
     "text": "Hello. This is... May I please speak to..?",
     "word": "Hello. This is... May I please speak to..?",
@@ -66638,7 +66740,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1765-help-wanted-sign",
+    "id": "index-1768-help-wanted-sign",
     "type": "word",
     "text": "help wanted sign",
     "word": "help wanted sign",
@@ -66672,7 +66774,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1766-help",
+    "id": "index-1769-help",
     "type": "word",
     "text": "Help!",
     "word": "Help!",
@@ -66706,7 +66808,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1767-hen-house",
+    "id": "index-1770-hen-house",
     "type": "word",
     "text": "hen house",
     "word": "hen house",
@@ -66742,7 +66844,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1768-herbal-tea",
+    "id": "index-1771-herbal-tea",
     "type": "word",
     "text": "herbal tea",
     "word": "herbal tea",
@@ -66778,7 +66880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1769-here",
+    "id": "index-1772-here",
     "type": "word",
     "text": "here",
     "word": "here",
@@ -66812,7 +66914,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1770-hi",
+    "id": "index-1773-hi",
     "type": "word",
     "text": "Hi.",
     "word": "Hi.",
@@ -66846,7 +66948,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1771-hi-i-m",
+    "id": "index-1774-hi-i-m",
     "type": "word",
     "text": "Hi. I'm ....",
     "word": "Hi. I'm ....",
@@ -66880,7 +66982,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1772-hi-i-m",
+    "id": "index-1775-hi-i-m",
     "type": "word",
     "text": "Hi. I'm...",
     "word": "Hi. I'm...",
@@ -66914,7 +67016,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1773-hibiscus",
+    "id": "index-1776-hibiscus",
     "type": "word",
     "text": "hibiscus",
     "word": "hibiscus",
@@ -66948,7 +67050,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1774-hiccups",
+    "id": "index-1777-hiccups",
     "type": "word",
     "text": "hiccups",
     "word": "hiccups",
@@ -66982,7 +67084,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1775-high",
+    "id": "index-1778-high",
     "type": "word",
     "text": "high",
     "word": "high",
@@ -67031,7 +67133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1776-high-blood-pressure",
+    "id": "index-1779-high-blood-pressure",
     "type": "word",
     "text": "high blood pressure",
     "word": "high blood pressure",
@@ -67067,7 +67169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1777-high-chair",
+    "id": "index-1780-high-chair",
     "type": "word",
     "text": "high chair",
     "word": "high chair",
@@ -67132,7 +67234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1778-high-heels",
+    "id": "index-1781-high-heels",
     "type": "word",
     "text": "high heels",
     "word": "high heels",
@@ -67168,7 +67270,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1779-high-top-sneakers",
+    "id": "index-1782-high-top-sneakers",
     "type": "word",
     "text": "high-top sneakers",
     "word": "high-top sneakers",
@@ -67204,7 +67306,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1780-high-tops",
+    "id": "index-1783-high-tops",
     "type": "word",
     "text": "high-tops",
     "word": "high-tops",
@@ -67238,7 +67340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1781-highway",
+    "id": "index-1784-highway",
     "type": "word",
     "text": "highway",
     "word": "highway",
@@ -67274,7 +67376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1782-hiking",
+    "id": "index-1785-hiking",
     "type": "word",
     "text": "hiking",
     "word": "hiking",
@@ -67308,7 +67410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1783-hiking-boots",
+    "id": "index-1786-hiking-boots",
     "type": "word",
     "text": "hiking boots",
     "word": "hiking boots",
@@ -67359,7 +67461,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1784-hill",
+    "id": "index-1787-hill",
     "type": "word",
     "text": "hill",
     "word": "hill",
@@ -67393,7 +67495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1785-hip",
+    "id": "index-1788-hip",
     "type": "word",
     "text": "hip",
     "word": "hip",
@@ -67427,7 +67529,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1786-hip-hop",
+    "id": "index-1789-hip-hop",
     "type": "word",
     "text": "hip hop",
     "word": "hip hop",
@@ -67461,7 +67563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1787-hippopotamus",
+    "id": "index-1790-hippopotamus",
     "type": "word",
     "text": "hippopotamus",
     "word": "hippopotamus",
@@ -67495,7 +67597,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1788-hired-hand",
+    "id": "index-1791-hired-hand",
     "type": "word",
     "text": "hired hand",
     "word": "hired hand",
@@ -67529,7 +67631,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1789-historie-site",
+    "id": "index-1792-historie-site",
     "type": "word",
     "text": "historie site",
     "word": "historie site",
@@ -67580,7 +67682,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1790-history",
+    "id": "index-1793-history",
     "type": "word",
     "text": "history",
     "word": "history",
@@ -67614,7 +67716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1791-hit",
+    "id": "index-1794-hit",
     "type": "word",
     "text": "hit",
     "word": "hit",
@@ -67648,7 +67750,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1792-hockey",
+    "id": "index-1795-hockey",
     "type": "word",
     "text": "hockey",
     "word": "hockey",
@@ -67682,7 +67784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1793-hockey-glove",
+    "id": "index-1796-hockey-glove",
     "type": "word",
     "text": "hockey glove",
     "word": "hockey glove",
@@ -67716,7 +67818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1794-hockey-mask",
+    "id": "index-1797-hockey-mask",
     "type": "word",
     "text": "hockey mask",
     "word": "hockey mask",
@@ -67750,7 +67852,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1795-hockey-player",
+    "id": "index-1798-hockey-player",
     "type": "word",
     "text": "hockey player",
     "word": "hockey player",
@@ -67786,7 +67888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1796-hockey-puck",
+    "id": "index-1799-hockey-puck",
     "type": "word",
     "text": "hockey puck",
     "word": "hockey puck",
@@ -67820,7 +67922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1797-hockey-rink",
+    "id": "index-1800-hockey-rink",
     "type": "word",
     "text": "hockey rink",
     "word": "hockey rink",
@@ -67854,7 +67956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1798-hockey-skates",
+    "id": "index-1801-hockey-skates",
     "type": "word",
     "text": "hockey skates",
     "word": "hockey skates",
@@ -67888,7 +67990,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1799-hockey-stick",
+    "id": "index-1802-hockey-stick",
     "type": "word",
     "text": "hockey stick",
     "word": "hockey stick",
@@ -67922,7 +68024,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1800-hoe",
+    "id": "index-1803-hoe",
     "type": "word",
     "text": "hoe",
     "word": "hoe",
@@ -67958,7 +68060,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1801-hold",
+    "id": "index-1804-hold",
     "type": "word",
     "text": "hold",
     "word": "hold",
@@ -67992,7 +68094,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1802-holly",
+    "id": "index-1805-holly",
     "type": "word",
     "text": "holly",
     "word": "holly",
@@ -68040,7 +68142,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1803-home-attendant",
+    "id": "index-1806-home-attendant",
     "type": "word",
     "text": "home attendant",
     "word": "home attendant",
@@ -68089,7 +68191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1804-home-economics",
+    "id": "index-1807-home-economics",
     "type": "word",
     "text": "home economics",
     "word": "home economics",
@@ -68123,7 +68225,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1805-home-fries",
+    "id": "index-1808-home-fries",
     "type": "word",
     "text": "home fries",
     "word": "home fries",
@@ -68159,7 +68261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1806-home-furnishings-ice-cream-truck",
+    "id": "index-1809-home-furnishings-ice-cream-truck",
     "type": "word",
     "text": "Home Furnishings ice cream truck",
     "word": "Home Furnishings ice cream truck",
@@ -68195,7 +68297,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1807-home-health-a-de",
+    "id": "index-1810-home-health-a-de",
     "type": "word",
     "text": "home health aíde",
     "word": "home health aíde",
@@ -68231,7 +68333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1808-home-repairperson",
+    "id": "index-1811-home-repairperson",
     "type": "word",
     "text": "home repairperson",
     "word": "home repairperson",
@@ -68267,7 +68369,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1809-homesick",
+    "id": "index-1812-homesick",
     "type": "word",
     "text": "homesick",
     "word": "homesick",
@@ -68301,7 +68403,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1810-homework",
+    "id": "index-1813-homework",
     "type": "word",
     "text": "homework",
     "word": "homework",
@@ -68351,7 +68453,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1811-honest",
+    "id": "index-1814-honest",
     "type": "word",
     "text": "honest",
     "word": "honest",
@@ -68385,7 +68487,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1812-honeydew-melon",
+    "id": "index-1815-honeydew-melon",
     "type": "word",
     "text": "honeydew melon",
     "word": "honeydew melon",
@@ -68421,7 +68523,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1813-hood",
+    "id": "index-1816-hood",
     "type": "word",
     "text": "hood",
     "word": "hood",
@@ -68457,7 +68559,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1814-hoof",
+    "id": "index-1817-hoof",
     "type": "word",
     "text": "hoof",
     "word": "hoof",
@@ -68493,7 +68595,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1815-hop",
+    "id": "index-1818-hop",
     "type": "word",
     "text": "hop",
     "word": "hop",
@@ -68527,7 +68629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1816-horn",
+    "id": "index-1819-horn",
     "type": "word",
     "text": "horn",
     "word": "horn",
@@ -68576,7 +68678,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1817-horse",
+    "id": "index-1820-horse",
     "type": "word",
     "text": "horse",
     "word": "horse",
@@ -68639,7 +68741,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1818-hose",
+    "id": "index-1821-hose",
     "type": "word",
     "text": "hose",
     "word": "hose",
@@ -68673,7 +68775,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1819-hospital",
+    "id": "index-1822-hospital",
     "type": "word",
     "text": "hospital",
     "word": "hospital",
@@ -68722,7 +68824,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1820-hospital-bed",
+    "id": "index-1823-hospital-bed",
     "type": "word",
     "text": "hospital bed",
     "word": "hospital bed",
@@ -68756,7 +68858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1821-hospital-gown",
+    "id": "index-1824-hospital-gown",
     "type": "word",
     "text": "hospital gown",
     "word": "hospital gown",
@@ -68792,7 +68894,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1822-host",
+    "id": "index-1825-host",
     "type": "word",
     "text": "host",
     "word": "host",
@@ -68826,7 +68928,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1823-hostess",
+    "id": "index-1826-hostess",
     "type": "word",
     "text": "hostess",
     "word": "hostess",
@@ -68860,7 +68962,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1824-hot",
+    "id": "index-1827-hot",
     "type": "word",
     "text": "hot",
     "word": "hot",
@@ -68894,7 +68996,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1825-hot-chocolate",
+    "id": "index-1828-hot-chocolate",
     "type": "word",
     "text": "hot chocolate",
     "word": "hot chocolate",
@@ -68928,7 +69030,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1826-hot-chocolate-mix",
+    "id": "index-1829-hot-chocolate-mix",
     "type": "word",
     "text": "hot chocolate mix",
     "word": "hot chocolate mix",
@@ -68962,7 +69064,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1827-hot-comb",
+    "id": "index-1830-hot-comb",
     "type": "word",
     "text": "hot comb",
     "word": "hot comb",
@@ -68996,7 +69098,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1828-hot-dog",
+    "id": "index-1831-hot-dog",
     "type": "word",
     "text": "hot dog",
     "word": "hot dog",
@@ -69030,7 +69132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1829-hotel",
+    "id": "index-1832-hotel",
     "type": "word",
     "text": "hotel",
     "word": "hotel",
@@ -69064,7 +69166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1830-hotel-courtesy-grizzly-bear",
+    "id": "index-1833-hotel-courtesy-grizzly-bear",
     "type": "word",
     "text": "hotel courtesy grizzly bear",
     "word": "hotel courtesy grizzly bear",
@@ -69101,7 +69203,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1831-hour",
+    "id": "index-1834-hour",
     "type": "word",
     "text": "hour",
     "word": "hour",
@@ -69137,7 +69239,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1832-house",
+    "id": "index-1835-house",
     "type": "word",
     "text": "house",
     "word": "house",
@@ -69173,7 +69275,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1833-house-painter",
+    "id": "index-1836-house-painter",
     "type": "word",
     "text": "house painter",
     "word": "house painter",
@@ -69210,7 +69312,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1834-houseboat",
+    "id": "index-1837-houseboat",
     "type": "word",
     "text": "houseboat",
     "word": "houseboat",
@@ -69247,7 +69349,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1835-household-appliances-guidance-counselor",
+    "id": "index-1838-household-appliances-guidance-counselor",
     "type": "word",
     "text": "Household Appliances guidance counselor",
     "word": "Household Appliances guidance counselor",
@@ -69283,7 +69385,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1836-household-bilis",
+    "id": "index-1839-household-bilis",
     "type": "word",
     "text": "household bilis",
     "word": "household bilis",
@@ -69319,7 +69421,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1837-household-items",
+    "id": "index-1840-household-items",
     "type": "word",
     "text": "household items",
     "word": "household items",
@@ -69355,7 +69457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1838-housekeeper",
+    "id": "index-1841-housekeeper",
     "type": "word",
     "text": "housekeeper",
     "word": "housekeeper",
@@ -69392,7 +69494,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1839-housekeeping",
+    "id": "index-1842-housekeeping",
     "type": "word",
     "text": "housekeeping",
     "word": "housekeeping",
@@ -69429,7 +69531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1840-housekeeping-cart",
+    "id": "index-1843-housekeeping-cart",
     "type": "word",
     "text": "housekeeping cart",
     "word": "housekeeping cart",
@@ -69466,7 +69568,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1841-housewares-gymnasium",
+    "id": "index-1844-housewares-gymnasium",
     "type": "word",
     "text": "Housewares gymnasium",
     "word": "Housewares gymnasium",
@@ -69503,7 +69605,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1842-how-are-you-doing",
+    "id": "index-1845-how-are-you-doing",
     "type": "word",
     "text": "How are you doing?",
     "word": "How are you doing?",
@@ -69541,7 +69643,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1843-how-are-you",
+    "id": "index-1846-how-are-you",
     "type": "word",
     "text": "How are you?",
     "word": "How are you?",
@@ -69578,7 +69680,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1844-hubcap",
+    "id": "index-1847-hubcap",
     "type": "word",
     "text": "hubcap",
     "word": "hubcap",
@@ -69612,7 +69714,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1845-hula-hoop",
+    "id": "index-1848-hula-hoop",
     "type": "word",
     "text": "hula hoop",
     "word": "hula hoop",
@@ -69648,7 +69750,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1846-humid",
+    "id": "index-1849-humid",
     "type": "word",
     "text": "humid",
     "word": "humid",
@@ -69682,7 +69784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1847-humidifier",
+    "id": "index-1850-humidifier",
     "type": "word",
     "text": "humidifier",
     "word": "humidifier",
@@ -69718,7 +69820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1848-hummingbird",
+    "id": "index-1851-hummingbird",
     "type": "word",
     "text": "hummingbird",
     "word": "hummingbird",
@@ -69752,7 +69854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1849-hump",
+    "id": "index-1852-hump",
     "type": "word",
     "text": "hump",
     "word": "hump",
@@ -69786,7 +69888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1850-hungry",
+    "id": "index-1853-hungry",
     "type": "word",
     "text": "hungry",
     "word": "hungry",
@@ -69820,7 +69922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1851-hurricane",
+    "id": "index-1854-hurricane",
     "type": "word",
     "text": "hurricane",
     "word": "hurricane",
@@ -69854,7 +69956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1852-hurt",
+    "id": "index-1855-hurt",
     "type": "word",
     "text": "hurt",
     "word": "hurt",
@@ -69903,7 +70005,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1853-husband",
+    "id": "index-1856-husband",
     "type": "word",
     "text": "husband",
     "word": "husband",
@@ -69937,7 +70039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1854-hybrid",
+    "id": "index-1857-hybrid",
     "type": "word",
     "text": "hybrid",
     "word": "hybrid",
@@ -69971,7 +70073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1855-hydroelectric-power",
+    "id": "index-1858-hydroelectric-power",
     "type": "word",
     "text": "hydroelectric power",
     "word": "hydroelectric power",
@@ -70008,7 +70110,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1856-hydrogen-peroxide",
+    "id": "index-1859-hydrogen-peroxide",
     "type": "word",
     "text": "hydrogen peroxide",
     "word": "hydrogen peroxide",
@@ -70042,7 +70144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1857-hyena",
+    "id": "index-1860-hyena",
     "type": "word",
     "text": "hyena",
     "word": "hyena",
@@ -70076,7 +70178,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1858-hypertension",
+    "id": "index-1861-hypertension",
     "type": "word",
     "text": "hypertension",
     "word": "hypertension",
@@ -70110,7 +70212,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1859-hypotenuse",
+    "id": "index-1862-hypotenuse",
     "type": "word",
     "text": "hypotenuse",
     "word": "hypotenuse",
@@ -70144,7 +70246,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1860-hypothesis",
+    "id": "index-1863-hypothesis",
     "type": "word",
     "text": "hypothesis",
     "word": "hypothesis",
@@ -70178,7 +70280,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1861-i-don-t-understand",
+    "id": "index-1864-i-don-t-understand",
     "type": "word",
     "text": "I don't understand.",
     "word": "I don't understand.",
@@ -70212,7 +70314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1862-i-like-your-city-very-much",
+    "id": "index-1865-i-like-your-city-very-much",
     "type": "word",
     "text": "I like your city very much.",
     "word": "I like your city very much.",
@@ -70248,7 +70350,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1863-i-like-your-c-ty-very-water-pollution",
+    "id": "index-1866-i-like-your-c-ty-very-water-pollution",
     "type": "word",
     "text": "I like your cíty very water pollution",
     "word": "I like your cíty very water pollution",
@@ -70284,7 +70386,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1864-i-d-like-a-wake-up-call-at",
+    "id": "index-1867-i-d-like-a-wake-up-call-at",
     "type": "word",
     "text": "I'd like a wake-up call at...",
     "word": "I'd like a wake-up call at...",
@@ -70318,7 +70420,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1865-i-d-like-to-get-tickets-for-a-show",
+    "id": "index-1868-i-d-like-to-get-tickets-for-a-show",
     "type": "word",
     "text": "I'd like to get tickets for a show.",
     "word": "I'd like to get tickets for a show.",
@@ -70354,7 +70456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1866-i-d-like-to-introduce",
+    "id": "index-1869-i-d-like-to-introduce",
     "type": "word",
     "text": "I'd like to introduce...",
     "word": "I'd like to introduce...",
@@ -70388,7 +70490,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1867-i-d-like-to-order",
+    "id": "index-1870-i-d-like-to-order",
     "type": "word",
     "text": "I'd like to order...",
     "word": "I'd like to order...",
@@ -70422,7 +70524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1868-i-m-checking-out",
+    "id": "index-1871-i-m-checking-out",
     "type": "word",
     "text": "I'm checking out.",
     "word": "I'm checking out.",
@@ -70458,7 +70560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1869-i-m-from",
+    "id": "index-1872-i-m-from",
     "type": "word",
     "text": "I'm from...",
     "word": "I'm from...",
@@ -70492,7 +70594,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1870-i-m-here-for-five-days",
+    "id": "index-1873-i-m-here-for-five-days",
     "type": "word",
     "text": "I'm here for five days.",
     "word": "I'm here for five days.",
@@ -70528,7 +70630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1871-i-m-here-for-five-days-woman",
+    "id": "index-1874-i-m-here-for-five-days-woman",
     "type": "word",
     "text": "I'm here for five days. woman",
     "word": "I'm here for five days. woman",
@@ -70564,7 +70666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1872-i-m-sorry-what-did-you-say",
+    "id": "index-1875-i-m-sorry-what-did-you-say",
     "type": "word",
     "text": "I'm sorry. What did you say?",
     "word": "I'm sorry. What did you say?",
@@ -70601,7 +70703,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1873-i-m-sorry-isn-t-here-right-now",
+    "id": "index-1876-i-m-sorry-isn-t-here-right-now",
     "type": "word",
     "text": "I'm sorry... isn't here right now.",
     "word": "I'm sorry... isn't here right now.",
@@ -70637,7 +70739,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1874-i-ve-seen-and-wednesday",
+    "id": "index-1877-i-ve-seen-and-wednesday",
     "type": "word",
     "text": "I've seen and .... Wednesday",
     "word": "I've seen and .... Wednesday",
@@ -70674,7 +70776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1875-i-ve-seen-and",
+    "id": "index-1878-i-ve-seen-and",
     "type": "word",
     "text": "I've seen... and...",
     "word": "I've seen... and...",
@@ -70710,7 +70812,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1876-ice-cream",
+    "id": "index-1879-ice-cream",
     "type": "word",
     "text": "ice cream",
     "word": "ice cream",
@@ -70746,7 +70848,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-1877-ice-cream-scoop",
+    "id": "index-1880-ice-cream-scoop",
     "type": "word",
     "text": "ice cream scoop",
     "word": "ice cream scoop",
@@ -70783,7 +70885,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1878-ice-cream-shop",
+    "id": "index-1881-ice-cream-shop",
     "type": "word",
     "text": "ice cream shop",
     "word": "ice cream shop",
@@ -70819,7 +70921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1879-ice-cream-sundae",
+    "id": "index-1882-ice-cream-sundae",
     "type": "word",
     "text": "ice cream sundae",
     "word": "ice cream sundae",
@@ -70855,7 +70957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1880-ice-hockey",
+    "id": "index-1883-ice-hockey",
     "type": "word",
     "text": "ice hockey",
     "word": "ice hockey",
@@ -70889,7 +70991,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1881-ice-machine",
+    "id": "index-1884-ice-machine",
     "type": "word",
     "text": "ice machine",
     "word": "ice machine",
@@ -70923,7 +71025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1882-ice-pack",
+    "id": "index-1885-ice-pack",
     "type": "word",
     "text": "ice pack",
     "word": "ice pack",
@@ -70957,7 +71059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1883-ice-skates",
+    "id": "index-1886-ice-skates",
     "type": "word",
     "text": "ice skates",
     "word": "ice skates",
@@ -70991,7 +71093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1884-ice-skating",
+    "id": "index-1887-ice-skating",
     "type": "word",
     "text": "ice skating",
     "word": "ice skating",
@@ -71025,7 +71127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1885-iced-tea",
+    "id": "index-1888-iced-tea",
     "type": "word",
     "text": "iced tea",
     "word": "iced tea",
@@ -71061,7 +71163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1886-ideas",
+    "id": "index-1889-ideas",
     "type": "word",
     "text": "ideas",
     "word": "ideas",
@@ -71111,7 +71213,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1887-identification-number-face",
+    "id": "index-1890-identification-number-face",
     "type": "word",
     "text": "identification number face",
     "word": "identification number face",
@@ -71160,7 +71262,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1888-ignition",
+    "id": "index-1891-ignition",
     "type": "word",
     "text": "ignition",
     "word": "ignition",
@@ -71209,7 +71311,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1889-iguana",
+    "id": "index-1892-iguana",
     "type": "word",
     "text": "iguana",
     "word": "iguana",
@@ -71243,7 +71345,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1890-ijl",
+    "id": "index-1893-ijl",
     "type": "word",
     "text": "iJl",
     "word": "iJl",
@@ -71277,7 +71379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1891-immigration",
+    "id": "index-1894-immigration",
     "type": "word",
     "text": "immigration",
     "word": "immigration",
@@ -71339,7 +71441,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1892-immigration-officer",
+    "id": "index-1895-immigration-officer",
     "type": "word",
     "text": "immigration officer",
     "word": "immigration officer",
@@ -71373,7 +71475,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1893-imperative",
+    "id": "index-1896-imperative",
     "type": "word",
     "text": "imperative",
     "word": "imperative",
@@ -71407,7 +71509,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1894-in",
+    "id": "index-1897-in",
     "type": "word",
     "text": "in",
     "word": "in",
@@ -71441,7 +71543,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1895-in-frontof",
+    "id": "index-1898-in-frontof",
     "type": "word",
     "text": "in frontof",
     "word": "in frontof",
@@ -71475,7 +71577,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1896-in-order",
+    "id": "index-1899-in-order",
     "type": "word",
     "text": "in order",
     "word": "in order",
@@ -71509,7 +71611,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1897-in-shock",
+    "id": "index-1900-in-shock",
     "type": "word",
     "text": "in shock",
     "word": "in shock",
@@ -71543,7 +71645,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1898-inch",
+    "id": "index-1901-inch",
     "type": "word",
     "text": "inch",
     "word": "inch",
@@ -71577,7 +71679,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1899-index-card",
+    "id": "index-1902-index-card",
     "type": "word",
     "text": "index card",
     "word": "index card",
@@ -71611,7 +71713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1900-industrial-arts",
+    "id": "index-1903-industrial-arts",
     "type": "word",
     "text": "industrial arts",
     "word": "industrial arts",
@@ -71645,7 +71747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1901-inexpensive",
+    "id": "index-1904-inexpensive",
     "type": "word",
     "text": "inexpensive",
     "word": "inexpensive",
@@ -71679,7 +71781,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1902-infant",
+    "id": "index-1905-infant",
     "type": "word",
     "text": "infant",
     "word": "infant",
@@ -71713,7 +71815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1903-infection",
+    "id": "index-1906-infection",
     "type": "word",
     "text": "infection",
     "word": "infection",
@@ -71747,7 +71849,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1904-inflatable-pool",
+    "id": "index-1907-inflatable-pool",
     "type": "word",
     "text": "inflatable pool",
     "word": "inflatable pool",
@@ -71783,7 +71885,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1905-influenza",
+    "id": "index-1908-influenza",
     "type": "word",
     "text": "influenza",
     "word": "influenza",
@@ -71819,7 +71921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1906-information-booth",
+    "id": "index-1909-information-booth",
     "type": "word",
     "text": "information booth",
     "word": "information booth",
@@ -71855,7 +71957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1907-inforrnation",
+    "id": "index-1910-inforrnation",
     "type": "word",
     "text": "inforrnation",
     "word": "inforrnation",
@@ -71904,7 +72006,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1908-injection",
+    "id": "index-1911-injection",
     "type": "word",
     "text": "injection",
     "word": "injection",
@@ -71938,7 +72040,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1909-injured",
+    "id": "index-1912-injured",
     "type": "word",
     "text": "injured",
     "word": "injured",
@@ -71972,7 +72074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1910-ink-cartridge",
+    "id": "index-1913-ink-cartridge",
     "type": "word",
     "text": "ink cartridge",
     "word": "ink cartridge",
@@ -72006,7 +72108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1911-ink-pad",
+    "id": "index-1914-ink-pad",
     "type": "word",
     "text": "ink pad",
     "word": "ink pad",
@@ -72040,7 +72142,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1912-inline-skates",
+    "id": "index-1915-inline-skates",
     "type": "word",
     "text": "inline skates",
     "word": "inline skates",
@@ -72074,7 +72176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1913-inline-skating",
+    "id": "index-1916-inline-skating",
     "type": "word",
     "text": "inline skating",
     "word": "inline skating",
@@ -72108,7 +72210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1914-insect-bite",
+    "id": "index-1917-insect-bite",
     "type": "word",
     "text": "insect bite",
     "word": "insect bite",
@@ -72142,7 +72244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1915-insect-repellant",
+    "id": "index-1918-insect-repellant",
     "type": "word",
     "text": "insect repellant",
     "word": "insect repellant",
@@ -72176,7 +72278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1916-insect-spray",
+    "id": "index-1919-insect-spray",
     "type": "word",
     "text": "insect spray",
     "word": "insect spray",
@@ -72212,7 +72314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1917-insects",
+    "id": "index-1920-insects",
     "type": "word",
     "text": "insects",
     "word": "insects",
@@ -72246,7 +72348,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1918-insertthe-atm-card",
+    "id": "index-1921-insertthe-atm-card",
     "type": "word",
     "text": "insertthe ATM card",
     "word": "insertthe ATM card",
@@ -72280,7 +72382,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1919-instant-coffee",
+    "id": "index-1922-instant-coffee",
     "type": "word",
     "text": "instant coffee",
     "word": "instant coffee",
@@ -72316,7 +72418,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1920-instant-message",
+    "id": "index-1923-instant-message",
     "type": "word",
     "text": "instant message",
     "word": "instant message",
@@ -72350,7 +72452,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1921-instructor",
+    "id": "index-1924-instructor",
     "type": "word",
     "text": "instructor",
     "word": "instructor",
@@ -72384,7 +72486,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1922-instrument-panel",
+    "id": "index-1925-instrument-panel",
     "type": "word",
     "text": "instrument panel",
     "word": "instrument panel",
@@ -72418,7 +72520,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1923-insulation",
+    "id": "index-1926-insulation",
     "type": "word",
     "text": "insulation",
     "word": "insulation",
@@ -72452,7 +72554,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1924-insurance-card",
+    "id": "index-1927-insurance-card",
     "type": "word",
     "text": "insurance card",
     "word": "insurance card",
@@ -72486,7 +72588,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1925-inter5tate-highway",
+    "id": "index-1928-inter5tate-highway",
     "type": "word",
     "text": "inter5tate highway",
     "word": "inter5tate highway",
@@ -72522,7 +72624,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1926-intercorn",
+    "id": "index-1929-intercorn",
     "type": "word",
     "text": "intercorn",
     "word": "intercorn",
@@ -72571,7 +72673,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1927-international-club",
+    "id": "index-1930-international-club",
     "type": "word",
     "text": "international club",
     "word": "international club",
@@ -72605,7 +72707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1928-internet-cafe",
+    "id": "index-1931-internet-cafe",
     "type": "word",
     "text": "Internet cafe",
     "word": "Internet cafe",
@@ -72639,7 +72741,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1929-interpreter",
+    "id": "index-1932-interpreter",
     "type": "word",
     "text": "interpreter",
     "word": "interpreter",
@@ -72673,7 +72775,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1930-interrogative",
+    "id": "index-1933-interrogative",
     "type": "word",
     "text": "interrogative",
     "word": "interrogative",
@@ -72707,7 +72809,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1931-intersection",
+    "id": "index-1934-intersection",
     "type": "word",
     "text": "intersection",
     "word": "intersection",
@@ -72756,7 +72858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1932-interstate",
+    "id": "index-1935-interstate",
     "type": "word",
     "text": "interstate",
     "word": "interstate",
@@ -72790,7 +72892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1933-interview",
+    "id": "index-1936-interview",
     "type": "word",
     "text": "interview",
     "word": "interview",
@@ -72827,7 +72929,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1934-into",
+    "id": "index-1937-into",
     "type": "word",
     "text": "into",
     "word": "into",
@@ -72861,7 +72963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1935-iris",
+    "id": "index-1938-iris",
     "type": "word",
     "text": "iris",
     "word": "iris",
@@ -72910,7 +73012,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1936-iron",
+    "id": "index-1939-iron",
     "type": "word",
     "text": "iron",
     "word": "iron",
@@ -72972,7 +73074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1937-ironed-clothing",
+    "id": "index-1940-ironed-clothing",
     "type": "word",
     "text": "ironed clothing",
     "word": "ironed clothing",
@@ -73006,7 +73108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1938-ironing-board",
+    "id": "index-1941-ironing-board",
     "type": "word",
     "text": "ironing board",
     "word": "ironing board",
@@ -73042,7 +73144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1939-irrigation-system",
+    "id": "index-1942-irrigation-system",
     "type": "word",
     "text": "irrigation system",
     "word": "irrigation system",
@@ -73076,7 +73178,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1940-is-bleeding",
+    "id": "index-1943-is-bleeding",
     "type": "word",
     "text": "is bleeding",
     "word": "is bleeding",
@@ -73112,7 +73214,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1941-is-choking",
+    "id": "index-1944-is-choking",
     "type": "word",
     "text": "is choking",
     "word": "is choking",
@@ -73146,7 +73248,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1942-island",
+    "id": "index-1945-island",
     "type": "word",
     "text": "island",
     "word": "island",
@@ -73180,7 +73282,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1943-isn-t-breathing",
+    "id": "index-1946-isn-t-breathing",
     "type": "word",
     "text": "isn't breathing",
     "word": "isn't breathing",
@@ -73216,7 +73318,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1944-isosceles-triangle",
+    "id": "index-1947-isosceles-triangle",
     "type": "word",
     "text": "isosceles triangle",
     "word": "isosceles triangle",
@@ -73250,7 +73352,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1945-it-s-very",
+    "id": "index-1948-it-s-very",
     "type": "word",
     "text": "It's very .",
     "word": "It's very .",
@@ -73284,7 +73386,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1946-it-s-very",
+    "id": "index-1949-it-s-very",
     "type": "word",
     "text": "It's very...",
     "word": "It's very...",
@@ -73318,7 +73420,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1947-itchy",
+    "id": "index-1950-itchy",
     "type": "word",
     "text": "itchy",
     "word": "itchy",
@@ -73352,7 +73454,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1948-iv",
+    "id": "index-1951-iv",
     "type": "word",
     "text": "IV.",
     "word": "IV.",
@@ -73386,7 +73488,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1949-j",
+    "id": "index-1952-j",
     "type": "word",
     "text": "j",
     "word": "j",
@@ -73420,7 +73522,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1950-jack",
+    "id": "index-1953-jack",
     "type": "word",
     "text": "jack",
     "word": "jack",
@@ -73454,7 +73556,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1951-jacket",
+    "id": "index-1954-jacket",
     "type": "word",
     "text": "jacket",
     "word": "jacket",
@@ -73516,7 +73618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1952-jackhammer",
+    "id": "index-1955-jackhammer",
     "type": "word",
     "text": "jackhammer",
     "word": "jackhammer",
@@ -73550,7 +73652,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1953-jaguar",
+    "id": "index-1956-jaguar",
     "type": "word",
     "text": "jaguar",
     "word": "jaguar",
@@ -73584,7 +73686,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1954-jail",
+    "id": "index-1957-jail",
     "type": "word",
     "text": "jail",
     "word": "jail",
@@ -73620,7 +73722,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1955-jalape-o",
+    "id": "index-1958-jalape-o",
     "type": "word",
     "text": "jalapeño",
     "word": "jalapeño",
@@ -73654,7 +73756,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1956-jalape-o-pepper",
+    "id": "index-1959-jalape-o-pepper",
     "type": "word",
     "text": "jalapeño pepper",
     "word": "jalapeño pepper",
@@ -73688,7 +73790,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1957-jam",
+    "id": "index-1960-jam",
     "type": "word",
     "text": "jam",
     "word": "jam",
@@ -73722,7 +73824,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1958-janitor",
+    "id": "index-1961-janitor",
     "type": "word",
     "text": "janitor",
     "word": "janitor",
@@ -73756,7 +73858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1959-january",
+    "id": "index-1962-january",
     "type": "word",
     "text": "January",
     "word": "January",
@@ -73790,7 +73892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1960-jar",
+    "id": "index-1963-jar",
     "type": "word",
     "text": "jar",
     "word": "jar",
@@ -73824,7 +73926,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1961-jasmine",
+    "id": "index-1964-jasmine",
     "type": "word",
     "text": "jasmine",
     "word": "jasmine",
@@ -73858,7 +73960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1962-jaw",
+    "id": "index-1965-jaw",
     "type": "word",
     "text": "jaw",
     "word": "jaw",
@@ -73894,7 +73996,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1963-jazz",
+    "id": "index-1966-jazz",
     "type": "word",
     "text": "jazz",
     "word": "jazz",
@@ -73928,7 +74030,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1964-jealous",
+    "id": "index-1967-jealous",
     "type": "word",
     "text": "jealous",
     "word": "jealous",
@@ -73965,7 +74067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1965-jeans",
+    "id": "index-1968-jeans",
     "type": "word",
     "text": "jeans",
     "word": "jeans",
@@ -74001,7 +74103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1966-jeep",
+    "id": "index-1969-jeep",
     "type": "word",
     "text": "jeep",
     "word": "jeep",
@@ -74037,7 +74139,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1967-jello",
+    "id": "index-1970-jello",
     "type": "word",
     "text": "jello",
     "word": "jello",
@@ -74071,7 +74173,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1968-jelly",
+    "id": "index-1971-jelly",
     "type": "word",
     "text": "jelly",
     "word": "jelly",
@@ -74105,7 +74207,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1969-jellyfish",
+    "id": "index-1972-jellyfish",
     "type": "word",
     "text": "jellyfish",
     "word": "jellyfish",
@@ -74139,7 +74241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1970-jersey",
+    "id": "index-1973-jersey",
     "type": "word",
     "text": "jersey",
     "word": "jersey",
@@ -74173,7 +74275,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1971-jet",
+    "id": "index-1974-jet",
     "type": "word",
     "text": "jet",
     "word": "jet",
@@ -74207,7 +74309,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1972-jewelry-box",
+    "id": "index-1975-jewelry-box",
     "type": "word",
     "text": "jewelry box",
     "word": "jewelry box",
@@ -74243,7 +74345,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1973-jewelry-counter",
+    "id": "index-1976-jewelry-counter",
     "type": "word",
     "text": "Jewelry Counter",
     "word": "Jewelry Counter",
@@ -74280,7 +74382,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1974-jewelry-store",
+    "id": "index-1977-jewelry-store",
     "type": "word",
     "text": "jewelry store",
     "word": "jewelry store",
@@ -74316,7 +74418,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1975-jigsaw-puzzle",
+    "id": "index-1978-jigsaw-puzzle",
     "type": "word",
     "text": "jigsaw puzzle",
     "word": "jigsaw puzzle",
@@ -74352,7 +74454,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1976-job-ad-abbreviations",
+    "id": "index-1979-job-ad-abbreviations",
     "type": "word",
     "text": "job ad abbreviations",
     "word": "job ad abbreviations",
@@ -74386,7 +74488,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1977-job-ads",
+    "id": "index-1980-job-ads",
     "type": "word",
     "text": "job ads",
     "word": "job ads",
@@ -74420,7 +74522,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1978-job-announcement",
+    "id": "index-1981-job-announcement",
     "type": "word",
     "text": "job announcement",
     "word": "job announcement",
@@ -74456,7 +74558,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1979-job-notice",
+    "id": "index-1982-job-notice",
     "type": "word",
     "text": "job notice",
     "word": "job notice",
@@ -74490,7 +74592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1980-job-search",
+    "id": "index-1983-job-search",
     "type": "word",
     "text": "job search",
     "word": "job search",
@@ -74526,7 +74628,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1981-jockey-shorts",
+    "id": "index-1984-jockey-shorts",
     "type": "word",
     "text": "jockey shorts",
     "word": "jockey shorts",
@@ -74560,7 +74662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1982-jockstrap",
+    "id": "index-1985-jockstrap",
     "type": "word",
     "text": "jockstrap",
     "word": "jockstrap",
@@ -74594,7 +74696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1983-jogging",
+    "id": "index-1986-jogging",
     "type": "word",
     "text": "jogging",
     "word": "jogging",
@@ -74628,7 +74730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1984-jogging-path",
+    "id": "index-1987-jogging-path",
     "type": "word",
     "text": "jogging path",
     "word": "jogging path",
@@ -74662,7 +74764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1985-jogging-shoes",
+    "id": "index-1988-jogging-shoes",
     "type": "word",
     "text": "jogging shoes",
     "word": "jogging shoes",
@@ -74698,7 +74800,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1986-jogging-suit",
+    "id": "index-1989-jogging-suit",
     "type": "word",
     "text": "jogging suit",
     "word": "jogging suit",
@@ -74747,7 +74849,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1987-journal",
+    "id": "index-1990-journal",
     "type": "word",
     "text": "journal",
     "word": "journal",
@@ -74783,7 +74885,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1988-journalist",
+    "id": "index-1991-journalist",
     "type": "word",
     "text": "journalist",
     "word": "journalist",
@@ -74819,7 +74921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1989-joystick",
+    "id": "index-1992-joystick",
     "type": "word",
     "text": "joystick",
     "word": "joystick",
@@ -74855,7 +74957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1990-juice-paks",
+    "id": "index-1993-juice-paks",
     "type": "word",
     "text": "juice paks",
     "word": "juice paks",
@@ -74889,7 +74991,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1991-juices",
+    "id": "index-1994-juices",
     "type": "word",
     "text": "juices",
     "word": "juices",
@@ -74923,7 +75025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1992-july",
+    "id": "index-1995-july",
     "type": "word",
     "text": "July",
     "word": "July",
@@ -74957,7 +75059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1993-jump",
+    "id": "index-1996-jump",
     "type": "word",
     "text": "jump",
     "word": "jump",
@@ -74991,7 +75093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1994-jump-rope",
+    "id": "index-1997-jump-rope",
     "type": "word",
     "text": "jump rope",
     "word": "jump rope",
@@ -75025,7 +75127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1995-jumper",
+    "id": "index-1998-jumper",
     "type": "word",
     "text": "jumper",
     "word": "jumper",
@@ -75059,7 +75161,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1996-jumper-cables",
+    "id": "index-1999-jumper-cables",
     "type": "word",
     "text": "jumper cables",
     "word": "jumper cables",
@@ -75093,7 +75195,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1997-jumping-jack",
+    "id": "index-2000-jumping-jack",
     "type": "word",
     "text": "jumping jack",
     "word": "jumping jack",
@@ -75127,7 +75229,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1998-jumpsuit",
+    "id": "index-2001-jumpsuit",
     "type": "word",
     "text": "jumpsuit",
     "word": "jumpsuit",
@@ -75161,7 +75263,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-1999-june",
+    "id": "index-2002-june",
     "type": "word",
     "text": "June",
     "word": "June",
@@ -75195,7 +75297,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2000-jungle",
+    "id": "index-2003-jungle",
     "type": "word",
     "text": "jungle",
     "word": "jungle",
@@ -75229,7 +75331,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2001-junior-high-school",
+    "id": "index-2004-junior-high-school",
     "type": "word",
     "text": "junior high school",
     "word": "junior high school",
@@ -75265,7 +75367,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2002-jupiter",
+    "id": "index-2005-jupiter",
     "type": "word",
     "text": "Jupiter",
     "word": "Jupiter",
@@ -75299,7 +75401,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2003-kangaroo",
+    "id": "index-2006-kangaroo",
     "type": "word",
     "text": "kangaroo",
     "word": "kangaroo",
@@ -75350,7 +75452,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2004-kayak",
+    "id": "index-2007-kayak",
     "type": "word",
     "text": "kayak",
     "word": "kayak",
@@ -75386,7 +75488,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2005-kayaking",
+    "id": "index-2008-kayaking",
     "type": "word",
     "text": "kayaking",
     "word": "kayaking",
@@ -75422,7 +75524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2006-ketchup",
+    "id": "index-2009-ketchup",
     "type": "word",
     "text": "ketchup",
     "word": "ketchup",
@@ -75471,7 +75573,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2007-key",
+    "id": "index-2010-key",
     "type": "word",
     "text": "key",
     "word": "key",
@@ -75505,7 +75607,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2008-key-ring",
+    "id": "index-2011-key-ring",
     "type": "word",
     "text": "key ring",
     "word": "key ring",
@@ -75539,7 +75641,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2009-keyboard",
+    "id": "index-2012-keyboard",
     "type": "word",
     "text": "keyboard",
     "word": "keyboard",
@@ -75590,7 +75692,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2010-keyboard-instruments-laundry-basket",
+    "id": "index-2013-keyboard-instruments-laundry-basket",
     "type": "word",
     "text": "keyboard instruments laundry basket",
     "word": "keyboard instruments laundry basket",
@@ -75627,7 +75729,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2011-keychain",
+    "id": "index-2014-keychain",
     "type": "word",
     "text": "keychain",
     "word": "keychain",
@@ -75663,7 +75765,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2012-kick",
+    "id": "index-2015-kick",
     "type": "word",
     "text": "kick",
     "word": "kick",
@@ -75697,7 +75799,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2013-kiddie-pool",
+    "id": "index-2016-kiddie-pool",
     "type": "word",
     "text": "kiddie pool",
     "word": "kiddie pool",
@@ -75734,7 +75836,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2014-kidnapping",
+    "id": "index-2017-kidnapping",
     "type": "word",
     "text": "kidnapping",
     "word": "kidnapping",
@@ -75768,7 +75870,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2015-kidney-bean",
+    "id": "index-2018-kidney-bean",
     "type": "word",
     "text": "kidney bean",
     "word": "kidney bean",
@@ -75804,7 +75906,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2016-kidneys",
+    "id": "index-2019-kidneys",
     "type": "word",
     "text": "kidneys",
     "word": "kidneys",
@@ -75838,7 +75940,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2017-kilometer",
+    "id": "index-2020-kilometer",
     "type": "word",
     "text": "kilometer",
     "word": "kilometer",
@@ -75872,7 +75974,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2018-kitchen",
+    "id": "index-2021-kitchen",
     "type": "word",
     "text": "kitchen",
     "word": "kitchen",
@@ -75921,7 +76023,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2019-kitchen-chair",
+    "id": "index-2022-kitchen-chair",
     "type": "word",
     "text": "kitchen chair",
     "word": "kitchen chair",
@@ -75957,7 +76059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2020-kitchen-counter",
+    "id": "index-2023-kitchen-counter",
     "type": "word",
     "text": "kitchen counter",
     "word": "kitchen counter",
@@ -75993,7 +76095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2021-kitchen-floor",
+    "id": "index-2024-kitchen-floor",
     "type": "word",
     "text": "kitchen floor",
     "word": "kitchen floor",
@@ -76029,7 +76131,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2022-kitchen-sink",
+    "id": "index-2025-kitchen-sink",
     "type": "word",
     "text": "kitchen sink",
     "word": "kitchen sink",
@@ -76063,7 +76165,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2023-kitchen-table",
+    "id": "index-2026-kitchen-table",
     "type": "word",
     "text": "kitchen table",
     "word": "kitchen table",
@@ -76097,7 +76199,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2024-kitchen-timer",
+    "id": "index-2027-kitchen-timer",
     "type": "word",
     "text": "kitchen timer",
     "word": "kitchen timer",
@@ -76131,7 +76233,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2025-kite",
+    "id": "index-2028-kite",
     "type": "word",
     "text": "kite",
     "word": "kite",
@@ -76165,7 +76267,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2026-kitten",
+    "id": "index-2029-kitten",
     "type": "word",
     "text": "kitten",
     "word": "kitten",
@@ -76199,7 +76301,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2027-kiwi",
+    "id": "index-2030-kiwi",
     "type": "word",
     "text": "kiwi",
     "word": "kiwi",
@@ -76233,7 +76335,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2028-knee",
+    "id": "index-2031-knee",
     "type": "word",
     "text": "knee",
     "word": "knee",
@@ -76269,7 +76371,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2029-knee-pads",
+    "id": "index-2032-knee-pads",
     "type": "word",
     "text": "knee pads",
     "word": "knee pads",
@@ -76305,7 +76407,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2030-knee-socks",
+    "id": "index-2033-knee-socks",
     "type": "word",
     "text": "knee socks",
     "word": "knee socks",
@@ -76341,7 +76443,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2031-knee-high-socks",
+    "id": "index-2034-knee-high-socks",
     "type": "word",
     "text": "knee-high socks",
     "word": "knee-high socks",
@@ -76377,7 +76479,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2032-knee-hiqhs",
+    "id": "index-2035-knee-hiqhs",
     "type": "word",
     "text": "knee-hiqhs",
     "word": "knee-hiqhs",
@@ -76413,7 +76515,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2033-knife",
+    "id": "index-2036-knife",
     "type": "word",
     "text": "knife",
     "word": "knife",
@@ -76476,7 +76578,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2034-knit",
+    "id": "index-2037-knit",
     "type": "word",
     "text": "knit",
     "word": "knit",
@@ -76510,7 +76612,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2035-knit-shirt",
+    "id": "index-2038-knit-shirt",
     "type": "word",
     "text": "knit shirt",
     "word": "knit shirt",
@@ -76544,7 +76646,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2036-knitting-needle",
+    "id": "index-2039-knitting-needle",
     "type": "word",
     "text": "knitting needle",
     "word": "knitting needle",
@@ -76580,7 +76682,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2037-knuckle",
+    "id": "index-2040-knuckle",
     "type": "word",
     "text": "knuckle",
     "word": "knuckle",
@@ -76614,7 +76716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2038-koala",
+    "id": "index-2041-koala",
     "type": "word",
     "text": "koala",
     "word": "koala",
@@ -76650,7 +76752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2039-koala-bear",
+    "id": "index-2042-koala-bear",
     "type": "word",
     "text": "koala bear",
     "word": "koala bear",
@@ -76687,7 +76789,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2040-l-d-like-a-wake-up-call-water-the-flowers",
+    "id": "index-2043-l-d-like-a-wake-up-call-water-the-flowers",
     "type": "word",
     "text": "l'd like a wake-up call water the flowers",
     "word": "l'd like a wake-up call water the flowers",
@@ -76723,7 +76825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2041-l-d-like-to-get-tickets-for-a-waterfall",
+    "id": "index-2044-l-d-like-to-get-tickets-for-a-waterfall",
     "type": "word",
     "text": "l'd like to get tickets for a waterfall",
     "word": "l'd like to get tickets for a waterfall",
@@ -76757,7 +76859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2042-l-d-like-to-introduce-watermelon",
+    "id": "index-2045-l-d-like-to-introduce-watermelon",
     "type": "word",
     "text": "l'd like to introduce .... watermelon",
     "word": "l'd like to introduce .... watermelon",
@@ -76791,7 +76893,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2043-l-m-sorry-isn-t-here-wealthy",
+    "id": "index-2046-l-m-sorry-isn-t-here-wealthy",
     "type": "word",
     "text": "l'm sorry. . .. isn't here wealthy",
     "word": "l'm sorry. . .. isn't here wealthy",
@@ -76827,7 +76929,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2044-l-m-sorry-what-did-you-web-address",
+    "id": "index-2047-l-m-sorry-what-did-you-web-address",
     "type": "word",
     "text": "l'm sorry. What did you web address",
     "word": "l'm sorry. What did you web address",
@@ -76863,7 +76965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2045-l-rn-from",
+    "id": "index-2048-l-rn-from",
     "type": "word",
     "text": "l'rn from ....",
     "word": "l'rn from ....",
@@ -76897,7 +76999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2046-lab",
+    "id": "index-2049-lab",
     "type": "word",
     "text": "lab",
     "word": "lab",
@@ -76931,7 +77033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2047-lab-technician",
+    "id": "index-2050-lab-technician",
     "type": "word",
     "text": "lab technician",
     "word": "lab technician",
@@ -76965,7 +77067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2048-label",
+    "id": "index-2051-label",
     "type": "word",
     "text": "label",
     "word": "label",
@@ -76999,7 +77101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2049-laboratory",
+    "id": "index-2052-laboratory",
     "type": "word",
     "text": "laboratory",
     "word": "laboratory",
@@ -77033,7 +77135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2050-lacrosse",
+    "id": "index-2053-lacrosse",
     "type": "word",
     "text": "lacrosse",
     "word": "lacrosse",
@@ -77082,7 +77184,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2051-lacrosse-ball",
+    "id": "index-2054-lacrosse-ball",
     "type": "word",
     "text": "lacrosse ball",
     "word": "lacrosse ball",
@@ -77116,7 +77218,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2052-lacrosse-field",
+    "id": "index-2055-lacrosse-field",
     "type": "word",
     "text": "lacrosse field",
     "word": "lacrosse field",
@@ -77152,7 +77254,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2053-lacrosse-player",
+    "id": "index-2056-lacrosse-player",
     "type": "word",
     "text": "lacrosse player",
     "word": "lacrosse player",
@@ -77188,7 +77290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2054-lacrosse-stick",
+    "id": "index-2057-lacrosse-stick",
     "type": "word",
     "text": "lacrosse stick",
     "word": "lacrosse stick",
@@ -77222,7 +77324,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2055-ladder",
+    "id": "index-2058-ladder",
     "type": "word",
     "text": "ladder",
     "word": "ladder",
@@ -77256,7 +77358,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2056-ladies-room",
+    "id": "index-2059-ladies-room",
     "type": "word",
     "text": "ladies' room",
     "word": "ladies' room",
@@ -77293,7 +77395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2057-ladle",
+    "id": "index-2060-ladle",
     "type": "word",
     "text": "ladle",
     "word": "ladle",
@@ -77327,7 +77429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2058-ladybug",
+    "id": "index-2061-ladybug",
     "type": "word",
     "text": "ladybug",
     "word": "ladybug",
@@ -77361,7 +77463,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2059-lake",
+    "id": "index-2062-lake",
     "type": "word",
     "text": "lake",
     "word": "lake",
@@ -77395,7 +77497,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2060-lamb",
+    "id": "index-2063-lamb",
     "type": "word",
     "text": "lamb",
     "word": "lamb",
@@ -77429,7 +77531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2061-lamb-chops",
+    "id": "index-2064-lamb-chops",
     "type": "word",
     "text": "lamb chops",
     "word": "lamb chops",
@@ -77463,7 +77565,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2062-lamp",
+    "id": "index-2065-lamp",
     "type": "word",
     "text": "lamp",
     "word": "lamp",
@@ -77512,7 +77614,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2063-lamppost",
+    "id": "index-2066-lamppost",
     "type": "word",
     "text": "lamppost",
     "word": "lamppost",
@@ -77546,7 +77648,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2064-lampshade",
+    "id": "index-2067-lampshade",
     "type": "word",
     "text": "lampshade",
     "word": "lampshade",
@@ -77580,7 +77682,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2065-landlord",
+    "id": "index-2068-landlord",
     "type": "word",
     "text": "landlord",
     "word": "landlord",
@@ -77614,7 +77716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2066-landscaper",
+    "id": "index-2069-landscaper",
     "type": "word",
     "text": "landscaper",
     "word": "landscaper",
@@ -77648,7 +77750,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2067-landslide",
+    "id": "index-2070-landslide",
     "type": "word",
     "text": "landslide",
     "word": "landslide",
@@ -77682,7 +77784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2068-lantern",
+    "id": "index-2071-lantern",
     "type": "word",
     "text": "lantern",
     "word": "lantern",
@@ -77716,7 +77818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2069-lapel",
+    "id": "index-2072-lapel",
     "type": "word",
     "text": "lapel",
     "word": "lapel",
@@ -77750,7 +77852,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2070-large",
+    "id": "index-2073-large",
     "type": "word",
     "text": "large",
     "word": "large",
@@ -77839,7 +77941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2071-large-intestine",
+    "id": "index-2074-large-intestine",
     "type": "word",
     "text": "large intestine",
     "word": "large intestine",
@@ -77873,7 +77975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2072-laryngitis",
+    "id": "index-2075-laryngitis",
     "type": "word",
     "text": "laryngitis",
     "word": "laryngitis",
@@ -77907,7 +78009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2073-last-name",
+    "id": "index-2076-last-name",
     "type": "word",
     "text": "last name",
     "word": "last name",
@@ -77941,7 +78043,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2074-last-night",
+    "id": "index-2077-last-night",
     "type": "word",
     "text": "last night",
     "word": "last night",
@@ -77975,7 +78077,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2075-last-week",
+    "id": "index-2078-last-week",
     "type": "word",
     "text": "last week",
     "word": "last week",
@@ -78011,7 +78113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2076-latex-gloves",
+    "id": "index-2079-latex-gloves",
     "type": "word",
     "text": "latex gloves",
     "word": "latex gloves",
@@ -78045,7 +78147,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2077-laundromat",
+    "id": "index-2080-laundromat",
     "type": "word",
     "text": "laundromat",
     "word": "laundromat",
@@ -78081,7 +78183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2078-laundry",
+    "id": "index-2081-laundry",
     "type": "word",
     "text": "laundry",
     "word": "laundry",
@@ -78144,7 +78246,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2079-laundry-bag",
+    "id": "index-2082-laundry-bag",
     "type": "word",
     "text": "laundry bag",
     "word": "laundry bag",
@@ -78180,7 +78282,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2080-laundry-detergent",
+    "id": "index-2083-laundry-detergent",
     "type": "word",
     "text": "laundry detergent",
     "word": "laundry detergent",
@@ -78216,7 +78318,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2081-laundry-room",
+    "id": "index-2084-laundry-room",
     "type": "word",
     "text": "laundry room",
     "word": "laundry room",
@@ -78253,7 +78355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2082-lavatory",
+    "id": "index-2085-lavatory",
     "type": "word",
     "text": "lavatory",
     "word": "lavatory",
@@ -78287,7 +78389,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2083-law-school",
+    "id": "index-2086-law-school",
     "type": "word",
     "text": "law school",
     "word": "law school",
@@ -78324,7 +78426,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2084-lawn",
+    "id": "index-2087-lawn",
     "type": "word",
     "text": "lawn",
     "word": "lawn",
@@ -78360,7 +78462,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2085-lawn-chair",
+    "id": "index-2088-lawn-chair",
     "type": "word",
     "text": "lawn chair",
     "word": "lawn chair",
@@ -78397,7 +78499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2086-lawnmower",
+    "id": "index-2089-lawnmower",
     "type": "word",
     "text": "lawnmower",
     "word": "lawnmower",
@@ -78449,7 +78551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2087-lawyer",
+    "id": "index-2090-lawyer",
     "type": "word",
     "text": "lawyer",
     "word": "lawyer",
@@ -78485,7 +78587,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2088-lcdtv",
+    "id": "index-2091-lcdtv",
     "type": "word",
     "text": "LCDTV",
     "word": "LCDTV",
@@ -78519,7 +78621,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2089-lco-screen",
+    "id": "index-2092-lco-screen",
     "type": "word",
     "text": "LCO screen",
     "word": "LCO screen",
@@ -78555,7 +78657,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2090-leaf",
+    "id": "index-2093-leaf",
     "type": "word",
     "text": "leaf",
     "word": "leaf",
@@ -78591,7 +78693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2091-leaf-blower",
+    "id": "index-2094-leaf-blower",
     "type": "word",
     "text": "leaf blower",
     "word": "leaf blower",
@@ -78628,7 +78730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2092-leaking",
+    "id": "index-2095-leaking",
     "type": "word",
     "text": "leaking",
     "word": "leaking",
@@ -78678,7 +78780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2093-lease",
+    "id": "index-2096-lease",
     "type": "word",
     "text": "lease",
     "word": "lease",
@@ -78714,7 +78816,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2094-leather",
+    "id": "index-2097-leather",
     "type": "word",
     "text": "leather",
     "word": "leather",
@@ -78750,7 +78852,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2095-leather-jacket",
+    "id": "index-2098-leather-jacket",
     "type": "word",
     "text": "leather jacket",
     "word": "leather jacket",
@@ -78786,7 +78888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2096-leave-a-tip",
+    "id": "index-2099-leave-a-tip",
     "type": "word",
     "text": "leave a tip",
     "word": "leave a tip",
@@ -78822,7 +78924,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2097-leave-home",
+    "id": "index-2100-leave-home",
     "type": "word",
     "text": "leave home",
     "word": "leave home",
@@ -78858,7 +78960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2098-leaves",
+    "id": "index-2101-leaves",
     "type": "word",
     "text": "leaves",
     "word": "leaves",
@@ -78894,7 +78996,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2099-left-lane",
+    "id": "index-2102-left-lane",
     "type": "word",
     "text": "left lane",
     "word": "left lane",
@@ -78928,7 +79030,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2100-leg",
+    "id": "index-2103-leg",
     "type": "word",
     "text": "leg",
     "word": "leg",
@@ -78962,7 +79064,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2101-leg-of-lamb",
+    "id": "index-2104-leg-of-lamb",
     "type": "word",
     "text": "leg of lamb",
     "word": "leg of lamb",
@@ -78996,7 +79098,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2102-legal-pad",
+    "id": "index-2105-legal-pad",
     "type": "word",
     "text": "legal pad",
     "word": "legal pad",
@@ -79030,7 +79132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2103-leggings",
+    "id": "index-2106-leggings",
     "type": "word",
     "text": "leggings",
     "word": "leggings",
@@ -79064,7 +79166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2104-lemon",
+    "id": "index-2107-lemon",
     "type": "word",
     "text": "lemon",
     "word": "lemon",
@@ -79098,7 +79200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2105-lemonade",
+    "id": "index-2108-lemonade",
     "type": "word",
     "text": "lemonade",
     "word": "lemonade",
@@ -79147,7 +79249,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2106-length",
+    "id": "index-2109-length",
     "type": "word",
     "text": "length",
     "word": "length",
@@ -79195,7 +79297,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2107-lengthen",
+    "id": "index-2110-lengthen",
     "type": "word",
     "text": "lengthen",
     "word": "lengthen",
@@ -79229,7 +79331,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2108-lens",
+    "id": "index-2111-lens",
     "type": "word",
     "text": "lens",
     "word": "lens",
@@ -79263,7 +79365,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2109-leopard",
+    "id": "index-2112-leopard",
     "type": "word",
     "text": "leopard",
     "word": "leopard",
@@ -79297,7 +79399,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2110-leotard",
+    "id": "index-2113-leotard",
     "type": "word",
     "text": "leotard",
     "word": "leotard",
@@ -79331,7 +79433,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2111-let-out",
+    "id": "index-2114-let-out",
     "type": "word",
     "text": "let out",
     "word": "let out",
@@ -79367,7 +79469,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2112-letter",
+    "id": "index-2115-letter",
     "type": "word",
     "text": "letter",
     "word": "letter",
@@ -79430,7 +79532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2113-letter-carrier",
+    "id": "index-2116-letter-carrier",
     "type": "word",
     "text": "letter carrier",
     "word": "letter carrier",
@@ -79481,7 +79583,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2114-letter-tray",
+    "id": "index-2117-letter-tray",
     "type": "word",
     "text": "letter tray",
     "word": "letter tray",
@@ -79517,7 +79619,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2115-letterhead",
+    "id": "index-2118-letterhead",
     "type": "word",
     "text": "letterhead",
     "word": "letterhead",
@@ -79553,7 +79655,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2116-letterhead-paper",
+    "id": "index-2119-letterhead-paper",
     "type": "word",
     "text": "letterhead paper",
     "word": "letterhead paper",
@@ -79589,7 +79691,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2117-lettuce",
+    "id": "index-2120-lettuce",
     "type": "word",
     "text": "lettuce",
     "word": "lettuce",
@@ -79623,7 +79725,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2118-level",
+    "id": "index-2121-level",
     "type": "word",
     "text": "level",
     "word": "level",
@@ -79657,7 +79759,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2119-librarian",
+    "id": "index-2122-librarian",
     "type": "word",
     "text": "librarian",
     "word": "librarian",
@@ -79706,7 +79808,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2120-library",
+    "id": "index-2123-library",
     "type": "word",
     "text": "library",
     "word": "library",
@@ -79755,7 +79857,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2121-library-card",
+    "id": "index-2124-library-card",
     "type": "word",
     "text": "library card",
     "word": "library card",
@@ -79789,7 +79891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2122-library-clerk",
+    "id": "index-2125-library-clerk",
     "type": "word",
     "text": "library clerk",
     "word": "library clerk",
@@ -79823,7 +79925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2123-license-plate",
+    "id": "index-2126-license-plate",
     "type": "word",
     "text": "license plate",
     "word": "license plate",
@@ -79857,7 +79959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2124-lid",
+    "id": "index-2127-lid",
     "type": "word",
     "text": "lid",
     "word": "lid",
@@ -79906,7 +80008,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2125-life-jacket",
+    "id": "index-2128-life-jacket",
     "type": "word",
     "text": "life jacket",
     "word": "life jacket",
@@ -79968,7 +80070,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2126-life-preserver",
+    "id": "index-2129-life-preserver",
     "type": "word",
     "text": "life preserver",
     "word": "life preserver",
@@ -80002,7 +80104,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2127-life-vest",
+    "id": "index-2130-life-vest",
     "type": "word",
     "text": "life vest",
     "word": "life vest",
@@ -80064,7 +80166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2128-lifeguard",
+    "id": "index-2131-lifeguard",
     "type": "word",
     "text": "lifeguard",
     "word": "lifeguard",
@@ -80098,7 +80200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2129-lifeguard-stand",
+    "id": "index-2132-lifeguard-stand",
     "type": "word",
     "text": "lifeguard stand",
     "word": "lifeguard stand",
@@ -80132,7 +80234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2130-lift",
+    "id": "index-2133-lift",
     "type": "word",
     "text": "lift",
     "word": "lift",
@@ -80166,7 +80268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2131-light",
+    "id": "index-2134-light",
     "type": "word",
     "text": "light",
     "word": "light",
@@ -80255,7 +80357,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2132-light-clothing",
+    "id": "index-2135-light-clothing",
     "type": "word",
     "text": "light clothing",
     "word": "light clothing",
@@ -80289,7 +80391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2133-light-green",
+    "id": "index-2136-light-green",
     "type": "word",
     "text": "light green",
     "word": "light green",
@@ -80325,7 +80427,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2134-lightbulbs",
+    "id": "index-2137-lightbulbs",
     "type": "word",
     "text": "lightbulbs",
     "word": "lightbulbs",
@@ -80359,7 +80461,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2135-lightening-bug",
+    "id": "index-2138-lightening-bug",
     "type": "word",
     "text": "lightening bug",
     "word": "lightening bug",
@@ -80393,7 +80495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2136-lightning",
+    "id": "index-2139-lightning",
     "type": "word",
     "text": "lightning",
     "word": "lightning",
@@ -80427,7 +80529,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2137-lights",
+    "id": "index-2140-lights",
     "type": "word",
     "text": "lights",
     "word": "lights",
@@ -80475,7 +80577,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2138-lily",
+    "id": "index-2141-lily",
     "type": "word",
     "text": "lily",
     "word": "lily",
@@ -80509,7 +80611,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2139-lima-bean",
+    "id": "index-2142-lima-bean",
     "type": "word",
     "text": "lima bean",
     "word": "lima bean",
@@ -80545,7 +80647,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2140-limb",
+    "id": "index-2143-limb",
     "type": "word",
     "text": "limb",
     "word": "limb",
@@ -80579,7 +80681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2141-lime",
+    "id": "index-2144-lime",
     "type": "word",
     "text": "lime",
     "word": "lime",
@@ -80613,7 +80715,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2142-limousine",
+    "id": "index-2145-limousine",
     "type": "word",
     "text": "limousine",
     "word": "limousine",
@@ -80649,7 +80751,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2143-line",
+    "id": "index-2146-line",
     "type": "word",
     "text": "line",
     "word": "line",
@@ -80712,7 +80814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2144-line-supervisor",
+    "id": "index-2147-line-supervisor",
     "type": "word",
     "text": "line supervisor",
     "word": "line supervisor",
@@ -80746,7 +80848,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2145-line-trimmer",
+    "id": "index-2148-line-trimmer",
     "type": "word",
     "text": "line trimmer",
     "word": "line trimmer",
@@ -80780,7 +80882,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2146-lint-trap",
+    "id": "index-2149-lint-trap",
     "type": "word",
     "text": "lint trap",
     "word": "lint trap",
@@ -80814,7 +80916,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2147-lion",
+    "id": "index-2150-lion",
     "type": "word",
     "text": "lion",
     "word": "lion",
@@ -80848,7 +80950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2148-lipstick",
+    "id": "index-2151-lipstick",
     "type": "word",
     "text": "lipstick",
     "word": "lipstick",
@@ -80882,7 +80984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2149-liquid-soap",
+    "id": "index-2152-liquid-soap",
     "type": "word",
     "text": "liquid soap",
     "word": "liquid soap",
@@ -80918,7 +81020,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2150-liquid-vitamins",
+    "id": "index-2153-liquid-vitamins",
     "type": "word",
     "text": "liquid vitamins",
     "word": "liquid vitamins",
@@ -80952,7 +81054,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2151-listen-to-music",
+    "id": "index-2154-listen-to-music",
     "type": "word",
     "text": "listen to music",
     "word": "listen to music",
@@ -80986,7 +81088,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2152-listen-to-the-answer",
+    "id": "index-2155-listen-to-the-answer",
     "type": "word",
     "text": "listen to the answer",
     "word": "listen to the answer",
@@ -81020,7 +81122,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2153-long-johns",
+    "id": "index-2156-long-johns",
     "type": "word",
     "text": "long johns",
     "word": "long johns",
@@ -81054,7 +81156,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2154-long-underwear",
+    "id": "index-2157-long-underwear",
     "type": "word",
     "text": "long underwear",
     "word": "long underwear",
@@ -81090,7 +81192,43 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2155-look-at-the-screen",
+    "id": "index-2158-long-sleeved-shirt",
+    "type": "word",
+    "text": "long-sleeved shirt",
+    "word": "long-sleeved shirt",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "71-1"
+    ],
+    "sourcePages": [
+      71
+    ],
+    "placements": [
+      {
+        "ref": "71-1",
+        "page": 71,
+        "theme": "clothes",
+        "topic": "Describing Clothing"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "clothes",
+    "topic": "Describing Clothing",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ee"
+    ],
+    "compound": true
+  },
+  {
+    "id": "index-2159-look-at-the-screen",
     "type": "word",
     "text": "look at the screen",
     "word": "look at the screen",
@@ -81127,7 +81265,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2156-look-for-an-apartment",
+    "id": "index-2160-look-for-an-apartment",
     "type": "word",
     "text": "look for an apartment",
     "word": "look for an apartment",
@@ -81163,7 +81301,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2157-look-in-the-dictionary",
+    "id": "index-2161-look-in-the-dictionary",
     "type": "word",
     "text": "look In the dictionary",
     "word": "look In the dictionary",
@@ -81199,7 +81337,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2158-look-out",
+    "id": "index-2162-look-out",
     "type": "word",
     "text": "Look out!",
     "word": "Look out!",
@@ -81236,7 +81374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2159-loose",
+    "id": "index-2163-loose",
     "type": "word",
     "text": "loose",
     "word": "loose",
@@ -81301,7 +81439,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2160-lost-child",
+    "id": "index-2164-lost-child",
     "type": "word",
     "text": "lost child",
     "word": "lost child",
@@ -81335,7 +81473,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2161-loud",
+    "id": "index-2165-loud",
     "type": "word",
     "text": "loud",
     "word": "loud",
@@ -81371,7 +81509,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2162-loudspeaker",
+    "id": "index-2166-loudspeaker",
     "type": "word",
     "text": "loudspeaker",
     "word": "loudspeaker",
@@ -81408,7 +81546,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2163-loveseat",
+    "id": "index-2167-loveseat",
     "type": "word",
     "text": "loveseat",
     "word": "loveseat",
@@ -81444,7 +81582,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2164-low",
+    "id": "index-2168-low",
     "type": "word",
     "text": "low",
     "word": "low",
@@ -81495,7 +81633,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2165-low-fat-milk",
+    "id": "index-2169-low-fat-milk",
     "type": "word",
     "text": "low-fat milk",
     "word": "low-fat milk",
@@ -81531,7 +81669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2166-lower-the-shades",
+    "id": "index-2170-lower-the-shades",
     "type": "word",
     "text": "lower the shades",
     "word": "lower the shades",
@@ -81567,7 +81705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2167-lug-wrench",
+    "id": "index-2171-lug-wrench",
     "type": "word",
     "text": "lug wrench",
     "word": "lug wrench",
@@ -81601,7 +81739,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2168-luggage-carrier",
+    "id": "index-2172-luggage-carrier",
     "type": "word",
     "text": "luggage carrier",
     "word": "luggage carrier",
@@ -81637,7 +81775,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2169-luggage-cart",
+    "id": "index-2173-luggage-cart",
     "type": "word",
     "text": "luggage cart",
     "word": "luggage cart",
@@ -81686,7 +81824,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2170-luggage-compartment-man",
+    "id": "index-2174-luggage-compartment-man",
     "type": "word",
     "text": "luggage compartment man",
     "word": "luggage compartment man",
@@ -81720,7 +81858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2171-lunar-eclipse",
+    "id": "index-2175-lunar-eclipse",
     "type": "word",
     "text": "lunar eclipse",
     "word": "lunar eclipse",
@@ -81754,7 +81892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2172-lunch",
+    "id": "index-2176-lunch",
     "type": "word",
     "text": "lunch",
     "word": "lunch",
@@ -81802,7 +81940,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2173-lunchroorn-monitor",
+    "id": "index-2177-lunchroorn-monitor",
     "type": "word",
     "text": "lunchroorn monitor",
     "word": "lunchroorn monitor",
@@ -81838,7 +81976,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2174-lungs",
+    "id": "index-2178-lungs",
     "type": "word",
     "text": "lungs",
     "word": "lungs",
@@ -81872,7 +82010,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2175-lycra-sherts",
+    "id": "index-2179-lycra-sherts",
     "type": "word",
     "text": "lycra sherts",
     "word": "lycra sherts",
@@ -81906,7 +82044,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2176-macaroni",
+    "id": "index-2180-macaroni",
     "type": "word",
     "text": "macaroni",
     "word": "macaroni",
@@ -81940,7 +82078,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2177-macaroni-salad",
+    "id": "index-2181-macaroni-salad",
     "type": "word",
     "text": "macaroni salad",
     "word": "macaroni salad",
@@ -81974,7 +82112,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2178-machihe-operator",
+    "id": "index-2182-machihe-operator",
     "type": "word",
     "text": "machihe operator",
     "word": "machihe operator",
@@ -82008,7 +82146,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2179-machine",
+    "id": "index-2183-machine",
     "type": "word",
     "text": "machine",
     "word": "machine",
@@ -82057,7 +82195,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2180-machine-screw",
+    "id": "index-2184-machine-screw",
     "type": "word",
     "text": "machine screw",
     "word": "machine screw",
@@ -82093,7 +82231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2181-mad",
+    "id": "index-2185-mad",
     "type": "word",
     "text": "mad",
     "word": "mad",
@@ -82127,7 +82265,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2182-magazine",
+    "id": "index-2186-magazine",
     "type": "word",
     "text": "magazine",
     "word": "magazine",
@@ -82189,7 +82327,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2183-magazine-artide",
+    "id": "index-2187-magazine-artide",
     "type": "word",
     "text": "magazine artide",
     "word": "magazine artide",
@@ -82223,7 +82361,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2184-magazine-holder",
+    "id": "index-2188-magazine-holder",
     "type": "word",
     "text": "magazine holder",
     "word": "magazine holder",
@@ -82257,7 +82395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2185-magnet",
+    "id": "index-2189-magnet",
     "type": "word",
     "text": "magnet",
     "word": "magnet",
@@ -82291,7 +82429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2186-make-a-deposit",
+    "id": "index-2190-make-a-deposit",
     "type": "word",
     "text": "make a deposit",
     "word": "make a deposit",
@@ -82353,7 +82491,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2187-make-a-restaurant-media-section",
+    "id": "index-2191-make-a-restaurant-media-section",
     "type": "word",
     "text": "make a restaurant media section",
     "word": "make a restaurant media section",
@@ -82389,7 +82527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2188-make-a-withdrawal",
+    "id": "index-2192-make-a-withdrawal",
     "type": "word",
     "text": "make a withdrawal",
     "word": "make a withdrawal",
@@ -82425,7 +82563,43 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2189-make-copies",
+    "id": "index-2193-make-breakfast",
+    "type": "word",
+    "text": "make breakfast",
+    "word": "make breakfast",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "9-15"
+    ],
+    "sourcePages": [
+      9
+    ],
+    "placements": [
+      {
+        "ref": "9-15",
+        "page": 9,
+        "theme": "daily",
+        "topic": "Everyday Activities I"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "daily",
+    "topic": "Everyday Activities I",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ea"
+    ],
+    "compound": false
+  },
+  {
+    "id": "index-2194-make-copies",
     "type": "word",
     "text": "make copies",
     "word": "make copies",
@@ -82461,7 +82635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2190-make-corrections",
+    "id": "index-2195-make-corrections",
     "type": "word",
     "text": "make corrections",
     "word": "make corrections",
@@ -82495,7 +82669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2191-make-dinner",
+    "id": "index-2196-make-dinner",
     "type": "word",
     "text": "make dinner",
     "word": "make dinner",
@@ -82529,7 +82703,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2192-make-lunch",
+    "id": "index-2197-make-lunch",
     "type": "word",
     "text": "make lunch",
     "word": "make lunch",
@@ -82563,7 +82737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2193-make-observations",
+    "id": "index-2198-make-observations",
     "type": "word",
     "text": "make observations",
     "word": "make observations",
@@ -82597,7 +82771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2194-make-pottery",
+    "id": "index-2199-make-pottery",
     "type": "word",
     "text": "make pottery",
     "word": "make pottery",
@@ -82646,7 +82820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2195-make-the-bed",
+    "id": "index-2200-make-the-bed",
     "type": "word",
     "text": "make the bed",
     "word": "make the bed",
@@ -82680,7 +82854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2196-makeup",
+    "id": "index-2201-makeup",
     "type": "word",
     "text": "makeup",
     "word": "makeup",
@@ -82729,7 +82903,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2197-makeup-bag",
+    "id": "index-2202-makeup-bag",
     "type": "word",
     "text": "makeup bag",
     "word": "makeup bag",
@@ -82763,7 +82937,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2198-mall",
+    "id": "index-2203-mall",
     "type": "word",
     "text": "mall",
     "word": "mall",
@@ -82797,7 +82971,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2199-mallet",
+    "id": "index-2204-mallet",
     "type": "word",
     "text": "mallet",
     "word": "mallet",
@@ -82831,7 +83005,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2200-manage",
+    "id": "index-2205-manage",
     "type": "word",
     "text": "manage",
     "word": "manage",
@@ -82865,7 +83039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2201-manager",
+    "id": "index-2206-manager",
     "type": "word",
     "text": "manager",
     "word": "manager",
@@ -82914,7 +83088,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2202-mane",
+    "id": "index-2207-mane",
     "type": "word",
     "text": "mane",
     "word": "mane",
@@ -82948,7 +83122,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2203-mango",
+    "id": "index-2208-mango",
     "type": "word",
     "text": "mango",
     "word": "mango",
@@ -82982,7 +83156,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2204-manhole",
+    "id": "index-2209-manhole",
     "type": "word",
     "text": "manhole",
     "word": "manhole",
@@ -83016,7 +83190,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2205-manicurist",
+    "id": "index-2210-manicurist",
     "type": "word",
     "text": "manicurist",
     "word": "manicurist",
@@ -83050,7 +83224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2206-mantel",
+    "id": "index-2211-mantel",
     "type": "word",
     "text": "mantel",
     "word": "mantel",
@@ -83084,7 +83258,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2207-manual-transmission",
+    "id": "index-2212-manual-transmission",
     "type": "word",
     "text": "manual transmission",
     "word": "manual transmission",
@@ -83118,7 +83292,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2208-map",
+    "id": "index-2213-map",
     "type": "word",
     "text": "map",
     "word": "map",
@@ -83152,7 +83326,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2209-maple",
+    "id": "index-2214-maple",
     "type": "word",
     "text": "maple",
     "word": "maple",
@@ -83186,7 +83360,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2210-march",
+    "id": "index-2215-march",
     "type": "word",
     "text": "March",
     "word": "March",
@@ -83220,7 +83394,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2211-margarine",
+    "id": "index-2216-margarine",
     "type": "word",
     "text": "margarine",
     "word": "margarine",
@@ -83254,7 +83428,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2212-marigold",
+    "id": "index-2217-marigold",
     "type": "word",
     "text": "marigold",
     "word": "marigold",
@@ -83303,7 +83477,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2213-mark-the-answer-sheet",
+    "id": "index-2218-mark-the-answer-sheet",
     "type": "word",
     "text": "mark the answer sheet",
     "word": "mark the answer sheet",
@@ -83339,7 +83513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2214-marker",
+    "id": "index-2219-marker",
     "type": "word",
     "text": "marker",
     "word": "marker",
@@ -83388,7 +83562,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2215-mars",
+    "id": "index-2220-mars",
     "type": "word",
     "text": "Mars",
     "word": "Mars",
@@ -83422,7 +83596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2216-martial-arts",
+    "id": "index-2221-martial-arts",
     "type": "word",
     "text": "martial arts",
     "word": "martial arts",
@@ -83456,7 +83630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2217-mascara",
+    "id": "index-2222-mascara",
     "type": "word",
     "text": "mascara",
     "word": "mascara",
@@ -83490,7 +83664,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2218-mashed-potatoes",
+    "id": "index-2223-mashed-potatoes",
     "type": "word",
     "text": "mashed potatoes",
     "word": "mashed potatoes",
@@ -83526,7 +83700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2219-mask",
+    "id": "index-2224-mask",
     "type": "word",
     "text": "mask",
     "word": "mask",
@@ -83560,7 +83734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2220-masking-tape",
+    "id": "index-2225-masking-tape",
     "type": "word",
     "text": "masking tape",
     "word": "masking tape",
@@ -83594,7 +83768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2221-mason",
+    "id": "index-2226-mason",
     "type": "word",
     "text": "mason",
     "word": "mason",
@@ -83628,7 +83802,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2222-mat",
+    "id": "index-2227-mat",
     "type": "word",
     "text": "mat",
     "word": "mat",
@@ -83676,7 +83850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2223-match-the-words",
+    "id": "index-2228-match-the-words",
     "type": "word",
     "text": "match the words",
     "word": "match the words",
@@ -83710,7 +83884,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2224-matches",
+    "id": "index-2229-matches",
     "type": "word",
     "text": "matches",
     "word": "matches",
@@ -83744,7 +83918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2225-may-i-ask-a-question",
+    "id": "index-2230-may-i-ask-a-question",
     "type": "word",
     "text": "May I ask a question?",
     "word": "May I ask a question?",
@@ -83781,7 +83955,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2226-me",
+    "id": "index-2231-me",
     "type": "word",
     "text": "me.",
     "word": "me.",
@@ -83815,7 +83989,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2227-measuring-spoon",
+    "id": "index-2232-measuring-spoon",
     "type": "word",
     "text": "measuring spoon",
     "word": "measuring spoon",
@@ -83852,7 +84026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2228-meatballs",
+    "id": "index-2233-meatballs",
     "type": "word",
     "text": "meatballs",
     "word": "meatballs",
@@ -83888,7 +84062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2229-meatloaf",
+    "id": "index-2234-meatloaf",
     "type": "word",
     "text": "meatloaf",
     "word": "meatloaf",
@@ -83925,7 +84099,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2230-mechanic",
+    "id": "index-2235-mechanic",
     "type": "word",
     "text": "mechanic",
     "word": "mechanic",
@@ -83959,7 +84133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2231-median",
+    "id": "index-2236-median",
     "type": "word",
     "text": "median",
     "word": "median",
@@ -83993,7 +84167,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2232-medica-history-form",
+    "id": "index-2237-medica-history-form",
     "type": "word",
     "text": "medica] history form",
     "word": "medica] history form",
@@ -84027,7 +84201,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2233-medical-assistant",
+    "id": "index-2238-medical-assistant",
     "type": "word",
     "text": "medical assistant",
     "word": "medical assistant",
@@ -84061,7 +84235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2234-medical-chart",
+    "id": "index-2239-medical-chart",
     "type": "word",
     "text": "medical chart",
     "word": "medical chart",
@@ -84095,7 +84269,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2235-medical-school",
+    "id": "index-2240-medical-school",
     "type": "word",
     "text": "medical school",
     "word": "medical school",
@@ -84131,7 +84305,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2236-medicine-cabinet",
+    "id": "index-2241-medicine-cabinet",
     "type": "word",
     "text": "medicine cabinet",
     "word": "medicine cabinet",
@@ -84165,7 +84339,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2237-medium",
+    "id": "index-2242-medium",
     "type": "word",
     "text": "medium",
     "word": "medium",
@@ -84199,7 +84373,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2238-meeting-room",
+    "id": "index-2243-meeting-room",
     "type": "word",
     "text": "meeting room",
     "word": "meeting room",
@@ -84250,7 +84424,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2239-melon",
+    "id": "index-2244-melon",
     "type": "word",
     "text": "melon",
     "word": "melon",
@@ -84284,7 +84458,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2240-memo",
+    "id": "index-2245-memo",
     "type": "word",
     "text": "memo",
     "word": "memo",
@@ -84318,7 +84492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2241-memo-pad",
+    "id": "index-2246-memo-pad",
     "type": "word",
     "text": "memo pad",
     "word": "memo pad",
@@ -84352,7 +84526,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2242-memory-disk",
+    "id": "index-2247-memory-disk",
     "type": "word",
     "text": "memory disk",
     "word": "memory disk",
@@ -84386,7 +84560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2243-men-s-clothing-moon",
+    "id": "index-2248-men-s-clothing-moon",
     "type": "word",
     "text": "Men's Clothing moon",
     "word": "Men's Clothing moon",
@@ -84422,7 +84596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2244-men-s-room",
+    "id": "index-2249-men-s-room",
     "type": "word",
     "text": "men's room",
     "word": "men's room",
@@ -84458,7 +84632,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2245-menu",
+    "id": "index-2250-menu",
     "type": "word",
     "text": "menu",
     "word": "menu",
@@ -84492,7 +84666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2246-mercury",
+    "id": "index-2251-mercury",
     "type": "word",
     "text": "Mercury",
     "word": "Mercury",
@@ -84526,7 +84700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2247-merging-traffic",
+    "id": "index-2252-merging-traffic",
     "type": "word",
     "text": "merging traffic",
     "word": "merging traffic",
@@ -84560,7 +84734,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2248-merry-go-round",
+    "id": "index-2253-merry-go-round",
     "type": "word",
     "text": "merry-go-round",
     "word": "merry-go-round",
@@ -84596,7 +84770,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2249-message",
+    "id": "index-2254-message",
     "type": "word",
     "text": "message",
     "word": "message",
@@ -84630,7 +84804,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2250-message-board",
+    "id": "index-2255-message-board",
     "type": "word",
     "text": "message board",
     "word": "message board",
@@ -84666,7 +84840,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2251-messenger",
+    "id": "index-2256-messenger",
     "type": "word",
     "text": "messenger",
     "word": "messenger",
@@ -84700,7 +84874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2252-messy",
+    "id": "index-2257-messy",
     "type": "word",
     "text": "messy",
     "word": "messy",
@@ -84734,7 +84908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2253-metal-detector",
+    "id": "index-2258-metal-detector",
     "type": "word",
     "text": "metal detector",
     "word": "metal detector",
@@ -84782,7 +84956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2254-meteor",
+    "id": "index-2259-meteor",
     "type": "word",
     "text": "meteor",
     "word": "meteor",
@@ -84816,7 +84990,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2255-meter",
+    "id": "index-2260-meter",
     "type": "word",
     "text": "meter",
     "word": "meter",
@@ -84865,7 +85039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2256-meter-maid",
+    "id": "index-2261-meter-maid",
     "type": "word",
     "text": "meter maid",
     "word": "meter maid",
@@ -84901,7 +85075,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2257-mice",
+    "id": "index-2262-mice",
     "type": "word",
     "text": "mice",
     "word": "mice",
@@ -84935,7 +85109,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2258-microfilm",
+    "id": "index-2263-microfilm",
     "type": "word",
     "text": "microfilm",
     "word": "microfilm",
@@ -84969,7 +85143,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2259-microfilm-reader",
+    "id": "index-2264-microfilm-reader",
     "type": "word",
     "text": "microfilm reader",
     "word": "microfilm reader",
@@ -85005,7 +85179,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2260-microphone",
+    "id": "index-2265-microphone",
     "type": "word",
     "text": "microphone",
     "word": "microphone",
@@ -85039,7 +85213,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2261-microwave",
+    "id": "index-2266-microwave",
     "type": "word",
     "text": "microwave",
     "word": "microwave",
@@ -85090,7 +85264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2262-microwave-oven",
+    "id": "index-2267-microwave-oven",
     "type": "word",
     "text": "microwave oven",
     "word": "microwave oven",
@@ -85126,7 +85300,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2263-middle-initial",
+    "id": "index-2268-middle-initial",
     "type": "word",
     "text": "middle initial",
     "word": "middle initial",
@@ -85160,7 +85334,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2264-middle-lane",
+    "id": "index-2269-middle-lane",
     "type": "word",
     "text": "middle lane",
     "word": "middle lane",
@@ -85194,7 +85368,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2265-middle-school",
+    "id": "index-2270-middle-school",
     "type": "word",
     "text": "middle school",
     "word": "middle school",
@@ -85230,7 +85404,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2266-middle-seat",
+    "id": "index-2271-middle-seat",
     "type": "word",
     "text": "middle seat",
     "word": "middle seat",
@@ -85266,7 +85440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2267-middle-aged",
+    "id": "index-2272-middle-aged",
     "type": "word",
     "text": "middle-aged",
     "word": "middle-aged",
@@ -85300,7 +85474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2268-midnight",
+    "id": "index-2273-midnight",
     "type": "word",
     "text": "midnight",
     "word": "midnight",
@@ -85349,7 +85523,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2269-midwife",
+    "id": "index-2274-midwife",
     "type": "word",
     "text": "midwife",
     "word": "midwife",
@@ -85383,7 +85557,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2270-millimeter-camera",
+    "id": "index-2275-millimeter-camera",
     "type": "word",
     "text": "millimeter camera",
     "word": "millimeter camera",
@@ -85417,7 +85591,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2271-moccasins",
+    "id": "index-2276-moccasins",
     "type": "word",
     "text": "moccasins",
     "word": "moccasins",
@@ -85451,7 +85625,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2272-model-kit",
+    "id": "index-2277-model-kit",
     "type": "word",
     "text": "model kit",
     "word": "model kit",
@@ -85500,7 +85674,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2273-modeling-clay",
+    "id": "index-2278-modeling-clay",
     "type": "word",
     "text": "modeling clay",
     "word": "modeling clay",
@@ -85536,7 +85710,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2274-modem",
+    "id": "index-2279-modem",
     "type": "word",
     "text": "modem",
     "word": "modem",
@@ -85570,7 +85744,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2275-moisturizer",
+    "id": "index-2280-moisturizer",
     "type": "word",
     "text": "moisturizer",
     "word": "moisturizer",
@@ -85606,7 +85780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2276-monday",
+    "id": "index-2281-monday",
     "type": "word",
     "text": "Monday",
     "word": "Monday",
@@ -85642,7 +85816,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2277-monday-through-look-up-a-word",
+    "id": "index-2282-monday-through-look-up-a-word",
     "type": "word",
     "text": "Monday through look up a word",
     "word": "Monday through look up a word",
@@ -85680,7 +85854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2278-money",
+    "id": "index-2283-money",
     "type": "word",
     "text": "money",
     "word": "money",
@@ -85728,7 +85902,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2279-money-exchange-lotion",
+    "id": "index-2284-money-exchange-lotion",
     "type": "word",
     "text": "money exchange lotion",
     "word": "money exchange lotion",
@@ -85762,7 +85936,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2280-monitor",
+    "id": "index-2285-monitor",
     "type": "word",
     "text": "monitor",
     "word": "monitor",
@@ -85825,7 +85999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2281-monkey",
+    "id": "index-2286-monkey",
     "type": "word",
     "text": "monkey",
     "word": "monkey",
@@ -85859,7 +86033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2282-monkey-wrench",
+    "id": "index-2287-monkey-wrench",
     "type": "word",
     "text": "monkey wrench",
     "word": "monkey wrench",
@@ -85893,7 +86067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2283-monopoly",
+    "id": "index-2288-monopoly",
     "type": "word",
     "text": "Monopoly",
     "word": "Monopoly",
@@ -85927,7 +86101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2284-month",
+    "id": "index-2289-month",
     "type": "word",
     "text": "month",
     "word": "month",
@@ -85961,7 +86135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2285-monthly-statement",
+    "id": "index-2290-monthly-statement",
     "type": "word",
     "text": "monthly statement",
     "word": "monthly statement",
@@ -85995,7 +86169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2286-moose",
+    "id": "index-2291-moose",
     "type": "word",
     "text": "moose",
     "word": "moose",
@@ -86031,7 +86205,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2287-mop",
+    "id": "index-2292-mop",
     "type": "word",
     "text": "mop",
     "word": "mop",
@@ -86106,7 +86280,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2288-mop-the-floor",
+    "id": "index-2293-mop-the-floor",
     "type": "word",
     "text": "mop the floor",
     "word": "mop the floor",
@@ -86142,7 +86316,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2289-moped",
+    "id": "index-2294-moped",
     "type": "word",
     "text": "moped",
     "word": "moped",
@@ -86176,7 +86350,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2290-morning",
+    "id": "index-2295-morning",
     "type": "word",
     "text": "morning",
     "word": "morning",
@@ -86210,7 +86384,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2291-mortgage-payment",
+    "id": "index-2296-mortgage-payment",
     "type": "word",
     "text": "mortgage payment",
     "word": "mortgage payment",
@@ -86246,7 +86420,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2292-mosque",
+    "id": "index-2297-mosque",
     "type": "word",
     "text": "mosque",
     "word": "mosque",
@@ -86282,7 +86456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2293-mosquito",
+    "id": "index-2298-mosquito",
     "type": "word",
     "text": "mosquito",
     "word": "mosquito",
@@ -86316,7 +86490,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2294-motel",
+    "id": "index-2299-motel",
     "type": "word",
     "text": "motel",
     "word": "motel",
@@ -86350,7 +86524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2295-moth",
+    "id": "index-2300-moth",
     "type": "word",
     "text": "moth",
     "word": "moth",
@@ -86384,7 +86558,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2296-mother",
+    "id": "index-2301-mother",
     "type": "word",
     "text": "mother",
     "word": "mother",
@@ -86418,7 +86592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2297-motor-scooter",
+    "id": "index-2302-motor-scooter",
     "type": "word",
     "text": "motor scooter",
     "word": "motor scooter",
@@ -86454,7 +86628,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2298-motorcyde",
+    "id": "index-2303-motorcyde",
     "type": "word",
     "text": "motorcyde",
     "word": "motorcyde",
@@ -86503,7 +86677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2299-mountain-bike",
+    "id": "index-2304-mountain-bike",
     "type": "word",
     "text": "mountain bike",
     "word": "mountain bike",
@@ -86540,7 +86714,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2300-mountain-biking",
+    "id": "index-2305-mountain-biking",
     "type": "word",
     "text": "mountain biking",
     "word": "mountain biking",
@@ -86577,7 +86751,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2301-mountain-lion",
+    "id": "index-2306-mountain-lion",
     "type": "word",
     "text": "mountain lion",
     "word": "mountain lion",
@@ -86614,7 +86788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2302-mountain-peak",
+    "id": "index-2307-mountain-peak",
     "type": "word",
     "text": "mountain peak",
     "word": "mountain peak",
@@ -86652,7 +86826,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2303-mountain-range",
+    "id": "index-2308-mountain-range",
     "type": "word",
     "text": "mountain range",
     "word": "mountain range",
@@ -86689,7 +86863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2304-mountains",
+    "id": "index-2309-mountains",
     "type": "word",
     "text": "mountains",
     "word": "mountains",
@@ -86726,7 +86900,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2305-mouse",
+    "id": "index-2310-mouse",
     "type": "word",
     "text": "mouse",
     "word": "mouse",
@@ -86791,7 +86965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2306-mousetrap",
+    "id": "index-2311-mousetrap",
     "type": "word",
     "text": "mousetrap",
     "word": "mousetrap",
@@ -86827,7 +87001,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2307-mouth",
+    "id": "index-2312-mouth",
     "type": "word",
     "text": "mouth",
     "word": "mouth",
@@ -86891,7 +87065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2308-mouthwash",
+    "id": "index-2313-mouthwash",
     "type": "word",
     "text": "mouthwash",
     "word": "mouthwash",
@@ -86927,7 +87101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2309-move-in",
+    "id": "index-2314-move-in",
     "type": "word",
     "text": "move in",
     "word": "move in",
@@ -86961,7 +87135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2310-mover",
+    "id": "index-2315-mover",
     "type": "word",
     "text": "mover",
     "word": "mover",
@@ -86995,7 +87169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2311-movie-screen",
+    "id": "index-2316-movie-screen",
     "type": "word",
     "text": "movie screen",
     "word": "movie screen",
@@ -87047,7 +87221,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2312-movie-theater",
+    "id": "index-2317-movie-theater",
     "type": "word",
     "text": "movie theater",
     "word": "movie theater",
@@ -87098,7 +87272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2313-movies",
+    "id": "index-2318-movies",
     "type": "word",
     "text": "movies",
     "word": "movies",
@@ -87204,7 +87378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2314-moving-truck",
+    "id": "index-2319-moving-truck",
     "type": "word",
     "text": "moving truck",
     "word": "moving truck",
@@ -87238,7 +87412,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2315-moving-van",
+    "id": "index-2320-moving-van",
     "type": "word",
     "text": "moving van",
     "word": "moving van",
@@ -87287,7 +87461,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2316-mow",
+    "id": "index-2321-mow",
     "type": "word",
     "text": "mow",
     "word": "mow",
@@ -87323,7 +87497,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2317-mow-the-lawn",
+    "id": "index-2322-mow-the-lawn",
     "type": "word",
     "text": "mow the lawn",
     "word": "mow the lawn",
@@ -87360,7 +87534,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2318-mozzarella",
+    "id": "index-2323-mozzarella",
     "type": "word",
     "text": "mozzarella",
     "word": "mozzarella",
@@ -87394,7 +87568,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2319-mu-jging",
+    "id": "index-2324-mu-jging",
     "type": "word",
     "text": "mU!!jging",
     "word": "mU!!jging",
@@ -87428,7 +87602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2320-mucho",
+    "id": "index-2325-mucho",
     "type": "word",
     "text": "mucho",
     "word": "mucho",
@@ -87462,7 +87636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2321-muffin",
+    "id": "index-2326-muffin",
     "type": "word",
     "text": "muffin",
     "word": "muffin",
@@ -87496,7 +87670,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2322-muffler",
+    "id": "index-2327-muffler",
     "type": "word",
     "text": "muffler",
     "word": "muffler",
@@ -87545,7 +87719,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2323-mug",
+    "id": "index-2328-mug",
     "type": "word",
     "text": "mug",
     "word": "mug",
@@ -87579,7 +87753,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2324-muggy",
+    "id": "index-2329-muggy",
     "type": "word",
     "text": "muggy",
     "word": "muggy",
@@ -87613,7 +87787,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2325-multipl-cation",
+    "id": "index-2330-multipl-cation",
     "type": "word",
     "text": "multiplícation",
     "word": "multiplícation",
@@ -87647,7 +87821,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2326-mumps",
+    "id": "index-2331-mumps",
     "type": "word",
     "text": "mumps",
     "word": "mumps",
@@ -87681,7 +87855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2327-murder",
+    "id": "index-2332-murder",
     "type": "word",
     "text": "murder",
     "word": "murder",
@@ -87715,7 +87889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2328-muscles",
+    "id": "index-2333-muscles",
     "type": "word",
     "text": "muscles",
     "word": "muscles",
@@ -87749,7 +87923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2329-museum",
+    "id": "index-2334-museum",
     "type": "word",
     "text": "museum",
     "word": "museum",
@@ -87798,7 +87972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2330-music",
+    "id": "index-2335-music",
     "type": "word",
     "text": "music",
     "word": "music",
@@ -87847,7 +88021,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2331-music-store",
+    "id": "index-2336-music-store",
     "type": "word",
     "text": "music store",
     "word": "music store",
@@ -87881,7 +88055,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2332-musical",
+    "id": "index-2337-musical",
     "type": "word",
     "text": "musical",
     "word": "musical",
@@ -87930,7 +88104,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2333-musical-cornedy",
+    "id": "index-2338-musical-cornedy",
     "type": "word",
     "text": "musical cornedy",
     "word": "musical cornedy",
@@ -87964,7 +88138,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2334-musician",
+    "id": "index-2339-musician",
     "type": "word",
     "text": "musician",
     "word": "musician",
@@ -88013,7 +88187,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2335-mussels",
+    "id": "index-2340-mussels",
     "type": "word",
     "text": "mussels",
     "word": "mussels",
@@ -88047,7 +88221,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2336-mustache",
+    "id": "index-2341-mustache",
     "type": "word",
     "text": "mustache",
     "word": "mustache",
@@ -88081,7 +88255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2337-mustard",
+    "id": "index-2342-mustard",
     "type": "word",
     "text": "mustard",
     "word": "mustard",
@@ -88130,7 +88304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2338-mystery",
+    "id": "index-2343-mystery",
     "type": "word",
     "text": "mystery",
     "word": "mystery",
@@ -88164,7 +88338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2339-nachos",
+    "id": "index-2344-nachos",
     "type": "word",
     "text": "nachos",
     "word": "nachos",
@@ -88213,7 +88387,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2340-nail-brush",
+    "id": "index-2345-nail-brush",
     "type": "word",
     "text": "nail brush",
     "word": "nail brush",
@@ -88249,7 +88423,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2341-nail-dipper",
+    "id": "index-2346-nail-dipper",
     "type": "word",
     "text": "nail dipper",
     "word": "nail dipper",
@@ -88285,7 +88459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2342-nail-file",
+    "id": "index-2347-nail-file",
     "type": "word",
     "text": "nail file",
     "word": "nail file",
@@ -88321,7 +88495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2343-nail-polish",
+    "id": "index-2348-nail-polish",
     "type": "word",
     "text": "nail polish",
     "word": "nail polish",
@@ -88357,7 +88531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2344-nail-polish-remover",
+    "id": "index-2349-nail-polish-remover",
     "type": "word",
     "text": "nail polish remover",
     "word": "nail polish remover",
@@ -88393,7 +88567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2345-nail-salon",
+    "id": "index-2350-nail-salon",
     "type": "word",
     "text": "nail salon",
     "word": "nail salon",
@@ -88429,7 +88603,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2346-name",
+    "id": "index-2351-name",
     "type": "word",
     "text": "name",
     "word": "name",
@@ -88530,7 +88704,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2347-napkin",
+    "id": "index-2352-napkin",
     "type": "word",
     "text": "napkin",
     "word": "napkin",
@@ -88620,7 +88794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2348-narrow",
+    "id": "index-2353-narrow",
     "type": "word",
     "text": "narrow",
     "word": "narrow",
@@ -88671,7 +88845,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2349-nasal-spray",
+    "id": "index-2354-nasal-spray",
     "type": "word",
     "text": "nasal spray",
     "word": "nasal spray",
@@ -88707,7 +88881,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2350-national-park",
+    "id": "index-2355-national-park",
     "type": "word",
     "text": "national park",
     "word": "national park",
@@ -88741,7 +88915,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2351-natural-gas",
+    "id": "index-2356-natural-gas",
     "type": "word",
     "text": "natural gas",
     "word": "natural gas",
@@ -88775,7 +88949,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2352-nature-program",
+    "id": "index-2357-nature-program",
     "type": "word",
     "text": "nature program",
     "word": "nature program",
@@ -88809,7 +88983,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2353-nauseous",
+    "id": "index-2358-nauseous",
     "type": "word",
     "text": "nauseous",
     "word": "nauseous",
@@ -88861,7 +89035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2354-navigation-system",
+    "id": "index-2359-navigation-system",
     "type": "word",
     "text": "navigation system",
     "word": "navigation system",
@@ -88895,7 +89069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2355-navy-blue",
+    "id": "index-2360-navy-blue",
     "type": "word",
     "text": "navy blue",
     "word": "navy blue",
@@ -88931,7 +89105,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2356-neat",
+    "id": "index-2361-neat",
     "type": "word",
     "text": "neat",
     "word": "neat",
@@ -88967,7 +89141,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2357-neck",
+    "id": "index-2362-neck",
     "type": "word",
     "text": "neck",
     "word": "neck",
@@ -89001,7 +89175,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2358-necklace",
+    "id": "index-2363-necklace",
     "type": "word",
     "text": "necklace",
     "word": "necklace",
@@ -89035,7 +89209,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2359-necktie",
+    "id": "index-2364-necktie",
     "type": "word",
     "text": "necktie",
     "word": "necktie",
@@ -89071,7 +89245,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2360-nectarine",
+    "id": "index-2365-nectarine",
     "type": "word",
     "text": "nectarine",
     "word": "nectarine",
@@ -89105,7 +89279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2361-need",
+    "id": "index-2366-need",
     "type": "word",
     "text": "need",
     "word": "need",
@@ -89141,7 +89315,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2362-needle",
+    "id": "index-2367-needle",
     "type": "word",
     "text": "needle",
     "word": "needle",
@@ -89206,7 +89380,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2363-neighbor",
+    "id": "index-2368-neighbor",
     "type": "word",
     "text": "neighbor",
     "word": "neighbor",
@@ -89240,7 +89414,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2364-neighbor-s-children",
+    "id": "index-2369-neighbor-s-children",
     "type": "word",
     "text": "neighbor's children",
     "word": "neighbor's children",
@@ -89274,7 +89448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2365-neph-ew",
+    "id": "index-2370-neph-ew",
     "type": "word",
     "text": "neph:ew",
     "word": "neph:ew",
@@ -89310,7 +89484,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2366-neptune",
+    "id": "index-2371-neptune",
     "type": "word",
     "text": "Neptune",
     "word": "Neptune",
@@ -89344,7 +89518,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2367-nerve",
+    "id": "index-2372-nerve",
     "type": "word",
     "text": "nerve",
     "word": "nerve",
@@ -89378,7 +89552,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2368-nervous",
+    "id": "index-2373-nervous",
     "type": "word",
     "text": "nervous",
     "word": "nervous",
@@ -89414,7 +89588,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2369-nest",
+    "id": "index-2374-nest",
     "type": "word",
     "text": "nest",
     "word": "nest",
@@ -89448,7 +89622,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2370-new",
+    "id": "index-2375-new",
     "type": "word",
     "text": "new",
     "word": "new",
@@ -89484,7 +89658,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2371-new-rnoon",
+    "id": "index-2376-new-rnoon",
     "type": "word",
     "text": "new rnoon",
     "word": "new rnoon",
@@ -89521,7 +89695,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2372-news-program",
+    "id": "index-2377-news-program",
     "type": "word",
     "text": "news program",
     "word": "news program",
@@ -89557,7 +89731,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2373-newspaper",
+    "id": "index-2378-newspaper",
     "type": "word",
     "text": "newspaper",
     "word": "newspaper",
@@ -89608,7 +89782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2374-newspaper-artide",
+    "id": "index-2379-newspaper-artide",
     "type": "word",
     "text": "newspaper artide",
     "word": "newspaper artide",
@@ -89644,7 +89818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2375-newsstand",
+    "id": "index-2380-newsstand",
     "type": "word",
     "text": "newsstand",
     "word": "newsstand",
@@ -89680,7 +89854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2376-newt",
+    "id": "index-2381-newt",
     "type": "word",
     "text": "newt",
     "word": "newt",
@@ -89716,7 +89890,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2377-next-to",
+    "id": "index-2382-next-to",
     "type": "word",
     "text": "next to",
     "word": "next to",
@@ -89750,7 +89924,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2378-next-week",
+    "id": "index-2383-next-week",
     "type": "word",
     "text": "next week",
     "word": "next week",
@@ -89786,7 +89960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2379-nice-to-meet-you-too",
+    "id": "index-2384-nice-to-meet-you-too",
     "type": "word",
     "text": "Nice to meet you, too.",
     "word": "Nice to meet you, too.",
@@ -89824,7 +89998,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2380-nice-to-meet-you-too-weeping-willow",
+    "id": "index-2385-nice-to-meet-you-too-weeping-willow",
     "type": "word",
     "text": "Nice to meet you, too. weeping willow",
     "word": "Nice to meet you, too. weeping willow",
@@ -89863,7 +90037,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2381-nice-to-meet-you",
+    "id": "index-2386-nice-to-meet-you",
     "type": "word",
     "text": "Nice to meet you.",
     "word": "Nice to meet you.",
@@ -89900,7 +90074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2382-nickel",
+    "id": "index-2387-nickel",
     "type": "word",
     "text": "nickel",
     "word": "nickel",
@@ -89934,7 +90108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2383-niece",
+    "id": "index-2388-niece",
     "type": "word",
     "text": "niece",
     "word": "niece",
@@ -89970,7 +90144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2384-night",
+    "id": "index-2389-night",
     "type": "word",
     "text": "night",
     "word": "night",
@@ -90004,7 +90178,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2385-night-light",
+    "id": "index-2390-night-light",
     "type": "word",
     "text": "night light",
     "word": "night light",
@@ -90038,7 +90212,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2386-night-table",
+    "id": "index-2391-night-table",
     "type": "word",
     "text": "night table",
     "word": "night table",
@@ -90072,7 +90246,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2387-nightgown",
+    "id": "index-2392-nightgown",
     "type": "word",
     "text": "nightgown",
     "word": "nightgown",
@@ -90108,7 +90282,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2388-nightshirt",
+    "id": "index-2393-nightshirt",
     "type": "word",
     "text": "nightshirt",
     "word": "nightshirt",
@@ -90142,7 +90316,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2389-nightstand",
+    "id": "index-2394-nightstand",
     "type": "word",
     "text": "nightstand",
     "word": "nightstand",
@@ -90176,7 +90350,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2390-nipple",
+    "id": "index-2395-nipple",
     "type": "word",
     "text": "nipple",
     "word": "nipple",
@@ -90210,7 +90384,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2391-no-left-turn",
+    "id": "index-2396-no-left-turn",
     "type": "word",
     "text": "no left turn",
     "word": "no left turn",
@@ -90244,7 +90418,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2392-no-outlet",
+    "id": "index-2397-no-outlet",
     "type": "word",
     "text": "no outlet",
     "word": "no outlet",
@@ -90295,7 +90469,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2393-no-right-turn",
+    "id": "index-2398-no-right-turn",
     "type": "word",
     "text": "no right turn",
     "word": "no right turn",
@@ -90329,7 +90503,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2394-no-smoking-sign",
+    "id": "index-2399-no-smoking-sign",
     "type": "word",
     "text": "No Smoking sign",
     "word": "No Smoking sign",
@@ -90363,7 +90537,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2395-no-u-turn",
+    "id": "index-2400-no-u-turn",
     "type": "word",
     "text": "no U-turn",
     "word": "no U-turn",
@@ -90397,7 +90571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2396-noisy",
+    "id": "index-2401-noisy",
     "type": "word",
     "text": "noisy",
     "word": "noisy",
@@ -90433,7 +90607,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2397-non-aspirin-pain-ointment",
+    "id": "index-2402-non-aspirin-pain-ointment",
     "type": "word",
     "text": "non-aspirin pain ointment",
     "word": "non-aspirin pain ointment",
@@ -90485,7 +90659,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2398-non-fiction",
+    "id": "index-2403-non-fiction",
     "type": "word",
     "text": "non-fiction",
     "word": "non-fiction",
@@ -90519,7 +90693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2399-non-smoking-room",
+    "id": "index-2404-non-smoking-room",
     "type": "word",
     "text": "non-smoking room",
     "word": "non-smoking room",
@@ -90555,7 +90729,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2400-noodles",
+    "id": "index-2405-noodles",
     "type": "word",
     "text": "noodles",
     "word": "noodles",
@@ -90606,7 +90780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2401-noon",
+    "id": "index-2406-noon",
     "type": "word",
     "text": "noon",
     "word": "noon",
@@ -90642,7 +90816,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2402-north",
+    "id": "index-2407-north",
     "type": "word",
     "text": "north",
     "word": "north",
@@ -90676,7 +90850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2403-nose",
+    "id": "index-2408-nose",
     "type": "word",
     "text": "nose",
     "word": "nose",
@@ -90725,7 +90899,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2404-nose-and-throat",
+    "id": "index-2409-nose-and-throat",
     "type": "word",
     "text": "nose, and throat",
     "word": "nose, and throat",
@@ -90761,7 +90935,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2405-not-much",
+    "id": "index-2410-not-much",
     "type": "word",
     "text": "Not much.",
     "word": "Not much.",
@@ -90795,7 +90969,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2406-not-too-much",
+    "id": "index-2411-not-too-much",
     "type": "word",
     "text": "Not too much.",
     "word": "Not too much.",
@@ -90831,7 +91005,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2407-not-too-mucho",
+    "id": "index-2412-not-too-mucho",
     "type": "word",
     "text": "Not too mucho",
     "word": "Not too mucho",
@@ -90867,7 +91041,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2408-note",
+    "id": "index-2413-note",
     "type": "word",
     "text": "note",
     "word": "note",
@@ -90901,7 +91075,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2409-note-pad",
+    "id": "index-2414-note-pad",
     "type": "word",
     "text": "note pad",
     "word": "note pad",
@@ -90935,7 +91109,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2410-notebook",
+    "id": "index-2415-notebook",
     "type": "word",
     "text": "notebook",
     "word": "notebook",
@@ -90971,7 +91145,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2411-notebook-computer",
+    "id": "index-2416-notebook-computer",
     "type": "word",
     "text": "notebook computer",
     "word": "notebook computer",
@@ -91007,7 +91181,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2412-notebook-paper",
+    "id": "index-2417-notebook-paper",
     "type": "word",
     "text": "notebook paper",
     "word": "notebook paper",
@@ -91043,7 +91217,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2413-notes",
+    "id": "index-2418-notes",
     "type": "word",
     "text": "notes",
     "word": "notes",
@@ -91077,7 +91251,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2414-novel",
+    "id": "index-2419-novel",
     "type": "word",
     "text": "novel",
     "word": "novel",
@@ -91111,7 +91285,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2415-november",
+    "id": "index-2420-november",
     "type": "word",
     "text": "November",
     "word": "November",
@@ -91145,7 +91319,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2416-novocaine",
+    "id": "index-2421-novocaine",
     "type": "word",
     "text": "Novocaine™",
     "word": "Novocaine™",
@@ -91181,7 +91355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2417-nozzle",
+    "id": "index-2422-nozzle",
     "type": "word",
     "text": "nozzle",
     "word": "nozzle",
@@ -91230,7 +91404,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2418-nuclear-energy",
+    "id": "index-2423-nuclear-energy",
     "type": "word",
     "text": "nuclear energy",
     "word": "nuclear energy",
@@ -91266,7 +91440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2419-number",
+    "id": "index-2424-number",
     "type": "word",
     "text": "number",
     "word": "number",
@@ -91300,7 +91474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2420-nurse",
+    "id": "index-2425-nurse",
     "type": "word",
     "text": "nurse",
     "word": "nurse",
@@ -91362,7 +91536,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2421-nurse-s-office",
+    "id": "index-2426-nurse-s-office",
     "type": "word",
     "text": "nurse's office",
     "word": "nurse's office",
@@ -91396,7 +91570,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2422-nurse-s-station",
+    "id": "index-2427-nurse-s-station",
     "type": "word",
     "text": "nurse's station",
     "word": "nurse's station",
@@ -91430,7 +91604,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2423-nurse-midwife",
+    "id": "index-2428-nurse-midwife",
     "type": "word",
     "text": "nurse-midwife",
     "word": "nurse-midwife",
@@ -91464,7 +91638,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2424-nursery",
+    "id": "index-2429-nursery",
     "type": "word",
     "text": "nursery",
     "word": "nursery",
@@ -91498,7 +91672,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2425-nursery-school",
+    "id": "index-2430-nursery-school",
     "type": "word",
     "text": "nursery school",
     "word": "nursery school",
@@ -91534,7 +91708,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2426-nursing-home",
+    "id": "index-2431-nursing-home",
     "type": "word",
     "text": "nursing home",
     "word": "nursing home",
@@ -91568,7 +91742,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2427-nut",
+    "id": "index-2432-nut",
     "type": "word",
     "text": "nut",
     "word": "nut",
@@ -91602,7 +91776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2428-nuts",
+    "id": "index-2433-nuts",
     "type": "word",
     "text": "nuts",
     "word": "nuts",
@@ -91651,7 +91825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2429-nylon",
+    "id": "index-2434-nylon",
     "type": "word",
     "text": "nylon",
     "word": "nylon",
@@ -91685,7 +91859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2430-o-clock",
+    "id": "index-2435-o-clock",
     "type": "word",
     "text": "o'clock",
     "word": "o'clock",
@@ -91719,7 +91893,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2431-oak",
+    "id": "index-2436-oak",
     "type": "word",
     "text": "oak",
     "word": "oak",
@@ -91755,7 +91929,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2432-oars",
+    "id": "index-2437-oars",
     "type": "word",
     "text": "oars",
     "word": "oars",
@@ -91791,7 +91965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2433-object",
+    "id": "index-2438-object",
     "type": "word",
     "text": "Object",
     "word": "Object",
@@ -91825,7 +91999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2434-oboe",
+    "id": "index-2439-oboe",
     "type": "word",
     "text": "oboe",
     "word": "oboe",
@@ -91861,7 +92035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2435-observations",
+    "id": "index-2440-observations",
     "type": "word",
     "text": "observations",
     "word": "observations",
@@ -91895,7 +92069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2436-observatory",
+    "id": "index-2441-observatory",
     "type": "word",
     "text": "observatory",
     "word": "observatory",
@@ -91929,7 +92103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2437-obstetridan",
+    "id": "index-2442-obstetridan",
     "type": "word",
     "text": "obstetridan",
     "word": "obstetridan",
@@ -91963,7 +92137,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2438-obtuse-angle",
+    "id": "index-2443-obtuse-angle",
     "type": "word",
     "text": "obtuse angle",
     "word": "obtuse angle",
@@ -91997,7 +92171,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2439-ocean",
+    "id": "index-2444-ocean",
     "type": "word",
     "text": "ocean",
     "word": "ocean",
@@ -92033,7 +92207,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2440-october",
+    "id": "index-2445-october",
     "type": "word",
     "text": "October",
     "word": "October",
@@ -92067,7 +92241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2441-octopus",
+    "id": "index-2446-octopus",
     "type": "word",
     "text": "octopus",
     "word": "octopus",
@@ -92101,7 +92275,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2442-odometer",
+    "id": "index-2447-odometer",
     "type": "word",
     "text": "odometer",
     "word": "odometer",
@@ -92135,7 +92309,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2443-oepartment",
+    "id": "index-2448-oepartment",
     "type": "word",
     "text": "Oepartment",
     "word": "Oepartment",
@@ -92171,7 +92345,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2444-of-speech",
+    "id": "index-2449-of-speech",
     "type": "word",
     "text": "of speech",
     "word": "of speech",
@@ -92207,7 +92381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2445-off",
+    "id": "index-2450-off",
     "type": "word",
     "text": "off",
     "word": "off",
@@ -92241,7 +92415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2446-office",
+    "id": "index-2451-office",
     "type": "word",
     "text": "office",
     "word": "office",
@@ -92290,7 +92464,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2447-office-assistant",
+    "id": "index-2452-office-assistant",
     "type": "word",
     "text": "office assistant",
     "word": "office assistant",
@@ -92324,7 +92498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2448-office-building",
+    "id": "index-2453-office-building",
     "type": "word",
     "text": "office building",
     "word": "office building",
@@ -92358,7 +92532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2449-office-manager",
+    "id": "index-2454-office-manager",
     "type": "word",
     "text": "office manager",
     "word": "office manager",
@@ -92392,7 +92566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2450-oil",
+    "id": "index-2455-oil",
     "type": "word",
     "text": "oil",
     "word": "oil",
@@ -92470,7 +92644,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2451-oil-bll1",
+    "id": "index-2456-oil-bll1",
     "type": "word",
     "text": "oil bll1",
     "word": "oil bll1",
@@ -92506,7 +92680,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2452-oil-paint",
+    "id": "index-2457-oil-paint",
     "type": "word",
     "text": "oil paint",
     "word": "oil paint",
@@ -92543,7 +92717,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2453-okay",
+    "id": "index-2458-okay",
     "type": "word",
     "text": "Okay.",
     "word": "Okay.",
@@ -92579,7 +92753,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2454-old",
+    "id": "index-2459-old",
     "type": "word",
     "text": "old",
     "word": "old",
@@ -92641,7 +92815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2455-olive-oil",
+    "id": "index-2460-olive-oil",
     "type": "word",
     "text": "olive oil",
     "word": "olive oil",
@@ -92677,7 +92851,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2456-olives",
+    "id": "index-2461-olives",
     "type": "word",
     "text": "olives",
     "word": "olives",
@@ -92711,7 +92885,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2457-on",
+    "id": "index-2462-on",
     "type": "word",
     "text": "on",
     "word": "on",
@@ -92801,7 +92975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2458-on-ramp",
+    "id": "index-2463-on-ramp",
     "type": "word",
     "text": "on ramp",
     "word": "on ramp",
@@ -92835,7 +93009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2459-once-a-week",
+    "id": "index-2464-once-a-week",
     "type": "word",
     "text": "once a week",
     "word": "once a week",
@@ -92871,7 +93045,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2460-one-fourth",
+    "id": "index-2465-one-fourth",
     "type": "word",
     "text": "one fourth",
     "word": "one fourth",
@@ -92907,7 +93081,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2461-one-half",
+    "id": "index-2466-one-half",
     "type": "word",
     "text": "one half",
     "word": "one half",
@@ -92941,7 +93115,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2462-one-quarter",
+    "id": "index-2467-one-quarter",
     "type": "word",
     "text": "one quarter",
     "word": "one quarter",
@@ -92975,7 +93149,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2463-one-third",
+    "id": "index-2468-one-third",
     "type": "word",
     "text": "one third",
     "word": "one third",
@@ -93009,7 +93183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2464-one-way",
+    "id": "index-2469-one-way",
     "type": "word",
     "text": "one way",
     "word": "one way",
@@ -93045,7 +93219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2465-one-way-street",
+    "id": "index-2470-one-way-street",
     "type": "word",
     "text": "one-way street",
     "word": "one-way street",
@@ -93082,7 +93256,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2466-onion",
+    "id": "index-2471-onion",
     "type": "word",
     "text": "onion",
     "word": "onion",
@@ -93116,7 +93290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2467-online",
+    "id": "index-2472-online",
     "type": "word",
     "text": "online",
     "word": "online",
@@ -93165,7 +93339,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2468-online-catalog",
+    "id": "index-2473-online-catalog",
     "type": "word",
     "text": "online catalog",
     "word": "online catalog",
@@ -93199,7 +93373,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2469-only",
+    "id": "index-2474-only",
     "type": "word",
     "text": "only",
     "word": "only",
@@ -93233,7 +93407,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2470-open",
+    "id": "index-2475-open",
     "type": "word",
     "text": "open",
     "word": "open",
@@ -93282,7 +93456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2471-open-an-account",
+    "id": "index-2476-open-an-account",
     "type": "word",
     "text": "open an account",
     "word": "open an account",
@@ -93318,7 +93492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2472-open-your-book",
+    "id": "index-2477-open-your-book",
     "type": "word",
     "text": "open your book",
     "word": "open your book",
@@ -93355,7 +93529,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2473-opera",
+    "id": "index-2478-opera",
     "type": "word",
     "text": "opera",
     "word": "opera",
@@ -93389,7 +93563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2474-opera-singer",
+    "id": "index-2479-opera-singer",
     "type": "word",
     "text": "opera singer",
     "word": "opera singer",
@@ -93423,7 +93597,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2475-operate",
+    "id": "index-2480-operate",
     "type": "word",
     "text": "operate",
     "word": "operate",
@@ -93457,7 +93631,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2476-operating-room",
+    "id": "index-2481-operating-room",
     "type": "word",
     "text": "operating room",
     "word": "operating room",
@@ -93493,7 +93667,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2477-ophthalmologist",
+    "id": "index-2482-ophthalmologist",
     "type": "word",
     "text": "ophthalmologist",
     "word": "ophthalmologist",
@@ -93527,7 +93701,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2478-opossum",
+    "id": "index-2483-opossum",
     "type": "word",
     "text": "opossum",
     "word": "opossum",
@@ -93561,7 +93735,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2479-optician",
+    "id": "index-2484-optician",
     "type": "word",
     "text": "optician",
     "word": "optician",
@@ -93595,7 +93769,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2480-orange",
+    "id": "index-2485-orange",
     "type": "word",
     "text": "orange",
     "word": "orange",
@@ -93644,7 +93818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2481-orange-juice",
+    "id": "index-2486-orange-juice",
     "type": "word",
     "text": "orange juice",
     "word": "orange juice",
@@ -93678,7 +93852,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2482-orangutan",
+    "id": "index-2487-orangutan",
     "type": "word",
     "text": "orangutan",
     "word": "orangutan",
@@ -93712,7 +93886,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2483-orchard",
+    "id": "index-2488-orchard",
     "type": "word",
     "text": "orchard",
     "word": "orchard",
@@ -93746,7 +93920,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2484-orchestra",
+    "id": "index-2489-orchestra",
     "type": "word",
     "text": "orchestra",
     "word": "orchestra",
@@ -93795,7 +93969,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2485-orchid",
+    "id": "index-2490-orchid",
     "type": "word",
     "text": "orchid",
     "word": "orchid",
@@ -93829,7 +94003,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2486-order",
+    "id": "index-2491-order",
     "type": "word",
     "text": "order",
     "word": "order",
@@ -93892,7 +94066,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2487-order-dinner",
+    "id": "index-2492-order-dinner",
     "type": "word",
     "text": "order dinner",
     "word": "order dinner",
@@ -93926,7 +94100,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2488-orderly",
+    "id": "index-2493-orderly",
     "type": "word",
     "text": "orderly",
     "word": "orderly",
@@ -93960,7 +94134,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2489-ordinal-number",
+    "id": "index-2494-ordinal-number",
     "type": "word",
     "text": "ordinal number",
     "word": "ordinal number",
@@ -93994,7 +94168,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2490-organ",
+    "id": "index-2495-organ",
     "type": "word",
     "text": "organ",
     "word": "organ",
@@ -94028,7 +94202,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2491-organize-my-ideas",
+    "id": "index-2496-organize-my-ideas",
     "type": "word",
     "text": "organize my ideas",
     "word": "organize my ideas",
@@ -94064,7 +94238,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2492-organizer",
+    "id": "index-2497-organizer",
     "type": "word",
     "text": "organizer",
     "word": "organizer",
@@ -94113,7 +94287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2493-origami-paper",
+    "id": "index-2498-origami-paper",
     "type": "word",
     "text": "origami paper",
     "word": "origami paper",
@@ -94147,7 +94321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2494-orthodontist",
+    "id": "index-2499-orthodontist",
     "type": "word",
     "text": "orthodontist",
     "word": "orthodontist",
@@ -94181,7 +94355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2495-orthopedist",
+    "id": "index-2500-orthopedist",
     "type": "word",
     "text": "orthopedist",
     "word": "orthopedist",
@@ -94215,7 +94389,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2496-ostrich",
+    "id": "index-2501-ostrich",
     "type": "word",
     "text": "ostrich",
     "word": "ostrich",
@@ -94249,7 +94423,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2497-other-instruments",
+    "id": "index-2502-other-instruments",
     "type": "word",
     "text": "other instruments",
     "word": "other instruments",
@@ -94283,7 +94457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2498-otter",
+    "id": "index-2503-otter",
     "type": "word",
     "text": "otter",
     "word": "otter",
@@ -94317,7 +94491,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2499-ounce",
+    "id": "index-2504-ounce",
     "type": "word",
     "text": "ounce",
     "word": "ounce",
@@ -94353,7 +94527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2500-out",
+    "id": "index-2505-out",
     "type": "word",
     "text": "out",
     "word": "out",
@@ -94389,7 +94563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2501-out-of",
+    "id": "index-2506-out-of",
     "type": "word",
     "text": "out of",
     "word": "out of",
@@ -94425,7 +94599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2502-outdoor-grill",
+    "id": "index-2507-outdoor-grill",
     "type": "word",
     "text": "outdoor grill",
     "word": "outdoor grill",
@@ -94462,7 +94636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2503-oval",
+    "id": "index-2508-oval",
     "type": "word",
     "text": "oval",
     "word": "oval",
@@ -94511,7 +94685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2504-oven",
+    "id": "index-2509-oven",
     "type": "word",
     "text": "oven",
     "word": "oven",
@@ -94545,7 +94719,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2505-over",
+    "id": "index-2510-over",
     "type": "word",
     "text": "over",
     "word": "over",
@@ -94579,7 +94753,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2506-over-the-phone",
+    "id": "index-2511-over-the-phone",
     "type": "word",
     "text": "over the phone",
     "word": "over the phone",
@@ -94613,7 +94787,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2507-overalls",
+    "id": "index-2512-overalls",
     "type": "word",
     "text": "overalls",
     "word": "overalls",
@@ -94647,7 +94821,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2508-overcoat",
+    "id": "index-2513-overcoat",
     "type": "word",
     "text": "overcoat",
     "word": "overcoat",
@@ -94683,7 +94857,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2509-overdose-on-drugs",
+    "id": "index-2514-overdose-on-drugs",
     "type": "word",
     "text": "overdose on drugs",
     "word": "overdose on drugs",
@@ -94717,7 +94891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2510-overhead-mudslide",
+    "id": "index-2515-overhead-mudslide",
     "type": "word",
     "text": "overhead mudslide",
     "word": "overhead mudslide",
@@ -94753,7 +94927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2511-overhead-projector",
+    "id": "index-2516-overhead-projector",
     "type": "word",
     "text": "overhead projector",
     "word": "overhead projector",
@@ -94789,7 +94963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2512-overnight-mail",
+    "id": "index-2517-overnight-mail",
     "type": "word",
     "text": "overnight mail",
     "word": "overnight mail",
@@ -94825,7 +94999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2513-overpass",
+    "id": "index-2518-overpass",
     "type": "word",
     "text": "overpass",
     "word": "overpass",
@@ -94859,7 +95033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2514-ovo",
+    "id": "index-2519-ovo",
     "type": "word",
     "text": "OVO",
     "word": "OVO",
@@ -94908,7 +95082,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2515-ovo-player",
+    "id": "index-2520-ovo-player",
     "type": "word",
     "text": "OVO player",
     "word": "OVO player",
@@ -94959,7 +95133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2516-owl",
+    "id": "index-2521-owl",
     "type": "word",
     "text": "owl",
     "word": "owl",
@@ -94995,7 +95169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2517-oxygen-mask",
+    "id": "index-2522-oxygen-mask",
     "type": "word",
     "text": "oxygen mask",
     "word": "oxygen mask",
@@ -95029,7 +95203,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2518-oysters",
+    "id": "index-2523-oysters",
     "type": "word",
     "text": "oysters",
     "word": "oysters",
@@ -95065,7 +95239,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2519-p-a-system",
+    "id": "index-2524-p-a-system",
     "type": "word",
     "text": "P.A system",
     "word": "P.A system",
@@ -95099,7 +95273,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2520-p-e-teacher",
+    "id": "index-2525-p-e-teacher",
     "type": "word",
     "text": "P.E.teacher",
     "word": "P.E.teacher",
@@ -95135,7 +95309,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2521-p-m",
+    "id": "index-2526-p-m",
     "type": "word",
     "text": "P.M.",
     "word": "P.M.",
@@ -95169,7 +95343,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2522-pack",
+    "id": "index-2527-pack",
     "type": "word",
     "text": "pack",
     "word": "pack",
@@ -95203,7 +95377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2523-package",
+    "id": "index-2528-package",
     "type": "word",
     "text": "package",
     "word": "package",
@@ -95252,7 +95426,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2524-packaged-goods",
+    "id": "index-2529-packaged-goods",
     "type": "word",
     "text": "packaged goods",
     "word": "packaged goods",
@@ -95288,7 +95462,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2525-packer",
+    "id": "index-2530-packer",
     "type": "word",
     "text": "packer",
     "word": "packer",
@@ -95337,7 +95511,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2526-packinq-tape",
+    "id": "index-2531-packinq-tape",
     "type": "word",
     "text": "packinq tape",
     "word": "packinq tape",
@@ -95371,7 +95545,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2527-pac-fier",
+    "id": "index-2532-pac-fier",
     "type": "word",
     "text": "pacífier",
     "word": "pacífier",
@@ -95407,7 +95581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2528-paddle",
+    "id": "index-2533-paddle",
     "type": "word",
     "text": "paddle",
     "word": "paddle",
@@ -95469,7 +95643,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2529-pager",
+    "id": "index-2534-pager",
     "type": "word",
     "text": "pager",
     "word": "pager",
@@ -95503,7 +95677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2530-pail",
+    "id": "index-2535-pail",
     "type": "word",
     "text": "pail",
     "word": "pail",
@@ -95554,7 +95728,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2531-pail-and-shovel",
+    "id": "index-2536-pail-and-shovel",
     "type": "word",
     "text": "pail and shovel",
     "word": "pail and shovel",
@@ -95590,7 +95764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2532-paint",
+    "id": "index-2537-paint",
     "type": "word",
     "text": "paint",
     "word": "paint",
@@ -95682,7 +95856,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2533-paint-pan",
+    "id": "index-2538-paint-pan",
     "type": "word",
     "text": "paint pan",
     "word": "paint pan",
@@ -95718,7 +95892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2534-paint-roller",
+    "id": "index-2539-paint-roller",
     "type": "word",
     "text": "paint roller",
     "word": "paint roller",
@@ -95754,7 +95928,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2535-paint-set",
+    "id": "index-2540-paint-set",
     "type": "word",
     "text": "paint set",
     "word": "paint set",
@@ -95790,7 +95964,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2536-paint-thinner",
+    "id": "index-2541-paint-thinner",
     "type": "word",
     "text": "paint thinner",
     "word": "paint thinner",
@@ -95826,7 +96000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2537-paintbrush",
+    "id": "index-2542-paintbrush",
     "type": "word",
     "text": "paintbrush",
     "word": "paintbrush",
@@ -95877,7 +96051,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2538-painter",
+    "id": "index-2543-painter",
     "type": "word",
     "text": "painter",
     "word": "painter",
@@ -95928,7 +96102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2539-painting",
+    "id": "index-2544-painting",
     "type": "word",
     "text": "painting",
     "word": "painting",
@@ -95964,7 +96138,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2540-paisley",
+    "id": "index-2545-paisley",
     "type": "word",
     "text": "paisley",
     "word": "paisley",
@@ -96015,7 +96189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2541-pajamas",
+    "id": "index-2546-pajamas",
     "type": "word",
     "text": "pajamas",
     "word": "pajamas",
@@ -96049,7 +96223,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2542-palm",
+    "id": "index-2547-palm",
     "type": "word",
     "text": "palm",
     "word": "palm",
@@ -96098,7 +96272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2543-pancakes",
+    "id": "index-2548-pancakes",
     "type": "word",
     "text": "pancakes",
     "word": "pancakes",
@@ -96132,7 +96306,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2544-pancreas",
+    "id": "index-2549-pancreas",
     "type": "word",
     "text": "pancreas",
     "word": "pancreas",
@@ -96168,7 +96342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2545-panda",
+    "id": "index-2550-panda",
     "type": "word",
     "text": "panda",
     "word": "panda",
@@ -96202,7 +96376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2546-pansy",
+    "id": "index-2551-pansy",
     "type": "word",
     "text": "pansy",
     "word": "pansy",
@@ -96236,7 +96410,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2547-panther",
+    "id": "index-2552-panther",
     "type": "word",
     "text": "panther",
     "word": "panther",
@@ -96270,7 +96444,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2548-panties",
+    "id": "index-2553-panties",
     "type": "word",
     "text": "panties",
     "word": "panties",
@@ -96306,7 +96480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2549-pants",
+    "id": "index-2554-pants",
     "type": "word",
     "text": "pants",
     "word": "pants",
@@ -96355,7 +96529,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2550-pantyhose",
+    "id": "index-2555-pantyhose",
     "type": "word",
     "text": "pantyhose",
     "word": "pantyhose",
@@ -96389,7 +96563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2551-papaya",
+    "id": "index-2556-papaya",
     "type": "word",
     "text": "papaya",
     "word": "papaya",
@@ -96425,7 +96599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2552-paper",
+    "id": "index-2557-paper",
     "type": "word",
     "text": "paper",
     "word": "paper",
@@ -96473,7 +96647,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2553-paper-bag",
+    "id": "index-2558-paper-bag",
     "type": "word",
     "text": "paper bag",
     "word": "paper bag",
@@ -96507,7 +96681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2554-paper-cup",
+    "id": "index-2559-paper-cup",
     "type": "word",
     "text": "paper cup",
     "word": "paper cup",
@@ -96556,7 +96730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2555-paper-cutter",
+    "id": "index-2560-paper-cutter",
     "type": "word",
     "text": "paper cutter",
     "word": "paper cutter",
@@ -96590,7 +96764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2556-paper-plates",
+    "id": "index-2561-paper-plates",
     "type": "word",
     "text": "paper plates",
     "word": "paper plates",
@@ -96624,7 +96798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2557-paper-products",
+    "id": "index-2562-paper-products",
     "type": "word",
     "text": "paper products",
     "word": "paper products",
@@ -96658,7 +96832,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2558-paper-shredder",
+    "id": "index-2563-paper-shredder",
     "type": "word",
     "text": "paper shredder",
     "word": "paper shredder",
@@ -96692,7 +96866,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2559-paper-towel-holder",
+    "id": "index-2564-paper-towel-holder",
     "type": "word",
     "text": "paper towel holder",
     "word": "paper towel holder",
@@ -96728,7 +96902,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2560-paper-towels",
+    "id": "index-2565-paper-towels",
     "type": "word",
     "text": "paper towels",
     "word": "paper towels",
@@ -96779,7 +96953,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2561-paperclip",
+    "id": "index-2566-paperclip",
     "type": "word",
     "text": "paperclip",
     "word": "paperclip",
@@ -96813,7 +96987,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2562-paragraph",
+    "id": "index-2567-paragraph",
     "type": "word",
     "text": "paragraph",
     "word": "paragraph",
@@ -96847,7 +97021,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2563-parakeet",
+    "id": "index-2568-parakeet",
     "type": "word",
     "text": "parakeet",
     "word": "parakeet",
@@ -96883,7 +97057,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2564-parallel-bars",
+    "id": "index-2569-parallel-bars",
     "type": "word",
     "text": "parallel bars",
     "word": "parallel bars",
@@ -96917,7 +97091,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2565-parallel-park",
+    "id": "index-2570-parallel-park",
     "type": "word",
     "text": "parallel park",
     "word": "parallel park",
@@ -96951,7 +97125,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2566-parallellines",
+    "id": "index-2571-parallellines",
     "type": "word",
     "text": "parallellines",
     "word": "parallellines",
@@ -96985,7 +97159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2567-paramedic",
+    "id": "index-2572-paramedic",
     "type": "word",
     "text": "paramedic",
     "word": "paramedic",
@@ -97019,7 +97193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2568-parcel",
+    "id": "index-2573-parcel",
     "type": "word",
     "text": "parcel",
     "word": "parcel",
@@ -97053,7 +97227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2569-parcel-post",
+    "id": "index-2574-parcel-post",
     "type": "word",
     "text": "parcel post",
     "word": "parcel post",
@@ -97087,7 +97261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2570-parents",
+    "id": "index-2575-parents",
     "type": "word",
     "text": "parents",
     "word": "parents",
@@ -97121,7 +97295,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2571-paring-knife",
+    "id": "index-2576-paring-knife",
     "type": "word",
     "text": "paring knife",
     "word": "paring knife",
@@ -97155,7 +97329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2572-park",
+    "id": "index-2577-park",
     "type": "word",
     "text": "park",
     "word": "park",
@@ -97218,7 +97392,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2573-parka",
+    "id": "index-2578-parka",
     "type": "word",
     "text": "parka",
     "word": "parka",
@@ -97252,7 +97426,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2574-parking-attendant",
+    "id": "index-2579-parking-attendant",
     "type": "word",
     "text": "parking attendant",
     "word": "parking attendant",
@@ -97286,7 +97460,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2575-parking-garage",
+    "id": "index-2580-parking-garage",
     "type": "word",
     "text": "parking garage",
     "word": "parking garage",
@@ -97348,7 +97522,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2576-parking-light",
+    "id": "index-2581-parking-light",
     "type": "word",
     "text": "parking light",
     "word": "parking light",
@@ -97382,7 +97556,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2577-parking-lot",
+    "id": "index-2582-parking-lot",
     "type": "word",
     "text": "parking lot",
     "word": "parking lot",
@@ -97431,7 +97605,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2578-parking-meter",
+    "id": "index-2583-parking-meter",
     "type": "word",
     "text": "parking meter",
     "word": "parking meter",
@@ -97465,7 +97639,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2579-parking-space",
+    "id": "index-2584-parking-space",
     "type": "word",
     "text": "parking space",
     "word": "parking space",
@@ -97499,7 +97673,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2580-parrot",
+    "id": "index-2585-parrot",
     "type": "word",
     "text": "parrot",
     "word": "parrot",
@@ -97533,7 +97707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2581-parsley",
+    "id": "index-2586-parsley",
     "type": "word",
     "text": "parsley",
     "word": "parsley",
@@ -97567,7 +97741,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2582-part-time",
+    "id": "index-2587-part-time",
     "type": "word",
     "text": "part-time",
     "word": "part-time",
@@ -97601,7 +97775,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2583-partner",
+    "id": "index-2588-partner",
     "type": "word",
     "text": "partner",
     "word": "partner",
@@ -97635,7 +97809,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2584-pass",
+    "id": "index-2589-pass",
     "type": "word",
     "text": "pass",
     "word": "pass",
@@ -97684,7 +97858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2585-pass-out-the-tests",
+    "id": "index-2590-pass-out-the-tests",
     "type": "word",
     "text": "pass out the tests",
     "word": "pass out the tests",
@@ -97720,7 +97894,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2586-passbook",
+    "id": "index-2591-passbook",
     "type": "word",
     "text": "passbook",
     "word": "passbook",
@@ -97756,7 +97930,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2587-passenger",
+    "id": "index-2592-passenger",
     "type": "word",
     "text": "passenger",
     "word": "passenger",
@@ -97790,7 +97964,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2588-passport",
+    "id": "index-2593-passport",
     "type": "word",
     "text": "passport",
     "word": "passport",
@@ -97839,7 +98013,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2589-passport-application-pest-control-specialist",
+    "id": "index-2594-passport-application-pest-control-specialist",
     "type": "word",
     "text": "passport application pest control specialist",
     "word": "passport application pest control specialist",
@@ -97873,7 +98047,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2590-passport-control",
+    "id": "index-2595-passport-control",
     "type": "word",
     "text": "passport control",
     "word": "passport control",
@@ -97907,7 +98081,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2591-past",
+    "id": "index-2596-past",
     "type": "word",
     "text": "past",
     "word": "past",
@@ -97941,7 +98115,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2592-pasta-salad",
+    "id": "index-2597-pasta-salad",
     "type": "word",
     "text": "pasta salad",
     "word": "pasta salad",
@@ -97975,7 +98149,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2593-pastrami",
+    "id": "index-2598-pastrami",
     "type": "word",
     "text": "pastrami",
     "word": "pastrami",
@@ -98009,7 +98183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2594-pastry",
+    "id": "index-2599-pastry",
     "type": "word",
     "text": "pastry",
     "word": "pastry",
@@ -98043,7 +98217,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2595-pasture",
+    "id": "index-2600-pasture",
     "type": "word",
     "text": "pasture",
     "word": "pasture",
@@ -98077,7 +98251,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2596-patient",
+    "id": "index-2601-patient",
     "type": "word",
     "text": "patient",
     "word": "patient",
@@ -98128,7 +98302,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2597-patient-s-room",
+    "id": "index-2602-patient-s-room",
     "type": "word",
     "text": "patient's room",
     "word": "patient's room",
@@ -98165,7 +98339,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2598-patio",
+    "id": "index-2603-patio",
     "type": "word",
     "text": "patio",
     "word": "patio",
@@ -98199,7 +98373,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2599-patr-n",
+    "id": "index-2604-patr-n",
     "type": "word",
     "text": "patrón",
     "word": "patrón",
@@ -98233,7 +98407,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2600-pattern",
+    "id": "index-2605-pattern",
     "type": "word",
     "text": "pattern",
     "word": "pattern",
@@ -98282,7 +98456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2601-patterned",
+    "id": "index-2606-patterned",
     "type": "word",
     "text": "patterned",
     "word": "patterned",
@@ -98316,7 +98490,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2602-pay-for",
+    "id": "index-2607-pay-for",
     "type": "word",
     "text": "pay for",
     "word": "pay for",
@@ -98352,7 +98526,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2603-pay-the-check",
+    "id": "index-2608-pay-the-check",
     "type": "word",
     "text": "pay the check",
     "word": "pay the check",
@@ -98388,7 +98562,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2604-pay-with-a-credit-card-physical-education",
+    "id": "index-2609-pay-with-a-credit-card-physical-education",
     "type": "word",
     "text": "pay with a credit card physical education",
     "word": "pay with a credit card physical education",
@@ -98424,7 +98598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2605-payrollohice",
+    "id": "index-2610-payrollohice",
     "type": "word",
     "text": "payrolloHice",
     "word": "payrolloHice",
@@ -98460,7 +98634,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2606-pda",
+    "id": "index-2611-pda",
     "type": "word",
     "text": "PDA",
     "word": "PDA",
@@ -98494,7 +98668,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2607-peach",
+    "id": "index-2612-peach",
     "type": "word",
     "text": "peach",
     "word": "peach",
@@ -98530,7 +98704,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2608-peacock",
+    "id": "index-2613-peacock",
     "type": "word",
     "text": "peacock",
     "word": "peacock",
@@ -98566,7 +98740,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2609-peanut-butter",
+    "id": "index-2614-peanut-butter",
     "type": "word",
     "text": "peanut butter",
     "word": "peanut butter",
@@ -98602,7 +98776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2610-pear",
+    "id": "index-2615-pear",
     "type": "word",
     "text": "pear",
     "word": "pear",
@@ -98638,7 +98812,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2611-pearl-necklace",
+    "id": "index-2616-pearl-necklace",
     "type": "word",
     "text": "pearl necklace",
     "word": "pearl necklace",
@@ -98674,7 +98848,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2612-pearls",
+    "id": "index-2617-pearls",
     "type": "word",
     "text": "pearls",
     "word": "pearls",
@@ -98710,7 +98884,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2613-pedestrian",
+    "id": "index-2618-pedestrian",
     "type": "word",
     "text": "pedestrian",
     "word": "pedestrian",
@@ -98744,7 +98918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2614-pedestrian-crossing",
+    "id": "index-2619-pedestrian-crossing",
     "type": "word",
     "text": "pedestrian crossing",
     "word": "pedestrian crossing",
@@ -98793,7 +98967,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2615-pediatrician",
+    "id": "index-2620-pediatrician",
     "type": "word",
     "text": "pediatrician",
     "word": "pediatrician",
@@ -98827,7 +99001,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2616-peel",
+    "id": "index-2621-peel",
     "type": "word",
     "text": "peel",
     "word": "peel",
@@ -98863,7 +99037,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2617-peeling",
+    "id": "index-2622-peeling",
     "type": "word",
     "text": "peeling",
     "word": "peeling",
@@ -98899,7 +99073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2618-peephole",
+    "id": "index-2623-peephole",
     "type": "word",
     "text": "peephole",
     "word": "peephole",
@@ -98935,7 +99109,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2619-pelican",
+    "id": "index-2624-pelican",
     "type": "word",
     "text": "pelican",
     "word": "pelican",
@@ -98969,7 +99143,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2620-pelvis",
+    "id": "index-2625-pelvis",
     "type": "word",
     "text": "pelvis",
     "word": "pelvis",
@@ -99003,7 +99177,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2621-pen",
+    "id": "index-2626-pen",
     "type": "word",
     "text": "pen",
     "word": "pen",
@@ -99037,7 +99211,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2622-pencil",
+    "id": "index-2627-pencil",
     "type": "word",
     "text": "pencil",
     "word": "pencil",
@@ -99071,7 +99245,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2623-pencil-sharpener",
+    "id": "index-2628-pencil-sharpener",
     "type": "word",
     "text": "pencil sharpener",
     "word": "pencil sharpener",
@@ -99105,7 +99279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2624-penguin",
+    "id": "index-2629-penguin",
     "type": "word",
     "text": "penguin",
     "word": "penguin",
@@ -99139,7 +99313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2625-penny",
+    "id": "index-2630-penny",
     "type": "word",
     "text": "penny",
     "word": "penny",
@@ -99173,7 +99347,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2626-pen-nsula",
+    "id": "index-2631-pen-nsula",
     "type": "word",
     "text": "península",
     "word": "península",
@@ -99207,7 +99381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2627-pep-squad",
+    "id": "index-2632-pep-squad",
     "type": "word",
     "text": "pep squad",
     "word": "pep squad",
@@ -99241,7 +99415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2628-pepper",
+    "id": "index-2633-pepper",
     "type": "word",
     "text": "pepper",
     "word": "pepper",
@@ -99275,7 +99449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2629-pepper-shaker",
+    "id": "index-2634-pepper-shaker",
     "type": "word",
     "text": "pepper shaker",
     "word": "pepper shaker",
@@ -99309,7 +99483,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2630-percent",
+    "id": "index-2635-percent",
     "type": "word",
     "text": "percent",
     "word": "percent",
@@ -99343,7 +99517,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2631-percussion",
+    "id": "index-2636-percussion",
     "type": "word",
     "text": "percussion",
     "word": "percussion",
@@ -99377,7 +99551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2632-perfume-counter",
+    "id": "index-2637-perfume-counter",
     "type": "word",
     "text": "Perfume Counter",
     "word": "Perfume Counter",
@@ -99413,7 +99587,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2633-period",
+    "id": "index-2638-period",
     "type": "word",
     "text": "period",
     "word": "period",
@@ -99447,7 +99621,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2634-periodical-section",
+    "id": "index-2639-periodical-section",
     "type": "word",
     "text": "periodical section",
     "word": "periodical section",
@@ -99481,7 +99655,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2635-perpendicular-lines",
+    "id": "index-2640-perpendicular-lines",
     "type": "word",
     "text": "perpendicular lines",
     "word": "perpendicular lines",
@@ -99515,7 +99689,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2636-personal-cassette-ping-pong-ball",
+    "id": "index-2641-personal-cassette-ping-pong-ball",
     "type": "word",
     "text": "personal cassette ping pong ball",
     "word": "personal cassette ping pong ball",
@@ -99549,7 +99723,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2637-personal-cd-player",
+    "id": "index-2642-personal-cd-player",
     "type": "word",
     "text": "personal CD player",
     "word": "personal CD player",
@@ -99585,7 +99759,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2638-personal-digital-audio-pipe",
+    "id": "index-2643-personal-digital-audio-pipe",
     "type": "word",
     "text": "personal digital audio pipe",
     "word": "personal digital audio pipe",
@@ -99621,7 +99795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2639-personal-identification-pita-bread",
+    "id": "index-2644-personal-identification-pita-bread",
     "type": "word",
     "text": "personal identification pita bread",
     "word": "personal identification pita bread",
@@ -99672,7 +99846,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2640-personal-planner",
+    "id": "index-2645-personal-planner",
     "type": "word",
     "text": "personal planner",
     "word": "personal planner",
@@ -99706,7 +99880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2641-personnelohice",
+    "id": "index-2646-personnelohice",
     "type": "word",
     "text": "personneloHice",
     "word": "personneloHice",
@@ -99740,7 +99914,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2642-pet-food",
+    "id": "index-2647-pet-food",
     "type": "word",
     "text": "pet food",
     "word": "pet food",
@@ -99776,7 +99950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2643-pet-shop",
+    "id": "index-2648-pet-shop",
     "type": "word",
     "text": "pet shop",
     "word": "pet shop",
@@ -99810,7 +99984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2644-pet-store",
+    "id": "index-2649-pet-store",
     "type": "word",
     "text": "pet store",
     "word": "pet store",
@@ -99844,7 +100018,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2645-petal",
+    "id": "index-2650-petal",
     "type": "word",
     "text": "petal",
     "word": "petal",
@@ -99878,7 +100052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2646-petri-dish",
+    "id": "index-2651-petri-dish",
     "type": "word",
     "text": "Petri dish",
     "word": "Petri dish",
@@ -99912,7 +100086,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2647-petroleum",
+    "id": "index-2652-petroleum",
     "type": "word",
     "text": "petroleum",
     "word": "petroleum",
@@ -99946,7 +100120,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2648-petunia",
+    "id": "index-2653-petunia",
     "type": "word",
     "text": "petunia",
     "word": "petunia",
@@ -99980,7 +100154,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2649-pharmacist",
+    "id": "index-2654-pharmacist",
     "type": "word",
     "text": "pharmacist",
     "word": "pharmacist",
@@ -100014,7 +100188,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2650-pharmacy",
+    "id": "index-2655-pharmacy",
     "type": "word",
     "text": "pharmacy",
     "word": "pharmacy",
@@ -100048,7 +100222,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2651-phillips-screwdriver",
+    "id": "index-2656-phillips-screwdriver",
     "type": "word",
     "text": "Phillips screwdriver",
     "word": "Phillips screwdriver",
@@ -100084,7 +100258,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2652-phone",
+    "id": "index-2657-phone",
     "type": "word",
     "text": "phone",
     "word": "phone",
@@ -100118,7 +100292,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2653-phone-number",
+    "id": "index-2658-phone-number",
     "type": "word",
     "text": "phone number",
     "word": "phone number",
@@ -100152,7 +100326,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2654-photo-shop",
+    "id": "index-2659-photo-shop",
     "type": "word",
     "text": "photo shop",
     "word": "photo shop",
@@ -100186,7 +100360,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2655-photocopier",
+    "id": "index-2660-photocopier",
     "type": "word",
     "text": "photocopier",
     "word": "photocopier",
@@ -100237,7 +100411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2656-photograph",
+    "id": "index-2661-photograph",
     "type": "word",
     "text": "photograph",
     "word": "photograph",
@@ -100286,7 +100460,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2657-photographer",
+    "id": "index-2662-photographer",
     "type": "word",
     "text": "photographer",
     "word": "photographer",
@@ -100320,7 +100494,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2658-photography",
+    "id": "index-2663-photography",
     "type": "word",
     "text": "photography",
     "word": "photography",
@@ -100354,7 +100528,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2659-physical-therapist",
+    "id": "index-2664-physical-therapist",
     "type": "word",
     "text": "physical therapist",
     "word": "physical therapist",
@@ -100388,7 +100562,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2660-physical-therapy",
+    "id": "index-2665-physical-therapy",
     "type": "word",
     "text": "physical therapy",
     "word": "physical therapy",
@@ -100422,7 +100596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2661-physically-challenged",
+    "id": "index-2666-physically-challenged",
     "type": "word",
     "text": "physically challenged",
     "word": "physically challenged",
@@ -100456,7 +100630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2662-physician",
+    "id": "index-2667-physician",
     "type": "word",
     "text": "physician",
     "word": "physician",
@@ -100505,7 +100679,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2663-physician-assistant",
+    "id": "index-2668-physician-assistant",
     "type": "word",
     "text": "physician assistant",
     "word": "physician assistant",
@@ -100539,7 +100713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2664-physics",
+    "id": "index-2669-physics",
     "type": "word",
     "text": "physics",
     "word": "physics",
@@ -100602,7 +100776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2665-piano",
+    "id": "index-2670-piano",
     "type": "word",
     "text": "piano",
     "word": "piano",
@@ -100651,7 +100825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2666-piccolo",
+    "id": "index-2671-piccolo",
     "type": "word",
     "text": "piccolo",
     "word": "piccolo",
@@ -100685,7 +100859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2667-pickax",
+    "id": "index-2672-pickax",
     "type": "word",
     "text": "pickax",
     "word": "pickax",
@@ -100719,7 +100893,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2668-pickles",
+    "id": "index-2673-pickles",
     "type": "word",
     "text": "pickles",
     "word": "pickles",
@@ -100753,7 +100927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2669-pickup-truck",
+    "id": "index-2674-pickup-truck",
     "type": "word",
     "text": "pickup truck",
     "word": "pickup truck",
@@ -100801,7 +100975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2670-picnic",
+    "id": "index-2675-picnic",
     "type": "word",
     "text": "picnic",
     "word": "picnic",
@@ -100835,7 +101009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2671-picnic-area",
+    "id": "index-2676-picnic-area",
     "type": "word",
     "text": "picnic area",
     "word": "picnic area",
@@ -100871,7 +101045,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2672-picnic-basket",
+    "id": "index-2677-picnic-basket",
     "type": "word",
     "text": "picnic basket",
     "word": "picnic basket",
@@ -100905,7 +101079,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2673-picnic-blanket",
+    "id": "index-2678-picnic-blanket",
     "type": "word",
     "text": "picnic blanket",
     "word": "picnic blanket",
@@ -100939,7 +101113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2674-picnic-table",
+    "id": "index-2679-picnic-table",
     "type": "word",
     "text": "picnic table",
     "word": "picnic table",
@@ -100973,7 +101147,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2675-picture",
+    "id": "index-2680-picture",
     "type": "word",
     "text": "picture",
     "word": "picture",
@@ -101007,7 +101181,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2676-pie",
+    "id": "index-2681-pie",
     "type": "word",
     "text": "pie",
     "word": "pie",
@@ -101043,7 +101217,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2677-pie-plate",
+    "id": "index-2682-pie-plate",
     "type": "word",
     "text": "pie plate",
     "word": "pie plate",
@@ -101079,7 +101253,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2678-piece-of-paper",
+    "id": "index-2683-piece-of-paper",
     "type": "word",
     "text": "piece of paper",
     "word": "piece of paper",
@@ -101115,7 +101289,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2679-pierced-earrings",
+    "id": "index-2684-pierced-earrings",
     "type": "word",
     "text": "pierced earrings",
     "word": "pierced earrings",
@@ -101152,7 +101326,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2680-pig",
+    "id": "index-2685-pig",
     "type": "word",
     "text": "pig",
     "word": "pig",
@@ -101186,7 +101360,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2681-pig-pen",
+    "id": "index-2686-pig-pen",
     "type": "word",
     "text": "pig pen",
     "word": "pig pen",
@@ -101220,7 +101394,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2682-pigeon",
+    "id": "index-2687-pigeon",
     "type": "word",
     "text": "pigeon",
     "word": "pigeon",
@@ -101254,7 +101428,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2683-pill",
+    "id": "index-2688-pill",
     "type": "word",
     "text": "pill",
     "word": "pill",
@@ -101288,7 +101462,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2684-pillow",
+    "id": "index-2689-pillow",
     "type": "word",
     "text": "pillow",
     "word": "pillow",
@@ -101339,7 +101513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2685-pillowcase",
+    "id": "index-2690-pillowcase",
     "type": "word",
     "text": "pillowcase",
     "word": "pillowcase",
@@ -101375,7 +101549,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2686-pilot",
+    "id": "index-2691-pilot",
     "type": "word",
     "text": "pilot",
     "word": "pilot",
@@ -101424,7 +101598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2687-pin",
+    "id": "index-2692-pin",
     "type": "word",
     "text": "pin",
     "word": "pin",
@@ -101473,7 +101647,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2688-pin-cushion",
+    "id": "index-2693-pin-cushion",
     "type": "word",
     "text": "pin cushion",
     "word": "pin cushion",
@@ -101507,7 +101681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2689-pin-number",
+    "id": "index-2694-pin-number",
     "type": "word",
     "text": "PIN number",
     "word": "PIN number",
@@ -101541,7 +101715,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2690-pine",
+    "id": "index-2695-pine",
     "type": "word",
     "text": "pine",
     "word": "pine",
@@ -101575,7 +101749,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2691-pine-con-e",
+    "id": "index-2696-pine-con-e",
     "type": "word",
     "text": "pine con e",
     "word": "pine con e",
@@ -101609,7 +101783,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2692-pineapple",
+    "id": "index-2697-pineapple",
     "type": "word",
     "text": "pineapple",
     "word": "pineapple",
@@ -101645,7 +101819,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2693-pineapple-juice",
+    "id": "index-2698-pineapple-juice",
     "type": "word",
     "text": "pineapple juice",
     "word": "pineapple juice",
@@ -101681,7 +101855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2694-ping-pong",
+    "id": "index-2699-ping-pong",
     "type": "word",
     "text": "ping pong",
     "word": "ping pong",
@@ -101715,7 +101889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2695-ping-pong-table",
+    "id": "index-2700-ping-pong-table",
     "type": "word",
     "text": "ping pong table",
     "word": "ping pong table",
@@ -101749,7 +101923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2696-pink",
+    "id": "index-2701-pink",
     "type": "word",
     "text": "pink",
     "word": "pink",
@@ -101783,7 +101957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2697-pint",
+    "id": "index-2702-pint",
     "type": "word",
     "text": "pint",
     "word": "pint",
@@ -101831,7 +102005,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2698-pipe-wrench",
+    "id": "index-2703-pipe-wrench",
     "type": "word",
     "text": "pipe wrench",
     "word": "pipe wrench",
@@ -101865,7 +102039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2699-pirate",
+    "id": "index-2704-pirate",
     "type": "word",
     "text": "pirate",
     "word": "pirate",
@@ -101914,7 +102088,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2700-pitch",
+    "id": "index-2705-pitch",
     "type": "word",
     "text": "pitch",
     "word": "pitch",
@@ -101948,7 +102122,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2701-pitcher",
+    "id": "index-2706-pitcher",
     "type": "word",
     "text": "pitcher",
     "word": "pitcher",
@@ -101982,7 +102156,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2702-pizza",
+    "id": "index-2707-pizza",
     "type": "word",
     "text": "pizza",
     "word": "pizza",
@@ -102016,7 +102190,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2703-pizza-shop",
+    "id": "index-2708-pizza-shop",
     "type": "word",
     "text": "pizza shop",
     "word": "pizza shop",
@@ -102050,7 +102224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2704-place-of-birth",
+    "id": "index-2709-place-of-birth",
     "type": "word",
     "text": "place of birth",
     "word": "place of birth",
@@ -102084,7 +102258,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2705-placemat",
+    "id": "index-2710-placemat",
     "type": "word",
     "text": "placemat",
     "word": "placemat",
@@ -102118,7 +102292,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2706-plaid",
+    "id": "index-2711-plaid",
     "type": "word",
     "text": "plaid",
     "word": "plaid",
@@ -102154,7 +102328,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2707-plain",
+    "id": "index-2712-plain",
     "type": "word",
     "text": "plain",
     "word": "plain",
@@ -102205,7 +102379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2708-plains",
+    "id": "index-2713-plains",
     "type": "word",
     "text": "plains",
     "word": "plains",
@@ -102241,7 +102415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2709-plan-a-procedure",
+    "id": "index-2714-plan-a-procedure",
     "type": "word",
     "text": "plan a procedure",
     "word": "plan a procedure",
@@ -102275,7 +102449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2710-plane",
+    "id": "index-2715-plane",
     "type": "word",
     "text": "plane",
     "word": "plane",
@@ -102324,7 +102498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2711-planet",
+    "id": "index-2716-planet",
     "type": "word",
     "text": "planet",
     "word": "planet",
@@ -102358,7 +102532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2712-planetarium",
+    "id": "index-2717-planetarium",
     "type": "word",
     "text": "planetarium",
     "word": "planetarium",
@@ -102392,7 +102566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2713-plant",
+    "id": "index-2718-plant",
     "type": "word",
     "text": "plant",
     "word": "plant",
@@ -102441,7 +102615,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2714-plant-flowers",
+    "id": "index-2719-plant-flowers",
     "type": "word",
     "text": "plant flowers",
     "word": "plant flowers",
@@ -102492,7 +102666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2715-plant-ifegetables",
+    "id": "index-2720-plant-ifegetables",
     "type": "word",
     "text": "plant Ifegetables",
     "word": "plant Ifegetables",
@@ -102526,7 +102700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2716-plantain",
+    "id": "index-2721-plantain",
     "type": "word",
     "text": "plantain",
     "word": "plantain",
@@ -102562,7 +102736,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2717-plasma-tv",
+    "id": "index-2722-plasma-tv",
     "type": "word",
     "text": "plasma TV",
     "word": "plasma TV",
@@ -102596,7 +102770,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2718-plastic-bag",
+    "id": "index-2723-plastic-bag",
     "type": "word",
     "text": "plastic bag",
     "word": "plastic bag",
@@ -102630,7 +102804,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2719-plastic-utensil",
+    "id": "index-2724-plastic-utensil",
     "type": "word",
     "text": "plastic utensil",
     "word": "plastic utensil",
@@ -102664,7 +102838,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2720-plastic-wrap",
+    "id": "index-2725-plastic-wrap",
     "type": "word",
     "text": "plastic wrap",
     "word": "plastic wrap",
@@ -102698,7 +102872,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2721-plate",
+    "id": "index-2726-plate",
     "type": "word",
     "text": "plate",
     "word": "plate",
@@ -102732,7 +102906,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2722-plateau",
+    "id": "index-2727-plateau",
     "type": "word",
     "text": "plateau",
     "word": "plateau",
@@ -102769,7 +102943,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2723-platform",
+    "id": "index-2728-platform",
     "type": "word",
     "text": "platform",
     "word": "platform",
@@ -102803,7 +102977,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2724-platter",
+    "id": "index-2729-platter",
     "type": "word",
     "text": "platter",
     "word": "platter",
@@ -102837,7 +103011,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2725-platypus",
+    "id": "index-2730-platypus",
     "type": "word",
     "text": "platypus",
     "word": "platypus",
@@ -102871,7 +103045,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2726-play",
+    "id": "index-2731-play",
     "type": "word",
     "text": "play",
     "word": "play",
@@ -102949,7 +103123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2727-play-basketball",
+    "id": "index-2732-play-basketball",
     "type": "word",
     "text": "play basketball",
     "word": "play basketball",
@@ -102985,7 +103159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2728-play-board-games",
+    "id": "index-2733-play-board-games",
     "type": "word",
     "text": "play board games",
     "word": "play board games",
@@ -103022,7 +103196,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2729-play-cards",
+    "id": "index-2734-play-cards",
     "type": "word",
     "text": "play cards",
     "word": "play cards",
@@ -103073,7 +103247,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2730-play-house",
+    "id": "index-2735-play-house",
     "type": "word",
     "text": "play house",
     "word": "play house",
@@ -103110,7 +103284,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2731-play-with",
+    "id": "index-2736-play-with",
     "type": "word",
     "text": "play with",
     "word": "play with",
@@ -103146,7 +103320,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2732-player",
+    "id": "index-2737-player",
     "type": "word",
     "text": "player",
     "word": "player",
@@ -103196,7 +103370,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2733-playground",
+    "id": "index-2738-playground",
     "type": "word",
     "text": "playground",
     "word": "playground",
@@ -103233,7 +103407,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2734-playpen",
+    "id": "index-2739-playpen",
     "type": "word",
     "text": "playpen",
     "word": "playpen",
@@ -103269,7 +103443,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2735-playroom",
+    "id": "index-2740-playroom",
     "type": "word",
     "text": "playroom",
     "word": "playroom",
@@ -103306,7 +103480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2736-plays",
+    "id": "index-2741-plays",
     "type": "word",
     "text": "plays",
     "word": "plays",
@@ -103342,7 +103516,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2737-please-don-t-bother-me",
+    "id": "index-2742-please-don-t-bother-me",
     "type": "word",
     "text": "Please don't bother me!",
     "word": "Please don't bother me!",
@@ -103378,7 +103552,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2738-please-go-away",
+    "id": "index-2743-please-go-away",
     "type": "word",
     "text": "Please go away!",
     "word": "Please go away!",
@@ -103416,7 +103590,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2739-please-repeat-that",
+    "id": "index-2744-please-repeat-that",
     "type": "word",
     "text": "Please repeat that.",
     "word": "Please repeat that.",
@@ -103452,7 +103626,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2740-please-speak-slowly",
+    "id": "index-2745-please-speak-slowly",
     "type": "word",
     "text": "Please speak slowly.",
     "word": "Please speak slowly.",
@@ -103489,7 +103663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2741-please-write-that-down-for-me",
+    "id": "index-2746-please-write-that-down-for-me",
     "type": "word",
     "text": "Please write that down for me.",
     "word": "Please write that down for me.",
@@ -103526,7 +103700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2742-please90-away",
+    "id": "index-2747-please90-away",
     "type": "word",
     "text": "Please90 away!",
     "word": "Please90 away!",
@@ -103564,7 +103738,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2743-pleasedon-t-bother-wet",
+    "id": "index-2748-pleasedon-t-bother-wet",
     "type": "word",
     "text": "Pleasedon't bother wet",
     "word": "Pleasedon't bother wet",
@@ -103615,7 +103789,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2744-pleaserepeat-that",
+    "id": "index-2749-pleaserepeat-that",
     "type": "word",
     "text": "Pleaserepeat that.",
     "word": "Pleaserepeat that.",
@@ -103651,7 +103825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2745-pleasewrite-that-down-for-wheeze",
+    "id": "index-2750-pleasewrite-that-down-for-wheeze",
     "type": "word",
     "text": "Pleasewrite that down for wheeze",
     "word": "Pleasewrite that down for wheeze",
@@ -103690,7 +103864,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2746-pllers",
+    "id": "index-2751-pllers",
     "type": "word",
     "text": "pllers",
     "word": "pllers",
@@ -103739,7 +103913,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2747-plum",
+    "id": "index-2752-plum",
     "type": "word",
     "text": "plum",
     "word": "plum",
@@ -103773,7 +103947,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2748-plumber",
+    "id": "index-2753-plumber",
     "type": "word",
     "text": "plumber",
     "word": "plumber",
@@ -103807,7 +103981,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2749-plunger",
+    "id": "index-2754-plunger",
     "type": "word",
     "text": "plunger",
     "word": "plunger",
@@ -103856,7 +104030,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2750-plus",
+    "id": "index-2755-plus",
     "type": "word",
     "text": "plus",
     "word": "plus",
@@ -103890,7 +104064,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2751-pluto",
+    "id": "index-2756-pluto",
     "type": "word",
     "text": "Pluto",
     "word": "Pluto",
@@ -103924,7 +104098,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2752-plywood",
+    "id": "index-2757-plywood",
     "type": "word",
     "text": "plywood",
     "word": "plywood",
@@ -103960,7 +104134,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2753-pneumatic-drill",
+    "id": "index-2758-pneumatic-drill",
     "type": "word",
     "text": "pneumatic drill",
     "word": "pneumatic drill",
@@ -103994,7 +104168,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2754-pocket",
+    "id": "index-2759-pocket",
     "type": "word",
     "text": "pocket",
     "word": "pocket",
@@ -104043,7 +104217,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2755-pocket-calculator",
+    "id": "index-2760-pocket-calculator",
     "type": "word",
     "text": "pocket calculator",
     "word": "pocket calculator",
@@ -104077,7 +104251,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2756-pocketbook",
+    "id": "index-2761-pocketbook",
     "type": "word",
     "text": "pocketbook",
     "word": "pocketbook",
@@ -104113,7 +104287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2757-poems",
+    "id": "index-2762-poems",
     "type": "word",
     "text": "poems",
     "word": "poems",
@@ -104149,7 +104323,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2758-poetry",
+    "id": "index-2763-poetry",
     "type": "word",
     "text": "poetry",
     "word": "poetry",
@@ -104185,7 +104359,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2759-poi-son-sumac",
+    "id": "index-2764-poi-son-sumac",
     "type": "word",
     "text": "poi son sumac",
     "word": "poi son sumac",
@@ -104221,7 +104395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2760-poinsettia",
+    "id": "index-2765-poinsettia",
     "type": "word",
     "text": "poinsettia",
     "word": "poinsettia",
@@ -104257,7 +104431,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2761-poison",
+    "id": "index-2766-poison",
     "type": "word",
     "text": "poison",
     "word": "poison",
@@ -104308,7 +104482,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2762-poison-ivy",
+    "id": "index-2767-poison-ivy",
     "type": "word",
     "text": "poison ivy",
     "word": "poison ivy",
@@ -104344,7 +104518,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2763-poison-oak",
+    "id": "index-2768-poison-oak",
     "type": "word",
     "text": "poison oak",
     "word": "poison oak",
@@ -104381,7 +104555,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2764-poisonous",
+    "id": "index-2769-poisonous",
     "type": "word",
     "text": "poisonous",
     "word": "poisonous",
@@ -104418,7 +104592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2765-polar-bear",
+    "id": "index-2770-polar-bear",
     "type": "word",
     "text": "polar bear",
     "word": "polar bear",
@@ -104454,7 +104628,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2766-pole",
+    "id": "index-2771-pole",
     "type": "word",
     "text": "pole",
     "word": "pole",
@@ -104503,7 +104677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2767-police-car",
+    "id": "index-2772-police-car",
     "type": "word",
     "text": "police car",
     "word": "police car",
@@ -104537,7 +104711,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2768-police-officer",
+    "id": "index-2773-police-officer",
     "type": "word",
     "text": "police officer",
     "word": "police officer",
@@ -104599,7 +104773,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2769-police-station",
+    "id": "index-2774-police-station",
     "type": "word",
     "text": "police station",
     "word": "police station",
@@ -104648,7 +104822,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2770-police",
+    "id": "index-2775-police",
     "type": "word",
     "text": "Police!",
     "word": "Police!",
@@ -104682,7 +104856,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2771-polish-my-shoes",
+    "id": "index-2776-polish-my-shoes",
     "type": "word",
     "text": "polish my shoes",
     "word": "polish my shoes",
@@ -104718,7 +104892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2772-polish-the-furniture",
+    "id": "index-2777-polish-the-furniture",
     "type": "word",
     "text": "polish the furniture",
     "word": "polish the furniture",
@@ -104752,7 +104926,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2773-polka-dotted",
+    "id": "index-2778-polka-dotted",
     "type": "word",
     "text": "polka-dotted",
     "word": "polka-dotted",
@@ -104786,7 +104960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2774-polyester",
+    "id": "index-2779-polyester",
     "type": "word",
     "text": "polyester",
     "word": "polyester",
@@ -104820,7 +104994,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2775-poncho",
+    "id": "index-2780-poncho",
     "type": "word",
     "text": "poncho",
     "word": "poncho",
@@ -104854,7 +105028,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2776-pond",
+    "id": "index-2781-pond",
     "type": "word",
     "text": "pond",
     "word": "pond",
@@ -104888,7 +105062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2777-pony",
+    "id": "index-2782-pony",
     "type": "word",
     "text": "pony",
     "word": "pony",
@@ -104922,7 +105096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2778-pool",
+    "id": "index-2783-pool",
     "type": "word",
     "text": "pool",
     "word": "pool",
@@ -104973,7 +105147,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2779-pool-stick",
+    "id": "index-2784-pool-stick",
     "type": "word",
     "text": "pool stick",
     "word": "pool stick",
@@ -105009,7 +105183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2780-pool-table",
+    "id": "index-2785-pool-table",
     "type": "word",
     "text": "pool table",
     "word": "pool table",
@@ -105045,7 +105219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2781-poor",
+    "id": "index-2786-poor",
     "type": "word",
     "text": "poor",
     "word": "poor",
@@ -105081,7 +105255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2782-popcorn",
+    "id": "index-2787-popcorn",
     "type": "word",
     "text": "popcorn",
     "word": "popcorn",
@@ -105115,7 +105289,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2783-popular-music",
+    "id": "index-2788-popular-music",
     "type": "word",
     "text": "popular music",
     "word": "popular music",
@@ -105149,7 +105323,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2784-porch",
+    "id": "index-2789-porch",
     "type": "word",
     "text": "porch",
     "word": "porch",
@@ -105183,7 +105357,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2785-porcupine",
+    "id": "index-2790-porcupine",
     "type": "word",
     "text": "porcupine",
     "word": "porcupine",
@@ -105217,7 +105391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2786-pork",
+    "id": "index-2791-pork",
     "type": "word",
     "text": "pork",
     "word": "pork",
@@ -105251,7 +105425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2787-pork-chops",
+    "id": "index-2792-pork-chops",
     "type": "word",
     "text": "pork chops",
     "word": "pork chops",
@@ -105285,7 +105459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2788-porpoise",
+    "id": "index-2793-porpoise",
     "type": "word",
     "text": "porpoise",
     "word": "porpoise",
@@ -105321,7 +105495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2789-portable-cassette-paw",
+    "id": "index-2794-portable-cassette-paw",
     "type": "word",
     "text": "portable cassette paw",
     "word": "portable cassette paw",
@@ -105357,7 +105531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2790-portable-cd-player",
+    "id": "index-2795-portable-cd-player",
     "type": "word",
     "text": "portable CD player",
     "word": "portable CD player",
@@ -105393,7 +105567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2791-portable-crib",
+    "id": "index-2796-portable-crib",
     "type": "word",
     "text": "portable crib",
     "word": "portable crib",
@@ -105427,7 +105601,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2792-portable-digital-audio",
+    "id": "index-2797-portable-digital-audio",
     "type": "word",
     "text": "portable digital audio",
     "word": "portable digital audio",
@@ -105463,7 +105637,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2793-portable-tv",
+    "id": "index-2798-portable-tv",
     "type": "word",
     "text": "portable TV",
     "word": "portable TV",
@@ -105497,7 +105671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2794-possum",
+    "id": "index-2799-possum",
     "type": "word",
     "text": "possum",
     "word": "possum",
@@ -105531,7 +105705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2795-post-offlce",
+    "id": "index-2800-post-offlce",
     "type": "word",
     "text": "post offlce",
     "word": "post offlce",
@@ -105565,7 +105739,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2796-post-it-note-pad",
+    "id": "index-2801-post-it-note-pad",
     "type": "word",
     "text": "Post-It note pad",
     "word": "Post-It note pad",
@@ -105599,7 +105773,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2797-postage",
+    "id": "index-2802-postage",
     "type": "word",
     "text": "postage",
     "word": "postage",
@@ -105633,7 +105807,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2798-postage-meter",
+    "id": "index-2803-postage-meter",
     "type": "word",
     "text": "postage meter",
     "word": "postage meter",
@@ -105667,7 +105841,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2799-postal-clerk",
+    "id": "index-2804-postal-clerk",
     "type": "word",
     "text": "postal clerk",
     "word": "postal clerk",
@@ -105701,7 +105875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2800-postal-scale",
+    "id": "index-2805-postal-scale",
     "type": "word",
     "text": "postal scale",
     "word": "postal scale",
@@ -105735,7 +105909,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2801-postal-worker",
+    "id": "index-2806-postal-worker",
     "type": "word",
     "text": "postal worker",
     "word": "postal worker",
@@ -105784,7 +105958,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2802-postcard",
+    "id": "index-2807-postcard",
     "type": "word",
     "text": "postcard",
     "word": "postcard",
@@ -105860,7 +106034,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2803-postmark",
+    "id": "index-2808-postmark",
     "type": "word",
     "text": "postmark",
     "word": "postmark",
@@ -105894,7 +106068,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2804-pot",
+    "id": "index-2809-pot",
     "type": "word",
     "text": "pot",
     "word": "pot",
@@ -105928,7 +106102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2805-potato",
+    "id": "index-2810-potato",
     "type": "word",
     "text": "potato",
     "word": "potato",
@@ -105962,7 +106136,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2806-potato-chips",
+    "id": "index-2811-potato-chips",
     "type": "word",
     "text": "potato chips",
     "word": "potato chips",
@@ -105996,7 +106170,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2807-potato-salad",
+    "id": "index-2812-potato-salad",
     "type": "word",
     "text": "potato salad",
     "word": "potato salad",
@@ -106030,7 +106204,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2808-potato-skins",
+    "id": "index-2813-potato-skins",
     "type": "word",
     "text": "potato skins",
     "word": "potato skins",
@@ -106064,7 +106238,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2809-potholder",
+    "id": "index-2814-potholder",
     "type": "word",
     "text": "potholder",
     "word": "potholder",
@@ -106098,7 +106272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2810-potter-s-wheel",
+    "id": "index-2815-potter-s-wheel",
     "type": "word",
     "text": "potter's wheel",
     "word": "potter's wheel",
@@ -106134,7 +106308,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2811-pottery",
+    "id": "index-2816-pottery",
     "type": "word",
     "text": "pottery",
     "word": "pottery",
@@ -106168,7 +106342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2812-potty",
+    "id": "index-2817-potty",
     "type": "word",
     "text": "potty",
     "word": "potty",
@@ -106202,7 +106376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2813-pouch",
+    "id": "index-2818-pouch",
     "type": "word",
     "text": "pouch",
     "word": "pouch",
@@ -106238,7 +106412,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2814-poultry",
+    "id": "index-2819-poultry",
     "type": "word",
     "text": "poultry",
     "word": "poultry",
@@ -106274,7 +106448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2815-pound",
+    "id": "index-2820-pound",
     "type": "word",
     "text": "pound",
     "word": "pound",
@@ -106324,7 +106498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2816-pour",
+    "id": "index-2821-pour",
     "type": "word",
     "text": "pour",
     "word": "pour",
@@ -106360,7 +106534,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2817-pour-the-water",
+    "id": "index-2822-pour-the-water",
     "type": "word",
     "text": "pour the water",
     "word": "pour the water",
@@ -106396,7 +106570,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2818-powder",
+    "id": "index-2823-powder",
     "type": "word",
     "text": "powder",
     "word": "powder",
@@ -106432,7 +106606,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2819-powdered-drink-mix",
+    "id": "index-2824-powdered-drink-mix",
     "type": "word",
     "text": "powdered drink mix",
     "word": "powdered drink mix",
@@ -106468,7 +106642,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2820-power",
+    "id": "index-2825-power",
     "type": "word",
     "text": "power",
     "word": "power",
@@ -106504,7 +106678,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2821-power-line",
+    "id": "index-2826-power-line",
     "type": "word",
     "text": "power line",
     "word": "power line",
@@ -106540,7 +106714,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2822-power-outage",
+    "id": "index-2827-power-outage",
     "type": "word",
     "text": "power outage",
     "word": "power outage",
@@ -106577,7 +106751,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2823-power-outlet",
+    "id": "index-2828-power-outlet",
     "type": "word",
     "text": "power outlet",
     "word": "power outlet",
@@ -106614,7 +106788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2824-power-sander",
+    "id": "index-2829-power-sander",
     "type": "word",
     "text": "power sander",
     "word": "power sander",
@@ -106650,7 +106824,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2825-power-saw",
+    "id": "index-2830-power-saw",
     "type": "word",
     "text": "power saw",
     "word": "power saw",
@@ -106687,7 +106861,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2826-practice-the-piano",
+    "id": "index-2831-practice-the-piano",
     "type": "word",
     "text": "practice the piano",
     "word": "practice the piano",
@@ -106721,7 +106895,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2827-praying-mantis",
+    "id": "index-2832-praying-mantis",
     "type": "word",
     "text": "praying mantis",
     "word": "praying mantis",
@@ -106757,7 +106931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2828-pregnant",
+    "id": "index-2833-pregnant",
     "type": "word",
     "text": "pregnant",
     "word": "pregnant",
@@ -106791,7 +106965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2829-prepare",
+    "id": "index-2834-prepare",
     "type": "word",
     "text": "prepare",
     "word": "prepare",
@@ -106825,7 +106999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2830-prepare-a-resume",
+    "id": "index-2835-prepare-a-resume",
     "type": "word",
     "text": "prepare a resume",
     "word": "prepare a resume",
@@ -106859,7 +107033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2831-preposition",
+    "id": "index-2836-preposition",
     "type": "word",
     "text": "preposition",
     "word": "preposition",
@@ -106893,7 +107067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2832-preschool",
+    "id": "index-2837-preschool",
     "type": "word",
     "text": "preschool",
     "word": "preschool",
@@ -106929,7 +107103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2833-prescription",
+    "id": "index-2838-prescription",
     "type": "word",
     "text": "prescription",
     "word": "prescription",
@@ -106963,7 +107137,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2834-presentation-board",
+    "id": "index-2839-presentation-board",
     "type": "word",
     "text": "presentation board",
     "word": "presentation board",
@@ -106999,7 +107173,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2835-pressure",
+    "id": "index-2840-pressure",
     "type": "word",
     "text": "pressure",
     "word": "pressure",
@@ -107033,7 +107207,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2836-pretty",
+    "id": "index-2841-pretty",
     "type": "word",
     "text": "pretty",
     "word": "pretty",
@@ -107067,7 +107241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2837-pretzels",
+    "id": "index-2842-pretzels",
     "type": "word",
     "text": "pretzels",
     "word": "pretzels",
@@ -107101,7 +107275,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2838-previous",
+    "id": "index-2843-previous",
     "type": "word",
     "text": "previous",
     "word": "previous",
@@ -107137,7 +107311,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2839-price",
+    "id": "index-2844-price",
     "type": "word",
     "text": "price",
     "word": "price",
@@ -107171,7 +107345,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2840-price-tag",
+    "id": "index-2845-price-tag",
     "type": "word",
     "text": "price tag",
     "word": "price tag",
@@ -107205,7 +107379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2841-prime-rib",
+    "id": "index-2846-prime-rib",
     "type": "word",
     "text": "prime rib",
     "word": "prime rib",
@@ -107239,7 +107413,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2842-principal",
+    "id": "index-2847-principal",
     "type": "word",
     "text": "principal",
     "word": "principal",
@@ -107273,7 +107447,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2843-principal-s-office",
+    "id": "index-2848-principal-s-office",
     "type": "word",
     "text": "principal's office",
     "word": "principal's office",
@@ -107307,7 +107481,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2844-print",
+    "id": "index-2849-print",
     "type": "word",
     "text": "print",
     "word": "print",
@@ -107341,7 +107515,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2845-print-your-name",
+    "id": "index-2850-print-your-name",
     "type": "word",
     "text": "print your name",
     "word": "print your name",
@@ -107377,7 +107551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2846-printer",
+    "id": "index-2851-printer",
     "type": "word",
     "text": "printer",
     "word": "printer",
@@ -107426,7 +107600,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2847-priority-mail",
+    "id": "index-2852-priority-mail",
     "type": "word",
     "text": "priority mail",
     "word": "priority mail",
@@ -107462,7 +107636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2848-prism",
+    "id": "index-2853-prism",
     "type": "word",
     "text": "prism",
     "word": "prism",
@@ -107496,7 +107670,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2849-problem",
+    "id": "index-2854-problem",
     "type": "word",
     "text": "problem",
     "word": "problem",
@@ -107530,7 +107704,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2850-problems",
+    "id": "index-2855-problems",
     "type": "word",
     "text": "problems",
     "word": "problems",
@@ -107564,7 +107738,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2851-procedure",
+    "id": "index-2856-procedure",
     "type": "word",
     "text": "procedure",
     "word": "procedure",
@@ -107612,7 +107786,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2852-produce",
+    "id": "index-2857-produce",
     "type": "word",
     "text": "produce",
     "word": "produce",
@@ -107646,7 +107820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2853-program",
+    "id": "index-2858-program",
     "type": "word",
     "text": "program",
     "word": "program",
@@ -107694,7 +107868,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2854-projection-tv",
+    "id": "index-2859-projection-tv",
     "type": "word",
     "text": "projection TV",
     "word": "projection TV",
@@ -107728,7 +107902,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2855-projector",
+    "id": "index-2860-projector",
     "type": "word",
     "text": "projector",
     "word": "projector",
@@ -107762,7 +107936,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2856-pronoun",
+    "id": "index-2861-pronoun",
     "type": "word",
     "text": "pronoun",
     "word": "pronoun",
@@ -107798,7 +107972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2857-pronounce-the-word",
+    "id": "index-2862-pronounce-the-word",
     "type": "word",
     "text": "pronounce the word",
     "word": "pronounce the word",
@@ -107834,7 +108008,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2858-proud",
+    "id": "index-2863-proud",
     "type": "word",
     "text": "proud",
     "word": "proud",
@@ -107885,7 +108059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2859-provolone",
+    "id": "index-2864-provolone",
     "type": "word",
     "text": "provolone",
     "word": "provolone",
@@ -107919,7 +108093,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2860-prune-the-bushes",
+    "id": "index-2865-prune-the-bushes",
     "type": "word",
     "text": "prune the bushes",
     "word": "prune the bushes",
@@ -107953,7 +108127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2861-prunes",
+    "id": "index-2866-prunes",
     "type": "word",
     "text": "prunes",
     "word": "prunes",
@@ -107987,7 +108161,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2862-pruning-shears",
+    "id": "index-2867-pruning-shears",
     "type": "word",
     "text": "pruning shears",
     "word": "pruning shears",
@@ -108023,7 +108197,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2863-psychiatrist",
+    "id": "index-2868-psychiatrist",
     "type": "word",
     "text": "psychiatrist",
     "word": "psychiatrist",
@@ -108057,7 +108231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2864-public-telephone",
+    "id": "index-2869-public-telephone",
     "type": "word",
     "text": "public telephone",
     "word": "public telephone",
@@ -108091,7 +108265,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2865-pulse",
+    "id": "index-2870-pulse",
     "type": "word",
     "text": "pulse",
     "word": "pulse",
@@ -108125,7 +108299,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2866-pumpernickel",
+    "id": "index-2871-pumpernickel",
     "type": "word",
     "text": "pumpernickel",
     "word": "pumpernickel",
@@ -108159,7 +108333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2867-pumps",
+    "id": "index-2872-pumps",
     "type": "word",
     "text": "pumps",
     "word": "pumps",
@@ -108193,7 +108367,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2868-punctuation-mark",
+    "id": "index-2873-punctuation-mark",
     "type": "word",
     "text": "punctuation mark",
     "word": "punctuation mark",
@@ -108227,7 +108401,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2869-pupil",
+    "id": "index-2874-pupil",
     "type": "word",
     "text": "pupil",
     "word": "pupil",
@@ -108261,7 +108435,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2870-puppy",
+    "id": "index-2875-puppy",
     "type": "word",
     "text": "puppy",
     "word": "puppy",
@@ -108295,7 +108469,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2871-purple",
+    "id": "index-2876-purple",
     "type": "word",
     "text": "purple",
     "word": "purple",
@@ -108329,7 +108503,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2872-purse",
+    "id": "index-2877-purse",
     "type": "word",
     "text": "purse",
     "word": "purse",
@@ -108363,7 +108537,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2873-push-up",
+    "id": "index-2878-push-up",
     "type": "word",
     "text": "push-up",
     "word": "push-up",
@@ -108397,7 +108571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-2874-pushpin",
+    "id": "index-2879-pushpin",
     "type": "word",
     "text": "pushpin",
     "word": "pushpin",
@@ -108431,7 +108605,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2875-put",
+    "id": "index-2880-put",
     "type": "word",
     "text": "put",
     "word": "put",
@@ -108465,7 +108639,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2876-put-away-your-book",
+    "id": "index-2881-put-away-your-book",
     "type": "word",
     "text": "put away your book",
     "word": "put away your book",
@@ -108504,7 +108678,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2877-put-on",
+    "id": "index-2882-put-on",
     "type": "word",
     "text": "put on",
     "word": "put on",
@@ -108538,7 +108712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2878-put-on-makeup",
+    "id": "index-2883-put-on-makeup",
     "type": "word",
     "text": "put on makeup",
     "word": "put on makeup",
@@ -108587,7 +108761,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2879-put-the-words-in-order",
+    "id": "index-2884-put-the-words-in-order",
     "type": "word",
     "text": "put the words in order",
     "word": "put the words in order",
@@ -108621,7 +108795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2880-put-things-away",
+    "id": "index-2885-put-things-away",
     "type": "word",
     "text": "put things away",
     "word": "put things away",
@@ -108658,7 +108832,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2881-put-your-bag-on-the-read-a-book",
+    "id": "index-2886-put-your-bag-on-the-read-a-book",
     "type": "word",
     "text": "put your bag on the read a book",
     "word": "put your bag on the read a book",
@@ -108696,7 +108870,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2882-put-your-computer-in-a-read-the-newspaper",
+    "id": "index-2887-put-your-computer-in-a-read-the-newspaper",
     "type": "word",
     "text": "put your computer in a read the newspaper",
     "word": "put your computer in a read the newspaper",
@@ -108734,7 +108908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2883-puzzle",
+    "id": "index-2888-puzzle",
     "type": "word",
     "text": "puzzle",
     "word": "puzzle",
@@ -108768,7 +108942,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2884-pyramid",
+    "id": "index-2889-pyramid",
     "type": "word",
     "text": "pyramid",
     "word": "pyramid",
@@ -108802,7 +108976,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2885-qualifications",
+    "id": "index-2890-qualifications",
     "type": "word",
     "text": "qualifications",
     "word": "qualifications",
@@ -108836,7 +109010,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2886-quality-control-reception-area",
+    "id": "index-2891-quality-control-reception-area",
     "type": "word",
     "text": "quality control reception area",
     "word": "quality control reception area",
@@ -108872,7 +109046,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2887-quart",
+    "id": "index-2892-quart",
     "type": "word",
     "text": "quart",
     "word": "quart",
@@ -108934,7 +109108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2888-quarter",
+    "id": "index-2893-quarter",
     "type": "word",
     "text": "quarter",
     "word": "quarter",
@@ -108968,7 +109142,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2889-quarter-after",
+    "id": "index-2894-quarter-after",
     "type": "word",
     "text": "quarter after",
     "word": "quarter after",
@@ -109002,7 +109176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2890-quarter-moon",
+    "id": "index-2895-quarter-moon",
     "type": "word",
     "text": "quarter moon",
     "word": "quarter moon",
@@ -109038,7 +109212,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2891-quarter-to",
+    "id": "index-2896-quarter-to",
     "type": "word",
     "text": "quarter to",
     "word": "quarter to",
@@ -109072,7 +109246,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2892-question",
+    "id": "index-2897-question",
     "type": "word",
     "text": "question",
     "word": "question",
@@ -109108,7 +109282,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2893-question-mark",
+    "id": "index-2898-question-mark",
     "type": "word",
     "text": "question mark",
     "word": "question mark",
@@ -109144,7 +109318,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2894-quiet",
+    "id": "index-2899-quiet",
     "type": "word",
     "text": "quiet",
     "word": "quiet",
@@ -109180,7 +109354,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2895-quill",
+    "id": "index-2900-quill",
     "type": "word",
     "text": "quill",
     "word": "quill",
@@ -109214,7 +109388,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2896-quilt",
+    "id": "index-2901-quilt",
     "type": "word",
     "text": "quilt",
     "word": "quilt",
@@ -109248,7 +109422,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2897-quiz-show",
+    "id": "index-2902-quiz-show",
     "type": "word",
     "text": "quiz show",
     "word": "quiz show",
@@ -109284,7 +109458,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2898-quotation-marks",
+    "id": "index-2903-quotation-marks",
     "type": "word",
     "text": "quotation marks",
     "word": "quotation marks",
@@ -109318,7 +109492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2899-r-v",
+    "id": "index-2904-r-v",
     "type": "word",
     "text": "R.V.",
     "word": "R.V.",
@@ -109352,7 +109526,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2900-rabbit",
+    "id": "index-2905-rabbit",
     "type": "word",
     "text": "rabbit",
     "word": "rabbit",
@@ -109386,7 +109560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2901-raccoon",
+    "id": "index-2906-raccoon",
     "type": "word",
     "text": "raccoon",
     "word": "raccoon",
@@ -109422,7 +109596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2902-racing-car-set",
+    "id": "index-2907-racing-car-set",
     "type": "word",
     "text": "racing car set",
     "word": "racing car set",
@@ -109456,7 +109630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2903-racquet",
+    "id": "index-2908-racquet",
     "type": "word",
     "text": "racquet",
     "word": "racquet",
@@ -109492,7 +109666,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2904-racquetball",
+    "id": "index-2909-racquetball",
     "type": "word",
     "text": "racquetball",
     "word": "racquetball",
@@ -109542,7 +109716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2905-radiation",
+    "id": "index-2910-radiation",
     "type": "word",
     "text": "radiation",
     "word": "radiation",
@@ -109576,7 +109750,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2906-radiator",
+    "id": "index-2911-radiator",
     "type": "word",
     "text": "radiator",
     "word": "radiator",
@@ -109610,7 +109784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2907-radiator-hose",
+    "id": "index-2912-radiator-hose",
     "type": "word",
     "text": "radiator hose",
     "word": "radiator hose",
@@ -109644,7 +109818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2908-radio",
+    "id": "index-2913-radio",
     "type": "word",
     "text": "radio",
     "word": "radio",
@@ -109707,7 +109881,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2909-radioactive",
+    "id": "index-2914-radioactive",
     "type": "word",
     "text": "radioactive",
     "word": "radioactive",
@@ -109743,7 +109917,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2910-radiologist",
+    "id": "index-2915-radiologist",
     "type": "word",
     "text": "radiologist",
     "word": "radiologist",
@@ -109777,7 +109951,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2911-radiology-department-remote-control",
+    "id": "index-2916-radiology-department-remote-control",
     "type": "word",
     "text": "radiology department remote control",
     "word": "radiology department remote control",
@@ -109811,7 +109985,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2912-radish",
+    "id": "index-2917-radish",
     "type": "word",
     "text": "radish",
     "word": "radish",
@@ -109845,7 +110019,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2913-radius",
+    "id": "index-2918-radius",
     "type": "word",
     "text": "radius",
     "word": "radius",
@@ -109879,7 +110053,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2914-raft",
+    "id": "index-2919-raft",
     "type": "word",
     "text": "raft",
     "word": "raft",
@@ -109913,7 +110087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2915-rafting",
+    "id": "index-2920-rafting",
     "type": "word",
     "text": "rafting",
     "word": "rafting",
@@ -109947,7 +110121,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2916-railroad-crossing",
+    "id": "index-2921-railroad-crossing",
     "type": "word",
     "text": "railroad crossing",
     "word": "railroad crossing",
@@ -109984,7 +110158,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2917-rain-boots",
+    "id": "index-2922-rain-boots",
     "type": "word",
     "text": "rain boots",
     "word": "rain boots",
@@ -110021,7 +110195,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2918-rain-hat",
+    "id": "index-2923-rain-hat",
     "type": "word",
     "text": "rain hat",
     "word": "rain hat",
@@ -110057,7 +110231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2919-rain-jacket",
+    "id": "index-2924-rain-jacket",
     "type": "word",
     "text": "rain jacket",
     "word": "rain jacket",
@@ -110093,7 +110267,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2920-raincoat",
+    "id": "index-2925-raincoat",
     "type": "word",
     "text": "raincoat",
     "word": "raincoat",
@@ -110130,7 +110304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2921-rainforest",
+    "id": "index-2926-rainforest",
     "type": "word",
     "text": "rainforest",
     "word": "rainforest",
@@ -110166,7 +110340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2922-raining",
+    "id": "index-2927-raining",
     "type": "word",
     "text": "raining",
     "word": "raining",
@@ -110202,7 +110376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2923-raise-your-hand",
+    "id": "index-2928-raise-your-hand",
     "type": "word",
     "text": "raise your hand",
     "word": "raise your hand",
@@ -110239,7 +110413,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2924-raisins",
+    "id": "index-2929-raisins",
     "type": "word",
     "text": "raisins",
     "word": "raisins",
@@ -110275,7 +110449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2925-rake",
+    "id": "index-2930-rake",
     "type": "word",
     "text": "rake",
     "word": "rake",
@@ -110309,7 +110483,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2926-rake-leaves",
+    "id": "index-2931-rake-leaves",
     "type": "word",
     "text": "rake leaves",
     "word": "rake leaves",
@@ -110345,7 +110519,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2927-ranch",
+    "id": "index-2932-ranch",
     "type": "word",
     "text": "ranch",
     "word": "ranch",
@@ -110379,7 +110553,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2928-range",
+    "id": "index-2933-range",
     "type": "word",
     "text": "range",
     "word": "range",
@@ -110413,7 +110587,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2929-rap-music",
+    "id": "index-2934-rap-music",
     "type": "word",
     "text": "rap music",
     "word": "rap music",
@@ -110447,7 +110621,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2930-rash",
+    "id": "index-2935-rash",
     "type": "word",
     "text": "rash",
     "word": "rash",
@@ -110496,7 +110670,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2931-raspberries",
+    "id": "index-2936-raspberries",
     "type": "word",
     "text": "raspberries",
     "word": "raspberries",
@@ -110532,7 +110706,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2932-rat",
+    "id": "index-2937-rat",
     "type": "word",
     "text": "rat",
     "word": "rat",
@@ -110581,7 +110755,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2933-rattle",
+    "id": "index-2938-rattle",
     "type": "word",
     "text": "rattle",
     "word": "rattle",
@@ -110615,7 +110789,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2934-rattlesnake",
+    "id": "index-2939-rattlesnake",
     "type": "word",
     "text": "rattlesnake",
     "word": "rattlesnake",
@@ -110649,7 +110823,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2935-ray",
+    "id": "index-2940-ray",
     "type": "word",
     "text": "ray",
     "word": "ray",
@@ -110685,7 +110859,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2936-razor",
+    "id": "index-2941-razor",
     "type": "word",
     "text": "razor",
     "word": "razor",
@@ -110719,7 +110893,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2937-razor-blade",
+    "id": "index-2942-razor-blade",
     "type": "word",
     "text": "razor blade",
     "word": "razor blade",
@@ -110753,7 +110927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2938-reach",
+    "id": "index-2943-reach",
     "type": "word",
     "text": "reach",
     "word": "reach",
@@ -110789,7 +110963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2939-read-page-ten",
+    "id": "index-2944-read-page-ten",
     "type": "word",
     "text": "read page ten",
     "word": "read page ten",
@@ -110825,7 +110999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2940-read-the-defin-tion",
+    "id": "index-2945-read-the-defin-tion",
     "type": "word",
     "text": "read the definítion",
     "word": "read the definítion",
@@ -110861,7 +111035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2941-read-to",
+    "id": "index-2946-read-to",
     "type": "word",
     "text": "read to",
     "word": "read to",
@@ -110897,7 +111071,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2942-reality-show",
+    "id": "index-2947-reality-show",
     "type": "word",
     "text": "reality show",
     "word": "reality show",
@@ -110934,7 +111108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2943-rear-defroster",
+    "id": "index-2948-rear-defroster",
     "type": "word",
     "text": "rear defroster",
     "word": "rear defroster",
@@ -110970,7 +111144,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2944-rear-window",
+    "id": "index-2949-rear-window",
     "type": "word",
     "text": "rear window",
     "word": "rear window",
@@ -111007,7 +111181,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2945-rearview-mirror",
+    "id": "index-2950-rearview-mirror",
     "type": "word",
     "text": "rearview mirror",
     "word": "rearview mirror",
@@ -111045,7 +111219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2946-receipt",
+    "id": "index-2951-receipt",
     "type": "word",
     "text": "receipt",
     "word": "receipt",
@@ -111094,7 +111268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2947-receptionist",
+    "id": "index-2952-receptionist",
     "type": "word",
     "text": "receptionist",
     "word": "receptionist",
@@ -111197,7 +111371,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2948-record",
+    "id": "index-2953-record",
     "type": "word",
     "text": "record",
     "word": "record",
@@ -111231,7 +111405,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2949-record-observations",
+    "id": "index-2954-record-observations",
     "type": "word",
     "text": "record observations",
     "word": "record observations",
@@ -111265,7 +111439,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2950-recorder",
+    "id": "index-2955-recorder",
     "type": "word",
     "text": "recorder",
     "word": "recorder",
@@ -111299,7 +111473,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2951-recreation-center",
+    "id": "index-2956-recreation-center",
     "type": "word",
     "text": "recreation center",
     "word": "recreation center",
@@ -111335,7 +111509,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2952-recreational-vehicle",
+    "id": "index-2957-recreational-vehicle",
     "type": "word",
     "text": "recreational vehicle",
     "word": "recreational vehicle",
@@ -111371,7 +111545,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2953-rectangle",
+    "id": "index-2958-rectangle",
     "type": "word",
     "text": "rectangle",
     "word": "rectangle",
@@ -111405,7 +111579,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2954-recycle",
+    "id": "index-2959-recycle",
     "type": "word",
     "text": "recycle",
     "word": "recycle",
@@ -111439,7 +111613,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2955-recycling-bin",
+    "id": "index-2960-recycling-bin",
     "type": "word",
     "text": "recycling bin",
     "word": "recycling bin",
@@ -111473,7 +111647,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2956-recycling-center",
+    "id": "index-2961-recycling-center",
     "type": "word",
     "text": "recycling center",
     "word": "recycling center",
@@ -111507,7 +111681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2957-red",
+    "id": "index-2962-red",
     "type": "word",
     "text": "red",
     "word": "red",
@@ -111556,7 +111730,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2958-red-pepper",
+    "id": "index-2963-red-pepper",
     "type": "word",
     "text": "red pepper",
     "word": "red pepper",
@@ -111590,7 +111764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2959-redwood",
+    "id": "index-2964-redwood",
     "type": "word",
     "text": "redwood",
     "word": "redwood",
@@ -111626,7 +111800,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2960-reel",
+    "id": "index-2965-reel",
     "type": "word",
     "text": "reel",
     "word": "reel",
@@ -111662,7 +111836,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2961-reference-desk",
+    "id": "index-2966-reference-desk",
     "type": "word",
     "text": "reference desk",
     "word": "reference desk",
@@ -111696,7 +111870,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2962-reference-librarian",
+    "id": "index-2967-reference-librarian",
     "type": "word",
     "text": "reference librarian",
     "word": "reference librarian",
@@ -111730,7 +111904,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2963-reference-section",
+    "id": "index-2968-reference-section",
     "type": "word",
     "text": "reference section",
     "word": "reference section",
@@ -111764,7 +111938,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2964-refreshment-stand",
+    "id": "index-2969-refreshment-stand",
     "type": "word",
     "text": "refreshment stand",
     "word": "refreshment stand",
@@ -111798,7 +111972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2965-refrigerator",
+    "id": "index-2970-refrigerator",
     "type": "word",
     "text": "refrigerator",
     "word": "refrigerator",
@@ -111847,7 +112021,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2966-reggae",
+    "id": "index-2971-reggae",
     "type": "word",
     "text": "reggae",
     "word": "reggae",
@@ -111881,7 +112055,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2967-registrat-on-form",
+    "id": "index-2972-registrat-on-form",
     "type": "word",
     "text": "registratíon form",
     "word": "registratíon form",
@@ -111915,7 +112089,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2968-regular-price",
+    "id": "index-2973-regular-price",
     "type": "word",
     "text": "regular price",
     "word": "regular price",
@@ -111949,7 +112123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2969-reins",
+    "id": "index-2974-reins",
     "type": "word",
     "text": "reins",
     "word": "reins",
@@ -111983,7 +112157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2970-relax",
+    "id": "index-2975-relax",
     "type": "word",
     "text": "relax",
     "word": "relax",
@@ -112017,7 +112191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2971-reliever",
+    "id": "index-2976-reliever",
     "type": "word",
     "text": "reliever",
     "word": "reliever",
@@ -112068,7 +112242,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2972-relish",
+    "id": "index-2977-relish",
     "type": "word",
     "text": "relish",
     "word": "relish",
@@ -112117,7 +112291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2973-remote",
+    "id": "index-2978-remote",
     "type": "word",
     "text": "remote",
     "word": "remote",
@@ -112151,7 +112325,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2974-remove-your-card",
+    "id": "index-2979-remove-your-card",
     "type": "word",
     "text": "remove your card",
     "word": "remove your card",
@@ -112187,7 +112361,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2975-rent",
+    "id": "index-2980-rent",
     "type": "word",
     "text": "rent",
     "word": "rent",
@@ -112221,7 +112395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2976-rent-a-car",
+    "id": "index-2981-rent-a-car",
     "type": "word",
     "text": "rent a car",
     "word": "rent a car",
@@ -112255,7 +112429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2977-repairperson",
+    "id": "index-2982-repairperson",
     "type": "word",
     "text": "repairperson",
     "word": "repairperson",
@@ -112306,7 +112480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2978-repeat-your-name",
+    "id": "index-2983-repeat-your-name",
     "type": "word",
     "text": "repeat your name",
     "word": "repeat your name",
@@ -112343,7 +112517,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2979-report",
+    "id": "index-2984-report",
     "type": "word",
     "text": "report",
     "word": "report",
@@ -112377,7 +112551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2980-reporter",
+    "id": "index-2985-reporter",
     "type": "word",
     "text": "reporter",
     "word": "reporter",
@@ -112411,7 +112585,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2981-representative",
+    "id": "index-2986-representative",
     "type": "word",
     "text": "representative",
     "word": "representative",
@@ -112445,7 +112619,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2982-reptiles",
+    "id": "index-2987-reptiles",
     "type": "word",
     "text": "reptiles",
     "word": "reptiles",
@@ -112479,7 +112653,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2983-request-an-interview",
+    "id": "index-2988-request-an-interview",
     "type": "word",
     "text": "request an interview",
     "word": "request an interview",
@@ -112517,7 +112691,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2984-request-information",
+    "id": "index-2989-request-information",
     "type": "word",
     "text": "request information",
     "word": "request information",
@@ -112553,7 +112727,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2985-required",
+    "id": "index-2990-required",
     "type": "word",
     "text": "required",
     "word": "required",
@@ -112587,7 +112761,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2986-rescue-breathing",
+    "id": "index-2991-rescue-breathing",
     "type": "word",
     "text": "rescue breathing",
     "word": "rescue breathing",
@@ -112624,7 +112798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2987-reservation",
+    "id": "index-2992-reservation",
     "type": "word",
     "text": "reservation",
     "word": "reservation",
@@ -112658,7 +112832,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2988-respirator",
+    "id": "index-2993-respirator",
     "type": "word",
     "text": "respirator",
     "word": "respirator",
@@ -112692,7 +112866,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2989-respond-to-an-ad",
+    "id": "index-2994-respond-to-an-ad",
     "type": "word",
     "text": "respond to an ad",
     "word": "respond to an ad",
@@ -112726,7 +112900,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2990-rest-in-bed",
+    "id": "index-2995-rest-in-bed",
     "type": "word",
     "text": "rest in bed",
     "word": "rest in bed",
@@ -112760,7 +112934,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2991-restaurant",
+    "id": "index-2996-restaurant",
     "type": "word",
     "text": "restaurant",
     "word": "restaurant",
@@ -112811,7 +112985,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2992-restaurant-reservation-router",
+    "id": "index-2997-restaurant-reservation-router",
     "type": "word",
     "text": "restaurant reservation router",
     "word": "restaurant reservation router",
@@ -112848,7 +113022,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2993-restrooms",
+    "id": "index-2998-restrooms",
     "type": "word",
     "text": "restrooms",
     "word": "restrooms",
@@ -112884,7 +113058,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2994-resume",
+    "id": "index-2999-resume",
     "type": "word",
     "text": "resume",
     "word": "resume",
@@ -112918,7 +113092,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2995-resuscitation",
+    "id": "index-3000-resuscitation",
     "type": "word",
     "text": "resuscitation",
     "word": "resuscitation",
@@ -112952,7 +113126,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2996-return",
+    "id": "index-3001-return",
     "type": "word",
     "text": "return",
     "word": "return",
@@ -112986,7 +113160,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2997-return-address",
+    "id": "index-3002-return-address",
     "type": "word",
     "text": "return address",
     "word": "return address",
@@ -113020,7 +113194,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2998-revise",
+    "id": "index-3003-revise",
     "type": "word",
     "text": "revise",
     "word": "revise",
@@ -113054,7 +113228,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2999-rewrite",
+    "id": "index-3004-rewrite",
     "type": "word",
     "text": "rewrite",
     "word": "rewrite",
@@ -113090,7 +113264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3000-rhinoceros",
+    "id": "index-3005-rhinoceros",
     "type": "word",
     "text": "rhinoceros",
     "word": "rhinoceros",
@@ -113124,7 +113298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3001-ribcage",
+    "id": "index-3006-ribcage",
     "type": "word",
     "text": "ribcage",
     "word": "ribcage",
@@ -113158,7 +113332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3002-ribs",
+    "id": "index-3007-ribs",
     "type": "word",
     "text": "ribs",
     "word": "ribs",
@@ -113192,7 +113366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3003-rice",
+    "id": "index-3008-rice",
     "type": "word",
     "text": "rice",
     "word": "rice",
@@ -113255,7 +113429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3004-rich",
+    "id": "index-3009-rich",
     "type": "word",
     "text": "rich",
     "word": "rich",
@@ -113289,7 +113463,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3005-rider",
+    "id": "index-3010-rider",
     "type": "word",
     "text": "rider",
     "word": "rider",
@@ -113323,7 +113497,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3006-right-angle",
+    "id": "index-3011-right-angle",
     "type": "word",
     "text": "right angle",
     "word": "right angle",
@@ -113357,7 +113531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3007-right-lane",
+    "id": "index-3012-right-lane",
     "type": "word",
     "text": "right lane",
     "word": "right lane",
@@ -113391,7 +113565,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3008-right-now",
+    "id": "index-3013-right-now",
     "type": "word",
     "text": "right now.",
     "word": "right now.",
@@ -113427,7 +113601,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3009-right-triangle",
+    "id": "index-3014-right-triangle",
     "type": "word",
     "text": "right triangle",
     "word": "right triangle",
@@ -113461,7 +113635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3010-right-turn-only",
+    "id": "index-3015-right-turn-only",
     "type": "word",
     "text": "right turn only",
     "word": "right turn only",
@@ -113495,7 +113669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3011-rinse",
+    "id": "index-3016-rinse",
     "type": "word",
     "text": "rinse",
     "word": "rinse",
@@ -113529,7 +113703,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3012-ripped",
+    "id": "index-3017-ripped",
     "type": "word",
     "text": "ripped",
     "word": "ripped",
@@ -113563,7 +113737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3013-river",
+    "id": "index-3018-river",
     "type": "word",
     "text": "river",
     "word": "river",
@@ -113597,7 +113771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3014-rnarried",
+    "id": "index-3019-rnarried",
     "type": "word",
     "text": "rnarried",
     "word": "rnarried",
@@ -113633,7 +113807,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3015-rnushroom",
+    "id": "index-3020-rnushroom",
     "type": "word",
     "text": "rnushroom",
     "word": "rnushroom",
@@ -113669,7 +113843,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3016-rnusic-club",
+    "id": "index-3021-rnusic-club",
     "type": "word",
     "text": "rnusic club",
     "word": "rnusic club",
@@ -113703,7 +113877,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3017-roach-killer",
+    "id": "index-3022-roach-killer",
     "type": "word",
     "text": "roach killer",
     "word": "roach killer",
@@ -113739,7 +113913,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3018-road",
+    "id": "index-3023-road",
     "type": "word",
     "text": "road",
     "word": "road",
@@ -113790,7 +113964,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3019-road-test-instructions",
+    "id": "index-3024-road-test-instructions",
     "type": "word",
     "text": "road test instructions",
     "word": "road test instructions",
@@ -113826,7 +114000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3020-roast",
+    "id": "index-3025-roast",
     "type": "word",
     "text": "roast",
     "word": "roast",
@@ -113862,7 +114036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3021-roast-beef-sandwich",
+    "id": "index-3026-roast-beef-sandwich",
     "type": "word",
     "text": "roast beef sandwich",
     "word": "roast beef sandwich",
@@ -113899,7 +114073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3022-roastbeef",
+    "id": "index-3027-roastbeef",
     "type": "word",
     "text": "roastbeef",
     "word": "roastbeef",
@@ -113965,7 +114139,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3023-roasting-pan",
+    "id": "index-3028-roasting-pan",
     "type": "word",
     "text": "roasting pan",
     "word": "roasting pan",
@@ -114001,7 +114175,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3024-roasting-rack",
+    "id": "index-3029-roasting-rack",
     "type": "word",
     "text": "roasting rack",
     "word": "roasting rack",
@@ -114037,7 +114211,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3025-robbery",
+    "id": "index-3030-robbery",
     "type": "word",
     "text": "robbery",
     "word": "robbery",
@@ -114071,7 +114245,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3026-robe",
+    "id": "index-3031-robe",
     "type": "word",
     "text": "robe",
     "word": "robe",
@@ -114105,7 +114279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3027-rob-n",
+    "id": "index-3032-rob-n",
     "type": "word",
     "text": "robín",
     "word": "robín",
@@ -114139,7 +114313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3028-rock",
+    "id": "index-3033-rock",
     "type": "word",
     "text": "rock",
     "word": "rock",
@@ -114188,7 +114362,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3029-rock-climbing",
+    "id": "index-3034-rock-climbing",
     "type": "word",
     "text": "rock climbing",
     "word": "rock climbing",
@@ -114222,7 +114396,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3030-rock-music",
+    "id": "index-3035-rock-music",
     "type": "word",
     "text": "rock music",
     "word": "rock music",
@@ -114256,7 +114430,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3031-rocking-chair",
+    "id": "index-3036-rocking-chair",
     "type": "word",
     "text": "rocking chair",
     "word": "rocking chair",
@@ -114292,7 +114466,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3032-rod",
+    "id": "index-3037-rod",
     "type": "word",
     "text": "rod",
     "word": "rod",
@@ -114326,7 +114500,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3033-roll",
+    "id": "index-3038-roll",
     "type": "word",
     "text": "roll",
     "word": "roll",
@@ -114375,7 +114549,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3034-roll-of-stamps",
+    "id": "index-3039-roll-of-stamps",
     "type": "word",
     "text": "roll of stamps",
     "word": "roll of stamps",
@@ -114409,7 +114583,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3035-rollerblades",
+    "id": "index-3040-rollerblades",
     "type": "word",
     "text": "rollerblades",
     "word": "rollerblades",
@@ -114443,7 +114617,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3036-rollerblading",
+    "id": "index-3041-rollerblading",
     "type": "word",
     "text": "rollerblading",
     "word": "rollerblading",
@@ -114477,7 +114651,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3037-rolling-pin",
+    "id": "index-3042-rolling-pin",
     "type": "word",
     "text": "rolling pin",
     "word": "rolling pin",
@@ -114511,7 +114685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3038-rolls",
+    "id": "index-3043-rolls",
     "type": "word",
     "text": "rolls",
     "word": "rolls",
@@ -114545,7 +114719,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3039-roof",
+    "id": "index-3044-roof",
     "type": "word",
     "text": "roof",
     "word": "roof",
@@ -114610,7 +114784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3040-roof-rack",
+    "id": "index-3045-roof-rack",
     "type": "word",
     "text": "roof rack",
     "word": "roof rack",
@@ -114646,7 +114820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3041-roofer",
+    "id": "index-3046-roofer",
     "type": "word",
     "text": "roofer",
     "word": "roofer",
@@ -114682,7 +114856,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3042-room",
+    "id": "index-3047-room",
     "type": "word",
     "text": "room",
     "word": "room",
@@ -114774,7 +114948,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3043-room-key",
+    "id": "index-3048-room-key",
     "type": "word",
     "text": "room key",
     "word": "room key",
@@ -114810,7 +114984,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3044-room-service",
+    "id": "index-3049-room-service",
     "type": "word",
     "text": "room service",
     "word": "room service",
@@ -114861,7 +115035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3045-room-with-a-view",
+    "id": "index-3050-room-with-a-view",
     "type": "word",
     "text": "room with a view",
     "word": "room with a view",
@@ -114899,7 +115073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3046-room-with-double-pudding",
+    "id": "index-3051-room-with-double-pudding",
     "type": "word",
     "text": "room with double pudding",
     "word": "room with double pudding",
@@ -114936,7 +115110,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3047-rooster",
+    "id": "index-3052-rooster",
     "type": "word",
     "text": "rooster",
     "word": "rooster",
@@ -114972,7 +115146,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3048-root",
+    "id": "index-3053-root",
     "type": "word",
     "text": "root",
     "word": "root",
@@ -115008,7 +115182,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3049-rope",
+    "id": "index-3054-rope",
     "type": "word",
     "text": "rope",
     "word": "rope",
@@ -115042,7 +115216,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3050-rose",
+    "id": "index-3055-rose",
     "type": "word",
     "text": "rose",
     "word": "rose",
@@ -115076,7 +115250,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3051-rotary-card-file",
+    "id": "index-3056-rotary-card-file",
     "type": "word",
     "text": "rotary card file",
     "word": "rotary card file",
@@ -115110,7 +115284,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3052-rouge",
+    "id": "index-3057-rouge",
     "type": "word",
     "text": "rouge",
     "word": "rouge",
@@ -115146,7 +115320,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3053-rough",
+    "id": "index-3058-rough",
     "type": "word",
     "text": "rough",
     "word": "rough",
@@ -115182,7 +115356,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3054-route-sign",
+    "id": "index-3059-route-sign",
     "type": "word",
     "text": "route sign",
     "word": "route sign",
@@ -115218,7 +115392,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3055-rowboat",
+    "id": "index-3060-rowboat",
     "type": "word",
     "text": "rowboat",
     "word": "rowboat",
@@ -115255,7 +115429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3056-rowing",
+    "id": "index-3061-rowing",
     "type": "word",
     "text": "rowing",
     "word": "rowing",
@@ -115291,7 +115465,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3057-rowing-machine",
+    "id": "index-3062-rowing-machine",
     "type": "word",
     "text": "rowing machine",
     "word": "rowing machine",
@@ -115327,7 +115501,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3058-rubber-ball",
+    "id": "index-3063-rubber-ball",
     "type": "word",
     "text": "rubber ball",
     "word": "rubber ball",
@@ -115361,7 +115535,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3059-rubber-band",
+    "id": "index-3064-rubber-band",
     "type": "word",
     "text": "rubber band",
     "word": "rubber band",
@@ -115395,7 +115569,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3060-rubber-cement",
+    "id": "index-3065-rubber-cement",
     "type": "word",
     "text": "rubber cement",
     "word": "rubber cement",
@@ -115444,7 +115618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3061-rubber-mat",
+    "id": "index-3066-rubber-mat",
     "type": "word",
     "text": "rubber mat",
     "word": "rubber mat",
@@ -115478,7 +115652,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3062-rubber-stamp",
+    "id": "index-3067-rubber-stamp",
     "type": "word",
     "text": "rubber stamp",
     "word": "rubber stamp",
@@ -115512,7 +115686,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3063-rug",
+    "id": "index-3068-rug",
     "type": "word",
     "text": "rug",
     "word": "rug",
@@ -115546,7 +115720,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3064-ruler",
+    "id": "index-3069-ruler",
     "type": "word",
     "text": "ruler",
     "word": "ruler",
@@ -115580,7 +115754,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3065-run",
+    "id": "index-3070-run",
     "type": "word",
     "text": "run",
     "word": "run",
@@ -115614,7 +115788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3066-running",
+    "id": "index-3071-running",
     "type": "word",
     "text": "running",
     "word": "running",
@@ -115648,7 +115822,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3067-running-shoes",
+    "id": "index-3072-running-shoes",
     "type": "word",
     "text": "running shoes",
     "word": "running shoes",
@@ -115699,7 +115873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3068-running-shorts",
+    "id": "index-3073-running-shorts",
     "type": "word",
     "text": "running shorts",
     "word": "running shorts",
@@ -115748,7 +115922,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3069-running-suit",
+    "id": "index-3074-running-suit",
     "type": "word",
     "text": "running suit",
     "word": "running suit",
@@ -115782,7 +115956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3070-runway",
+    "id": "index-3075-runway",
     "type": "word",
     "text": "runway",
     "word": "runway",
@@ -115818,7 +115992,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3071-rye-bread",
+    "id": "index-3076-rye-bread",
     "type": "word",
     "text": "rye bread",
     "word": "rye bread",
@@ -115854,7 +116028,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3072-s-tentade",
+    "id": "index-3077-s-tentade",
     "type": "word",
     "text": "S tentade",
     "word": "S tentade",
@@ -115888,7 +116062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3073-s-u-v",
+    "id": "index-3078-s-u-v",
     "type": "word",
     "text": "S.U.V.",
     "word": "S.U.V.",
@@ -115922,7 +116096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3074-sad",
+    "id": "index-3079-sad",
     "type": "word",
     "text": "sad",
     "word": "sad",
@@ -115956,7 +116130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3075-saddle",
+    "id": "index-3080-saddle",
     "type": "word",
     "text": "saddle",
     "word": "saddle",
@@ -116019,7 +116193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3076-safari",
+    "id": "index-3081-safari",
     "type": "word",
     "text": "safari",
     "word": "safari",
@@ -116053,7 +116227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3077-safe-deposit-box",
+    "id": "index-3082-safe-deposit-box",
     "type": "word",
     "text": "safe deposit box",
     "word": "safe deposit box",
@@ -116087,7 +116261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3078-safety-boots",
+    "id": "index-3083-safety-boots",
     "type": "word",
     "text": "safety boots",
     "word": "safety boots",
@@ -116123,7 +116297,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3079-safety-earmuffs",
+    "id": "index-3084-safety-earmuffs",
     "type": "word",
     "text": "safety earmuffs",
     "word": "safety earmuffs",
@@ -116159,7 +116333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3080-safety-glasses",
+    "id": "index-3085-safety-glasses",
     "type": "word",
     "text": "safety glasses",
     "word": "safety glasses",
@@ -116193,7 +116367,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3081-safety-goggles",
+    "id": "index-3086-safety-goggles",
     "type": "word",
     "text": "safety goggles",
     "word": "safety goggles",
@@ -116227,7 +116401,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3082-safety-pin",
+    "id": "index-3087-safety-pin",
     "type": "word",
     "text": "safety pin",
     "word": "safety pin",
@@ -116261,7 +116435,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3083-safety-seat",
+    "id": "index-3088-safety-seat",
     "type": "word",
     "text": "safety seat",
     "word": "safety seat",
@@ -116297,7 +116471,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3084-safety-vest",
+    "id": "index-3089-safety-vest",
     "type": "word",
     "text": "safety vest",
     "word": "safety vest",
@@ -116331,7 +116505,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3085-sail",
+    "id": "index-3090-sail",
     "type": "word",
     "text": "sail",
     "word": "sail",
@@ -116367,7 +116541,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3086-sailboat",
+    "id": "index-3091-sailboat",
     "type": "word",
     "text": "sailboat",
     "word": "sailboat",
@@ -116404,7 +116578,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3087-sailing",
+    "id": "index-3092-sailing",
     "type": "word",
     "text": "sailing",
     "word": "sailing",
@@ -116440,7 +116614,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3088-salad",
+    "id": "index-3093-salad",
     "type": "word",
     "text": "salad",
     "word": "salad",
@@ -116488,7 +116662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3089-salad-bar",
+    "id": "index-3094-salad-bar",
     "type": "word",
     "text": "salad bar",
     "word": "salad bar",
@@ -116522,7 +116696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3090-salad-bowl",
+    "id": "index-3095-salad-bowl",
     "type": "word",
     "text": "salad bowl",
     "word": "salad bowl",
@@ -116558,7 +116732,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3091-salad-dressing",
+    "id": "index-3096-salad-dressing",
     "type": "word",
     "text": "salad dressing",
     "word": "salad dressing",
@@ -116607,7 +116781,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3092-salad-fork",
+    "id": "index-3097-salad-fork",
     "type": "word",
     "text": "salad fork",
     "word": "salad fork",
@@ -116641,7 +116815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3093-salad-plate",
+    "id": "index-3098-salad-plate",
     "type": "word",
     "text": "salad plate",
     "word": "salad plate",
@@ -116675,7 +116849,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3094-salamander",
+    "id": "index-3099-salamander",
     "type": "word",
     "text": "salamander",
     "word": "salamander",
@@ -116709,7 +116883,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3095-salami",
+    "id": "index-3100-salami",
     "type": "word",
     "text": "salami",
     "word": "salami",
@@ -116743,7 +116917,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3096-salary",
+    "id": "index-3101-salary",
     "type": "word",
     "text": "salary",
     "word": "salary",
@@ -116777,7 +116951,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3097-sale-price",
+    "id": "index-3102-sale-price",
     "type": "word",
     "text": "sale price",
     "word": "sale price",
@@ -116811,7 +116985,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3098-sale-sign",
+    "id": "index-3103-sale-sign",
     "type": "word",
     "text": "sale sign",
     "word": "sale sign",
@@ -116845,7 +117019,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3099-sales-tax",
+    "id": "index-3104-sales-tax",
     "type": "word",
     "text": "sales tax",
     "word": "sales tax",
@@ -116879,7 +117053,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3100-salesperson",
+    "id": "index-3105-salesperson",
     "type": "word",
     "text": "salesperson",
     "word": "salesperson",
@@ -116913,7 +117087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3101-salmon",
+    "id": "index-3106-salmon",
     "type": "word",
     "text": "salmon",
     "word": "salmon",
@@ -116947,7 +117121,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3102-salsa",
+    "id": "index-3107-salsa",
     "type": "word",
     "text": "salsa",
     "word": "salsa",
@@ -116981,7 +117155,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3103-salt",
+    "id": "index-3108-salt",
     "type": "word",
     "text": "salt",
     "word": "salt",
@@ -117015,7 +117189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3104-salt-shaker",
+    "id": "index-3109-salt-shaker",
     "type": "word",
     "text": "salt shaker",
     "word": "salt shaker",
@@ -117049,7 +117223,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3105-sand-castle",
+    "id": "index-3110-sand-castle",
     "type": "word",
     "text": "sand castle",
     "word": "sand castle",
@@ -117098,7 +117272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3106-sand-dune",
+    "id": "index-3111-sand-dune",
     "type": "word",
     "text": "sand dune",
     "word": "sand dune",
@@ -117132,7 +117306,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3107-sandals",
+    "id": "index-3112-sandals",
     "type": "word",
     "text": "sandals",
     "word": "sandals",
@@ -117166,7 +117340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3108-sandbox",
+    "id": "index-3113-sandbox",
     "type": "word",
     "text": "sandbox",
     "word": "sandbox",
@@ -117200,7 +117374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3109-sandpaper",
+    "id": "index-3114-sandpaper",
     "type": "word",
     "text": "sandpaper",
     "word": "sandpaper",
@@ -117234,7 +117408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3110-sandwich",
+    "id": "index-3115-sandwich",
     "type": "word",
     "text": "sandwich",
     "word": "sandwich",
@@ -117296,7 +117470,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3111-sandwich-bags",
+    "id": "index-3116-sandwich-bags",
     "type": "word",
     "text": "sandwich bags",
     "word": "sandwich bags",
@@ -117330,7 +117504,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3112-sanitation-worker",
+    "id": "index-3117-sanitation-worker",
     "type": "word",
     "text": "sanitation worker",
     "word": "sanitation worker",
@@ -117378,7 +117552,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3113-satellite",
+    "id": "index-3118-satellite",
     "type": "word",
     "text": "satellite",
     "word": "satellite",
@@ -117412,7 +117586,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3114-satellite-dish",
+    "id": "index-3119-satellite-dish",
     "type": "word",
     "text": "satellite dish",
     "word": "satellite dish",
@@ -117446,7 +117620,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3115-saturday",
+    "id": "index-3120-saturday",
     "type": "word",
     "text": "Saturday",
     "word": "Saturday",
@@ -117482,7 +117656,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3116-saturn",
+    "id": "index-3121-saturn",
     "type": "word",
     "text": "Saturn",
     "word": "Saturn",
@@ -117516,7 +117690,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3117-sauce-pan",
+    "id": "index-3122-sauce-pan",
     "type": "word",
     "text": "sauce pan",
     "word": "sauce pan",
@@ -117552,7 +117726,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3118-saucer",
+    "id": "index-3123-saucer",
     "type": "word",
     "text": "saucer",
     "word": "saucer",
@@ -117671,7 +117845,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3119-sausages",
+    "id": "index-3124-sausages",
     "type": "word",
     "text": "sausages",
     "word": "sausages",
@@ -117722,7 +117896,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3120-saute",
+    "id": "index-3125-saute",
     "type": "word",
     "text": "saute",
     "word": "saute",
@@ -117758,7 +117932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3121-save-energy",
+    "id": "index-3126-save-energy",
     "type": "word",
     "text": "save energy",
     "word": "save energy",
@@ -117792,7 +117966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3122-save-water",
+    "id": "index-3127-save-water",
     "type": "word",
     "text": "save water",
     "word": "save water",
@@ -117826,7 +118000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3123-saw",
+    "id": "index-3128-saw",
     "type": "word",
     "text": "saw",
     "word": "saw",
@@ -117862,7 +118036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3124-saxophone",
+    "id": "index-3129-saxophone",
     "type": "word",
     "text": "saxophone",
     "word": "saxophone",
@@ -117896,7 +118070,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3125-say",
+    "id": "index-3130-say",
     "type": "word",
     "text": "say?",
     "word": "say?",
@@ -117932,7 +118106,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3126-scaffolding",
+    "id": "index-3131-scaffolding",
     "type": "word",
     "text": "scaffolding",
     "word": "scaffolding",
@@ -117966,7 +118140,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3127-scale",
+    "id": "index-3132-scale",
     "type": "word",
     "text": "scale",
     "word": "scale",
@@ -118056,7 +118230,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3128-scales",
+    "id": "index-3133-scales",
     "type": "word",
     "text": "scales",
     "word": "scales",
@@ -118090,7 +118264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3129-scallion",
+    "id": "index-3134-scallion",
     "type": "word",
     "text": "scallion",
     "word": "scallion",
@@ -118124,7 +118298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3130-scallops",
+    "id": "index-3135-scallops",
     "type": "word",
     "text": "scallops",
     "word": "scallops",
@@ -118158,7 +118332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3131-scanner",
+    "id": "index-3136-scanner",
     "type": "word",
     "text": "scanner",
     "word": "scanner",
@@ -118207,7 +118381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3132-scarecrow",
+    "id": "index-3137-scarecrow",
     "type": "word",
     "text": "scarecrow",
     "word": "scarecrow",
@@ -118243,7 +118417,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3133-scared",
+    "id": "index-3138-scared",
     "type": "word",
     "text": "scared",
     "word": "scared",
@@ -118277,7 +118451,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3134-scarf",
+    "id": "index-3139-scarf",
     "type": "word",
     "text": "scarf",
     "word": "scarf",
@@ -118311,7 +118485,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3135-schedule",
+    "id": "index-3140-schedule",
     "type": "word",
     "text": "schedule",
     "word": "schedule",
@@ -118345,7 +118519,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3136-school",
+    "id": "index-3141-school",
     "type": "word",
     "text": "school",
     "word": "school",
@@ -118381,7 +118555,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3137-school-cross-ng",
+    "id": "index-3142-school-cross-ng",
     "type": "word",
     "text": "school crossíng",
     "word": "school crossíng",
@@ -118417,7 +118591,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3138-school-librarian",
+    "id": "index-3143-school-librarian",
     "type": "word",
     "text": "school librarian",
     "word": "school librarian",
@@ -118453,7 +118627,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3139-school-newspaper",
+    "id": "index-3144-school-newspaper",
     "type": "word",
     "text": "school newspaper",
     "word": "school newspaper",
@@ -118490,7 +118664,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3140-school-nurse",
+    "id": "index-3145-school-nurse",
     "type": "word",
     "text": "school nurse",
     "word": "school nurse",
@@ -118526,7 +118700,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3141-school-secretary",
+    "id": "index-3146-school-secretary",
     "type": "word",
     "text": "school secretary",
     "word": "school secretary",
@@ -118562,7 +118736,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3142-science",
+    "id": "index-3147-science",
     "type": "word",
     "text": "science",
     "word": "science",
@@ -118598,7 +118772,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3143-science-equipment",
+    "id": "index-3148-science-equipment",
     "type": "word",
     "text": "science equipment",
     "word": "science equipment",
@@ -118634,7 +118808,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3144-science-fiction-movie-sand",
+    "id": "index-3149-science-fiction-movie-sand",
     "type": "word",
     "text": "science fiction movie sand",
     "word": "science fiction movie sand",
@@ -118670,7 +118844,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3145-science-kit",
+    "id": "index-3150-science-kit",
     "type": "word",
     "text": "science kit",
     "word": "science kit",
@@ -118706,7 +118880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3146-science-lab",
+    "id": "index-3151-science-lab",
     "type": "word",
     "text": "science lab",
     "word": "science lab",
@@ -118742,7 +118916,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3147-scientific-method",
+    "id": "index-3152-scientific-method",
     "type": "word",
     "text": "scientific method",
     "word": "scientific method",
@@ -118778,7 +118952,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3148-scissors",
+    "id": "index-3153-scissors",
     "type": "word",
     "text": "scissors",
     "word": "scissors",
@@ -118812,7 +118986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3149-scorpion",
+    "id": "index-3154-scorpion",
     "type": "word",
     "text": "scorpion",
     "word": "scorpion",
@@ -118861,7 +119035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3150-scrabble",
+    "id": "index-3155-scrabble",
     "type": "word",
     "text": "Scrabble",
     "word": "Scrabble",
@@ -118895,7 +119069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3151-scrape",
+    "id": "index-3156-scrape",
     "type": "word",
     "text": "scrape",
     "word": "scrape",
@@ -118929,7 +119103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3152-scraper",
+    "id": "index-3157-scraper",
     "type": "word",
     "text": "scraper",
     "word": "scraper",
@@ -118963,7 +119137,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3153-scratch",
+    "id": "index-3158-scratch",
     "type": "word",
     "text": "scratch",
     "word": "scratch",
@@ -118997,7 +119171,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3154-screen-door",
+    "id": "index-3159-screen-door",
     "type": "word",
     "text": "screen door",
     "word": "screen door",
@@ -119034,7 +119208,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3155-screwdriver",
+    "id": "index-3160-screwdriver",
     "type": "word",
     "text": "screwdriver",
     "word": "screwdriver",
@@ -119070,7 +119244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3156-scrub-brush",
+    "id": "index-3161-scrub-brush",
     "type": "word",
     "text": "scrub brush",
     "word": "scrub brush",
@@ -119104,7 +119278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3157-scuba-diving",
+    "id": "index-3162-scuba-diving",
     "type": "word",
     "text": "scuba diving",
     "word": "scuba diving",
@@ -119138,7 +119312,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3158-sea-anemone",
+    "id": "index-3163-sea-anemone",
     "type": "word",
     "text": "sea anemone",
     "word": "sea anemone",
@@ -119174,7 +119348,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3159-sea-animals",
+    "id": "index-3164-sea-animals",
     "type": "word",
     "text": "sea animals",
     "word": "sea animals",
@@ -119210,7 +119384,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3160-sea-horse",
+    "id": "index-3165-sea-horse",
     "type": "word",
     "text": "sea horse",
     "word": "sea horse",
@@ -119246,7 +119420,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3161-sea-lion",
+    "id": "index-3166-sea-lion",
     "type": "word",
     "text": "sea lion",
     "word": "sea lion",
@@ -119282,7 +119456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3162-sea-urchin",
+    "id": "index-3167-sea-urchin",
     "type": "word",
     "text": "sea urchin",
     "word": "sea urchin",
@@ -119318,7 +119492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3163-seafood",
+    "id": "index-3168-seafood",
     "type": "word",
     "text": "seafood",
     "word": "seafood",
@@ -119355,7 +119529,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3164-seafood-salad",
+    "id": "index-3169-seafood-salad",
     "type": "word",
     "text": "seafood salad",
     "word": "seafood salad",
@@ -119392,7 +119566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3165-seagull",
+    "id": "index-3170-seagull",
     "type": "word",
     "text": "seagull",
     "word": "seagull",
@@ -119428,7 +119602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3166-seal",
+    "id": "index-3171-seal",
     "type": "word",
     "text": "seal",
     "word": "seal",
@@ -119464,7 +119638,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3167-sealing-tape",
+    "id": "index-3172-sealing-tape",
     "type": "word",
     "text": "sealing tape",
     "word": "sealing tape",
@@ -119500,7 +119674,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3168-seam",
+    "id": "index-3173-seam",
     "type": "word",
     "text": "seam",
     "word": "seam",
@@ -119536,7 +119710,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3169-seashell",
+    "id": "index-3174-seashell",
     "type": "word",
     "text": "seashell",
     "word": "seashell",
@@ -119572,7 +119746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3170-seasons",
+    "id": "index-3175-seasons",
     "type": "word",
     "text": "seasons",
     "word": "seasons",
@@ -119608,7 +119782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3171-seat",
+    "id": "index-3176-seat",
     "type": "word",
     "text": "seat",
     "word": "seat",
@@ -119700,7 +119874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3172-seat-belt",
+    "id": "index-3177-seat-belt",
     "type": "word",
     "text": "seat belt",
     "word": "seat belt",
@@ -119751,7 +119925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3173-second-floor",
+    "id": "index-3178-second-floor",
     "type": "word",
     "text": "second floor",
     "word": "second floor",
@@ -119802,7 +119976,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3174-secretary",
+    "id": "index-3179-secretary",
     "type": "word",
     "text": "secretary",
     "word": "secretary",
@@ -119878,7 +120052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3175-sect-on",
+    "id": "index-3180-sect-on",
     "type": "word",
     "text": "sectíon",
     "word": "sectíon",
@@ -119912,7 +120086,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3176-security",
+    "id": "index-3181-security",
     "type": "word",
     "text": "security",
     "word": "security",
@@ -119946,7 +120120,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3177-security-checkpoint",
+    "id": "index-3182-security-checkpoint",
     "type": "word",
     "text": "security checkpoint",
     "word": "security checkpoint",
@@ -119982,7 +120156,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3178-security-deposit",
+    "id": "index-3183-security-deposit",
     "type": "word",
     "text": "security deposit",
     "word": "security deposit",
@@ -120016,7 +120190,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3179-security-gate",
+    "id": "index-3184-security-gate",
     "type": "word",
     "text": "security gate",
     "word": "security gate",
@@ -120050,7 +120224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3180-security-guard",
+    "id": "index-3185-security-guard",
     "type": "word",
     "text": "security guard",
     "word": "security guard",
@@ -120098,7 +120272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3181-security-officer",
+    "id": "index-3186-security-officer",
     "type": "word",
     "text": "security officer",
     "word": "security officer",
@@ -120147,7 +120321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3182-sedan",
+    "id": "index-3187-sedan",
     "type": "word",
     "text": "sedan",
     "word": "sedan",
@@ -120181,7 +120355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3183-see-a-specialist",
+    "id": "index-3188-see-a-specialist",
     "type": "word",
     "text": "see a specialist",
     "word": "see a specialist",
@@ -120217,7 +120391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3184-see-you-later",
+    "id": "index-3189-see-you-later",
     "type": "word",
     "text": "See you later.",
     "word": "See you later.",
@@ -120254,7 +120428,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3185-see-you-soon",
+    "id": "index-3190-see-you-soon",
     "type": "word",
     "text": "See you soon.",
     "word": "See you soon.",
@@ -120292,7 +120466,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3186-seesaw",
+    "id": "index-3191-seesaw",
     "type": "word",
     "text": "seesaw",
     "word": "seesaw",
@@ -120329,7 +120503,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3187-select-a-transaction",
+    "id": "index-3192-select-a-transaction",
     "type": "word",
     "text": "select a transaction",
     "word": "select a transaction",
@@ -120363,7 +120537,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3188-selective-service-shopping-program",
+    "id": "index-3193-selective-service-shopping-program",
     "type": "word",
     "text": "selective service shopping program",
     "word": "selective service shopping program",
@@ -120397,7 +120571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3189-sell",
+    "id": "index-3194-sell",
     "type": "word",
     "text": "sell",
     "word": "sell",
@@ -120431,7 +120605,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3190-semi",
+    "id": "index-3195-semi",
     "type": "word",
     "text": "semi",
     "word": "semi",
@@ -120480,7 +120654,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3191-semi-colon",
+    "id": "index-3196-semi-colon",
     "type": "word",
     "text": "semi-colon",
     "word": "semi-colon",
@@ -120514,7 +120688,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3192-send-someone",
+    "id": "index-3197-send-someone",
     "type": "word",
     "text": "send someone",
     "word": "send someone",
@@ -120548,7 +120722,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3193-senior-care-worker",
+    "id": "index-3198-senior-care-worker",
     "type": "word",
     "text": "senior care worker",
     "word": "senior care worker",
@@ -120582,7 +120756,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3194-senior-center",
+    "id": "index-3199-senior-center",
     "type": "word",
     "text": "senior center",
     "word": "senior center",
@@ -120616,7 +120790,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3195-senior-citizen",
+    "id": "index-3200-senior-citizen",
     "type": "word",
     "text": "senior citizen",
     "word": "senior citizen",
@@ -120650,7 +120824,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3196-sentence",
+    "id": "index-3201-sentence",
     "type": "word",
     "text": "sentence",
     "word": "sentence",
@@ -120684,7 +120858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3197-september",
+    "id": "index-3202-september",
     "type": "word",
     "text": "September",
     "word": "September",
@@ -120718,7 +120892,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3198-serve",
+    "id": "index-3203-serve",
     "type": "word",
     "text": "serve",
     "word": "serve",
@@ -120767,7 +120941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3199-serve-the-mear",
+    "id": "index-3204-serve-the-mear",
     "type": "word",
     "text": "serve the mear",
     "word": "serve the mear",
@@ -120803,7 +120977,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3200-server",
+    "id": "index-3205-server",
     "type": "word",
     "text": "server",
     "word": "server",
@@ -120878,7 +121052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3201-service-31-l-horseback-riding",
+    "id": "index-3206-service-31-l-horseback-riding",
     "type": "word",
     "text": "service 31- L horseback riding",
     "word": "service 31- L horseback riding",
@@ -120912,7 +121086,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3202-service-station",
+    "id": "index-3207-service-station",
     "type": "word",
     "text": "service station",
     "word": "service station",
@@ -120946,7 +121120,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3203-serviceman",
+    "id": "index-3208-serviceman",
     "type": "word",
     "text": "serviceman",
     "word": "serviceman",
@@ -120980,7 +121154,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3204-servicewoman",
+    "id": "index-3209-servicewoman",
     "type": "word",
     "text": "servicewoman",
     "word": "servicewoman",
@@ -121016,7 +121190,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3205-serving-bowl",
+    "id": "index-3210-serving-bowl",
     "type": "word",
     "text": "serving bowl",
     "word": "serving bowl",
@@ -121052,7 +121226,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3206-servlogdish",
+    "id": "index-3211-servlogdish",
     "type": "word",
     "text": "servlOgdish",
     "word": "servlOgdish",
@@ -121086,7 +121260,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3207-set-of-colored-pencils-shower-head",
+    "id": "index-3212-set-of-colored-pencils-shower-head",
     "type": "word",
     "text": "set of colored pencils shower head",
     "word": "set of colored pencils shower head",
@@ -121138,7 +121312,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3208-set-the-table",
+    "id": "index-3213-set-the-table",
     "type": "word",
     "text": "set the table",
     "word": "set the table",
@@ -121172,7 +121346,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3209-sew",
+    "id": "index-3214-sew",
     "type": "word",
     "text": "sew",
     "word": "sew",
@@ -121223,7 +121397,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3210-sewer",
+    "id": "index-3215-sewer",
     "type": "word",
     "text": "sewer",
     "word": "sewer",
@@ -121259,7 +121433,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3211-sewing-machine",
+    "id": "index-3216-sewing-machine",
     "type": "word",
     "text": "sewing machine",
     "word": "sewing machine",
@@ -121295,7 +121469,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3212-sex",
+    "id": "index-3217-sex",
     "type": "word",
     "text": "sex",
     "word": "sex",
@@ -121329,7 +121503,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3213-shades",
+    "id": "index-3218-shades",
     "type": "word",
     "text": "shades",
     "word": "shades",
@@ -121363,7 +121537,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3214-shampoo",
+    "id": "index-3219-shampoo",
     "type": "word",
     "text": "shampoo",
     "word": "shampoo",
@@ -121399,7 +121573,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3215-share-a-book",
+    "id": "index-3220-share-a-book",
     "type": "word",
     "text": "share a book",
     "word": "share a book",
@@ -121435,7 +121609,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3216-share-with-the-class",
+    "id": "index-3221-share-with-the-class",
     "type": "word",
     "text": "share with the class",
     "word": "share with the class",
@@ -121469,7 +121643,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3217-shark",
+    "id": "index-3222-shark",
     "type": "word",
     "text": "shark",
     "word": "shark",
@@ -121503,7 +121677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3218-sharp",
+    "id": "index-3223-sharp",
     "type": "word",
     "text": "sharp",
     "word": "sharp",
@@ -121537,7 +121711,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3219-sharpener",
+    "id": "index-3224-sharpener",
     "type": "word",
     "text": "sharpener",
     "word": "sharpener",
@@ -121571,7 +121745,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3220-shave",
+    "id": "index-3225-shave",
     "type": "word",
     "text": "shave",
     "word": "shave",
@@ -121620,7 +121794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3221-shaving-cream",
+    "id": "index-3226-shaving-cream",
     "type": "word",
     "text": "shaving cream",
     "word": "shaving cream",
@@ -121656,7 +121830,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3222-sheep",
+    "id": "index-3227-sheep",
     "type": "word",
     "text": "sheep",
     "word": "sheep",
@@ -121692,7 +121866,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3223-sheet",
+    "id": "index-3228-sheet",
     "type": "word",
     "text": "sheet",
     "word": "sheet",
@@ -121728,7 +121902,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3224-sheet-of-paper",
+    "id": "index-3229-sheet-of-paper",
     "type": "word",
     "text": "sheet of paper",
     "word": "sheet of paper",
@@ -121764,7 +121938,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3225-sheet-of-stamps",
+    "id": "index-3230-sheet-of-stamps",
     "type": "word",
     "text": "sheet of stamps",
     "word": "sheet of stamps",
@@ -121800,7 +121974,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3226-shelf",
+    "id": "index-3231-shelf",
     "type": "word",
     "text": "shelf",
     "word": "shelf",
@@ -121849,7 +122023,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3227-shell",
+    "id": "index-3232-shell",
     "type": "word",
     "text": "shell",
     "word": "shell",
@@ -121898,7 +122072,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3228-shellfish",
+    "id": "index-3233-shellfish",
     "type": "word",
     "text": "shellfish",
     "word": "shellfish",
@@ -121932,7 +122106,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3229-shelter",
+    "id": "index-3234-shelter",
     "type": "word",
     "text": "shelter",
     "word": "shelter",
@@ -121966,7 +122140,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3230-shelves",
+    "id": "index-3235-shelves",
     "type": "word",
     "text": "shelves",
     "word": "shelves",
@@ -122000,7 +122174,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3231-shin",
+    "id": "index-3236-shin",
     "type": "word",
     "text": "shin",
     "word": "shin",
@@ -122034,7 +122208,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3232-shingle",
+    "id": "index-3237-shingle",
     "type": "word",
     "text": "shingle",
     "word": "shingle",
@@ -122083,7 +122257,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3233-shiny",
+    "id": "index-3238-shiny",
     "type": "word",
     "text": "shiny",
     "word": "shiny",
@@ -122117,7 +122291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3234-shipping-clerk",
+    "id": "index-3239-shipping-clerk",
     "type": "word",
     "text": "shipping clerk",
     "word": "shipping clerk",
@@ -122151,7 +122325,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3235-shocked",
+    "id": "index-3240-shocked",
     "type": "word",
     "text": "shocked",
     "word": "shocked",
@@ -122185,7 +122359,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3236-shoe-polish",
+    "id": "index-3241-shoe-polish",
     "type": "word",
     "text": "shoe polish",
     "word": "shoe polish",
@@ -122221,7 +122395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3237-shoe-store",
+    "id": "index-3242-shoe-store",
     "type": "word",
     "text": "shoe store",
     "word": "shoe store",
@@ -122257,7 +122431,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3238-shoelaces",
+    "id": "index-3243-shoelaces",
     "type": "word",
     "text": "shoelaces",
     "word": "shoelaces",
@@ -122293,7 +122467,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3239-shoes",
+    "id": "index-3244-shoes",
     "type": "word",
     "text": "shoes",
     "word": "shoes",
@@ -122358,7 +122532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3240-shoot",
+    "id": "index-3245-shoot",
     "type": "word",
     "text": "shoot",
     "word": "shoot",
@@ -122408,7 +122582,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3241-shop",
+    "id": "index-3246-shop",
     "type": "word",
     "text": "shop",
     "word": "shop",
@@ -122442,7 +122616,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3242-shopper",
+    "id": "index-3247-shopper",
     "type": "word",
     "text": "shopper",
     "word": "shopper",
@@ -122476,7 +122650,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3243-shopping-basket",
+    "id": "index-3248-shopping-basket",
     "type": "word",
     "text": "shopping basket",
     "word": "shopping basket",
@@ -122510,7 +122684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3244-shopping-cart",
+    "id": "index-3249-shopping-cart",
     "type": "word",
     "text": "shopping cart",
     "word": "shopping cart",
@@ -122544,7 +122718,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3245-shopping-mal",
+    "id": "index-3250-shopping-mal",
     "type": "word",
     "text": "shopping mal!",
     "word": "shopping mal!",
@@ -122578,7 +122752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3246-shore",
+    "id": "index-3251-shore",
     "type": "word",
     "text": "shore",
     "word": "shore",
@@ -122612,7 +122786,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3247-short",
+    "id": "index-3252-short",
     "type": "word",
     "text": "short",
     "word": "short",
@@ -122715,7 +122889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3248-short-story",
+    "id": "index-3253-short-story",
     "type": "word",
     "text": "short story",
     "word": "short story",
@@ -122749,7 +122923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3249-short-sleeved-shirt",
+    "id": "index-3254-short-sleeved-shirt",
     "type": "word",
     "text": "short-sleeved shirt",
     "word": "short-sleeved shirt",
@@ -122785,7 +122959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3250-shorten",
+    "id": "index-3255-shorten",
     "type": "word",
     "text": "shorten",
     "word": "shorten",
@@ -122819,7 +122993,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3251-shortness-of-breath",
+    "id": "index-3256-shortness-of-breath",
     "type": "word",
     "text": "shortness of breath",
     "word": "shortness of breath",
@@ -122855,7 +123029,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3252-shorts",
+    "id": "index-3257-shorts",
     "type": "word",
     "text": "shorts",
     "word": "shorts",
@@ -122904,7 +123078,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3253-shortwave-radio",
+    "id": "index-3258-shortwave-radio",
     "type": "word",
     "text": "shortwave radio",
     "word": "shortwave radio",
@@ -122938,7 +123112,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3254-shot",
+    "id": "index-3259-shot",
     "type": "word",
     "text": "shot",
     "word": "shot",
@@ -122986,7 +123160,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3255-shoulder",
+    "id": "index-3260-shoulder",
     "type": "word",
     "text": "shoulder",
     "word": "shoulder",
@@ -123037,7 +123211,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3256-shoulder-bag",
+    "id": "index-3261-shoulder-bag",
     "type": "word",
     "text": "shoulder bag",
     "word": "shoulder bag",
@@ -123073,7 +123247,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3257-shoulder-harness",
+    "id": "index-3262-shoulder-harness",
     "type": "word",
     "text": "shoulder harness",
     "word": "shoulder harness",
@@ -123109,7 +123283,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3258-shoulder-length",
+    "id": "index-3263-shoulder-length",
     "type": "word",
     "text": "shoulder length",
     "word": "shoulder length",
@@ -123145,7 +123319,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3259-shoulder-pads",
+    "id": "index-3264-shoulder-pads",
     "type": "word",
     "text": "shoulder pads",
     "word": "shoulder pads",
@@ -123181,7 +123355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3260-shovel",
+    "id": "index-3265-shovel",
     "type": "word",
     "text": "shovel",
     "word": "shovel",
@@ -123244,7 +123418,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3261-show",
+    "id": "index-3266-show",
     "type": "word",
     "text": "show",
     "word": "show",
@@ -123295,7 +123469,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3262-show",
+    "id": "index-3267-show",
     "type": "word",
     "text": "show.",
     "word": "show.",
@@ -123331,7 +123505,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3263-shower",
+    "id": "index-3268-shower",
     "type": "word",
     "text": "shower",
     "word": "shower",
@@ -123396,7 +123570,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3264-shower-cap",
+    "id": "index-3269-shower-cap",
     "type": "word",
     "text": "shower cap",
     "word": "shower cap",
@@ -123432,7 +123606,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3265-shower-curta-in",
+    "id": "index-3270-shower-curta-in",
     "type": "word",
     "text": "shower curta in",
     "word": "shower curta in",
@@ -123468,7 +123642,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3266-shrimp",
+    "id": "index-3271-shrimp",
     "type": "word",
     "text": "shrimp",
     "word": "shrimp",
@@ -123502,7 +123676,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3267-shrimp-cocktail",
+    "id": "index-3272-shrimp-cocktail",
     "type": "word",
     "text": "shrimp cocktail",
     "word": "shrimp cocktail",
@@ -123538,7 +123712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3268-shrub",
+    "id": "index-3273-shrub",
     "type": "word",
     "text": "shrub",
     "word": "shrub",
@@ -123572,7 +123746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3269-shutter",
+    "id": "index-3274-shutter",
     "type": "word",
     "text": "shutter",
     "word": "shutter",
@@ -123606,7 +123780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3270-shuttle-bus",
+    "id": "index-3275-shuttle-bus",
     "type": "word",
     "text": "shuttle bus",
     "word": "shuttle bus",
@@ -123640,7 +123814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3271-shuttlecock",
+    "id": "index-3276-shuttlecock",
     "type": "word",
     "text": "shuttlecock",
     "word": "shuttlecock",
@@ -123674,7 +123848,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3272-sh-pp-ng-department-seat-the-customers",
+    "id": "index-3277-sh-pp-ng-department-seat-the-customers",
     "type": "word",
     "text": "shíppíng department seat the customers",
     "word": "shíppíng department seat the customers",
@@ -123710,7 +123884,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3273-siblings",
+    "id": "index-3278-siblings",
     "type": "word",
     "text": "siblings",
     "word": "siblings",
@@ -123744,7 +123918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3274-sick",
+    "id": "index-3279-sick",
     "type": "word",
     "text": "sick",
     "word": "sick",
@@ -123835,7 +124009,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3275-side",
+    "id": "index-3280-side",
     "type": "word",
     "text": "side",
     "word": "side",
@@ -123869,7 +124043,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3276-side-dish",
+    "id": "index-3281-side-dish",
     "type": "word",
     "text": "side dish",
     "word": "side dish",
@@ -123903,7 +124077,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3277-side-door",
+    "id": "index-3282-side-door",
     "type": "word",
     "text": "side door",
     "word": "side door",
@@ -123939,7 +124113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3278-side-mirror",
+    "id": "index-3283-side-mirror",
     "type": "word",
     "text": "side mirror",
     "word": "side mirror",
@@ -123973,7 +124147,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3279-sidewalk",
+    "id": "index-3284-sidewalk",
     "type": "word",
     "text": "sidewalk",
     "word": "sidewalk",
@@ -124009,7 +124183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3280-sign-alease",
+    "id": "index-3285-sign-alease",
     "type": "word",
     "text": "sign alease",
     "word": "sign alease",
@@ -124045,7 +124219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3281-sign-your-name",
+    "id": "index-3286-sign-your-name",
     "type": "word",
     "text": "sign your name",
     "word": "sign your name",
@@ -124081,7 +124255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3282-silk",
+    "id": "index-3287-silk",
     "type": "word",
     "text": "silk",
     "word": "silk",
@@ -124115,7 +124289,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3283-silver",
+    "id": "index-3288-silver",
     "type": "word",
     "text": "silver",
     "word": "silver",
@@ -124149,7 +124323,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3284-silver-dollar",
+    "id": "index-3289-silver-dollar",
     "type": "word",
     "text": "silver dollar",
     "word": "silver dollar",
@@ -124183,7 +124357,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3285-silverware",
+    "id": "index-3290-silverware",
     "type": "word",
     "text": "silverware",
     "word": "silverware",
@@ -124217,7 +124391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3286-simmer",
+    "id": "index-3291-simmer",
     "type": "word",
     "text": "simmer",
     "word": "simmer",
@@ -124251,7 +124425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3287-sing",
+    "id": "index-3292-sing",
     "type": "word",
     "text": "sing",
     "word": "sing",
@@ -124285,7 +124459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3288-singer",
+    "id": "index-3293-singer",
     "type": "word",
     "text": "singer",
     "word": "singer",
@@ -124319,7 +124493,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3289-single",
+    "id": "index-3294-single",
     "type": "word",
     "text": "single",
     "word": "single",
@@ -124353,7 +124527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3290-single-room",
+    "id": "index-3295-single-room",
     "type": "word",
     "text": "single room",
     "word": "single room",
@@ -124389,7 +124563,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3291-sink",
+    "id": "index-3296-sink",
     "type": "word",
     "text": "sink",
     "word": "sink",
@@ -124479,7 +124653,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3292-sister",
+    "id": "index-3297-sister",
     "type": "word",
     "text": "sister",
     "word": "sister",
@@ -124527,7 +124701,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3293-sister-n-iaw",
+    "id": "index-3298-sister-n-iaw",
     "type": "word",
     "text": "sister-ín-Iaw",
     "word": "sister-ín-Iaw",
@@ -124578,7 +124752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3294-sit-down",
+    "id": "index-3299-sit-down",
     "type": "word",
     "text": "sit down",
     "word": "sit down",
@@ -124614,7 +124788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3295-sit-up",
+    "id": "index-3300-sit-up",
     "type": "word",
     "text": "sit-up",
     "word": "sit-up",
@@ -124648,7 +124822,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3296-sitcom",
+    "id": "index-3301-sitcom",
     "type": "word",
     "text": "sitcom",
     "word": "sitcom",
@@ -124682,7 +124856,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3297-situation-comedy",
+    "id": "index-3302-situation-comedy",
     "type": "word",
     "text": "situation comedy",
     "word": "situation comedy",
@@ -124716,7 +124890,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3298-six-pack",
+    "id": "index-3303-six-pack",
     "type": "word",
     "text": "six-pack",
     "word": "six-pack",
@@ -124750,7 +124924,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3299-size",
+    "id": "index-3304-size",
     "type": "word",
     "text": "size",
     "word": "size",
@@ -124799,7 +124973,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3300-skate-guard",
+    "id": "index-3305-skate-guard",
     "type": "word",
     "text": "skate guard",
     "word": "skate guard",
@@ -124833,7 +125007,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3301-skateboard",
+    "id": "index-3306-skateboard",
     "type": "word",
     "text": "skateboard",
     "word": "skateboard",
@@ -124884,7 +125058,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3302-skateboard-ramp",
+    "id": "index-3307-skateboard-ramp",
     "type": "word",
     "text": "skateboard ramp",
     "word": "skateboard ramp",
@@ -124920,7 +125094,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3303-skateboarding",
+    "id": "index-3308-skateboarding",
     "type": "word",
     "text": "skateboarding",
     "word": "skateboarding",
@@ -124956,7 +125130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3304-skates",
+    "id": "index-3309-skates",
     "type": "word",
     "text": "skates",
     "word": "skates",
@@ -124990,7 +125164,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3305-skating",
+    "id": "index-3310-skating",
     "type": "word",
     "text": "skating",
     "word": "skating",
@@ -125024,7 +125198,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3306-sketch-book",
+    "id": "index-3311-sketch-book",
     "type": "word",
     "text": "sketch book",
     "word": "sketch book",
@@ -125060,7 +125234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3307-ski-boots",
+    "id": "index-3312-ski-boots",
     "type": "word",
     "text": "ski boots",
     "word": "ski boots",
@@ -125096,7 +125270,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3308-ski-jacket",
+    "id": "index-3313-ski-jacket",
     "type": "word",
     "text": "ski jacket",
     "word": "ski jacket",
@@ -125130,7 +125304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3309-ski-mask",
+    "id": "index-3314-ski-mask",
     "type": "word",
     "text": "ski mask",
     "word": "ski mask",
@@ -125164,7 +125338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3310-ski-poles",
+    "id": "index-3315-ski-poles",
     "type": "word",
     "text": "ski poles",
     "word": "ski poles",
@@ -125198,7 +125372,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3311-ski-trip",
+    "id": "index-3316-ski-trip",
     "type": "word",
     "text": "ski trip",
     "word": "ski trip",
@@ -125232,7 +125406,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3312-skihat",
+    "id": "index-3317-skihat",
     "type": "word",
     "text": "skihat",
     "word": "skihat",
@@ -125266,7 +125440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3313-skiing",
+    "id": "index-3318-skiing",
     "type": "word",
     "text": "skiing",
     "word": "skiing",
@@ -125300,7 +125474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3314-skillet",
+    "id": "index-3319-skillet",
     "type": "word",
     "text": "skillet",
     "word": "skillet",
@@ -125334,7 +125508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3315-skills",
+    "id": "index-3320-skills",
     "type": "word",
     "text": "skills",
     "word": "skills",
@@ -125368,7 +125542,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3316-skim-milk",
+    "id": "index-3321-skim-milk",
     "type": "word",
     "text": "skim milk",
     "word": "skim milk",
@@ -125402,7 +125576,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3317-skin",
+    "id": "index-3322-skin",
     "type": "word",
     "text": "skin",
     "word": "skin",
@@ -125451,7 +125625,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3318-skinny",
+    "id": "index-3323-skinny",
     "type": "word",
     "text": "skinny",
     "word": "skinny",
@@ -125485,7 +125659,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3319-skip",
+    "id": "index-3324-skip",
     "type": "word",
     "text": "skip",
     "word": "skip",
@@ -125519,7 +125693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3320-skirt",
+    "id": "index-3325-skirt",
     "type": "word",
     "text": "skirt",
     "word": "skirt",
@@ -125553,7 +125727,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3321-skis",
+    "id": "index-3326-skis",
     "type": "word",
     "text": "skis",
     "word": "skis",
@@ -125587,7 +125761,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3322-skull",
+    "id": "index-3327-skull",
     "type": "word",
     "text": "skull",
     "word": "skull",
@@ -125621,7 +125795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3323-skunk",
+    "id": "index-3328-skunk",
     "type": "word",
     "text": "skunk",
     "word": "skunk",
@@ -125655,7 +125829,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3324-slacks",
+    "id": "index-3329-slacks",
     "type": "word",
     "text": "slacks",
     "word": "slacks",
@@ -125689,7 +125863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3325-sled",
+    "id": "index-3330-sled",
     "type": "word",
     "text": "sled",
     "word": "sled",
@@ -125723,7 +125897,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3326-sledding-dish",
+    "id": "index-3331-sledding-dish",
     "type": "word",
     "text": "sledding dish",
     "word": "sledding dish",
@@ -125757,7 +125931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3327-sledd-ng",
+    "id": "index-3332-sledd-ng",
     "type": "word",
     "text": "sleddíng",
     "word": "sleddíng",
@@ -125791,7 +125965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3328-sledgehammer",
+    "id": "index-3333-sledgehammer",
     "type": "word",
     "text": "sledgehammer",
     "word": "sledgehammer",
@@ -125825,7 +125999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3329-sleep",
+    "id": "index-3334-sleep",
     "type": "word",
     "text": "sleep",
     "word": "sleep",
@@ -125861,7 +126035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3330-sleeping-bag",
+    "id": "index-3335-sleeping-bag",
     "type": "word",
     "text": "sleeping bag",
     "word": "sleeping bag",
@@ -125897,7 +126071,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3331-sleepy",
+    "id": "index-3336-sleepy",
     "type": "word",
     "text": "sleepy",
     "word": "sleepy",
@@ -125933,7 +126107,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3332-sleeting",
+    "id": "index-3337-sleeting",
     "type": "word",
     "text": "sleeting",
     "word": "sleeting",
@@ -125969,7 +126143,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3333-sleeveless-shirt",
+    "id": "index-3338-sleeveless-shirt",
     "type": "word",
     "text": "sleeveless shirt",
     "word": "sleeveless shirt",
@@ -126005,7 +126179,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3334-sleeves",
+    "id": "index-3339-sleeves",
     "type": "word",
     "text": "sleeves",
     "word": "sleeves",
@@ -126041,7 +126215,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3335-slice",
+    "id": "index-3340-slice",
     "type": "word",
     "text": "slice",
     "word": "slice",
@@ -126090,7 +126264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3336-slim",
+    "id": "index-3341-slim",
     "type": "word",
     "text": "slim",
     "word": "slim",
@@ -126124,7 +126298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3337-sling",
+    "id": "index-3342-sling",
     "type": "word",
     "text": "sling",
     "word": "sling",
@@ -126158,7 +126332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3338-slip",
+    "id": "index-3343-slip",
     "type": "word",
     "text": "slip",
     "word": "slip",
@@ -126207,7 +126381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3339-slippers",
+    "id": "index-3344-slippers",
     "type": "word",
     "text": "slippers",
     "word": "slippers",
@@ -126241,7 +126415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3340-slippery-when-wet",
+    "id": "index-3345-slippery-when-wet",
     "type": "word",
     "text": "slippery when wet",
     "word": "slippery when wet",
@@ -126275,7 +126449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3341-sllde",
+    "id": "index-3346-sllde",
     "type": "word",
     "text": "sllde",
     "word": "sllde",
@@ -126324,7 +126498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3342-slow",
+    "id": "index-3347-slow",
     "type": "word",
     "text": "slow",
     "word": "slow",
@@ -126360,7 +126534,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3343-slug",
+    "id": "index-3348-slug",
     "type": "word",
     "text": "slug",
     "word": "slug",
@@ -126394,7 +126568,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3344-small-intestine",
+    "id": "index-3349-small-intestine",
     "type": "word",
     "text": "small intestine",
     "word": "small intestine",
@@ -126428,7 +126602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3345-smoggy",
+    "id": "index-3350-smoggy",
     "type": "word",
     "text": "smoggy",
     "word": "smoggy",
@@ -126462,7 +126636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3346-smooth",
+    "id": "index-3351-smooth",
     "type": "word",
     "text": "smooth",
     "word": "smooth",
@@ -126498,7 +126672,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3347-snack-bar",
+    "id": "index-3352-snack-bar",
     "type": "word",
     "text": "snack bar",
     "word": "snack bar",
@@ -126547,7 +126721,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3348-snack-foods",
+    "id": "index-3353-snack-foods",
     "type": "word",
     "text": "snack foods",
     "word": "snack foods",
@@ -126583,7 +126757,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3349-snail",
+    "id": "index-3354-snail",
     "type": "word",
     "text": "snail",
     "word": "snail",
@@ -126619,7 +126793,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3350-snake",
+    "id": "index-3355-snake",
     "type": "word",
     "text": "snake",
     "word": "snake",
@@ -126653,7 +126827,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3351-sneakers",
+    "id": "index-3356-sneakers",
     "type": "word",
     "text": "sneakers",
     "word": "sneakers",
@@ -126689,7 +126863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3352-sneeze",
+    "id": "index-3357-sneeze",
     "type": "word",
     "text": "sneeze",
     "word": "sneeze",
@@ -126725,7 +126899,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3353-snorkel",
+    "id": "index-3358-snorkel",
     "type": "word",
     "text": "snorkel",
     "word": "snorkel",
@@ -126759,7 +126933,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3354-snorkeling",
+    "id": "index-3359-snorkeling",
     "type": "word",
     "text": "snorkeling",
     "word": "snorkeling",
@@ -126793,7 +126967,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3355-snowboard",
+    "id": "index-3360-snowboard",
     "type": "word",
     "text": "snowboard",
     "word": "snowboard",
@@ -126830,7 +127004,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3356-snowboarding",
+    "id": "index-3361-snowboarding",
     "type": "word",
     "text": "snowboarding",
     "word": "snowboarding",
@@ -126867,7 +127041,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3357-snowing",
+    "id": "index-3362-snowing",
     "type": "word",
     "text": "snowing",
     "word": "snowing",
@@ -126903,7 +127077,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3358-snowmobile",
+    "id": "index-3363-snowmobile",
     "type": "word",
     "text": "snowmobile",
     "word": "snowmobile",
@@ -126939,7 +127113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3359-snowmobiling",
+    "id": "index-3364-snowmobiling",
     "type": "word",
     "text": "snowmobiling",
     "word": "snowmobiling",
@@ -126975,7 +127149,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3360-snowstorm",
+    "id": "index-3365-snowstorm",
     "type": "word",
     "text": "snowstorm",
     "word": "snowstorm",
@@ -127011,7 +127185,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3361-soap",
+    "id": "index-3366-soap",
     "type": "word",
     "text": "soap",
     "word": "soap",
@@ -127076,7 +127250,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3362-soap-dish",
+    "id": "index-3367-soap-dish",
     "type": "word",
     "text": "soap dish",
     "word": "soap dish",
@@ -127112,7 +127286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3363-soap-dispenser",
+    "id": "index-3368-soap-dispenser",
     "type": "word",
     "text": "soap dispenser",
     "word": "soap dispenser",
@@ -127148,7 +127322,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3364-soap-opera",
+    "id": "index-3369-soap-opera",
     "type": "word",
     "text": "soap opera",
     "word": "soap opera",
@@ -127184,7 +127358,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3365-soccer",
+    "id": "index-3370-soccer",
     "type": "word",
     "text": "soccer",
     "word": "soccer",
@@ -127233,7 +127407,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3366-soccer-ball",
+    "id": "index-3371-soccer-ball",
     "type": "word",
     "text": "soccer ball",
     "word": "soccer ball",
@@ -127267,7 +127441,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3367-soccer-field",
+    "id": "index-3372-soccer-field",
     "type": "word",
     "text": "soccer field",
     "word": "soccer field",
@@ -127303,7 +127477,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3368-soccer-player",
+    "id": "index-3373-soccer-player",
     "type": "word",
     "text": "soccer player",
     "word": "soccer player",
@@ -127339,7 +127513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3369-social-security-number",
+    "id": "index-3374-social-security-number",
     "type": "word",
     "text": "social security number",
     "word": "social security number",
@@ -127373,7 +127547,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3370-socks",
+    "id": "index-3375-socks",
     "type": "word",
     "text": "socks",
     "word": "socks",
@@ -127407,7 +127581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3371-soda",
+    "id": "index-3376-soda",
     "type": "word",
     "text": "soda",
     "word": "soda",
@@ -127456,7 +127630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3372-sofa",
+    "id": "index-3377-sofa",
     "type": "word",
     "text": "sofa",
     "word": "sofa",
@@ -127490,7 +127664,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3373-softball",
+    "id": "index-3378-softball",
     "type": "word",
     "text": "softball",
     "word": "softball",
@@ -127539,7 +127713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3374-softball-glove",
+    "id": "index-3379-softball-glove",
     "type": "word",
     "text": "softball glove",
     "word": "softball glove",
@@ -127573,7 +127747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3375-softball-pjayer",
+    "id": "index-3380-softball-pjayer",
     "type": "word",
     "text": "softball pJayer",
     "word": "softball pJayer",
@@ -127624,7 +127798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3376-software",
+    "id": "index-3381-software",
     "type": "word",
     "text": "software",
     "word": "software",
@@ -127658,7 +127832,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3377-solar-eclipse",
+    "id": "index-3382-solar-eclipse",
     "type": "word",
     "text": "solar eclipse",
     "word": "solar eclipse",
@@ -127692,7 +127866,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3378-solar-energy",
+    "id": "index-3383-solar-energy",
     "type": "word",
     "text": "solar energy",
     "word": "solar energy",
@@ -127726,7 +127900,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3379-solar-system",
+    "id": "index-3384-solar-system",
     "type": "word",
     "text": "solar system",
     "word": "solar system",
@@ -127760,7 +127934,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3380-solid",
+    "id": "index-3385-solid",
     "type": "word",
     "text": "solid",
     "word": "solid",
@@ -127794,7 +127968,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3381-solid-figures",
+    "id": "index-3386-solid-figures",
     "type": "word",
     "text": "solid figures",
     "word": "solid figures",
@@ -127828,7 +128002,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3382-solid-line",
+    "id": "index-3387-solid-line",
     "type": "word",
     "text": "solid line",
     "word": "solid line",
@@ -127862,7 +128036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3383-some-blood",
+    "id": "index-3388-some-blood",
     "type": "word",
     "text": "some blood",
     "word": "some blood",
@@ -127898,7 +128072,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3384-someone-to-get-my",
+    "id": "index-3389-someone-to-get-my",
     "type": "word",
     "text": "someone to get my",
     "word": "someone to get my",
@@ -127932,7 +128106,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3385-somersault",
+    "id": "index-3390-somersault",
     "type": "word",
     "text": "somersault",
     "word": "somersault",
@@ -127968,7 +128142,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3386-son",
+    "id": "index-3391-son",
     "type": "word",
     "text": "son",
     "word": "son",
@@ -128002,7 +128176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3387-son-in-iaw",
+    "id": "index-3392-son-in-iaw",
     "type": "word",
     "text": "son-in-Iaw",
     "word": "son-in-Iaw",
@@ -128038,7 +128212,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3388-sore-throat",
+    "id": "index-3393-sore-throat",
     "type": "word",
     "text": "sore throat",
     "word": "sore throat",
@@ -128074,7 +128248,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3389-sorry-i-don-t-understand",
+    "id": "index-3394-sorry-i-don-t-understand",
     "type": "word",
     "text": "Sorry. I don't understand.",
     "word": "Sorry. I don't understand.",
@@ -128108,7 +128282,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3390-sorry-i-don-t-understand-whiteboard",
+    "id": "index-3395-sorry-i-don-t-understand-whiteboard",
     "type": "word",
     "text": "Sorry. I don't understand. whiteboard",
     "word": "Sorry. I don't understand. whiteboard",
@@ -128144,7 +128318,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3391-sort-the-laundry",
+    "id": "index-3396-sort-the-laundry",
     "type": "word",
     "text": "sort the laundry",
     "word": "sort the laundry",
@@ -128180,7 +128354,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3392-sort-themail",
+    "id": "index-3397-sort-themail",
     "type": "word",
     "text": "sort themail",
     "word": "sort themail",
@@ -128216,7 +128390,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3393-sound-system",
+    "id": "index-3398-sound-system",
     "type": "word",
     "text": "sound system",
     "word": "sound system",
@@ -128252,7 +128426,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3394-soup",
+    "id": "index-3399-soup",
     "type": "word",
     "text": "soup",
     "word": "soup",
@@ -128288,7 +128462,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3395-soup-bowl",
+    "id": "index-3400-soup-bowl",
     "type": "word",
     "text": "soup bowl",
     "word": "soup bowl",
@@ -128325,7 +128499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3396-soup-spoon",
+    "id": "index-3401-soup-spoon",
     "type": "word",
     "text": "soup spoon",
     "word": "soup spoon",
@@ -128362,7 +128536,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3397-sour-cream",
+    "id": "index-3402-sour-cream",
     "type": "word",
     "text": "sour cream",
     "word": "sour cream",
@@ -128399,7 +128573,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3398-sources-of-energy",
+    "id": "index-3403-sources-of-energy",
     "type": "word",
     "text": "sources of energy",
     "word": "sources of energy",
@@ -128435,7 +128609,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3399-south",
+    "id": "index-3404-south",
     "type": "word",
     "text": "south",
     "word": "south",
@@ -128471,7 +128645,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3400-souvenirs",
+    "id": "index-3405-souvenirs",
     "type": "word",
     "text": "souvenirs",
     "word": "souvenirs",
@@ -128507,7 +128681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3401-soy-sauce",
+    "id": "index-3406-soy-sauce",
     "type": "word",
     "text": "soy sauce",
     "word": "soy sauce",
@@ -128544,7 +128718,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3402-soybeans",
+    "id": "index-3407-soybeans",
     "type": "word",
     "text": "soybeans",
     "word": "soybeans",
@@ -128581,7 +128755,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3403-space-exploration",
+    "id": "index-3408-space-exploration",
     "type": "word",
     "text": "space exploration",
     "word": "space exploration",
@@ -128615,7 +128789,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3404-space-station",
+    "id": "index-3409-space-station",
     "type": "word",
     "text": "space station",
     "word": "space station",
@@ -128649,7 +128823,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3405-spade",
+    "id": "index-3410-spade",
     "type": "word",
     "text": "spade",
     "word": "spade",
@@ -128683,7 +128857,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3406-spaghetti",
+    "id": "index-3411-spaghetti",
     "type": "word",
     "text": "spaghetti",
     "word": "spaghetti",
@@ -128717,7 +128891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3407-spaghetti-and-steamer",
+    "id": "index-3412-spaghetti-and-steamer",
     "type": "word",
     "text": "spaghetti and steamer",
     "word": "spaghetti and steamer",
@@ -128753,7 +128927,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3408-spanish",
+    "id": "index-3413-spanish",
     "type": "word",
     "text": "Spanish",
     "word": "Spanish",
@@ -128787,7 +128961,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3409-spare-tire",
+    "id": "index-3414-spare-tire",
     "type": "word",
     "text": "spare tire",
     "word": "spare tire",
@@ -128821,7 +128995,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3410-spark-plugs",
+    "id": "index-3415-spark-plugs",
     "type": "word",
     "text": "spark plugs",
     "word": "spark plugs",
@@ -128855,7 +129029,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3411-sparrow",
+    "id": "index-3416-sparrow",
     "type": "word",
     "text": "sparrow",
     "word": "sparrow",
@@ -128891,7 +129065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3412-spatula",
+    "id": "index-3417-spatula",
     "type": "word",
     "text": "spatula",
     "word": "spatula",
@@ -128925,7 +129099,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3413-speak",
+    "id": "index-3418-speak",
     "type": "word",
     "text": "speak",
     "word": "speak",
@@ -128961,7 +129135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3414-speaker",
+    "id": "index-3419-speaker",
     "type": "word",
     "text": "speaker",
     "word": "speaker",
@@ -129026,7 +129200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3415-specialist",
+    "id": "index-3420-specialist",
     "type": "word",
     "text": "specialist",
     "word": "specialist",
@@ -129075,7 +129249,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3416-speed-limitsign",
+    "id": "index-3421-speed-limitsign",
     "type": "word",
     "text": "speed limitsign",
     "word": "speed limitsign",
@@ -129111,7 +129285,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3417-speedometer",
+    "id": "index-3422-speedometer",
     "type": "word",
     "text": "speedometer",
     "word": "speedometer",
@@ -129147,7 +129321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3418-spell-your-name",
+    "id": "index-3423-spell-your-name",
     "type": "word",
     "text": "spell your name",
     "word": "spell your name",
@@ -129183,7 +129357,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3419-sphere",
+    "id": "index-3424-sphere",
     "type": "word",
     "text": "sphere",
     "word": "sphere",
@@ -129217,7 +129391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3420-spice-rack",
+    "id": "index-3425-spice-rack",
     "type": "word",
     "text": "spice rack",
     "word": "spice rack",
@@ -129251,7 +129425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3421-spices",
+    "id": "index-3426-spices",
     "type": "word",
     "text": "spices",
     "word": "spices",
@@ -129285,7 +129459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3422-spider",
+    "id": "index-3427-spider",
     "type": "word",
     "text": "spider",
     "word": "spider",
@@ -129319,7 +129493,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3423-spinach",
+    "id": "index-3428-spinach",
     "type": "word",
     "text": "spinach",
     "word": "spinach",
@@ -129353,7 +129527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3424-spinach-salad",
+    "id": "index-3429-spinach-salad",
     "type": "word",
     "text": "spinach salad",
     "word": "spinach salad",
@@ -129387,7 +129561,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3425-spinal-column",
+    "id": "index-3430-spinal-column",
     "type": "word",
     "text": "spinal column",
     "word": "spinal column",
@@ -129421,7 +129595,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3426-spinal-cord",
+    "id": "index-3431-spinal-cord",
     "type": "word",
     "text": "spinal cord",
     "word": "spinal cord",
@@ -129455,7 +129629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3427-spiral-notebook",
+    "id": "index-3432-spiral-notebook",
     "type": "word",
     "text": "spiral notebook",
     "word": "spiral notebook",
@@ -129491,7 +129665,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3428-splint",
+    "id": "index-3433-splint",
     "type": "word",
     "text": "splint",
     "word": "splint",
@@ -129525,7 +129699,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3429-sponge",
+    "id": "index-3434-sponge",
     "type": "word",
     "text": "sponge",
     "word": "sponge",
@@ -129574,7 +129748,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3430-sponge-mop",
+    "id": "index-3435-sponge-mop",
     "type": "word",
     "text": "sponge mop",
     "word": "sponge mop",
@@ -129608,7 +129782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3431-spool-of-thread",
+    "id": "index-3436-spool-of-thread",
     "type": "word",
     "text": "spool of thread",
     "word": "spool of thread",
@@ -129645,7 +129819,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3432-spoon",
+    "id": "index-3437-spoon",
     "type": "word",
     "text": "spoon",
     "word": "spoon",
@@ -129681,7 +129855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3433-sport-coat",
+    "id": "index-3438-sport-coat",
     "type": "word",
     "text": "sport coat",
     "word": "sport coat",
@@ -129717,7 +129891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3434-sport-jacket",
+    "id": "index-3439-sport-jacket",
     "type": "word",
     "text": "sport jacket",
     "word": "sport jacket",
@@ -129751,7 +129925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3435-sport-shirt",
+    "id": "index-3440-sport-shirt",
     "type": "word",
     "text": "sport shirt",
     "word": "sport shirt",
@@ -129785,7 +129959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3436-sport-utility-vehicle",
+    "id": "index-3441-sport-utility-vehicle",
     "type": "word",
     "text": "sport utility vehicle",
     "word": "sport utility vehicle",
@@ -129819,7 +129993,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3437-sports-car",
+    "id": "index-3442-sports-car",
     "type": "word",
     "text": "sports car",
     "word": "sports car",
@@ -129853,7 +130027,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3438-sports-program",
+    "id": "index-3443-sports-program",
     "type": "word",
     "text": "sports program",
     "word": "sports program",
@@ -129887,7 +130061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3439-spots",
+    "id": "index-3444-spots",
     "type": "word",
     "text": "spots",
     "word": "spots",
@@ -129921,7 +130095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3440-sprain",
+    "id": "index-3445-sprain",
     "type": "word",
     "text": "sprain",
     "word": "sprain",
@@ -129957,7 +130131,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3441-spray-gun",
+    "id": "index-3446-spray-gun",
     "type": "word",
     "text": "spray gun",
     "word": "spray gun",
@@ -129993,7 +130167,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3442-spray-starch",
+    "id": "index-3447-spray-starch",
     "type": "word",
     "text": "spray starch",
     "word": "spray starch",
@@ -130029,7 +130203,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3443-spreadsheet-program-straight",
+    "id": "index-3448-spreadsheet-program-straight",
     "type": "word",
     "text": "spreadsheet program straight",
     "word": "spreadsheet program straight",
@@ -130095,7 +130269,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3444-spring",
+    "id": "index-3449-spring",
     "type": "word",
     "text": "spring",
     "word": "spring",
@@ -130129,7 +130303,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3445-sprinkler",
+    "id": "index-3450-sprinkler",
     "type": "word",
     "text": "sprinkler",
     "word": "sprinkler",
@@ -130163,7 +130337,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3446-sprinkler-system",
+    "id": "index-3451-sprinkler-system",
     "type": "word",
     "text": "sprinkler system",
     "word": "sprinkler system",
@@ -130197,7 +130371,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3447-square",
+    "id": "index-3452-square",
     "type": "word",
     "text": "square",
     "word": "square",
@@ -130231,7 +130405,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3448-squid",
+    "id": "index-3453-squid",
     "type": "word",
     "text": "squid",
     "word": "squid",
@@ -130265,7 +130439,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3449-squirrel",
+    "id": "index-3454-squirrel",
     "type": "word",
     "text": "squirrel",
     "word": "squirrel",
@@ -130299,7 +130473,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3450-srnall",
+    "id": "index-3455-srnall",
     "type": "word",
     "text": "srnall",
     "word": "srnall",
@@ -130362,7 +130536,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3451-srnoke-detector",
+    "id": "index-3456-srnoke-detector",
     "type": "word",
     "text": "srnoke detector",
     "word": "srnoke detector",
@@ -130396,7 +130570,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3452-stable",
+    "id": "index-3457-stable",
     "type": "word",
     "text": "stable",
     "word": "stable",
@@ -130430,7 +130604,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3453-stacking-tray",
+    "id": "index-3458-stacking-tray",
     "type": "word",
     "text": "stacking tray",
     "word": "stacking tray",
@@ -130466,7 +130640,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3454-stained",
+    "id": "index-3459-stained",
     "type": "word",
     "text": "stained",
     "word": "stained",
@@ -130502,7 +130676,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3455-stairway",
+    "id": "index-3460-stairway",
     "type": "word",
     "text": "stairway",
     "word": "stairway",
@@ -130539,7 +130713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3456-stamp",
+    "id": "index-3461-stamp",
     "type": "word",
     "text": "stamp",
     "word": "stamp",
@@ -130587,7 +130761,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3457-stamp-album",
+    "id": "index-3462-stamp-album",
     "type": "word",
     "text": "stamp album",
     "word": "stamp album",
@@ -130621,7 +130795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3458-stamp-machine",
+    "id": "index-3463-stamp-machine",
     "type": "word",
     "text": "stamp machine",
     "word": "stamp machine",
@@ -130655,7 +130829,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3459-stand-up",
+    "id": "index-3464-stand-up",
     "type": "word",
     "text": "stand up",
     "word": "stand up",
@@ -130689,7 +130863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3460-stapie",
+    "id": "index-3465-stapie",
     "type": "word",
     "text": "stapie",
     "word": "stapie",
@@ -130725,7 +130899,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3461-stapler",
+    "id": "index-3466-stapler",
     "type": "word",
     "text": "stapler",
     "word": "stapler",
@@ -130759,7 +130933,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3462-star",
+    "id": "index-3467-star",
     "type": "word",
     "text": "star",
     "word": "star",
@@ -130793,7 +130967,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3463-starfish",
+    "id": "index-3468-starfish",
     "type": "word",
     "text": "starfish",
     "word": "starfish",
@@ -130827,7 +131001,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3464-state",
+    "id": "index-3469-state",
     "type": "word",
     "text": "state",
     "word": "state",
@@ -130861,7 +131035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3465-state-the-problem",
+    "id": "index-3470-state-the-problem",
     "type": "word",
     "text": "state the problem",
     "word": "state the problem",
@@ -130895,7 +131069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3466-static-cling-remover",
+    "id": "index-3471-static-cling-remover",
     "type": "word",
     "text": "static cling remover",
     "word": "static cling remover",
@@ -130929,7 +131103,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3467-station-wagon",
+    "id": "index-3472-station-wagon",
     "type": "word",
     "text": "station wagon",
     "word": "station wagon",
@@ -130963,7 +131137,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3468-stationery",
+    "id": "index-3473-stationery",
     "type": "word",
     "text": "stationery",
     "word": "stationery",
@@ -130997,7 +131171,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3469-statistics",
+    "id": "index-3474-statistics",
     "type": "word",
     "text": "statistics",
     "word": "statistics",
@@ -131031,7 +131205,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3470-steak",
+    "id": "index-3475-steak",
     "type": "word",
     "text": "steak",
     "word": "steak",
@@ -131067,7 +131241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3471-steam",
+    "id": "index-3476-steam",
     "type": "word",
     "text": "steam",
     "word": "steam",
@@ -131103,7 +131277,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3472-steering-wheel",
+    "id": "index-3477-steering-wheel",
     "type": "word",
     "text": "steering wheel",
     "word": "steering wheel",
@@ -131139,7 +131313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3473-stem",
+    "id": "index-3478-stem",
     "type": "word",
     "text": "stem",
     "word": "stem",
@@ -131173,7 +131347,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3474-step-ladder",
+    "id": "index-3479-step-ladder",
     "type": "word",
     "text": "step ladder",
     "word": "step ladder",
@@ -131207,7 +131381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3475-steps",
+    "id": "index-3480-steps",
     "type": "word",
     "text": "steps",
     "word": "steps",
@@ -131241,7 +131415,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3476-stereo-system",
+    "id": "index-3481-stereo-system",
     "type": "word",
     "text": "stereo system",
     "word": "stereo system",
@@ -131290,7 +131464,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3477-stereo-system-pea",
+    "id": "index-3482-stereo-system-pea",
     "type": "word",
     "text": "stereo system pea",
     "word": "stereo system pea",
@@ -131326,7 +131500,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3478-sterile-dressing-pad",
+    "id": "index-3483-sterile-dressing-pad",
     "type": "word",
     "text": "sterile dressing pad",
     "word": "sterile dressing pad",
@@ -131360,7 +131534,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3479-sterile-pad",
+    "id": "index-3484-sterile-pad",
     "type": "word",
     "text": "sterile pad",
     "word": "sterile pad",
@@ -131394,7 +131568,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3480-stethoscope",
+    "id": "index-3485-stethoscope",
     "type": "word",
     "text": "stethoscope",
     "word": "stethoscope",
@@ -131428,7 +131602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3481-stewing-beef",
+    "id": "index-3486-stewing-beef",
     "type": "word",
     "text": "stewing beef",
     "word": "stewing beef",
@@ -131465,7 +131639,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3482-stick",
+    "id": "index-3487-stick",
     "type": "word",
     "text": "stick",
     "word": "stick",
@@ -131499,7 +131673,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3483-stickers",
+    "id": "index-3488-stickers",
     "type": "word",
     "text": "stickers",
     "word": "stickers",
@@ -131548,7 +131722,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3484-stickshift",
+    "id": "index-3489-stickshift",
     "type": "word",
     "text": "stickshift",
     "word": "stickshift",
@@ -131582,7 +131756,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3485-stiff-neck",
+    "id": "index-3490-stiff-neck",
     "type": "word",
     "text": "stiff neck",
     "word": "stiff neck",
@@ -131616,7 +131790,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3486-stingray",
+    "id": "index-3491-stingray",
     "type": "word",
     "text": "stingray",
     "word": "stingray",
@@ -131652,7 +131826,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3487-stir",
+    "id": "index-3492-stir",
     "type": "word",
     "text": "stir",
     "word": "stir",
@@ -131686,7 +131860,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3488-stir-fry",
+    "id": "index-3493-stir-fry",
     "type": "word",
     "text": "stir-fry",
     "word": "stir-fry",
@@ -131720,7 +131894,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3489-stirrups",
+    "id": "index-3494-stirrups",
     "type": "word",
     "text": "stirrups",
     "word": "stirrups",
@@ -131754,7 +131928,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3490-stitches",
+    "id": "index-3495-stitches",
     "type": "word",
     "text": "stitches",
     "word": "stitches",
@@ -131788,7 +131962,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3491-sto-re-directory",
+    "id": "index-3496-sto-re-directory",
     "type": "word",
     "text": "sto re directory",
     "word": "sto re directory",
@@ -131822,7 +131996,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3492-stock-clerk",
+    "id": "index-3497-stock-clerk",
     "type": "word",
     "text": "stock clerk",
     "word": "stock clerk",
@@ -131856,7 +132030,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3493-stockings",
+    "id": "index-3498-stockings",
     "type": "word",
     "text": "stockings",
     "word": "stockings",
@@ -131890,7 +132064,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3494-stomach",
+    "id": "index-3499-stomach",
     "type": "word",
     "text": "stomach",
     "word": "stomach",
@@ -131924,7 +132098,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3495-stomachache",
+    "id": "index-3500-stomachache",
     "type": "word",
     "text": "stomachache",
     "word": "stomachache",
@@ -131958,7 +132132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3496-stop",
+    "id": "index-3501-stop",
     "type": "word",
     "text": "stop",
     "word": "stop",
@@ -131992,7 +132166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3497-stop",
+    "id": "index-3502-stop",
     "type": "word",
     "text": "Stop!",
     "word": "Stop!",
@@ -132026,7 +132200,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3498-storage-cabinet",
+    "id": "index-3503-storage-cabinet",
     "type": "word",
     "text": "storage cabinet",
     "word": "storage cabinet",
@@ -132060,7 +132234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3499-storage-locker",
+    "id": "index-3504-storage-locker",
     "type": "word",
     "text": "storage locker",
     "word": "storage locker",
@@ -132094,7 +132268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3500-storage-room",
+    "id": "index-3505-storage-room",
     "type": "word",
     "text": "storage room",
     "word": "storage room",
@@ -132145,7 +132319,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3501-store-owner",
+    "id": "index-3506-store-owner",
     "type": "word",
     "text": "store owner",
     "word": "store owner",
@@ -132181,7 +132355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3502-stork",
+    "id": "index-3507-stork",
     "type": "word",
     "text": "stork",
     "word": "stork",
@@ -132215,7 +132389,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3503-storm-door",
+    "id": "index-3508-storm-door",
     "type": "word",
     "text": "storm door",
     "word": "storm door",
@@ -132251,7 +132425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3504-stove",
+    "id": "index-3509-stove",
     "type": "word",
     "text": "stove",
     "word": "stove",
@@ -132300,7 +132474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3505-stow-your-carry-on-soft",
+    "id": "index-3510-stow-your-carry-on-soft",
     "type": "word",
     "text": "stow your carry-on soft",
     "word": "stow your carry-on soft",
@@ -132337,7 +132511,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3506-straight-line",
+    "id": "index-3511-straight-line",
     "type": "word",
     "text": "straight line",
     "word": "straight line",
@@ -132373,7 +132547,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3507-strainer",
+    "id": "index-3512-strainer",
     "type": "word",
     "text": "strainer",
     "word": "strainer",
@@ -132409,7 +132583,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3508-straw",
+    "id": "index-3513-straw",
     "type": "word",
     "text": "straw",
     "word": "straw",
@@ -132445,7 +132619,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3509-strawberries",
+    "id": "index-3514-strawberries",
     "type": "word",
     "text": "strawberries",
     "word": "strawberries",
@@ -132482,7 +132656,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3510-straws",
+    "id": "index-3515-straws",
     "type": "word",
     "text": "straws",
     "word": "straws",
@@ -132533,7 +132707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3511-stream",
+    "id": "index-3516-stream",
     "type": "word",
     "text": "stream",
     "word": "stream",
@@ -132569,7 +132743,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3512-street",
+    "id": "index-3517-street",
     "type": "word",
     "text": "street",
     "word": "street",
@@ -132634,7 +132808,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3513-street-light",
+    "id": "index-3518-street-light",
     "type": "word",
     "text": "street light",
     "word": "street light",
@@ -132670,7 +132844,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3514-street-number",
+    "id": "index-3519-street-number",
     "type": "word",
     "text": "street number",
     "word": "street number",
@@ -132706,7 +132880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3515-street-sign",
+    "id": "index-3520-street-sign",
     "type": "word",
     "text": "street sign",
     "word": "street sign",
@@ -132742,7 +132916,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3516-street-vendar",
+    "id": "index-3521-street-vendar",
     "type": "word",
     "text": "street vendar",
     "word": "street vendar",
@@ -132778,7 +132952,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3517-strep-throat",
+    "id": "index-3522-strep-throat",
     "type": "word",
     "text": "strep throat",
     "word": "strep throat",
@@ -132814,7 +132988,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3518-stretch",
+    "id": "index-3523-stretch",
     "type": "word",
     "text": "stretch",
     "word": "stretch",
@@ -132848,7 +133022,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3519-stretch-suit",
+    "id": "index-3524-stretch-suit",
     "type": "word",
     "text": "stretch suit",
     "word": "stretch suit",
@@ -132882,7 +133056,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3520-string-bean",
+    "id": "index-3525-string-bean",
     "type": "word",
     "text": "string bean",
     "word": "string bean",
@@ -132918,7 +133092,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3521-string-of-pearls",
+    "id": "index-3526-string-of-pearls",
     "type": "word",
     "text": "string of pearls",
     "word": "string of pearls",
@@ -132954,7 +133128,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3522-strings",
+    "id": "index-3527-strings",
     "type": "word",
     "text": "strings",
     "word": "strings",
@@ -132988,7 +133162,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3523-striped",
+    "id": "index-3528-striped",
     "type": "word",
     "text": "striped",
     "word": "striped",
@@ -133022,7 +133196,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3524-stripes",
+    "id": "index-3529-stripes",
     "type": "word",
     "text": "stripes",
     "word": "stripes",
@@ -133056,7 +133230,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3525-stroller",
+    "id": "index-3530-stroller",
     "type": "word",
     "text": "stroller",
     "word": "stroller",
@@ -133090,7 +133264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3526-student",
+    "id": "index-3531-student",
     "type": "word",
     "text": "student",
     "word": "student",
@@ -133124,7 +133298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3527-student-government",
+    "id": "index-3532-student-government",
     "type": "word",
     "text": "student government",
     "word": "student government",
@@ -133158,7 +133332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3528-study",
+    "id": "index-3533-study",
     "type": "word",
     "text": "study",
     "word": "study",
@@ -133192,7 +133366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3529-study-page-ten",
+    "id": "index-3534-study-page-ten",
     "type": "word",
     "text": "study page ten",
     "word": "study page ten",
@@ -133226,7 +133400,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3530-study-tour",
+    "id": "index-3535-study-tour",
     "type": "word",
     "text": "study tour",
     "word": "study tour",
@@ -133262,7 +133436,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3531-stuffed-animal",
+    "id": "index-3536-stuffed-animal",
     "type": "word",
     "text": "stuffed animal",
     "word": "stuffed animal",
@@ -133311,7 +133485,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3532-style-my-hair",
+    "id": "index-3537-style-my-hair",
     "type": "word",
     "text": "style my hair",
     "word": "style my hair",
@@ -133347,7 +133521,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3533-styptic-pencil",
+    "id": "index-3538-styptic-pencil",
     "type": "word",
     "text": "styptic pencil",
     "word": "styptic pencil",
@@ -133381,7 +133555,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3534-submarine-roll",
+    "id": "index-3539-submarine-roll",
     "type": "word",
     "text": "submarine roll",
     "word": "submarine roll",
@@ -133415,7 +133589,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3535-subtraction",
+    "id": "index-3540-subtraction",
     "type": "word",
     "text": "subtraction",
     "word": "subtraction",
@@ -133449,7 +133623,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3536-suburbs",
+    "id": "index-3541-suburbs",
     "type": "word",
     "text": "suburbs",
     "word": "suburbs",
@@ -133483,7 +133657,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3537-subway",
+    "id": "index-3542-subway",
     "type": "word",
     "text": "subway",
     "word": "subway",
@@ -133534,7 +133708,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3538-subway-station",
+    "id": "index-3543-subway-station",
     "type": "word",
     "text": "subway station",
     "word": "subway station",
@@ -133584,7 +133758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3539-subwaytoken",
+    "id": "index-3544-subwaytoken",
     "type": "word",
     "text": "subwaytoken",
     "word": "subwaytoken",
@@ -133620,7 +133794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3540-sugar",
+    "id": "index-3545-sugar",
     "type": "word",
     "text": "sugar",
     "word": "sugar",
@@ -133654,7 +133828,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3541-sugar-bowl",
+    "id": "index-3546-sugar-bowl",
     "type": "word",
     "text": "sugar bowl",
     "word": "sugar bowl",
@@ -133690,7 +133864,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3542-suggest-on-box",
+    "id": "index-3547-suggest-on-box",
     "type": "word",
     "text": "suggestíon box",
     "word": "suggestíon box",
@@ -133724,7 +133898,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3543-suit",
+    "id": "index-3548-suit",
     "type": "word",
     "text": "suit",
     "word": "suit",
@@ -133758,7 +133932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3544-suitcase",
+    "id": "index-3549-suitcase",
     "type": "word",
     "text": "suitcase",
     "word": "suitcase",
@@ -133792,7 +133966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3545-suite",
+    "id": "index-3550-suite",
     "type": "word",
     "text": "suite",
     "word": "suite",
@@ -133826,7 +134000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3546-summer",
+    "id": "index-3551-summer",
     "type": "word",
     "text": "summer",
     "word": "summer",
@@ -133860,7 +134034,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3547-sun",
+    "id": "index-3552-sun",
     "type": "word",
     "text": "sun",
     "word": "sun",
@@ -133894,7 +134068,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3548-sun-hat",
+    "id": "index-3553-sun-hat",
     "type": "word",
     "text": "sun hat",
     "word": "sun hat",
@@ -133928,7 +134102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3549-sunbather",
+    "id": "index-3554-sunbather",
     "type": "word",
     "text": "sunbather",
     "word": "sunbather",
@@ -133962,7 +134136,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3550-sunblock",
+    "id": "index-3555-sunblock",
     "type": "word",
     "text": "sunblock",
     "word": "sunblock",
@@ -133996,7 +134170,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3551-sunburn",
+    "id": "index-3556-sunburn",
     "type": "word",
     "text": "sunburn",
     "word": "sunburn",
@@ -134030,7 +134204,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3552-sunday",
+    "id": "index-3557-sunday",
     "type": "word",
     "text": "Sunday",
     "word": "Sunday",
@@ -134066,7 +134240,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3553-sunflower",
+    "id": "index-3558-sunflower",
     "type": "word",
     "text": "sunflower",
     "word": "sunflower",
@@ -134102,7 +134276,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3554-sunglasses",
+    "id": "index-3559-sunglasses",
     "type": "word",
     "text": "sunglasses",
     "word": "sunglasses",
@@ -134151,7 +134325,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3555-sunny",
+    "id": "index-3560-sunny",
     "type": "word",
     "text": "sunny",
     "word": "sunny",
@@ -134185,7 +134359,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3556-sunroof",
+    "id": "index-3561-sunroof",
     "type": "word",
     "text": "sunroof",
     "word": "sunroof",
@@ -134221,7 +134395,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3557-sunscreen",
+    "id": "index-3562-sunscreen",
     "type": "word",
     "text": "sunscreen",
     "word": "sunscreen",
@@ -134272,7 +134446,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3558-suntan-lotion",
+    "id": "index-3563-suntan-lotion",
     "type": "word",
     "text": "suntan lotion",
     "word": "suntan lotion",
@@ -134306,7 +134480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3559-supermarket",
+    "id": "index-3564-supermarket",
     "type": "word",
     "text": "supermarket",
     "word": "supermarket",
@@ -134340,7 +134514,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3560-supervise",
+    "id": "index-3565-supervise",
     "type": "word",
     "text": "supervise",
     "word": "supervise",
@@ -134374,7 +134548,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3561-supervisor",
+    "id": "index-3566-supervisor",
     "type": "word",
     "text": "supervisor",
     "word": "supervisor",
@@ -134423,7 +134597,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3562-supply-cabinet",
+    "id": "index-3567-supply-cabinet",
     "type": "word",
     "text": "supply cabinet",
     "word": "supply cabinet",
@@ -134457,7 +134631,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3563-supply-room",
+    "id": "index-3568-supply-room",
     "type": "word",
     "text": "supply room",
     "word": "supply room",
@@ -134493,7 +134667,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3564-surfbcard",
+    "id": "index-3569-surfbcard",
     "type": "word",
     "text": "surfbcard",
     "word": "surfbcard",
@@ -134542,7 +134716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3565-surfer",
+    "id": "index-3570-surfer",
     "type": "word",
     "text": "surfer",
     "word": "surfer",
@@ -134576,7 +134750,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3566-surfing",
+    "id": "index-3571-surfing",
     "type": "word",
     "text": "surfing",
     "word": "surfing",
@@ -134610,7 +134784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3567-surge-protector",
+    "id": "index-3572-surge-protector",
     "type": "word",
     "text": "surge protector",
     "word": "surge protector",
@@ -134644,7 +134818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3568-surgeon",
+    "id": "index-3573-surgeon",
     "type": "word",
     "text": "surgeon",
     "word": "surgeon",
@@ -134678,7 +134852,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3569-surgery",
+    "id": "index-3574-surgery",
     "type": "word",
     "text": "surgery",
     "word": "surgery",
@@ -134712,7 +134886,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3570-surname",
+    "id": "index-3575-surname",
     "type": "word",
     "text": "surname",
     "word": "surname",
@@ -134746,7 +134920,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3571-surprised",
+    "id": "index-3576-surprised",
     "type": "word",
     "text": "surprised",
     "word": "surprised",
@@ -134780,7 +134954,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3572-surq-cal-nurse",
+    "id": "index-3577-surq-cal-nurse",
     "type": "word",
     "text": "surqícal nurse",
     "word": "surqícal nurse",
@@ -134814,7 +134988,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3573-suspenders",
+    "id": "index-3578-suspenders",
     "type": "word",
     "text": "suspenders",
     "word": "suspenders",
@@ -134848,7 +135022,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3574-swallow-poison",
+    "id": "index-3579-swallow-poison",
     "type": "word",
     "text": "swallow poison",
     "word": "swallow poison",
@@ -134885,7 +135059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3575-swan",
+    "id": "index-3580-swan",
     "type": "word",
     "text": "swan",
     "word": "swan",
@@ -134934,7 +135108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3576-swap-meet",
+    "id": "index-3581-swap-meet",
     "type": "word",
     "text": "swap meet",
     "word": "swap meet",
@@ -134985,7 +135159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3577-sweatband",
+    "id": "index-3582-sweatband",
     "type": "word",
     "text": "sweatband",
     "word": "sweatband",
@@ -135021,7 +135195,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3578-sweater",
+    "id": "index-3583-sweater",
     "type": "word",
     "text": "sweater",
     "word": "sweater",
@@ -135057,7 +135231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3579-sweater-jacket",
+    "id": "index-3584-sweater-jacket",
     "type": "word",
     "text": "sweater jacket",
     "word": "sweater jacket",
@@ -135093,7 +135267,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3580-sweatpants",
+    "id": "index-3585-sweatpants",
     "type": "word",
     "text": "sweatpants",
     "word": "sweatpants",
@@ -135129,7 +135303,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3581-sweatshirt",
+    "id": "index-3586-sweatshirt",
     "type": "word",
     "text": "sweatshirt",
     "word": "sweatshirt",
@@ -135165,7 +135339,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3582-sweep-the-floor",
+    "id": "index-3587-sweep-the-floor",
     "type": "word",
     "text": "sweep the floor",
     "word": "sweep the floor",
@@ -135202,7 +135376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3583-sweet-pepper",
+    "id": "index-3588-sweet-pepper",
     "type": "word",
     "text": "sweet pepper",
     "word": "sweet pepper",
@@ -135238,7 +135412,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3584-sweet-potato",
+    "id": "index-3589-sweet-potato",
     "type": "word",
     "text": "sweet potato",
     "word": "sweet potato",
@@ -135274,7 +135448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3585-swim",
+    "id": "index-3590-swim",
     "type": "word",
     "text": "swim",
     "word": "swim",
@@ -135323,7 +135497,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3586-swimmer",
+    "id": "index-3591-swimmer",
     "type": "word",
     "text": "swimmer",
     "word": "swimmer",
@@ -135357,7 +135531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3587-swimming",
+    "id": "index-3592-swimming",
     "type": "word",
     "text": "swimming",
     "word": "swimming",
@@ -135391,7 +135565,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3588-swimming-trunks",
+    "id": "index-3593-swimming-trunks",
     "type": "word",
     "text": "swimming trunks",
     "word": "swimming trunks",
@@ -135425,7 +135599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3589-swimminq-pool",
+    "id": "index-3594-swimminq-pool",
     "type": "word",
     "text": "swimminq pool",
     "word": "swimminq pool",
@@ -135475,7 +135649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3590-swimsuit",
+    "id": "index-3595-swimsuit",
     "type": "word",
     "text": "swimsuit",
     "word": "swimsuit",
@@ -135537,7 +135711,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3591-swing-set",
+    "id": "index-3596-swing-set",
     "type": "word",
     "text": "swing set",
     "word": "swing set",
@@ -135571,7 +135745,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3592-swinq",
+    "id": "index-3597-swinq",
     "type": "word",
     "text": "swinq",
     "word": "swinq",
@@ -135620,7 +135794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3593-swinqs",
+    "id": "index-3598-swinqs",
     "type": "word",
     "text": "swinqs",
     "word": "swinqs",
@@ -135654,7 +135828,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3594-swiss-army-knife",
+    "id": "index-3599-swiss-army-knife",
     "type": "word",
     "text": "Swiss army knife",
     "word": "Swiss army knife",
@@ -135688,7 +135862,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3595-swiss-cheese",
+    "id": "index-3600-swiss-cheese",
     "type": "word",
     "text": "Swiss cheese",
     "word": "Swiss cheese",
@@ -135724,7 +135898,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3596-swivel-cha-r",
+    "id": "index-3601-swivel-cha-r",
     "type": "word",
     "text": "swivel chaír",
     "word": "swivel chaír",
@@ -135758,7 +135932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3597-swollen",
+    "id": "index-3602-swollen",
     "type": "word",
     "text": "swollen",
     "word": "swollen",
@@ -135792,7 +135966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3598-swordfish",
+    "id": "index-3603-swordfish",
     "type": "word",
     "text": "swordfish",
     "word": "swordfish",
@@ -135826,7 +136000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3599-synagogue",
+    "id": "index-3604-synagogue",
     "type": "word",
     "text": "synagogue",
     "word": "synagogue",
@@ -135862,7 +136036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3600-syringe",
+    "id": "index-3605-syringe",
     "type": "word",
     "text": "syringe",
     "word": "syringe",
@@ -135896,7 +136070,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3601-t-shirt",
+    "id": "index-3606-t-shirt",
     "type": "word",
     "text": "T-shirt",
     "word": "T-shirt",
@@ -135959,7 +136133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3602-tabla",
+    "id": "index-3607-tabla",
     "type": "word",
     "text": "tabla",
     "word": "tabla",
@@ -136036,7 +136210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3603-table-tennis",
+    "id": "index-3608-table-tennis",
     "type": "word",
     "text": "table tennis",
     "word": "table tennis",
@@ -136070,7 +136244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3604-tabledoth",
+    "id": "index-3609-tabledoth",
     "type": "word",
     "text": "tabledoth",
     "word": "tabledoth",
@@ -136119,7 +136293,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3605-tablespoon",
+    "id": "index-3610-tablespoon",
     "type": "word",
     "text": "tablespoon",
     "word": "tablespoon",
@@ -136170,7 +136344,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3606-tablet",
+    "id": "index-3611-tablet",
     "type": "word",
     "text": "tablet",
     "word": "tablet",
@@ -136204,7 +136378,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3607-tabloid",
+    "id": "index-3612-tabloid",
     "type": "word",
     "text": "tabloid",
     "word": "tabloid",
@@ -136254,7 +136428,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3608-tabloid-newspaper",
+    "id": "index-3613-tabloid-newspaper",
     "type": "word",
     "text": "tabloid newspaper",
     "word": "tabloid newspaper",
@@ -136291,7 +136465,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3609-taco",
+    "id": "index-3614-taco",
     "type": "word",
     "text": "taco",
     "word": "taco",
@@ -136325,7 +136499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3610-tail",
+    "id": "index-3615-tail",
     "type": "word",
     "text": "tail",
     "word": "tail",
@@ -136376,7 +136550,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3611-tailpipe",
+    "id": "index-3616-tailpipe",
     "type": "word",
     "text": "tailpipe",
     "word": "tailpipe",
@@ -136412,7 +136586,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3612-take-a-bath",
+    "id": "index-3617-take-a-bath",
     "type": "word",
     "text": "take a bath",
     "word": "take a bath",
@@ -136461,7 +136635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3613-take-a-bus-tour",
+    "id": "index-3618-take-a-bus-tour",
     "type": "word",
     "text": "take a bus tour",
     "word": "take a bus tour",
@@ -136497,7 +136671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3614-take-a-chest-x-ray",
+    "id": "index-3619-take-a-chest-x-ray",
     "type": "word",
     "text": "take a chest X-ray",
     "word": "take a chest X-ray",
@@ -136533,7 +136707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3615-take-a-message",
+    "id": "index-3620-take-a-message",
     "type": "word",
     "text": "take a message",
     "word": "take a message",
@@ -136567,7 +136741,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3616-take-a-shower",
+    "id": "index-3621-take-a-shower",
     "type": "word",
     "text": "take a shower",
     "word": "take a shower",
@@ -136618,7 +136792,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3617-take-a-walking-tour",
+    "id": "index-3622-take-a-walking-tour",
     "type": "word",
     "text": "take a walking tour",
     "word": "take a walking tour",
@@ -136654,7 +136828,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3618-take-in",
+    "id": "index-3623-take-in",
     "type": "word",
     "text": "take in",
     "word": "take in",
@@ -136688,7 +136862,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3619-take-inventory",
+    "id": "index-3624-take-inventory",
     "type": "word",
     "text": "take inventory",
     "word": "take inventory",
@@ -136722,7 +136896,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3620-take-notes",
+    "id": "index-3625-take-notes",
     "type": "word",
     "text": "take notes",
     "word": "take notes",
@@ -136756,7 +136930,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3621-take-off-your-shoes",
+    "id": "index-3626-take-off-your-shoes",
     "type": "word",
     "text": "take off your shoes",
     "word": "take off your shoes",
@@ -136793,7 +136967,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3622-take-out-a-piece-of-tent-stakes",
+    "id": "index-3627-take-out-a-piece-of-tent-stakes",
     "type": "word",
     "text": "take out a piece of tent stakes",
     "word": "take out a piece of tent stakes",
@@ -136830,7 +137004,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3623-take-out-the-garbage",
+    "id": "index-3628-take-out-the-garbage",
     "type": "word",
     "text": "take out the garbage",
     "word": "take out the garbage",
@@ -136866,7 +137040,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3624-take-photographs-test-tube",
+    "id": "index-3629-take-photographs-test-tube",
     "type": "word",
     "text": "take photographs test tube",
     "word": "take photographs test tube",
@@ -136900,7 +137074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3625-take-the-bus-to-school-thank-you-note",
+    "id": "index-3630-take-the-bus-to-school-thank-you-note",
     "type": "word",
     "text": "take the bus to school thank-you note",
     "word": "take the bus to school thank-you note",
@@ -136951,7 +137125,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3626-take-the-order",
+    "id": "index-3631-take-the-order",
     "type": "word",
     "text": "take the order",
     "word": "take the order",
@@ -136985,7 +137159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3627-take-vitamins",
+    "id": "index-3632-take-vitamins",
     "type": "word",
     "text": "take vitamins",
     "word": "take vitamins",
@@ -137019,7 +137193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3628-take-your-receipt",
+    "id": "index-3633-take-your-receipt",
     "type": "word",
     "text": "take your receipt",
     "word": "take your receipt",
@@ -137055,7 +137229,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3629-take-your-seat",
+    "id": "index-3634-take-your-seat",
     "type": "word",
     "text": "take your seat",
     "word": "take your seat",
@@ -137092,7 +137266,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3630-take-your-temperature",
+    "id": "index-3635-take-your-temperature",
     "type": "word",
     "text": "take your temperature",
     "word": "take your temperature",
@@ -137128,7 +137302,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3631-take-your-transaction-thigh",
+    "id": "index-3636-take-your-transaction-thigh",
     "type": "word",
     "text": "take your transaction thigh",
     "word": "take your transaction thigh",
@@ -137164,7 +137338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3632-takecareof",
+    "id": "index-3637-takecareof",
     "type": "word",
     "text": "takecareof",
     "word": "takecareof",
@@ -137198,7 +137372,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3633-tal",
+    "id": "index-3638-tal",
     "type": "word",
     "text": "tal!",
     "word": "tal!",
@@ -137247,7 +137421,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3634-talk-about-your-things",
+    "id": "index-3639-talk-about-your-things",
     "type": "word",
     "text": "talk about your things",
     "word": "talk about your things",
@@ -137283,7 +137457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3635-talk-show",
+    "id": "index-3640-talk-show",
     "type": "word",
     "text": "talk show",
     "word": "talk show",
@@ -137319,7 +137493,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3636-taller",
+    "id": "index-3641-taller",
     "type": "word",
     "text": "taller",
     "word": "taller",
@@ -137353,7 +137527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3637-tan-belt",
+    "id": "index-3642-tan-belt",
     "type": "word",
     "text": "tan belt",
     "word": "tan belt",
@@ -137387,7 +137561,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3638-tan-k",
+    "id": "index-3643-tan-k",
     "type": "word",
     "text": "tan k",
     "word": "tan k",
@@ -137421,7 +137595,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3639-tangerine",
+    "id": "index-3644-tangerine",
     "type": "word",
     "text": "tangerine",
     "word": "tangerine",
@@ -137455,7 +137629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3640-tank-top",
+    "id": "index-3645-tank-top",
     "type": "word",
     "text": "tank top",
     "word": "tank top",
@@ -137489,7 +137663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3641-tape",
+    "id": "index-3646-tape",
     "type": "word",
     "text": "tape",
     "word": "tape",
@@ -137538,7 +137712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3642-tape-deck",
+    "id": "index-3647-tape-deck",
     "type": "word",
     "text": "tape deck",
     "word": "tape deck",
@@ -137572,7 +137746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3643-tape-measure",
+    "id": "index-3648-tape-measure",
     "type": "word",
     "text": "tape measure",
     "word": "tape measure",
@@ -137623,7 +137797,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3644-tape-recorder",
+    "id": "index-3649-tape-recorder",
     "type": "word",
     "text": "tape recorder",
     "word": "tape recorder",
@@ -137657,7 +137831,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3645-target",
+    "id": "index-3650-target",
     "type": "word",
     "text": "target",
     "word": "target",
@@ -137691,7 +137865,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3646-tarnbourine",
+    "id": "index-3651-tarnbourine",
     "type": "word",
     "text": "tarnbourine",
     "word": "tarnbourine",
@@ -137727,7 +137901,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3647-taxi",
+    "id": "index-3652-taxi",
     "type": "word",
     "text": "taxi",
     "word": "taxi",
@@ -137789,7 +137963,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3648-taxi-driver",
+    "id": "index-3653-taxi-driver",
     "type": "word",
     "text": "taxi driver",
     "word": "taxi driver",
@@ -137838,7 +138012,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3649-taxi-stand",
+    "id": "index-3654-taxi-stand",
     "type": "word",
     "text": "taxi stand",
     "word": "taxi stand",
@@ -137900,7 +138074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3650-taxicab",
+    "id": "index-3655-taxicab",
     "type": "word",
     "text": "taxicab",
     "word": "taxicab",
@@ -137949,7 +138123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3651-ta-llight",
+    "id": "index-3656-ta-llight",
     "type": "word",
     "text": "taíllight",
     "word": "taíllight",
@@ -137983,7 +138157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3652-tb",
+    "id": "index-3657-tb",
     "type": "word",
     "text": "TB",
     "word": "TB",
@@ -138017,7 +138191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3653-tea",
+    "id": "index-3658-tea",
     "type": "word",
     "text": "tea",
     "word": "tea",
@@ -138068,7 +138242,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3654-tea-kettle",
+    "id": "index-3659-tea-kettle",
     "type": "word",
     "text": "tea kettle",
     "word": "tea kettle",
@@ -138104,7 +138278,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3655-teach",
+    "id": "index-3660-teach",
     "type": "word",
     "text": "teach",
     "word": "teach",
@@ -138140,7 +138314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3656-teacher",
+    "id": "index-3661-teacher",
     "type": "word",
     "text": "teacher",
     "word": "teacher",
@@ -138218,7 +138392,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3657-teacher-s-aide",
+    "id": "index-3662-teacher-s-aide",
     "type": "word",
     "text": "teacher's aide",
     "word": "teacher's aide",
@@ -138255,7 +138429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3658-teacher-s-desk",
+    "id": "index-3663-teacher-s-desk",
     "type": "word",
     "text": "teacher's desk",
     "word": "teacher's desk",
@@ -138291,7 +138465,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3659-teapot",
+    "id": "index-3664-teapot",
     "type": "word",
     "text": "teapot",
     "word": "teapot",
@@ -138327,7 +138501,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3660-teaspoon",
+    "id": "index-3665-teaspoon",
     "type": "word",
     "text": "teaspoon",
     "word": "teaspoon",
@@ -138393,7 +138567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3661-technical-climbinq",
+    "id": "index-3666-technical-climbinq",
     "type": "word",
     "text": "technical climbinq",
     "word": "technical climbinq",
@@ -138427,7 +138601,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3662-technician",
+    "id": "index-3667-technician",
     "type": "word",
     "text": "technician",
     "word": "technician",
@@ -138461,7 +138635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3663-teddy-bear",
+    "id": "index-3668-teddy-bear",
     "type": "word",
     "text": "teddy bear",
     "word": "teddy bear",
@@ -138497,7 +138671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3664-tee-shirt",
+    "id": "index-3669-tee-shirt",
     "type": "word",
     "text": "tee shirt",
     "word": "tee shirt",
@@ -138533,7 +138707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3665-teenager",
+    "id": "index-3670-teenager",
     "type": "word",
     "text": "teenager",
     "word": "teenager",
@@ -138569,7 +138743,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3666-teeth",
+    "id": "index-3671-teeth",
     "type": "word",
     "text": "teeth",
     "word": "teeth",
@@ -138633,7 +138807,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3667-teeth-whitener",
+    "id": "index-3672-teeth-whitener",
     "type": "word",
     "text": "teeth whitener",
     "word": "teeth whitener",
@@ -138669,7 +138843,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3668-teething-ing",
+    "id": "index-3673-teething-ing",
     "type": "word",
     "text": "teething (ing",
     "word": "teething (ing",
@@ -138705,7 +138879,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3669-telemarketer",
+    "id": "index-3674-telemarketer",
     "type": "word",
     "text": "telemarketer",
     "word": "telemarketer",
@@ -138739,7 +138913,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3670-telephone",
+    "id": "index-3675-telephone",
     "type": "word",
     "text": "telephone",
     "word": "telephone",
@@ -138773,7 +138947,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3671-telephone-bill",
+    "id": "index-3676-telephone-bill",
     "type": "word",
     "text": "telephone bill",
     "word": "telephone bill",
@@ -138807,7 +138981,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3672-telephone-number",
+    "id": "index-3677-telephone-number",
     "type": "word",
     "text": "telephone number",
     "word": "telephone number",
@@ -138841,7 +139015,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3673-telescope",
+    "id": "index-3678-telescope",
     "type": "word",
     "text": "telescope",
     "word": "telescope",
@@ -138890,7 +139064,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3674-television",
+    "id": "index-3679-television",
     "type": "word",
     "text": "television",
     "word": "television",
@@ -138939,7 +139113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3675-teller",
+    "id": "index-3680-teller",
     "type": "word",
     "text": "teller",
     "word": "teller",
@@ -138973,7 +139147,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3676-temperature",
+    "id": "index-3681-temperature",
     "type": "word",
     "text": "temperature",
     "word": "temperature",
@@ -139036,7 +139210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3677-temperature-gauge",
+    "id": "index-3682-temperature-gauge",
     "type": "word",
     "text": "temperature gauge",
     "word": "temperature gauge",
@@ -139072,7 +139246,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3678-temple",
+    "id": "index-3683-temple",
     "type": "word",
     "text": "temple",
     "word": "temple",
@@ -139106,7 +139280,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3679-tenant",
+    "id": "index-3684-tenant",
     "type": "word",
     "text": "tenant",
     "word": "tenant",
@@ -139140,7 +139314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3680-tennis",
+    "id": "index-3685-tennis",
     "type": "word",
     "text": "tennis",
     "word": "tennis",
@@ -139174,7 +139348,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3681-tennis-ball",
+    "id": "index-3686-tennis-ball",
     "type": "word",
     "text": "tennis ball",
     "word": "tennis ball",
@@ -139208,7 +139382,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3682-tennis-court",
+    "id": "index-3687-tennis-court",
     "type": "word",
     "text": "tennis court",
     "word": "tennis court",
@@ -139244,7 +139418,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3683-tennis-racket",
+    "id": "index-3688-tennis-racket",
     "type": "word",
     "text": "tennis racket",
     "word": "tennis racket",
@@ -139278,7 +139452,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3684-tennis-shoes",
+    "id": "index-3689-tennis-shoes",
     "type": "word",
     "text": "tennis shoes",
     "word": "tennis shoes",
@@ -139314,7 +139488,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3685-tennis-shorts",
+    "id": "index-3690-tennis-shorts",
     "type": "word",
     "text": "tennis shorts",
     "word": "tennis shorts",
@@ -139348,7 +139522,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3686-tent",
+    "id": "index-3691-tent",
     "type": "word",
     "text": "tent",
     "word": "tent",
@@ -139382,7 +139556,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3687-terminal",
+    "id": "index-3692-terminal",
     "type": "word",
     "text": "terminal",
     "word": "terminal",
@@ -139416,7 +139590,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3688-terminal-building",
+    "id": "index-3693-terminal-building",
     "type": "word",
     "text": "terminal building",
     "word": "terminal building",
@@ -139450,7 +139624,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3689-termites",
+    "id": "index-3694-termites",
     "type": "word",
     "text": "termites",
     "word": "termites",
@@ -139484,7 +139658,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3690-tests",
+    "id": "index-3695-tests",
     "type": "word",
     "text": "tests",
     "word": "tests",
@@ -139533,7 +139707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3691-textbook",
+    "id": "index-3696-textbook",
     "type": "word",
     "text": "textbook",
     "word": "textbook",
@@ -139569,7 +139743,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3692-thank-you",
+    "id": "index-3697-thank-you",
     "type": "word",
     "text": "Thank you.",
     "word": "Thank you.",
@@ -139605,7 +139779,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3693-thanks",
+    "id": "index-3698-thanks",
     "type": "word",
     "text": "Thanks.",
     "word": "Thanks.",
@@ -139639,7 +139813,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3694-that",
+    "id": "index-3699-that",
     "type": "word",
     "text": "that?",
     "word": "that?",
@@ -139673,7 +139847,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3695-the-guitar",
+    "id": "index-3700-the-guitar",
     "type": "word",
     "text": "the guitar",
     "word": "the guitar",
@@ -139707,7 +139881,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3696-the-wound",
+    "id": "index-3701-the-wound",
     "type": "word",
     "text": "the wound",
     "word": "the wound",
@@ -139743,7 +139917,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3697-theater",
+    "id": "index-3702-theater",
     "type": "word",
     "text": "theater",
     "word": "theater",
@@ -139793,7 +139967,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3698-therapist",
+    "id": "index-3703-therapist",
     "type": "word",
     "text": "therapist",
     "word": "therapist",
@@ -139827,7 +140001,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3699-thermometer",
+    "id": "index-3704-thermometer",
     "type": "word",
     "text": "thermometer",
     "word": "thermometer",
@@ -139876,7 +140050,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3700-thermos",
+    "id": "index-3705-thermos",
     "type": "word",
     "text": "thermos",
     "word": "thermos",
@@ -139910,7 +140084,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3701-thick",
+    "id": "index-3706-thick",
     "type": "word",
     "text": "thick",
     "word": "thick",
@@ -139944,7 +140118,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3702-thimble",
+    "id": "index-3707-thimble",
     "type": "word",
     "text": "thimble",
     "word": "thimble",
@@ -139978,7 +140152,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3703-thin",
+    "id": "index-3708-thin",
     "type": "word",
     "text": "thin",
     "word": "thin",
@@ -140040,7 +140214,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3704-third-loor",
+    "id": "index-3709-third-loor",
     "type": "word",
     "text": "third [loor",
     "word": "third [loor",
@@ -140076,7 +140250,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3705-thirsty",
+    "id": "index-3710-thirsty",
     "type": "word",
     "text": "thirsty",
     "word": "thirsty",
@@ -140110,7 +140284,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3706-this-evening",
+    "id": "index-3711-this-evening",
     "type": "word",
     "text": "this evening",
     "word": "this evening",
@@ -140144,7 +140318,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3707-this-is",
+    "id": "index-3712-this-is",
     "type": "word",
     "text": "This is . _ ..",
     "word": "This is . _ ..",
@@ -140178,7 +140352,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3708-this-is",
+    "id": "index-3713-this-is",
     "type": "word",
     "text": "This is...",
     "word": "This is...",
@@ -140212,7 +140386,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3709-this-morning",
+    "id": "index-3714-this-morning",
     "type": "word",
     "text": "this morning",
     "word": "this morning",
@@ -140246,7 +140420,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3710-this-week",
+    "id": "index-3715-this-week",
     "type": "word",
     "text": "this week",
     "word": "this week",
@@ -140282,7 +140456,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3711-thongs",
+    "id": "index-3716-thongs",
     "type": "word",
     "text": "thongs",
     "word": "thongs",
@@ -140316,7 +140490,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3712-thorn",
+    "id": "index-3717-thorn",
     "type": "word",
     "text": "thorn",
     "word": "thorn",
@@ -140350,7 +140524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3713-thread",
+    "id": "index-3718-thread",
     "type": "word",
     "text": "thread",
     "word": "thread",
@@ -140386,7 +140560,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3714-three-fourths",
+    "id": "index-3719-three-fourths",
     "type": "word",
     "text": "three fourths",
     "word": "three fourths",
@@ -140423,7 +140597,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3715-three-quarters",
+    "id": "index-3720-three-quarters",
     "type": "word",
     "text": "three quarters",
     "word": "three quarters",
@@ -140459,7 +140633,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3716-three-times-a-week",
+    "id": "index-3721-three-times-a-week",
     "type": "word",
     "text": "three times a week",
     "word": "three times a week",
@@ -140495,7 +140669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3717-three-piece-suit",
+    "id": "index-3722-three-piece-suit",
     "type": "word",
     "text": "three-piece suit",
     "word": "three-piece suit",
@@ -140532,7 +140706,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3718-throat",
+    "id": "index-3723-throat",
     "type": "word",
     "text": "throat",
     "word": "throat",
@@ -140568,7 +140742,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3719-throat-lozenqes",
+    "id": "index-3724-throat-lozenqes",
     "type": "word",
     "text": "throat lozenqes",
     "word": "throat lozenqes",
@@ -140604,7 +140778,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3720-through",
+    "id": "index-3725-through",
     "type": "word",
     "text": "through",
     "word": "through",
@@ -140640,7 +140814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3721-throw",
+    "id": "index-3726-throw",
     "type": "word",
     "text": "throw",
     "word": "throw",
@@ -140676,7 +140850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3722-throw-pillow",
+    "id": "index-3727-throw-pillow",
     "type": "word",
     "text": "throw pillow",
     "word": "throw pillow",
@@ -140712,7 +140886,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3723-thumb",
+    "id": "index-3728-thumb",
     "type": "word",
     "text": "thumb",
     "word": "thumb",
@@ -140746,7 +140920,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3724-thumbtack",
+    "id": "index-3729-thumbtack",
     "type": "word",
     "text": "thumbtack",
     "word": "thumbtack",
@@ -140795,7 +140969,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3725-thunderstorm",
+    "id": "index-3730-thunderstorm",
     "type": "word",
     "text": "thunderstorm",
     "word": "thunderstorm",
@@ -140829,7 +141003,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3726-thursday",
+    "id": "index-3731-thursday",
     "type": "word",
     "text": "Thursday",
     "word": "Thursday",
@@ -140865,7 +141039,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3727-tick",
+    "id": "index-3732-tick",
     "type": "word",
     "text": "tick",
     "word": "tick",
@@ -140899,7 +141073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3728-ticket-agent",
+    "id": "index-3733-ticket-agent",
     "type": "word",
     "text": "ticket agent",
     "word": "ticket agent",
@@ -140933,7 +141107,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3729-ticket-counter",
+    "id": "index-3734-ticket-counter",
     "type": "word",
     "text": "ticket counter",
     "word": "ticket counter",
@@ -140984,7 +141158,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3730-ticket-window",
+    "id": "index-3735-ticket-window",
     "type": "word",
     "text": "ticket window",
     "word": "ticket window",
@@ -141020,7 +141194,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3731-tie",
+    "id": "index-3736-tie",
     "type": "word",
     "text": "tie",
     "word": "tie",
@@ -141071,7 +141245,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3732-tiger",
+    "id": "index-3737-tiger",
     "type": "word",
     "text": "tiger",
     "word": "tiger",
@@ -141105,7 +141279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3733-tight",
+    "id": "index-3738-tight",
     "type": "word",
     "text": "tight",
     "word": "tight",
@@ -141154,7 +141328,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3734-tights",
+    "id": "index-3739-tights",
     "type": "word",
     "text": "tights",
     "word": "tights",
@@ -141203,7 +141377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3735-tiles",
+    "id": "index-3740-tiles",
     "type": "word",
     "text": "tiles",
     "word": "tiles",
@@ -141237,7 +141411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3736-time",
+    "id": "index-3741-time",
     "type": "word",
     "text": "time",
     "word": "time",
@@ -141271,7 +141445,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3737-time-cards",
+    "id": "index-3742-time-cards",
     "type": "word",
     "text": "time cards",
     "word": "time cards",
@@ -141305,7 +141479,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3738-times",
+    "id": "index-3743-times",
     "type": "word",
     "text": "times",
     "word": "times",
@@ -141339,7 +141513,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3739-timetable",
+    "id": "index-3744-timetable",
     "type": "word",
     "text": "timetable",
     "word": "timetable",
@@ -141373,7 +141547,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3740-tip",
+    "id": "index-3745-tip",
     "type": "word",
     "text": "tip",
     "word": "tip",
@@ -141421,7 +141595,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3741-tire",
+    "id": "index-3746-tire",
     "type": "word",
     "text": "tire",
     "word": "tire",
@@ -141455,7 +141629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3742-tire-alarm",
+    "id": "index-3747-tire-alarm",
     "type": "word",
     "text": "tire alarm",
     "word": "tire alarm",
@@ -141489,7 +141663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3743-tire-alarm-box",
+    "id": "index-3748-tire-alarm-box",
     "type": "word",
     "text": "tire alarm box",
     "word": "tire alarm box",
@@ -141523,7 +141697,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3744-tire-engine",
+    "id": "index-3749-tire-engine",
     "type": "word",
     "text": "tire engine",
     "word": "tire engine",
@@ -141557,7 +141731,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3745-tired",
+    "id": "index-3750-tired",
     "type": "word",
     "text": "tired",
     "word": "tired",
@@ -141591,7 +141765,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3746-tissues",
+    "id": "index-3751-tissues",
     "type": "word",
     "text": "tissues",
     "word": "tissues",
@@ -141627,7 +141801,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3747-title",
+    "id": "index-3752-title",
     "type": "word",
     "text": "title",
     "word": "title",
@@ -141676,7 +141850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3748-to-the-left-of",
+    "id": "index-3753-to-the-left-of",
     "type": "word",
     "text": "to the left of",
     "word": "to the left of",
@@ -141710,7 +141884,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3749-to-the-right-of",
+    "id": "index-3754-to-the-right-of",
     "type": "word",
     "text": "to the right of",
     "word": "to the right of",
@@ -141744,7 +141918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3750-toad",
+    "id": "index-3755-toad",
     "type": "word",
     "text": "toad",
     "word": "toad",
@@ -141780,7 +141954,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3751-toast",
+    "id": "index-3756-toast",
     "type": "word",
     "text": "toast",
     "word": "toast",
@@ -141816,7 +141990,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3752-toaster",
+    "id": "index-3757-toaster",
     "type": "word",
     "text": "toaster",
     "word": "toaster",
@@ -141852,7 +142026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3753-toaster-oven",
+    "id": "index-3758-toaster-oven",
     "type": "word",
     "text": "toaster oven",
     "word": "toaster oven",
@@ -141888,7 +142062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3754-today",
+    "id": "index-3759-today",
     "type": "word",
     "text": "today",
     "word": "today",
@@ -141924,7 +142098,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3755-toddler",
+    "id": "index-3760-toddler",
     "type": "word",
     "text": "toddler",
     "word": "toddler",
@@ -141958,7 +142132,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3756-toe",
+    "id": "index-3761-toe",
     "type": "word",
     "text": "toe",
     "word": "toe",
@@ -141994,7 +142168,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3757-toenail",
+    "id": "index-3762-toenail",
     "type": "word",
     "text": "toenail",
     "word": "toenail",
@@ -142031,7 +142205,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3758-tofu",
+    "id": "index-3763-tofu",
     "type": "word",
     "text": "tofu",
     "word": "tofu",
@@ -142065,7 +142239,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3759-toilet",
+    "id": "index-3764-toilet",
     "type": "word",
     "text": "toilet",
     "word": "toilet",
@@ -142116,7 +142290,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3760-toilet-brush",
+    "id": "index-3765-toilet-brush",
     "type": "word",
     "text": "toilet brush",
     "word": "toilet brush",
@@ -142152,7 +142326,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3761-toilet-pap-r",
+    "id": "index-3766-toilet-pap-r",
     "type": "word",
     "text": "toilet papér",
     "word": "toilet papér",
@@ -142203,7 +142377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3762-toilet-seat",
+    "id": "index-3767-toilet-seat",
     "type": "word",
     "text": "toilet seat",
     "word": "toilet seat",
@@ -142240,7 +142414,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3763-token",
+    "id": "index-3768-token",
     "type": "word",
     "text": "token",
     "word": "token",
@@ -142274,7 +142448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3764-tollbooth",
+    "id": "index-3769-tollbooth",
     "type": "word",
     "text": "tollbooth",
     "word": "tollbooth",
@@ -142310,7 +142484,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3765-tomato",
+    "id": "index-3770-tomato",
     "type": "word",
     "text": "tomato",
     "word": "tomato",
@@ -142344,7 +142518,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3766-tomato-juice",
+    "id": "index-3771-tomato-juice",
     "type": "word",
     "text": "tomato juice",
     "word": "tomato juice",
@@ -142393,7 +142567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3767-tomorrow",
+    "id": "index-3772-tomorrow",
     "type": "word",
     "text": "tomorrow",
     "word": "tomorrow",
@@ -142429,7 +142603,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3768-tomorrow-aftemoon",
+    "id": "index-3773-tomorrow-aftemoon",
     "type": "word",
     "text": "tomorrow aftemoon",
     "word": "tomorrow aftemoon",
@@ -142466,7 +142640,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3769-tomorrow-morning",
+    "id": "index-3774-tomorrow-morning",
     "type": "word",
     "text": "tomorrow morning",
     "word": "tomorrow morning",
@@ -142502,7 +142676,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3770-tomorrowevening",
+    "id": "index-3775-tomorrowevening",
     "type": "word",
     "text": "tomorrowevening",
     "word": "tomorrowevening",
@@ -142538,7 +142712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3771-tonight",
+    "id": "index-3776-tonight",
     "type": "word",
     "text": "tonight",
     "word": "tonight",
@@ -142572,7 +142746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3772-tonque",
+    "id": "index-3777-tonque",
     "type": "word",
     "text": "tonque",
     "word": "tonque",
@@ -142608,7 +142782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3773-tool-shed",
+    "id": "index-3778-tool-shed",
     "type": "word",
     "text": "tool shed",
     "word": "tool shed",
@@ -142644,7 +142818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3774-toolbelt",
+    "id": "index-3779-toolbelt",
     "type": "word",
     "text": "toolbelt",
     "word": "toolbelt",
@@ -142680,7 +142854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3775-toolbox",
+    "id": "index-3780-toolbox",
     "type": "word",
     "text": "toolbox",
     "word": "toolbox",
@@ -142716,7 +142890,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3776-tooth",
+    "id": "index-3781-tooth",
     "type": "word",
     "text": "tooth",
     "word": "tooth",
@@ -142767,7 +142941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3777-toothache",
+    "id": "index-3782-toothache",
     "type": "word",
     "text": "toothache",
     "word": "toothache",
@@ -142803,7 +142977,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3778-toothbrush",
+    "id": "index-3783-toothbrush",
     "type": "word",
     "text": "toothbrush",
     "word": "toothbrush",
@@ -142854,7 +143028,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3779-toothbrush-holder",
+    "id": "index-3784-toothbrush-holder",
     "type": "word",
     "text": "toothbrush holder",
     "word": "toothbrush holder",
@@ -142890,7 +143064,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3780-toothpaste",
+    "id": "index-3785-toothpaste",
     "type": "word",
     "text": "toothpaste",
     "word": "toothpaste",
@@ -142926,7 +143100,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3781-top",
+    "id": "index-3786-top",
     "type": "word",
     "text": "top",
     "word": "top",
@@ -142960,7 +143134,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3782-torn",
+    "id": "index-3787-torn",
     "type": "word",
     "text": "torn",
     "word": "torn",
@@ -142994,7 +143168,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3783-tornado",
+    "id": "index-3788-tornado",
     "type": "word",
     "text": "tornado",
     "word": "tornado",
@@ -143028,7 +143202,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3784-tornorrow-night",
+    "id": "index-3789-tornorrow-night",
     "type": "word",
     "text": "tornorrow night",
     "word": "tornorrow night",
@@ -143079,7 +143253,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3785-tortilla-chips",
+    "id": "index-3790-tortilla-chips",
     "type": "word",
     "text": "tortilla chips",
     "word": "tortilla chips",
@@ -143113,7 +143287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3786-tortoise",
+    "id": "index-3791-tortoise",
     "type": "word",
     "text": "tortoise",
     "word": "tortoise",
@@ -143149,7 +143323,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3787-tossed-salad",
+    "id": "index-3792-tossed-salad",
     "type": "word",
     "text": "tossed salad",
     "word": "tossed salad",
@@ -143183,7 +143357,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3788-total-price",
+    "id": "index-3793-total-price",
     "type": "word",
     "text": "total price",
     "word": "total price",
@@ -143217,7 +143391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3789-tote-bag",
+    "id": "index-3794-tote-bag",
     "type": "word",
     "text": "tote bag",
     "word": "tote bag",
@@ -143251,7 +143425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3790-tour",
+    "id": "index-3795-tour",
     "type": "word",
     "text": "tour",
     "word": "tour",
@@ -143287,7 +143461,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3791-tour-company",
+    "id": "index-3796-tour-company",
     "type": "word",
     "text": "tour company",
     "word": "tour company",
@@ -143323,7 +143497,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3792-tourniquet",
+    "id": "index-3797-tourniquet",
     "type": "word",
     "text": "tourniquet",
     "word": "tourniquet",
@@ -143360,7 +143534,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3793-tow-truck",
+    "id": "index-3798-tow-truck",
     "type": "word",
     "text": "tow truck",
     "word": "tow truck",
@@ -143396,7 +143570,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3794-towejs",
+    "id": "index-3799-towejs",
     "type": "word",
     "text": "toweJs.",
     "word": "toweJs.",
@@ -143432,7 +143606,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3795-towel",
+    "id": "index-3800-towel",
     "type": "word",
     "text": "towel",
     "word": "towel",
@@ -143483,7 +143657,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3796-towel-rack",
+    "id": "index-3801-towel-rack",
     "type": "word",
     "text": "towel rack",
     "word": "towel rack",
@@ -143519,7 +143693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3797-town",
+    "id": "index-3802-town",
     "type": "word",
     "text": "town",
     "word": "town",
@@ -143555,7 +143729,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3798-town-hall",
+    "id": "index-3803-town-hall",
     "type": "word",
     "text": "town hall",
     "word": "town hall",
@@ -143591,7 +143765,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3799-townhome",
+    "id": "index-3804-townhome",
     "type": "word",
     "text": "townhome",
     "word": "townhome",
@@ -143627,7 +143801,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3800-townhouse",
+    "id": "index-3805-townhouse",
     "type": "word",
     "text": "townhouse",
     "word": "townhouse",
@@ -143664,7 +143838,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3801-towrope",
+    "id": "index-3806-towrope",
     "type": "word",
     "text": "towrope",
     "word": "towrope",
@@ -143700,7 +143874,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3802-toxic-waste",
+    "id": "index-3807-toxic-waste",
     "type": "word",
     "text": "tOXIC waste",
     "word": "tOXIC waste",
@@ -143734,7 +143908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3803-toy-chest",
+    "id": "index-3808-toy-chest",
     "type": "word",
     "text": "toy chest",
     "word": "toy chest",
@@ -143770,7 +143944,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3804-toy-store",
+    "id": "index-3809-toy-store",
     "type": "word",
     "text": "toy store",
     "word": "toy store",
@@ -143806,7 +143980,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3805-toy-truck",
+    "id": "index-3810-toy-truck",
     "type": "word",
     "text": "toy truck",
     "word": "toy truck",
@@ -143842,7 +144016,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3806-toys",
+    "id": "index-3811-toys",
     "type": "word",
     "text": "toys",
     "word": "toys",
@@ -143878,7 +144052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3807-track",
+    "id": "index-3812-track",
     "type": "word",
     "text": "track",
     "word": "track",
@@ -143927,7 +144101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3808-track-ball",
+    "id": "index-3813-track-ball",
     "type": "word",
     "text": "track ball",
     "word": "track ball",
@@ -143961,7 +144135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3809-tractor",
+    "id": "index-3814-tractor",
     "type": "word",
     "text": "tractor",
     "word": "tractor",
@@ -143995,7 +144169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3810-tractor-tr-iler",
+    "id": "index-3815-tractor-tr-iler",
     "type": "word",
     "text": "tractor tráiler",
     "word": "tractor tráiler",
@@ -144029,7 +144203,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3811-trades-school",
+    "id": "index-3816-trades-school",
     "type": "word",
     "text": "trades school",
     "word": "trades school",
@@ -144065,7 +144239,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3812-tradinq-cards",
+    "id": "index-3817-tradinq-cards",
     "type": "word",
     "text": "tradinq cards",
     "word": "tradinq cards",
@@ -144099,7 +144273,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3813-traffic-light",
+    "id": "index-3818-traffic-light",
     "type": "word",
     "text": "traffic light",
     "word": "traffic light",
@@ -144148,7 +144322,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3814-traffic-signal",
+    "id": "index-3819-traffic-signal",
     "type": "word",
     "text": "traffic signal",
     "word": "traffic signal",
@@ -144197,7 +144371,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3815-traffic-signs",
+    "id": "index-3820-traffic-signs",
     "type": "word",
     "text": "traffic signs",
     "word": "traffic signs",
@@ -144231,7 +144405,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3816-tragedy",
+    "id": "index-3821-tragedy",
     "type": "word",
     "text": "tragedy",
     "word": "tragedy",
@@ -144265,7 +144439,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3817-trail-map",
+    "id": "index-3822-trail-map",
     "type": "word",
     "text": "trail map",
     "word": "trail map",
@@ -144301,7 +144475,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3818-train",
+    "id": "index-3823-train",
     "type": "word",
     "text": "train",
     "word": "train",
@@ -144352,7 +144526,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3819-train-derailment",
+    "id": "index-3824-train-derailment",
     "type": "word",
     "text": "train derailment",
     "word": "train derailment",
@@ -144388,7 +144562,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3820-train-set",
+    "id": "index-3825-train-set",
     "type": "word",
     "text": "train set",
     "word": "train set",
@@ -144424,7 +144598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3821-train-station",
+    "id": "index-3826-train-station",
     "type": "word",
     "text": "train station",
     "word": "train station",
@@ -144475,7 +144649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3822-traininq-pants",
+    "id": "index-3827-traininq-pants",
     "type": "word",
     "text": "traininq pants",
     "word": "traininq pants",
@@ -144511,7 +144685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3823-traller",
+    "id": "index-3828-traller",
     "type": "word",
     "text": "traller",
     "word": "traller",
@@ -144545,7 +144719,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3824-trampoline",
+    "id": "index-3829-trampoline",
     "type": "word",
     "text": "trampoline",
     "word": "trampoline",
@@ -144579,7 +144753,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3825-transaction",
+    "id": "index-3830-transaction",
     "type": "word",
     "text": "transaction",
     "word": "transaction",
@@ -144613,7 +144787,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3826-transfer",
+    "id": "index-3831-transfer",
     "type": "word",
     "text": "transfer",
     "word": "transfer",
@@ -144647,7 +144821,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3827-transfer-funds",
+    "id": "index-3832-transfer-funds",
     "type": "word",
     "text": "transfer funds",
     "word": "transfer funds",
@@ -144681,7 +144855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3828-translate",
+    "id": "index-3833-translate",
     "type": "word",
     "text": "translate",
     "word": "translate",
@@ -144715,7 +144889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3829-translator",
+    "id": "index-3834-translator",
     "type": "word",
     "text": "translator",
     "word": "translator",
@@ -144749,7 +144923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3830-transmission",
+    "id": "index-3835-transmission",
     "type": "word",
     "text": "transmission",
     "word": "transmission",
@@ -144783,7 +144957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3831-transrnission",
+    "id": "index-3836-transrnission",
     "type": "word",
     "text": "transrnission",
     "word": "transrnission",
@@ -144817,7 +144991,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3832-trash-bags",
+    "id": "index-3837-trash-bags",
     "type": "word",
     "text": "trash bags",
     "word": "trash bags",
@@ -144851,7 +145025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3833-trash-bin",
+    "id": "index-3838-trash-bin",
     "type": "word",
     "text": "trash bin",
     "word": "trash bin",
@@ -144885,7 +145059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3834-trash-can",
+    "id": "index-3839-trash-can",
     "type": "word",
     "text": "trash can",
     "word": "trash can",
@@ -144934,7 +145108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3835-trash-chute",
+    "id": "index-3840-trash-chute",
     "type": "word",
     "text": "trash chute",
     "word": "trash chute",
@@ -144968,7 +145142,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3836-trash-collector",
+    "id": "index-3841-trash-collector",
     "type": "word",
     "text": "trash collector",
     "word": "trash collector",
@@ -145002,7 +145176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3837-trash-compactor",
+    "id": "index-3842-trash-compactor",
     "type": "word",
     "text": "trash compactor",
     "word": "trash compactor",
@@ -145036,7 +145210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3838-trash-container",
+    "id": "index-3843-trash-container",
     "type": "word",
     "text": "trash container",
     "word": "trash container",
@@ -145072,7 +145246,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3839-travel",
+    "id": "index-3844-travel",
     "type": "word",
     "text": "travel",
     "word": "travel",
@@ -145106,7 +145280,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3840-travel-agency",
+    "id": "index-3845-travel-agency",
     "type": "word",
     "text": "travel agency",
     "word": "travel agency",
@@ -145155,7 +145329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3841-travel-agent",
+    "id": "index-3846-travel-agent",
     "type": "word",
     "text": "travel agent",
     "word": "travel agent",
@@ -145189,7 +145363,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3842-traveler-s-check",
+    "id": "index-3847-traveler-s-check",
     "type": "word",
     "text": "traveler's check",
     "word": "traveler's check",
@@ -145251,7 +145425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3843-tray",
+    "id": "index-3848-tray",
     "type": "word",
     "text": "tray",
     "word": "tray",
@@ -145356,7 +145530,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3844-tray-table",
+    "id": "index-3849-tray-table",
     "type": "word",
     "text": "tray table",
     "word": "tray table",
@@ -145392,7 +145566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3845-treadmill",
+    "id": "index-3850-treadmill",
     "type": "word",
     "text": "treadmill",
     "word": "treadmill",
@@ -145428,7 +145602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3846-tree",
+    "id": "index-3851-tree",
     "type": "word",
     "text": "tree",
     "word": "tree",
@@ -145464,7 +145638,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3847-trein-trip",
+    "id": "index-3852-trein-trip",
     "type": "word",
     "text": "trein trip",
     "word": "trein trip",
@@ -145498,7 +145672,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3848-trench-coat",
+    "id": "index-3853-trench-coat",
     "type": "word",
     "text": "trench coat",
     "word": "trench coat",
@@ -145534,7 +145708,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3849-tricycle",
+    "id": "index-3854-tricycle",
     "type": "word",
     "text": "tricycle",
     "word": "tricycle",
@@ -145568,7 +145742,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3850-trigonometry",
+    "id": "index-3855-trigonometry",
     "type": "word",
     "text": "trigonometry",
     "word": "trigonometry",
@@ -145602,7 +145776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3851-trim-the-hedge",
+    "id": "index-3856-trim-the-hedge",
     "type": "word",
     "text": "trim the hedge",
     "word": "trim the hedge",
@@ -145636,7 +145810,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3852-trip",
+    "id": "index-3857-trip",
     "type": "word",
     "text": "trip",
     "word": "trip",
@@ -145670,7 +145844,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3853-tripe",
+    "id": "index-3858-tripe",
     "type": "word",
     "text": "tripe",
     "word": "tripe",
@@ -145704,7 +145878,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3854-tripod",
+    "id": "index-3859-tripod",
     "type": "word",
     "text": "tripod",
     "word": "tripod",
@@ -145738,7 +145912,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3855-trombone",
+    "id": "index-3860-trombone",
     "type": "word",
     "text": "trombone",
     "word": "trombone",
@@ -145772,7 +145946,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3856-trout",
+    "id": "index-3861-trout",
     "type": "word",
     "text": "trout",
     "word": "trout",
@@ -145823,7 +145997,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3857-truck",
+    "id": "index-3862-truck",
     "type": "word",
     "text": "truck",
     "word": "truck",
@@ -145857,7 +146031,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3858-trumpet",
+    "id": "index-3863-trumpet",
     "type": "word",
     "text": "trumpet",
     "word": "trumpet",
@@ -145891,7 +146065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3859-trunk",
+    "id": "index-3864-trunk",
     "type": "word",
     "text": "trunk",
     "word": "trunk",
@@ -145967,7 +146141,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3860-trunks",
+    "id": "index-3865-trunks",
     "type": "word",
     "text": "trunks",
     "word": "trunks",
@@ -146001,7 +146175,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3861-try-on",
+    "id": "index-3866-try-on",
     "type": "word",
     "text": "try on",
     "word": "try on",
@@ -146035,7 +146209,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3862-tsunami",
+    "id": "index-3867-tsunami",
     "type": "word",
     "text": "tsunami",
     "word": "tsunami",
@@ -146069,7 +146243,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3863-tub",
+    "id": "index-3868-tub",
     "type": "word",
     "text": "tub",
     "word": "tub",
@@ -146103,7 +146277,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3864-tuba",
+    "id": "index-3869-tuba",
     "type": "word",
     "text": "tuba",
     "word": "tuba",
@@ -146137,7 +146311,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3865-tube",
+    "id": "index-3870-tube",
     "type": "word",
     "text": "tube",
     "word": "tube",
@@ -146171,7 +146345,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3866-tuberculosis",
+    "id": "index-3871-tuberculosis",
     "type": "word",
     "text": "tuberculosis",
     "word": "tuberculosis",
@@ -146205,7 +146379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3867-tuesday",
+    "id": "index-3872-tuesday",
     "type": "word",
     "text": "Tuesday",
     "word": "Tuesday",
@@ -146242,7 +146416,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3868-tulip",
+    "id": "index-3873-tulip",
     "type": "word",
     "text": "tulip",
     "word": "tulip",
@@ -146276,7 +146450,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3869-tuna",
+    "id": "index-3874-tuna",
     "type": "word",
     "text": "tuna",
     "word": "tuna",
@@ -146325,7 +146499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3870-tuna-fish",
+    "id": "index-3875-tuna-fish",
     "type": "word",
     "text": "tuna fish",
     "word": "tuna fish",
@@ -146359,7 +146533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3871-tuna-fish-sandwich",
+    "id": "index-3876-tuna-fish-sandwich",
     "type": "word",
     "text": "tuna fish sandwich",
     "word": "tuna fish sandwich",
@@ -146393,7 +146567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3872-tuner",
+    "id": "index-3877-tuner",
     "type": "word",
     "text": "tuner",
     "word": "tuner",
@@ -146427,7 +146601,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3873-tunic",
+    "id": "index-3878-tunic",
     "type": "word",
     "text": "tunic",
     "word": "tunic",
@@ -146461,7 +146635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3874-turkey",
+    "id": "index-3879-turkey",
     "type": "word",
     "text": "turkey",
     "word": "turkey",
@@ -146524,7 +146698,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3875-turn-left",
+    "id": "index-3880-turn-left",
     "type": "word",
     "text": "turn left",
     "word": "turn left",
@@ -146573,7 +146747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3876-turn-off-the-lights",
+    "id": "index-3881-turn-off-the-lights",
     "type": "word",
     "text": "turn off the lights",
     "word": "turn off the lights",
@@ -146607,7 +146781,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3877-turn-on-the-lights",
+    "id": "index-3882-turn-on-the-lights",
     "type": "word",
     "text": "turn on the lights",
     "word": "turn on the lights",
@@ -146641,7 +146815,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3878-turn-right",
+    "id": "index-3883-turn-right",
     "type": "word",
     "text": "turn right",
     "word": "turn right",
@@ -146675,7 +146849,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3879-turn-signal",
+    "id": "index-3884-turn-signal",
     "type": "word",
     "text": "turn signal",
     "word": "turn signal",
@@ -146724,7 +146898,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3880-turnip",
+    "id": "index-3885-turnip",
     "type": "word",
     "text": "turnip",
     "word": "turnip",
@@ -146758,7 +146932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3881-turnstile",
+    "id": "index-3886-turnstile",
     "type": "word",
     "text": "turnstile",
     "word": "turnstile",
@@ -146792,7 +146966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3882-turntable",
+    "id": "index-3887-turntable",
     "type": "word",
     "text": "turntable",
     "word": "turntable",
@@ -146826,7 +147000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3883-turquoise",
+    "id": "index-3888-turquoise",
     "type": "word",
     "text": "turquoise",
     "word": "turquoise",
@@ -146862,7 +147036,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3884-turtle",
+    "id": "index-3889-turtle",
     "type": "word",
     "text": "turtle",
     "word": "turtle",
@@ -146896,7 +147070,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3885-turtleneck",
+    "id": "index-3890-turtleneck",
     "type": "word",
     "text": "turtleneck",
     "word": "turtleneck",
@@ -146945,7 +147119,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3886-turtleneck-shirt",
+    "id": "index-3891-turtleneck-shirt",
     "type": "word",
     "text": "turtleneck shirt",
     "word": "turtleneck shirt",
@@ -146979,7 +147153,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3887-turtleneck-sweater",
+    "id": "index-3892-turtleneck-sweater",
     "type": "word",
     "text": "turtleneck sweater",
     "word": "turtleneck sweater",
@@ -147015,7 +147189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3888-tusk",
+    "id": "index-3893-tusk",
     "type": "word",
     "text": "tusk",
     "word": "tusk",
@@ -147064,7 +147238,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3889-tuxedo",
+    "id": "index-3894-tuxedo",
     "type": "word",
     "text": "tuxedo",
     "word": "tuxedo",
@@ -147098,7 +147272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3890-tv",
+    "id": "index-3895-tv",
     "type": "word",
     "text": "TV",
     "word": "TV",
@@ -147147,7 +147321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3891-tv-programs",
+    "id": "index-3896-tv-programs",
     "type": "word",
     "text": "TV programs",
     "word": "TV programs",
@@ -147181,7 +147355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3892-tvantenna",
+    "id": "index-3897-tvantenna",
     "type": "word",
     "text": "TVantenna",
     "word": "TVantenna",
@@ -147215,7 +147389,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3893-tweezers",
+    "id": "index-3898-tweezers",
     "type": "word",
     "text": "tweezers",
     "word": "tweezers",
@@ -147251,7 +147425,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3894-twelve-midnight",
+    "id": "index-3899-twelve-midnight",
     "type": "word",
     "text": "twelve midnight",
     "word": "twelve midnight",
@@ -147285,7 +147459,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3895-twelve-noon",
+    "id": "index-3900-twelve-noon",
     "type": "word",
     "text": "twelve noon",
     "word": "twelve noon",
@@ -147321,7 +147495,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3896-twice-a-week",
+    "id": "index-3901-twice-a-week",
     "type": "word",
     "text": "twice a week",
     "word": "twice a week",
@@ -147357,7 +147531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3897-twig",
+    "id": "index-3902-twig",
     "type": "word",
     "text": "twig",
     "word": "twig",
@@ -147391,7 +147565,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3898-twist",
+    "id": "index-3903-twist",
     "type": "word",
     "text": "twist",
     "word": "twist",
@@ -147425,7 +147599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3899-two-thirds",
+    "id": "index-3904-two-thirds",
     "type": "word",
     "text": "two thirds",
     "word": "two thirds",
@@ -147459,7 +147633,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3900-two-family-house",
+    "id": "index-3905-two-family-house",
     "type": "word",
     "text": "two-family house",
     "word": "two-family house",
@@ -147495,7 +147669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3901-type",
+    "id": "index-3906-type",
     "type": "word",
     "text": "type",
     "word": "type",
@@ -147529,7 +147703,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3902-type-a-letter",
+    "id": "index-3907-type-a-letter",
     "type": "word",
     "text": "type a letter",
     "word": "type a letter",
@@ -147563,7 +147737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3903-types-of-clothinq",
+    "id": "index-3908-types-of-clothinq",
     "type": "word",
     "text": "types of clothinq",
     "word": "types of clothinq",
@@ -147597,7 +147771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3904-types-of-material",
+    "id": "index-3909-types-of-material",
     "type": "word",
     "text": "types of material",
     "word": "types of material",
@@ -147631,7 +147805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3905-types-of-travel",
+    "id": "index-3910-types-of-travel",
     "type": "word",
     "text": "types of travel",
     "word": "types of travel",
@@ -147665,7 +147839,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3906-typewriter-cartridge-vet",
+    "id": "index-3911-typewriter-cartridge-vet",
     "type": "word",
     "text": "typewriter cartridge vet",
     "word": "typewriter cartridge vet",
@@ -147701,7 +147875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3907-typhoon",
+    "id": "index-3912-typhoon",
     "type": "word",
     "text": "typhoon",
     "word": "typhoon",
@@ -147737,7 +147911,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3908-t-cket",
+    "id": "index-3913-t-cket",
     "type": "word",
     "text": "tícket",
     "word": "tícket",
@@ -147800,7 +147974,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3909-u-f-o",
+    "id": "index-3914-u-f-o",
     "type": "word",
     "text": "U.F.O.",
     "word": "U.F.O.",
@@ -147834,7 +148008,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3910-ugly",
+    "id": "index-3915-ugly",
     "type": "word",
     "text": "ugly",
     "word": "ugly",
@@ -147882,7 +148056,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3911-uncle",
+    "id": "index-3916-uncle",
     "type": "word",
     "text": "uncle",
     "word": "uncle",
@@ -147916,7 +148090,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3912-uncomfortable",
+    "id": "index-3917-uncomfortable",
     "type": "word",
     "text": "uncomfortable",
     "word": "uncomfortable",
@@ -147950,7 +148124,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3913-unconscious",
+    "id": "index-3918-unconscious",
     "type": "word",
     "text": "unconscious",
     "word": "unconscious",
@@ -147986,7 +148160,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3914-under",
+    "id": "index-3919-under",
     "type": "word",
     "text": "under",
     "word": "under",
@@ -148035,7 +148209,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3915-underline-the-word",
+    "id": "index-3920-underline-the-word",
     "type": "word",
     "text": "underline the word",
     "word": "underline the word",
@@ -148084,7 +148258,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3916-underpants",
+    "id": "index-3921-underpants",
     "type": "word",
     "text": "underpants",
     "word": "underpants",
@@ -148132,7 +148306,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3917-undershirt",
+    "id": "index-3922-undershirt",
     "type": "word",
     "text": "undershirt",
     "word": "undershirt",
@@ -148166,7 +148340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3918-unhappy",
+    "id": "index-3923-unhappy",
     "type": "word",
     "text": "unhappy",
     "word": "unhappy",
@@ -148200,7 +148374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3919-unidentificd-flying-vinegar",
+    "id": "index-3924-unidentificd-flying-vinegar",
     "type": "word",
     "text": "Unidentificd Flying vinegar",
     "word": "Unidentificd Flying vinegar",
@@ -148234,7 +148408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3920-uniform",
+    "id": "index-3925-uniform",
     "type": "word",
     "text": "uniform",
     "word": "uniform",
@@ -148283,7 +148457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3921-union-notice",
+    "id": "index-3926-union-notice",
     "type": "word",
     "text": "union notice",
     "word": "union notice",
@@ -148317,7 +148491,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3922-universal",
+    "id": "index-3927-universal",
     "type": "word",
     "text": "universal",
     "word": "universal",
@@ -148351,7 +148525,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3923-universe",
+    "id": "index-3928-universe",
     "type": "word",
     "text": "universe",
     "word": "universe",
@@ -148385,7 +148559,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3924-university",
+    "id": "index-3929-university",
     "type": "word",
     "text": "university",
     "word": "university",
@@ -148419,7 +148593,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3925-unload-the-washer",
+    "id": "index-3930-unload-the-washer",
     "type": "word",
     "text": "unload the washer",
     "word": "unload the washer",
@@ -148455,7 +148629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3926-unscramble-the-word",
+    "id": "index-3931-unscramble-the-word",
     "type": "word",
     "text": "unscramble the word",
     "word": "unscramble the word",
@@ -148489,7 +148663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3927-up",
+    "id": "index-3932-up",
     "type": "word",
     "text": "up",
     "word": "up",
@@ -148538,7 +148712,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3928-upset",
+    "id": "index-3933-upset",
     "type": "word",
     "text": "upset",
     "word": "upset",
@@ -148572,7 +148746,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3929-uranus",
+    "id": "index-3934-uranus",
     "type": "word",
     "text": "Uranus",
     "word": "Uranus",
@@ -148606,7 +148780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3930-url",
+    "id": "index-3935-url",
     "type": "word",
     "text": "URL",
     "word": "URL",
@@ -148640,7 +148814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3931-urnbrella",
+    "id": "index-3936-urnbrella",
     "type": "word",
     "text": "urnbrella",
     "word": "urnbrella",
@@ -148689,7 +148863,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3932-use",
+    "id": "index-3937-use",
     "type": "word",
     "text": "use",
     "word": "use",
@@ -148723,7 +148897,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3933-use-hand-signals",
+    "id": "index-3938-use-hand-signals",
     "type": "word",
     "text": "use hand signals",
     "word": "use hand signals",
@@ -148757,7 +148931,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3934-use-the-computer",
+    "id": "index-3939-use-the-computer",
     "type": "word",
     "text": "use the computer",
     "word": "use the computer",
@@ -148791,7 +148965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3935-using-an-atm-machine",
+    "id": "index-3940-using-an-atm-machine",
     "type": "word",
     "text": "using an ATM machine",
     "word": "using an ATM machine",
@@ -148825,7 +148999,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3936-v-neck-sweater",
+    "id": "index-3941-v-neck-sweater",
     "type": "word",
     "text": "V-neck sweater",
     "word": "V-neck sweater",
@@ -148861,7 +149035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3937-vacancy-sign",
+    "id": "index-3942-vacancy-sign",
     "type": "word",
     "text": "vacancy sign",
     "word": "vacancy sign",
@@ -148895,7 +149069,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3938-vacuum",
+    "id": "index-3943-vacuum",
     "type": "word",
     "text": "vacuum",
     "word": "vacuum",
@@ -148943,7 +149117,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3939-vacuum-c1eaner",
+    "id": "index-3944-vacuum-c1eaner",
     "type": "word",
     "text": "vacuum c1eaner",
     "word": "vacuum c1eaner",
@@ -148979,7 +149153,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3940-vacuum-cleaner-waiter",
+    "id": "index-3945-vacuum-cleaner-waiter",
     "type": "word",
     "text": "vacuum cleaner waiter",
     "word": "vacuum cleaner waiter",
@@ -149031,7 +149205,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3941-vacuurn-cleaner-bag",
+    "id": "index-3946-vacuurn-cleaner-bag",
     "type": "word",
     "text": "vacuurn cleaner bag",
     "word": "vacuurn cleaner bag",
@@ -149067,7 +149241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3942-valet-parking",
+    "id": "index-3947-valet-parking",
     "type": "word",
     "text": "valet parking",
     "word": "valet parking",
@@ -149101,7 +149275,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3943-valley",
+    "id": "index-3948-valley",
     "type": "word",
     "text": "valley",
     "word": "valley",
@@ -149135,7 +149309,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3944-van",
+    "id": "index-3949-van",
     "type": "word",
     "text": "van",
     "word": "van",
@@ -149169,7 +149343,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3945-vandalism",
+    "id": "index-3950-vandalism",
     "type": "word",
     "text": "vandalism",
     "word": "vandalism",
@@ -149203,7 +149377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3946-vanity",
+    "id": "index-3951-vanity",
     "type": "word",
     "text": "vanity",
     "word": "vanity",
@@ -149237,7 +149411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3947-vase",
+    "id": "index-3952-vase",
     "type": "word",
     "text": "vase",
     "word": "vase",
@@ -149271,7 +149445,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3948-vault",
+    "id": "index-3953-vault",
     "type": "word",
     "text": "vault",
     "word": "vault",
@@ -149307,7 +149481,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3949-vcr",
+    "id": "index-3954-vcr",
     "type": "word",
     "text": "VCR",
     "word": "VCR",
@@ -149356,7 +149530,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3950-veal-cutlet",
+    "id": "index-3955-veal-cutlet",
     "type": "word",
     "text": "veal cutlet",
     "word": "veal cutlet",
@@ -149392,7 +149566,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3951-vegetable-garden",
+    "id": "index-3956-vegetable-garden",
     "type": "word",
     "text": "vegetable garden",
     "word": "vegetable garden",
@@ -149426,7 +149600,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3952-vegetable-peeler",
+    "id": "index-3957-vegetable-peeler",
     "type": "word",
     "text": "vegetable peeler",
     "word": "vegetable peeler",
@@ -149462,7 +149636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3953-vegetable-seeds",
+    "id": "index-3958-vegetable-seeds",
     "type": "word",
     "text": "vegetable seeds",
     "word": "vegetable seeds",
@@ -149498,7 +149672,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3954-vegetables",
+    "id": "index-3959-vegetables",
     "type": "word",
     "text": "vegetables",
     "word": "vegetables",
@@ -149547,7 +149721,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3955-vehicles",
+    "id": "index-3960-vehicles",
     "type": "word",
     "text": "vehicles",
     "word": "vehicles",
@@ -149581,7 +149755,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3956-veins",
+    "id": "index-3961-veins",
     "type": "word",
     "text": "veins",
     "word": "veins",
@@ -149615,7 +149789,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3957-vender",
+    "id": "index-3962-vender",
     "type": "word",
     "text": "vender",
     "word": "vender",
@@ -149649,7 +149823,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3958-vending-machine",
+    "id": "index-3963-vending-machine",
     "type": "word",
     "text": "vending machine",
     "word": "vending machine",
@@ -149683,7 +149857,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3959-vent",
+    "id": "index-3964-vent",
     "type": "word",
     "text": "vent",
     "word": "vent",
@@ -149717,7 +149891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3960-venus",
+    "id": "index-3965-venus",
     "type": "word",
     "text": "Venus",
     "word": "Venus",
@@ -149751,7 +149925,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3961-verb",
+    "id": "index-3966-verb",
     "type": "word",
     "text": "verb",
     "word": "verb",
@@ -149785,7 +149959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3962-vest",
+    "id": "index-3967-vest",
     "type": "word",
     "text": "vest",
     "word": "vest",
@@ -149819,7 +149993,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3963-veterinarian",
+    "id": "index-3968-veterinarian",
     "type": "word",
     "text": "veterinarian",
     "word": "veterinarian",
@@ -149853,7 +150027,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3964-vice-principal",
+    "id": "index-3969-vice-principal",
     "type": "word",
     "text": "vice-principal",
     "word": "vice-principal",
@@ -149887,7 +150061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3965-video",
+    "id": "index-3970-video",
     "type": "word",
     "text": "video",
     "word": "video",
@@ -149921,7 +150095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3966-video-camera",
+    "id": "index-3971-video-camera",
     "type": "word",
     "text": "video camera",
     "word": "video camera",
@@ -149955,7 +150129,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3967-video-cassette-recorder-wash-the-dishes",
+    "id": "index-3972-video-cassette-recorder-wash-the-dishes",
     "type": "word",
     "text": "video cassette recorder wash the dishes",
     "word": "video cassette recorder wash the dishes",
@@ -149989,7 +150163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3968-video-game",
+    "id": "index-3973-video-game",
     "type": "word",
     "text": "video game",
     "word": "video game",
@@ -150023,7 +150197,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-3969-video-game-system",
+    "id": "index-3974-video-game-system",
     "type": "word",
     "text": "video game system",
     "word": "video game system",
@@ -150057,7 +150231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3970-video-store",
+    "id": "index-3975-video-store",
     "type": "word",
     "text": "video store",
     "word": "video store",
@@ -150091,7 +150265,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3971-videocassette",
+    "id": "index-3976-videocassette",
     "type": "word",
     "text": "videocassette",
     "word": "videocassette",
@@ -150125,7 +150299,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3972-videocassette-recorder-truck-driver",
+    "id": "index-3977-videocassette-recorder-truck-driver",
     "type": "word",
     "text": "videocassette recorder truck driver",
     "word": "videocassette recorder truck driver",
@@ -150159,7 +150333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3973-videotape",
+    "id": "index-3978-videotape",
     "type": "word",
     "text": "videotape",
     "word": "videotape",
@@ -150208,7 +150382,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3974-village",
+    "id": "index-3979-village",
     "type": "word",
     "text": "village",
     "word": "village",
@@ -150257,7 +150431,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3975-vine",
+    "id": "index-3980-vine",
     "type": "word",
     "text": "vine",
     "word": "vine",
@@ -150291,7 +150465,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3976-viola",
+    "id": "index-3981-viola",
     "type": "word",
     "text": "viola",
     "word": "viola",
@@ -150325,7 +150499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3977-violet",
+    "id": "index-3982-violet",
     "type": "word",
     "text": "violet",
     "word": "violet",
@@ -150359,7 +150533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3978-viol-n",
+    "id": "index-3983-viol-n",
     "type": "word",
     "text": "violín",
     "word": "violín",
@@ -150393,7 +150567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3979-visa",
+    "id": "index-3984-visa",
     "type": "word",
     "text": "visa",
     "word": "visa",
@@ -150442,7 +150616,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3980-vise",
+    "id": "index-3985-vise",
     "type": "word",
     "text": "vise",
     "word": "vise",
@@ -150476,7 +150650,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3981-vision-impaired",
+    "id": "index-3986-vision-impaired",
     "type": "word",
     "text": "vision impaired",
     "word": "vision impaired",
@@ -150512,7 +150686,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3982-visit",
+    "id": "index-3987-visit",
     "type": "word",
     "text": "visit",
     "word": "visit",
@@ -150546,7 +150720,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3983-visor",
+    "id": "index-3988-visor",
     "type": "word",
     "text": "visor",
     "word": "visor",
@@ -150580,7 +150754,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3984-vital-signs-monitor",
+    "id": "index-3989-vital-signs-monitor",
     "type": "word",
     "text": "vital signs monitor",
     "word": "vital signs monitor",
@@ -150614,7 +150788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3985-vitamins",
+    "id": "index-3990-vitamins",
     "type": "word",
     "text": "vitamins",
     "word": "vitamins",
@@ -150677,7 +150851,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3986-vocational-school",
+    "id": "index-3991-vocational-school",
     "type": "word",
     "text": "vocational school",
     "word": "vocational school",
@@ -150713,7 +150887,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3987-volcanic-eruption",
+    "id": "index-3992-volcanic-eruption",
     "type": "word",
     "text": "volcanic eruption",
     "word": "volcanic eruption",
@@ -150747,7 +150921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3988-volleyball",
+    "id": "index-3993-volleyball",
     "type": "word",
     "text": "volleyball",
     "word": "volleyball",
@@ -150809,7 +150983,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3989-volleyball-net",
+    "id": "index-3994-volleyball-net",
     "type": "word",
     "text": "volleyball net",
     "word": "volleyball net",
@@ -150843,7 +151017,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3990-volleyball-player",
+    "id": "index-3995-volleyball-player",
     "type": "word",
     "text": "volleyball player",
     "word": "volleyball player",
@@ -150879,7 +151053,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3991-voltage-regulator",
+    "id": "index-3996-voltage-regulator",
     "type": "word",
     "text": "voltage regulator",
     "word": "voltage regulator",
@@ -150913,7 +151087,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3992-volunteer",
+    "id": "index-3997-volunteer",
     "type": "word",
     "text": "volunteer",
     "word": "volunteer",
@@ -150949,7 +151123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3993-vomit",
+    "id": "index-3998-vomit",
     "type": "word",
     "text": "vomit",
     "word": "vomit",
@@ -150983,7 +151157,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3994-waffles",
+    "id": "index-3999-waffles",
     "type": "word",
     "text": "waffles",
     "word": "waffles",
@@ -151017,7 +151191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3995-wagon",
+    "id": "index-4000-wagon",
     "type": "word",
     "text": "wagon",
     "word": "wagon",
@@ -151051,7 +151225,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3996-waist",
+    "id": "index-4001-waist",
     "type": "word",
     "text": "waist",
     "word": "waist",
@@ -151087,7 +151261,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3997-waiting-room",
+    "id": "index-4002-waiting-room",
     "type": "word",
     "text": "waiting room",
     "word": "waiting room",
@@ -151139,7 +151313,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3998-waitress",
+    "id": "index-4003-waitress",
     "type": "word",
     "text": "waitress",
     "word": "waitress",
@@ -151190,7 +151364,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3999-wake-up-call",
+    "id": "index-4004-wake-up-call",
     "type": "word",
     "text": "wake-up call",
     "word": "wake-up call",
@@ -151224,7 +151398,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4000-walk",
+    "id": "index-4005-walk",
     "type": "word",
     "text": "walk",
     "word": "walk",
@@ -151258,7 +151432,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4001-walk-the-dog",
+    "id": "index-4006-walk-the-dog",
     "type": "word",
     "text": "walk the dog",
     "word": "walk the dog",
@@ -151292,7 +151466,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4002-walk-through-the-metal-transaction-slip",
+    "id": "index-4007-walk-through-the-metal-transaction-slip",
     "type": "word",
     "text": "walk through the metal transaction slip",
     "word": "walk through the metal transaction slip",
@@ -151328,7 +151502,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4003-walker",
+    "id": "index-4008-walker",
     "type": "word",
     "text": "walker",
     "word": "walker",
@@ -151377,7 +151551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4004-walkie-talkie",
+    "id": "index-4009-walkie-talkie",
     "type": "word",
     "text": "walkie-talkie",
     "word": "walkie-talkie",
@@ -151413,7 +151587,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4005-walkie-talkie-set",
+    "id": "index-4010-walkie-talkie-set",
     "type": "word",
     "text": "walkie-talkie set",
     "word": "walkie-talkie set",
@@ -151449,7 +151623,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4006-walking",
+    "id": "index-4011-walking",
     "type": "word",
     "text": "walking",
     "word": "walking",
@@ -151483,7 +151657,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4007-walking-shoes",
+    "id": "index-4012-walking-shoes",
     "type": "word",
     "text": "walking shoes",
     "word": "walking shoes",
@@ -151519,7 +151693,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4008-walking-tour",
+    "id": "index-4013-walking-tour",
     "type": "word",
     "text": "walking tour",
     "word": "walking tour",
@@ -151555,7 +151729,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4009-wall",
+    "id": "index-4014-wall",
     "type": "word",
     "text": "wall",
     "word": "wall",
@@ -151604,7 +151778,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4010-wall-unit",
+    "id": "index-4015-wall-unit",
     "type": "word",
     "text": "wall unit",
     "word": "wall unit",
@@ -151638,7 +151812,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4011-wallet",
+    "id": "index-4016-wallet",
     "type": "word",
     "text": "wallet",
     "word": "wallet",
@@ -151672,7 +151846,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4012-walrus",
+    "id": "index-4017-walrus",
     "type": "word",
     "text": "walrus",
     "word": "walrus",
@@ -151706,7 +151880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4013-want-ad",
+    "id": "index-4018-want-ad",
     "type": "word",
     "text": "want ad",
     "word": "want ad",
@@ -151740,7 +151914,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4014-war-movie",
+    "id": "index-4019-war-movie",
     "type": "word",
     "text": "war movie",
     "word": "war movie",
@@ -151776,7 +151950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4015-warehouse",
+    "id": "index-4020-warehouse",
     "type": "word",
     "text": "warehouse",
     "word": "warehouse",
@@ -151812,7 +151986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4016-warm",
+    "id": "index-4021-warm",
     "type": "word",
     "text": "warm",
     "word": "warm",
@@ -151846,7 +152020,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4017-warm-up-suit",
+    "id": "index-4022-warm-up-suit",
     "type": "word",
     "text": "warm-up suit",
     "word": "warm-up suit",
@@ -151880,7 +152054,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4018-warning-lights",
+    "id": "index-4023-warning-lights",
     "type": "word",
     "text": "warning lights",
     "word": "warning lights",
@@ -151943,7 +152117,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4019-wart",
+    "id": "index-4024-wart",
     "type": "word",
     "text": "wart",
     "word": "wart",
@@ -151977,7 +152151,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4020-wash",
+    "id": "index-4025-wash",
     "type": "word",
     "text": "wash",
     "word": "wash",
@@ -152011,7 +152185,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4021-wash-my-face",
+    "id": "index-4026-wash-my-face",
     "type": "word",
     "text": "wash my face",
     "word": "wash my face",
@@ -152045,7 +152219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4022-wash-my-hair",
+    "id": "index-4027-wash-my-hair",
     "type": "word",
     "text": "wash my hair",
     "word": "wash my hair",
@@ -152081,7 +152255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4023-wash-the-windows",
+    "id": "index-4028-wash-the-windows",
     "type": "word",
     "text": "wash the windows",
     "word": "wash the windows",
@@ -152117,7 +152291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4024-washcloth",
+    "id": "index-4029-washcloth",
     "type": "word",
     "text": "washcloth",
     "word": "washcloth",
@@ -152151,7 +152325,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4025-washer",
+    "id": "index-4030-washer",
     "type": "word",
     "text": "washer",
     "word": "washer",
@@ -152226,7 +152400,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4026-washing-machine",
+    "id": "index-4031-washing-machine",
     "type": "word",
     "text": "washing machine",
     "word": "washing machine",
@@ -152260,7 +152434,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4027-wasp",
+    "id": "index-4032-wasp",
     "type": "word",
     "text": "wasp",
     "word": "wasp",
@@ -152294,7 +152468,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4028-wastebasket",
+    "id": "index-4033-wastebasket",
     "type": "word",
     "text": "wastebasket",
     "word": "wastebasket",
@@ -152343,7 +152517,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4029-watch",
+    "id": "index-4034-watch",
     "type": "word",
     "text": "watch",
     "word": "watch",
@@ -152377,7 +152551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4030-watch-tv",
+    "id": "index-4035-watch-tv",
     "type": "word",
     "text": "watch TV",
     "word": "watch TV",
@@ -152411,7 +152585,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4031-water",
+    "id": "index-4036-water",
     "type": "word",
     "text": "water",
     "word": "water",
@@ -152488,7 +152662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4032-water-bill",
+    "id": "index-4037-water-bill",
     "type": "word",
     "text": "water bill",
     "word": "water bill",
@@ -152522,7 +152696,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4033-water-cooler",
+    "id": "index-4038-water-cooler",
     "type": "word",
     "text": "Water cooler",
     "word": "Water cooler",
@@ -152558,7 +152732,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4034-water-fountain",
+    "id": "index-4039-water-fountain",
     "type": "word",
     "text": "water fountain",
     "word": "water fountain",
@@ -152610,7 +152784,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4035-water-glass",
+    "id": "index-4040-water-glass",
     "type": "word",
     "text": "water glass",
     "word": "water glass",
@@ -152644,7 +152818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4036-water-main-break",
+    "id": "index-4041-water-main-break",
     "type": "word",
     "text": "water main break",
     "word": "water main break",
@@ -152681,7 +152855,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4037-water-skis",
+    "id": "index-4042-water-skis",
     "type": "word",
     "text": "water skis",
     "word": "water skis",
@@ -152715,7 +152889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4038-watercolor",
+    "id": "index-4043-watercolor",
     "type": "word",
     "text": "watercolor",
     "word": "watercolor",
@@ -152749,7 +152923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4039-watering-can-35-3-witch",
+    "id": "index-4044-watering-can-35-3-witch",
     "type": "word",
     "text": "watering can 35-;3 witch",
     "word": "watering can 35-;3 witch",
@@ -152783,7 +152957,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4040-waterskiing",
+    "id": "index-4045-waterskiing",
     "type": "word",
     "text": "waterskiing",
     "word": "waterskiing",
@@ -152817,7 +152991,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4041-wave",
+    "id": "index-4046-wave",
     "type": "word",
     "text": "wave",
     "word": "wave",
@@ -152851,7 +153025,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4042-wavy",
+    "id": "index-4047-wavy",
     "type": "word",
     "text": "wavy",
     "word": "wavy",
@@ -152885,7 +153059,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4043-wax-the-floor",
+    "id": "index-4048-wax-the-floor",
     "type": "word",
     "text": "wax the floor",
     "word": "wax the floor",
@@ -152921,7 +153095,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4044-waxed-paper",
+    "id": "index-4049-waxed-paper",
     "type": "word",
     "text": "waxed paper",
     "word": "waxed paper",
@@ -152955,7 +153129,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4045-we-need-some-towels",
+    "id": "index-4050-we-need-some-towels",
     "type": "word",
     "text": "We need some towels.",
     "word": "We need some towels.",
@@ -152992,7 +153166,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4046-weather",
+    "id": "index-4051-weather",
     "type": "word",
     "text": "weather",
     "word": "weather",
@@ -153028,7 +153202,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4047-web",
+    "id": "index-4052-web",
     "type": "word",
     "text": "web",
     "word": "web",
@@ -153062,7 +153236,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4048-web-browser",
+    "id": "index-4053-web-browser",
     "type": "word",
     "text": "web browser",
     "word": "web browser",
@@ -153098,7 +153272,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4049-wedding-band",
+    "id": "index-4054-wedding-band",
     "type": "word",
     "text": "wedding band",
     "word": "wedding band",
@@ -153132,7 +153306,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4050-wedding-ring",
+    "id": "index-4055-wedding-ring",
     "type": "word",
     "text": "wedding ring",
     "word": "wedding ring",
@@ -153166,7 +153340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4051-weed",
+    "id": "index-4056-weed",
     "type": "word",
     "text": "weed",
     "word": "weed",
@@ -153202,7 +153376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4052-weeder",
+    "id": "index-4057-weeder",
     "type": "word",
     "text": "weeder",
     "word": "weeder",
@@ -153238,7 +153412,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4053-week",
+    "id": "index-4058-week",
     "type": "word",
     "text": "week",
     "word": "week",
@@ -153274,7 +153448,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4054-weekend",
+    "id": "index-4059-weekend",
     "type": "word",
     "text": "weekend",
     "word": "weekend",
@@ -153310,7 +153484,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4055-weight",
+    "id": "index-4060-weight",
     "type": "word",
     "text": "weight",
     "word": "weight",
@@ -153359,7 +153533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4056-weightlifting",
+    "id": "index-4061-weightlifting",
     "type": "word",
     "text": "weightlifting",
     "word": "weightlifting",
@@ -153393,7 +153567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4057-weights",
+    "id": "index-4062-weights",
     "type": "word",
     "text": "weights",
     "word": "weights",
@@ -153427,7 +153601,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4058-welder",
+    "id": "index-4063-welder",
     "type": "word",
     "text": "welder",
     "word": "welder",
@@ -153461,7 +153635,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4059-west",
+    "id": "index-4064-west",
     "type": "word",
     "text": "west",
     "word": "west",
@@ -153495,7 +153669,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4060-western",
+    "id": "index-4065-western",
     "type": "word",
     "text": "western",
     "word": "western",
@@ -153529,7 +153703,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4061-wet-clothing",
+    "id": "index-4066-wet-clothing",
     "type": "word",
     "text": "wet clothing",
     "word": "wet clothing",
@@ -153563,7 +153737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4062-wet-mop",
+    "id": "index-4067-wet-mop",
     "type": "word",
     "text": "wet mop",
     "word": "wet mop",
@@ -153597,7 +153771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4063-wet-suit",
+    "id": "index-4068-wet-suit",
     "type": "word",
     "text": "wet-suit",
     "word": "wet-suit",
@@ -153631,7 +153805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4064-whale",
+    "id": "index-4069-whale",
     "type": "word",
     "text": "whale",
     "word": "whale",
@@ -153665,7 +153839,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4065-what-do-you-call-that-in-english",
+    "id": "index-4070-what-do-you-call-that-in-english",
     "type": "word",
     "text": "What do you call that in English?",
     "word": "What do you call that in English?",
@@ -153701,7 +153875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4066-what-s-new-with-you",
+    "id": "index-4071-what-s-new-with-you",
     "type": "word",
     "text": "What's new with you?",
     "word": "What's new with you?",
@@ -153738,7 +153912,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4067-what-s-new",
+    "id": "index-4072-what-s-new",
     "type": "word",
     "text": "What's new?",
     "word": "What's new?",
@@ -153774,7 +153948,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4068-wheelbarrow",
+    "id": "index-4073-wheelbarrow",
     "type": "word",
     "text": "wheelbarrow",
     "word": "wheelbarrow",
@@ -153826,7 +154000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4069-wheelchair",
+    "id": "index-4074-wheelchair",
     "type": "word",
     "text": "wheelchair",
     "word": "wheelchair",
@@ -153863,7 +154037,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4070-whirlpool",
+    "id": "index-4075-whirlpool",
     "type": "word",
     "text": "whirlpool",
     "word": "whirlpool",
@@ -153899,7 +154073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4071-whisk",
+    "id": "index-4076-whisk",
     "type": "word",
     "text": "whisk",
     "word": "whisk",
@@ -153933,7 +154107,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4072-whisk-broom",
+    "id": "index-4077-whisk-broom",
     "type": "word",
     "text": "whisk broom",
     "word": "whisk broom",
@@ -153969,7 +154143,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4073-whiskers",
+    "id": "index-4078-whiskers",
     "type": "word",
     "text": "whiskers",
     "word": "whiskers",
@@ -154003,7 +154177,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4074-white",
+    "id": "index-4079-white",
     "type": "word",
     "text": "white",
     "word": "white",
@@ -154037,7 +154211,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4075-white-bread",
+    "id": "index-4080-white-bread",
     "type": "word",
     "text": "white bread",
     "word": "white bread",
@@ -154073,7 +154247,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4076-white-water-rafting",
+    "id": "index-4081-white-water-rafting",
     "type": "word",
     "text": "white-water rafting",
     "word": "white-water rafting",
@@ -154107,7 +154281,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4077-whiten-myteeth",
+    "id": "index-4082-whiten-myteeth",
     "type": "word",
     "text": "whiten myteeth",
     "word": "whiten myteeth",
@@ -154143,7 +154317,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4078-whojewheat-bread",
+    "id": "index-4083-whojewheat-bread",
     "type": "word",
     "text": "whoJewheat bread",
     "word": "whoJewheat bread",
@@ -154180,7 +154354,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4079-wide",
+    "id": "index-4084-wide",
     "type": "word",
     "text": "wide",
     "word": "wide",
@@ -154229,7 +154403,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4080-width",
+    "id": "index-4085-width",
     "type": "word",
     "text": "width",
     "word": "width",
@@ -154277,7 +154451,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4081-wife",
+    "id": "index-4086-wife",
     "type": "word",
     "text": "wife",
     "word": "wife",
@@ -154311,7 +154485,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4082-wildfire",
+    "id": "index-4087-wildfire",
     "type": "word",
     "text": "wildfire",
     "word": "wildfire",
@@ -154345,7 +154519,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4083-wind",
+    "id": "index-4088-wind",
     "type": "word",
     "text": "wind",
     "word": "wind",
@@ -154379,7 +154553,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4084-window",
+    "id": "index-4089-window",
     "type": "word",
     "text": "window",
     "word": "window",
@@ -154444,7 +154618,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4085-window-screen",
+    "id": "index-4090-window-screen",
     "type": "word",
     "text": "window screen",
     "word": "window screen",
@@ -154496,7 +154670,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4086-window-seat",
+    "id": "index-4091-window-seat",
     "type": "word",
     "text": "window seat",
     "word": "window seat",
@@ -154533,7 +154707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4087-windshield-wipers",
+    "id": "index-4092-windshield-wipers",
     "type": "word",
     "text": "windshield wipers",
     "word": "windshield wipers",
@@ -154569,7 +154743,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4088-windsh-eld",
+    "id": "index-4093-windsh-eld",
     "type": "word",
     "text": "windshíeld",
     "word": "windshíeld",
@@ -154603,7 +154777,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4089-windsurfing",
+    "id": "index-4094-windsurfing",
     "type": "word",
     "text": "windsurfing",
     "word": "windsurfing",
@@ -154637,7 +154811,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4090-windy",
+    "id": "index-4095-windy",
     "type": "word",
     "text": "windy",
     "word": "windy",
@@ -154671,7 +154845,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4091-wine-glass",
+    "id": "index-4096-wine-glass",
     "type": "word",
     "text": "wine glass",
     "word": "wine glass",
@@ -154705,7 +154879,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4092-wing",
+    "id": "index-4097-wing",
     "type": "word",
     "text": "wing",
     "word": "wing",
@@ -154739,7 +154913,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4093-wipe",
+    "id": "index-4098-wipe",
     "type": "word",
     "text": "wipe",
     "word": "wipe",
@@ -154773,7 +154947,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4094-wipes",
+    "id": "index-4099-wipes",
     "type": "word",
     "text": "wipes",
     "word": "wipes",
@@ -154822,7 +154996,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4095-wire",
+    "id": "index-4100-wire",
     "type": "word",
     "text": "wire",
     "word": "wire",
@@ -154871,7 +155045,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4096-wire-stripper",
+    "id": "index-4101-wire-stripper",
     "type": "word",
     "text": "wire stripper",
     "word": "wire stripper",
@@ -154905,7 +155079,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4097-withdraw-cash",
+    "id": "index-4102-withdraw-cash",
     "type": "word",
     "text": "withdraw cash",
     "word": "withdraw cash",
@@ -154941,7 +155115,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4098-withdrawaj-slip",
+    "id": "index-4103-withdrawaj-slip",
     "type": "word",
     "text": "withdrawaJ slip",
     "word": "withdrawaJ slip",
@@ -154977,7 +155151,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4099-withdrawal",
+    "id": "index-4104-withdrawal",
     "type": "word",
     "text": "withdrawal",
     "word": "withdrawal",
@@ -155013,7 +155187,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4100-wok",
+    "id": "index-4105-wok",
     "type": "word",
     "text": "wok",
     "word": "wok",
@@ -155047,7 +155221,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4101-wolf",
+    "id": "index-4106-wolf",
     "type": "word",
     "text": "wolf",
     "word": "wolf",
@@ -155081,7 +155255,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4102-women-s-clothing-yellow",
+    "id": "index-4107-women-s-clothing-yellow",
     "type": "word",
     "text": "Women's Clothing yellow",
     "word": "Women's Clothing yellow",
@@ -155117,7 +155291,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4103-wood",
+    "id": "index-4108-wood",
     "type": "word",
     "text": "wood",
     "word": "wood",
@@ -155153,7 +155327,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4104-wood-screw",
+    "id": "index-4109-wood-screw",
     "type": "word",
     "text": "wood screw",
     "word": "wood screw",
@@ -155190,7 +155364,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4105-wooden-spoon",
+    "id": "index-4110-wooden-spoon",
     "type": "word",
     "text": "wooden spoon",
     "word": "wooden spoon",
@@ -155226,7 +155400,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4106-woodpecker",
+    "id": "index-4111-woodpecker",
     "type": "word",
     "text": "woodpecker",
     "word": "woodpecker",
@@ -155262,7 +155436,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4107-woods",
+    "id": "index-4112-woods",
     "type": "word",
     "text": "woods",
     "word": "woods",
@@ -155298,7 +155472,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4108-woodwinds",
+    "id": "index-4113-woodwinds",
     "type": "word",
     "text": "woodwinds",
     "word": "woodwinds",
@@ -155334,7 +155508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4109-woodworking",
+    "id": "index-4114-woodworking",
     "type": "word",
     "text": "woodworking",
     "word": "woodworking",
@@ -155370,7 +155544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4110-woodworking-kit",
+    "id": "index-4115-woodworking-kit",
     "type": "word",
     "text": "woodworking kit",
     "word": "woodworking kit",
@@ -155406,7 +155580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4111-wool",
+    "id": "index-4116-wool",
     "type": "word",
     "text": "wool",
     "word": "wool",
@@ -155442,7 +155616,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4112-word",
+    "id": "index-4117-word",
     "type": "word",
     "text": "word",
     "word": "word",
@@ -155516,7 +155690,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4113-word-processing-zoom-lens",
+    "id": "index-4118-word-processing-zoom-lens",
     "type": "word",
     "text": "word-processing zoom lens",
     "word": "word-processing zoom lens",
@@ -155552,7 +155726,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4114-work",
+    "id": "index-4119-work",
     "type": "word",
     "text": "work",
     "word": "work",
@@ -155586,7 +155760,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4115-work-alone",
+    "id": "index-4120-work-alone",
     "type": "word",
     "text": "work alone",
     "word": "work alone",
@@ -155620,7 +155794,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4116-work-area",
+    "id": "index-4121-work-area",
     "type": "word",
     "text": "work area",
     "word": "work area",
@@ -155656,7 +155830,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4117-work-as-a-class",
+    "id": "index-4122-work-as-a-class",
     "type": "word",
     "text": "work as a class",
     "word": "work as a class",
@@ -155690,7 +155864,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4118-work-boots",
+    "id": "index-4123-work-boots",
     "type": "word",
     "text": "work boots",
     "word": "work boots",
@@ -155726,7 +155900,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4119-work-gloves",
+    "id": "index-4124-work-gloves",
     "type": "word",
     "text": "work gloves",
     "word": "work gloves",
@@ -155760,7 +155934,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4120-work-in-a-group",
+    "id": "index-4125-work-in-a-group",
     "type": "word",
     "text": "work in a group",
     "word": "work in a group",
@@ -155796,7 +155970,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4121-work-out",
+    "id": "index-4126-work-out",
     "type": "word",
     "text": "work out",
     "word": "work out",
@@ -155832,7 +156006,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4122-work-station",
+    "id": "index-4127-work-station",
     "type": "word",
     "text": "work station",
     "word": "work station",
@@ -155866,7 +156040,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4123-work-with-a-partner",
+    "id": "index-4128-work-with-a-partner",
     "type": "word",
     "text": "work with a partner",
     "word": "work with a partner",
@@ -155900,7 +156074,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4124-workbook",
+    "id": "index-4129-workbook",
     "type": "word",
     "text": "workbook",
     "word": "workbook",
@@ -155936,7 +156110,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4125-worker",
+    "id": "index-4130-worker",
     "type": "word",
     "text": "worker",
     "word": "worker",
@@ -155985,7 +156159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4126-working",
+    "id": "index-4131-working",
     "type": "word",
     "text": "working",
     "word": "working",
@@ -156060,7 +156234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4127-worktogether",
+    "id": "index-4132-worktogether",
     "type": "word",
     "text": "worktogether",
     "word": "worktogether",
@@ -156094,7 +156268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4128-worm",
+    "id": "index-4133-worm",
     "type": "word",
     "text": "worm",
     "word": "worm",
@@ -156128,7 +156302,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4129-worried",
+    "id": "index-4134-worried",
     "type": "word",
     "text": "worried",
     "word": "worried",
@@ -156164,7 +156338,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4130-wound",
+    "id": "index-4135-wound",
     "type": "word",
     "text": "wound",
     "word": "wound",
@@ -156200,7 +156374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4131-wrench",
+    "id": "index-4136-wrench",
     "type": "word",
     "text": "wrench",
     "word": "wrench",
@@ -156234,7 +156408,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4132-wrestle",
+    "id": "index-4137-wrestle",
     "type": "word",
     "text": "wrestle",
     "word": "wrestle",
@@ -156268,7 +156442,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4133-wrestling-uniform",
+    "id": "index-4138-wrestling-uniform",
     "type": "word",
     "text": "wrestling uniform",
     "word": "wrestling uniform",
@@ -156302,7 +156476,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4134-wrestllng-mat",
+    "id": "index-4139-wrestllng-mat",
     "type": "word",
     "text": "wrestllng mat",
     "word": "wrestllng mat",
@@ -156336,7 +156510,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4135-wrinkled-clothing",
+    "id": "index-4140-wrinkled-clothing",
     "type": "word",
     "text": "wrinkled clothing",
     "word": "wrinkled clothing",
@@ -156370,7 +156544,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4136-wrist",
+    "id": "index-4141-wrist",
     "type": "word",
     "text": "wrist",
     "word": "wrist",
@@ -156404,7 +156578,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4137-wrist-watch",
+    "id": "index-4142-wrist-watch",
     "type": "word",
     "text": "wrist watch",
     "word": "wrist watch",
@@ -156438,7 +156612,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4138-write",
+    "id": "index-4143-write",
     "type": "word",
     "text": "write",
     "word": "write",
@@ -156472,7 +156646,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4139-write-a-check",
+    "id": "index-4144-write-a-check",
     "type": "word",
     "text": "write a check",
     "word": "write a check",
@@ -156506,7 +156680,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4140-write-a-final-copy",
+    "id": "index-4145-write-a-final-copy",
     "type": "word",
     "text": "write a final copy",
     "word": "write a final copy",
@@ -156540,7 +156714,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4141-write-a-first-draft",
+    "id": "index-4146-write-a-first-draft",
     "type": "word",
     "text": "write a first draft",
     "word": "write a first draft",
@@ -156574,7 +156748,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4142-write-a-letter",
+    "id": "index-4147-write-a-letter",
     "type": "word",
     "text": "write a letter",
     "word": "write a letter",
@@ -156608,7 +156782,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4143-write-a-thank-you-note-please-speak-to-window-cleaner",
+    "id": "index-4148-write-a-thank-you-note-please-speak-to-window-cleaner",
     "type": "word",
     "text": "write a thank-you note please speak to ... ? window cleaner",
     "word": "write a thank-you note please speak to ... ? window cleaner",
@@ -156661,7 +156835,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4144-write-on-a-separate-sheet-of-hi",
+    "id": "index-4149-write-on-a-separate-sheet-of-hi",
     "type": "word",
     "text": "write on a separate sheet of Hi.",
     "word": "write on a separate sheet of Hi.",
@@ -156697,7 +156871,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4145-write-on-the-board",
+    "id": "index-4150-write-on-the-board",
     "type": "word",
     "text": "write on the board",
     "word": "write on the board",
@@ -156733,7 +156907,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4146-writinq-process",
+    "id": "index-4151-writinq-process",
     "type": "word",
     "text": "writinq process",
     "word": "writinq process",
@@ -156767,7 +156941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4147-w-nter",
+    "id": "index-4152-w-nter",
     "type": "word",
     "text": "wínter",
     "word": "wínter",
@@ -156801,7 +156975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4148-x-ray-machine",
+    "id": "index-4153-x-ray-machine",
     "type": "word",
     "text": "X-ray machine",
     "word": "X-ray machine",
@@ -156852,7 +157026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4149-x-ray-technician",
+    "id": "index-4154-x-ray-technician",
     "type": "word",
     "text": "X-ray technician",
     "word": "X-ray technician",
@@ -156888,7 +157062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": true
   },
   {
-    "id": "index-4150-xylophone",
+    "id": "index-4155-xylophone",
     "type": "word",
     "text": "xylophone",
     "word": "xylophone",
@@ -156922,7 +157096,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4151-yam",
+    "id": "index-4156-yam",
     "type": "word",
     "text": "yam",
     "word": "yam",
@@ -156956,7 +157130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4152-yard",
+    "id": "index-4157-yard",
     "type": "word",
     "text": "yard",
     "word": "yard",
@@ -156990,7 +157164,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4153-yard-sale",
+    "id": "index-4158-yard-sale",
     "type": "word",
     "text": "yard sale",
     "word": "yard sale",
@@ -157039,7 +157213,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4154-yard-waste-bag",
+    "id": "index-4159-yard-waste-bag",
     "type": "word",
     "text": "yard waste bag",
     "word": "yard waste bag",
@@ -157073,7 +157247,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4155-yardstick",
+    "id": "index-4160-yardstick",
     "type": "word",
     "text": "yardstick",
     "word": "yardstick",
@@ -157107,7 +157281,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4156-yarn",
+    "id": "index-4161-yarn",
     "type": "word",
     "text": "yarn",
     "word": "yarn",
@@ -157141,7 +157315,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4157-year",
+    "id": "index-4162-year",
     "type": "word",
     "text": "year",
     "word": "year",
@@ -157177,7 +157351,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4158-yearbook",
+    "id": "index-4163-yearbook",
     "type": "word",
     "text": "yearbook",
     "word": "yearbook",
@@ -157229,7 +157403,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4159-yes-hold-on-a-moment",
+    "id": "index-4164-yes-hold-on-a-moment",
     "type": "word",
     "text": "Yes. Hold on a moment.",
     "word": "Yes. Hold on a moment.",
@@ -157263,7 +157437,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4160-yeso-hold-on-a-momento",
+    "id": "index-4165-yeso-hold-on-a-momento",
     "type": "word",
     "text": "Yeso Hold on a momento",
     "word": "Yeso Hold on a momento",
@@ -157297,7 +157471,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4161-yesterday",
+    "id": "index-4166-yesterday",
     "type": "word",
     "text": "yesterday",
     "word": "yesterday",
@@ -157333,7 +157507,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4162-yesterday-morning",
+    "id": "index-4167-yesterday-morning",
     "type": "word",
     "text": "yesterday morning",
     "word": "yesterday morning",
@@ -157369,7 +157543,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4163-yesterdayafternoon",
+    "id": "index-4168-yesterdayafternoon",
     "type": "word",
     "text": "yesterdayafternoon",
     "word": "yesterdayafternoon",
@@ -157406,7 +157580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4164-yesterdayevening",
+    "id": "index-4169-yesterdayevening",
     "type": "word",
     "text": "yesterdayevening",
     "word": "yesterdayevening",
@@ -157442,7 +157616,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4165-yield",
+    "id": "index-4170-yield",
     "type": "word",
     "text": "yield",
     "word": "yield",
@@ -157478,7 +157652,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4166-yogurt",
+    "id": "index-4171-yogurt",
     "type": "word",
     "text": "yogurt",
     "word": "yogurt",
@@ -157512,7 +157686,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4167-you-speak",
+    "id": "index-4172-you-speak",
     "type": "word",
     "text": "you speak ...",
     "word": "you speak ...",
@@ -157564,7 +157738,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4168-you-re-welcome",
+    "id": "index-4173-you-re-welcome",
     "type": "word",
     "text": "You're welcome.",
     "word": "You're welcome.",
@@ -157600,7 +157774,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4169-young",
+    "id": "index-4174-young",
     "type": "word",
     "text": "young",
     "word": "young",
@@ -157651,7 +157825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4170-your-seat-belt",
+    "id": "index-4175-your-seat-belt",
     "type": "word",
     "text": "your seat belt",
     "word": "your seat belt",
@@ -157688,7 +157862,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4171-yourteeth",
+    "id": "index-4176-yourteeth",
     "type": "word",
     "text": "yourteeth",
     "word": "yourteeth",
@@ -157725,7 +157899,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4172-zebra",
+    "id": "index-4177-zebra",
     "type": "word",
     "text": "zebra",
     "word": "zebra",
@@ -157774,7 +157948,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4173-zip-code",
+    "id": "index-4178-zip-code",
     "type": "word",
     "text": "zip code",
     "word": "zip code",
@@ -157823,7 +157997,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4174-zipper",
+    "id": "index-4179-zipper",
     "type": "word",
     "text": "zipper",
     "word": "zipper",
@@ -157857,7 +158031,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4175-zoo",
+    "id": "index-4180-zoo",
     "type": "word",
     "text": "zoo",
     "word": "zoo",
@@ -157893,7 +158067,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-4176-zucchini",
+    "id": "index-4181-zucchini",
     "type": "word",
     "text": "zucchini",
     "word": "zucchini",
