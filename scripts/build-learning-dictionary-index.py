@@ -15,7 +15,70 @@ RAW_PATH = ROOT / "data" / "word-by-word-index-raw.txt"
 JSON_PATH = ROOT / "data" / "learning-dictionary-full.json"
 JS_PATH = ROOT / "data" / "learning-dictionary-full.js"
 REPORT_PATH = ROOT / "data" / "learning-dictionary-full-report.json"
-NON_COMPOUND_PHRASES = {"get up", "go shopping", "wash dishes"}
+COMPOUND_WORDS = {
+    "afternoon",
+    "anyone",
+    "anything",
+    "cannot",
+    "everyone",
+    "everything",
+    "inside",
+    "nothing",
+    "outside",
+    "someone",
+    "something",
+    "sometimes",
+    "without",
+}
+OPEN_COMPOUND_WORDS = {
+    "air conditioner",
+    "air conditioning",
+    "alarm clock",
+    "apple juice",
+    "baby care",
+    "baby food",
+    "baggage claim",
+    "bank account",
+    "baseball bat",
+    "bath towel",
+    "boarding pass",
+    "bookcase",
+    "bus stop",
+    "cell phone",
+    "city hall",
+    "coffee shop",
+    "credit card",
+    "driver's license",
+    "dust storm",
+    "fire alarm",
+    "first aid",
+    "front door",
+    "green card",
+    "heat wave",
+    "high school",
+    "ice cream",
+    "id card",
+    "library card",
+    "living room",
+    "movie theater",
+    "one-way ticket",
+    "parking lot",
+    "phone number",
+    "post office",
+    "social security number",
+    "street light",
+    "traffic light",
+    "train station",
+    "video game",
+    "washing machine",
+}
+NON_COMPOUND_PHRASES = {
+    "about your health",
+    "about your skills and this afternoon",
+    "get up",
+    "go shopping",
+    "wash dishes",
+}
 
 REF_TOKEN = r"\d{1,3}(?:[-~·.][~A-Za-z0-9]{1,3}){0,2}(?![A-Za-z0-9-])"
 REF_GROUP_RE = re.compile(rf"(?<=\s)({REF_TOKEN}(?:\s*,\s*(?:{REF_TOKEN}|[A-Za-z0-9]+))*)")
@@ -369,6 +432,28 @@ def is_plain_single_word(text: str) -> bool:
     return bool(re.fullmatch(r"[A-Za-z]+", text.strip()))
 
 
+def is_phrase_like_vocabulary_entry(normalized: str) -> bool:
+    if not normalized:
+        return True
+    if re.search(r'[?!:;"]', normalized):
+        return True
+    if re.search(r"\b(about your|and this|with a|with an|to the|of the|for a|for an|please|can you|i'm|i'd|don't|what's)\b", normalized):
+        return True
+    words = [word for word in normalized.split(" ") if word]
+    return len(words) > 3
+
+
+def is_vocabulary_compound(text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text.strip().casefold())
+    if normalized in NON_COMPOUND_PHRASES:
+        return False
+    if normalized in COMPOUND_WORDS or normalized in OPEN_COMPOUND_WORDS:
+        return True
+    if is_phrase_like_vocabulary_entry(normalized):
+        return False
+    return "-" in normalized
+
+
 def get_prefix(text: str) -> str:
     if not is_plain_single_word(text):
         return "none"
@@ -530,7 +615,7 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
             "roots": [],
             "syllableType": get_syllable_type(entry.text),
             "vowelTeams": [team for team in VOWEL_TEAMS if team in normalized],
-            "compound": entry.text.casefold() not in NON_COMPOUND_PHRASES and bool(re.search(r"[\s-]", entry.text)),
+            "compound": is_vocabulary_compound(entry.text),
         }
         report["missingIpa"].append(entry.text)
         entries.append(word)

@@ -3820,7 +3820,52 @@ pass=通过；传递
     "without"
   ]);
 
+  const OPEN_COMPOUND_WORDS = new Set([
+    "air conditioner",
+    "air conditioning",
+    "alarm clock",
+    "apple juice",
+    "baby care",
+    "baby food",
+    "baggage claim",
+    "bank account",
+    "baseball bat",
+    "bath towel",
+    "boarding pass",
+    "bookcase",
+    "bus stop",
+    "cell phone",
+    "city hall",
+    "coffee shop",
+    "credit card",
+    "driver's license",
+    "dust storm",
+    "fire alarm",
+    "first aid",
+    "front door",
+    "green card",
+    "heat wave",
+    "high school",
+    "ice cream",
+    "id card",
+    "library card",
+    "living room",
+    "movie theater",
+    "one-way ticket",
+    "parking lot",
+    "phone number",
+    "post office",
+    "social security number",
+    "street light",
+    "traffic light",
+    "train station",
+    "video game",
+    "washing machine"
+  ]);
+
   const NON_COMPOUND_PHRASES = new Set([
+    "about your health",
+    "about your skills and this afternoon",
     "get up",
     "go shopping",
     "wash dishes"
@@ -7115,10 +7160,21 @@ pass=通过；传递
     return word.trim().replace(/\s+/g, " ").toLowerCase();
   }
 
+  function isPhraseLikeVocabularyEntry(normalized) {
+    if (!normalized) return true;
+    if (/[?!:;"]/.test(normalized)) return true;
+    if (/\b(about your|and this|with a|with an|to the|of the|for a|for an|please|can you|i'm|i'd|don't|what's)\b/.test(normalized)) return true;
+    const words = normalized.split(" ").filter(Boolean);
+    if (words.length > 3) return true;
+    return false;
+  }
+
   function isVocabularyCompound(word) {
     const normalized = normalizeWordKey(String(word || ""));
     if (NON_COMPOUND_PHRASES.has(normalized)) return false;
-    return COMPOUND_WORDS.has(normalized) || /[\s-]/.test(String(word || ""));
+    if (COMPOUND_WORDS.has(normalized) || OPEN_COMPOUND_WORDS.has(normalized)) return true;
+    if (isPhraseLikeVocabularyEntry(normalized)) return false;
+    return /-/.test(normalized);
   }
 
   function isPlainSingleVocabularyWord(word) {
@@ -7145,7 +7201,7 @@ pass=通过；传递
   function getVocabularyWordFormation(item) {
     const curated = getVocabularyCuratedWordFormation(item?.word);
     if (curated) return curated;
-    if (item?.isCompound || item?.compound || isVocabularyCompound(item?.word)) return "compound";
+    if (isVocabularyCompound(item?.word)) return "compound";
     if (isDerivedVocabularyItem(item)) return "derived";
     if (isPlainSingleVocabularyWord(item?.word)) return "simple";
     return "";
@@ -8028,7 +8084,7 @@ pass=通过；传递
     const localVowelTeams = getVocabularyVowelTeams(word);
     const importedVowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
     const vowelTeams = localVowelTeams.includes("air") ? localVowelTeams : importedVowelTeams;
-    const isCompound = NON_COMPOUND_PHRASES.has(normalizeWordKey(word)) ? false : (typeof entry?.compound === "boolean" ? entry.compound : isVocabularyCompound(word));
+    const isCompound = isVocabularyCompound(word);
     const morphologyItem = { word, isCompound };
     return {
       id: cleanCustomText(entry?.id, 120) || `index-${slugifyWord(word)}`,
