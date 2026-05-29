@@ -1103,10 +1103,8 @@
         <option value="contraction">缩约词 Contraction</option>
         <option value="infinitive marker">不定式标记 Infinitive marker</option>
       </select>
-      <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word type">
+      <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word formation">
         <option value="all">所有单词</option>
-        <option value="compound">复合词</option>
-        <option value="single">单词</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
         <option value="all">所有时态</option>
@@ -3827,6 +3825,41 @@ pass=通过；传递
     "go shopping",
     "wash dishes"
   ]);
+
+  const VOCABULARY_WORD_FORMATION_TYPES = [
+    { id: "simple", label: "1. 简单词 Simple words", group: "核心构词法" },
+    { id: "derived", label: "2. 派生词 Derived words", group: "核心构词法" },
+    { id: "compound", label: "3. 复合词 Compound words", group: "核心构词法" },
+    { id: "conversion", label: "4. 转化词 Conversion words", group: "核心构词法" },
+    { id: "abbreviation", label: "1. 缩写 Abbreviation", group: "次级构词法" },
+    { id: "blending", label: "2. 混合词 Blending", group: "次级构词法" },
+    { id: "back-formation", label: "3. 倒序词 Back-formation", group: "次级构词法" },
+    { id: "clipping", label: "4. 截断 Clipping", group: "次级构词法" },
+    { id: "reduplication", label: "5. 重叠词 Reduplication", group: "次级构词法" },
+    { id: "borrowing", label: "6. 音译词 Borrowing", group: "次级构词法" },
+    { id: "eponym", label: "7. 人名词化 Eponyms", group: "次级构词法" },
+    { id: "onomatopoeia", label: "8. 音义化 Onomatopoeia", group: "次级构词法" },
+    { id: "transliteration-calque", label: "9. 转写词 Transliteration or Calque", group: "次级构词法" },
+    { id: "portmanteau", label: "10. 拼缀词 Portmanteau words", group: "次级构词法" }
+  ];
+
+  const VOCABULARY_WORD_FORMATION_LABELS = Object.fromEntries(
+    VOCABULARY_WORD_FORMATION_TYPES.map((type) => [type.id, type.label])
+  );
+
+  const VOCABULARY_WORD_FORMATION_EXAMPLES = {
+    conversion: new Set(["break", "clean", "cook", "drink", "drive", "email", "help", "hope", "love", "play", "pull", "ring", "rule", "show", "study", "test", "vote", "walk", "water", "work"]),
+    abbreviation: new Set(["ad", "app", "fbi", "id", "info", "nasa", "tv", "usa"]),
+    blending: new Set(["brunch", "motel", "smog"]),
+    "back-formation": new Set(["babysit", "donate", "edit"]),
+    clipping: new Set(["exam", "flu", "fridge", "lab", "phone", "photo"]),
+    reduplication: new Set(["bye-bye", "flip-flop", "zigzag"]),
+    borrowing: new Set(["ballet", "cafe", "kindergarten", "ketchup", "piano"]),
+    eponym: new Set(["atlas", "sandwich", "pasteurization"]),
+    onomatopoeia: new Set(["bang", "buzz", "meow"]),
+    "transliteration-calque": new Set(["beer garden", "skyscraper"]),
+    portmanteau: new Set(["brexit", "infomercial"])
+  };
 
   const DELETED_VOCABULARY_WORDS = new Set([
     "american revolution",
@@ -7096,6 +7129,28 @@ pass=通过；传递
     return isPlainSingleVocabularyWord(item?.word) && !item?.isCompound && !item?.compound;
   }
 
+  function getVocabularyCuratedWordFormation(word) {
+    const normalized = normalizeWordKey(String(word || ""));
+    return Object.entries(VOCABULARY_WORD_FORMATION_EXAMPLES)
+      .find(([, words]) => words.has(normalized))?.[0] || "";
+  }
+
+  function isDerivedVocabularyItem(item) {
+    if (!isMorphologyVocabularyItem(item)) return false;
+    return (item.prefix && item.prefix !== "none")
+      || (item.suffix && item.suffix !== "none")
+      || (item.roots || []).length > 0;
+  }
+
+  function getVocabularyWordFormation(item) {
+    const curated = getVocabularyCuratedWordFormation(item?.word);
+    if (curated) return curated;
+    if (item?.isCompound || item?.compound || isVocabularyCompound(item?.word)) return "compound";
+    if (isDerivedVocabularyItem(item)) return "derived";
+    if (isPlainSingleVocabularyWord(item?.word)) return "simple";
+    return "";
+  }
+
   function cleanCustomText(value, limit = 240) {
     return String(value ?? "").trim().replace(/\s+/g, " ").slice(0, limit);
   }
@@ -7364,7 +7419,8 @@ pass=通过；传递
   function loadSelectedVocabularyCompound() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_COMPOUND_FILTER_KEY);
-      return ["all", "compound", "single"].includes(saved) ? saved : "all";
+      if (saved === "single") return "simple";
+      return ["all", ...VOCABULARY_WORD_FORMATION_TYPES.map((type) => type.id)].includes(saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -8292,6 +8348,33 @@ pass=通过；传递
     return vocabularyLetterCountFilter;
   }
 
+  function renderVocabularyWordFormationOptions(sourceVocabulary = getAllVocabulary()) {
+    const vocabularyWordFormationFilter = document.getElementById("vocabularyCompoundFilter");
+    const counts = sourceVocabulary.reduce((map, item) => {
+      const formation = getVocabularyWordFormation(item);
+      if (!formation) return map;
+      map.set(formation, (map.get(formation) || 0) + 1);
+      return map;
+    }, new Map());
+    const renderGroup = (group) => {
+      const options = VOCABULARY_WORD_FORMATION_TYPES
+        .filter((type) => type.group === group)
+        .map((type) => {
+          const count = counts.get(type.id) || 0;
+          const countLabel = count ? ` (${count})` : "";
+          return `<option value="${escapeHtml(type.id)}">${escapeHtml(type.label)}${countLabel}</option>`;
+        })
+        .join("");
+      return `<optgroup label="${escapeHtml(group)}">${options}</optgroup>`;
+    };
+    vocabularyWordFormationFilter.innerHTML = [
+      `<option value="all">所有单词</option>`,
+      renderGroup("核心构词法"),
+      renderGroup("次级构词法")
+    ].join("");
+    return vocabularyWordFormationFilter;
+  }
+
   function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
     const counts = sourceVocabulary.reduce((map, item) => {
       if (!isMorphologyVocabularyItem(item)) return map;
@@ -8325,7 +8408,7 @@ pass=通过；传递
     const statusFilter = selectedVocabularyStatus;
     const partFilter = selectedVocabularyPart;
     const themeFilter = selectedVocabularyTheme;
-    const compoundFilter = selectedVocabularyCompound;
+    let compoundFilter = selectedVocabularyCompound;
     const tenseFilter = selectedVocabularyTense;
     let prefixFilter = selectedVocabularyPrefix;
     let suffixFilter = selectedVocabularySuffix;
@@ -8354,10 +8437,10 @@ pass=通过；传递
       const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
       const isContraction = isContractionVocabularyItem(item);
       const matchesPart = partFilter === "all"
-        ? !isContraction
+        ? true
         : (partFilter === "contraction" ? isContraction : matchesVocabularyPart(item.partOfSpeech, partFilter));
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
-      const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
+      const matchesWordFormation = compoundFilter === "all" || getVocabularyWordFormation(item) === compoundFilter;
       const matchesLetterCount = letterCountFilter === "all" || getVocabularyLetterCount(item.word) === Number(letterCountFilter);
       const matchesTense = tenseFilter === "all"
         || (tenseFilter === "irregular-past" && isPastTenseForm(item.word))
@@ -8369,7 +8452,7 @@ pass=通过；传递
       const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
       const matchesVowelTeam = matchesVocabularyVowelTeamFilter(item, vowelTeamFilter);
       const matchesIpa = ipaMatchesFilter(getVocabularyIpa(item), ipaFilter);
-      return matchesStatus && matchesPart && matchesTheme && matchesCompound && matchesLetterCount && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
+      return matchesStatus && matchesPart && matchesTheme && matchesWordFormation && matchesLetterCount && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
     };
     const vocabularyLetterCountFilter = renderVocabularyLetterCountOptions(allVocabulary);
     if (letterCountFilter !== "all" && ![...vocabularyLetterCountFilter.options].some((option) => option.value === letterCountFilter)) {
@@ -8389,6 +8472,12 @@ pass=通过；传递
       selectedVocabularySuffix = "all";
       saveSelectedVocabularySuffix();
     }
+    const vocabularyWordFormationFilter = renderVocabularyWordFormationOptions(allVocabulary);
+    if (compoundFilter !== "all" && ![...vocabularyWordFormationFilter.options].some((option) => option.value === compoundFilter)) {
+      compoundFilter = "all";
+      selectedVocabularyCompound = "all";
+      saveSelectedVocabularyCompound();
+    }
     const rootSourceVocabulary = allVocabulary.filter((item) => matchesFilters(item, false));
     const vocabularyRootFilter = renderVocabularyRootOptions(rootSourceVocabulary);
     if (rootFilter !== "all" && ![...vocabularyRootFilter.options].some((option) => option.value === rootFilter)) {
@@ -8406,7 +8495,7 @@ pass=通过；传递
     vocabularyLetterCountFilter.value = letterCountFilter;
     document.getElementById("vocabularyStatusFilter").value = statusFilter;
     document.getElementById("vocabularyPartFilter").value = partFilter;
-    document.getElementById("vocabularyCompoundFilter").value = compoundFilter;
+    vocabularyWordFormationFilter.value = compoundFilter;
     document.getElementById("vocabularyTenseFilter").value = tenseFilter;
     vocabularyPrefixFilter.value = prefixFilter;
     vocabularySuffixFilter.value = suffixFilter;
@@ -8446,6 +8535,8 @@ pass=通过；传递
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
       const labelTag = label && !duplicatesTheme ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
+      const wordFormation = getVocabularyWordFormation(item);
+      const wordFormationTag = wordFormation && compoundFilter !== "all" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_WORD_FORMATION_LABELS[wordFormation] || wordFormation)}</span>` : "";
       const showMorphology = isMorphologyVocabularyItem(item);
       const prefixTag = showMorphology && item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
       const suffixTag = showMorphology && item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
@@ -8468,6 +8559,7 @@ pass=通过；传递
               ${partOfSpeechTag}
               ${labelTag}
               ${themeTag}
+              ${wordFormationTag}
               ${prefixTag}
               ${suffixTag}
               ${tenseTag}
