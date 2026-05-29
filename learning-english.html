@@ -945,18 +945,27 @@
 
   .vocabulary-reset {
     align-items: center;
+    background: #fff3c4;
+    border-color: #facc15;
+    color: #6b4f00;
     display: inline-flex;
     font-weight: 800;
     justify-content: flex-start;
     text-align: left;
-    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
     white-space: nowrap;
   }
 
   .vocabulary-reset:hover {
-    background: #edf2ee;
-    border-color: #b7c2ba;
-    color: #143a34;
+    background: #fde68a;
+    border-color: #ca8a04;
+    color: #5a3f00;
+  }
+
+  .vocabulary-reset:focus-visible {
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.32);
+    outline: 2px solid #ca8a04;
+    outline-offset: 2px;
   }
 
   .phrase-summary,
@@ -7058,7 +7067,7 @@ pass=通过；传递
         ["Ordinal Numbers", ORDINAL_NUMBER_STARTERS.map(([starterWord]) => starterWord)],
         ["Time", ["quarter past"]],
         ["Money", ["dollar"]],
-        ["The Calendar", ["calendar"]]
+        ["The Calendar", ["calendar", "day"]]
       ],
       home: [
         ["The Living Room", ["living room"]],
@@ -9586,16 +9595,21 @@ pass=通过；传递
   const usedIpaSounds = new Set(getIpaSoundOptions());
   const renderIpaSoundOptions = (sounds) => sounds
     .filter((sound) => usedIpaSounds.has(sound))
-    .map((sound) => `<option value="${escapeHtml(sound)}">&nbsp;&nbsp;/${escapeHtml(sound)}/</option>`);
+    .map((sound) => `<option value="${escapeHtml(sound)}">&nbsp;&nbsp;/${escapeHtml(sound)}/</option>`)
+    .join("");
   vocabularyIpaFilter.innerHTML = [
     `<option value="all">所有音标</option>`,
+    `<optgroup label="元音">`,
     `<option value="group:vowels">元音</option>`,
-    `<option value="group:monophthongs">单元音</option>`,
-    ...renderIpaSoundOptions(IPA_MONOPHTHONG_SOUNDS),
-    `<option value="group:diphthongs">双元音</option>`,
-    ...renderIpaSoundOptions(IPA_DIPHTHONG_SOUNDS),
+    `<option value="group:monophthongs">&nbsp;&nbsp;单元音</option>`,
+    renderIpaSoundOptions(IPA_MONOPHTHONG_SOUNDS),
+    `<option value="group:diphthongs">&nbsp;&nbsp;双元音</option>`,
+    renderIpaSoundOptions(IPA_DIPHTHONG_SOUNDS),
+    `</optgroup>`,
+    `<optgroup label="辅音">`,
     `<option value="group:consonants">辅音</option>`,
-    ...renderIpaSoundOptions(IPA_CONSONANT_SOUNDS)
+    renderIpaSoundOptions(IPA_CONSONANT_SOUNDS),
+    `</optgroup>`
   ].join("");
   if (selectedVocabularyIpa !== "all" && ![...vocabularyIpaFilter.options].some((option) => option.value === selectedVocabularyIpa)) {
     selectedVocabularyIpa = "all";
