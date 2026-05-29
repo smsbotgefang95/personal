@@ -9395,9 +9395,9 @@ pass=通过；传递
   document.getElementById("vocabularyCompoundFilter").addEventListener("change", (event) => {
     applyVocabularyWordFormationFilter(event.target.value, true);
   });
-  function applyVocabularyWordFormationFilter(value, closeMenu = true) {
+  function applyVocabularyWordFormationFilter(value, closeMenu = true, expandCompoundSubgroups = value === "compound" || value.startsWith("compound-")) {
     selectedVocabularyCompound = value;
-    vocabularyCompoundSubgroupsExpanded = value === "compound" || value.startsWith("compound-");
+    vocabularyCompoundSubgroupsExpanded = expandCompoundSubgroups;
     vocabularyWordFormationMenuOpen = !closeMenu;
     saveSelectedVocabularyCompound();
     renderVocabularyList();
@@ -9432,8 +9432,8 @@ pass=通过；传递
     if (!option) return;
     const value = option.dataset.wordFormationValue;
     if (value === "compound") {
-      vocabularyCompoundSubgroupsExpanded = true;
-      applyVocabularyWordFormationFilter(value, false);
+      const expandCompoundSubgroups = selectedVocabularyCompound === "compound" ? !vocabularyCompoundSubgroupsExpanded : true;
+      applyVocabularyWordFormationFilter(value, false, expandCompoundSubgroups);
       return;
     }
     applyVocabularyWordFormationFilter(value, true);
