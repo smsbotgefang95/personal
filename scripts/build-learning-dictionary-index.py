@@ -144,6 +144,7 @@ MANUAL_WRAPPED_ENTRIES = [
     ("I'm checking out.", ["162-f"]),
     ("I'm from...", ["164-11"]),
     ("I'm here for five days.", ["164-12"]),
+    ("man", ["42-8"]),
     ("I'm sorry... isn't here right now.", ["13-24"]),
     ("I'm sorry. What did you say?", ["165-26"]),
     ("It's very...", ["164-14"]),
@@ -176,6 +177,7 @@ MANUAL_WRAPPED_ENTRIES = [
     ("You're welcome.", ["13-19"]),
     ("long-sleeved shirt", ["71-1"]),
     ("make breakfast", ["9-15"]),
+    ("woman", ["42-9"]),
 ]
 
 CORRECTED_MALFORMED_ENTRIES = {
@@ -183,7 +185,9 @@ CORRECTED_MALFORMED_ENTRIES = {
     "child 42-' cardiologist",
     "e-rnail",
     "Good-bye.",
+    "I'm here for five days. woman",
     "long-sleeved shirt 71-'",
+    "luggage compartment man",
     "make breakfast 9-'",
 }
 

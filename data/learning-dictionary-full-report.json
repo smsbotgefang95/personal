@@ -359,6 +359,11 @@
     },
     {
       "line": null,
+      "text": "man",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "I'm sorry... isn't here right now.",
       "reason": "manual reconstruction"
     },
@@ -515,6 +520,11 @@
     {
       "line": null,
       "text": "make breakfast",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "woman",
       "reason": "manual reconstruction"
     }
   ],
@@ -1066,6 +1076,14 @@
     },
     {
       "line": 29,
+      "text": "luggage compartment man",
+      "refs": [
+        "42-8"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 29,
       "text": "íurnber",
       "refs": [
         "122-23"
@@ -1126,6 +1144,14 @@
       "refs": [
         "162-a"
       ]
+    },
+    {
+      "line": 53,
+      "text": "I'm here for five days. woman",
+      "refs": [
+        "42-9"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 53,
@@ -3010,7 +3036,6 @@
     "I'm checking out.",
     "I'm from...",
     "I'm here for five days.",
-    "I'm here for five days. woman",
     "I'm sorry. What did you say?",
     "I'm sorry... isn't here right now.",
     "I've seen and .... Wednesday",
@@ -3310,7 +3335,6 @@
     "lug wrench",
     "luggage carrier",
     "luggage cart",
-    "luggage compartment man",
     "lunar eclipse",
     "lunch",
     "lunchroorn monitor",
@@ -3341,6 +3365,7 @@
     "makeup bag",
     "mall",
     "mallet",
+    "man",
     "manage",
     "manager",
     "mane",
@@ -5243,6 +5268,7 @@
     "withdrawal",
     "wok",
     "wolf",
+    "woman",
     "Women's Clothing yellow",
     "wood",
     "wood screw",
@@ -5323,7 +5349,7 @@
   "missingPlacements": [],
   "summary": {
     "rawLines": 53,
-    "parsedEntries": 4305,
+    "parsedEntries": 4307,
     "uniqueEntries": 4181,
     "themeCounts": {
       "clothes": 251,
