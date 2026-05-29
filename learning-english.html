@@ -224,9 +224,20 @@
   .panel-header {
     align-items: start;
     display: flex;
-    justify-content: space-between;
     gap: 12px;
+    justify-content: space-between;
     margin-bottom: 14px;
+  }
+
+  .panel-header > div:first-child {
+    min-width: 0;
+  }
+
+  .panel-header .phrase-summary,
+  .panel-header .vocabulary-phrase-summary,
+  .panel-header .vocabulary-summary {
+    flex: 0 0 auto;
+    margin-left: auto;
   }
 
   .panel-header h2 {
@@ -456,7 +467,7 @@
   .phrase-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) minmax(150px, auto) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) minmax(150px, auto);
     margin: 16px 0;
   }
 
@@ -530,7 +541,7 @@
   .dialogue-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(170px, 240px) minmax(170px, 240px) minmax(150px, auto);
+    grid-template-columns: minmax(170px, 240px);
   }
 
   .dialogue-card {
@@ -1170,6 +1181,19 @@
       display: grid;
     }
 
+    .panel-header {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .panel-header .phrase-summary,
+    .panel-header .vocabulary-phrase-summary,
+    .panel-header .vocabulary-summary {
+      margin-left: 0;
+      white-space: normal;
+      width: fit-content;
+    }
+
     .dialogue-status-row {
       justify-self: stretch;
       width: 100%;
@@ -1244,6 +1268,7 @@
           <h2 id="practice-title">Sentences</h2>
           <p>Practice useful sentences with Chinese support.</p>
         </div>
+        <div class="phrase-summary" id="phraseSummary">0 sentences</div>
       </div>
       <div class="phrase-tools" aria-label="Sentence search">
         <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
@@ -1261,7 +1286,6 @@
           <option value="review">复习</option>
           <option value="learned">已学会</option>
         </select>
-        <div class="phrase-summary" id="phraseSummary">0 sentences</div>
       </div>
       <div class="phrase-list" id="phraseList"></div>
     </section>
@@ -1273,6 +1297,7 @@
         <h2>Vocabulary</h2>
         <p>Practice the expanded Word by Word index and saved learning status.</p>
       </div>
+      <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
@@ -1347,7 +1372,6 @@
       <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
         <option value="all">所有音标</option>
       </select>
-      <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
       <button class="vocabulary-reset" id="vocabularyResetFilters" type="button" aria-label="Reset vocabulary filters">重置筛选</button>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
@@ -1359,6 +1383,7 @@
         <h2>Chunks / 语块</h2>
         <p>Practice useful English chunks grouped by how they work in real sentences.</p>
       </div>
+      <div class="vocabulary-phrase-summary" id="vocabularyPhraseSummary">0 chunks</div>
     </div>
     <div class="vocabulary-phrase-tools">
       <input class="vocabulary-phrase-search" id="vocabularyPhraseSearch" type="search" placeholder="Search chunk, meaning, pronunciation, or word" aria-label="Search chunks" />
@@ -1376,7 +1401,6 @@
         <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPhraseTypeFilter" aria-label="Filter chunks by type"></select>
-      <div class="vocabulary-phrase-summary" id="vocabularyPhraseSummary">0 chunks</div>
     </div>
     <div class="phrase-list" id="vocabularyPhraseList"></div>
   </section>
@@ -1387,7 +1411,7 @@
         <h2>Dialogue</h2>
         <p>Practice short daily conversations with Chinese support.</p>
       </div>
-      <div class="phrase-summary" id="dialogueSummary">0 dialogues</div>
+      <div class="phrase-summary" id="dialogueFilterSummary">0 of 0 dialogues</div>
     </div>
     <div class="dialogue-tools">
       <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
@@ -1397,7 +1421,6 @@
         <option value="review">复习</option>
         <option value="learned">已学会</option>
       </select>
-      <div class="phrase-summary" id="dialogueFilterSummary">0 of 0 dialogues</div>
     </div>
     <div class="dialogue-list" id="dialogueList"></div>
   </section>
@@ -8100,15 +8123,13 @@ pass=通过；传递
 
   function renderDialogueList() {
     const container = document.getElementById("dialogueList");
-    const summary = document.getElementById("dialogueSummary");
     const statusFilter = document.getElementById("dialogueStatusFilter");
     const filterSummary = document.getElementById("dialogueFilterSummary");
-    if (!container || !summary || !statusFilter || !filterSummary) return;
+    if (!container || !statusFilter || !filterSummary) return;
 
     const themeDialogues = DIALOGUES;
     const dialogues = themeDialogues.filter((dialogue) => selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus);
     statusFilter.value = selectedDialogueStatus;
-    summary.textContent = `${themeDialogues.length} ${themeDialogues.length === 1 ? "dialogue" : "dialogues"}`;
     filterSummary.textContent = `${dialogues.length} of ${themeDialogues.length} dialogues`;
 
     if (!dialogues.length) {
