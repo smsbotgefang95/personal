@@ -813,7 +813,9 @@
 
   .vowel-team-menu {
     left: 0;
+    min-width: max-content;
     transform: none;
+    width: max-content;
   }
 
   .word-formation-menu-group {
@@ -1905,6 +1907,10 @@
     { id: "compound-chunk", label: "复合语块 Compound chunk" }
   ];
   const CHUNK_TYPE_LABELS = Object.fromEntries(CHUNK_TYPES.map((type) => [type.id, type.label]));
+  const CHUNK_TYPE_COUNTS = VOCABULARY_PHRASES.reduce((counts, item) => {
+    counts[item.type] = (counts[item.type] || 0) + 1;
+    return counts;
+  }, {});
 
   const FEATURED_VOCABULARY = [
     { id: "vocab-today", word: "today", chinese: "今天", pronunciation: "tuh-DAY", scenario: "greetings", example: "How are you today?" },
@@ -7986,8 +7992,8 @@ pass=通过；传递
     const statusFilter = selectedVocabularyPhraseStatus;
     const typeFilter = selectedVocabularyPhraseType;
     phraseTypeFilter.innerHTML = [
-      `<option value="all">所有语块类型</option>`,
-      ...CHUNK_TYPES.map((type) => `<option value="${type.id}">${type.label}</option>`)
+      `<option value="all">所有语块类型 (${VOCABULARY_PHRASES.length})</option>`,
+      ...CHUNK_TYPES.map((type) => `<option value="${type.id}">${type.label} (${CHUNK_TYPE_COUNTS[type.id] || 0})</option>`)
     ].join("");
     const matchesSearch = (item) => {
       if (!search) return true;
