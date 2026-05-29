@@ -75,6 +75,7 @@ OPEN_COMPOUND_WORDS = {
 NON_COMPOUND_PHRASES = {
     "about your health",
     "about your skills and this afternoon",
+    "find your-seat",
     "get up",
     "go shopping",
     "wash dishes",
@@ -437,7 +438,7 @@ def is_phrase_like_vocabulary_entry(normalized: str) -> bool:
         return True
     if re.search(r'[?!:;"]', normalized):
         return True
-    if re.search(r"\b(about your|and this|with a|with an|to the|of the|for a|for an|please|can you|i'm|i'd|don't|what's)\b", normalized):
+    if re.search(r"\b(about your|and this|find your|with a|with an|to the|of the|for a|for an|please|can you|i'm|i'd|don't|what's)\b", normalized):
         return True
     words = [word for word in normalized.split(" ") if word]
     return len(words) > 3

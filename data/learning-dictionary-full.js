@@ -52261,7 +52261,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ea",
       "ou"
     ],
-    "compound": true
+    "compound": false
   },
   {
     "id": "index-1379-fine-thanks",
