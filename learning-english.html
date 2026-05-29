@@ -1282,7 +1282,7 @@
         <option value="ends">单词以...结尾</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyLetterCountFilter" aria-label="Filter vocabulary by exact letter count">
-        <option value="all">All letter counts</option>
+        <option value="all">所有字母数</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
         <option value="all">所有学习状态</option>
@@ -8654,10 +8654,10 @@ pass=通过；传递
       return map;
     }, new Map());
     vocabularyLetterCountFilter.innerHTML = [
-      `<option value="all">All letter counts</option>`,
+      `<option value="all">所有字母数</option>`,
       ...[...counts.entries()]
         .sort(([countA], [countB]) => countA - countB)
-        .map(([letterCount, count]) => `<option value="${letterCount}">${letterCount} ${letterCount === 1 ? "letter" : "letters"} (${count})</option>`)
+        .map(([letterCount, count]) => `<option value="${letterCount}">${letterCount} 个字母 (${count})</option>`)
     ].join("");
     return vocabularyLetterCountFilter;
   }
