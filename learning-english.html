@@ -7771,13 +7771,18 @@ pass=通过；传递
     return isStandaloneContractionWord(item?.word);
   }
 
+  function isAlphabetOnlyVocabularyItem(item) {
+    const normalized = normalizeWordKey(String(item?.word || ""));
+    return /^[a-z]$/.test(normalized) && !["a", "i"].includes(normalized);
+  }
+
   function getBaseVocabulary() {
-    return [...VOCABULARY, ...customVocabulary].filter((item) => !isDeletedVocabularyWord(item.word));
+    return [...VOCABULARY, ...customVocabulary].filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item));
   }
 
   function getAllVocabulary() {
     if (!allVocabularyCache) {
-      allVocabularyCache = [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()].filter((item) => !isDeletedVocabularyWord(item.word));
+      allVocabularyCache = [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()].filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item));
     }
     return allVocabularyCache;
   }
