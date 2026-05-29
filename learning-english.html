@@ -719,6 +719,7 @@
   .vocabulary-filter,
   .word-formation-trigger,
   .vowel-team-trigger,
+  .ipa-trigger,
   .vocabulary-reset {
     background: #f8faf8;
     border: 1px solid var(--border);
@@ -745,18 +746,21 @@
   }
 
   .word-formation-control,
-  .vowel-team-control {
+  .vowel-team-control,
+  .ipa-control {
     min-width: 0;
     position: relative;
   }
 
   .word-formation-native,
-  .vowel-team-native {
+  .vowel-team-native,
+  .ipa-native {
     display: none;
   }
 
   .word-formation-trigger,
-  .vowel-team-trigger {
+  .vowel-team-trigger,
+  .ipa-trigger {
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -770,7 +774,8 @@
   }
 
   .word-formation-trigger::after,
-  .vowel-team-trigger::after {
+  .vowel-team-trigger::after,
+  .ipa-trigger::after {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 6px solid #405047;
@@ -779,12 +784,14 @@
   }
 
   .word-formation-trigger[aria-expanded="true"]::after,
-  .vowel-team-trigger[aria-expanded="true"]::after {
+  .vowel-team-trigger[aria-expanded="true"]::after,
+  .ipa-trigger[aria-expanded="true"]::after {
     transform: rotate(180deg);
   }
 
   .word-formation-trigger-text,
-  .vowel-team-trigger-text {
+  .vowel-team-trigger-text,
+  .ipa-trigger-text {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -792,7 +799,8 @@
   }
 
   .word-formation-menu,
-  .vowel-team-menu {
+  .vowel-team-menu,
+  .ipa-menu {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 7px;
@@ -817,12 +825,14 @@
   }
 
   .word-formation-control.is-open .word-formation-menu,
-  .vowel-team-control.is-open .vowel-team-menu {
+  .vowel-team-control.is-open .vowel-team-menu,
+  .ipa-control.is-open .ipa-menu {
     display: grid;
     gap: 4px;
   }
 
-  .vowel-team-menu {
+  .vowel-team-menu,
+  .ipa-menu {
     left: 0;
     min-width: max-content;
     transform: none;
@@ -837,7 +847,8 @@
   }
 
   .word-formation-option,
-  .vowel-team-option {
+  .vowel-team-option,
+  .ipa-option {
     align-items: center;
     background: transparent;
     border: 0;
@@ -863,7 +874,8 @@
     font-weight: 400;
   }
 
-  .vowel-team-option {
+  .vowel-team-option,
+  .ipa-option {
     font-weight: 400;
   }
 
@@ -899,13 +911,17 @@
   .word-formation-option[aria-selected="true"],
   .vowel-team-option:hover,
   .vowel-team-option:focus-visible,
-  .vowel-team-option[aria-selected="true"] {
+  .vowel-team-option[aria-selected="true"],
+  .ipa-option:hover,
+  .ipa-option:focus-visible,
+  .ipa-option[aria-selected="true"] {
     background: #eef7ef;
     outline: none;
   }
 
   .vowel-team-option.is-parent::after,
-  .word-formation-option.is-parent::after {
+  .word-formation-option.is-parent::after,
+  .ipa-option.is-parent::after {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 6px solid #405047;
@@ -915,7 +931,8 @@
   }
 
   .vowel-team-option.is-parent[aria-expanded="true"]::after,
-  .word-formation-option.is-parent[aria-expanded="true"]::after {
+  .word-formation-option.is-parent[aria-expanded="true"]::after,
+  .ipa-option.is-parent[aria-expanded="true"]::after {
     transform: rotate(180deg);
   }
 
@@ -939,8 +956,13 @@
     width: 3px;
   }
 
-  .vowel-team-option.is-subgroup {
+  .vowel-team-option.is-subgroup,
+  .ipa-option.is-subgroup {
     padding-left: 24px;
+  }
+
+  .ipa-option.is-sound {
+    padding-left: 40px;
   }
 
   .vocabulary-reset {
@@ -1378,9 +1400,15 @@
         </button>
         <div class="vowel-team-menu" id="vocabularyVowelTeamMenu" role="listbox" aria-label="按元音组合筛选词汇"></div>
       </div>
-      <select class="vocabulary-filter" id="vocabularyIpaFilter" aria-label="Filter vocabulary by IPA sound">
-        <option value="all">所有音标</option>
-      </select>
+      <div class="ipa-control" id="vocabularyIpaControl">
+        <select class="ipa-native" id="vocabularyIpaFilter" aria-hidden="true" tabindex="-1">
+          <option value="all">所有音标</option>
+        </select>
+        <button class="ipa-trigger" id="vocabularyIpaTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="vocabularyIpaMenu">
+          <span class="ipa-trigger-text" id="vocabularyIpaTriggerText">所有音标</span>
+        </button>
+        <div class="ipa-menu" id="vocabularyIpaMenu" role="listbox" aria-label="按音标筛选词汇"></div>
+      </div>
       <button class="vocabulary-reset" id="vocabularyResetFilters" type="button" aria-label="Reset vocabulary filters">重置筛选</button>
     </div>
     <div class="vocabulary-list" id="vocabularyList"></div>
@@ -2973,6 +3001,13 @@ yourself=jɔːˈself
     "group:diphthongs": IPA_DIPHTHONG_SOUNDS,
     "group:consonants": IPA_CONSONANT_SOUNDS
   };
+  const IPA_FILTER_GROUPS = [
+    { id: "group:vowels", label: "元音", sounds: IPA_VOWEL_SOUNDS, children: ["group:monophthongs", "group:diphthongs"] },
+    { id: "group:monophthongs", label: "单元音", sounds: IPA_MONOPHTHONG_SOUNDS, parent: "group:vowels" },
+    { id: "group:diphthongs", label: "双元音", sounds: IPA_DIPHTHONG_SOUNDS, parent: "group:vowels" },
+    { id: "group:consonants", label: "辅音", sounds: IPA_CONSONANT_SOUNDS }
+  ];
+  const IPA_FILTER_GROUP_BY_ID = Object.fromEntries(IPA_FILTER_GROUPS.map((group) => [group.id, group]));
 
   function getBritishIpa(word) {
     return BRITISH_IPA_BY_WORD[normalizeWordKey(String(word || ""))] || "";
@@ -7067,7 +7102,7 @@ pass=通过；传递
         ["Ordinal Numbers", ORDINAL_NUMBER_STARTERS.map(([starterWord]) => starterWord)],
         ["Time", ["quarter past"]],
         ["Money", ["dollar"]],
-        ["The Calendar", ["calendar"]]
+        ["The Calendar", ["calendar", "day"]]
       ],
       home: [
         ["The Living Room", ["living room"]],
@@ -7396,6 +7431,8 @@ pass=通过；传递
   let vocabularyVowelTeamMenuOpen = false;
   let vocabularyVowelTeamsExpanded = new Set();
   let selectedVocabularyIpa = loadSelectedVocabularyIpa();
+  let vocabularyIpaMenuOpen = false;
+  let vocabularyIpaGroupsExpanded = new Set();
   let statuses = readJson(STORAGE_STATUS_KEY, {});
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let vocabularyPhraseStatuses = readJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, {});
@@ -8815,6 +8852,88 @@ pass=通过；传递
     return vocabularyVowelTeamFilter;
   }
 
+  function getVocabularyIpaFilterParent(value) {
+    if (value === "group:monophthongs" || IPA_MONOPHTHONG_SOUNDS.includes(value)) return "group:monophthongs";
+    if (value === "group:diphthongs" || IPA_DIPHTHONG_SOUNDS.includes(value)) return "group:diphthongs";
+    if (value === "group:consonants" || IPA_CONSONANT_SOUNDS.includes(value)) return "group:consonants";
+    if (value === "group:vowels") return "group:vowels";
+    return "";
+  }
+
+  function expandVocabularyIpaPath(value) {
+    const parent = getVocabularyIpaFilterParent(value);
+    if (!parent) return;
+    vocabularyIpaGroupsExpanded.add(parent);
+    const parentGroup = IPA_FILTER_GROUP_BY_ID[parent];
+    if (parentGroup?.parent) vocabularyIpaGroupsExpanded.add(parentGroup.parent);
+  }
+
+  function getVocabularyIpaFilterLabel(value) {
+    if (value === "all") return "所有音标";
+    const group = IPA_FILTER_GROUP_BY_ID[value];
+    if (group) return group.label;
+    return IPA_SOUND_ORDER.includes(value) ? `/${value}/` : "所有音标";
+  }
+
+  function renderVocabularyIpaOptions() {
+    const vocabularyIpaFilter = document.getElementById("vocabularyIpaFilter");
+    const vocabularyIpaControl = document.getElementById("vocabularyIpaControl");
+    const vocabularyIpaTrigger = document.getElementById("vocabularyIpaTrigger");
+    const vocabularyIpaTriggerText = document.getElementById("vocabularyIpaTriggerText");
+    const vocabularyIpaMenu = document.getElementById("vocabularyIpaMenu");
+    const usedIpaSounds = new Set(getIpaSoundOptions());
+    const availableSounds = (sounds) => sounds.filter((sound) => usedIpaSounds.has(sound));
+    const renderNativeOptions = (sounds) => availableSounds(sounds)
+      .map((sound) => `<option value="${escapeHtml(sound)}">/${escapeHtml(sound)}/</option>`)
+      .join("");
+    const renderSoundOptions = (sounds) => availableSounds(sounds)
+      .map((sound) => `<button class="ipa-option is-sound" type="button" role="option" data-ipa-value="${escapeHtml(sound)}" aria-selected="${selectedVocabularyIpa === sound ? "true" : "false"}">/${escapeHtml(sound)}/</button>`)
+      .join("");
+    const renderParentOption = (group, extraClass = "") => {
+      const isExpanded = vocabularyIpaGroupsExpanded.has(group.id);
+      const isSelected = selectedVocabularyIpa === group.id;
+      return `<button class="ipa-option is-parent ${extraClass}" type="button" role="option" data-ipa-value="${escapeHtml(group.id)}" aria-selected="${isSelected ? "true" : "false"}" aria-expanded="${isExpanded ? "true" : "false"}">${escapeHtml(group.label)}</button>`;
+    };
+    const renderVowelChildren = () => {
+      const monophthongs = IPA_FILTER_GROUP_BY_ID["group:monophthongs"];
+      const diphthongs = IPA_FILTER_GROUP_BY_ID["group:diphthongs"];
+      return [
+        renderParentOption(monophthongs, "is-subgroup"),
+        vocabularyIpaGroupsExpanded.has(monophthongs.id) ? renderSoundOptions(monophthongs.sounds) : "",
+        renderParentOption(diphthongs, "is-subgroup"),
+        vocabularyIpaGroupsExpanded.has(diphthongs.id) ? renderSoundOptions(diphthongs.sounds) : ""
+      ].join("");
+    };
+    const vowels = IPA_FILTER_GROUP_BY_ID["group:vowels"];
+    const consonants = IPA_FILTER_GROUP_BY_ID["group:consonants"];
+
+    if (selectedVocabularyIpa !== "all" && !Object.prototype.hasOwnProperty.call(IPA_FILTER_GROUP_BY_ID, selectedVocabularyIpa)) {
+      expandVocabularyIpaPath(selectedVocabularyIpa);
+    }
+    vocabularyIpaFilter.innerHTML = [
+      `<option value="all">所有音标</option>`,
+      `<option value="group:vowels">元音</option>`,
+      `<option value="group:monophthongs">单元音</option>`,
+      renderNativeOptions(IPA_MONOPHTHONG_SOUNDS),
+      `<option value="group:diphthongs">双元音</option>`,
+      renderNativeOptions(IPA_DIPHTHONG_SOUNDS),
+      `<option value="group:consonants">辅音</option>`,
+      renderNativeOptions(IPA_CONSONANT_SOUNDS)
+    ].join("");
+    vocabularyIpaMenu.innerHTML = [
+      `<button class="ipa-option" type="button" role="option" data-ipa-value="all" aria-selected="${selectedVocabularyIpa === "all" ? "true" : "false"}">所有音标</button>`,
+      renderParentOption(vowels),
+      vocabularyIpaGroupsExpanded.has(vowels.id) ? renderVowelChildren() : "",
+      renderParentOption(consonants),
+      vocabularyIpaGroupsExpanded.has(consonants.id) ? renderSoundOptions(consonants.sounds) : ""
+    ].join("");
+    vocabularyIpaFilter.value = selectedVocabularyIpa;
+    vocabularyIpaTriggerText.textContent = getVocabularyIpaFilterLabel(selectedVocabularyIpa);
+    vocabularyIpaControl.classList.toggle("is-open", vocabularyIpaMenuOpen);
+    vocabularyIpaTrigger.setAttribute("aria-expanded", vocabularyIpaMenuOpen ? "true" : "false");
+    return vocabularyIpaFilter;
+  }
+
   function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
     const counts = sourceVocabulary.reduce((map, item) => {
       if (!isMorphologyVocabularyItem(item)) return map;
@@ -8855,7 +8974,7 @@ pass=通过；传递
     let rootFilter = selectedVocabularyRoot;
     const syllableFilter = selectedVocabularySyllable;
     let vowelTeamFilter = selectedVocabularyVowelTeam;
-    const ipaFilter = selectedVocabularyIpa;
+    let ipaFilter = selectedVocabularyIpa;
     const allVocabulary = getAllVocabulary();
     const matchesWordPosition = (word) => {
       const normalized = (word || "").toLowerCase();
@@ -8925,6 +9044,13 @@ pass=通过；传递
       saveSelectedVocabularyVowelTeam();
       renderVocabularyVowelTeamOptions(allVocabulary);
     }
+    const vocabularyIpaFilter = renderVocabularyIpaOptions();
+    if (ipaFilter !== "all" && ![...vocabularyIpaFilter.options].some((option) => option.value === ipaFilter)) {
+      ipaFilter = "all";
+      selectedVocabularyIpa = "all";
+      saveSelectedVocabularyIpa();
+      renderVocabularyIpaOptions();
+    }
     const rootSourceVocabulary = allVocabulary.filter((item) => matchesFilters(item, false));
     const vocabularyRootFilter = renderVocabularyRootOptions(rootSourceVocabulary);
     if (rootFilter !== "all" && ![...vocabularyRootFilter.options].some((option) => option.value === rootFilter)) {
@@ -8949,7 +9075,7 @@ pass=通过；传递
     vocabularyRootFilter.value = rootFilter;
     document.getElementById("vocabularySyllableFilter").value = syllableFilter;
     vocabularyVowelTeamFilter.value = vowelTeamFilter;
-    document.getElementById("vocabularyIpaFilter").value = ipaFilter;
+    vocabularyIpaFilter.value = ipaFilter;
     document.getElementById("vocabularySummary").textContent = `${words.length} of ${allVocabulary.length} words`;
 
     if (!words.length) {
@@ -9387,6 +9513,8 @@ pass=通过；传递
     vocabularyVowelTeamMenuOpen = false;
     vocabularyVowelTeamsExpanded.clear();
     selectedVocabularyIpa = "all";
+    vocabularyIpaMenuOpen = false;
+    vocabularyIpaGroupsExpanded.clear();
     saveSelectedVocabularyWordMatch();
     saveSelectedVocabularyLetterCount();
     saveSelectedVocabularyStatus();
@@ -9591,29 +9719,80 @@ pass=通过；传递
     saveSelectedVocabularySyllable();
     renderVocabularyList();
   });
-  const vocabularyIpaFilter = document.getElementById("vocabularyIpaFilter");
-  const usedIpaSounds = new Set(getIpaSoundOptions());
-  const renderIpaSoundOptions = (sounds) => sounds
-    .filter((sound) => usedIpaSounds.has(sound))
-    .map((sound) => `<option value="${escapeHtml(sound)}">&nbsp;&nbsp;/${escapeHtml(sound)}/</option>`);
-  vocabularyIpaFilter.innerHTML = [
-    `<option value="all">所有音标</option>`,
-    `<option value="group:vowels">元音</option>`,
-    `<option value="group:monophthongs">单元音</option>`,
-    ...renderIpaSoundOptions(IPA_MONOPHTHONG_SOUNDS),
-    `<option value="group:diphthongs">双元音</option>`,
-    ...renderIpaSoundOptions(IPA_DIPHTHONG_SOUNDS),
-    `<option value="group:consonants">辅音</option>`,
-    ...renderIpaSoundOptions(IPA_CONSONANT_SOUNDS)
-  ].join("");
-  if (selectedVocabularyIpa !== "all" && ![...vocabularyIpaFilter.options].some((option) => option.value === selectedVocabularyIpa)) {
-    selectedVocabularyIpa = "all";
-    saveSelectedVocabularyIpa();
-  }
-  vocabularyIpaFilter.addEventListener("change", (event) => {
-    selectedVocabularyIpa = event.target.value;
+  function applyVocabularyIpaFilter(value, closeMenu = true) {
+    selectedVocabularyIpa = value;
+    if (value === "all") {
+      vocabularyIpaGroupsExpanded.clear();
+    } else {
+      expandVocabularyIpaPath(value);
+    }
+    vocabularyIpaMenuOpen = !closeMenu;
     saveSelectedVocabularyIpa();
     renderVocabularyList();
+  }
+
+  function closeVocabularyIpaMenu() {
+    if (!vocabularyIpaMenuOpen) return;
+    vocabularyIpaMenuOpen = false;
+    renderVocabularyList();
+  }
+
+  document.getElementById("vocabularyIpaTrigger").addEventListener("click", () => {
+    vocabularyIpaMenuOpen = !vocabularyIpaMenuOpen;
+    expandVocabularyIpaPath(selectedVocabularyIpa);
+    renderVocabularyList();
+  });
+  document.getElementById("vocabularyIpaTrigger").addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeVocabularyIpaMenu();
+      return;
+    }
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      vocabularyIpaMenuOpen = !vocabularyIpaMenuOpen;
+      expandVocabularyIpaPath(selectedVocabularyIpa);
+      renderVocabularyList();
+    }
+  });
+  document.getElementById("vocabularyIpaMenu").addEventListener("click", (event) => {
+    event.stopPropagation();
+    const option = event.target.closest("[data-ipa-value]");
+    if (!option) return;
+    const value = option.dataset.ipaValue;
+    if (Object.prototype.hasOwnProperty.call(IPA_FILTER_GROUP_BY_ID, value)) {
+      const group = IPA_FILTER_GROUP_BY_ID[value];
+      if (group.parent) vocabularyIpaGroupsExpanded.add(group.parent);
+      if (vocabularyIpaGroupsExpanded.has(value)) {
+        vocabularyIpaGroupsExpanded.delete(value);
+      } else {
+        vocabularyIpaGroupsExpanded.add(value);
+      }
+      selectedVocabularyIpa = value;
+      vocabularyIpaMenuOpen = true;
+      saveSelectedVocabularyIpa();
+      renderVocabularyList();
+      return;
+    }
+    applyVocabularyIpaFilter(value, true);
+  });
+  document.getElementById("vocabularyIpaMenu").addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      document.getElementById("vocabularyIpaTrigger").focus();
+      closeVocabularyIpaMenu();
+      return;
+    }
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const option = event.target.closest("[data-ipa-value]");
+    if (!option) return;
+    event.preventDefault();
+    option.click();
+  });
+  document.addEventListener("click", (event) => {
+    const control = document.getElementById("vocabularyIpaControl");
+    if (!control || control.contains(event.target)) return;
+    closeVocabularyIpaMenu();
   });
 
   render();
