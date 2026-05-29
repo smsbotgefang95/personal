@@ -1104,7 +1104,7 @@
         <option value="infinitive marker">不定式标记 Infinitive marker</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word formation">
-        <option value="all">所有单词</option>
+        <option value="all">所有构词法</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
         <option value="all">所有时态</option>
@@ -8425,7 +8425,7 @@ pass=通过；传递
       return `<optgroup label="${escapeHtml(group)}">${options}</optgroup>`;
     };
     vocabularyWordFormationFilter.innerHTML = [
-      `<option value="all">所有单词</option>`,
+      `<option value="all">所有构词法</option>`,
       renderGroup("核心构词法"),
       renderGroup("次级构词法")
     ].join("");
