@@ -779,13 +779,17 @@
     border-radius: 7px;
     box-shadow: var(--shadow);
     display: none;
-    left: 0;
+    left: 50%;
     max-height: min(430px, 70vh);
+    max-width: calc(100vw - 32px);
+    min-width: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
     padding: 8px;
     position: absolute;
-    right: 0;
     top: calc(100% + 6px);
+    transform: translateX(-50%);
+    width: min(620px, calc(100vw - 32px));
     z-index: 20;
   }
 
@@ -815,8 +819,11 @@
     justify-content: space-between;
     line-height: 1.25;
     min-height: 38px;
+    overflow: hidden;
     padding: 8px 10px;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     width: 100%;
   }
 
@@ -1063,6 +1070,11 @@
 
     .learning-tabs {
       flex-direction: column;
+    }
+
+    .word-formation-menu {
+      max-width: calc(100vw - 24px);
+      width: calc(100vw - 24px);
     }
 
     .vocabulary-actions {
