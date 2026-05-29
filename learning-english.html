@@ -7439,6 +7439,7 @@ pass=通过；传递
   let dialogueStatuses = readJson(STORAGE_DIALOGUE_STATUS_KEY, {});
   let customVocabulary = loadCustomVocabulary();
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
+  let importedIndexExactPlacementCache = null;
   let importedIndexDictionaryEntriesCache = null;
   let importedIndexVocabularyEntriesCache = null;
   let allVocabularyCache = null;
@@ -8288,8 +8289,53 @@ pass=通过；传递
     return /^[a-z]$/.test(normalized) && !["a", "i"].includes(normalized);
   }
 
+  function getImportedIndexExactPlacements() {
+    if (importedIndexExactPlacementCache) return importedIndexExactPlacementCache;
+    importedIndexExactPlacementCache = new Map();
+    const entries = Array.isArray(window.LEARNING_DICTIONARY_FULL) ? window.LEARNING_DICTIONARY_FULL : [];
+    entries.forEach((entry) => {
+      const word = cleanCustomText(entry?.word || entry?.text, 120);
+      const key = normalizeWordKey(word);
+      if (!key || importedIndexExactPlacementCache.has(key)) return;
+      const theme = cleanVocabularyTheme(entry?.theme);
+      const topic = cleanCustomText(entry?.topic, 120);
+      if (!theme || !topic || topic === "Starter words") return;
+      importedIndexExactPlacementCache.set(key, {
+        theme,
+        topic,
+        sourceRefs: Array.isArray(entry?.sourceRefs) ? entry.sourceRefs.map((ref) => cleanCustomText(ref, 40)).filter(Boolean) : [],
+        sourcePages: Array.isArray(entry?.sourcePages) ? entry.sourcePages : [],
+        placements: Array.isArray(entry?.placements) ? entry.placements : [],
+        alternatePlacements: Array.isArray(entry?.alternatePlacements) ? entry.alternatePlacements : []
+      });
+    });
+    return importedIndexExactPlacementCache;
+  }
+
+  function getImportedIndexExactPlacement(item) {
+    if (!item || item.isCustom || item.topic) return null;
+    return getImportedIndexExactPlacements().get(normalizeWordKey(item.word)) || null;
+  }
+
+  function applyImportedIndexExactPlacement(item) {
+    const placement = getImportedIndexExactPlacement(item);
+    if (!placement) return item;
+    return {
+      ...item,
+      theme: placement.theme,
+      topic: placement.topic,
+      sourceRefs: [...new Set([...(item.sourceRefs || []), ...placement.sourceRefs])],
+      sourcePages: [...new Set([...(item.sourcePages || []), ...placement.sourcePages])],
+      placements: placement.placements.length ? placement.placements : (item.placements || []),
+      alternatePlacements: placement.alternatePlacements.length ? placement.alternatePlacements : (item.alternatePlacements || []),
+      importedIndexMatch: true
+    };
+  }
+
   function getBaseVocabulary() {
-    return [...VOCABULARY, ...customVocabulary].filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item));
+    return [...VOCABULARY, ...customVocabulary]
+      .filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item))
+      .map(applyImportedIndexExactPlacement);
   }
 
   function getAllVocabulary() {
