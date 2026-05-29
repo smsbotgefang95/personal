@@ -1110,7 +1110,8 @@
       </select>
       <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
         <option value="all">所有时态</option>
-        <option value="past">过去式</option>
+        <option value="irregular-past">不规则过去式 (saw, went)</option>
+        <option value="past-participle">过去分词 (seen, gone)</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
         <option value="all">所有前缀</option>
@@ -4091,6 +4092,65 @@ pass=通过；传递
     return lookup;
   }, {});
 
+  const PAST_PARTICIPLE_BY_BASE_WORD = {
+    be: "been",
+    begin: "begun",
+    break: "broken",
+    bring: "brought",
+    buy: "bought",
+    catch: "caught",
+    choose: "chosen",
+    come: "come",
+    do: "done",
+    draw: "drawn",
+    drink: "drunk",
+    drive: "driven",
+    eat: "eaten",
+    fall: "fallen",
+    feel: "felt",
+    find: "found",
+    fly: "flown",
+    get: "got / gotten",
+    give: "given",
+    go: "gone",
+    grow: "grown",
+    have: "had",
+    hear: "heard",
+    know: "known",
+    lead: "led",
+    leave: "left",
+    lose: "lost",
+    make: "made",
+    mean: "meant",
+    meet: "met",
+    put: "put",
+    read: "read",
+    ride: "ridden",
+    ring: "rung",
+    run: "run",
+    say: "said",
+    see: "seen",
+    send: "sent",
+    sit: "sat",
+    sleep: "slept",
+    speak: "spoken",
+    spend: "spent",
+    stand: "stood",
+    take: "taken",
+    tell: "told",
+    think: "thought",
+    understand: "understood",
+    win: "won",
+    write: "written"
+  };
+
+  const BASE_WORD_BY_PAST_PARTICIPLE = Object.entries(PAST_PARTICIPLE_BY_BASE_WORD).reduce((lookup, [base, participleForms]) => {
+    participleForms.split("/").map((form) => form.trim()).filter(Boolean).forEach((form) => {
+      lookup[form] = base;
+    });
+    return lookup;
+  }, {});
+
   const SUFFIX_BY_WORD = {
     able: ["possible"],
     ed: [],
@@ -4399,6 +4459,7 @@ pass=通过；传递
     const normalized = normalizeWordKey(String(word || ""));
     if (PAST_TENSE_BY_BASE_WORD[normalized]) return `过去式: ${PAST_TENSE_BY_BASE_WORD[normalized]}`;
     if (BASE_WORD_BY_PAST_TENSE[normalized]) return `原形: ${BASE_WORD_BY_PAST_TENSE[normalized]}`;
+    if (BASE_WORD_BY_PAST_PARTICIPLE[normalized]) return `原形: ${BASE_WORD_BY_PAST_PARTICIPLE[normalized]}`;
     return "";
   }
 
@@ -4409,6 +4470,11 @@ pass=通过；传递
   function isPastTenseForm(word) {
     const normalized = normalizeWordKey(String(word || ""));
     return Object.prototype.hasOwnProperty.call(BASE_WORD_BY_PAST_TENSE, normalized);
+  }
+
+  function isPastParticipleForm(word) {
+    const normalized = normalizeWordKey(String(word || ""));
+    return Object.prototype.hasOwnProperty.call(BASE_WORD_BY_PAST_PARTICIPLE, normalized);
   }
 
   function hasRControlledSyllable(word) {
@@ -7305,7 +7371,8 @@ pass=通过；传递
   function loadSelectedVocabularyTense() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_TENSE_FILTER_KEY);
-      return ["all", "past"].includes(saved) ? saved : "all";
+      if (saved === "past") return "irregular-past";
+      return ["all", "irregular-past", "past-participle"].includes(saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -8278,7 +8345,9 @@ pass=通过；传递
       const matchesTheme = themeFilter === "all" || item.theme === themeFilter;
       const matchesCompound = compoundFilter === "all" || (compoundFilter === "compound" ? item.isCompound : !item.isCompound);
       const matchesLetterCount = letterCountFilter === "all" || getVocabularyLetterCount(item.word) === Number(letterCountFilter);
-      const matchesTense = tenseFilter === "all" || isPastTenseForm(item.word);
+      const matchesTense = tenseFilter === "all"
+        || (tenseFilter === "irregular-past" && isPastTenseForm(item.word))
+        || (tenseFilter === "past-participle" && isPastParticipleForm(item.word));
       const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
       const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
       const matchesRoot = !includeRoot || rootFilter === "all" || (item.roots || []).includes(rootFilter);
