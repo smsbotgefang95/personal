@@ -344,6 +344,7 @@ LEADING_REFERENCE_JUNK_RE = re.compile(r"""^(?:
     ['./\[]?\s*-\s*(?:['./\[]?\s*)?(?:\d|[A-Za-z]\b|[A-Za-z],) |
     \[\s*['’]?[A-Za-z]\b
 )""", re.VERBOSE)
+LEAKED_REFERENCE_FRAGMENT_RE = re.compile(r"\b\d{1,3}-['’](?:\s+.*)?$")
 
 
 def normalize_entry_text(value: str) -> str:
@@ -363,6 +364,8 @@ def is_malformed_entry_text(value: str) -> bool:
     if not re.match(r"""^[A-Za-z0-9"]""", text):
         return True
     if LEADING_REFERENCE_JUNK_RE.match(text):
+        return True
+    if LEAKED_REFERENCE_FRAGMENT_RE.search(text):
         return True
     return not re.search(r"[A-Za-z0-9]", text)
 

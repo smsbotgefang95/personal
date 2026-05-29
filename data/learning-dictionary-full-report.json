@@ -915,6 +915,13 @@
       ]
     },
     {
+      "line": 2,
+      "text": "apartment building 20-' ATMcard",
+      "refs": [
+        "80-6"
+      ]
+    },
+    {
       "line": 5,
       "text": "-27 brake pedal",
       "refs": [
@@ -924,10 +931,25 @@
       ]
     },
     {
+      "line": 5,
+      "text": "broom 32-' booster seat",
+      "refs": [
+        "25-25",
+        "62-7"
+      ]
+    },
+    {
       "line": 8,
       "text": "'2-2 cellophane tape",
       "refs": [
         "120-33"
+      ]
+    },
+    {
+      "line": 8,
+      "text": "child 42-' cardiologist",
+      "refs": [
+        "96-1"
       ]
     },
     {
@@ -942,6 +964,13 @@
       "text": "/63-29 delivery person",
       "refs": [
         "113-23"
+      ]
+    },
+    {
+      "line": 14,
+      "text": "cut up 58-' diaper pail",
+      "refs": [
+        "25-10"
       ]
     },
     {
@@ -970,6 +999,20 @@
       "text": ".60-14, hall",
       "refs": [
         "133-20"
+      ]
+    },
+    {
+      "line": 29,
+      "text": "long-sleeved shirt 71-'",
+      "refs": [
+        "81-25"
+      ]
+    },
+    {
+      "line": 29,
+      "text": "make breakfast 9-'",
+      "refs": [
+        "5"
       ]
     },
     {
@@ -1005,6 +1048,27 @@
       "text": "-E, onto",
       "refs": [
         "129-13"
+      ]
+    },
+    {
+      "line": 41,
+      "text": "say your name 6-'",
+      "refs": [
+        "115-23"
+      ]
+    },
+    {
+      "line": 47,
+      "text": "time dock 121-' superintendent",
+      "refs": [
+        "29-41"
+      ]
+    },
+    {
+      "line": 50,
+      "text": "tunnel 128-' use a cell phone here volleyball court",
+      "refs": [
+        "142-14"
       ]
     },
     {
@@ -1113,7 +1177,6 @@
     "antiseptic cleansing wipe",
     "ants",
     "apartment ads",
-    "apartment building 20-' ATMcard",
     "apartment listings",
     "apartment number",
     "apex",
@@ -1487,7 +1550,6 @@
     "broken line",
     "brooch",
     "brook",
-    "broom 32-' booster seat",
     "brother",
     "brother-in-Iaw",
     "browse the Web",
@@ -1725,7 +1787,6 @@
     "chicken sandwich",
     "chicken thighs",
     "chicleen",
-    "child 42-' cardiologist",
     "child-care center",
     "child-care worker",
     "children",
@@ -1974,7 +2035,6 @@
     "customs declaration detour",
     "customs officer",
     "cut",
-    "cut up 58-' diaper pail",
     "cutting board",
     "cuy souvenirs",
     "cycling",
@@ -3174,7 +3234,6 @@
     "listen to the answer",
     "long johns",
     "long underwear",
-    "long-sleeved shirt 71-'",
     "look at the screen",
     "look for an apartment",
     "look In the dictionary",
@@ -3209,7 +3268,6 @@
     "make a deposit",
     "make a restaurant media section",
     "make a withdrawal",
-    "make breakfast 9-'",
     "make copies",
     "make corrections",
     "make dinner",
@@ -4146,7 +4204,6 @@
     "save water",
     "saw",
     "saxophone",
-    "say your name 6-'",
     "say?",
     "scaffolding",
     "scale",
@@ -4760,7 +4817,6 @@
     "tiles",
     "time",
     "time cards",
-    "time dock 121-' superintendent",
     "times",
     "timetable",
     "tip",
@@ -4897,7 +4953,6 @@
     "tuna fish sandwich",
     "tuner",
     "tunic",
-    "tunnel 128-' use a cell phone here volleyball court",
     "turkey",
     "turn left",
     "turn off the lights",
@@ -5207,25 +5262,25 @@
   "summary": {
     "rawLines": 53,
     "parsedEntries": 4298,
-    "uniqueEntries": 4185,
+    "uniqueEntries": 4176,
     "themeCounts": {
       "clothes": 250,
       "community": 104,
-      "daily": 281,
+      "daily": 280,
       "describing": 145,
       "food": 448,
-      "health": 393,
-      "home": 470,
+      "health": 392,
+      "home": 467,
       "nature": 281,
       "numbers": 83,
       "personal": 50,
-      "recreation": 433,
+      "recreation": 432,
       "school": 288,
-      "services": 170,
+      "services": 168,
       "shopping": 157,
       "transportation": 261,
       "travel": 108,
-      "work": 263
+      "work": 262
     }
   }
 }
