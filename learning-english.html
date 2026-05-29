@@ -1110,8 +1110,8 @@
       </select>
       <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
         <option value="all">所有时态</option>
-        <option value="irregular-past">不规则过去式 (saw, went)</option>
-        <option value="past-participle">过去分词 (seen, gone)</option>
+        <option value="irregular-past">不规则过去式</option>
+        <option value="past-participle">过去分词</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
         <option value="all">所有前缀</option>
@@ -7088,6 +7088,14 @@ pass=通过；传递
     return COMPOUND_WORDS.has(normalized) || /[\s-]/.test(String(word || ""));
   }
 
+  function isPlainSingleVocabularyWord(word) {
+    return /^[A-Za-z]+$/.test(String(word || "").trim());
+  }
+
+  function isMorphologyVocabularyItem(item) {
+    return isPlainSingleVocabularyWord(item?.word) && !item?.isCompound && !item?.compound;
+  }
+
   function cleanCustomText(value, limit = 240) {
     return String(value ?? "").trim().replace(/\s+/g, " ").slice(0, limit);
   }
@@ -7910,16 +7918,18 @@ pass=通过；传递
   ]);
 
   function makeSingularImportedIndexEntry(entry, singularWord) {
+    const compound = isVocabularyCompound(singularWord);
+    const morphologyItem = { word: singularWord, compound };
     return {
       ...entry,
       id: `${cleanCustomText(entry?.id, 120) || `index-${slugifyWord(singularWord)}`}-singular`,
       text: singularWord,
       word: singularWord,
       partOfSpeech: cleanCustomText(entry?.partOfSpeech, 80) || "index entry",
-      compound: isVocabularyCompound(singularWord),
-      prefix: getVocabularyPrefix(singularWord),
-      suffix: getVocabularySuffix(singularWord),
-      roots: getVocabularyRoots(singularWord),
+      compound,
+      prefix: isMorphologyVocabularyItem(morphologyItem) ? getVocabularyPrefix(singularWord) : "none",
+      suffix: isMorphologyVocabularyItem(morphologyItem) ? getVocabularySuffix(singularWord) : "none",
+      roots: isMorphologyVocabularyItem(morphologyItem) ? getVocabularyRoots(singularWord) : [],
       syllableType: getVocabularySyllableType(singularWord),
       vowelTeams: getVocabularyVowelTeams(singularWord)
     };
@@ -7962,6 +7972,8 @@ pass=通过；传递
     const localVowelTeams = getVocabularyVowelTeams(word);
     const importedVowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
     const vowelTeams = localVowelTeams.includes("air") ? localVowelTeams : importedVowelTeams;
+    const isCompound = NON_COMPOUND_PHRASES.has(normalizeWordKey(word)) ? false : (typeof entry?.compound === "boolean" ? entry.compound : isVocabularyCompound(word));
+    const morphologyItem = { word, isCompound };
     return {
       id: cleanCustomText(entry?.id, 120) || `index-${slugifyWord(word)}`,
       word,
@@ -7972,10 +7984,10 @@ pass=通过；传递
       example: (entry?.sourceRefs || []).length ? `Word by Word index: ${entry.sourceRefs.join(", ")}` : "Word by Word index entry.",
       theme: cleanVocabularyTheme(entry?.theme) || getVocabularyTheme(word),
       topic: cleanCustomText(entry?.topic, 120) || "Starter words",
-      isCompound: NON_COMPOUND_PHRASES.has(normalizeWordKey(word)) ? false : (typeof entry?.compound === "boolean" ? entry.compound : isVocabularyCompound(word)),
-      prefix: cleanVocabularyPrefix(entry?.prefix) !== "none" ? cleanVocabularyPrefix(entry?.prefix) : getVocabularyPrefix(word),
-      suffix: cleanVocabularySuffix(entry?.suffix) !== "none" ? cleanVocabularySuffix(entry?.suffix) : getVocabularySuffix(word),
-      roots: cleanVocabularyList(entry?.roots || getVocabularyRoots(word), new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS))),
+      isCompound,
+      prefix: isMorphologyVocabularyItem(morphologyItem) ? (cleanVocabularyPrefix(entry?.prefix) !== "none" ? cleanVocabularyPrefix(entry?.prefix) : getVocabularyPrefix(word)) : "none",
+      suffix: isMorphologyVocabularyItem(morphologyItem) ? (cleanVocabularySuffix(entry?.suffix) !== "none" ? cleanVocabularySuffix(entry?.suffix) : getVocabularySuffix(word)) : "none",
+      roots: isMorphologyVocabularyItem(morphologyItem) ? cleanVocabularyList(entry?.roots || getVocabularyRoots(word), new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS))) : [],
       syllableType: cleanVocabularySyllableType(entry?.syllableType) || getVocabularySyllableType(word),
       vowelTeams,
       vowelTeamSounds: getVocabularyVowelTeamSoundMap(word, ipa),
@@ -8228,6 +8240,7 @@ pass=通过；传递
   function getVocabularyFilterOptions(sourceVocabulary, valueKey, labelMap, { exclude = [] } = {}) {
     const excluded = new Set(exclude);
     const counts = sourceVocabulary.reduce((map, item) => {
+      if (!isMorphologyVocabularyItem(item)) return map;
       const value = item[valueKey] || "none";
       if (value === "none" || excluded.has(value) || !Object.prototype.hasOwnProperty.call(labelMap, value)) return map;
       map.set(value, (map.get(value) || 0) + 1);
@@ -8281,6 +8294,7 @@ pass=通过；传递
 
   function getVocabularyRootOptions(sourceVocabulary = getAllVocabulary()) {
     const counts = sourceVocabulary.reduce((map, item) => {
+      if (!isMorphologyVocabularyItem(item)) return map;
       (item.roots || []).forEach((root) => {
         if (!Object.prototype.hasOwnProperty.call(VOCABULARY_ROOT_DEFINITIONS, root)) return;
         map.set(root, (map.get(root) || 0) + 1);
@@ -8348,9 +8362,10 @@ pass=通过；传递
       const matchesTense = tenseFilter === "all"
         || (tenseFilter === "irregular-past" && isPastTenseForm(item.word))
         || (tenseFilter === "past-participle" && isPastParticipleForm(item.word));
-      const matchesPrefix = prefixFilter === "all" || item.prefix === prefixFilter;
-      const matchesSuffix = suffixFilter === "all" || item.suffix === suffixFilter;
-      const matchesRoot = !includeRoot || rootFilter === "all" || (item.roots || []).includes(rootFilter);
+      const matchesMorphology = isMorphologyVocabularyItem(item);
+      const matchesPrefix = prefixFilter === "all" || (matchesMorphology && item.prefix === prefixFilter);
+      const matchesSuffix = suffixFilter === "all" || (matchesMorphology && item.suffix === suffixFilter);
+      const matchesRoot = !includeRoot || rootFilter === "all" || (matchesMorphology && (item.roots || []).includes(rootFilter));
       const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
       const matchesVowelTeam = matchesVocabularyVowelTeamFilter(item, vowelTeamFilter);
       const matchesIpa = ipaMatchesFilter(getVocabularyIpa(item), ipaFilter);
@@ -8431,14 +8446,15 @@ pass=通过；传递
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
       const labelTag = label && !duplicatesTheme ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
-      const prefixTag = item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
-      const suffixTag = item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
+      const showMorphology = isMorphologyVocabularyItem(item);
+      const prefixTag = showMorphology && item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
+      const suffixTag = showMorphology && item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const tenseLabel = getPastTenseLabel(item.word);
       const tenseTag = tenseLabel ? `<span class="vocabulary-tag">${escapeHtml(tenseLabel)}</span>` : "";
-      const rootTags = (item.roots || []).map((root) => {
+      const rootTags = showMorphology ? (item.roots || []).map((root) => {
         const definition = VOCABULARY_ROOT_DEFINITIONS[root];
         return definition ? `<span class="vocabulary-tag">词根: ${escapeHtml(definition.label)}</span>` : "";
-      }).join("");
+      }).join("") : "";
       const syllableTag = item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "";
       const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">元音组合: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
       return `

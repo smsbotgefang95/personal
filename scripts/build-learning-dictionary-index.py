@@ -365,12 +365,20 @@ def placement_from_ref(ref: str) -> dict | None:
     return {"ref": ref, "page": page, "theme": "daily", "topic": "Everyday Conversation"}
 
 
+def is_plain_single_word(text: str) -> bool:
+    return bool(re.fullmatch(r"[A-Za-z]+", text.strip()))
+
+
 def get_prefix(text: str) -> str:
+    if not is_plain_single_word(text):
+        return "none"
     normalized = re.sub(r"[^a-z]", "", text.lower())
     return next((prefix for prefix in PREFIXES if normalized.startswith(prefix) and len(normalized) > len(prefix) + 2), "none")
 
 
 def get_suffix(text: str) -> str:
+    if not is_plain_single_word(text):
+        return "none"
     normalized = re.sub(r"[^a-z]", "", text.lower())
     return next((suffix for suffix in SUFFIXES if normalized.endswith(suffix) and len(normalized) > len(suffix) + 2), "none")
 
