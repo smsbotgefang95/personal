@@ -2704,7 +2704,7 @@
     "half dollar",
     "half past",
     "half slip",
-    "half-qallon",
+    "half-gallon",
     "halibut",
     "hallway",
     "ham",
@@ -2952,7 +2952,7 @@
     "interrogative",
     "intersection",
     "interstate",
-    "interview 118-( June",
+    "interview",
     "into",
     "iris",
     "iron",
@@ -3018,6 +3018,7 @@
     "jumper cables",
     "jumping jack",
     "jumpsuit",
+    "June",
     "jungle",
     "junior high school",
     "Jupiter",
@@ -5205,8 +5206,8 @@
   "missingPlacements": [],
   "summary": {
     "rawLines": 53,
-    "parsedEntries": 4297,
-    "uniqueEntries": 4184,
+    "parsedEntries": 4298,
+    "uniqueEntries": 4185,
     "themeCounts": {
       "clothes": 250,
       "community": 104,
@@ -5224,7 +5225,7 @@
       "shopping": 157,
       "transportation": 261,
       "travel": 108,
-      "work": 262
+      "work": 263
     }
   }
 }
