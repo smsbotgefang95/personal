@@ -7067,7 +7067,7 @@ pass=通过；传递
         ["Ordinal Numbers", ORDINAL_NUMBER_STARTERS.map(([starterWord]) => starterWord)],
         ["Time", ["quarter past"]],
         ["Money", ["dollar"]],
-        ["The Calendar", ["calendar", "day"]]
+        ["The Calendar", ["calendar"]]
       ],
       home: [
         ["The Living Room", ["living room"]],
@@ -9595,21 +9595,16 @@ pass=通过；传递
   const usedIpaSounds = new Set(getIpaSoundOptions());
   const renderIpaSoundOptions = (sounds) => sounds
     .filter((sound) => usedIpaSounds.has(sound))
-    .map((sound) => `<option value="${escapeHtml(sound)}">&nbsp;&nbsp;/${escapeHtml(sound)}/</option>`)
-    .join("");
+    .map((sound) => `<option value="${escapeHtml(sound)}">&nbsp;&nbsp;/${escapeHtml(sound)}/</option>`);
   vocabularyIpaFilter.innerHTML = [
     `<option value="all">所有音标</option>`,
-    `<optgroup label="元音">`,
     `<option value="group:vowels">元音</option>`,
-    `<option value="group:monophthongs">&nbsp;&nbsp;单元音</option>`,
-    renderIpaSoundOptions(IPA_MONOPHTHONG_SOUNDS),
-    `<option value="group:diphthongs">&nbsp;&nbsp;双元音</option>`,
-    renderIpaSoundOptions(IPA_DIPHTHONG_SOUNDS),
-    `</optgroup>`,
-    `<optgroup label="辅音">`,
+    `<option value="group:monophthongs">单元音</option>`,
+    ...renderIpaSoundOptions(IPA_MONOPHTHONG_SOUNDS),
+    `<option value="group:diphthongs">双元音</option>`,
+    ...renderIpaSoundOptions(IPA_DIPHTHONG_SOUNDS),
     `<option value="group:consonants">辅音</option>`,
-    renderIpaSoundOptions(IPA_CONSONANT_SOUNDS),
-    `</optgroup>`
+    ...renderIpaSoundOptions(IPA_CONSONANT_SOUNDS)
   ].join("");
   if (selectedVocabularyIpa !== "all" && ![...vocabularyIpaFilter.options].some((option) => option.value === selectedVocabularyIpa)) {
     selectedVocabularyIpa = "all";
