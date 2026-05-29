@@ -846,6 +846,11 @@
     font-weight: 500;
   }
 
+  .vowel-team-option.is-all-vowel-teams,
+  .vowel-team-trigger.is-all-vowel-teams {
+    font-weight: 500;
+  }
+
   .word-formation-native {
     appearance: none;
     background: #f8faf8;
@@ -8739,10 +8744,11 @@ pass=通过；传递
     };
 
     vocabularyVowelTeamMenu.innerHTML = [
-      `<button class="vowel-team-option" type="button" role="option" data-vowel-team-value="all" aria-selected="${selectedVocabularyVowelTeam === "all" ? "true" : "false"}">${allLabel}</button>`,
+      `<button class="vowel-team-option is-all-vowel-teams" type="button" role="option" data-vowel-team-value="all" aria-selected="${selectedVocabularyVowelTeam === "all" ? "true" : "false"}">${allLabel}</button>`,
       ...teamEntries.map(renderTeam)
     ].join("");
     vocabularyVowelTeamTriggerText.textContent = getLabel(selectedVocabularyVowelTeam);
+    vocabularyVowelTeamTrigger.classList.toggle("is-all-vowel-teams", selectedVocabularyVowelTeam === "all");
     vocabularyVowelTeamControl.classList.toggle("is-open", vocabularyVowelTeamMenuOpen);
     vocabularyVowelTeamTrigger.setAttribute("aria-expanded", vocabularyVowelTeamMenuOpen ? "true" : "false");
     return vocabularyVowelTeamFilter;
