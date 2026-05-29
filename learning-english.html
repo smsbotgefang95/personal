@@ -865,7 +865,7 @@
     border: 1px solid var(--border);
     border-radius: 7px;
     color: var(--text);
-    display: block;
+    display: none;
     font: inherit;
     font-weight: 500;
     min-height: 42px;
@@ -875,7 +875,7 @@
   }
 
   .word-formation-trigger {
-    display: none;
+    display: flex;
   }
 
   .word-formation-option:hover,
@@ -888,14 +888,12 @@
     outline: none;
   }
 
-  .word-formation-option.is-parent::after,
   .vowel-team-option.is-parent::after {
     content: "+";
     font-size: 1.1rem;
     line-height: 1;
   }
 
-  .word-formation-option.is-parent[aria-expanded="true"]::after,
   .vowel-team-option.is-parent[aria-expanded="true"]::after {
     content: "-";
   }
