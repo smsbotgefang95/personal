@@ -4448,11 +4448,23 @@
     return `${cleanLabel(entry?.listId, "unknown-list")}|||${cleanLabel(entry?.taskId || taskIdFor(entry?.taskName), taskIdFor(entry?.taskName))}`;
   }
 
-  function recentTrackedTasks(entries) {
+  function recentTaskStartMs(entry) {
+    if (!entry?.start) return 0;
+    if (entry.start instanceof Date) return entry.start.getTime() || 0;
+    const parsed = new Date(entry.start).getTime();
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  function recentTrackedTasks(entries, activeEntry = null) {
     const byTask = new Map();
-    entries
-      .slice()
-      .sort((a, b) => (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
+    [
+      ...(activeEntry ? [{ ...activeEntry, isActiveRecentTask: true }] : []),
+      ...entries
+    ]
+      .sort((a, b) => {
+        if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
+        return recentTaskStartMs(b) - recentTaskStartMs(a);
+      })
       .forEach((entry) => {
         if (!entry?.taskName) return;
         const key = recentTaskKey(entry);
@@ -4474,7 +4486,7 @@
   function renderRecentTaskSwitcher(entries) {
     const recentList = document.getElementById("recentTaskList");
     if (!recentList) return;
-    const tasks = recentTrackedTasks(entries);
+    const tasks = recentTrackedTasks(entries, timePayload.activeEntry);
     recentList.innerHTML = tasks.length
       ? tasks.map((entry) => {
         const key = recentTaskKey(entry);
