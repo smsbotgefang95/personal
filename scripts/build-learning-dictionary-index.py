@@ -15,6 +15,7 @@ RAW_PATH = ROOT / "data" / "word-by-word-index-raw.txt"
 JSON_PATH = ROOT / "data" / "learning-dictionary-full.json"
 JS_PATH = ROOT / "data" / "learning-dictionary-full.js"
 REPORT_PATH = ROOT / "data" / "learning-dictionary-full-report.json"
+TRANSLATIONS_PATH = ROOT / "data" / "learning-dictionary-translations.zh-CN.json"
 COMPOUND_WORDS = {
     "afternoon",
     "anyone",
@@ -88,6 +89,23 @@ TRAILING_REF_COMMA_RE = re.compile(rf"{REF_TOKEN},\s*$")
 PAGE_HEADER_RE = re.compile(r"^(?:Page|P:)\s*\d+\s*$", re.IGNORECASE)
 INDEX_INTRO_RE = re.compile(r"^.*?(?=3-point turn\s+130-25)", re.IGNORECASE | re.DOTALL)
 
+
+def load_translation_map() -> dict[str, str]:
+    if not TRANSLATIONS_PATH.exists():
+        return {}
+    data = json.loads(TRANSLATIONS_PATH.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"{TRANSLATIONS_PATH} must contain a JSON object")
+    translations = {}
+    for key, value in data.items():
+        if not isinstance(key, str) or not isinstance(value, str):
+            continue
+        normalized_key = key.strip().casefold()
+        translation = value.strip()
+        if normalized_key and translation:
+            translations[normalized_key] = translation
+    return translations
+
 MANUAL_WRAPPED_ENTRIES = [
     ("avocado", ["48-14"]),
     ("bald", ["43-35"]),
@@ -117,6 +135,10 @@ MANUAL_WRAPPED_ENTRIES = [
     ("bread-and-butter plate", ["63-24"]),
     ("bring in your homework", ["6-22"]),
     ("bird watching", ["135-N"]),
+    ("central processing unit", ["78-2"]),
+    ("chicken wings", ["50-18", "64-4"]),
+    ("child day-care worker", ["112-17"]),
+    ("certified mail", ["82-9"]),
     ("Can you please repeat that?", ["13-21"]),
     ("Can you please say that again?", ["13-21"]),
     ("Can you please send someone to get my bags?", ["162-f"]),
@@ -133,6 +155,8 @@ MANUAL_WRAPPED_ENTRIES = [
     ("Good morning.", ["12-2"]),
     ("Good night.", ["12-10"]),
     ("Good-bye", ["12-9"]),
+    ("get some information about", ["75-F"]),
+    ("gospel music", ["148-7"]),
     ("Hello.", ["12-1"]),
     ("Hello. My name is...", ["13-12"]),
     ("Hello. This is... May I please speak to..?", ["13-22"]),
@@ -190,6 +214,9 @@ MANUAL_WRAPPED_ENTRIES = [
     ("read the newspaper", ["11-5"]),
     ("video cassette recorder", ["21-9"]),
     ("wash the dishes", ["10-2"]),
+    ("water pollution", ["158-14"]),
+    ("shipping department", ["121-17"]),
+    ("seat the customers", ["62-A"]),
     ("woman", ["42-9"]),
 ]
 
@@ -206,13 +233,17 @@ CORRECTED_ENTRY_REFS = {
 CORRECTED_MALFORMED_ENTRIES = {
     "avocado 48--14 bald",
     "Can you please repeat Okay.",
+    "central processing unit chicken wings",
     "child 42-' cardiologist",
+    "child day-care worker certified mail",
     "concrete mixer truck country rnusic",
     "customer service desk",
     "e-rnail",
     "enter your P1Nnumber face powder",
+    "get some information gospel music",
     "Good-bye.",
     "identification number face",
+    "I like your city very water pollution",
     "I'm here for five days. woman",
     "long-sleeved shirt 71-'",
     "luggage compartment man",
@@ -220,6 +251,7 @@ CORRECTED_MALFORMED_ENTRIES = {
     "put your bag on the read a book",
     "put your computer in a read the newspaper",
     "science fiction movie sand",
+    "shipping department seat the customers",
     "video cassette recorder wash the dishes",
 }
 
@@ -536,6 +568,7 @@ def get_syllable_type(text: str) -> str:
 
 
 def build_entries(raw_text: str) -> tuple[list[dict], dict]:
+    translations = load_translation_map()
     parsed: list[ParsedEntry] = []
     report = {
         "unparsedLines": [],
@@ -544,6 +577,7 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         "suspiciousRefs": [],
         "discardedMalformedEntries": [],
         "missingIpa": [],
+        "missingChineseSample": [],
         "missingCategory": [],
         "missingPlacements": [],
     }
@@ -664,12 +698,15 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         if suspicious_refs:
             report["suspiciousRefs"].append({"text": entry.text, "refs": suspicious_refs})
         normalized = entry.text.casefold()
+        chinese = translations.get(normalized, "")
+        if not chinese and len(report["missingChineseSample"]) < 100:
+            report["missingChineseSample"].append(entry.text)
         word = {
             "id": f"index-{index:04d}-{re.sub(r'[^a-z0-9]+', '-', normalized).strip('-') or 'entry'}",
             "type": "word",
             "text": entry.text,
             "word": entry.text,
-            "chinese": "",
+            "chinese": chinese,
             "source": "word-by-word-index",
             "sourceRefs": refs,
             "sourcePages": pages,
@@ -695,6 +732,8 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         "rawLines": len(raw_text.splitlines()),
         "parsedEntries": len(parsed),
         "uniqueEntries": len(entries),
+        "translatedEntries": sum(1 for entry in entries if entry["chinese"]),
+        "missingChinese": sum(1 for entry in entries if not entry["chinese"]),
         "themeCounts": dict(sorted(counts.items())),
     }
     return entries, report

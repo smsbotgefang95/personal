@@ -224,6 +224,26 @@
     },
     {
       "line": null,
+      "text": "central processing unit",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "chicken wings",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "child day-care worker",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "certified mail",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "Can you please repeat that?",
       "reason": "manual reconstruction"
     },
@@ -300,6 +320,16 @@
     {
       "line": null,
       "text": "Good-bye",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "get some information about",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "gospel music",
       "reason": "manual reconstruction"
     },
     {
@@ -585,6 +615,21 @@
     {
       "line": null,
       "text": "wash the dishes",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "water pollution",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "shipping department",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "seat the customers",
       "reason": "manual reconstruction"
     },
     {
@@ -1060,9 +1105,26 @@
     },
     {
       "line": 8,
+      "text": "central processing unit chicken wings",
+      "refs": [
+        "50-18",
+        "64-4"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
       "text": "child 42-' cardiologist",
       "refs": [
         "96-1"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
+      "text": "child day-care worker certified mail",
+      "refs": [
+        "82-9"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1135,6 +1197,16 @@
       "refs": [
         "113-33"
       ]
+    },
+    {
+      "line": 20,
+      "text": "get some information gospel music",
+      "refs": [
+        "148-7",
+        "143-C",
+        "143-10"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 23,
@@ -1241,6 +1313,14 @@
       "reason": "replaced by manual correction"
     },
     {
+      "line": 41,
+      "text": "shipping department seat the customers",
+      "refs": [
+        "62-A"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
       "line": 47,
       "text": "time dock 121-' superintendent",
       "refs": [
@@ -1259,6 +1339,14 @@
       "text": "video cassette recorder wash the dishes",
       "refs": [
         "10-2"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 53,
+      "text": "I like your city very water pollution",
+      "refs": [
+        "158-14"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1941,8 +2029,9 @@
     "Centigrade",
     "centimeter",
     "centipede",
-    "central processing unit chicken wings",
+    "central processing unit",
     "cereal",
+    "certified mail",
     "chain",
     "chair",
     "chalkboard",
@@ -1994,9 +2083,10 @@
     "chicken salad sandwich car seat",
     "chicken sandwich",
     "chicken thighs",
+    "chicken wings",
     "chicleen",
     "child",
-    "child day-care worker certified mail",
+    "child day-care worker",
     "child-care center",
     "child-care worker",
     "children",
@@ -2856,7 +2946,7 @@
     "get dressed",
     "get feedback",
     "get home",
-    "get some information gospel music",
+    "get some information about",
     "get tickets",
     "get traveler's checks",
     "get undressed",
@@ -2917,6 +3007,7 @@
     "goose",
     "gopher",
     "gorilla",
+    "gospel music",
     "government",
     "gown",
     "GPSdevice",
@@ -3154,7 +3245,6 @@
     "hypothesis",
     "I don't understand.",
     "I like your city very much.",
-    "I like your city very water pollution",
     "I'd like a wake-up call at...",
     "I'd like to get tickets for a show.",
     "I'd like to introduce...",
@@ -4468,6 +4558,7 @@
     "seasons",
     "seat",
     "seat belt",
+    "seat the customers",
     "second floor",
     "secretary",
     "section",
@@ -4530,7 +4621,7 @@
     "shingle",
     "shiny",
     "shipping clerk",
-    "shipping department seat the customers",
+    "shipping department",
     "shocked",
     "shoe polish",
     "shoe store",
@@ -5333,6 +5424,7 @@
     "water fountain",
     "water glass",
     "water main break",
+    "water pollution",
     "water skis",
     "watercolor",
     "watering can 35-;3 witch",
@@ -5475,6 +5567,108 @@
     "zoo",
     "zucchini"
   ],
+  "missingChineseSample": [
+    "\"handyman\"",
+    "\"surf\" the net",
+    "3-point turn",
+    "A.M.",
+    "A.v. crew",
+    "abdomen",
+    "about",
+    "about your health",
+    "about your skills and this afternoon",
+    "aboye",
+    "accelerator",
+    "accordion",
+    "account",
+    "account number",
+    "accountant",
+    "Ace™ bandage",
+    "acorn squash",
+    "acoustic guitar",
+    "across",
+    "acrylic paint",
+    "act",
+    "action figure",
+    "action movie",
+    "activities director",
+    "actor",
+    "acupuncturist",
+    "acute angle",
+    "ad",
+    "adding machine",
+    "addition",
+    "address",
+    "adhesive bandage",
+    "adhesive tape",
+    "adjective",
+    "administrative assistant",
+    "adult",
+    "adventure movie",
+    "adverb",
+    "afraid",
+    "afrplane",
+    "afternoon",
+    "aftershave",
+    "aftershave lotion",
+    "again?",
+    "age",
+    "air",
+    "air bag",
+    "air conditioner",
+    "air conditioning",
+    "air filter",
+    "air letter",
+    "air pollution",
+    "air purifier",
+    "air sickness bag",
+    "air tank",
+    "airfreshener",
+    "airplane",
+    "aisle",
+    "aisle seat",
+    "alarm dock",
+    "alcohol",
+    "alfalfa",
+    "algebra",
+    "allergic readion",
+    "allergist",
+    "alligator",
+    "alternator",
+    "aluminum foil",
+    "ambulance",
+    "American deese",
+    "amusement park",
+    "anesthesiologist",
+    "anesthetic",
+    "angry",
+    "ankle",
+    "anniversary",
+    "annoyed",
+    "answer",
+    "answer sheet",
+    "answer the question",
+    "antacid tablets",
+    "anteater",
+    "antelope",
+    "antenna",
+    "antibiotic ointrnent",
+    "antier",
+    "antihistarnlne crearn",
+    "antipasto",
+    "antipasto plate",
+    "antiseptic cleansing astronomer",
+    "antiseptic cleansing wipe",
+    "ants",
+    "apartment ads",
+    "apartment listings",
+    "apartment number",
+    "apex",
+    "apostrophe",
+    "appetizers",
+    "apple",
+    "apple juice"
+  ],
   "missingCategory": [],
   "missingPlacements": [],
   "correctedEntryRefs": [
@@ -5498,8 +5692,10 @@
   ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4320,
-    "uniqueEntries": 4187,
+    "parsedEntries": 4329,
+    "uniqueEntries": 4191,
+    "translatedEntries": 4,
+    "missingChinese": 4187,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
@@ -5514,10 +5710,10 @@
       "recreation": 430,
       "school": 288,
       "services": 170,
-      "shopping": 158,
+      "shopping": 160,
       "transportation": 263,
       "travel": 108,
-      "work": 263
+      "work": 265
     }
   }
 }

@@ -1328,6 +1328,9 @@
           <option value="review">复习</option>
           <option value="learned">已学会</option>
         </select>
+        <select class="vocabulary-filter" id="phraseThemeFilter" aria-label="Filter sentences by theme">
+          <option value="all">所有主题</option>
+        </select>
         <button class="vocabulary-reset" id="phraseResetFilters" type="button" aria-label="Reset sentence filters">重置筛选</button>
       </div>
       <div class="phrase-list" id="phraseList"></div>
@@ -1455,6 +1458,9 @@
         <option value="review">复习</option>
         <option value="learned">已学会</option>
       </select>
+      <select class="vocabulary-filter" id="vocabularyPhraseThemeFilter" aria-label="Filter chunks by theme">
+        <option value="all">所有主题</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyPhraseTypeFilter" aria-label="Filter chunks by type"></select>
       <button class="vocabulary-reset" id="vocabularyPhraseResetFilters" type="button" aria-label="Reset chunk filters">重置筛选</button>
     </div>
@@ -1477,6 +1483,9 @@
         <option value="review">复习</option>
         <option value="learned">已学会</option>
       </select>
+      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话">
+        <option value="all">所有主题</option>
+      </select>
       <button class="vocabulary-reset" id="dialogueResetFilters" type="button" aria-label="Reset dialogue filters">重置筛选</button>
     </div>
     <div class="dialogue-list" id="dialogueList"></div>
@@ -1494,11 +1503,13 @@
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
+  const STORAGE_PHRASE_THEME_FILTER_KEY = "learningEnglishPhraseThemeFilter";
   const STORAGE_VOCAB_FILTER_KEY = "learningEnglishVocabularyStatusFilter";
   const STORAGE_VOCAB_WORD_MATCH_FILTER_KEY = "learningEnglishVocabularyWordMatchFilter";
   const STORAGE_VOCAB_LETTER_COUNT_FILTER_KEY = "learningEnglishVocabularyLetterCountFilter";
   const STORAGE_VOCAB_PHRASE_FILTER_KEY = "learningEnglishVocabularyPhraseStatusFilter";
   const STORAGE_VOCAB_PHRASE_MATCH_FILTER_KEY = "learningEnglishVocabularyPhraseMatchFilter";
+  const STORAGE_VOCAB_PHRASE_THEME_FILTER_KEY = "learningEnglishVocabularyPhraseThemeFilter";
   const STORAGE_VOCAB_PHRASE_TYPE_FILTER_KEY = "learningEnglishVocabularyPhraseTypeFilter";
   const STORAGE_VOCAB_PART_FILTER_KEY = "learningEnglishVocabularyPartFilter";
   const STORAGE_VOCAB_THEME_FILTER_KEY = "learningEnglishVocabularyThemeFilter";
@@ -1511,6 +1522,7 @@
   const STORAGE_VOCAB_VOWEL_TEAM_FILTER_KEY = "learningEnglishVocabularyVowelTeamFilter";
   const STORAGE_VOCAB_IPA_FILTER_KEY = "learningEnglishVocabularyIpaFilter";
   const STORAGE_DICTIONARY_THEME_KEY = "learningEnglishDictionaryTheme";
+  const STORAGE_DIALOGUE_THEME_FILTER_KEY = "learningEnglishDialogueThemeFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 
   const SCENARIOS = [
@@ -2722,13 +2734,13 @@
     { id: "phrase-very-well", phrase: "very well", chinese: "很好", pronunciation: "VER-ee well", words: ["very", "well"], type: "collocation" },
     { id: "phrase-all-right", phrase: "all right", chinese: "好吧；没事", pronunciation: "all right", words: ["all", "right"], type: "fixed-expression" },
     { id: "phrase-not-yet", phrase: "not yet", chinese: "还没有", pronunciation: "not yet", words: ["not", "yet"], type: "fixed-expression" },
-    { id: "chunk-my-name-is-frame", phrase: "my name is ___", chinese: "我的名字是___", pronunciation: "my name iz", words: ["my", "name", "is"], type: "sentence-frame" },
+    { id: "chunk-my-name-is-frame", phrase: "My name is ___", chinese: "我的名字是___", pronunciation: "my name iz", words: ["my", "name", "is"], type: "sentence-frame" },
     { id: "chunk-i-am-frame", phrase: "I am ___", chinese: "我是___", pronunciation: "eye am", words: ["I", "am"], type: "sentence-frame" },
     { id: "chunk-i-need-frame", phrase: "I need ___", chinese: "我需要___", pronunciation: "eye need", words: ["I", "need"], type: "sentence-frame" },
-    { id: "chunk-can-i-frame", phrase: "can I ___?", chinese: "我可以___吗？", pronunciation: "can eye", words: ["can", "I"], type: "sentence-frame" },
-    { id: "chunk-could-you-frame", phrase: "could you ___?", chinese: "你可以___吗？", pronunciation: "kood yoo", words: ["could", "you"], type: "sentence-frame" },
+    { id: "chunk-can-i-frame", phrase: "Can I ___?", chinese: "我可以___吗？", pronunciation: "can eye", words: ["can", "I"], type: "sentence-frame" },
+    { id: "chunk-could-you-frame", phrase: "Could you ___?", chinese: "你可以___吗？", pronunciation: "kood yoo", words: ["could", "you"], type: "sentence-frame" },
     { id: "chunk-i-would-like-frame", phrase: "I would like ___", chinese: "我想要___", pronunciation: "eye wood like", words: ["I", "would", "like"], type: "sentence-frame" },
-    { id: "chunk-how-much-is-frame", phrase: "how much is ___?", chinese: "___多少钱？", pronunciation: "how much iz", words: ["how", "much", "is"], type: "sentence-frame" },
+    { id: "chunk-how-much-is-frame", phrase: "How much is ___?", chinese: "___多少钱？", pronunciation: "how much iz", words: ["how", "much", "is"], type: "sentence-frame" },
     { id: "chunk-thank-you", phrase: "thank you", chinese: "谢谢", pronunciation: "thank yoo", words: ["thank", "you"], type: "functional-chunk" },
     { id: "chunk-you-are-welcome", phrase: "you are welcome", chinese: "不客气", pronunciation: "yoo ar WEL-kum", words: ["you", "are", "welcome"], type: "functional-chunk" },
     { id: "chunk-excuse-me", phrase: "excuse me", chinese: "打扰一下；不好意思", pronunciation: "ik-SKYOOZ mee", words: ["excuse", "me"], type: "functional-chunk" },
@@ -8418,12 +8430,15 @@ pass=通过；传递
   let selectedDictionaryTheme = loadSelectedDictionaryTheme();
   let selectedDictionaryTopic = "all";
   let selectedPhraseStatus = loadSelectedPhraseStatus();
+  let selectedPhraseTheme = loadSelectedPhraseTheme();
   let selectedDialogueStatus = loadSelectedDialogueStatus();
+  let selectedDialogueTheme = loadSelectedDialogueTheme();
   let selectedVocabularyStatus = loadSelectedVocabularyStatus();
   let selectedVocabularyWordMatch = loadSelectedVocabularyWordMatch();
   let selectedVocabularyLetterCount = loadSelectedVocabularyLetterCount();
   let selectedVocabularyPhraseMatch = loadSelectedVocabularyPhraseMatch();
   let selectedVocabularyPhraseStatus = loadSelectedVocabularyPhraseStatus();
+  let selectedVocabularyPhraseTheme = loadSelectedVocabularyPhraseTheme();
   let selectedVocabularyPhraseType = loadSelectedVocabularyPhraseType();
   let selectedVocabularyPart = loadSelectedVocabularyPart();
   let selectedVocabularyTheme = loadSelectedVocabularyTheme();
@@ -8674,10 +8689,38 @@ pass=通过；传递
     } catch (error) {}
   }
 
+  function isValidLearningTheme(value) {
+    return value === "all" || DICTIONARY_THEME_TOPICS.some((theme) => theme.id === value);
+  }
+
+  function loadSelectedPhraseTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_PHRASE_THEME_FILTER_KEY);
+      return isValidLearningTheme(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedPhraseTheme() {
+    try {
+      localStorage.setItem(STORAGE_PHRASE_THEME_FILTER_KEY, selectedPhraseTheme);
+    } catch (error) {}
+  }
+
   function loadSelectedDialogueStatus() {
     try {
       const saved = localStorage.getItem(STORAGE_DIALOGUE_STATUS_FILTER_KEY);
       return ["all", "to-learn", "learning", "review", "learned"].includes(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function loadSelectedDialogueTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_DIALOGUE_THEME_FILTER_KEY);
+      return isValidLearningTheme(saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -8770,6 +8813,21 @@ pass=通过；传递
   function saveSelectedVocabularyPhraseStatus() {
     try {
       localStorage.setItem(STORAGE_VOCAB_PHRASE_FILTER_KEY, selectedVocabularyPhraseStatus);
+    } catch (error) {}
+  }
+
+  function loadSelectedVocabularyPhraseTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_VOCAB_PHRASE_THEME_FILTER_KEY);
+      return isValidLearningTheme(saved) ? saved : "all";
+    } catch (error) {
+      return "all";
+    }
+  }
+
+  function saveSelectedVocabularyPhraseTheme() {
+    try {
+      localStorage.setItem(STORAGE_VOCAB_PHRASE_THEME_FILTER_KEY, selectedVocabularyPhraseTheme);
     } catch (error) {}
   }
 
@@ -8955,6 +9013,12 @@ pass=通过；传递
     } catch (error) {}
   }
 
+  function saveSelectedDialogueTheme() {
+    try {
+      localStorage.setItem(STORAGE_DIALOGUE_THEME_FILTER_KEY, selectedDialogueTheme);
+    } catch (error) {}
+  }
+
   function todayKey() {
     return new Date().toISOString().slice(0, 10);
   }
@@ -8987,6 +9051,42 @@ pass=通过；传递
     });
   }
 
+  function getLearningThemeLabel(themeId) {
+    const theme = DICTIONARY_THEME_TOPICS.find((item) => item.id === themeId);
+    return theme?.zh || VOCABULARY_THEME_LABELS[themeId] || theme?.label || themeId;
+  }
+
+  function getLearningThemeOptions(items, getTheme) {
+    const counts = items.reduce((map, item) => {
+      const theme = getTheme(item);
+      if (!theme) return map;
+      map.set(theme, (map.get(theme) || 0) + 1);
+      return map;
+    }, new Map());
+    const themeOrder = new Map(DICTIONARY_THEME_TOPICS.map((theme, index) => [theme.id, index]));
+    return [...counts.entries()].sort(([themeA], [themeB]) => {
+      const orderA = themeOrder.has(themeA) ? themeOrder.get(themeA) : Number.MAX_SAFE_INTEGER;
+      const orderB = themeOrder.has(themeB) ? themeOrder.get(themeB) : Number.MAX_SAFE_INTEGER;
+      return orderA === orderB ? getLearningThemeLabel(themeA).localeCompare(getLearningThemeLabel(themeB)) : orderA - orderB;
+    });
+  }
+
+  function renderLearningThemeOptions(selectId, allLabel, items, getTheme) {
+    const filter = document.getElementById(selectId);
+    if (!filter) return null;
+    filter.innerHTML = [
+      `<option value="all">${escapeHtml(allLabel)} (${items.length})</option>`,
+      ...getLearningThemeOptions(items, getTheme).map(([theme, count]) => (
+        `<option value="${escapeHtml(theme)}">${escapeHtml(getLearningThemeLabel(theme))} (${count})</option>`
+      ))
+    ].join("");
+    return filter;
+  }
+
+  function hasFilterOption(filter, value) {
+    return Boolean(filter && [...filter.options].some((option) => option.value === value));
+  }
+
   function renderPhraseListView(view) {
     const container = document.getElementById(view.listId);
     const phraseSearch = document.getElementById(view.searchId);
@@ -8997,6 +9097,7 @@ pass=通过；传递
     const search = phraseSearch.value.trim().toLowerCase();
     const lengthFilter = phraseLengthFilter?.value || "all";
     const statusFilter = selectedPhraseStatus;
+    let themeFilter = selectedPhraseTheme;
     const matchesSearch = (phrase) => {
       if (!search) return true;
       const scenario = SCENARIOS.find((item) => item.id === phrase.scenario);
@@ -9018,10 +9119,23 @@ pass=通过；传递
       return true;
     };
     const matchesStatus = (phrase) => statusFilter === "all" || (statuses[phrase.id] || "auto") === statusFilter;
+    const matchesTheme = (phrase) => themeFilter === "all" || getScenarioDictionaryPlacement(phrase.scenario).theme === themeFilter;
     const scenarioPhrases = PHRASES;
-    const phrases = scenarioPhrases.filter((phrase) => matchesSearch(phrase) && matchesLength(phrase) && matchesStatus(phrase));
+    const phraseThemeFilter = renderLearningThemeOptions(
+      "phraseThemeFilter",
+      "所有主题",
+      scenarioPhrases,
+      (phrase) => getScenarioDictionaryPlacement(phrase.scenario).theme
+    );
+    if (themeFilter !== "all" && !hasFilterOption(phraseThemeFilter, themeFilter)) {
+      themeFilter = "all";
+      selectedPhraseTheme = "all";
+      saveSelectedPhraseTheme();
+    }
+    const phrases = scenarioPhrases.filter((phrase) => matchesSearch(phrase) && matchesLength(phrase) && matchesStatus(phrase) && matchesTheme(phrase));
 
     if (phraseStatusFilter) phraseStatusFilter.value = statusFilter;
+    if (phraseThemeFilter) phraseThemeFilter.value = themeFilter;
 
     phraseSummary.textContent = `${phrases.length} of ${scenarioPhrases.length} sentences`;
 
@@ -9081,13 +9195,27 @@ pass=通过；传递
     const phraseSearch = document.getElementById("vocabularyPhraseSearch");
     const phraseMatchFilter = document.getElementById("vocabularyPhraseMatchFilter");
     const phraseStatusFilter = document.getElementById("vocabularyPhraseStatusFilter");
+    const phraseThemeFilter = document.getElementById("vocabularyPhraseThemeFilter");
     const phraseTypeFilter = document.getElementById("vocabularyPhraseTypeFilter");
     const phraseSummary = document.getElementById("vocabularyPhraseSummary");
-    if (!container || !phraseSearch || !phraseMatchFilter || !phraseStatusFilter || !phraseTypeFilter || !phraseSummary) return;
+    if (!container || !phraseSearch || !phraseMatchFilter || !phraseStatusFilter || !phraseThemeFilter || !phraseTypeFilter || !phraseSummary) return;
     const search = phraseSearch.value.trim().toLowerCase();
     const matchFilter = selectedVocabularyPhraseMatch;
     const statusFilter = selectedVocabularyPhraseStatus;
+    let themeFilter = selectedVocabularyPhraseTheme;
     const typeFilter = selectedVocabularyPhraseType;
+    const phrasePlacements = new Map(VOCABULARY_PHRASES.map((item) => [item.id, getChunkDictionaryPlacement(item)]));
+    renderLearningThemeOptions(
+      "vocabularyPhraseThemeFilter",
+      "所有主题",
+      VOCABULARY_PHRASES,
+      (item) => phrasePlacements.get(item.id)?.theme
+    );
+    if (themeFilter !== "all" && !hasFilterOption(phraseThemeFilter, themeFilter)) {
+      themeFilter = "all";
+      selectedVocabularyPhraseTheme = "all";
+      saveSelectedVocabularyPhraseTheme();
+    }
     phraseTypeFilter.innerHTML = [
       `<option value="all">所有语块类型 (${VOCABULARY_PHRASES.length})</option>`,
       ...CHUNK_TYPES.map((type) => `<option value="${type.id}">${type.label} (${CHUNK_TYPE_COUNTS[type.id] || 0})</option>`)
@@ -9106,11 +9234,13 @@ pass=通过；传递
       ].some((value) => (value || "").toLowerCase().includes(search));
     };
     const matchesStatus = (item) => statusFilter === "all" || getVocabularyPhraseStatus(item.id) === statusFilter;
+    const matchesTheme = (item) => themeFilter === "all" || phrasePlacements.get(item.id)?.theme === themeFilter;
     const matchesType = (item) => typeFilter === "all" || item.type === typeFilter;
-    const phrases = VOCABULARY_PHRASES.filter((item) => matchesSearch(item) && matchesStatus(item) && matchesType(item));
+    const phrases = VOCABULARY_PHRASES.filter((item) => matchesSearch(item) && matchesStatus(item) && matchesTheme(item) && matchesType(item));
 
     phraseMatchFilter.value = matchFilter;
     phraseStatusFilter.value = statusFilter;
+    phraseThemeFilter.value = themeFilter;
     phraseTypeFilter.value = typeFilter;
     phraseSummary.textContent = `${phrases.length} of ${VOCABULARY_PHRASES.length} chunks`;
 
@@ -9198,12 +9328,30 @@ pass=通过；传递
   function renderDialogueList() {
     const container = document.getElementById("dialogueList");
     const statusFilter = document.getElementById("dialogueStatusFilter");
+    const themeFilter = document.getElementById("dialogueThemeFilter");
     const filterSummary = document.getElementById("dialogueFilterSummary");
-    if (!container || !statusFilter || !filterSummary) return;
+    if (!container || !statusFilter || !themeFilter || !filterSummary) return;
 
     const themeDialogues = DIALOGUES;
-    const dialogues = themeDialogues.filter((dialogue) => selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus);
+    let selectedTheme = selectedDialogueTheme;
+    renderLearningThemeOptions(
+      "dialogueThemeFilter",
+      "所有主题",
+      themeDialogues,
+      (dialogue) => getScenarioDictionaryPlacement(dialogue.scenario).theme
+    );
+    if (selectedTheme !== "all" && !hasFilterOption(themeFilter, selectedTheme)) {
+      selectedTheme = "all";
+      selectedDialogueTheme = "all";
+      saveSelectedDialogueTheme();
+    }
+    const dialogues = themeDialogues.filter((dialogue) => {
+      const matchesStatus = selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus;
+      const matchesTheme = selectedTheme === "all" || getScenarioDictionaryPlacement(dialogue.scenario).theme === selectedTheme;
+      return matchesStatus && matchesTheme;
+    });
     statusFilter.value = selectedDialogueStatus;
+    themeFilter.value = selectedTheme;
     filterSummary.textContent = `${dialogues.length} of ${themeDialogues.length} dialogues`;
 
     if (!dialogues.length) {
@@ -10667,11 +10815,18 @@ pass=通过；传递
     saveSelectedPhraseStatus();
     renderPhraseList();
   });
+  document.getElementById("phraseThemeFilter").addEventListener("change", (event) => {
+    selectedPhraseTheme = event.target.value;
+    saveSelectedPhraseTheme();
+    renderPhraseList();
+  });
   function resetPhraseFilters() {
     document.getElementById("phraseSearch").value = "";
     document.getElementById("phraseLengthFilter").value = "all";
     selectedPhraseStatus = "all";
+    selectedPhraseTheme = "all";
     saveSelectedPhraseStatus();
+    saveSelectedPhraseTheme();
     renderPhraseList();
   }
   document.getElementById("phraseResetFilters").addEventListener("click", resetPhraseFilters);
@@ -10680,9 +10835,16 @@ pass=通过；传递
     saveSelectedDialogueStatus();
     renderDialogueList();
   });
+  document.getElementById("dialogueThemeFilter").addEventListener("change", (event) => {
+    selectedDialogueTheme = event.target.value;
+    saveSelectedDialogueTheme();
+    renderDialogueList();
+  });
   function resetDialogueFilters() {
     selectedDialogueStatus = "all";
+    selectedDialogueTheme = "all";
     saveSelectedDialogueStatus();
+    saveSelectedDialogueTheme();
     renderDialogueList();
   }
   document.getElementById("dialogueResetFilters").addEventListener("click", resetDialogueFilters);
@@ -10697,6 +10859,11 @@ pass=通过；传递
     saveSelectedVocabularyPhraseStatus();
     renderVocabularyPhrases();
   });
+  document.getElementById("vocabularyPhraseThemeFilter").addEventListener("change", (event) => {
+    selectedVocabularyPhraseTheme = event.target.value;
+    saveSelectedVocabularyPhraseTheme();
+    renderVocabularyPhrases();
+  });
   document.getElementById("vocabularyPhraseTypeFilter").addEventListener("change", (event) => {
     selectedVocabularyPhraseType = event.target.value;
     saveSelectedVocabularyPhraseType();
@@ -10706,9 +10873,11 @@ pass=通过；传递
     document.getElementById("vocabularyPhraseSearch").value = "";
     selectedVocabularyPhraseMatch = "all";
     selectedVocabularyPhraseStatus = "all";
+    selectedVocabularyPhraseTheme = "all";
     selectedVocabularyPhraseType = "all";
     saveSelectedVocabularyPhraseMatch();
     saveSelectedVocabularyPhraseStatus();
+    saveSelectedVocabularyPhraseTheme();
     saveSelectedVocabularyPhraseType();
     renderVocabularyPhrases();
   }
