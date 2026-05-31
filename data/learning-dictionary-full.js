@@ -137716,23 +137716,23 @@ window.LEARNING_DICTIONARY_FULL = [
     "chinese": "",
     "source": "word-by-word-index",
     "sourceRefs": [
-      "16-26"
+      "76-26"
     ],
     "sourcePages": [
-      16
+      76
     ],
     "placements": [
       {
-        "ref": "16-26",
-        "page": 16,
-        "theme": "numbers",
-        "topic": "Time"
+        "ref": "76-26",
+        "page": 76,
+        "theme": "shopping",
+        "topic": "Video and Audio Equipment"
       }
     ],
     "alternatePlacements": [],
     "sourceLine": 47,
-    "theme": "numbers",
-    "topic": "Time",
+    "theme": "shopping",
+    "topic": "Video and Audio Equipment",
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",

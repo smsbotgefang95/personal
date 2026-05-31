@@ -1331,7 +1331,7 @@
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
     <div class="vocabulary-tools">
-      <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word or rank" aria-label="Search vocabulary" />
+      <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="按单词匹配位置筛选词汇">
         <option value="contains">单词包含</option>
         <option value="starts">单词以...开头</option>
@@ -9046,21 +9046,7 @@ pass=通过；传递
       const normalizedSearch = normalizeWordKey(search);
       if (DELETED_VOCABULARY_WORDS.has(normalizedSearch)) return false;
       if (!matchesWordPosition(item.word)) return false;
-      if (wordMatchFilter !== "contains") return true;
-      return [
-        item.word,
-        item.chinese,
-        item.partOfSpeech,
-        item.example,
-        getVocabularyIpa(item),
-        String(item.rank),
-        getVocabularyRankLabel(item),
-        ...(item.sourceRefs || []),
-        ...getVocabularySourceRefLabels(item),
-        ...(item.sourcePages || []).map((page) => `Page ${page}`),
-        ...(item.placements || []).flatMap((placement) => [placement.theme, placement.topic, String(placement.page || "")]),
-        ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)
-      ].some((value) => (value || "").toLowerCase().includes(search));
+      return wordMatchFilter !== "contains" || (item.word || "").toLowerCase().includes(search);
     };
     const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
