@@ -3177,6 +3177,7 @@
   let trackerPriorityFilterTouched = false;
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
+  let timePayloadSyncQueue = Promise.resolve();
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
@@ -3985,13 +3986,13 @@
     return { listId, listName: listNameForId(listId) };
   }
 
-  function trackerFormValues() {
+  function trackerFormValues(startIso = isoNow()) {
     const taskName = document.getElementById("trackerTask").value.trim();
     const list = selectedList("trackerList");
     return {
       id: nativeId(),
       sourceType: "native",
-      start: isoNow(),
+      start: startIso,
       stop: "",
       durationMs: 0,
       listId: list.listId,
@@ -4012,19 +4013,19 @@
       recurringText: "",
       taskOrder: "",
       notes: document.getElementById("trackerNotes").value.trim(),
-      createdAt: isoNow(),
-      updatedAt: isoNow()
+      createdAt: startIso,
+      updatedAt: startIso
     };
   }
 
-  function entryToRunningTimer(entry) {
+  function entryToRunningTimer(entry, startIso = isoNow()) {
     const taskName = cleanLabel(entry.taskName, "Untitled task");
     const listId = cleanLabel(entry.listId, "901301650324");
     const listName = LIST_NAME_MAP[listId] || cleanLabel(entry.listName, listNameForId(listId));
     return {
       id: nativeId(),
       sourceType: "native",
-      start: isoNow(),
+      start: startIso,
       stop: "",
       durationMs: 0,
       listId,
@@ -4046,8 +4047,8 @@
       recurrence: inferRecurrence(entry),
       taskOrder: cleanLabel(entry.taskOrder, ""),
       notes: "",
-      createdAt: isoNow(),
-      updatedAt: isoNow()
+      createdAt: startIso,
+      updatedAt: startIso
     };
   }
 
@@ -4256,6 +4257,16 @@
     return response.json();
   }
 
+  function enqueueTimePayloadSync(task) {
+    const queued = timePayloadSyncQueue.catch(() => {}).then(task);
+    timePayloadSyncQueue = queued;
+    return queued;
+  }
+
+  function postTimePayload(pendingPayload) {
+    return enqueueTimePayloadSync(() => timeApi("POST", pendingPayload));
+  }
+
   function renderTimePayloadState({ syncState = "" } = {}) {
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
@@ -4285,7 +4296,7 @@
       return;
     }
     try {
-      const response = await timeApi("POST", pendingPayload);
+      const response = await postTimePayload(pendingPayload);
       timePayload = cleanClientPayload(response.payload || pendingPayload);
       writeLocalTimePayload(timePayload);
     } catch (error) {
@@ -4298,6 +4309,32 @@
     showPrivateTimeLoadButton(false);
     renderTimePayloadState();
     setTrackerStatus("Saved", "saved");
+  }
+
+  function renderOptimisticTimerState() {
+    writeLocalTimePayload(timePayload);
+    renderTimerState();
+    renderActivityRows();
+  }
+
+  async function syncOptimisticTimePayload(pendingPayload, successMessage) {
+    const key = await resolveTimeAdminKey({ promptForKey: false, intent: "save" });
+    if (!key) {
+      showPrivateTimeLoadButton(true);
+      return;
+    }
+    try {
+      await postTimePayload(pendingPayload);
+      showPrivateTimeLoadButton(false);
+      setTrackerStatus(successMessage, "saved");
+    } catch (error) {
+      if (error.status === 401) {
+        showPrivateTimeLoadButton(true);
+        setTrackerStatus("Saved locally. Load private data to resume sync.", "saved");
+        return;
+      }
+      throw error;
+    }
   }
 
   function normalizeNativeEntry(entry, index = 0) {
@@ -5153,6 +5190,15 @@
     return { ...entry, taskName: committedEntry.taskName };
   }
 
+  function draftTaskNameInput(rows) {
+    const control = document.querySelector(".track-name-input[data-name-dirty='true']");
+    if (!control) return null;
+    const entry = rows.find((item) => taskOverrideKey(item) === control.dataset.editKey);
+    if (!entry) return null;
+    const nextName = cleanLabel(control.value, "");
+    return nextName ? { ...entry, taskName: nextName } : null;
+  }
+
   function finishTaskNameInput(control, rows) {
     commitTaskNameInput(control, rows)
       .then(() => control.blur())
@@ -5703,7 +5749,8 @@
       });
     });
     async function activateTrackButton(button) {
-      const committedEntry = await flushPendingTaskNameInput(rows);
+      const tappedAt = isoNow();
+      const committedEntry = draftTaskNameInput(rows);
       let entry = rows.find((item) => `${item.listId}|||${item.taskId}` === button.dataset.trackKey);
       entry = withCommittedTaskName(entry, committedEntry);
       if (!entry) return;
@@ -5717,7 +5764,7 @@
         return;
       }
       const isRunning = timePayload.activeEntry && timePayload.activeEntry.taskId === entry.taskId && timePayload.activeEntry.listId === entry.listId;
-      const action = isRunning ? stopTimer() : startTimer(entry);
+      const action = isRunning ? stopTimer(tappedAt) : startTimer(entry, { startIso: tappedAt });
       await action;
     }
     document.querySelectorAll("[data-track-key]").forEach((button) => {
@@ -7284,30 +7331,54 @@
     return [afterBoundary, nightBefore];
   }
 
-  async function startTimer(sourceEntry = null) {
+  async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
-    const entry = sourceEntry ? entryToRunningTimer(sourceEntry) : trackerFormValues();
+    const entry = sourceEntry ? entryToRunningTimer(sourceEntry, startIso) : trackerFormValues(startIso);
     if (!entry.taskName || !entry.listId) {
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
     }
     if (active) {
-      const completed = completedTimerEntries(active, isoNow());
-      timePayload.entries = [...completed, ...(timePayload.entries || [])];
-      timePayload.activeEntry = entry;
+      const completed = completedTimerEntries(active, startIso);
+      const nextPayload = cleanClientPayload({
+        ...timePayload,
+        entries: [...completed, ...(timePayload.entries || [])],
+        activeEntry: entry,
+        updatedAt: startIso
+      });
+      if (optimistic) {
+        timePayload = nextPayload;
+        renderOptimisticTimerState();
+        setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
+        syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`).catch((error) => setTrackerStatus(error.message, "error"));
+        return;
+      }
+      timePayload = nextPayload;
       await saveTimePayload(timePayload);
       setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
       return;
     }
-    timePayload.activeEntry = entry;
+    const nextPayload = cleanClientPayload({
+      ...timePayload,
+      activeEntry: entry,
+      updatedAt: startIso
+    });
+    if (optimistic) {
+      timePayload = nextPayload;
+      renderOptimisticTimerState();
+      setTrackerStatus(`Started ${entry.taskName}`, "saved");
+      syncOptimisticTimePayload(nextPayload, `Started ${entry.taskName}`).catch((error) => setTrackerStatus(error.message, "error"));
+      return;
+    }
+    timePayload = nextPayload;
     await saveTimePayload(timePayload);
     setTrackerStatus(`Started ${entry.taskName}`, "saved");
   }
 
-  async function stopTimer() {
+  async function stopTimer(stopIso = isoNow()) {
     const active = timePayload.activeEntry;
     if (!active) return;
-    const completed = completedTimerEntries(active, isoNow());
+    const completed = completedTimerEntries(active, stopIso);
     timePayload.entries = [...completed, ...(timePayload.entries || [])];
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
