@@ -1345,7 +1345,8 @@
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="按单词匹配位置筛选词汇">
-        <option value="contains">所有字母位置</option>
+        <option value="all">所有字母位置</option>
+        <option value="contains">单词包含</option>
         <option value="starts">单词以...开头</option>
         <option value="ends">单词以...结尾</option>
       </select>
@@ -1440,6 +1441,7 @@
     <div class="vocabulary-phrase-tools">
       <input class="vocabulary-phrase-search" id="vocabularyPhraseSearch" type="search" placeholder="Search chunk, meaning, pronunciation, or word" aria-label="Search chunks" />
       <select class="vocabulary-filter" id="vocabularyPhraseMatchFilter" aria-label="按语块匹配位置筛选语块">
+        <option value="all">所有字母位置</option>
         <option value="contains">语块包含</option>
         <option value="starts">语块以...开头</option>
         <option value="ends">语块以...结尾</option>
@@ -5390,8 +5392,8 @@ pass=通过；传递
   };
 
   const VOCABULARY_VOWEL_TEAM_ORDER = [
-    "air",
     "ai",
+    "air",
     "ay",
     "ea",
     "ee",
@@ -5408,6 +5410,7 @@ pass=通过；传递
     "ue",
     "ui"
   ];
+  const VOCABULARY_VOWEL_TEAM_MATCH_ORDER = [...VOCABULARY_VOWEL_TEAM_ORDER].sort((a, b) => b.length - a.length);
 
   const VOCABULARY_VOWEL_TEAM_LABELS = Object.fromEntries(
     VOCABULARY_VOWEL_TEAM_ORDER.map((team) => [team, team])
@@ -5720,7 +5723,7 @@ pass=通过；传递
     if (!normalized) return [];
     const excludedTeams = new Set(VOCABULARY_VOWEL_TEAM_EXCLUDED_TEAMS[normalizeWordKey(String(word || ""))] || []);
     const teams = new Set();
-    const pattern = new RegExp(VOCABULARY_VOWEL_TEAM_ORDER.join("|"), "g");
+    const pattern = new RegExp(VOCABULARY_VOWEL_TEAM_MATCH_ORDER.join("|"), "g");
     for (const match of normalized.matchAll(pattern)) {
       teams.add(match[0]);
     }
@@ -8660,9 +8663,9 @@ pass=通过；传递
   function loadSelectedVocabularyWordMatch() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_WORD_MATCH_FILTER_KEY);
-      return ["contains", "starts", "ends"].includes(saved) ? saved : "contains";
+      return ["all", "contains", "starts", "ends"].includes(saved) ? saved : "all";
     } catch (error) {
-      return "contains";
+      return "all";
     }
   }
 
@@ -8675,9 +8678,9 @@ pass=通过；传递
   function loadSelectedVocabularyPhraseMatch() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_PHRASE_MATCH_FILTER_KEY);
-      return ["contains", "starts", "ends"].includes(saved) ? saved : "contains";
+      return ["all", "contains", "starts", "ends"].includes(saved) ? saved : "all";
     } catch (error) {
-      return "contains";
+      return "all";
     }
   }
 
@@ -10015,7 +10018,7 @@ pass=通过；传递
     const isMultiWordSearch = searchWords.length > 1;
     const matchesWordPosition = (word) => {
       const normalized = (word || "").toLowerCase();
-      if (!search || wordMatchFilter === "contains") return true;
+      if (!search || wordMatchFilter === "all" || wordMatchFilter === "contains") return true;
       if (wordMatchFilter === "starts") return normalized.startsWith(search);
       if (wordMatchFilter === "ends") return normalized.endsWith(search);
       return true;
@@ -10024,7 +10027,7 @@ pass=通过；传递
       if (!search) return true;
       if (DELETED_VOCABULARY_WORDS.has(normalizedSearch)) return false;
       if (!matchesWordPosition(item.word)) return false;
-      if (wordMatchFilter !== "contains") return true;
+      if (!["all", "contains"].includes(wordMatchFilter)) return true;
       const normalizedWord = normalizeWordKey(item.word || "");
       return normalizedWord.includes(normalizedSearch) || (isMultiWordSearch && searchWords.includes(normalizedWord));
     };
@@ -10362,7 +10365,7 @@ pass=通过；传递
 
     detail.querySelector("#openThemeInVocabulary")?.addEventListener("click", () => {
       document.getElementById("vocabularySearch").value = "";
-      selectedVocabularyWordMatch = "contains";
+      selectedVocabularyWordMatch = "all";
       selectedVocabularyLetterCount = "all";
       selectedVocabularyStatus = "all";
       selectedVocabularyPart = "all";
@@ -10565,7 +10568,7 @@ pass=通过；传递
   });
   function resetVocabularyPhraseFilters() {
     document.getElementById("vocabularyPhraseSearch").value = "";
-    selectedVocabularyPhraseMatch = "contains";
+    selectedVocabularyPhraseMatch = "all";
     selectedVocabularyPhraseStatus = "all";
     selectedVocabularyPhraseType = "all";
     saveSelectedVocabularyPhraseMatch();
@@ -10577,7 +10580,7 @@ pass=通过；传递
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   function resetVocabularyFilters() {
     document.getElementById("vocabularySearch").value = "";
-    selectedVocabularyWordMatch = "contains";
+    selectedVocabularyWordMatch = "all";
     selectedVocabularyLetterCount = "all";
     selectedVocabularyStatus = "all";
     selectedVocabularyPart = "all";
