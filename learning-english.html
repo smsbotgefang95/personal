@@ -6939,6 +6939,17 @@ pass=通过；传递
   };
 
   const DICTIONARY_EXACT_PLACEMENT_OVERRIDES = {
+    brown: {
+      theme: "describing",
+      topic: "People and Physical Descriptions",
+      sourceRefs: ["43-31", "65-5"],
+      sourcePages: [43, 65],
+      placements: [
+        { ref: "43-31", page: 43, theme: "describing", topic: "People and Physical Descriptions" },
+        { ref: "65-5", page: 65, theme: "clothes", topic: "Colors" }
+      ],
+      alternatePlacements: [{ ref: "65-5", page: 65, theme: "clothes", topic: "Colors" }]
+    },
     couch: {
       theme: "home",
       topic: "The Living Room",
@@ -6956,6 +6967,44 @@ pass=通过；传递
         { ref: "120-1", page: 120, theme: "work", topic: "Office Supplies and Equipment" }
       ]
     },
+    face: {
+      theme: "daily",
+      topic: "Everyday Activities I",
+      sourceRefs: ["9-6", "86-4"],
+      sourcePages: [9, 86],
+      placements: [
+        { ref: "9-6", page: 9, theme: "daily", topic: "Everyday Activities I" },
+        { ref: "86-4", page: 86, theme: "health", topic: "The Body" }
+      ],
+      alternatePlacements: [{ ref: "86-4", page: 86, theme: "health", topic: "The Body" }]
+    },
+    land: {
+      theme: "travel",
+      topic: "Tourist Activities",
+      sourceRefs: ["163"],
+      sourcePages: [163],
+      placements: [{ ref: "163", page: 163, theme: "travel", topic: "Tourist Activities" }],
+      alternatePlacements: []
+    },
+    meat: {
+      theme: "food",
+      topic: "Meat, Poultry, and Seafood",
+      sourceRefs: ["50"],
+      sourcePages: [50],
+      placements: [{ ref: "50", page: 50, theme: "food", topic: "Meat, Poultry, and Seafood" }],
+      alternatePlacements: []
+    },
+    milk: {
+      theme: "food",
+      topic: "Dairy Products, Juices, and Beverages",
+      sourceRefs: ["51-1", "61-21"],
+      sourcePages: [51, 61],
+      placements: [
+        { ref: "51-1", page: 51, theme: "food", topic: "Dairy Products, Juices, and Beverages" },
+        { ref: "61-21", page: 61, theme: "food", topic: "The Coffee Shop and Sandwiches" }
+      ],
+      alternatePlacements: [{ ref: "61-21", page: 61, theme: "food", topic: "The Coffee Shop and Sandwiches" }]
+    },
     table: {
       theme: "daily",
       topic: "The Classroom",
@@ -6967,6 +7016,22 @@ pass=通过；传递
         { ref: "62-5", page: 62, theme: "food", topic: "The Restaurant" },
         { ref: "63-H", page: 63, theme: "food", topic: "The Restaurant" }
       ]
+    },
+    "what do you call that in english": {
+      theme: "travel",
+      topic: "Tourist Communication",
+      sourceRefs: ["165-23"],
+      sourcePages: [165],
+      placements: [{ ref: "165-23", page: 165, theme: "travel", topic: "Tourist Communication" }],
+      alternatePlacements: []
+    },
+    yellow: {
+      theme: "clothes",
+      topic: "Colors",
+      sourceRefs: ["65-4"],
+      sourcePages: [65],
+      placements: [{ ref: "65-4", page: 65, theme: "clothes", topic: "Colors" }],
+      alternatePlacements: []
     }
   };
 
@@ -8366,20 +8431,23 @@ pass=通过；传递
 
   function getImportedIndexExactPlacement(item) {
     if (!item || item.isCustom) return null;
-    return getImportedIndexExactPlacements().get(normalizeWordKey(item.word)) || DICTIONARY_EXACT_PLACEMENT_OVERRIDES[normalizeWordKey(item.word)] || null;
+    const key = normalizeWordKey(item.word);
+    return DICTIONARY_EXACT_PLACEMENT_OVERRIDES[key] || getImportedIndexExactPlacements().get(key) || null;
   }
 
   function applyImportedIndexExactPlacement(item) {
     const placement = getImportedIndexExactPlacement(item);
     if (!placement) return item;
+    const placements = Array.isArray(placement.placements) ? placement.placements : [];
+    const alternatePlacements = Array.isArray(placement.alternatePlacements) ? placement.alternatePlacements : [];
     return {
       ...item,
       theme: placement.theme,
       topic: placement.topic,
       sourceRefs: [...new Set([...(item.sourceRefs || []), ...placement.sourceRefs])],
       sourcePages: [...new Set([...(item.sourcePages || []), ...placement.sourcePages])],
-      placements: placement.placements.length ? placement.placements : (item.placements || []),
-      alternatePlacements: placement.alternatePlacements.length ? placement.alternatePlacements : (item.alternatePlacements || []),
+      placements: placements.length ? placements : (item.placements || []),
+      alternatePlacements: alternatePlacements.length ? alternatePlacements : (item.alternatePlacements || []),
       importedIndexMatch: true
     };
   }
