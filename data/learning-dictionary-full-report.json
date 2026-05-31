@@ -1138,6 +1138,14 @@
       ]
     },
     {
+      "line": 41,
+      "text": "science fiction movie sand",
+      "refs": [
+        "137-23"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
       "line": 47,
       "text": "time dock 121-' superintendent",
       "refs": [
@@ -4323,7 +4331,6 @@
     "school secretary",
     "science",
     "science equipment",
-    "science fiction movie sand",
     "science kit",
     "science lab",
     "scientific method",
@@ -5363,7 +5370,7 @@
   "summary": {
     "rawLines": 53,
     "parsedEntries": 4308,
-    "uniqueEntries": 4181,
+    "uniqueEntries": 4180,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
@@ -5375,7 +5382,7 @@
       "nature": 281,
       "numbers": 83,
       "personal": 50,
-      "recreation": 431,
+      "recreation": 430,
       "school": 288,
       "services": 168,
       "shopping": 157,

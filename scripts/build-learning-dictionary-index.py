@@ -191,6 +191,7 @@ CORRECTED_MALFORMED_ENTRIES = {
     "long-sleeved shirt 71-'",
     "luggage compartment man",
     "make breakfast 9-'",
+    "science fiction movie sand",
 }
 
 

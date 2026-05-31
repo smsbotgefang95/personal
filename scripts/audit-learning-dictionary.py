@@ -123,7 +123,8 @@ const forbiddenMalformedImportedWords = [
   "'-22,123-10, microscope",
   "'2-2 cellophane tape",
   "-' O garment worker",
-  "['d like to order ...."
+  "['d like to order ....",
+  "science fiction movie sand"
 ];
 const malformedImportedWords = importedIndexEntries
   .map((entry) => String(entry.word || entry.text || ""))
