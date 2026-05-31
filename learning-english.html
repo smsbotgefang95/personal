@@ -1510,7 +1510,8 @@
     { id: "restaurant", label: "Restaurant", zh: "餐厅" },
     { id: "doctor", label: "Doctor", zh: "看医生" },
     { id: "phone", label: "Phone Call", zh: "电话" },
-    { id: "work", label: "Work", zh: "工作" }
+    { id: "work", label: "Work", zh: "工作" },
+    { id: "learning", label: "Learning", zh: "学习" }
   ];
 
   const PHRASES = [
@@ -1657,6 +1658,14 @@
       chinese: "我明白了，谢谢。",
       pronunciation: "eye un-der-STAND. thank yoo",
       usage: "Use this after someone explains something."
+    },
+    {
+      id: "learning-practice-makes-perfect",
+      scenario: "learning",
+      english: "Practice makes perfect.",
+      chinese: "熟能生巧。",
+      pronunciation: "PRAK-tis mayks PER-fekt",
+      usage: "Use this to encourage someone to keep practicing."
     }
   ];
 
@@ -9187,6 +9196,9 @@ pass=通过；传递
     let vowelTeamFilter = selectedVocabularyVowelTeam;
     let ipaFilter = selectedVocabularyIpa;
     const allVocabulary = getAllVocabulary();
+    const normalizedSearch = normalizeWordKey(search);
+    const searchWords = normalizedSearch.split(" ").filter(Boolean);
+    const isMultiWordSearch = searchWords.length > 1;
     const matchesWordPosition = (word) => {
       const normalized = (word || "").toLowerCase();
       if (!search || wordMatchFilter === "contains") return true;
@@ -9196,10 +9208,11 @@ pass=通过；传递
     };
     const matchesSearch = (item) => {
       if (!search) return true;
-      const normalizedSearch = normalizeWordKey(search);
       if (DELETED_VOCABULARY_WORDS.has(normalizedSearch)) return false;
       if (!matchesWordPosition(item.word)) return false;
-      return wordMatchFilter !== "contains" || (item.word || "").toLowerCase().includes(search);
+      if (wordMatchFilter !== "contains") return true;
+      const normalizedWord = normalizeWordKey(item.word || "");
+      return normalizedWord.includes(normalizedSearch) || (isMultiWordSearch && searchWords.includes(normalizedWord));
     };
     const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
@@ -9275,7 +9288,6 @@ pass=通过；传递
       saveSelectedVocabularyRoot();
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
-    const normalizedSearch = normalizeWordKey(search);
     const hasActiveVocabularyFilters = statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || letterCountFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all";
 
     if (search && wordMatchFilter === "contains" && hasActiveVocabularyFilters && !words.some((item) => normalizeWordKey(item.word) === normalizedSearch)) {
