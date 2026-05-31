@@ -7118,6 +7118,30 @@ pass=通过；传递
     };
   });
 
+  const THIRD_PERSON_SPECIAL_VOCABULARY = [
+    { word: "has", chinese: "有；已经", ipa: "həz", pronunciation: "huhz", example: "She has a red scarf.", base: "have" },
+    { word: "does", chinese: "做；确实", ipa: "dʌz", pronunciation: "duhz", example: "What does this mean?", base: "do" },
+    { word: "goes", chinese: "去；前往", ipa: "ɡəʊz", pronunciation: "gohz", example: "He goes to work by bus.", base: "go" }
+  ].map((item) => ({
+    id: `third-person-special-${slugifyWord(item.word)}`,
+    word: item.word,
+    chinese: item.chinese,
+    pronunciation: item.pronunciation,
+    scenario: "common",
+    partOfSpeech: "verb",
+    example: item.example,
+    theme: "daily",
+    isCompound: false,
+    prefix: getVocabularyPrefix(item.word),
+    suffix: getVocabularySuffix(item.word),
+    roots: getVocabularyRoots(item.base),
+    syllableType: getVocabularySyllableType(item.word),
+    vowelTeams: getVocabularyVowelTeams(item.word),
+    vowelTeamSounds: getVocabularyVowelTeamSoundMap(item.word, item.ipa),
+    ipa: item.ipa,
+    rank: "Third-person singular"
+  }));
+
   const COMMON_WORD_SET = new Set(FILTERED_COMMON_WORDS.map((word) => word.toLowerCase()));
   const COUNTRY_WORDS = COUNTRY_VOCABULARY
     .filter((item) => !COMMON_WORD_SET.has(item.word.toLowerCase()))
@@ -8373,7 +8397,7 @@ pass=通过；传递
 
   const CLEANED_COMMON_VOCABULARY = COMMON_VOCABULARY.filter((item) => !COMMON_VOCABULARY_THIRD_PERSON_CLEANUP.has(normalizeWordKey(item.word)));
 
-  const VOCABULARY = uniqueVocabularyEntries([...DICTIONARY_THEME_STARTER_VOCABULARY, ...CLEANED_COMMON_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
+  const VOCABULARY = uniqueVocabularyEntries([...DICTIONARY_THEME_STARTER_VOCABULARY, ...CLEANED_COMMON_VOCABULARY, ...THIRD_PERSON_SPECIAL_VOCABULARY, ...COUNTRY_WORDS, ...US_HOLIDAY_VOCABULARY, ...FURNITURE_VOCABULARY, ...KITCHEN_APPLIANCE_VOCABULARY, ...CLOTHING_VOCABULARY, ...SPORTS_VOCABULARY, ...ER_PERSON_VOCABULARY]);
 
   function loadSelectedVocabularyLetterCount() {
     try {
