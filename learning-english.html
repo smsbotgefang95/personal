@@ -1317,6 +1317,7 @@
           <option value="review">复习</option>
           <option value="learned">已学会</option>
         </select>
+        <button class="vocabulary-reset" id="phraseResetFilters" type="button" aria-label="Reset sentence filters">重置筛选</button>
       </div>
       <div class="phrase-list" id="phraseList"></div>
     </section>
@@ -1441,6 +1442,7 @@
         <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPhraseTypeFilter" aria-label="Filter chunks by type"></select>
+      <button class="vocabulary-reset" id="vocabularyPhraseResetFilters" type="button" aria-label="Reset chunk filters">重置筛选</button>
     </div>
     <div class="phrase-list" id="vocabularyPhraseList"></div>
   </section>
@@ -1461,6 +1463,7 @@
         <option value="review">复习</option>
         <option value="learned">已学会</option>
       </select>
+      <button class="vocabulary-reset" id="dialogueResetFilters" type="button" aria-label="Reset dialogue filters">重置筛选</button>
     </div>
     <div class="dialogue-list" id="dialogueList"></div>
   </section>
@@ -4228,7 +4231,6 @@ pass=通过；传递
     "get away from me!",
     "get awayfrom me!",
     "get up",
-    "go shopping",
     "green card",
     "drizzling",
     "hailing",
@@ -6974,7 +6976,7 @@ pass=通过；传递
     "freedom of speech": { theme: "civics", topic: "The Constitution and the Bill of Rights" },
     "front door": { theme: "home", topic: "Types of Housing and Communities" },
     "get up": { theme: "daily", topic: "Everyday Activities I" },
-    "go shopping": { theme: "daily", topic: "Leisure Activities" },
+    "go shopping": { theme: "shopping", topic: "Shopping" },
     "green card": { theme: "civics", topic: "Forms of Identification" },
     "heat wave": { theme: "nature", topic: "The Weather" },
     "humid / muggy": { theme: "nature", topic: "The Weather" },
@@ -9577,11 +9579,25 @@ pass=通过；传递
     saveSelectedPhraseStatus();
     renderPhraseList();
   });
+  function resetPhraseFilters() {
+    document.getElementById("phraseSearch").value = "";
+    document.getElementById("phraseLengthFilter").value = "all";
+    selectedPhraseStatus = "all";
+    saveSelectedPhraseStatus();
+    renderPhraseList();
+  }
+  document.getElementById("phraseResetFilters").addEventListener("click", resetPhraseFilters);
   document.getElementById("dialogueStatusFilter").addEventListener("change", (event) => {
     selectedDialogueStatus = event.target.value;
     saveSelectedDialogueStatus();
     renderDialogueList();
   });
+  function resetDialogueFilters() {
+    selectedDialogueStatus = "all";
+    saveSelectedDialogueStatus();
+    renderDialogueList();
+  }
+  document.getElementById("dialogueResetFilters").addEventListener("click", resetDialogueFilters);
   document.getElementById("vocabularyPhraseSearch").addEventListener("input", renderVocabularyPhrases);
   document.getElementById("vocabularyPhraseMatchFilter").addEventListener("change", (event) => {
     selectedVocabularyPhraseMatch = event.target.value;
@@ -9598,6 +9614,17 @@ pass=通过；传递
     saveSelectedVocabularyPhraseType();
     renderVocabularyPhrases();
   });
+  function resetVocabularyPhraseFilters() {
+    document.getElementById("vocabularyPhraseSearch").value = "";
+    selectedVocabularyPhraseMatch = "contains";
+    selectedVocabularyPhraseStatus = "all";
+    selectedVocabularyPhraseType = "all";
+    saveSelectedVocabularyPhraseMatch();
+    saveSelectedVocabularyPhraseStatus();
+    saveSelectedVocabularyPhraseType();
+    renderVocabularyPhrases();
+  }
+  document.getElementById("vocabularyPhraseResetFilters").addEventListener("click", resetVocabularyPhraseFilters);
   document.getElementById("vocabularySearch").addEventListener("input", renderVocabularyList);
   function resetVocabularyFilters() {
     document.getElementById("vocabularySearch").value = "";
