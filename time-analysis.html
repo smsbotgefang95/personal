@@ -2945,6 +2945,7 @@
           <select class="control" id="typeFilter" aria-label="Filter by type"></select>
           <select class="control" id="weekFilter" aria-label="Filter by week"></select>
           <input class="control" id="dateFilter" type="date" aria-label="Filter by date" />
+          <button class="btn btn-indigo private-time-load-btn" type="button" hidden data-load-private-time>Load private data</button>
           <div class="details-day-total" id="detailsDayTotal" hidden></div>
         </div>
         <div class="table-wrap">
@@ -3147,6 +3148,8 @@
   const charts = {};
   let appEntries = [];
   let appMetrics = null;
+  let csvImportedEntries = [];
+  let csvRawRowCount = 0;
   let taskCatalogEntries = [];
   let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, taskMerges: {}, updatedAt: null };
   let timeAdminKey = "";
@@ -3488,6 +3491,15 @@
       String(date.getMonth() + 1).padStart(2, "0"),
       String(date.getDate()).padStart(2, "0")
     ].join("-");
+  }
+
+  function dateKeyBounds(value) {
+    const start = parseDateInput(value);
+    if (!start) return null;
+    return {
+      start,
+      end: addLocalDays(start, 1)
+    };
   }
 
   function localDateTimeFromInputs(dateValue, timeValue) {
@@ -4345,6 +4357,28 @@
 
   function nativeCompletedEntries() {
     return entriesWithTaskOverrides((timePayload.entries || []).map(normalizeNativeEntry));
+  }
+
+  function composedAnalysisEntries(importedEntries = csvImportedEntries) {
+    const byKey = new Map();
+    [
+      ...entriesWithTaskOverrides(Array.isArray(importedEntries) ? importedEntries : []),
+      ...nativeCompletedEntries()
+    ].forEach((entry) => {
+      const key = detailEntryKey(entry);
+      if (!byKey.has(key)) byKey.set(key, entry);
+    });
+    return Array.from(byKey.values()).sort((a, b) => (a.start?.getTime() || 0) - (b.start?.getTime() || 0) || a.sourceIndex - b.sourceIndex);
+  }
+
+  function analysisRawRowCount(nativeCount = nativeCompletedEntries().length) {
+    return csvRawRowCount + nativeCount;
+  }
+
+  function analysisSourcePills(nativeCount = nativeCompletedEntries().length) {
+    const pills = csvImportedEntries.length ? TIME_CSV_FILES.map(shortFileName) : [];
+    if (nativeCount) pills.push("Native time tracking");
+    return pills.length ? pills : ["Native time tracking"];
   }
 
   function activeDurationMs() {
@@ -5823,10 +5857,11 @@
   }
 
   function renderNativeDashboard() {
-    const entries = nativeCompletedEntries().sort((a, b) => (a.start?.getTime() || 0) - (b.start?.getTime() || 0));
-    currentSourcePills = ["Native time tracking"];
+    const nativeCount = nativeCompletedEntries().length;
+    const entries = composedAnalysisEntries();
+    currentSourcePills = analysisSourcePills(nativeCount);
     appEntries = entries;
-    appMetrics = buildMetrics(appEntries, appEntries.length);
+    appMetrics = buildMetrics(appEntries, analysisRawRowCount(nativeCount));
     renderTracker();
     renderDashboard(appEntries, appMetrics);
   }
@@ -6773,6 +6808,29 @@
     return `${entry.sourceType || "entry"}:${entry.id || entry.sourceIndex || ""}`;
   }
 
+  function entryDateOverlapMs(entry, dateValue) {
+    if (!dateValue) return Number(entry?.durationMs) || 0;
+    const bounds = dateKeyBounds(dateValue);
+    const start = entry?.start instanceof Date ? entry.start : null;
+    const stop = entry?.stop instanceof Date ? entry.stop : null;
+    if (!bounds || !start || !stop || Number.isNaN(start.getTime()) || Number.isNaN(stop.getTime())) {
+      return entry?.date === dateValue ? (Number(entry?.durationMs) || 0) : 0;
+    }
+    const overlapStart = Math.max(start.getTime(), bounds.start.getTime());
+    const overlapEnd = Math.min(stop.getTime(), bounds.end.getTime());
+    return Math.max(0, overlapEnd - overlapStart);
+  }
+
+  function entryDateFilterMs(entry, dateValue) {
+    if (!dateValue) return Number(entry?.durationMs) || 0;
+    return entryDateOverlapMs(entry, dateValue);
+  }
+
+  function entryMatchesDate(entry, dateValue) {
+    if (!dateValue) return true;
+    return entry.date === dateValue || entryDateOverlapMs(entry, dateValue) > 0;
+  }
+
   function detailEntriesFor(entries) {
     const baseEntries = Array.isArray(entries) ? entries : [];
     if (!baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
@@ -6818,7 +6876,7 @@
           if (category && entry.taskCategory !== category) return false;
           if (type && entry.taskType !== type) return false;
           if (week && entry.week !== week) return false;
-          if (date && entry.date !== date) return false;
+          if (!entryMatchesDate(entry, date)) return false;
           if (query && !entry.searchText.includes(query)) return false;
           return true;
         })
@@ -6830,11 +6888,12 @@
           return b.sourceIndex - a.sourceIndex;
         });
       const detailsNote = document.getElementById("detailsNote");
+      const dateContext = date ? " Entries include timers that start on or overlap the selected date." : "";
       detailsNote.textContent = query
-        ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.`
-        : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.`;
+        ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`
+        : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`;
       if (date) {
-        const dayTotalMs = filtered.reduce((total, entry) => total + (Number(entry.durationMs) || 0), 0);
+        const dayTotalMs = filtered.reduce((total, entry) => total + entryDateFilterMs(entry, date), 0);
         detailsDayTotal.textContent = `Total: ${formatDuration(dayTotalMs)}`;
         detailsDayTotal.hidden = false;
       } else {
@@ -7086,10 +7145,13 @@
   async function loadCsvDashboard() {
     try {
       const csvData = await loadCsvEntries();
-      taskCatalogEntries = csvData.entries;
-      appEntries = entriesWithTaskOverrides(csvData.entries);
-      appMetrics = buildMetrics(appEntries, csvData.rawRowCount);
-      currentSourcePills = TIME_CSV_FILES.map(shortFileName);
+      csvImportedEntries = csvData.entries;
+      csvRawRowCount = csvData.rawRowCount;
+      taskCatalogEntries = csvImportedEntries;
+      const nativeCount = nativeCompletedEntries().length;
+      appEntries = composedAnalysisEntries(csvImportedEntries);
+      appMetrics = buildMetrics(appEntries, analysisRawRowCount(nativeCount));
+      currentSourcePills = analysisSourcePills(nativeCount);
       renderTracker();
       renderDashboard(appEntries, appMetrics);
       return true;
