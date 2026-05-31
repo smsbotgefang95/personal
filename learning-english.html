@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="assets/site-nav.css" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
 <script src="assets/openai-tts.js?v=20260523"></script>
-<script src="data/learning-dictionary-full.js?v=20260531-desk-placement"></script>
+<script src="data/learning-dictionary-full.js?v=20260531-exact-placement"></script>
 <style>
   :root {
     --bg: #f6f7f2;
@@ -6938,6 +6938,38 @@ pass=通过；传递
     "dialogue-sentence": "Dialogue sentence"
   };
 
+  const DICTIONARY_EXACT_PLACEMENT_OVERRIDES = {
+    couch: {
+      theme: "home",
+      topic: "The Living Room",
+      sourceRefs: ["21-20"],
+      sourcePages: [21],
+      placements: [{ ref: "21-20", page: 21, theme: "home", topic: "The Living Room" }]
+    },
+    desk: {
+      theme: "daily",
+      topic: "The Classroom",
+      sourceRefs: ["4-4", "120-1"],
+      sourcePages: [4, 120],
+      placements: [
+        { ref: "4-4", page: 4, theme: "daily", topic: "The Classroom" },
+        { ref: "120-1", page: 120, theme: "work", topic: "Office Supplies and Equipment" }
+      ]
+    },
+    table: {
+      theme: "daily",
+      topic: "The Classroom",
+      sourceRefs: ["4-6", "22-1", "62-5", "63-H"],
+      sourcePages: [4, 22, 62, 63],
+      placements: [
+        { ref: "4-6", page: 4, theme: "daily", topic: "The Classroom" },
+        { ref: "22-1", page: 22, theme: "home", topic: "The Dining Room" },
+        { ref: "62-5", page: 62, theme: "food", topic: "The Restaurant" },
+        { ref: "63-H", page: 63, theme: "food", topic: "The Restaurant" }
+      ]
+    }
+  };
+
   const DICTIONARY_SCENARIO_MAP = {
     greetings: { theme: "daily", topic: "Everyday Conversation" },
     phone: { theme: "daily", topic: "Everyday Conversation" },
@@ -8334,7 +8366,7 @@ pass=通过；传递
 
   function getImportedIndexExactPlacement(item) {
     if (!item || item.isCustom) return null;
-    return getImportedIndexExactPlacements().get(normalizeWordKey(item.word)) || null;
+    return getImportedIndexExactPlacements().get(normalizeWordKey(item.word)) || DICTIONARY_EXACT_PLACEMENT_OVERRIDES[normalizeWordKey(item.word)] || null;
   }
 
   function applyImportedIndexExactPlacement(item) {
