@@ -10715,6 +10715,7 @@ pass=通过；传递
   function formatChunkDisplayPhrase(phrase) {
     const text = String(phrase || "");
     if (text === "Time flies.") return text;
+    if (text.includes("___")) return text;
     if (/^I(\s|$)/.test(text)) return text;
     return text.replace(/^([A-Z])/, (match) => match.toLowerCase());
   }
