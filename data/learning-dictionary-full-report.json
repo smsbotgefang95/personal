@@ -109,6 +109,16 @@
     },
     {
       "line": null,
+      "text": "couch",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "desk",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "e-mail",
       "reason": "manual reconstruction"
     },
@@ -1057,6 +1067,15 @@
       "refs": [
         "113-23"
       ]
+    },
+    {
+      "line": 14,
+      "text": "customer service desk",
+      "refs": [
+        "4-4",
+        "120-1"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 14,
@@ -2119,6 +2138,7 @@
     "cottage cheese",
     "cotton balls",
     "cotton swab",
+    "couch",
     "cough",
     "cough drops",
     "cough syrup",
@@ -2190,7 +2210,6 @@
     "Customer Assistance deposit",
     "customer pick-up area",
     "Customer Service describe",
-    "customer service desk",
     "customs and desktop computer",
     "customs declaration detour",
     "customs officer",
@@ -2250,6 +2269,7 @@
     "depth",
     "desert",
     "design",
+    "desk",
     "desk c1erk",
     "desk calendar",
     "desk pad",
@@ -4844,7 +4864,7 @@
     "synagogue",
     "syringe",
     "T-shirt",
-    "tabla",
+    "table",
     "table tennis",
     "tabledoth",
     "tablespoon",
@@ -5424,10 +5444,29 @@
   ],
   "missingCategory": [],
   "missingPlacements": [],
+  "correctedEntryRefs": [
+    {
+      "line": 11,
+      "text": "concert",
+      "removedCount": 2
+    }
+  ],
+  "correctedEntryText": [
+    {
+      "line": 47,
+      "to": "table",
+      "refs": [
+        "4-6",
+        "22-1",
+        "62-5",
+        "63-H"
+      ]
+    }
+  ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4314,
-    "uniqueEntries": 4183,
+    "parsedEntries": 4316,
+    "uniqueEntries": 4184,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
@@ -5435,7 +5474,7 @@
       "describing": 146,
       "food": 449,
       "health": 393,
-      "home": 469,
+      "home": 470,
       "nature": 281,
       "numbers": 82,
       "personal": 51,

@@ -94,6 +94,8 @@ MANUAL_WRAPPED_ENTRIES = [
     ("cardiologist", ["96-1"]),
     ("child", ["42-3"]),
     ("country", ["20-15"]),
+    ("couch", ["21-20"]),
+    ("desk", ["4-4", "120-1"]),
     ("e-mail", ["108-19"]),
     ("airplane", ["132-23"]),
     ("arrival and departure board", ["124-13"]),
@@ -187,11 +189,22 @@ MANUAL_WRAPPED_ENTRIES = [
     ("woman", ["42-9"]),
 ]
 
+CORRECTED_ENTRY_TEXT = {
+    "tabla": "table",
+}
+
+CORRECTED_ENTRY_REFS = {
+    "concert": {
+        "remove": {"147-couch", "21-20"},
+    },
+}
+
 CORRECTED_MALFORMED_ENTRIES = {
     "avocado 48--14 bald",
     "Can you please repeat Okay.",
     "child 42-' cardiologist",
     "concrete mixer truck country rnusic",
+    "customer service desk",
     "e-rnail",
     "Good-bye.",
     "I'm here for five days. woman",
@@ -609,6 +622,17 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         if is_malformed_entry_text(normalized_text):
             report["discardedMalformedEntries"].append({"line": entry.line, "text": normalized_text, "refs": entry.refs})
             continue
+        corrected_text = CORRECTED_ENTRY_TEXT.get(normalized_text.casefold())
+        if corrected_text:
+            report.setdefault("correctedEntryText", []).append({"line": entry.line, "to": corrected_text, "refs": entry.refs})
+            normalized_text = corrected_text
+        corrected_refs = CORRECTED_ENTRY_REFS.get(normalized_text.casefold())
+        if corrected_refs:
+            remove_refs = corrected_refs.get("remove", set())
+            removed = [ref for ref in entry.refs if ref in remove_refs]
+            if removed:
+                entry.refs = [ref for ref in entry.refs if ref not in remove_refs]
+                report.setdefault("correctedEntryRefs", []).append({"line": entry.line, "text": normalized_text, "removedCount": len(removed)})
         entry.text = normalized_text
         key = entry.text.casefold()
         if key not in merged:
