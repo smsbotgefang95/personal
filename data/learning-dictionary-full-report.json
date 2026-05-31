@@ -124,6 +124,21 @@
     },
     {
       "line": null,
+      "text": "enter your PIN number",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "face",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "face powder",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "airplane",
       "reason": "manual reconstruction"
     },
@@ -370,6 +385,11 @@
     {
       "line": null,
       "text": "I'm here for five days.",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "identification number",
       "reason": "manual reconstruction"
     },
     {
@@ -1089,6 +1109,23 @@
       "text": "e-rnail",
       "refs": [
         "108-19"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 17,
+      "text": "identification number face",
+      "refs": [
+        "9-6",
+        "86-4"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 17,
+      "text": "enter your P1Nnumber face powder",
+      "refs": [
+        "99-42"
       ],
       "reason": "replaced by manual correction"
     },
@@ -2526,8 +2563,8 @@
     "English",
     "English muffins",
     "ENT specialist",
-    "enter your P1Nnumber face powder",
     "enter your personal filling",
+    "enter your PIN number",
     "entra nce ramp",
     "entree",
     "envelope",
@@ -2579,7 +2616,9 @@
     "eyelid",
     "eyeliner",
     "fabric softener",
+    "face",
     "face guard",
+    "face powder",
     "facecloth",
     "factory worker",
     "faint",
@@ -3145,7 +3184,7 @@
     "ice skating",
     "iced tea",
     "ideas",
-    "identification number face",
+    "identification number",
     "ignition",
     "iguana",
     "iJl",
@@ -5465,8 +5504,8 @@
   ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4316,
-    "uniqueEntries": 4184,
+    "parsedEntries": 4320,
+    "uniqueEntries": 4186,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
@@ -5480,7 +5519,7 @@
       "personal": 51,
       "recreation": 430,
       "school": 288,
-      "services": 168,
+      "services": 170,
       "shopping": 158,
       "transportation": 263,
       "travel": 108,

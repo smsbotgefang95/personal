@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="assets/site-nav.css" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
 <script src="assets/openai-tts.js?v=20260523"></script>
-<script src="data/learning-dictionary-full.js?v=20260531-exact-placement"></script>
+<script src="data/learning-dictionary-full.js?v=20260531-dictionary-split"></script>
 <style>
   :root {
     --bg: #f6f7f2;
@@ -1121,10 +1121,15 @@
   }
 
   .vocabulary-actions {
+    align-content: start;
     display: grid;
     gap: 8px;
     justify-items: end;
     min-width: 360px;
+  }
+
+  .vocabulary-status-row {
+    align-self: start;
   }
 
   .empty {
@@ -7005,6 +7010,17 @@ pass=通过；传递
       ],
       alternatePlacements: [{ ref: "61-21", page: 61, theme: "food", topic: "The Coffee Shop and Sandwiches" }]
     },
+    moon: {
+      theme: "school",
+      topic: "The Universe",
+      sourceRefs: ["111-5", "163"],
+      sourcePages: [111, 163],
+      placements: [
+        { ref: "111-5", page: 111, theme: "school", topic: "The Universe" },
+        { ref: "163", page: 163, theme: "travel", topic: "Tourist Activities" }
+      ],
+      alternatePlacements: [{ ref: "163", page: 163, theme: "travel", topic: "Tourist Activities" }]
+    },
     table: {
       theme: "daily",
       topic: "The Classroom",
@@ -9259,8 +9275,15 @@ pass=通过；传递
       saveSelectedVocabularyRoot();
     }
     let words = allVocabulary.filter((item) => matchesFilters(item));
+    const normalizedSearch = normalizeWordKey(search);
+    const hasActiveVocabularyFilters = statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || letterCountFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all";
 
-    if (search && wordMatchFilter === "contains" && !words.length && compoundFilter === "all" && (statusFilter !== "all" || partFilter !== "all" || themeFilter !== "all" || letterCountFilter !== "all" || tenseFilter !== "all" || prefixFilter !== "all" || suffixFilter !== "all" || rootFilter !== "all" || syllableFilter !== "all" || vowelTeamFilter !== "all" || ipaFilter !== "all")) {
+    if (search && wordMatchFilter === "contains" && hasActiveVocabularyFilters && !words.some((item) => normalizeWordKey(item.word) === normalizedSearch)) {
+      const exactWordMatches = allVocabulary.filter((item) => normalizeWordKey(item.word) === normalizedSearch);
+      if (exactWordMatches.length) words = exactWordMatches;
+    }
+
+    if (search && wordMatchFilter === "contains" && !words.length && compoundFilter === "all" && hasActiveVocabularyFilters) {
       words = allVocabulary.filter(matchesSearch);
     }
 
