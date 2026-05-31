@@ -529,6 +529,36 @@
     },
     {
       "line": null,
+      "text": "put your bag on the conveyor belt",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "put your computer in a tray",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "read a book",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "read the newspaper",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "video cassette recorder",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "wash the dishes",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "woman",
       "reason": "manual reconstruction"
     }
@@ -1131,6 +1161,22 @@
       ]
     },
     {
+      "line": 38,
+      "text": "put your bag on the read a book",
+      "refs": [
+        "11-4"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 38,
+      "text": "put your computer in a read the newspaper",
+      "refs": [
+        "11-5"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
       "line": 41,
       "text": "say your name 6-'",
       "refs": [
@@ -1158,6 +1204,14 @@
       "refs": [
         "142-14"
       ]
+    },
+    {
+      "line": 50,
+      "text": "video cassette recorder wash the dishes",
+      "refs": [
+        "10-2"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 53,
@@ -1743,7 +1797,6 @@
     "camping stove",
     "can",
     "can opener",
-    "Can you please repeat Okay.",
     "Can you please repeat that?",
     "Can you please say that again?",
     "Can you please say that me!",
@@ -4069,8 +4122,8 @@
     "put on makeup",
     "put the words in order",
     "put things away",
-    "put your bag on the read a book",
-    "put your computer in a read the newspaper",
+    "put your bag on the conveyor belt",
+    "put your computer in a tray",
     "puzzle",
     "pyramid",
     "qualifications",
@@ -4127,8 +4180,10 @@
     "razor",
     "razor blade",
     "reach",
+    "read a book",
     "read page ten",
     "read the definítion",
+    "read the newspaper",
     "read to",
     "reality show",
     "rear defroster",
@@ -5154,7 +5209,7 @@
     "vice-principal",
     "video",
     "video camera",
-    "video cassette recorder wash the dishes",
+    "video cassette recorder",
     "video game",
     "video game system",
     "video store",
@@ -5210,6 +5265,7 @@
     "wash",
     "wash my face",
     "wash my hair",
+    "wash the dishes",
     "wash the windows",
     "washcloth",
     "washer",
@@ -5370,16 +5426,16 @@
   "missingPlacements": [],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4309,
-    "uniqueEntries": 4181,
+    "parsedEntries": 4314,
+    "uniqueEntries": 4183,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
-      "daily": 281,
+      "daily": 280,
       "describing": 146,
       "food": 449,
       "health": 393,
-      "home": 468,
+      "home": 469,
       "nature": 281,
       "numbers": 83,
       "personal": 51,
@@ -5387,7 +5443,7 @@
       "school": 288,
       "services": 168,
       "shopping": 157,
-      "transportation": 261,
+      "transportation": 263,
       "travel": 108,
       "work": 262
     }

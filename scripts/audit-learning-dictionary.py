@@ -69,6 +69,28 @@ const themeCounts = DICTIONARY_THEME_TOPICS.reduce((map, topic) => {
   return map;
 }, {});
 const vocabulary = getAllVocabulary();
+const findDuplicateEntries = (entries, getText) => {
+  const groups = entries.reduce((map, entry) => {
+    const key = normalizeWordKey(String(getText(entry) || ""));
+    if (!key) return map;
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(entry);
+    return map;
+  }, new Map());
+  return [...groups.entries()]
+    .filter(([, duplicates]) => duplicates.length > 1)
+    .map(([key, duplicates]) => ({
+      key,
+      entries: duplicates.map((entry) => ({
+        id: entry.id,
+        text: getText(entry),
+        theme: entry.theme || "",
+        type: entry.type || entry.sourceType || "",
+      })),
+    }));
+};
+const duplicateVocabularyWords = findDuplicateEntries(vocabulary, (item) => item.word);
+const duplicateVocabularyChunks = findDuplicateEntries(VOCABULARY_PHRASES, (item) => item.phrase);
 const wordMetadataGaps = vocabulary.filter((item) => {
   const ipa = getVocabularyIpa(item);
   return !ipa || item.prefix === undefined || item.suffix === undefined || item.roots === undefined ||
@@ -146,7 +168,7 @@ const missingDailySubtopicCounts = Object.entries(dailySubtopicCounts)
   .filter(([, count]) => count === 0)
   .map(([topic]) => topic);
 console.log(JSON.stringify({
-  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && malformedImportedWords.length === 0 && presentForbiddenMalformedWords.length === 0 && zeroCountSubtopics.length === 0 && missingDailySubtopicCounts.length === 0,
+  ok: missingTypes.length === 0 && missingImportedWords.length === 0 && bandHasBothRefs && broadTopicEntries.length === 0 && malformedImportedWords.length === 0 && presentForbiddenMalformedWords.length === 0 && zeroCountSubtopics.length === 0 && missingDailySubtopicCounts.length === 0 && duplicateVocabularyWords.length === 0 && duplicateVocabularyChunks.length === 0,
   totalItems: items.length,
   typeCounts,
   themeCounts,
@@ -162,6 +184,8 @@ console.log(JSON.stringify({
   zeroCountSubtopics,
   dailySubtopicCounts,
   missingDailySubtopicCounts,
+  duplicateVocabularyWords,
+  duplicateVocabularyChunks,
   wordMetadataGaps,
 }, null, 2));
 """

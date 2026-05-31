@@ -178,11 +178,18 @@ MANUAL_WRAPPED_ENTRIES = [
     ("You're welcome.", ["13-19"]),
     ("long-sleeved shirt", ["71-1"]),
     ("make breakfast", ["9-15"]),
+    ("put your bag on the conveyor belt", ["132-C"]),
+    ("put your computer in a tray", ["132-D"]),
+    ("read a book", ["11-4"]),
+    ("read the newspaper", ["11-5"]),
+    ("video cassette recorder", ["21-9"]),
+    ("wash the dishes", ["10-2"]),
     ("woman", ["42-9"]),
 ]
 
 CORRECTED_MALFORMED_ENTRIES = {
     "avocado 48--14 bald",
+    "Can you please repeat Okay.",
     "child 42-' cardiologist",
     "concrete mixer truck country rnusic",
     "e-rnail",
@@ -191,7 +198,10 @@ CORRECTED_MALFORMED_ENTRIES = {
     "long-sleeved shirt 71-'",
     "luggage compartment man",
     "make breakfast 9-'",
+    "put your bag on the read a book",
+    "put your computer in a read the newspaper",
     "science fiction movie sand",
+    "video cassette recorder wash the dishes",
 }
 
 

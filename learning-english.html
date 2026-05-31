@@ -1763,7 +1763,7 @@
     }
   ];
 
-  const VOCABULARY_PHRASES = [
+  const VOCABULARY_PHRASES = uniqueVocabularyPhraseEntries([
     { id: "phrase-just-a-moment", phrase: "Just a moment", chinese: "稍等一下", pronunciation: "just uh MOH-ment", words: ["just", "moment"], type: "functional-chunk" },
     { id: "phrase-happy-holidays", phrase: "Happy holidays", chinese: "节日快乐", pronunciation: "HAP-ee HOL-uh-dayz", words: ["happy", "holidays"], type: "functional-chunk" },
     { id: "phrase-good-morning", phrase: "Good morning", chinese: "早上好", pronunciation: "good MOR-ning", words: ["good", "morning"], type: "functional-chunk" },
@@ -1909,7 +1909,7 @@
     { id: "chunk-put-on", phrase: "Put on", chinese: "穿上；戴上", pronunciation: "put on", words: ["put", "on"], type: "phrasal-verb" },
     { id: "chunk-wash-dishes", phrase: "Wash dishes", chinese: "洗碗", pronunciation: "wahsh DISH-iz", words: ["wash", "dishes"], type: "collocation" },
     { id: "chunk-take-a-shower", phrase: "Take a shower", chinese: "洗澡", pronunciation: "tayk uh SHOU-er", words: ["take", "a", "shower"], type: "collocation" },
-    { id: "chunk-go-shopping", phrase: "Go shopping", chinese: "去购物", pronunciation: "goh SHOP-ing", words: ["go", "shopping"], type: "collocation" },
+    { id: "chunk-go-shopping", phrase: "go shopping", chinese: "去购物", pronunciation: "goh SHOP-ing", words: ["go", "shopping"], type: "collocation" },
     { id: "chunk-make-dinner", phrase: "Make dinner", chinese: "做晚饭", pronunciation: "mayk DIN-er", words: ["make", "dinner"], type: "collocation" },
     { id: "chunk-make-breakfast", phrase: "Make breakfast", chinese: "做早餐", pronunciation: "mayk BREK-fust", words: ["make", "breakfast"], type: "collocation" },
     { id: "chunk-take-a-break", phrase: "Take a break", chinese: "休息一下", pronunciation: "tayk uh brayk", words: ["take", "a", "break"], type: "collocation" },
@@ -1946,7 +1946,17 @@
     { id: "chunk-american-revolution", phrase: "American Revolution", chinese: "美国独立战争", pronunciation: "uh-MER-ih-kun rev-uh-LOO-shun", words: ["american", "revolution"], type: "compound-chunk" },
     { id: "chunk-civil-war", phrase: "Civil War", chinese: "内战", pronunciation: "SIV-ul war", words: ["civil", "war"], type: "compound-chunk" },
     { id: "chunk-first-aid", phrase: "First aid", chinese: "急救", pronunciation: "furst ayd", words: ["first", "aid"], type: "compound-chunk" }
-  ];
+  ]);
+
+  function uniqueVocabularyPhraseEntries(items) {
+    const seen = new Set();
+    return items.filter((item) => {
+      const key = normalizeWordKey(String(item.phrase || ""));
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
 
   const CHUNK_TYPES = [
     { id: "collocation", label: "搭配 Collocation" },
@@ -7344,7 +7354,7 @@ pass=通过；传递
   function uniqueVocabularyEntries(items) {
     const seen = new Set();
     return items.filter((item) => {
-      const key = `${String(item.word || "").toLowerCase()}|${item.theme || ""}`;
+      const key = normalizeWordKey(String(item.word || ""));
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
@@ -8335,7 +8345,8 @@ pass=通过；传递
 
   function getAllVocabulary() {
     if (!allVocabularyCache) {
-      allVocabularyCache = [...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()].filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item));
+      allVocabularyCache = uniqueVocabularyEntries([...getBaseVocabulary(), ...getImportedIndexVocabularyEntries()])
+        .filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item));
     }
     return allVocabularyCache;
   }
@@ -9315,6 +9326,7 @@ pass=通过；传递
       <div class="theme-word-list">
         ${topicFilteredItems.length ? topicFilteredItems.map((item) => {
           const currentStatus = getDictionaryStatus(item);
+          const displayTitle = item.sourceType === "phrase" ? formatChunkDisplayPhrase(item.title) : item.title;
           const pronunciation = item.pronunciation
             ? `<p class="${item.pronunciationLabel === "ipa" ? "vocabulary-ipa" : "vocabulary-pronunciation"}">${item.pronunciationLabel === "ipa" ? `/${escapeHtml(item.pronunciation)}/` : escapeHtml(item.pronunciation)}</p>`
             : "";
@@ -9328,7 +9340,7 @@ pass=通过；传递
           return `
             <article class="vocabulary-card" data-theme-dictionary-card="${escapeHtml(item.id)}">
               <div>
-                <h3 class="vocabulary-word">${escapeHtml(item.title)}</h3>
+                <h3 class="vocabulary-word">${escapeHtml(displayTitle)}</h3>
                 ${pronunciation}
                 <p class="vocabulary-meaning">${escapeHtml(item.chinese || "")}</p>
                 <div class="vocabulary-meta">
@@ -9338,8 +9350,8 @@ pass=通过；传递
                 ${example}
               </div>
               <div class="vocabulary-actions">
-                <button class="listen-button" type="button" data-speak-dictionary-item="${escapeHtml(item.id)}" aria-label="Listen to ${escapeHtml(item.title)}">${SPEAKER_ICON}</button>
-                <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(item.title)}">
+                <button class="listen-button" type="button" data-speak-dictionary-item="${escapeHtml(item.id)}" aria-label="Listen to ${escapeHtml(displayTitle)}">${SPEAKER_ICON}</button>
+                <div class="status-row vocabulary-status-row" aria-label="Practice status for ${escapeHtml(displayTitle)}">
                   ${dictionaryStatusButton(item, "auto", "自动", currentStatus)}
                   ${dictionaryStatusButton(item, "to-learn", "待学", currentStatus)}
                   ${dictionaryStatusButton(item, "learning", "学习中", currentStatus)}
