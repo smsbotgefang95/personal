@@ -471,6 +471,12 @@
     margin: 16px 0;
   }
 
+  .phrase-tools .vocabulary-reset {
+    justify-self: start;
+    max-width: max-content;
+    width: auto;
+  }
+
   .phrase-top {
     align-items: start;
     display: grid;
@@ -1339,7 +1345,7 @@
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="按单词匹配位置筛选词汇">
-        <option value="contains">单词包含</option>
+        <option value="contains">所有字母位置</option>
         <option value="starts">单词以...开头</option>
         <option value="ends">单词以...结尾</option>
       </select>
@@ -1511,6 +1517,7 @@
     { id: "doctor", label: "Doctor", zh: "看医生" },
     { id: "phone", label: "Phone Call", zh: "电话" },
     { id: "work", label: "Work", zh: "工作" },
+    { id: "home", label: "Home", zh: "家里" },
     { id: "learning", label: "Learning", zh: "学习" }
   ];
 
@@ -1538,6 +1545,14 @@
       chinese: "回头见。",
       pronunciation: "see yoo LAY-ter",
       usage: "Use this when leaving a casual conversation."
+    },
+    {
+      id: "greet-long-time-no-see",
+      scenario: "greetings",
+      english: "Long time no see.",
+      chinese: "好久不见。",
+      pronunciation: "long time noh see",
+      usage: "Use this when greeting someone after not seeing them for a long time."
     },
     {
       id: "shop-how-much",
@@ -1666,6 +1681,806 @@
       chinese: "熟能生巧。",
       pronunciation: "PRAK-tis mayks PER-fekt",
       usage: "Use this to encourage someone to keep practicing."
+    },
+    {
+      id: "greet-good-morning-everyone",
+      scenario: "greetings",
+      english: "Good morning, everyone.",
+      chinese: "大家早上好。",
+      pronunciation: "good MOR-ning EV-ree-wun",
+      usage: "Use this when greeting a group in the morning."
+    },
+    {
+      id: "greet-good-afternoon",
+      scenario: "greetings",
+      english: "Good afternoon.",
+      chinese: "下午好。",
+      pronunciation: "good af-ter-NOON",
+      usage: "Use this polite greeting after noon."
+    },
+    {
+      id: "greet-good-evening",
+      scenario: "greetings",
+      english: "Good evening.",
+      chinese: "晚上好。",
+      pronunciation: "good EE-vning",
+      usage: "Use this polite greeting in the evening."
+    },
+    {
+      id: "greet-how-is-it-going",
+      scenario: "greetings",
+      english: "How is it going?",
+      chinese: "最近怎么样？",
+      pronunciation: "how iz it GOH-ing",
+      usage: "Use this casual question to ask how someone is doing."
+    },
+    {
+      id: "greet-i-am-fine",
+      scenario: "greetings",
+      english: "I am fine, thank you.",
+      chinese: "我很好，谢谢。",
+      pronunciation: "eye am fine thank yoo",
+      usage: "Use this simple answer when someone asks how you are."
+    },
+    {
+      id: "greet-very-well",
+      scenario: "greetings",
+      english: "I am very well.",
+      chinese: "我很好。",
+      pronunciation: "eye am VER-ee well",
+      usage: "Use this to give a positive answer."
+    },
+    {
+      id: "greet-what-is-your-name",
+      scenario: "greetings",
+      english: "What is your name?",
+      chinese: "你叫什么名字？",
+      pronunciation: "what iz yor name",
+      usage: "Use this when you need to learn a person's name."
+    },
+    {
+      id: "greet-my-name-is-anna",
+      scenario: "greetings",
+      english: "My name is Anna.",
+      chinese: "我的名字是 Anna。",
+      pronunciation: "my name iz AN-na",
+      usage: "Use this to introduce yourself."
+    },
+    {
+      id: "greet-nice-to-see-you",
+      scenario: "greetings",
+      english: "Nice to see you.",
+      chinese: "很高兴见到你。",
+      pronunciation: "nice tuh see yoo",
+      usage: "Use this when greeting someone you already know."
+    },
+    {
+      id: "greet-have-a-good-day",
+      scenario: "greetings",
+      english: "Have a good day.",
+      chinese: "祝你有美好的一天。",
+      pronunciation: "hav uh good day",
+      usage: "Use this friendly phrase when saying goodbye."
+    },
+    {
+      id: "greet-see-you-tomorrow",
+      scenario: "greetings",
+      english: "See you tomorrow.",
+      chinese: "明天见。",
+      pronunciation: "see yoo tuh-MOR-oh",
+      usage: "Use this when you expect to see someone the next day."
+    },
+    {
+      id: "greet-thank-you-so-much",
+      scenario: "greetings",
+      english: "Thank you so much.",
+      chinese: "非常感谢。",
+      pronunciation: "thank yoo soh much",
+      usage: "Use this when you want to show extra thanks."
+    },
+    {
+      id: "greet-you-are-welcome",
+      scenario: "greetings",
+      english: "You are welcome.",
+      chinese: "不客气。",
+      pronunciation: "yoo ar WEL-kum",
+      usage: "Use this after someone thanks you."
+    },
+    {
+      id: "greet-excuse-me",
+      scenario: "greetings",
+      english: "Excuse me.",
+      chinese: "打扰一下。",
+      pronunciation: "ik-SKYOOZ mee",
+      usage: "Use this to politely get attention or pass by someone."
+    },
+    {
+      id: "greet-i-am-sorry",
+      scenario: "greetings",
+      english: "I am sorry.",
+      chinese: "对不起。",
+      pronunciation: "eye am SAW-ree",
+      usage: "Use this to apologize."
+    },
+    {
+      id: "home-i-am-at-home",
+      scenario: "home",
+      english: "I am at home.",
+      chinese: "我在家。",
+      pronunciation: "eye am at home",
+      usage: "Use this to say where you are."
+    },
+    {
+      id: "home-i-need-help",
+      scenario: "home",
+      english: "I need help.",
+      chinese: "我需要帮助。",
+      pronunciation: "eye need help",
+      usage: "Use this when you need someone to help you."
+    },
+    {
+      id: "home-can-you-help-me",
+      scenario: "home",
+      english: "Can you help me?",
+      chinese: "你可以帮我吗？",
+      pronunciation: "can yoo help mee",
+      usage: "Use this simple question when asking for help."
+    },
+    {
+      id: "home-please-wait-here",
+      scenario: "home",
+      english: "Please wait here.",
+      chinese: "请在这里等。",
+      pronunciation: "pleez wayt heer",
+      usage: "Use this when asking someone to stay in one place."
+    },
+    {
+      id: "home-just-a-moment",
+      scenario: "home",
+      english: "Just a moment.",
+      chinese: "稍等一下。",
+      pronunciation: "just uh MOH-ment",
+      usage: "Use this when someone needs to wait briefly."
+    },
+    {
+      id: "home-i-am-making-breakfast",
+      scenario: "home",
+      english: "I am making breakfast.",
+      chinese: "我在做早餐。",
+      pronunciation: "eye am MAY-king BREK-fust",
+      usage: "Use this to say what you are doing in the morning."
+    },
+    {
+      id: "home-i-would-like-water",
+      scenario: "home",
+      english: "I would like water.",
+      chinese: "我想要水。",
+      pronunciation: "eye wood like WAW-ter",
+      usage: "Use this when asking for water."
+    },
+    {
+      id: "home-i-need-hot-water",
+      scenario: "home",
+      english: "I need hot water.",
+      chinese: "我需要热水。",
+      pronunciation: "eye need hot WAW-ter",
+      usage: "Use this at home or in a public place."
+    },
+    {
+      id: "home-put-it-on-table",
+      scenario: "home",
+      english: "Put it on the table.",
+      chinese: "把它放在桌子上。",
+      pronunciation: "put it on thuh TAY-bul",
+      usage: "Use this when telling someone where to place something."
+    },
+    {
+      id: "home-open-window",
+      scenario: "home",
+      english: "Can you open the window?",
+      chinese: "你可以打开窗户吗？",
+      pronunciation: "can yoo OH-pen thuh WIN-doh",
+      usage: "Use this when asking for fresh air."
+    },
+    {
+      id: "home-close-door",
+      scenario: "home",
+      english: "Please close the door.",
+      chinese: "请关门。",
+      pronunciation: "pleez klohz thuh dor",
+      usage: "Use this when asking someone to close a door."
+    },
+    {
+      id: "home-turn-on-light",
+      scenario: "home",
+      english: "Can you turn on the light?",
+      chinese: "你可以开灯吗？",
+      pronunciation: "can yoo turn on thuh light",
+      usage: "Use this when a room is dark."
+    },
+    {
+      id: "home-turn-off-light",
+      scenario: "home",
+      english: "Please turn off the light.",
+      chinese: "请关灯。",
+      pronunciation: "pleez turn off thuh light",
+      usage: "Use this when leaving a room or going to sleep."
+    },
+    {
+      id: "home-take-a-break",
+      scenario: "home",
+      english: "I need to take a break.",
+      chinese: "我需要休息一下。",
+      pronunciation: "eye need tuh tayk uh brayk",
+      usage: "Use this when you are tired."
+    },
+    {
+      id: "home-see-you-later",
+      scenario: "home",
+      english: "I will see you later.",
+      chinese: "我晚点见你。",
+      pronunciation: "eye wil see yoo LAY-ter",
+      usage: "Use this when leaving home or ending a visit."
+    },
+    {
+      id: "shop-i-need-this",
+      scenario: "shopping",
+      english: "I need this.",
+      chinese: "我需要这个。",
+      pronunciation: "eye need this",
+      usage: "Use this when choosing an item."
+    },
+    {
+      id: "shop-i-would-like-this",
+      scenario: "shopping",
+      english: "I would like this.",
+      chinese: "我想要这个。",
+      pronunciation: "eye wood like this",
+      usage: "Use this when asking to buy or order an item."
+    },
+    {
+      id: "shop-can-i-see-that",
+      scenario: "shopping",
+      english: "Can I see that?",
+      chinese: "我可以看看那个吗？",
+      pronunciation: "can eye see that",
+      usage: "Use this when pointing to an item you want to inspect."
+    },
+    {
+      id: "shop-do-you-have-small-size",
+      scenario: "shopping",
+      english: "Do you have a small size?",
+      chinese: "你们有小号吗？",
+      pronunciation: "doo yoo hav uh small size",
+      usage: "Use this when asking for a different size."
+    },
+    {
+      id: "shop-do-you-have-medium-size",
+      scenario: "shopping",
+      english: "Do you have a medium size?",
+      chinese: "你们有中号吗？",
+      pronunciation: "doo yoo hav uh MEE-dee-um size",
+      usage: "Use this when asking for a medium size."
+    },
+    {
+      id: "shop-is-this-on-sale",
+      scenario: "shopping",
+      english: "Is this on sale?",
+      chinese: "这个打折吗？",
+      pronunciation: "iz this on sayl",
+      usage: "Use this when asking about a discount."
+    },
+    {
+      id: "shop-where-is-checkout",
+      scenario: "shopping",
+      english: "Where is the checkout?",
+      chinese: "收银台在哪里？",
+      pronunciation: "wair iz thuh CHEK-out",
+      usage: "Use this when you are ready to pay."
+    },
+    {
+      id: "shop-can-i-pay-card",
+      scenario: "shopping",
+      english: "Can I pay by card?",
+      chinese: "我可以刷卡付款吗？",
+      pronunciation: "can eye pay by kard",
+      usage: "Use this before paying with a card."
+    },
+    {
+      id: "shop-can-i-pay-cash",
+      scenario: "shopping",
+      english: "Can I pay with cash?",
+      chinese: "我可以付现金吗？",
+      pronunciation: "can eye pay with cash",
+      usage: "Use this before paying with cash."
+    },
+    {
+      id: "shop-i-need-a-bag",
+      scenario: "shopping",
+      english: "I need a bag.",
+      chinese: "我需要一个袋子。",
+      pronunciation: "eye need uh bag",
+      usage: "Use this at checkout."
+    },
+    {
+      id: "shop-no-bag-thank-you",
+      scenario: "shopping",
+      english: "No bag, thank you.",
+      chinese: "不用袋子，谢谢。",
+      pronunciation: "noh bag thank yoo",
+      usage: "Use this when you do not need a bag."
+    },
+    {
+      id: "shop-i-am-looking-for-food",
+      scenario: "shopping",
+      english: "I am looking for food.",
+      chinese: "我在找食物。",
+      pronunciation: "eye am LOOK-ing for food",
+      usage: "Use this when asking a worker for help finding food."
+    },
+    {
+      id: "shop-where-is-the-bathroom",
+      scenario: "shopping",
+      english: "Where is the bathroom?",
+      chinese: "洗手间在哪里？",
+      pronunciation: "wair iz thuh BATH-room",
+      usage: "Use this in a store or public place."
+    },
+    {
+      id: "shop-please-help-me-find-this",
+      scenario: "shopping",
+      english: "Please help me find this.",
+      chinese: "请帮我找到这个。",
+      pronunciation: "pleez help mee find this",
+      usage: "Use this while showing a picture or item name."
+    },
+    {
+      id: "shop-that-is-all",
+      scenario: "shopping",
+      english: "That is all, thank you.",
+      chinese: "就这些，谢谢。",
+      pronunciation: "that iz all thank yoo",
+      usage: "Use this when you are done ordering or buying."
+    },
+    {
+      id: "rest-i-would-like-water",
+      scenario: "restaurant",
+      english: "I would like water, please.",
+      chinese: "请给我水。",
+      pronunciation: "eye wood like WAW-ter pleez",
+      usage: "Use this when asking for water at a restaurant."
+    },
+    {
+      id: "rest-i-would-like-coffee",
+      scenario: "restaurant",
+      english: "I would like coffee, please.",
+      chinese: "请给我咖啡。",
+      pronunciation: "eye wood like KAW-fee pleez",
+      usage: "Use this when ordering coffee."
+    },
+    {
+      id: "rest-i-am-ready-to-order",
+      scenario: "restaurant",
+      english: "I am ready to order.",
+      chinese: "我准备好点餐了。",
+      pronunciation: "eye am RED-ee tuh OR-der",
+      usage: "Use this when the server comes to the table."
+    },
+    {
+      id: "rest-what-do-you-recommend",
+      scenario: "restaurant",
+      english: "What do you recommend?",
+      chinese: "你推荐什么？",
+      pronunciation: "what doo yoo rek-uh-MEND",
+      usage: "Use this when asking for a suggestion."
+    },
+    {
+      id: "rest-can-i-have-menu",
+      scenario: "restaurant",
+      english: "Can I have a menu?",
+      chinese: "我可以要一份菜单吗？",
+      pronunciation: "can eye hav uh MEN-yoo",
+      usage: "Use this when you need a menu."
+    },
+    {
+      id: "rest-this-is-good",
+      scenario: "restaurant",
+      english: "This is very good.",
+      chinese: "这个很好吃。",
+      pronunciation: "this iz VER-ee good",
+      usage: "Use this to say you like the food."
+    },
+    {
+      id: "rest-can-we-have-more-water",
+      scenario: "restaurant",
+      english: "Can we have more water?",
+      chinese: "我们可以再要点水吗？",
+      pronunciation: "can wee hav mor WAW-ter",
+      usage: "Use this when the table needs more water."
+    },
+    {
+      id: "rest-i-need-a-box",
+      scenario: "restaurant",
+      english: "I need a box, please.",
+      chinese: "请给我一个盒子。",
+      pronunciation: "eye need uh boks pleez",
+      usage: "Use this when taking food home."
+    },
+    {
+      id: "rest-can-i-pay-here",
+      scenario: "restaurant",
+      english: "Can I pay here?",
+      chinese: "我可以在这里付款吗？",
+      pronunciation: "can eye pay heer",
+      usage: "Use this when asking where to pay."
+    },
+    {
+      id: "rest-thank-you-for-your-help",
+      scenario: "restaurant",
+      english: "Thank you for your help.",
+      chinese: "谢谢你的帮助。",
+      pronunciation: "thank yoo for yor help",
+      usage: "Use this politely after service."
+    },
+    {
+      id: "doctor-i-need-appointment",
+      scenario: "doctor",
+      english: "I need an appointment.",
+      chinese: "我需要预约。",
+      pronunciation: "eye need an uh-POINT-ment",
+      usage: "Use this when calling or visiting a clinic."
+    },
+    {
+      id: "doctor-can-i-make-appointment",
+      scenario: "doctor",
+      english: "Can I make an appointment?",
+      chinese: "我可以预约吗？",
+      pronunciation: "can eye mayk an uh-POINT-ment",
+      usage: "Use this when scheduling a visit."
+    },
+    {
+      id: "doctor-my-appointment-is-today",
+      scenario: "doctor",
+      english: "My appointment is today.",
+      chinese: "我的预约是今天。",
+      pronunciation: "my uh-POINT-ment iz tuh-DAY",
+      usage: "Use this when checking in."
+    },
+    {
+      id: "doctor-i-am-here-for-appointment",
+      scenario: "doctor",
+      english: "I am here for my appointment.",
+      chinese: "我是来赴约的。",
+      pronunciation: "eye am heer for my uh-POINT-ment",
+      usage: "Use this at the front desk."
+    },
+    {
+      id: "doctor-i-have-a-headache",
+      scenario: "doctor",
+      english: "I have a headache.",
+      chinese: "我头痛。",
+      pronunciation: "eye hav uh HED-ayk",
+      usage: "Use this to describe a common symptom."
+    },
+    {
+      id: "doctor-i-have-a-fever",
+      scenario: "doctor",
+      english: "I have a fever.",
+      chinese: "我发烧。",
+      pronunciation: "eye hav uh FEE-ver",
+      usage: "Use this to describe being sick."
+    },
+    {
+      id: "doctor-my-stomach-hurts",
+      scenario: "doctor",
+      english: "My stomach hurts.",
+      chinese: "我胃疼。",
+      pronunciation: "my STUH-muk hurts",
+      usage: "Use this to describe stomach pain."
+    },
+    {
+      id: "doctor-i-feel-sick",
+      scenario: "doctor",
+      english: "I feel sick.",
+      chinese: "我觉得不舒服。",
+      pronunciation: "eye feel sik",
+      usage: "Use this when you do not feel well."
+    },
+    {
+      id: "doctor-i-need-medicine",
+      scenario: "doctor",
+      english: "I need medicine.",
+      chinese: "我需要药。",
+      pronunciation: "eye need MED-uh-sin",
+      usage: "Use this when talking about treatment."
+    },
+    {
+      id: "doctor-where-is-pharmacy",
+      scenario: "doctor",
+      english: "Where is the pharmacy?",
+      chinese: "药房在哪里？",
+      pronunciation: "wair iz thuh FAR-muh-see",
+      usage: "Use this after a doctor visit or in a store."
+    },
+    {
+      id: "doctor-could-you-repeat-that",
+      scenario: "doctor",
+      english: "Could you repeat that?",
+      chinese: "你可以重复一遍吗？",
+      pronunciation: "kood yoo ree-PEET that",
+      usage: "Use this when you need someone to say something again."
+    },
+    {
+      id: "doctor-could-you-speak-slowly",
+      scenario: "doctor",
+      english: "Could you speak slowly?",
+      chinese: "你可以说慢一点吗？",
+      pronunciation: "kood yoo speek SLOH-lee",
+      usage: "Use this when medical information is hard to understand."
+    },
+    {
+      id: "doctor-i-do-not-understand",
+      scenario: "doctor",
+      english: "I do not understand.",
+      chinese: "我不明白。",
+      pronunciation: "eye doo not un-der-STAND",
+      usage: "Use this when you need more explanation."
+    },
+    {
+      id: "doctor-please-write-it-down",
+      scenario: "doctor",
+      english: "Please write it down.",
+      chinese: "请把它写下来。",
+      pronunciation: "pleez rite it down",
+      usage: "Use this when you need written instructions."
+    },
+    {
+      id: "doctor-thank-you-doctor",
+      scenario: "doctor",
+      english: "Thank you, doctor.",
+      chinese: "谢谢你，医生。",
+      pronunciation: "thank yoo DOK-ter",
+      usage: "Use this politely at the end of a visit."
+    },
+    {
+      id: "phone-hello-this-is-anna",
+      scenario: "phone",
+      english: "Hello, this is Anna.",
+      chinese: "你好，我是 Anna。",
+      pronunciation: "heh-LOH this iz AN-na",
+      usage: "Use this when starting a phone call."
+    },
+    {
+      id: "phone-who-is-calling",
+      scenario: "phone",
+      english: "Who is calling?",
+      chinese: "请问是哪位？",
+      pronunciation: "hoo iz CALL-ing",
+      usage: "Use this when you need to know the caller."
+    },
+    {
+      id: "phone-can-you-hear-me",
+      scenario: "phone",
+      english: "Can you hear me?",
+      chinese: "你听得到我吗？",
+      pronunciation: "can yoo heer mee",
+      usage: "Use this when the phone connection is not clear."
+    },
+    {
+      id: "phone-i-can-hear-you",
+      scenario: "phone",
+      english: "I can hear you.",
+      chinese: "我听得到你。",
+      pronunciation: "eye can heer yoo",
+      usage: "Use this to confirm the call is working."
+    },
+    {
+      id: "phone-i-cannot-hear-you",
+      scenario: "phone",
+      english: "I cannot hear you.",
+      chinese: "我听不到你。",
+      pronunciation: "eye CAN-not heer yoo",
+      usage: "Use this when the call is too quiet or unclear."
+    },
+    {
+      id: "phone-please-speak-slowly",
+      scenario: "phone",
+      english: "Please speak slowly.",
+      chinese: "请说慢一点。",
+      pronunciation: "pleez speek SLOH-lee",
+      usage: "Use this when English on the phone is too fast."
+    },
+    {
+      id: "phone-please-call-back-later",
+      scenario: "phone",
+      english: "Please call back later.",
+      chinese: "请晚点再打回来。",
+      pronunciation: "pleez call bak LAY-ter",
+      usage: "Use this when you cannot talk now."
+    },
+    {
+      id: "phone-i-will-call-back",
+      scenario: "phone",
+      english: "I will call back.",
+      chinese: "我会回电话。",
+      pronunciation: "eye wil call bak",
+      usage: "Use this when you plan to return a call."
+    },
+    {
+      id: "phone-can-you-text-me",
+      scenario: "phone",
+      english: "Can you text me?",
+      chinese: "你可以发短信给我吗？",
+      pronunciation: "can yoo tekst mee",
+      usage: "Use this when text is easier than talking."
+    },
+    {
+      id: "phone-thank-you-for-calling",
+      scenario: "phone",
+      english: "Thank you for calling.",
+      chinese: "谢谢你打电话来。",
+      pronunciation: "thank yoo for CALL-ing",
+      usage: "Use this politely near the end of a call."
+    },
+    {
+      id: "work-i-am-at-work",
+      scenario: "work",
+      english: "I am at work.",
+      chinese: "我在工作。",
+      pronunciation: "eye am at work",
+      usage: "Use this to say where you are."
+    },
+    {
+      id: "work-i-need-to-work",
+      scenario: "work",
+      english: "I need to work.",
+      chinese: "我需要工作。",
+      pronunciation: "eye need tuh work",
+      usage: "Use this when explaining your schedule or priority."
+    },
+    {
+      id: "work-i-have-work-today",
+      scenario: "work",
+      english: "I have work today.",
+      chinese: "我今天要上班。",
+      pronunciation: "eye hav work tuh-DAY",
+      usage: "Use this to talk about your day."
+    },
+    {
+      id: "work-i-work-on-monday",
+      scenario: "work",
+      english: "I work on Monday.",
+      chinese: "我星期一上班。",
+      pronunciation: "eye work on MUN-day",
+      usage: "Use this to talk about your work schedule."
+    },
+    {
+      id: "work-my-meeting-is-at-three",
+      scenario: "work",
+      english: "My meeting is at three.",
+      chinese: "我的会议在三点。",
+      pronunciation: "my MEE-ting iz at three",
+      usage: "Use this to state a meeting time."
+    },
+    {
+      id: "work-can-we-meet-today",
+      scenario: "work",
+      english: "Can we meet today?",
+      chinese: "我们今天可以见面吗？",
+      pronunciation: "can wee meet tuh-DAY",
+      usage: "Use this when scheduling a work conversation."
+    },
+    {
+      id: "work-could-you-check-this",
+      scenario: "work",
+      english: "Could you check this?",
+      chinese: "你可以检查这个吗？",
+      pronunciation: "kood yoo chek this",
+      usage: "Use this when asking someone to review something."
+    },
+    {
+      id: "work-let-me-check",
+      scenario: "work",
+      english: "Let me check.",
+      chinese: "让我查一下。",
+      pronunciation: "let mee chek",
+      usage: "Use this when you need a moment to verify something."
+    },
+    {
+      id: "work-no-problem",
+      scenario: "work",
+      english: "No problem.",
+      chinese: "没问题。",
+      pronunciation: "noh PROB-lem",
+      usage: "Use this to accept a request or reassure someone."
+    },
+    {
+      id: "work-i-will-do-it-now",
+      scenario: "work",
+      english: "I will do it now.",
+      chinese: "我现在就做。",
+      pronunciation: "eye wil doo it now",
+      usage: "Use this when confirming a task."
+    },
+    {
+      id: "learning-i-am-learning-english",
+      scenario: "learning",
+      english: "I am learning English.",
+      chinese: "我在学英语。",
+      pronunciation: "eye am LER-ning ING-lish",
+      usage: "Use this to explain your learning goal."
+    },
+    {
+      id: "learning-i-need-to-practice",
+      scenario: "learning",
+      english: "I need to practice.",
+      chinese: "我需要练习。",
+      pronunciation: "eye need tuh PRAK-tis",
+      usage: "Use this when talking about study habits."
+    },
+    {
+      id: "learning-please-repeat",
+      scenario: "learning",
+      english: "Please repeat.",
+      chinese: "请重复一遍。",
+      pronunciation: "pleez ree-PEET",
+      usage: "Use this in class or practice."
+    },
+    {
+      id: "learning-could-you-repeat-that",
+      scenario: "learning",
+      english: "Could you repeat that?",
+      chinese: "你可以重复一遍吗？",
+      pronunciation: "kood yoo ree-PEET that",
+      usage: "Use this when you did not hear or understand."
+    },
+    {
+      id: "learning-please-speak-slowly",
+      scenario: "learning",
+      english: "Please speak slowly.",
+      chinese: "请说慢一点。",
+      pronunciation: "pleez speek SLOH-lee",
+      usage: "Use this when the speaker is too fast."
+    },
+    {
+      id: "learning-how-do-you-say-this",
+      scenario: "learning",
+      english: "How do you say this?",
+      chinese: "这个怎么说？",
+      pronunciation: "how doo yoo say this",
+      usage: "Use this when asking for an English word or phrase."
+    },
+    {
+      id: "learning-what-does-this-mean",
+      scenario: "learning",
+      english: "What does this mean?",
+      chinese: "这是什么意思？",
+      pronunciation: "what duhz this meen",
+      usage: "Use this when asking about meaning."
+    },
+    {
+      id: "learning-i-do-not-know",
+      scenario: "learning",
+      english: "I do not know.",
+      chinese: "我不知道。",
+      pronunciation: "eye doo not noh",
+      usage: "Use this when you do not know the answer."
+    },
+    {
+      id: "learning-i-understand-now",
+      scenario: "learning",
+      english: "I understand now.",
+      chinese: "我现在明白了。",
+      pronunciation: "eye un-der-STAND now",
+      usage: "Use this after someone explains something."
+    },
+    {
+      id: "learning-one-more-time",
+      scenario: "learning",
+      english: "One more time, please.",
+      chinese: "请再来一次。",
+      pronunciation: "wun mor time pleez",
+      usage: "Use this when you want to practice again."
     }
   ];
 
@@ -1918,7 +2733,6 @@
     { id: "chunk-please-wait", phrase: "please wait", chinese: "请等一下", pronunciation: "pleez wayt", words: ["please", "wait"], type: "functional-chunk" },
     { id: "chunk-let-me-check", phrase: "let me check", chinese: "让我查一下", pronunciation: "let mee chek", words: ["let", "me", "check"], type: "functional-chunk" },
     { id: "chunk-one-more-time", phrase: "one more time", chinese: "再来一次", pronunciation: "wun mor time", words: ["one", "more", "time"], type: "functional-chunk" },
-    { id: "chunk-long-time-no-see", phrase: "long time no see", chinese: "好久不见", pronunciation: "long time noh see", words: ["long", "time", "no", "see"], type: "cliche" },
     { id: "chunk-better-late-than-never", phrase: "better late than never", chinese: "迟到总比不到好", pronunciation: "BET-er layt than NEV-er", words: ["better", "late", "than", "never"], type: "cliche" },
     { id: "chunk-practice-makes-perfect", phrase: "Practice makes perfect.", chinese: "熟能生巧", pronunciation: "PRAK-tis mayks PER-fekt", words: ["practice", "makes", "perfect"], type: "cliche" },
     { id: "chunk-time-flies", phrase: "Time flies.", chinese: "时间过得真快", pronunciation: "time flyz", words: ["time", "flies"], type: "cliche" },
