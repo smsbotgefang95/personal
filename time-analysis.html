@@ -5632,6 +5632,16 @@
         renderActivityRows();
       });
     });
+    document.querySelectorAll("[data-custom-collapse]").forEach((button) => {
+      button.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        await flushPendingTaskNameInput(rows);
+        const key = button.closest("[data-recurrence-custom-key]")?.dataset.recurrenceCustomKey;
+        if (!key) return;
+        expandedCustomRecurrenceKeys.delete(key);
+        renderActivityRows();
+      });
+    });
     document.querySelectorAll("[data-recurrence-custom-key]").forEach((panel) => {
       panel.addEventListener("click", async (event) => {
         await flushPendingTaskNameInput(rows);
@@ -5646,10 +5656,7 @@
         toggleCustomRecurrenceDay(day);
         const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
         if (!entry) return;
-        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).then(() => {
-          expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
-          renderActivityRows();
-        }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).catch((error) => setTrackerStatus(error.message, "error"));
       });
       panel.addEventListener("change", async (event) => {
         await flushPendingTaskNameInput(rows);
@@ -5658,11 +5665,7 @@
         syncCustomRecurrencePanel(panel);
         const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
         if (!entry) return;
-        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).then(() => {
-          if (monthlyOption) return;
-          expandedCustomRecurrenceKeys.delete(panel.dataset.recurrenceCustomKey);
-          renderActivityRows();
-        }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { recurrence: "custom", recurringText: customRecurrenceText(readCustomRecurrence(panel)) }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     async function activateTrackButton(button) {
