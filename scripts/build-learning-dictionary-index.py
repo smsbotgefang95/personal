@@ -93,6 +93,7 @@ MANUAL_WRAPPED_ENTRIES = [
     ("bald", ["43-35"]),
     ("cardiologist", ["96-1"]),
     ("child", ["42-3"]),
+    ("country", ["20-15"]),
     ("e-mail", ["108-19"]),
     ("airplane", ["132-23"]),
     ("arrival and departure board", ["124-13"]),
@@ -183,6 +184,7 @@ MANUAL_WRAPPED_ENTRIES = [
 CORRECTED_MALFORMED_ENTRIES = {
     "avocado 48--14 bald",
     "child 42-' cardiologist",
+    "concrete mixer truck country rnusic",
     "e-rnail",
     "Good-bye.",
     "I'm here for five days. woman",

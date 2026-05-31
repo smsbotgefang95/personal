@@ -8313,7 +8313,7 @@ pass=通过；传递
   }
 
   function getImportedIndexExactPlacement(item) {
-    if (!item || item.isCustom || item.topic) return null;
+    if (!item || item.isCustom) return null;
     return getImportedIndexExactPlacements().get(normalizeWordKey(item.word)) || null;
   }
 
@@ -8330,6 +8330,16 @@ pass=通过；传递
       alternatePlacements: placement.alternatePlacements.length ? placement.alternatePlacements : (item.alternatePlacements || []),
       importedIndexMatch: true
     };
+  }
+
+  function getVocabularyRankLabel(item) {
+    if (item.isCustom) return "自定义";
+    if (Number.isFinite(Number(item.rank))) return `Common word #${item.rank}`;
+    return "";
+  }
+
+  function getVocabularySourceRefLabels(item) {
+    return (item.sourceRefs || []).map((ref) => `Word by Word ${ref}`);
   }
 
   function getBaseVocabulary() {
@@ -8540,6 +8550,7 @@ pass=通过；传递
       sourceType: "word",
       statusKind: "vocabulary",
       importedIndex: Boolean(item.importedIndex),
+      importedIndexMatch: Boolean(item.importedIndexMatch),
       title: item.word,
       chinese: item.chinese,
       pronunciation: getVocabularyIpa(item),
@@ -8550,7 +8561,9 @@ pass=通过；传递
       topic: getDictionaryVocabularyTopic(item) || "Starter words",
       tags: [
         DICTIONARY_TYPE_LABELS.word,
-        item.importedIndex ? "Word by Word index" : "",
+        item.importedIndex || item.importedIndexMatch ? "Word by Word index" : "",
+        getVocabularyRankLabel(item),
+        ...getVocabularySourceRefLabels(item),
         getVocabularyPartLabel(item.partOfSpeech),
         item.prefix && item.prefix !== "none" ? `${item.prefix}-` : "",
         item.suffix && item.suffix !== "none" ? (VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix) : ""
@@ -8563,7 +8576,10 @@ pass=通过；传递
         item.pronunciation,
         getVocabularyIpa(item),
         item.rank,
+        getVocabularyRankLabel(item),
         ...(item.sourceRefs || []),
+        ...getVocabularySourceRefLabels(item),
+        ...(item.sourcePages || []).map((page) => `Page ${page}`),
         ...(item.placements || []).flatMap((placement) => [placement.theme, placement.topic, String(placement.page || "")])
       ]
     }));
@@ -9035,7 +9051,20 @@ pass=通过；传递
       if (DELETED_VOCABULARY_WORDS.has(normalizedSearch)) return false;
       if (!matchesWordPosition(item.word)) return false;
       if (wordMatchFilter !== "contains") return true;
-      return [item.word, item.chinese, item.partOfSpeech, item.example, getVocabularyIpa(item), String(item.rank), ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)].some((value) => (value || "").toLowerCase().includes(search));
+      return [
+        item.word,
+        item.chinese,
+        item.partOfSpeech,
+        item.example,
+        getVocabularyIpa(item),
+        String(item.rank),
+        getVocabularyRankLabel(item),
+        ...(item.sourceRefs || []),
+        ...getVocabularySourceRefLabels(item),
+        ...(item.sourcePages || []).map((page) => `Page ${page}`),
+        ...(item.placements || []).flatMap((placement) => [placement.theme, placement.topic, String(placement.page || "")]),
+        ...(item.roots || []).map((root) => VOCABULARY_ROOT_DEFINITIONS[root]?.label || root)
+      ].some((value) => (value || "").toLowerCase().includes(search));
     };
     const matchesFilters = (item, includeRoot = true) => {
       const currentStatus = getVocabularyStatus(item.id);
@@ -9149,7 +9178,9 @@ pass=通过；传递
       const pronunciation = ipa ? `<p class="vocabulary-ipa">/${escapeHtml(ipa)}/</p>` : "";
       const pronunciationHint = item.pronunciation ? `<p class="vocabulary-pronunciation">${escapeHtml(item.pronunciation)}</p>` : "";
       const example = item.example ? `<p class="vocabulary-example">${escapeHtml(item.example)}</p>` : "";
-      const rankTag = item.isCustom ? `<span class="vocabulary-tag">自定义</span>` : (Number.isFinite(Number(item.rank)) ? `<span class="vocabulary-tag">#${item.rank}</span>` : "");
+      const rankLabel = getVocabularyRankLabel(item);
+      const rankTag = rankLabel ? `<span class="vocabulary-tag">${escapeHtml(rankLabel)}</span>` : "";
+      const sourceRefTags = getVocabularySourceRefLabels(item).map((label) => `<span class="vocabulary-tag">${escapeHtml(label)}</span>`).join("");
       const partOfSpeechTag = partOfSpeechLabel ? `<span class="vocabulary-tag">${escapeHtml(partOfSpeechLabel)}</span>` : "";
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
@@ -9175,6 +9206,7 @@ pass=通过；传递
             ${meaning}
             <div class="vocabulary-meta">
               ${rankTag}
+              ${sourceRefTags}
               ${partOfSpeechTag}
               ${labelTag}
               ${themeTag}

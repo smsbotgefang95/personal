@@ -31773,43 +31773,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0836-concrete-mixer-truck-country-rnusic",
-    "type": "word",
-    "text": "concrete mixer truck country rnusic",
-    "word": "concrete mixer truck country rnusic",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "148-3"
-    ],
-    "sourcePages": [
-      148
-    ],
-    "placements": [
-      {
-        "ref": "148-3",
-        "page": 148,
-        "theme": "recreation",
-        "topic": "Types of Entertainment"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 11,
-    "theme": "recreation",
-    "topic": "Types of Entertainment",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-0837-condiments",
+    "id": "index-0836-condiments",
     "type": "word",
     "text": "condiments",
     "word": "condiments",
@@ -31843,7 +31807,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0838-conditioner",
+    "id": "index-0837-conditioner",
     "type": "word",
     "text": "conditioner",
     "word": "conditioner",
@@ -31877,7 +31841,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0839-condo",
+    "id": "index-0838-condo",
     "type": "word",
     "text": "condo",
     "word": "condo",
@@ -31911,7 +31875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0840-condominium",
+    "id": "index-0839-condominium",
     "type": "word",
     "text": "condominium",
     "word": "condominium",
@@ -31945,7 +31909,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0841-conductor",
+    "id": "index-0840-conductor",
     "type": "word",
     "text": "conductor",
     "word": "conductor",
@@ -31994,7 +31958,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0842-cone",
+    "id": "index-0841-cone",
     "type": "word",
     "text": "cone",
     "word": "cone",
@@ -32028,7 +31992,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0843-conference-table",
+    "id": "index-0842-conference-table",
     "type": "word",
     "text": "conference table",
     "word": "conference table",
@@ -32062,7 +32026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0844-confused",
+    "id": "index-0843-confused",
     "type": "word",
     "text": "confused",
     "word": "confused",
@@ -32096,7 +32060,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0845-congested",
+    "id": "index-0844-congested",
     "type": "word",
     "text": "congested",
     "word": "congested",
@@ -32130,7 +32094,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0846-conservation",
+    "id": "index-0845-conservation",
     "type": "word",
     "text": "conservation",
     "word": "conservation",
@@ -32164,7 +32128,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0847-conserve-energy",
+    "id": "index-0846-conserve-energy",
     "type": "word",
     "text": "conserve energy",
     "word": "conserve energy",
@@ -32198,7 +32162,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0848-conserve-water",
+    "id": "index-0847-conserve-water",
     "type": "word",
     "text": "conserve water",
     "word": "conserve water",
@@ -32232,7 +32196,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0849-constellation",
+    "id": "index-0848-constellation",
     "type": "word",
     "text": "constellation",
     "word": "constellation",
@@ -32266,7 +32230,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0850-construct",
+    "id": "index-0849-construct",
     "type": "word",
     "text": "construct",
     "word": "construct",
@@ -32300,7 +32264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0851-construction-paper",
+    "id": "index-0850-construction-paper",
     "type": "word",
     "text": "construction paper",
     "word": "construction paper",
@@ -32334,7 +32298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0852-construction-worker",
+    "id": "index-0851-construction-worker",
     "type": "word",
     "text": "construction worker",
     "word": "construction worker",
@@ -32368,7 +32332,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0853-construct-on-set",
+    "id": "index-0852-construct-on-set",
     "type": "word",
     "text": "constructíon set",
     "word": "constructíon set",
@@ -32402,7 +32366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0854-container",
+    "id": "index-0853-container",
     "type": "word",
     "text": "container",
     "word": "container",
@@ -32438,7 +32402,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0855-control-tower",
+    "id": "index-0854-control-tower",
     "type": "word",
     "text": "control tower",
     "word": "control tower",
@@ -32474,7 +32438,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0856-convenience-store",
+    "id": "index-0855-convenience-store",
     "type": "word",
     "text": "convenience store",
     "word": "convenience store",
@@ -32510,7 +32474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0857-convertible",
+    "id": "index-0856-convertible",
     "type": "word",
     "text": "convertible",
     "word": "convertible",
@@ -32544,7 +32508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0858-conveyor-belt",
+    "id": "index-0857-conveyor-belt",
     "type": "word",
     "text": "conveyor belt",
     "word": "conveyor belt",
@@ -32620,7 +32584,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0859-cook",
+    "id": "index-0858-cook",
     "type": "word",
     "text": "cook",
     "word": "cook",
@@ -32685,7 +32649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0860-cook-dinner",
+    "id": "index-0859-cook-dinner",
     "type": "word",
     "text": "cook dinner",
     "word": "cook dinner",
@@ -32721,7 +32685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0861-cookbook",
+    "id": "index-0860-cookbook",
     "type": "word",
     "text": "cookbook",
     "word": "cookbook",
@@ -32757,7 +32721,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0862-cookie-cutter",
+    "id": "index-0861-cookie-cutter",
     "type": "word",
     "text": "cookie cutter",
     "word": "cookie cutter",
@@ -32794,7 +32758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0863-cookie-sheet",
+    "id": "index-0862-cookie-sheet",
     "type": "word",
     "text": "cookie sheet",
     "word": "cookie sheet",
@@ -32832,7 +32796,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0864-cookies",
+    "id": "index-0863-cookies",
     "type": "word",
     "text": "cookies",
     "word": "cookies",
@@ -32869,7 +32833,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0865-cooking-oil",
+    "id": "index-0864-cooking-oil",
     "type": "word",
     "text": "cooking oil",
     "word": "cooking oil",
@@ -32906,7 +32870,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0866-cool",
+    "id": "index-0865-cool",
     "type": "word",
     "text": "cool",
     "word": "cool",
@@ -32942,7 +32906,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0867-coolant",
+    "id": "index-0866-coolant",
     "type": "word",
     "text": "coolant",
     "word": "coolant",
@@ -32978,7 +32942,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0868-cooler",
+    "id": "index-0867-cooler",
     "type": "word",
     "text": "cooler",
     "word": "cooler",
@@ -33014,7 +32978,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0869-copier",
+    "id": "index-0868-copier",
     "type": "word",
     "text": "copier",
     "word": "copier",
@@ -33065,7 +33029,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0870-copies",
+    "id": "index-0869-copies",
     "type": "word",
     "text": "copies",
     "word": "copies",
@@ -33101,7 +33065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0871-copy-center",
+    "id": "index-0870-copy-center",
     "type": "word",
     "text": "copy center",
     "word": "copy center",
@@ -33135,7 +33099,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0872-copy-machine",
+    "id": "index-0871-copy-machine",
     "type": "word",
     "text": "copy machine",
     "word": "copy machine",
@@ -33169,7 +33133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0873-copy-the-word",
+    "id": "index-0872-copy-the-word",
     "type": "word",
     "text": "copy the word",
     "word": "copy the word",
@@ -33203,7 +33167,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0874-cordless-phone",
+    "id": "index-0873-cordless-phone",
     "type": "word",
     "text": "cordless phone",
     "word": "cordless phone",
@@ -33237,7 +33201,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0875-corn",
+    "id": "index-0874-corn",
     "type": "word",
     "text": "corn",
     "word": "corn",
@@ -33286,7 +33250,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0876-cornea",
+    "id": "index-0875-cornea",
     "type": "word",
     "text": "cornea",
     "word": "cornea",
@@ -33322,7 +33286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0877-correct",
+    "id": "index-0876-correct",
     "type": "word",
     "text": "correct",
     "word": "correct",
@@ -33370,7 +33334,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0878-correct-your-mistakes",
+    "id": "index-0877-correct-your-mistakes",
     "type": "word",
     "text": "correct your mistakes",
     "word": "correct your mistakes",
@@ -33406,7 +33370,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0879-corrections",
+    "id": "index-0878-corrections",
     "type": "word",
     "text": "corrections",
     "word": "corrections",
@@ -33440,7 +33404,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0880-corrosive",
+    "id": "index-0879-corrosive",
     "type": "word",
     "text": "corrosive",
     "word": "corrosive",
@@ -33474,7 +33438,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0881-cottage-cheese",
+    "id": "index-0880-cottage-cheese",
     "type": "word",
     "text": "cottage cheese",
     "word": "cottage cheese",
@@ -33510,7 +33474,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0882-cotton-balls",
+    "id": "index-0881-cotton-balls",
     "type": "word",
     "text": "cotton balls",
     "word": "cotton balls",
@@ -33544,7 +33508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0883-cotton-swab",
+    "id": "index-0882-cotton-swab",
     "type": "word",
     "text": "cotton swab",
     "word": "cotton swab",
@@ -33578,7 +33542,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0884-cough",
+    "id": "index-0883-cough",
     "type": "word",
     "text": "cough",
     "word": "cough",
@@ -33629,7 +33593,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0885-cough-drops",
+    "id": "index-0884-cough-drops",
     "type": "word",
     "text": "cough drops",
     "word": "cough drops",
@@ -33665,7 +33629,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0886-cough-syrup",
+    "id": "index-0885-cough-syrup",
     "type": "word",
     "text": "cough syrup",
     "word": "cough syrup",
@@ -33701,7 +33665,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0887-counseling",
+    "id": "index-0886-counseling",
     "type": "word",
     "text": "counseling",
     "word": "counseling",
@@ -33737,7 +33701,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0888-counselor",
+    "id": "index-0887-counselor",
     "type": "word",
     "text": "counselor",
     "word": "counselor",
@@ -33788,7 +33752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0889-counter",
+    "id": "index-0888-counter",
     "type": "word",
     "text": "counter",
     "word": "counter",
@@ -33845,6 +33809,42 @@ window.LEARNING_DICTIONARY_FULL = [
     "ipa": "",
     "prefix": "co",
     "suffix": "er",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ou"
+    ],
+    "compound": false
+  },
+  {
+    "id": "index-0889-country",
+    "type": "word",
+    "text": "country",
+    "word": "country",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "20-15"
+    ],
+    "sourcePages": [
+      20
+    ],
+    "placements": [
+      {
+        "ref": "20-15",
+        "page": 20,
+        "theme": "home",
+        "topic": "Types of Housing and Communities"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "home",
+    "topic": "Types of Housing and Communities",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "co",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [

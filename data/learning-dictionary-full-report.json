@@ -104,6 +104,11 @@
     },
     {
       "line": null,
+      "text": "country",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "e-mail",
       "reason": "manual reconstruction"
     },
@@ -1007,6 +1012,14 @@
       "refs": [
         "20-15"
       ]
+    },
+    {
+      "line": 11,
+      "text": "concrete mixer truck country rnusic",
+      "refs": [
+        "148-3"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 14,
@@ -1998,7 +2011,6 @@
     "concierge desk",
     "conclusions",
     "concrete",
-    "concrete mixer truck country rnusic",
     "condiments",
     "conditioner",
     "condo",
@@ -2052,6 +2064,7 @@
     "counseling",
     "counselor",
     "counter",
+    "country",
     "coupons",
     "courier",
     "courthouse",
@@ -5349,7 +5362,7 @@
   "missingPlacements": [],
   "summary": {
     "rawLines": 53,
-    "parsedEntries": 4307,
+    "parsedEntries": 4308,
     "uniqueEntries": 4181,
     "themeCounts": {
       "clothes": 251,
@@ -5358,11 +5371,11 @@
       "describing": 146,
       "food": 449,
       "health": 393,
-      "home": 467,
+      "home": 468,
       "nature": 281,
       "numbers": 83,
       "personal": 50,
-      "recreation": 432,
+      "recreation": 431,
       "school": 288,
       "services": 168,
       "shopping": 157,
