@@ -467,14 +467,12 @@
   .phrase-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, auto) minmax(150px, auto);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     margin: 16px 0;
   }
 
-  .phrase-tools .vocabulary-reset {
-    justify-self: start;
-    max-width: max-content;
-    width: auto;
+  .phrase-search {
+    grid-column: span 2;
   }
 
   .phrase-top {
@@ -547,7 +545,7 @@
   .dialogue-tools {
     display: grid;
     gap: 12px;
-    grid-template-columns: minmax(170px, 240px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .dialogue-card {
@@ -1154,14 +1152,17 @@
     }
 
     .vocabulary-tools,
-    .vocabulary-phrase-tools {
+    .vocabulary-phrase-tools,
+    .phrase-tools,
+    .dialogue-tools {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .vocabulary-search,
     .vocabulary-summary,
     .vocabulary-phrase-search,
-    .vocabulary-phrase-summary {
+    .vocabulary-phrase-summary,
+    .phrase-search {
       grid-column: 1 / -1;
     }
   }
@@ -1393,8 +1394,8 @@
         </button>
         <div class="word-formation-menu" id="vocabularyWordFormationMenu" role="listbox" aria-label="Filter vocabulary by word formation"></div>
       </div>
-      <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by tense">
-        <option value="all">所有时态</option>
+      <select class="vocabulary-filter" id="vocabularyTenseFilter" aria-label="Filter vocabulary by verb form">
+        <option value="all">所有动词形式</option>
         <option value="irregular-past">不规则过去式</option>
         <option value="past-participle">过去分词</option>
         <option value="third-person-special">第三人称单数特殊变化</option>
