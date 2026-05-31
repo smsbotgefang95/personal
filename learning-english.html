@@ -1394,6 +1394,7 @@
         <option value="all">所有时态</option>
         <option value="irregular-past">不规则过去式</option>
         <option value="past-participle">过去分词</option>
+        <option value="third-person-special">第三人称单数特殊变化</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPrefixFilter" aria-label="Filter vocabulary by prefix">
         <option value="all">所有前缀</option>
@@ -5688,6 +5689,49 @@ pass=通过；传递
     return Object.prototype.hasOwnProperty.call(BASE_WORD_BY_PAST_PARTICIPLE, normalized);
   }
 
+  const THIRD_PERSON_SPECIAL_BASE_BY_WORD = {
+    does: "do",
+    goes: "go",
+    has: "have"
+  };
+
+  function isPlausibleThirdPersonBaseVerb(base) {
+    const partOfSpeech = COMMON_WORD_PARTS[base] || "";
+    return COMMON_WORDS_1000.includes(base)
+      || /(^|\s*\/\s*)verb(\s*\/\s*|$)/.test(partOfSpeech)
+      || Object.prototype.hasOwnProperty.call(PAST_TENSE_BY_BASE_WORD, base)
+      || Object.prototype.hasOwnProperty.call(PAST_PARTICIPLE_BY_BASE_WORD, base);
+  }
+
+  function getThirdPersonSingularSpecialBase(word) {
+    const normalized = normalizeWordKey(String(word || ""));
+    if (!/^[a-z]+$/.test(normalized)) return "";
+    if (THIRD_PERSON_SPECIAL_BASE_BY_WORD[normalized]) return THIRD_PERSON_SPECIAL_BASE_BY_WORD[normalized];
+    if (/[^aeiou]ies$/.test(normalized) && normalized.length > 4) {
+      const base = `${normalized.slice(0, -3)}y`;
+      return isPlausibleThirdPersonBaseVerb(base) ? base : "";
+    }
+    if (/(oes|ches|shes|xes|sses|zzes)$/.test(normalized) && normalized.length > 4) {
+      const base = normalized.slice(0, -2);
+      return isPlausibleThirdPersonBaseVerb(base) ? base : "";
+    }
+    return "";
+  }
+
+  function isThirdPersonSingularSpecialForm(item) {
+    const normalized = normalizeWordKey(String(item?.word || ""));
+    const base = getThirdPersonSingularSpecialBase(item?.word);
+    if (!base) return false;
+    if (THIRD_PERSON_SPECIAL_BASE_BY_WORD[normalized]) return true;
+    if (EXCLUDED_PLURAL_VOCABULARY_WORDS.has(normalized)) return false;
+    return matchesVocabularyPart(item?.partOfSpeech, "verb") || isPlausibleThirdPersonBaseVerb(base);
+  }
+
+  function getThirdPersonSingularSpecialLabel(word) {
+    const base = getThirdPersonSingularSpecialBase(word);
+    return base ? `第三人称单数: ${base}` : "";
+  }
+
   function hasRControlledSyllable(word) {
     for (let index = 0; index < word.length - 1; index += 1) {
       if (!/[aeiou]/.test(word[index]) || word[index + 1] !== "r") continue;
@@ -8779,7 +8823,7 @@ pass=通过；传递
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_TENSE_FILTER_KEY);
       if (saved === "past") return "irregular-past";
-      return ["all", "irregular-past", "past-participle"].includes(saved) ? saved : "all";
+      return ["all", "irregular-past", "past-participle", "third-person-special"].includes(saved) ? saved : "all";
     } catch (error) {
       return "all";
     }
@@ -10107,7 +10151,8 @@ pass=通过；传递
       const matchesLetterCount = letterCountFilter === "all" || getVocabularyLetterCount(item.word) === Number(letterCountFilter);
       const matchesTense = tenseFilter === "all"
         || (tenseFilter === "irregular-past" && isPastTenseForm(item.word))
-        || (tenseFilter === "past-participle" && isPastParticipleForm(item.word));
+        || (tenseFilter === "past-participle" && isPastParticipleForm(item.word))
+        || (tenseFilter === "third-person-special" && isThirdPersonSingularSpecialForm(item));
       const matchesMorphology = isMorphologyVocabularyItem(item);
       const matchesPrefix = prefixFilter === "all" || (matchesMorphology && item.prefix === prefixFilter);
       const matchesSuffix = suffixFilter === "all" || (matchesMorphology && item.suffix === suffixFilter);
@@ -10234,6 +10279,8 @@ pass=通过；传递
       const suffixTag = showMorphology && item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
       const tenseLabel = getPastTenseLabel(item.word);
       const tenseTag = tenseLabel ? `<span class="vocabulary-tag">${escapeHtml(tenseLabel)}</span>` : "";
+      const thirdPersonSpecialLabel = tenseFilter === "third-person-special" ? getThirdPersonSingularSpecialLabel(item.word) : "";
+      const thirdPersonSpecialTag = thirdPersonSpecialLabel ? `<span class="vocabulary-tag">${escapeHtml(thirdPersonSpecialLabel)}</span>` : "";
       const rootTags = showMorphology ? (item.roots || []).map((root) => {
         const definition = VOCABULARY_ROOT_DEFINITIONS[root];
         return definition ? `<span class="vocabulary-tag">词根: ${escapeHtml(definition.label)}</span>` : "";
@@ -10256,6 +10303,7 @@ pass=通过；传递
               ${prefixTag}
               ${suffixTag}
               ${tenseTag}
+              ${thirdPersonSpecialTag}
               ${rootTags}
               ${syllableTag}
               ${vowelTeamTag}
