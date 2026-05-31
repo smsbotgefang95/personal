@@ -124629,10 +124629,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3296-sister-n-iaw",
+    "id": "index-3296-sister-in-law",
     "type": "word",
-    "text": "sister-ín-Iaw",
-    "word": "sister-ín-Iaw",
+    "text": "sister-in-law",
+    "word": "sister-in-law",
     "chinese": "",
     "source": "word-by-word-index",
     "sourceRefs": [
