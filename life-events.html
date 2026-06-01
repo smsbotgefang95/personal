@@ -682,7 +682,9 @@
     gap: 4px;
   }
 
-  .topic-move-btn {
+  .topic-move-btn,
+  .topic-hide-btn,
+  .hidden-row-restore-btn {
     align-items: center;
     background: var(--surface-3);
     border: 1px solid var(--border);
@@ -698,7 +700,16 @@
     width: 26px;
   }
 
-  .topic-move-btn:hover:not(:disabled) {
+  .topic-hide-btn {
+    color: var(--danger);
+    font-size: 0.72rem;
+    padding: 0 7px;
+    width: auto;
+  }
+
+  .topic-move-btn:hover:not(:disabled),
+  .topic-hide-btn:hover,
+  .hidden-row-restore-btn:hover {
     border-color: var(--accent);
     color: var(--text);
   }
@@ -706,6 +717,27 @@
   .topic-move-btn:disabled {
     cursor: not-allowed;
     opacity: 0.36;
+  }
+
+  .hidden-row-restore {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .hidden-row-restore-label {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .hidden-row-restore-btn {
+    font-size: 0.76rem;
+    height: 28px;
+    padding: 0 8px;
+    width: auto;
   }
 
   .year-label {
@@ -1350,6 +1382,7 @@
 (() => {
   const STORAGE_KEY = "personal.lifeEvents.v1";
   const TOPIC_ORDER_STORAGE_KEY = "personal.lifeEvents.topicOrderByArea.v1";
+  const HIDDEN_TOPIC_ROWS_STORAGE_KEY = "personal.lifeEvents.hiddenTopicRows.v1";
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
   const DELETED_IMPORT_IDS_KEY = "personal.lifeEvents.deletedImportIds.v1";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
@@ -1879,6 +1912,7 @@ W03: Cornbread`],
   let deletedImportIds = loadDeletedImportIds();
   let events = loadEvents();
   let topicOrderByArea = loadTopicOrderByArea();
+  let hiddenTopicRows = loadHiddenTopicRows();
   let selectedAreaTab = "";
   let selectedAreaOption = "all";
   let returnViewState = null;
@@ -1963,6 +1997,34 @@ W03: Cornbread`],
   function saveTopicOrderByArea() {
     topicOrderByArea = cleanTopicOrderByArea(topicOrderByArea);
     localStorage.setItem(TOPIC_ORDER_STORAGE_KEY, JSON.stringify(topicOrderByArea));
+  }
+
+  function cleanHiddenTopicRows(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+    return Object.fromEntries(Object.entries(value).map(([area, topics]) => {
+      const cleanArea = String(area || "").trim();
+      if (!cleanArea || !Array.isArray(topics)) return null;
+      const seen = new Set();
+      const cleanedTopics = topics.map((topic) => String(topic || "").trim()).filter((topic) => {
+        if (!topic || seen.has(topic)) return false;
+        seen.add(topic);
+        return true;
+      });
+      return cleanedTopics.length ? [cleanArea, cleanedTopics] : null;
+    }).filter(Boolean));
+  }
+
+  function loadHiddenTopicRows() {
+    try {
+      return cleanHiddenTopicRows(JSON.parse(localStorage.getItem(HIDDEN_TOPIC_ROWS_STORAGE_KEY) || "{}"));
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function saveHiddenTopicRows() {
+    hiddenTopicRows = cleanHiddenTopicRows(hiddenTopicRows);
+    localStorage.setItem(HIDDEN_TOPIC_ROWS_STORAGE_KEY, JSON.stringify(hiddenTopicRows));
   }
 
   function deletedImportIdSet() {
@@ -2084,6 +2146,7 @@ W03: Cornbread`],
   function saveEvents({ promptForKey = false } = {}) {
     saveDeletedImportIds();
     saveTopicOrderByArea();
+    saveHiddenTopicRows();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
     if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey });
   }
@@ -2093,7 +2156,8 @@ W03: Cornbread`],
       source: "Personal Life Events",
       events,
       deletedImportIds,
-      topicOrderByArea
+      topicOrderByArea,
+      hiddenTopicRows
     };
   }
 
@@ -2102,12 +2166,18 @@ W03: Cornbread`],
     const sharedEvents = Array.isArray(payload.events) ? payload.events : [];
     const sharedDeletedImportIds = cleanDeletedImportIds(payload.deletedImportIds);
     const sharedTopicOrderByArea = cleanTopicOrderByArea(payload.topicOrderByArea);
-    if (!sharedEvents.length && !sharedDeletedImportIds.length && !Object.keys(sharedTopicOrderByArea).length) return false;
+    const sharedHiddenTopicRows = cleanHiddenTopicRows(payload.hiddenTopicRows);
+    const hasSharedHiddenTopicRows = Object.prototype.hasOwnProperty.call(payload, "hiddenTopicRows");
+    if (!sharedEvents.length && !sharedDeletedImportIds.length && !Object.keys(sharedTopicOrderByArea).length && !hasSharedHiddenTopicRows) return false;
     isApplyingSharedEvents = true;
     mergeDeletedImportIds(deletedImportIds, sharedDeletedImportIds);
     if (Object.keys(sharedTopicOrderByArea).length) {
       topicOrderByArea = sharedTopicOrderByArea;
       saveTopicOrderByArea();
+    }
+    if (hasSharedHiddenTopicRows) {
+      hiddenTopicRows = sharedHiddenTopicRows;
+      saveHiddenTopicRows();
     }
     events = mergeImportedEvents(sharedEvents.length ? sharedEvents : events, buildGoogleSheetEvents());
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
@@ -2484,6 +2554,21 @@ W03: Cornbread`],
     return HIDDEN_SOURCE_COLUMNS[area]?.has(column) || false;
   }
 
+  function isHiddenTopicRow(area, topic) {
+    return (hiddenTopicRows[area] || []).includes(topic);
+  }
+
+  function visibleTopicColumns(area, columns) {
+    return columns.filter((column) => !isHiddenTopicRow(area, column));
+  }
+
+  function visibleTimelineEvents(sourceEvents) {
+    return sourceEvents.filter((event) => {
+      const column = event.sourceColumn || "Manual entry";
+      return !isHiddenSourceColumn(event.area, column) && !isHiddenTopicRow(event.area, column);
+    });
+  }
+
   function defaultSourceColumnOptions(area) {
     const sheetColumns = GOOGLE_SHEET_ROWS
       .filter(([rowArea]) => area === "all" || rowArea === area)
@@ -2525,7 +2610,8 @@ W03: Cornbread`],
   }
 
   function sourceColumnOptions(area) {
-    return area === "all" ? defaultSourceColumnOptions(area) : applyTopicOrder(area, defaultSourceColumnOptions(area));
+    if (area === "all") return defaultSourceColumnOptions(area);
+    return visibleTopicColumns(area, applyTopicOrder(area, defaultSourceColumnOptions(area)));
   }
 
   function persistTopicOrder(area, topics) {
@@ -2552,6 +2638,35 @@ W03: Cornbread`],
     render();
     rememberTimelineViewState();
     showToast("Row moved.");
+  }
+
+  function hideTopicRow(area, topic) {
+    if (!area || !topic) return;
+    const current = hiddenTopicRows[area] || [];
+    hiddenTopicRows = {
+      ...hiddenTopicRows,
+      [area]: [...new Set([...current, topic])]
+    };
+    saveEvents();
+    if (selectedAreaOption === topic) selectedAreaOption = "all";
+    updateColumnOptions();
+    render();
+    rememberTimelineViewState();
+    showToast("Row hidden.");
+  }
+
+  function restoreTopicRow(area, topic) {
+    if (!area || !topic) return;
+    const nextTopics = (hiddenTopicRows[area] || []).filter((item) => item !== topic);
+    hiddenTopicRows = {
+      ...hiddenTopicRows,
+      [area]: nextTopics
+    };
+    saveEvents();
+    updateColumnOptions();
+    render();
+    rememberTimelineViewState();
+    showToast("Row restored.");
   }
 
   function moveColumnBefore(columns, columnToMove, targetColumn) {
@@ -2828,7 +2943,7 @@ W03: Cornbread`],
       return;
     }
 
-    const visibleSourceEvents = sourceEvents.filter((event) => !isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry"));
+    const visibleSourceEvents = visibleTimelineEvents(sourceEvents);
     const areas = AREAS.filter((area) => visibleSourceEvents.some((event) => event.area === area));
     if (!areas.includes(selectedAreaTab)) selectedAreaTab = areas[0] || "";
     const selectedAreaOptions = selectedAreaTab ? sourceColumnOptions(selectedAreaTab) : [];
@@ -2854,6 +2969,7 @@ W03: Cornbread`],
             <span class="topic-row-actions" aria-label="Move ${escapeHtml(topic)} row">
               <button class="topic-move-btn" type="button" data-move-topic-area="${escapeHtml(area)}" data-move-topic="${escapeHtml(topic)}" data-move-direction="-1" aria-label="Move ${escapeHtml(topic)} up"${topicIndex <= 0 ? " disabled" : ""}>▲</button>
               <button class="topic-move-btn" type="button" data-move-topic-area="${escapeHtml(area)}" data-move-topic="${escapeHtml(topic)}" data-move-direction="1" aria-label="Move ${escapeHtml(topic)} down"${topicIndex >= topics.length - 1 ? " disabled" : ""}>▼</button>
+              <button class="topic-hide-btn" type="button" data-hide-topic-area="${escapeHtml(area)}" data-hide-topic="${escapeHtml(topic)}" aria-label="Hide ${escapeHtml(topic)} row">Hide</button>
             </span>
           </div>
           ${renderTopicYearCards(areaEvents, topic, years)}
@@ -2900,6 +3016,18 @@ W03: Cornbread`],
       </nav>
     `;
 
+    const hiddenTopicsForSelectedArea = selectedAreaTab
+      ? (hiddenTopicRows[selectedAreaTab] || []).filter((topic) => applyTopicOrder(selectedAreaTab, defaultSourceColumnOptions(selectedAreaTab)).includes(topic))
+      : [];
+    const hiddenRowsRestore = hiddenTopicsForSelectedArea.length ? `
+      <div class="hidden-row-restore" aria-label="Hidden ${escapeHtml(selectedAreaTab)} rows">
+        <span class="hidden-row-restore-label">Hidden rows</span>
+        ${hiddenTopicsForSelectedArea.map((topic) => `
+          <button class="hidden-row-restore-btn" type="button" data-restore-topic-area="${escapeHtml(selectedAreaTab)}" data-restore-topic="${escapeHtml(topic)}" aria-label="Restore ${escapeHtml(topic)} row">${escapeHtml(topic)}</button>
+        `).join("")}
+      </div>
+    ` : "";
+
     const optionSelect = selectedAreaTab ? `
       <div class="area-option-bar">
         <label for="areaOptionSelect">${escapeHtml(selectedAreaTab)} options</label>
@@ -2907,6 +3035,7 @@ W03: Cornbread`],
           <option value="all"${selectedAreaOption === "all" ? " selected" : ""}>All ${escapeHtml(selectedAreaTab)} options</option>
           ${selectedAreaOptions.map((option) => `<option value="${escapeHtml(option)}"${selectedAreaOption === option ? " selected" : ""}>${escapeHtml(option)}</option>`).join("")}
         </select>
+        ${hiddenRowsRestore}
       </div>
     ` : "";
 
@@ -2933,7 +3062,7 @@ W03: Cornbread`],
   }
 
   function allKnownYears() {
-    return areaYears(events.filter((event) => !isHiddenSourceColumn(event.area, event.sourceColumn || "Manual entry")));
+    return areaYears(visibleTimelineEvents(events));
   }
 
   function eventYearLabel(event) {
@@ -3086,7 +3215,7 @@ W03: Cornbread`],
   }
 
   function render() {
-    const sourceEvents = filteredEvents();
+    const sourceEvents = visibleTimelineEvents(filteredEvents());
     const recommendations = buildRecommendations(sourceEvents);
     renderStats(sourceEvents);
     renderRecommendationList(els.doMoreList, recommendations.doMore, "Add positive or repeatable events to see what to do more.");
@@ -3388,6 +3517,8 @@ W03: Cornbread`],
   els.eventList.addEventListener("click", (event) => {
     const areaTab = event.target.getAttribute("data-area-tab");
     const moveTopic = event.target.getAttribute("data-move-topic");
+    const hideTopic = event.target.getAttribute("data-hide-topic");
+    const restoreTopic = event.target.getAttribute("data-restore-topic");
     const editId = event.target.getAttribute("data-edit");
     const deleteId = event.target.getAttribute("data-delete");
     if (areaTab) {
@@ -3403,6 +3534,14 @@ W03: Cornbread`],
         moveTopic,
         Number(event.target.getAttribute("data-move-direction"))
       );
+      return;
+    }
+    if (hideTopic) {
+      hideTopicRow(event.target.getAttribute("data-hide-topic-area"), hideTopic);
+      return;
+    }
+    if (restoreTopic) {
+      restoreTopicRow(event.target.getAttribute("data-restore-topic-area"), restoreTopic);
       return;
     }
     if (editId) editEvent(editId);

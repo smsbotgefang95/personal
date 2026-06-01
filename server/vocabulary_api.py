@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
-DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "updatedAt": None}
+DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "updatedAt": None}
 DEFAULT_QUESTION_PROGRESS = {
     "1": "review",
@@ -342,6 +342,10 @@ def clean_topic_order_by_area(value):
     return cleaned
 
 
+def clean_hidden_topic_rows(value):
+    return clean_topic_order_by_area(value)
+
+
 def clean_life_events_payload(value):
     if not isinstance(value, dict):
         value = {}
@@ -360,6 +364,7 @@ def clean_life_events_payload(value):
         "events": events,
         "deletedImportIds": clean_deleted_import_ids(value.get("deletedImportIds")),
         "topicOrderByArea": clean_topic_order_by_area(value.get("topicOrderByArea")),
+        "hiddenTopicRows": clean_hidden_topic_rows(value.get("hiddenTopicRows")),
         "updatedAt": value.get("updatedAt"),
     }
 
