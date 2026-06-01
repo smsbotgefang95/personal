@@ -4946,7 +4946,15 @@
     return due < today ? "overdue" : "upcoming";
   }
 
+  function isStaleRoutineDueDate(entry) {
+    const due = dueDateKey(entry);
+    if (!due || due >= businessDateKey(new Date())) return false;
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    return recurrence === "daily" || recurrence === "weekly";
+  }
+
   function matchesDueStatusFilter(entry, filter) {
+    if (filter !== "all" && isStaleRoutineDueDate(entry)) return false;
     const status = dueStatus(entry);
     if (filter === "none") return status === "none";
     if (filter === "set") return status !== "none";
