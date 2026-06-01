@@ -2106,15 +2106,6 @@ W03: Cornbread`],
     if (!storedEvent) return false;
     if (
       importedEvent
-      && (
-        storedEvent.area !== importedEvent.area
-        || storedEvent.sourceColumn !== importedEvent.sourceColumn
-      )
-    ) {
-      return false;
-    }
-    if (
-      importedEvent
       && isProtectedImportedEvent(importedEvent)
       && !String(storedEvent.notes || "").trim()
     ) {
