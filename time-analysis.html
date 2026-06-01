@@ -3180,6 +3180,13 @@
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
   const SEARCH_RENDER_DELAY_MS = 200;
+  const TASK_SEARCH_ALIASES = [
+    {
+      taskIds: ["86adxpw95"],
+      taskNames: ["work on the house/yard"],
+      aliases: ["patio"]
+    }
+  ];
 
   const LIST_NAME_MAP = {
     "901306296518": "🌼 Survival",
@@ -3443,6 +3450,23 @@
 
   function taskIdFor(taskName) {
     return `native-task:${String(taskName || "untitled").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "untitled"}`;
+  }
+
+  function normalizedTaskAliasName(taskName) {
+    return cleanLabel(taskName, "")
+      .replace(/^[^A-Za-z0-9]+/, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
+  function taskSearchAliases(entry) {
+    const taskId = cleanLabel(entry?.taskId, "");
+    const taskName = normalizedTaskAliasName(entry?.taskName);
+    const aliases = TASK_SEARCH_ALIASES
+      .filter((item) => item.taskIds.includes(taskId) || item.taskNames.includes(taskName))
+      .flatMap((item) => item.aliases);
+    return Array.from(new Set(aliases)).join(" ");
   }
 
   function effectiveTaskId(taskId, taskName) {
@@ -4004,6 +4028,8 @@
         ...next,
         searchText: [
           next.searchText,
+          next.taskName,
+          taskSearchAliases(next),
           next.dueDate,
           next.dueDateText,
           next.dueTime,
@@ -4473,6 +4499,7 @@
     const listId = cleanLabel(entry.listId, "unknown-list");
     const listName = LIST_NAME_MAP[listId] || cleanLabel(entry.listName);
     const taskName = cleanLabel(entry.taskName, "Untitled task");
+    const taskId = cleanLabel(entry.taskId, taskIdFor(taskName));
     const taskType = normalizeTaskType(entry.taskType);
     const taskCategory = normalizeTaskCategory(entry.taskCategory);
     return {
@@ -4489,7 +4516,7 @@
       hours: durationMs / 3600000,
       listId,
       listName,
-      taskId: cleanLabel(entry.taskId, taskIdFor(taskName)),
+      taskId,
       taskName,
       department: cleanLabel(entry.department, ""),
       priority: cleanLabel(entry.priority, ""),
@@ -4516,7 +4543,8 @@
         entry.section,
         taskCategory,
         entry.taskType,
-        entry.notes
+        entry.notes,
+        taskSearchAliases({ taskId, taskName })
       ].join(" ").toLowerCase()
     };
   }
@@ -5011,7 +5039,8 @@
       entry.startDateText,
       entry.recurringText,
       entry.notes,
-      entry.searchText
+      entry.searchText,
+      taskSearchAliases(entry)
     ].filter(Boolean).join(" ").toLowerCase();
   }
 
@@ -6299,7 +6328,8 @@
         taskCategory,
         row["Task Type"],
         row.Description,
-        sourceFile
+        sourceFile,
+        taskSearchAliases({ taskId, taskName })
       ].join(" ").toLowerCase()
     };
   }
@@ -6361,7 +6391,8 @@
         row["Task\nType"],
         row.Notes,
         legacyWeek,
-        sourceFile
+        sourceFile,
+        taskSearchAliases({ taskId, taskName })
       ].join(" ").toLowerCase()
     };
   }
@@ -7358,6 +7389,7 @@
     const taskName = cleanLabel(entry?.taskName, "Untitled task");
     const listId = cleanLabel(entry?.listId, "901301650324");
     const listName = LIST_NAME_MAP[listId] || cleanLabel(entry?.listName, listNameForId(listId));
+    const taskId = effectiveTaskId(entry?.taskId, taskName);
     return {
       id: cleanLabel(entry?.id, `catalog:${listId}:${taskIdFor(taskName)}:${index}`),
       sourceFile: cleanLabel(entry?.sourceFile, TIME_TASK_CATALOG_FILE),
@@ -7372,7 +7404,7 @@
       hours: 0,
       listId,
       listName,
-      taskId: effectiveTaskId(entry?.taskId, taskName),
+      taskId,
       taskName,
       department: cleanLabel(entry?.department, ""),
       priority: cleanLabel(entry?.priority, ""),
@@ -7396,7 +7428,8 @@
         entry?.section,
         entry?.taskCategory,
         entry?.taskType,
-        entry?.notes
+        entry?.notes,
+        taskSearchAliases({ taskId, taskName })
       ].filter(Boolean).join(" ").toLowerCase()
     };
   }
