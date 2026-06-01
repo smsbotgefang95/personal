@@ -4394,13 +4394,34 @@
     scheduleActivityRowsRender();
   }
 
+  function scheduleAfterPaint(callback) {
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(() => window.setTimeout(callback, 0));
+      return;
+    }
+    window.setTimeout(callback, 0);
+  }
+
   function scheduleActivityRowsRender() {
     if (trackerActivityRowsRenderTimer) return;
-    const schedule = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
-    trackerActivityRowsRenderTimer = schedule(() => {
+    trackerActivityRowsRenderTimer = true;
+    scheduleAfterPaint(() => {
       trackerActivityRowsRenderTimer = null;
       renderActivityRows();
     });
+  }
+
+  function markRecentTaskStarting(button, entry) {
+    if (!button || !entry) return;
+    const key = recentTaskKey(entry);
+    document.querySelectorAll("[data-recent-task-key]").forEach((item) => {
+      const active = item.dataset.recentTaskKey === key;
+      item.classList.toggle("active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+    document.getElementById("timerStateLabel").textContent = "Running";
+    document.getElementById("timerTask").textContent = `${entry.taskName} · ${entry.listName}`;
+    setTrackerStatus(`Starting ${entry.taskName}...`);
   }
 
   async function syncOptimisticTimePayload(pendingPayload, successMessage) {
@@ -4600,7 +4621,11 @@
         const entry = tasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
         if (!entry) return;
         if (timePayload.activeEntry && recentTaskKey(timePayload.activeEntry) === button.dataset.recentTaskKey) return;
-        startTimer(entry).catch((error) => setTrackerStatus(error.message, "error"));
+        const startIso = isoNow();
+        markRecentTaskStarting(button, entry);
+        scheduleAfterPaint(() => {
+          startTimer(entry, { startIso }).catch((error) => setTrackerStatus(error.message, "error"));
+        });
       });
     });
     document.querySelectorAll("[data-hide-recent-task]").forEach((control) => {
