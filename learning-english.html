@@ -713,11 +713,13 @@
   .vocabulary-search,
   .vocabulary-summary,
   .vocabulary-phrase-search,
-  .vocabulary-phrase-summary {
+  .vocabulary-phrase-summary,
+  .dialogue-search {
     grid-column: span 2;
   }
 
   .phrase-search,
+  .dialogue-search,
   .vocabulary-phrase-search,
   .vocabulary-search,
   .vocabulary-filter,
@@ -1162,7 +1164,8 @@
     .vocabulary-summary,
     .vocabulary-phrase-search,
     .vocabulary-phrase-summary,
-    .phrase-search {
+    .phrase-search,
+    .dialogue-search {
       grid-column: 1 / -1;
     }
   }
@@ -1477,6 +1480,7 @@
       <div class="phrase-summary" id="dialogueFilterSummary">0 of 0 dialogues</div>
     </div>
     <div class="dialogue-tools">
+      <input class="dialogue-search" id="dialogueSearch" type="search" placeholder="Search dialogue, meaning, or line" aria-label="Search dialogues" />
       <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话">
         <option value="all">所有主题</option>
       </select>
@@ -9328,12 +9332,14 @@ pass=通过；传递
 
   function renderDialogueList() {
     const container = document.getElementById("dialogueList");
+    const searchInput = document.getElementById("dialogueSearch");
     const statusFilter = document.getElementById("dialogueStatusFilter");
     const themeFilter = document.getElementById("dialogueThemeFilter");
     const filterSummary = document.getElementById("dialogueFilterSummary");
-    if (!container || !statusFilter || !themeFilter || !filterSummary) return;
+    if (!container || !searchInput || !statusFilter || !themeFilter || !filterSummary) return;
 
     const themeDialogues = DIALOGUES;
+    const search = searchInput.value.trim().toLowerCase();
     let selectedTheme = selectedDialogueTheme;
     renderLearningThemeOptions(
       "dialogueThemeFilter",
@@ -9347,9 +9353,18 @@ pass=通过；传递
       saveSelectedDialogueTheme();
     }
     const dialogues = themeDialogues.filter((dialogue) => {
+      const scenario = DIALOGUE_SCENARIOS.find((item) => item.id === dialogue.scenario);
+      const matchesSearch = !search || [
+        dialogue.title,
+        dialogue.chineseTitle,
+        dialogue.context,
+        scenario?.label,
+        scenario?.zh,
+        ...dialogue.lines.flatMap((line) => [line.speaker, line.english, line.chinese, line.pronunciation])
+      ].some((value) => String(value || "").toLowerCase().includes(search));
       const matchesStatus = selectedDialogueStatus === "all" || getDialogueStatus(dialogue.id) === selectedDialogueStatus;
       const matchesTheme = selectedTheme === "all" || getScenarioDictionaryPlacement(dialogue.scenario).theme === selectedTheme;
-      return matchesStatus && matchesTheme;
+      return matchesSearch && matchesStatus && matchesTheme;
     });
     statusFilter.value = selectedDialogueStatus;
     themeFilter.value = selectedTheme;
@@ -10832,6 +10847,7 @@ pass=通过；传递
     renderPhraseList();
   }
   document.getElementById("phraseResetFilters").addEventListener("click", resetPhraseFilters);
+  document.getElementById("dialogueSearch").addEventListener("input", renderDialogueList);
   document.getElementById("dialogueStatusFilter").addEventListener("change", (event) => {
     selectedDialogueStatus = event.target.value;
     saveSelectedDialogueStatus();
@@ -10843,6 +10859,7 @@ pass=通过；传递
     renderDialogueList();
   });
   function resetDialogueFilters() {
+    document.getElementById("dialogueSearch").value = "";
     selectedDialogueStatus = "all";
     selectedDialogueTheme = "all";
     saveSelectedDialogueStatus();
