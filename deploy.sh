@@ -209,6 +209,7 @@ mkdir -p "$WEB_ROOT/data"
 cp "$DATA_DIR/vocabulary-overrides.json" "$WEB_ROOT/data/vocabulary-overrides.json"
 cp "$DATA_DIR/life-events.json" "$WEB_ROOT/data/life-events.json"
 cp "$DATA_DIR/learning-english-custom.json" "$WEB_ROOT/data/learning-english-custom.json"
+chmod 644 "$WEB_ROOT/data/vocabulary-overrides.json" "$WEB_ROOT/data/life-events.json" "$WEB_ROOT/data/learning-english-custom.json"
 
 echo "🔁 Starting vocabulary API..."
 if [ -f "$DATA_DIR/vocabulary-api.pid" ]; then
