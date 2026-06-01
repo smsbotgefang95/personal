@@ -1777,7 +1777,8 @@ W03: Cornbread`],
 • 苹果耳机 AirPods Pro 3
 • iPad Mini
 • Watch Series 11`],
-    ["Quality of Life", "2026", "种植", ``]
+    ["Quality of Life", "2026", "种植", ``],
+    ["Intellectual", "2026", "人工智能", ``]
   ];
 
   const els = {
@@ -2418,6 +2419,7 @@ W03: Cornbread`],
       const orderedColumns = moveColumnAfter(columns, "物品", "庆功宴");
       return moveColumnToEnd(orderedColumns, "留美事项");
     }
+    if (area === "Intellectual") return moveColumnBefore(columns, "人工智能", "读书");
     if (area === "Quality of Life") return moveColumnAfter(columns, "种植", "旅行");
     if (area !== "Career") return columns;
 
