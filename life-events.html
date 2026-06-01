@@ -2029,6 +2029,10 @@ W03: Cornbread`],
     localStorage.setItem(HIDDEN_TOPIC_ROWS_STORAGE_KEY, JSON.stringify(hiddenTopicRows));
   }
 
+  function hasHiddenTopicRows(value) {
+    return Object.values(cleanHiddenTopicRows(value)).some((topics) => topics.length);
+  }
+
   function deletedImportIdSet() {
     return new Set(deletedImportIds);
   }
@@ -2170,6 +2174,8 @@ W03: Cornbread`],
     const sharedTopicOrderByArea = cleanTopicOrderByArea(payload.topicOrderByArea);
     const sharedHiddenTopicRows = cleanHiddenTopicRows(payload.hiddenTopicRows);
     const hasSharedHiddenTopicRows = Object.prototype.hasOwnProperty.call(payload, "hiddenTopicRows");
+    const sharedHiddenRowsAreNonEmpty = hasHiddenTopicRows(sharedHiddenTopicRows);
+    const localHiddenRowsAreNonEmpty = hasHiddenTopicRows(hiddenTopicRows);
     if (!sharedEvents.length && !sharedDeletedImportIds.length && !Object.keys(sharedTopicOrderByArea).length && !hasSharedHiddenTopicRows) return false;
     isApplyingSharedEvents = true;
     mergeDeletedImportIds(deletedImportIds, sharedDeletedImportIds);
@@ -2177,9 +2183,11 @@ W03: Cornbread`],
       topicOrderByArea = sharedTopicOrderByArea;
       saveTopicOrderByArea();
     }
-    if (hasSharedHiddenTopicRows) {
+    if (sharedHiddenRowsAreNonEmpty || (hasSharedHiddenTopicRows && !localHiddenRowsAreNonEmpty)) {
       hiddenTopicRows = sharedHiddenTopicRows;
       saveHiddenTopicRows();
+    } else if (hasSharedHiddenTopicRows && localHiddenRowsAreNonEmpty) {
+      queueLifeEventsSync({ delay: 200, promptForKey: false });
     }
     events = mergeImportedEvents(sharedEvents.length ? sharedEvents : events, buildGoogleSheetEvents());
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
