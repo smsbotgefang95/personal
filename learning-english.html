@@ -1315,6 +1315,9 @@
       </div>
       <div class="phrase-tools" aria-label="Sentence search">
         <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
+        <select class="vocabulary-filter" id="phraseThemeFilter" aria-label="Filter sentences by theme">
+          <option value="all">所有主题</option>
+        </select>
         <select class="vocabulary-filter" id="phraseLengthFilter" aria-label="Filter sentences by length">
           <option value="all">全部长度</option>
           <option value="short">短句 1-4 words</option>
@@ -1328,9 +1331,6 @@
           <option value="learning">学习中</option>
           <option value="review">复习</option>
           <option value="learned">已学会</option>
-        </select>
-        <select class="vocabulary-filter" id="phraseThemeFilter" aria-label="Filter sentences by theme">
-          <option value="all">所有主题</option>
         </select>
         <button class="vocabulary-reset" id="phraseResetFilters" type="button" aria-label="Reset sentence filters">重置筛选</button>
       </div>
@@ -1348,6 +1348,9 @@
     </div>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word" aria-label="Search vocabulary" />
+      <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
+        <option value="all">所有主题</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyWordMatchFilter" aria-label="按单词匹配位置筛选词汇">
         <option value="all">所有字母位置</option>
         <option value="contains">单词包含</option>
@@ -1381,9 +1384,6 @@
         <option value="modal verb">情态动词 Modal verb</option>
         <option value="contraction">缩约词 Contraction</option>
         <option value="infinitive marker">不定式标记 Infinitive marker</option>
-      </select>
-      <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
-        <option value="all">所有主题</option>
       </select>
       <div class="word-formation-control" id="vocabularyWordFormationControl">
         <select class="word-formation-native" id="vocabularyCompoundFilter" aria-label="Filter vocabulary by word formation">
@@ -1445,6 +1445,9 @@
     </div>
     <div class="vocabulary-phrase-tools">
       <input class="vocabulary-phrase-search" id="vocabularyPhraseSearch" type="search" placeholder="Search chunk, meaning, pronunciation, or word" aria-label="Search chunks" />
+      <select class="vocabulary-filter" id="vocabularyPhraseThemeFilter" aria-label="Filter chunks by theme">
+        <option value="all">所有主题</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyPhraseMatchFilter" aria-label="按语块匹配位置筛选语块">
         <option value="all">所有字母位置</option>
         <option value="contains">语块包含</option>
@@ -1458,9 +1461,6 @@
         <option value="learning">学习中</option>
         <option value="review">复习</option>
         <option value="learned">已学会</option>
-      </select>
-      <select class="vocabulary-filter" id="vocabularyPhraseThemeFilter" aria-label="Filter chunks by theme">
-        <option value="all">所有主题</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPhraseTypeFilter" aria-label="Filter chunks by type"></select>
       <button class="vocabulary-reset" id="vocabularyPhraseResetFilters" type="button" aria-label="Reset chunk filters">重置筛选</button>
@@ -1477,15 +1477,15 @@
       <div class="phrase-summary" id="dialogueFilterSummary">0 of 0 dialogues</div>
     </div>
     <div class="dialogue-tools">
+      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话">
+        <option value="all">所有主题</option>
+      </select>
       <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
         <option value="all">所有学习状态</option>
         <option value="to-learn">待学</option>
         <option value="learning">学习中</option>
         <option value="review">复习</option>
         <option value="learned">已学会</option>
-      </select>
-      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话">
-        <option value="all">所有主题</option>
       </select>
       <button class="vocabulary-reset" id="dialogueResetFilters" type="button" aria-label="Reset dialogue filters">重置筛选</button>
     </div>
