@@ -3907,6 +3907,15 @@
     return Boolean(entry?.hasPrivateTrackerOverride || entry?.hasPrivateTrackerData || entry?.sourceType === "native");
   }
 
+  function overrideOwnsDueDate(entry, override) {
+    if (!override || !Object.prototype.hasOwnProperty.call(override, "dueDate")) return false;
+    if (override.dueDateManaged === true) return true;
+    const overrideDueDate = dateInputValue(override.dueDate);
+    if (!overrideDueDate) return true;
+    const sourceDueDate = dateInputValue(entry.dueDate || entry.dueDateText);
+    return Boolean(sourceDueDate && overrideDueDate !== sourceDueDate);
+  }
+
   function taskMergeForKey(key) {
     const merges = timePayload.taskMerges || {};
     let currentKey = cleanLabel(key, "");
@@ -3958,7 +3967,9 @@
     const recurringText = recurrence === "custom"
       ? cleanLabel(override?.recurringText || entry.recurringText, "")
       : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
-    const dueDate = override ? cleanLabel(override.dueDate, "") : dateInputValue(entry.dueDate || entry.dueDateText);
+    const dueDate = override
+      ? (overrideOwnsDueDate(entry, override) ? dateInputValue(override.dueDate) : "")
+      : dateInputValue(entry.dueDate || entry.dueDateText);
     const dueTime = override ? timeInputValue(override.dueTime) : timeInputValue(entry.dueTime);
     const listId = Object.prototype.hasOwnProperty.call(override || {}, "listId") ? cleanLabel(override.listId, entry.listId) : entry.listId;
     return {
@@ -4009,6 +4020,7 @@
       const recurrence = RECURRENCE_OPTIONS.some(([item]) => item === value?.recurrence) ? value.recurrence : "none";
       const cleaned = {
         dueDate: dateInputValue(value?.dueDate),
+        dueDateManaged: value?.dueDateManaged === true,
         dueTime: timeInputValue(value?.dueTime),
         status: value?.status === "done" ? "done" : "todo",
         recurrence,
@@ -5240,8 +5252,9 @@
   function currentTaskOverrideForKey(entry, key) {
     const existing = timePayload.taskOverrides?.[key] || {};
     return {
-      dueDate: Object.prototype.hasOwnProperty.call(existing, "dueDate") ? dateInputValue(existing.dueDate) : dateInputValue(entry.dueDate || entry.dueDateText),
-      dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : timeInputValue(entry.dueTime),
+      dueDate: overrideOwnsDueDate(entry, existing) ? dateInputValue(existing.dueDate) : "",
+      dueDateManaged: existing.dueDateManaged === true,
+      dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : "",
       status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
@@ -5267,6 +5280,7 @@
     const normalizedPatch = Object.prototype.hasOwnProperty.call(patch || {}, "taskCategory")
       ? { ...patch, taskCategory: normalizeTaskCategory(patch.taskCategory) }
       : patch;
+    const ownsDueDate = Object.prototype.hasOwnProperty.call(normalizedPatch || {}, "dueDate");
     const nextOverrides = { ...(timePayload.taskOverrides || {}) };
     taskOverrideKeysForEdit(entry).forEach((key) => {
       const next = {
@@ -5274,6 +5288,7 @@
         ...normalizedPatch,
         updatedAt: isoNow()
       };
+      if (ownsDueDate) next.dueDateManaged = true;
       if (next.recurrence !== "custom") next.recurringText = "";
       nextOverrides[key] = next;
     });
@@ -5291,7 +5306,7 @@
   function taskStatusPatch(entry, status) {
     if (status !== "done") return { status: "todo" };
     const nextDueDate = nextRecurringDueDate(entry);
-    return nextDueDate ? { dueDate: nextDueDate, status: "todo" } : { status: "done" };
+    return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, status: "todo" } : { status: "done" };
   }
 
   function saveEditableTaskField(control, rows) {

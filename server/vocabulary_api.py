@@ -444,6 +444,7 @@ def clean_task_overrides(value):
         recurrence = clean_recurrence(item.get("recurrence"))
         override = {
             "dueDate": clean_due_date(item.get("dueDate")),
+            "dueDateManaged": item.get("dueDateManaged") is True,
             "dueTime": clean_due_time(item.get("dueTime")),
             "status": "done" if item.get("status") == "done" else "todo",
             "recurrence": recurrence,
@@ -466,6 +467,7 @@ def clean_task_overrides(value):
                 override[field] = clean_time_text(item.get(field), max_length)
         if (
             override["dueDate"]
+            or override["dueDateManaged"]
             or override["dueTime"]
             or override["status"] == "done"
             or override["recurrence"] != "none"
