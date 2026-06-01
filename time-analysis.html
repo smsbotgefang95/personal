@@ -3253,6 +3253,7 @@
   let trackerPriorityFilterTouched = false;
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
+  let trackerActivityRowsRenderTimer = null;
   let timePayloadSyncQueue = Promise.resolve();
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
@@ -4390,7 +4391,16 @@
   function renderOptimisticTimerState() {
     writeLocalTimePayload(timePayload);
     renderTimerState();
-    renderActivityRows();
+    scheduleActivityRowsRender();
+  }
+
+  function scheduleActivityRowsRender() {
+    if (trackerActivityRowsRenderTimer) return;
+    const schedule = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
+    trackerActivityRowsRenderTimer = schedule(() => {
+      trackerActivityRowsRenderTimer = null;
+      renderActivityRows();
+    });
   }
 
   async function syncOptimisticTimePayload(pendingPayload, successMessage) {
