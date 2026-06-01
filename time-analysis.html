@@ -3912,11 +3912,7 @@
     if (override.dueDateManaged === true) return true;
     const overrideDueDate = dateInputValue(override.dueDate);
     if (!overrideDueDate) return true;
-    const sourceDueDate = dateInputValue(entry.dueDate || entry.dueDateText);
-    if (sourceDueDate && overrideDueDate === sourceDueDate) {
-      return overrideDueDate >= businessDateKey(new Date());
-    }
-    return Boolean(sourceDueDate && overrideDueDate !== sourceDueDate);
+    return true;
   }
 
   function taskMergeForKey(key) {
@@ -4936,8 +4932,32 @@
     return dateInputValue(entry.dueDate || entry.dueDateText);
   }
 
-  function dueStatus(entry) {
+  function effectiveDueDateKey(entry) {
     const due = dueDateKey(entry);
+    if (!due) return "";
+    const today = businessDateKey(new Date());
+    if (due >= today) return due;
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    if (recurrence === "daily") return today;
+    if (recurrence === "weekly") {
+      let next = due;
+      for (let i = 0; i < 80 && next < today; i += 1) {
+        next = addDateKeyDays(next, 7);
+      }
+      return next;
+    }
+    if (recurrence === "monthly") {
+      let nextDate = parseDateInput(due);
+      for (let i = 0; i < 36 && nextDate && formatDateInput(nextDate) < today; i += 1) {
+        nextDate = addLocalMonths(nextDate, 1);
+      }
+      return nextDate ? formatDateInput(nextDate) : due;
+    }
+    return due;
+  }
+
+  function dueStatus(entry) {
+    const due = effectiveDueDateKey(entry);
     if (!due) return "none";
     const today = businessDateKey(new Date());
     const tomorrow = addDateKeyDays(today, 1);
@@ -4946,15 +4966,7 @@
     return due < today ? "overdue" : "upcoming";
   }
 
-  function isStaleRoutineDueDate(entry) {
-    const due = dueDateKey(entry);
-    if (!due || due >= businessDateKey(new Date())) return false;
-    const recurrence = entry.recurrence || inferRecurrence(entry);
-    return recurrence === "daily" || recurrence === "weekly";
-  }
-
   function matchesDueStatusFilter(entry, filter) {
-    if (filter !== "all" && isStaleRoutineDueDate(entry)) return false;
     const status = dueStatus(entry);
     if (filter === "none") return status === "none";
     if (filter === "set") return status !== "none";
