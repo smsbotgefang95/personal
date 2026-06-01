@@ -2414,6 +2414,7 @@ W03: Cornbread`],
       const orderedColumns = moveColumnAfter(columns, "物品", "庆功宴");
       return moveColumnToEnd(orderedColumns, "留美事项");
     }
+    if (area === "Quality of Life") return moveColumnAfter(columns, "种植", "旅行");
     if (area !== "Career") return columns;
 
     const orderedColumns = moveColumnBefore(columns, "KPI", "总结");
