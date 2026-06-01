@@ -1318,6 +1318,14 @@
       </div>
       <div class="phrase-tools" aria-label="Sentence search">
         <input class="phrase-search" id="phraseSearch" type="search" placeholder="Search sentence, meaning, or use" aria-label="Search sentences" />
+        <select class="vocabulary-filter" id="phraseStatusFilter" aria-label="Filter sentences by learning status">
+          <option value="all">所有学习状态</option>
+          <option value="auto">自动</option>
+          <option value="to-learn">待学</option>
+          <option value="learning">学习中</option>
+          <option value="review">复习</option>
+          <option value="learned">已学会</option>
+        </select>
         <select class="vocabulary-filter" id="phraseThemeFilter" aria-label="Filter sentences by theme">
           <option value="all">所有主题</option>
         </select>
@@ -1326,14 +1334,6 @@
           <option value="short">短句 1-4 words</option>
           <option value="medium">中句 5-7 words</option>
           <option value="long">长句 8+ words</option>
-        </select>
-        <select class="vocabulary-filter" id="phraseStatusFilter" aria-label="Filter sentences by learning status">
-          <option value="all">所有学习状态</option>
-          <option value="auto">自动</option>
-          <option value="to-learn">待学</option>
-          <option value="learning">学习中</option>
-          <option value="review">复习</option>
-          <option value="learned">已学会</option>
         </select>
         <button class="vocabulary-reset" id="phraseResetFilters" type="button" aria-label="Reset sentence filters">重置筛选</button>
       </div>
@@ -1351,6 +1351,14 @@
     </div>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word" aria-label="Search vocabulary" />
+      <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
+        <option value="all">所有学习状态</option>
+        <option value="auto">自动</option>
+        <option value="to-learn">待学</option>
+        <option value="learning">学习中</option>
+        <option value="review">复习</option>
+        <option value="learned">已学会</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyThemeFilter" aria-label="Filter vocabulary by theme">
         <option value="all">所有主题</option>
       </select>
@@ -1362,14 +1370,6 @@
       </select>
       <select class="vocabulary-filter" id="vocabularyLetterCountFilter" aria-label="Filter vocabulary by exact letter count">
         <option value="all">所有字母数</option>
-      </select>
-      <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
-        <option value="all">所有学习状态</option>
-        <option value="auto">自动</option>
-        <option value="to-learn">待学</option>
-        <option value="learning">学习中</option>
-        <option value="review">复习</option>
-        <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPartFilter" aria-label="Filter vocabulary by part of speech">
         <option value="all">所有词性</option>
@@ -1448,6 +1448,14 @@
     </div>
     <div class="vocabulary-phrase-tools">
       <input class="vocabulary-phrase-search" id="vocabularyPhraseSearch" type="search" placeholder="Search chunk, meaning, pronunciation, or word" aria-label="Search chunks" />
+      <select class="vocabulary-filter" id="vocabularyPhraseStatusFilter" aria-label="Filter chunks by learning status">
+        <option value="all">所有学习状态</option>
+        <option value="auto">自动</option>
+        <option value="to-learn">待学</option>
+        <option value="learning">学习中</option>
+        <option value="review">复习</option>
+        <option value="learned">已学会</option>
+      </select>
       <select class="vocabulary-filter" id="vocabularyPhraseThemeFilter" aria-label="Filter chunks by theme">
         <option value="all">所有主题</option>
       </select>
@@ -1456,14 +1464,6 @@
         <option value="contains">语块包含</option>
         <option value="starts">语块以...开头</option>
         <option value="ends">语块以...结尾</option>
-      </select>
-      <select class="vocabulary-filter" id="vocabularyPhraseStatusFilter" aria-label="Filter chunks by learning status">
-        <option value="all">所有学习状态</option>
-        <option value="auto">自动</option>
-        <option value="to-learn">待学</option>
-        <option value="learning">学习中</option>
-        <option value="review">复习</option>
-        <option value="learned">已学会</option>
       </select>
       <select class="vocabulary-filter" id="vocabularyPhraseTypeFilter" aria-label="Filter chunks by type"></select>
       <button class="vocabulary-reset" id="vocabularyPhraseResetFilters" type="button" aria-label="Reset chunk filters">重置筛选</button>
@@ -1481,15 +1481,15 @@
     </div>
     <div class="dialogue-tools">
       <input class="dialogue-search" id="dialogueSearch" type="search" placeholder="Search dialogue, meaning, or line" aria-label="Search dialogues" />
-      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话">
-        <option value="all">所有主题</option>
-      </select>
       <select class="vocabulary-filter" id="dialogueStatusFilter" aria-label="按学习状态筛选对话">
         <option value="all">所有学习状态</option>
         <option value="to-learn">待学</option>
         <option value="learning">学习中</option>
         <option value="review">复习</option>
         <option value="learned">已学会</option>
+      </select>
+      <select class="vocabulary-filter" id="dialogueThemeFilter" aria-label="按主题筛选对话">
+        <option value="all">所有主题</option>
       </select>
       <button class="vocabulary-reset" id="dialogueResetFilters" type="button" aria-label="Reset dialogue filters">重置筛选</button>
     </div>
