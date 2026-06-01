@@ -3452,6 +3452,23 @@
     return `native-task:${String(taskName || "untitled").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "untitled"}`;
   }
 
+  function canonicalTaskId(taskId, taskName) {
+    const cleaned = cleanLabel(taskId, "");
+    if (!cleaned || cleaned === "unknown-task") return taskIdFor(taskName);
+    if (/^native-(?!task:)/.test(cleaned)) {
+      return `native-task:${cleaned.replace(/^native-/, "")}`;
+    }
+    return cleaned;
+  }
+
+  function taskIdAliases(taskId, taskName) {
+    const cleaned = cleanLabel(taskId, "");
+    const canonical = canonicalTaskId(cleaned, taskName);
+    const aliases = [canonical];
+    if (cleaned && cleaned !== canonical) aliases.push(cleaned);
+    return Array.from(new Set(aliases.filter(Boolean)));
+  }
+
   function normalizedTaskAliasName(taskName) {
     return cleanLabel(taskName, "")
       .replace(/^[^A-Za-z0-9]+/, "")
@@ -3470,14 +3487,17 @@
   }
 
   function effectiveTaskId(taskId, taskName) {
-    const cleaned = cleanLabel(taskId, "");
-    if (!cleaned || cleaned === "unknown-task") return taskIdFor(taskName);
-    return cleaned;
+    return canonicalTaskId(taskId, taskName);
   }
 
   function taskOverrideKey(entry) {
     if (entry?.overrideKey) return entry.overrideKey;
     return `${cleanLabel(entry.listId, "unknown-list")}|||${effectiveTaskId(entry.taskId, entry.taskName)}`;
+  }
+
+  function taskOverrideAliases(entry) {
+    const listId = cleanLabel(entry?.listId, "unknown-list");
+    return taskIdAliases(entry?.taskId, entry?.taskName).map((taskId) => `${listId}|||${taskId}`);
   }
 
   function taskKeyParts(key) {
@@ -3919,7 +3939,8 @@
   }
 
   function taskOverrideFor(entry) {
-    return timePayload.taskOverrides?.[taskOverrideKey(entry)] || null;
+    const overrides = timePayload.taskOverrides || {};
+    return taskOverrideAliases(entry).map((key) => overrides[key]).find(Boolean) || null;
   }
 
   function normalizedTaskStatus(value) {
@@ -5324,6 +5345,7 @@
   function taskOverrideKeysForEdit(entry) {
     return Array.from(new Set([
       taskOverrideKey(entry),
+      ...taskOverrideAliases(entry),
       ...(Array.isArray(entry.sourceOverrideKeys) ? entry.sourceOverrideKeys : [])
     ].filter(Boolean)));
   }
@@ -5787,7 +5809,7 @@
     const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
     trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel]) => {
       const groupKey = collapseKey || group;
-      const collapsed = collapsedTrackGroups.has(groupKey);
+      const collapsed = !query && collapsedTrackGroups.has(groupKey);
       const groupTitle = fullGroupLabel || group;
       const dueGroupClass = groupedByDueDate ? " due-group-name" : "";
       const dueHeaderClass = groupedByDueDate ? " due-group-header" : "";
