@@ -664,16 +664,18 @@
   }
 
   .topic-label {
-    align-items: start;
+    align-items: flex-start;
     display: flex;
+    flex-direction: column;
     font-size: 0.88rem;
-    gap: 8px;
-    justify-content: space-between;
+    gap: 7px;
+    justify-content: flex-start;
   }
 
   .topic-label-text {
     min-width: 0;
     overflow-wrap: anywhere;
+    width: 100%;
   }
 
   .topic-row-actions {
