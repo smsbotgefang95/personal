@@ -962,9 +962,18 @@
     width: 3px;
   }
 
+  .vowel-team-option.is-length-child,
   .vowel-team-option.is-subgroup,
   .ipa-option.is-subgroup {
     padding-left: 24px;
+  }
+
+  .vowel-team-option.is-length-child.is-parent {
+    padding-left: 24px;
+  }
+
+  .vowel-team-option.is-length-child.is-subgroup {
+    padding-left: 40px;
   }
 
   .ipa-option.is-sound {
@@ -8488,6 +8497,7 @@ pass=通过；传递
   let selectedVocabularyVowelTeam = loadSelectedVocabularyVowelTeam();
   let vocabularyVowelTeamMenuOpen = false;
   let vocabularyVowelTeamsExpanded = new Set();
+  let vocabularyVowelTeamLengthGroupsExpanded = new Set();
   let selectedVocabularyIpa = loadSelectedVocabularyIpa();
   let vocabularyIpaMenuOpen = false;
   let vocabularyIpaGroupsExpanded = new Set();
@@ -10130,6 +10140,20 @@ pass=通过；传递
     return Object.prototype.hasOwnProperty.call(VOCABULARY_VOWEL_TEAM_LABELS, value) ? value : "";
   }
 
+  function getVocabularyVowelTeamLengthGroupId(team) {
+    const length = String(team || "").length;
+    return length === 3 || length === 2 ? `length:${length}` : "";
+  }
+
+  function expandVocabularyVowelTeamPath(value) {
+    const parent = getVocabularyVowelTeamFilterParent(value);
+    const team = parent || (Object.prototype.hasOwnProperty.call(VOCABULARY_VOWEL_TEAM_LABELS, value) ? value : "");
+    if (!team) return;
+    const lengthGroup = getVocabularyVowelTeamLengthGroupId(team);
+    if (lengthGroup) vocabularyVowelTeamLengthGroupsExpanded.add(lengthGroup);
+    if (parent && value.includes("__")) vocabularyVowelTeamsExpanded.add(parent);
+  }
+
   function renderVocabularyVowelTeamOptions(sourceVocabulary = getAllVocabulary()) {
     const vocabularyVowelTeamFilter = document.getElementById("vocabularyVowelTeamFilter");
     const vocabularyVowelTeamControl = document.getElementById("vocabularyVowelTeamControl");
@@ -10140,8 +10164,13 @@ pass=通过；传递
     const selectedChildFilter = getVocabularyVowelTeamChildFilter(selectedVocabularyVowelTeam);
 
     if (selectedChildFilter) vocabularyVowelTeamsExpanded.add(selectedChildFilter.team);
+    expandVocabularyVowelTeamPath(selectedVocabularyVowelTeam);
 
     const teamEntries = Object.entries(VOCABULARY_VOWEL_TEAM_LABELS);
+    const lengthGroups = [
+      { id: "length:3", label: "3个字母", length: 3 },
+      { id: "length:2", label: "2个字母", length: 2 }
+    ];
     const childFiltersByTeam = teamEntries.reduce((map, [team]) => {
       map.set(team, getVocabularyVowelTeamChildFilters(team, sourceVocabulary));
       return map;
@@ -10152,6 +10181,10 @@ pass=通过；传递
       if (childFilter) return childFilter.label;
       return VOCABULARY_VOWEL_TEAM_LABELS[value] || allLabel;
     };
+    const isSelectedInLengthGroup = (group) => {
+      const selectedTeam = selectedChildFilter?.team || selectedVocabularyVowelTeam;
+      return teamEntries.some(([team]) => team.length === group.length && selectedTeam === team);
+    };
 
     vocabularyVowelTeamFilter.innerHTML = [
       `<option value="all">${allLabel}</option>`,
@@ -10161,21 +10194,30 @@ pass=通过；传递
       ])
     ].join("");
 
-    const renderTeam = ([team, label]) => {
+    const renderTeam = ([team, label], nestedClass = "") => {
       const childFilters = childFiltersByTeam.get(team);
       const isExpanded = vocabularyVowelTeamsExpanded.has(team);
       const isSelected = selectedVocabularyVowelTeam === team;
-      const parentOption = `<button class="vowel-team-option is-parent" type="button" role="option" data-vowel-team-value="${escapeHtml(team)}" aria-selected="${isSelected ? "true" : "false"}" aria-expanded="${isExpanded ? "true" : "false"}">${escapeHtml(label)}</button>`;
+      const className = `vowel-team-option is-parent${nestedClass ? ` ${nestedClass}` : ""}`;
+      const parentOption = `<button class="${className}" type="button" role="option" data-vowel-team-value="${escapeHtml(team)}" aria-selected="${isSelected ? "true" : "false"}" aria-expanded="${isExpanded ? "true" : "false"}">${escapeHtml(label)}</button>`;
       if (!isExpanded) return parentOption;
       const childOptions = childFilters
-        .map((filter) => `<button class="vowel-team-option is-subgroup" type="button" role="option" data-vowel-team-value="${escapeHtml(filter.value)}" aria-selected="${selectedVocabularyVowelTeam === filter.value ? "true" : "false"}">${escapeHtml(filter.label)}</button>`)
+        .map((filter) => `<button class="vowel-team-option is-subgroup${nestedClass ? ` ${nestedClass}` : ""}" type="button" role="option" data-vowel-team-value="${escapeHtml(filter.value)}" aria-selected="${selectedVocabularyVowelTeam === filter.value ? "true" : "false"}">${escapeHtml(filter.label)}</button>`)
         .join("");
       return `${parentOption}${childOptions}`;
+    };
+    const renderLengthGroup = (group) => {
+      const groupTeams = teamEntries.filter(([team]) => team.length === group.length);
+      if (!groupTeams.length) return "";
+      const isExpanded = vocabularyVowelTeamLengthGroupsExpanded.has(group.id);
+      const groupOption = `<button class="vowel-team-option is-parent" type="button" role="option" data-vowel-team-length-group="${escapeHtml(group.id)}" aria-selected="${isSelectedInLengthGroup(group) ? "true" : "false"}" aria-expanded="${isExpanded ? "true" : "false"}">${escapeHtml(group.label)}</button>`;
+      if (!isExpanded) return groupOption;
+      return `${groupOption}${groupTeams.map((teamEntry) => renderTeam(teamEntry, "is-length-child")).join("")}`;
     };
 
     vocabularyVowelTeamMenu.innerHTML = [
       `<button class="vowel-team-option is-all-vowel-teams" type="button" role="option" data-vowel-team-value="all" aria-selected="${selectedVocabularyVowelTeam === "all" ? "true" : "false"}">${allLabel}</button>`,
-      ...teamEntries.map(renderTeam)
+      ...lengthGroups.map(renderLengthGroup)
     ].join("");
     vocabularyVowelTeamTriggerText.textContent = getLabel(selectedVocabularyVowelTeam);
     vocabularyVowelTeamTrigger.classList.toggle("is-all-vowel-teams", selectedVocabularyVowelTeam === "all");
@@ -10678,6 +10720,9 @@ pass=通过；传递
       selectedVocabularyRoot = "all";
       selectedVocabularySyllable = "all";
       selectedVocabularyVowelTeam = "all";
+      vocabularyVowelTeamMenuOpen = false;
+      vocabularyVowelTeamsExpanded.clear();
+      vocabularyVowelTeamLengthGroupsExpanded.clear();
       selectedVocabularyIpa = "all";
       selectedView = "vocabulary";
       saveSelectedVocabularyWordMatch();
@@ -10919,6 +10964,7 @@ pass=通过；传递
     selectedVocabularyVowelTeam = "all";
     vocabularyVowelTeamMenuOpen = false;
     vocabularyVowelTeamsExpanded.clear();
+    vocabularyVowelTeamLengthGroupsExpanded.clear();
     selectedVocabularyIpa = "all";
     vocabularyIpaMenuOpen = false;
     vocabularyIpaGroupsExpanded.clear();
@@ -11044,8 +11090,7 @@ pass=通过；传递
 
   document.getElementById("vocabularyVowelTeamTrigger").addEventListener("click", () => {
     vocabularyVowelTeamMenuOpen = !vocabularyVowelTeamMenuOpen;
-    const parent = getVocabularyVowelTeamFilterParent(selectedVocabularyVowelTeam);
-    if (parent && selectedVocabularyVowelTeam.includes("__")) vocabularyVowelTeamsExpanded.add(parent);
+    expandVocabularyVowelTeamPath(selectedVocabularyVowelTeam);
     renderVocabularyList();
   });
   document.getElementById("vocabularyVowelTeamTrigger").addEventListener("keydown", (event) => {
@@ -11062,6 +11107,18 @@ pass=通过；传递
   });
   document.getElementById("vocabularyVowelTeamMenu").addEventListener("click", (event) => {
     event.stopPropagation();
+    const lengthGroupOption = event.target.closest("[data-vowel-team-length-group]");
+    if (lengthGroupOption) {
+      const value = lengthGroupOption.dataset.vowelTeamLengthGroup;
+      if (vocabularyVowelTeamLengthGroupsExpanded.has(value)) {
+        vocabularyVowelTeamLengthGroupsExpanded.delete(value);
+      } else {
+        vocabularyVowelTeamLengthGroupsExpanded.add(value);
+      }
+      vocabularyVowelTeamMenuOpen = true;
+      renderVocabularyList();
+      return;
+    }
     const option = event.target.closest("[data-vowel-team-value]");
     if (!option) return;
     const value = option.dataset.vowelTeamValue;
@@ -11085,7 +11142,7 @@ pass=通过；传递
       return;
     }
     if (event.key !== "Enter" && event.key !== " ") return;
-    const option = event.target.closest("[data-vowel-team-value]");
+    const option = event.target.closest("[data-vowel-team-value], [data-vowel-team-length-group]");
     if (!option) return;
     event.preventDefault();
     option.click();
