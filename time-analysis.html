@@ -4981,32 +4981,8 @@
     return dateInputValue(entry.dueDate || entry.dueDateText);
   }
 
-  function effectiveDueDateKey(entry) {
-    const due = dueDateKey(entry);
-    if (!due) return "";
-    const today = businessDateKey(new Date());
-    if (due >= today) return due;
-    const recurrence = entry.recurrence || inferRecurrence(entry);
-    if (recurrence === "daily") return today;
-    if (recurrence === "weekly") {
-      let next = due;
-      for (let i = 0; i < 80 && next < today; i += 1) {
-        next = addDateKeyDays(next, 7);
-      }
-      return next;
-    }
-    if (recurrence === "monthly") {
-      let nextDate = parseDateInput(due);
-      for (let i = 0; i < 36 && nextDate && formatDateInput(nextDate) < today; i += 1) {
-        nextDate = addLocalMonths(nextDate, 1);
-      }
-      return nextDate ? formatDateInput(nextDate) : due;
-    }
-    return due;
-  }
-
   function dueStatus(entry) {
-    const due = effectiveDueDateKey(entry);
+    const due = dueDateKey(entry);
     if (!due) return "none";
     const today = businessDateKey(new Date());
     const tomorrow = addDateKeyDays(today, 1);
