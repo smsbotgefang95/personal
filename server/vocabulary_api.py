@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
-DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "updatedAt": None}
+DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "updatedAt": None}
 DEFAULT_QUESTION_PROGRESS = {
     "1": "review",
@@ -321,6 +321,27 @@ def clean_deleted_import_ids(value):
     return cleaned
 
 
+def clean_topic_order_by_area(value):
+    if not isinstance(value, dict):
+        return {}
+    cleaned = {}
+    for area, topics in list(value.items())[:100]:
+        area = str(area).strip()[:80]
+        if not area or not isinstance(topics, list):
+            continue
+        seen = set()
+        clean_topics = []
+        for topic in topics[:300]:
+            topic = str(topic).strip()[:120]
+            if not topic or topic in seen:
+                continue
+            seen.add(topic)
+            clean_topics.append(topic)
+        if clean_topics:
+            cleaned[area] = clean_topics
+    return cleaned
+
+
 def clean_life_events_payload(value):
     if not isinstance(value, dict):
         value = {}
@@ -338,6 +359,7 @@ def clean_life_events_payload(value):
     return {
         "events": events,
         "deletedImportIds": clean_deleted_import_ids(value.get("deletedImportIds")),
+        "topicOrderByArea": clean_topic_order_by_area(value.get("topicOrderByArea")),
         "updatedAt": value.get("updatedAt"),
     }
 

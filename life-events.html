@@ -667,6 +667,45 @@
     align-items: start;
     display: flex;
     font-size: 0.88rem;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .topic-label-text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .topic-row-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 4px;
+  }
+
+  .topic-move-btn {
+    align-items: center;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--muted);
+    display: inline-flex;
+    font-size: 0.76rem;
+    font-weight: 900;
+    height: 26px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    width: 26px;
+  }
+
+  .topic-move-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .topic-move-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.36;
   }
 
   .year-label {
@@ -1310,6 +1349,7 @@
 <script>
 (() => {
   const STORAGE_KEY = "personal.lifeEvents.v1";
+  const TOPIC_ORDER_STORAGE_KEY = "personal.lifeEvents.topicOrderByArea.v1";
   const IMPORT_VERSION_KEY = "personal.lifeEvents.googleSheetImportVersion";
   const DELETED_IMPORT_IDS_KEY = "personal.lifeEvents.deletedImportIds.v1";
   const LIFE_EVENTS_SYNC_API = "/api/life-events";
@@ -1838,6 +1878,7 @@ W03: Cornbread`],
 
   let deletedImportIds = loadDeletedImportIds();
   let events = loadEvents();
+  let topicOrderByArea = loadTopicOrderByArea();
   let selectedAreaTab = "";
   let selectedAreaOption = "all";
   let returnViewState = null;
@@ -1894,6 +1935,34 @@ W03: Cornbread`],
 
   function saveDeletedImportIds() {
     localStorage.setItem(DELETED_IMPORT_IDS_KEY, JSON.stringify(deletedImportIds));
+  }
+
+  function cleanTopicOrderByArea(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+    return Object.fromEntries(Object.entries(value).map(([area, topics]) => {
+      const cleanArea = String(area || "").trim();
+      if (!cleanArea || !Array.isArray(topics)) return null;
+      const seen = new Set();
+      const cleanedTopics = topics.map((topic) => String(topic || "").trim()).filter((topic) => {
+        if (!topic || seen.has(topic)) return false;
+        seen.add(topic);
+        return true;
+      });
+      return cleanedTopics.length ? [cleanArea, cleanedTopics] : null;
+    }).filter(Boolean));
+  }
+
+  function loadTopicOrderByArea() {
+    try {
+      return cleanTopicOrderByArea(JSON.parse(localStorage.getItem(TOPIC_ORDER_STORAGE_KEY) || "{}"));
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function saveTopicOrderByArea() {
+    topicOrderByArea = cleanTopicOrderByArea(topicOrderByArea);
+    localStorage.setItem(TOPIC_ORDER_STORAGE_KEY, JSON.stringify(topicOrderByArea));
   }
 
   function deletedImportIdSet() {
@@ -2014,6 +2083,7 @@ W03: Cornbread`],
 
   function saveEvents({ promptForKey = false } = {}) {
     saveDeletedImportIds();
+    saveTopicOrderByArea();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
     if (!isApplyingSharedEvents) queueLifeEventsSync({ promptForKey });
   }
@@ -2022,7 +2092,8 @@ W03: Cornbread`],
     return {
       source: "Personal Life Events",
       events,
-      deletedImportIds
+      deletedImportIds,
+      topicOrderByArea
     };
   }
 
@@ -2030,9 +2101,14 @@ W03: Cornbread`],
     if (!payload || typeof payload !== "object") return false;
     const sharedEvents = Array.isArray(payload.events) ? payload.events : [];
     const sharedDeletedImportIds = cleanDeletedImportIds(payload.deletedImportIds);
-    if (!sharedEvents.length && !sharedDeletedImportIds.length) return false;
+    const sharedTopicOrderByArea = cleanTopicOrderByArea(payload.topicOrderByArea);
+    if (!sharedEvents.length && !sharedDeletedImportIds.length && !Object.keys(sharedTopicOrderByArea).length) return false;
     isApplyingSharedEvents = true;
     mergeDeletedImportIds(deletedImportIds, sharedDeletedImportIds);
+    if (Object.keys(sharedTopicOrderByArea).length) {
+      topicOrderByArea = sharedTopicOrderByArea;
+      saveTopicOrderByArea();
+    }
     events = mergeImportedEvents(sharedEvents.length ? sharedEvents : events, buildGoogleSheetEvents());
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
     localStorage.setItem(IMPORT_VERSION_KEY, GOOGLE_SHEET_IMPORT_VERSION);
@@ -2408,7 +2484,7 @@ W03: Cornbread`],
     return HIDDEN_SOURCE_COLUMNS[area]?.has(column) || false;
   }
 
-  function sourceColumnOptions(area) {
+  function defaultSourceColumnOptions(area) {
     const sheetColumns = GOOGLE_SHEET_ROWS
       .filter(([rowArea]) => area === "all" || rowArea === area)
       .map(([rowArea, , category]) => ({ area: rowArea, category }))
@@ -2435,6 +2511,47 @@ W03: Cornbread`],
       ...movedColumns,
       ...remainingColumns.slice(pullProspectsIndex + 1)
     ];
+  }
+
+  function applyTopicOrder(area, columns) {
+    const savedOrder = cleanTopicOrderByArea(topicOrderByArea)[area] || [];
+    if (!savedOrder.length) return columns;
+    const available = new Set(columns);
+    const movedColumns = savedOrder.filter((column) => available.has(column));
+    return [
+      ...movedColumns,
+      ...columns.filter((column) => !movedColumns.includes(column))
+    ];
+  }
+
+  function sourceColumnOptions(area) {
+    return area === "all" ? defaultSourceColumnOptions(area) : applyTopicOrder(area, defaultSourceColumnOptions(area));
+  }
+
+  function persistTopicOrder(area, topics) {
+    const currentColumns = defaultSourceColumnOptions(area);
+    const topicSet = new Set(topics);
+    topicOrderByArea = {
+      ...topicOrderByArea,
+      [area]: [
+        ...topics,
+        ...currentColumns.filter((topic) => !topicSet.has(topic))
+      ]
+    };
+    saveEvents();
+  }
+
+  function moveTopicRow(area, topic, direction) {
+    const columns = sourceColumnOptions(area);
+    const currentIndex = columns.indexOf(topic);
+    const nextIndex = currentIndex + direction;
+    if (currentIndex < 0 || nextIndex < 0 || nextIndex >= columns.length) return;
+    const nextColumns = [...columns];
+    [nextColumns[currentIndex], nextColumns[nextIndex]] = [nextColumns[nextIndex], nextColumns[currentIndex]];
+    persistTopicOrder(area, nextColumns);
+    render();
+    rememberTimelineViewState();
+    showToast("Row moved.");
   }
 
   function moveColumnBefore(columns, columnToMove, targetColumn) {
@@ -2728,12 +2845,21 @@ W03: Cornbread`],
         : topics;
       const yearCount = Math.max(years.length, 1);
 
-      const rows = visibleTopics.map((topic) => `
+      const rows = visibleTopics.map((topic) => {
+        const topicIndex = topics.indexOf(topic);
+        return `
         <div class="topic-row" style="--year-count:${yearCount}">
-          <div class="topic-label">${escapeHtml(topic)}</div>
+          <div class="topic-label">
+            <span class="topic-label-text">${escapeHtml(topic)}</span>
+            <span class="topic-row-actions" aria-label="Move ${escapeHtml(topic)} row">
+              <button class="topic-move-btn" type="button" data-move-topic-area="${escapeHtml(area)}" data-move-topic="${escapeHtml(topic)}" data-move-direction="-1" aria-label="Move ${escapeHtml(topic)} up"${topicIndex <= 0 ? " disabled" : ""}>▲</button>
+              <button class="topic-move-btn" type="button" data-move-topic-area="${escapeHtml(area)}" data-move-topic="${escapeHtml(topic)}" data-move-direction="1" aria-label="Move ${escapeHtml(topic)} down"${topicIndex >= topics.length - 1 ? " disabled" : ""}>▼</button>
+            </span>
+          </div>
           ${renderTopicYearCards(areaEvents, topic, years)}
         </div>
-      `).join("");
+      `;
+      }).join("");
 
       const areaId = `area-${area.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       return `
@@ -3261,6 +3387,7 @@ W03: Cornbread`],
 
   els.eventList.addEventListener("click", (event) => {
     const areaTab = event.target.getAttribute("data-area-tab");
+    const moveTopic = event.target.getAttribute("data-move-topic");
     const editId = event.target.getAttribute("data-edit");
     const deleteId = event.target.getAttribute("data-delete");
     if (areaTab) {
@@ -3268,6 +3395,14 @@ W03: Cornbread`],
       selectedAreaOption = "all";
       render();
       rememberTimelineViewState();
+      return;
+    }
+    if (moveTopic) {
+      moveTopicRow(
+        event.target.getAttribute("data-move-topic-area"),
+        moveTopic,
+        Number(event.target.getAttribute("data-move-direction"))
+      );
       return;
     }
     if (editId) editEvent(editId);
