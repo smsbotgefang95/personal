@@ -15,6 +15,7 @@ from pathlib import Path
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "updatedAt": None}
+DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
 DEFAULT_QUESTION_PROGRESS = {
     "1": "review",
     "27": "learned",
@@ -51,6 +52,11 @@ LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
 QUESTION_PROGRESS_DATA_PATH = env_path("QUESTION_PROGRESS_DATA_PATH", "~/personal-data/question-progress.json")
+LEARNING_ENGLISH_CUSTOM_DATA_PATH = env_path("LEARNING_ENGLISH_CUSTOM_DATA_PATH", "~/personal-data/learning-english-custom.json")
+LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH = os.environ.get("LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH")
+LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH = Path(LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH).expanduser() if LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH else None
+LEARNING_ENGLISH_CUSTOM_REPO_DATA_PATH = REPO_DIR / "data" / "learning-english-custom.json"
+LEARNING_ENGLISH_CUSTOM_ADMIN_KEY = os.environ.get("LEARNING_ENGLISH_CUSTOM_ADMIN_KEY", ADMIN_KEY)
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_VOCAB_MODEL = os.environ.get("OPENAI_VOCAB_MODEL", "gpt-4o-mini")
 
@@ -139,6 +145,29 @@ def clean_vocab_vowel_team_sounds(value, teams):
     return cleaned
 
 
+def clean_learning_id(value, fallback):
+    item = clean_vocab_text(value, 120).lower()
+    cleaned = "".join(ch if ch.isalnum() else "-" for ch in item).strip("-")
+    while "--" in cleaned:
+        cleaned = cleaned.replace("--", "-")
+    return cleaned[:120] or fallback
+
+
+def split_words(value):
+    if isinstance(value, list):
+        items = value
+    else:
+        items = str(value or "").replace("-", " ").split()
+    cleaned = []
+    seen = set()
+    for item in items[:12]:
+        word = clean_vocab_text(item, 40).lower().strip(".,!?;:\"'()[]{}")
+        if word and word not in seen:
+            seen.add(word)
+            cleaned.append(word)
+    return cleaned
+
+
 def clean_autofill_item(value, requested_word):
     if not isinstance(value, dict):
         value = {}
@@ -163,6 +192,151 @@ def clean_autofill_item(value, requested_word):
         "isCustom": True,
         "rank": "Custom",
     }
+
+
+def clean_custom_sentence(value, idx=0):
+    if not isinstance(value, dict):
+        value = {}
+    english = clean_vocab_text(value.get("english") or value.get("sentence"), 220)
+    if not english:
+        return None
+    return {
+        "id": clean_learning_id(value.get("id"), f"custom-sentence-{idx + 1}"),
+        "scenario": "learning",
+        "english": english,
+        "chinese": clean_vocab_text(value.get("chinese"), 220),
+        "pronunciation": clean_vocab_text(value.get("pronunciation"), 160),
+        "usage": clean_vocab_text(value.get("usage"), 260) or "Use this to practice a custom vocabulary word.",
+        "isCustom": True,
+    }
+
+
+def clean_custom_chunk(value, idx=0, word=""):
+    if not isinstance(value, dict):
+        value = {}
+    phrase = clean_vocab_text(value.get("phrase") or value.get("chunk"), 120)
+    if not phrase:
+        return None
+    chunk_type = clean_vocab_text(value.get("type"), 40)
+    if chunk_type not in {"collocation", "idiom", "phrasal-verb", "fixed-expression", "cliche", "sentence-frame", "functional-chunk", "noun-phrase", "compound-chunk"}:
+        chunk_type = "collocation"
+    words = split_words(value.get("words"))
+    if not words and word:
+        words = split_words(word)
+    return {
+        "id": clean_learning_id(value.get("id"), f"custom-chunk-{idx + 1}"),
+        "phrase": phrase,
+        "chinese": clean_vocab_text(value.get("chinese"), 160),
+        "pronunciation": clean_vocab_text(value.get("pronunciation"), 120),
+        "words": words,
+        "type": chunk_type,
+        "isCustom": True,
+    }
+
+
+def clean_custom_dialogue(value, idx=0):
+    if not isinstance(value, dict):
+        value = {}
+    title = clean_vocab_text(value.get("title"), 120) or "Custom practice"
+    incoming_lines = value.get("lines") if isinstance(value.get("lines"), list) else []
+    lines = []
+    for line_idx, line in enumerate(incoming_lines[:8]):
+        if not isinstance(line, dict):
+            continue
+        english = clean_vocab_text(line.get("english"), 220)
+        if not english:
+            continue
+        lines.append({
+            "speaker": clean_vocab_text(line.get("speaker"), 20) or ("A" if line_idx % 2 == 0 else "B"),
+            "english": english,
+            "chinese": clean_vocab_text(line.get("chinese"), 220),
+            "pronunciation": clean_vocab_text(line.get("pronunciation"), 160),
+        })
+    if not lines:
+        return None
+    return {
+        "id": clean_learning_id(value.get("id"), f"custom-dialogue-{idx + 1}"),
+        "scenario": "learning",
+        "title": title,
+        "chineseTitle": clean_vocab_text(value.get("chineseTitle"), 120) or "自定义练习",
+        "context": clean_vocab_text(value.get("context"), 240) or "Custom vocabulary practice.",
+        "lines": lines,
+        "isCustom": True,
+    }
+
+
+def clean_learning_english_custom_payload(value):
+    if not isinstance(value, dict):
+        value = {}
+    vocabulary = []
+    seen_words = set()
+    incoming_vocabulary = value.get("vocabulary", [])
+    if not isinstance(incoming_vocabulary, list):
+        incoming_vocabulary = []
+    for item in incoming_vocabulary[:1000]:
+        requested_word = clean_vocab_word(item.get("word")) if isinstance(item, dict) else ""
+        cleaned = clean_autofill_item(item, requested_word)
+        key = cleaned["word"].casefold()
+        if key and key not in seen_words:
+            seen_words.add(key)
+            vocabulary.append(cleaned)
+    sentences = []
+    seen_sentences = set()
+    for idx, item in enumerate(value.get("sentences", []) if isinstance(value.get("sentences"), list) else []):
+        cleaned = clean_custom_sentence(item, idx)
+        key = cleaned["english"].casefold() if cleaned else ""
+        if key and key not in seen_sentences:
+            seen_sentences.add(key)
+            sentences.append(cleaned)
+    chunks = []
+    seen_chunks = set()
+    for idx, item in enumerate(value.get("chunks", []) if isinstance(value.get("chunks"), list) else []):
+        cleaned = clean_custom_chunk(item, idx)
+        key = cleaned["phrase"].casefold() if cleaned else ""
+        if key and key not in seen_chunks:
+            seen_chunks.add(key)
+            chunks.append(cleaned)
+    dialogues = []
+    seen_dialogues = set()
+    for idx, item in enumerate(value.get("dialogues", []) if isinstance(value.get("dialogues"), list) else []):
+        cleaned = clean_custom_dialogue(item, idx)
+        key = cleaned["id"] if cleaned else ""
+        if key and key not in seen_dialogues:
+            seen_dialogues.add(key)
+            dialogues.append(cleaned)
+    return {
+        "vocabulary": vocabulary,
+        "sentences": sentences,
+        "chunks": chunks,
+        "dialogues": dialogues,
+        "updatedAt": value.get("updatedAt"),
+    }
+
+
+def clean_autofill_package(value, requested_word):
+    if not isinstance(value, dict):
+        value = {}
+    item_source = value.get("item") if isinstance(value.get("item"), dict) else value
+    item = clean_autofill_item(item_source, requested_word)
+    sentences = []
+    for idx, sentence in enumerate(value.get("sentences", []) if isinstance(value.get("sentences"), list) else []):
+        cleaned = clean_custom_sentence(sentence, idx)
+        if cleaned:
+            cleaned["id"] = clean_learning_id(cleaned["id"], f"custom-{item['word']}-sentence-{idx + 1}")
+            sentences.append(cleaned)
+    chunks = []
+    for idx, chunk in enumerate(value.get("chunks", []) if isinstance(value.get("chunks"), list) else []):
+        cleaned = clean_custom_chunk(chunk, idx, item["word"])
+        if cleaned:
+            cleaned["id"] = clean_learning_id(cleaned["id"], f"custom-{item['word']}-chunk-{idx + 1}")
+            chunks.append(cleaned)
+    dialogues = []
+    for idx, dialogue in enumerate(value.get("dialogues", []) if isinstance(value.get("dialogues"), list) else []):
+        cleaned = clean_custom_dialogue(dialogue, idx)
+        if cleaned:
+            cleaned["id"] = clean_learning_id(cleaned["id"], f"custom-{item['word']}-dialogue-{idx + 1}")
+            dialogues.append(cleaned)
+    return {"item": item, "sentences": sentences[:3], "chunks": chunks[:4], "dialogues": dialogues[:1]}
 
 
 def extract_json_object(text):
@@ -200,17 +374,53 @@ def openai_vocabulary_autofill(word):
         "isCustom": True,
         "rank": "Custom",
     }
+    package_hint = {
+        "item": schema_hint,
+        "chunks": [
+            {
+                "phrase": f"use {word}",
+                "chinese": "简体中文释义",
+                "pronunciation": "plain beginner-friendly pronunciation hint",
+                "words": ["use", word],
+                "type": "collocation",
+            }
+        ],
+        "sentences": [
+            {
+                "english": f"I can use {word} in a sentence.",
+                "chinese": "简体中文句子翻译",
+                "pronunciation": "plain beginner-friendly pronunciation hint",
+                "usage": "short learner-facing usage note",
+            }
+        ],
+        "dialogues": [
+            {
+                "title": f"Practice {word}",
+                "chineseTitle": "练习词汇",
+                "context": "short beginner practice conversation",
+                "lines": [
+                    {"speaker": "A", "english": f"What does {word} mean?", "chinese": "简体中文翻译", "pronunciation": "plain pronunciation hint"},
+                    {"speaker": "B", "english": f"It means {word}.", "chinese": "简体中文翻译", "pronunciation": "plain pronunciation hint"},
+                ],
+            }
+        ],
+    }
     prompt = (
-        "Return only valid JSON for an English learner vocabulary card. "
-        "Use simple beginner-friendly language. Use Simplified Chinese for chinese. "
+        "Return only valid JSON for an English learner custom practice package. "
+        "Use simple beginner-friendly English. Use Simplified Chinese for chinese and chineseTitle. "
         "Do not wrap the JSON in markdown. Fill every field. "
         "If a field is not applicable, use an empty string, empty array, empty object, false, none, or Custom as appropriate. "
+        "The top-level JSON must have item, chunks, sentences, and dialogues. "
+        "item is the vocabulary card. chunks must contain 2 to 4 useful chunks using the word. "
+        "sentences must contain 2 to 3 short example sentences using the word. "
+        "dialogues must contain exactly 1 short beginner dialogue with 2 to 4 lines using the word naturally. "
+        "Allowed chunk types: collocation, idiom, phrasal-verb, fixed-expression, cliche, sentence-frame, functional-chunk, noun-phrase, compound-chunk. "
         f"Allowed prefixes: {sorted(VOCAB_PREFIXES)}. "
         f"Allowed suffixes: {sorted(VOCAB_SUFFIXES)}. "
         f"Allowed roots: {sorted(VOCAB_ROOTS)}. "
         f"Allowed themes: {sorted(VOCAB_THEMES)}. "
         f"Allowed vowel teams: {sorted(VOCAB_VOWEL_TEAMS)}. "
-        f"Schema example: {json.dumps(schema_hint, ensure_ascii=False)}. "
+        f"Schema example: {json.dumps(package_hint, ensure_ascii=False)}. "
         f"Word or phrase: {word}"
     )
     payload = {
@@ -623,6 +833,19 @@ def load_question_progress_payload():
     return clean_question_progress_payload(payload)
 
 
+def load_learning_english_custom_payload():
+    try:
+        with LEARNING_ENGLISH_CUSTOM_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        try:
+            with LEARNING_ENGLISH_CUSTOM_REPO_DATA_PATH.open("r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+        except (FileNotFoundError, json.JSONDecodeError):
+            payload = DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD.copy()
+    return clean_learning_english_custom_payload(payload)
+
+
 def atomic_write(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
@@ -694,6 +917,32 @@ def sync_life_events_to_git(payload):
         return {"status": "failed", "error": str(exc)}
 
 
+def sync_learning_english_custom_to_git(payload):
+    if not GIT_SYNC or not (REPO_DIR / ".git").exists():
+        return {"status": "skipped"}
+    try:
+        atomic_write(LEARNING_ENGLISH_CUSTOM_REPO_DATA_PATH, payload)
+        add = run_git(["add", "data/learning-english-custom.json"])
+        if add.returncode != 0:
+            return {"status": "failed", "error": add.stderr.strip() or add.stdout.strip()}
+        diff = run_git(["diff", "--cached", "--quiet"])
+        if diff.returncode == 0:
+            return {"status": "unchanged"}
+        commit = run_git([
+            "-c", "user.name=Personal Learning English Bot",
+            "-c", "user.email=learning-english-bot@personal.homehomehooray.com",
+            "commit", "-m", "Update custom learning English content",
+        ])
+        if commit.returncode != 0:
+            return {"status": "failed", "error": commit.stderr.strip() or commit.stdout.strip()}
+        push = run_git(["push", "origin", "HEAD:main"])
+        if push.returncode != 0:
+            return {"status": "failed", "error": push.stderr.strip() or push.stdout.strip()}
+        return {"status": "pushed"}
+    except Exception as exc:
+        return {"status": "failed", "error": str(exc)}
+
+
 def write_all(payload):
     atomic_write(DATA_PATH, payload)
     if PUBLIC_PATH:
@@ -724,6 +973,16 @@ def write_question_progress(payload):
     return {"status": "stored"}
 
 
+def write_learning_english_custom(payload):
+    atomic_write(LEARNING_ENGLISH_CUSTOM_DATA_PATH, payload)
+    if LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH:
+        atomic_write(LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH, payload)
+    git_result = sync_learning_english_custom_to_git(payload)
+    if LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH:
+        atomic_write(LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH, payload)
+    return git_result
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "VocabularyAPI/1.0"
 
@@ -735,7 +994,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Learning-English-Admin-Key")
         self.end_headers()
         self.wfile.write(body)
 
@@ -743,7 +1002,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Learning-English-Admin-Key")
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
 
@@ -760,6 +1019,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/citizenship/question-progress":
             self.send_json(200, load_question_progress_payload())
+            return
+        if path == "/api/learning-english/custom":
+            self.send_json(200, load_learning_english_custom_payload())
             return
         if path != "/api/vocabulary-overrides":
             self.send_error(404)
@@ -860,7 +1122,24 @@ class Handler(BaseHTTPRequestHandler):
                 status = 503 if error == "openai_key_missing" else 502
                 self.send_json(status, {"ok": False, "error": error})
                 return
-            self.send_json(200, {"ok": True, "item": clean_autofill_item(generated, word)})
+            package = clean_autofill_package(generated, word)
+            self.send_json(200, {"ok": True, "item": package["item"], "package": package})
+            return
+        if path == "/api/learning-english/custom":
+            if LEARNING_ENGLISH_CUSTOM_ADMIN_KEY and self.headers.get("X-Learning-English-Admin-Key") != LEARNING_ENGLISH_CUSTOM_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(min(length, 1024 * 512))
+                incoming = json.loads(raw.decode("utf-8")) if raw else {}
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json"})
+                return
+            payload = clean_learning_english_custom_payload(incoming)
+            payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            git_result = write_learning_english_custom(payload)
+            self.send_json(200, {"ok": True, "payload": payload, "git": git_result})
             return
         if path != "/api/vocabulary-overrides":
             self.send_error(404)
@@ -902,6 +1181,9 @@ def main():
     QUESTION_PROGRESS_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not QUESTION_PROGRESS_DATA_PATH.exists():
         write_question_progress(DEFAULT_QUESTION_PROGRESS_PAYLOAD.copy())
+    LEARNING_ENGLISH_CUSTOM_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not LEARNING_ENGLISH_CUSTOM_DATA_PATH.exists():
+        write_learning_english_custom(DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD.copy())
     server = ThreadingHTTPServer((host, port), Handler)
     print(f"Vocabulary API listening on http://{host}:{port}", flush=True)
     server.serve_forever()
