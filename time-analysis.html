@@ -4849,6 +4849,10 @@
     return filter === "all";
   }
 
+  function shouldHideDoneTasksForDueFilter(filter) {
+    return ["all", "set", "today", "tomorrow", "overdue"].includes(filter);
+  }
+
   function groupedActivitiesByDueDate(rows) {
     const groups = new Map();
     rows.forEach((entry) => {
@@ -4923,12 +4927,13 @@
   }
 
   function dueStatusFilterCounts(rows) {
+    const actionableRows = rows.filter((entry) => entry.status !== "done");
     return {
       none: rows.filter((entry) => matchesDueStatusFilter(entry, "none")).length,
-      set: rows.filter((entry) => matchesDueStatusFilter(entry, "set")).length,
-      today: rows.filter((entry) => matchesDueStatusFilter(entry, "today")).length,
-      tomorrow: rows.filter((entry) => matchesDueStatusFilter(entry, "tomorrow")).length,
-      overdue: rows.filter((entry) => matchesDueStatusFilter(entry, "overdue")).length
+      set: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "set")).length,
+      today: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "today")).length,
+      tomorrow: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "tomorrow")).length,
+      overdue: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "overdue")).length
     };
   }
 
@@ -5689,7 +5694,7 @@
     });
     const trackerList = document.getElementById("trackerTaskList");
     const dueFilterValue = dueFilter?.value || "all";
-    const rowsForDisplay = shouldGroupActivitiesByDueDate(dueFilterValue)
+    const rowsForDisplay = shouldHideDoneTasksForDueFilter(dueFilterValue)
       ? rows.filter((entry) => entry.status !== "done")
       : rows;
     const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
