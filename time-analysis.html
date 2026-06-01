@@ -3913,6 +3913,9 @@
     const overrideDueDate = dateInputValue(override.dueDate);
     if (!overrideDueDate) return true;
     const sourceDueDate = dateInputValue(entry.dueDate || entry.dueDateText);
+    if (sourceDueDate && overrideDueDate === sourceDueDate) {
+      return overrideDueDate >= businessDateKey(new Date());
+    }
     return Boolean(sourceDueDate && overrideDueDate !== sourceDueDate);
   }
 
