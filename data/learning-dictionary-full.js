@@ -10370,46 +10370,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-0275-bathroom-sink",
+    "id": "index-0275-bathroom",
     "type": "word",
-    "text": "bathroom sink",
-    "word": "bathroom sink",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "26-6"
-    ],
-    "sourcePages": [
-      26
-    ],
-    "placements": [
-      {
-        "ref": "26-6",
-        "page": 26,
-        "theme": "home",
-        "topic": "The Bathroom"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 5,
-    "theme": "home",
-    "topic": "The Bathroom",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oo"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-0276-bathroorn",
-    "type": "word",
-    "text": "bathroorn",
-    "word": "bathroorn",
+    "text": "bathroom",
+    "word": "bathroom",
     "chinese": "",
     "source": "word-by-word-index",
     "sourceRefs": [
@@ -10445,6 +10409,42 @@ window.LEARNING_DICTIONARY_FULL = [
     "sourceLine": 5,
     "theme": "home",
     "topic": "Household Problems and Repairs",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "oo"
+    ],
+    "compound": false
+  },
+  {
+    "id": "index-0276-bathroom-sink",
+    "type": "word",
+    "text": "bathroom sink",
+    "word": "bathroom sink",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "26-6"
+    ],
+    "sourcePages": [
+      26
+    ],
+    "placements": [
+      {
+        "ref": "26-6",
+        "page": 26,
+        "theme": "home",
+        "topic": "The Bathroom"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 5,
+    "theme": "home",
+    "topic": "The Bathroom",
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
@@ -81990,10 +81990,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-2180-lunchroorn-monitor",
+    "id": "index-2180-lunchroom-monitor",
     "type": "word",
-    "text": "lunchroorn monitor",
-    "word": "lunchroorn monitor",
+    "text": "lunchroom monitor",
+    "word": "lunchroom monitor",
     "chinese": "",
     "source": "word-by-word-index",
     "sourceRefs": [
