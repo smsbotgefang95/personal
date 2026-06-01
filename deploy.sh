@@ -89,6 +89,13 @@ if [ ! -f "$DATA_DIR/question-progress.json" ]; then
 }
 EOF
 fi
+if [ ! -f "$DATA_DIR/learning-english-custom.json" ]; then
+    if [ -f "$BUILD_DIR/data/learning-english-custom.json" ]; then
+        cp "$BUILD_DIR/data/learning-english-custom.json" "$DATA_DIR/learning-english-custom.json"
+    else
+        printf '{\n  "vocabulary": [],\n  "sentences": [],\n  "chunks": [],\n  "dialogues": [],\n  "updatedAt": null\n}\n' > "$DATA_DIR/learning-english-custom.json"
+    fi
+fi
 
 if [ ! -f "$DATA_DIR/vocabulary-api.env" ]; then
     VOCAB_ADMIN_KEY=$(python3 - <<'PY'
@@ -109,6 +116,9 @@ LIFE_EVENTS_ADMIN_KEY=$VOCAB_ADMIN_KEY
 TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
 TIME_ENTRIES_ADMIN_KEY=$VOCAB_ADMIN_KEY
 QUESTION_PROGRESS_DATA_PATH=$DATA_DIR/question-progress.json
+LEARNING_ENGLISH_CUSTOM_DATA_PATH=$DATA_DIR/learning-english-custom.json
+LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH=$WEB_ROOT/data/learning-english-custom.json
+LEARNING_ENGLISH_CUSTOM_ADMIN_KEY=$VOCAB_ADMIN_KEY
 OPENAI_API_KEY=${OPENAI_API_KEY:-}
 OPENAI_VOCAB_MODEL=${OPENAI_VOCAB_MODEL:-gpt-4o-mini}
 VOCAB_GIT_SYNC=1
@@ -152,6 +162,16 @@ EOF
     echo "Added OpenAI vocabulary auto-fill settings to $DATA_DIR/vocabulary-api.env"
 fi
 
+if ! grep -q '^LEARNING_ENGLISH_CUSTOM_DATA_PATH=' "$DATA_DIR/vocabulary-api.env"; then
+    EXISTING_VOCAB_ADMIN_KEY=$(grep '^VOCAB_ADMIN_KEY=' "$DATA_DIR/vocabulary-api.env" | head -n 1 | cut -d= -f2-)
+    cat >> "$DATA_DIR/vocabulary-api.env" <<EOF
+LEARNING_ENGLISH_CUSTOM_DATA_PATH=$DATA_DIR/learning-english-custom.json
+LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH=$WEB_ROOT/data/learning-english-custom.json
+LEARNING_ENGLISH_CUSTOM_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
+EOF
+    echo "Added Learning English custom content API settings to $DATA_DIR/vocabulary-api.env"
+fi
+
 if [ -n "${OPENAI_API_KEY:-}" ]; then
     python3 - "$DATA_DIR/vocabulary-api.env" "$OPENAI_API_KEY" "${OPENAI_VOCAB_MODEL:-gpt-4o-mini}" <<'PY'
 from pathlib import Path
@@ -188,6 +208,7 @@ sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
 mkdir -p "$WEB_ROOT/data"
 cp "$DATA_DIR/vocabulary-overrides.json" "$WEB_ROOT/data/vocabulary-overrides.json"
 cp "$DATA_DIR/life-events.json" "$WEB_ROOT/data/life-events.json"
+cp "$DATA_DIR/learning-english-custom.json" "$WEB_ROOT/data/learning-english-custom.json"
 
 echo "🔁 Starting vocabulary API..."
 if [ -f "$DATA_DIR/vocabulary-api.pid" ]; then
@@ -252,6 +273,15 @@ server {
     }
 
     location = /api/learning-english/vocabulary-autofill {
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location = /api/learning-english/custom {
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;
         proxy_set_header Host \$host;
