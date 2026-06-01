@@ -710,112 +710,6 @@
     margin-bottom: 16px;
   }
 
-  .custom-add-panel {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 16px;
-    padding: 16px;
-  }
-
-  .custom-add-header {
-    align-items: flex-start;
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
-
-  .custom-add-title {
-    color: var(--text);
-    font-size: 1rem;
-    margin: 0;
-  }
-
-  .custom-add-status {
-    color: var(--muted);
-    font-size: 0.85rem;
-    min-height: 1.2rem;
-  }
-
-  .custom-add-row,
-  .custom-add-actions {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .custom-add-row {
-    margin-bottom: 12px;
-  }
-
-  .custom-add-grid {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    margin-top: 12px;
-  }
-
-  .custom-add-field {
-    color: var(--muted);
-    display: grid;
-    font-size: 0.78rem;
-    gap: 4px;
-  }
-
-  .custom-add-field input,
-  .custom-add-field select,
-  .custom-add-field textarea,
-  .custom-add-input {
-    background: #f8faf8;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: var(--text);
-    font: inherit;
-    min-height: 42px;
-    min-width: 0;
-    padding: 9px 12px;
-    width: 100%;
-  }
-
-  .custom-add-field textarea {
-    min-height: 76px;
-    resize: vertical;
-  }
-
-  .custom-add-input {
-    flex: 1 1 260px;
-  }
-
-  .custom-add-primary,
-  .custom-add-secondary {
-    border-radius: 7px;
-    cursor: pointer;
-    font: inherit;
-    font-weight: 800;
-    min-height: 42px;
-    padding: 9px 12px;
-  }
-
-  .custom-add-primary {
-    background: var(--text);
-    border: 1px solid var(--text);
-    color: #ffffff;
-  }
-
-  .custom-add-secondary {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-
-  .custom-add-primary:disabled,
-  .custom-add-secondary:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-
   .vocabulary-search,
   .vocabulary-summary,
   .vocabulary-phrase-search,
@@ -1455,56 +1349,6 @@
       </div>
       <div class="vocabulary-summary" id="vocabularySummary">0 words</div>
     </div>
-    <div class="custom-add-panel" aria-label="Add custom Learning English word">
-      <div class="custom-add-header">
-        <h3 class="custom-add-title">Add word / 添加单词</h3>
-        <div class="custom-add-status" id="customAddStatus"></div>
-      </div>
-      <div class="custom-add-row">
-        <input class="custom-add-input" id="customWordInput" type="text" placeholder="Enter word or phrase" aria-label="Custom word or phrase" />
-        <button class="custom-add-secondary" id="customAutofillButton" type="button">Auto-fill</button>
-        <button class="custom-add-primary" id="customSaveButton" type="button">Save</button>
-        <button class="custom-add-secondary" id="customClearButton" type="button">Clear</button>
-      </div>
-      <div class="custom-add-grid">
-        <label class="custom-add-field">Chinese
-          <input id="customChineseInput" type="text" />
-        </label>
-        <label class="custom-add-field">Part of speech
-          <input id="customPartInput" type="text" />
-        </label>
-        <label class="custom-add-field">Pronunciation
-          <input id="customPronunciationInput" type="text" />
-        </label>
-        <label class="custom-add-field">IPA
-          <input id="customIpaInput" type="text" />
-        </label>
-        <label class="custom-add-field">Theme
-          <select id="customThemeInput"></select>
-        </label>
-        <label class="custom-add-field">Prefix
-          <input id="customPrefixInput" type="text" placeholder="none" />
-        </label>
-        <label class="custom-add-field">Suffix
-          <input id="customSuffixInput" type="text" placeholder="none" />
-        </label>
-        <label class="custom-add-field">Roots
-          <input id="customRootsInput" type="text" placeholder="comma separated" />
-        </label>
-        <label class="custom-add-field">Syllable type
-          <select id="customSyllableInput"></select>
-        </label>
-        <label class="custom-add-field">Vowel teams
-          <input id="customVowelTeamsInput" type="text" placeholder="comma separated" />
-        </label>
-        <label class="custom-add-field">Example sentence
-          <textarea id="customExampleInput"></textarea>
-        </label>
-        <label class="custom-add-field">Practice package
-          <textarea id="customPracticeInput" aria-label="Custom generated chunks, sentences, and dialogue JSON"></textarea>
-        </label>
-      </div>
-    </div>
     <div class="vocabulary-tools">
       <input class="vocabulary-search" id="vocabularySearch" type="search" placeholder="Search word" aria-label="Search vocabulary" />
       <select class="vocabulary-filter" id="vocabularyStatusFilter" aria-label="Filter vocabulary by learning status">
@@ -1660,11 +1504,6 @@
   const STORAGE_VOCAB_PHRASE_STATUS_KEY = "learningEnglishVocabularyPhraseStatus";
   const STORAGE_DIALOGUE_STATUS_KEY = "learningEnglishDialogueStatus";
   const STORAGE_DIALOGUE_STATUS_FILTER_KEY = "learningEnglishDialogueStatusFilter";
-  const STORAGE_CUSTOM_VOCAB_KEY = "learningEnglishCustomVocabulary";
-  const STORAGE_CUSTOM_LEARNING_CONTENT_KEY = "learningEnglishCustomContent";
-  const LEARNING_ENGLISH_CUSTOM_API = "/api/learning-english/custom";
-  const LEARNING_ENGLISH_AUTOFILL_API = "/api/learning-english/vocabulary-autofill";
-  const LEARNING_ENGLISH_CUSTOM_DATA_URL = "data/learning-english-custom.json";
   const STORAGE_ACTIVITY_KEY = "learningEnglishDailyActivity";
   const STORAGE_VIEW_KEY = "learningEnglishSelectedView";
   const STORAGE_PHRASE_STATUS_FILTER_KEY = "learningEnglishPhraseStatusFilter";
@@ -8656,9 +8495,6 @@ pass=通过；传递
   let vocabularyStatuses = readJson(STORAGE_VOCAB_STATUS_KEY, {});
   let vocabularyPhraseStatuses = readJson(STORAGE_VOCAB_PHRASE_STATUS_KEY, {});
   let dialogueStatuses = readJson(STORAGE_DIALOGUE_STATUS_KEY, {});
-  let customVocabulary = loadCustomVocabulary();
-  let customLearningContent = loadCustomLearningContent();
-  let customAutofillDraft = { chunks: [], sentences: [], dialogues: [] };
   let activity = readJson(STORAGE_ACTIVITY_KEY, {});
   let importedIndexExactPlacementCache = null;
   let importedIndexDictionaryEntriesCache = null;
@@ -8678,102 +8514,6 @@ pass=通过；传递
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {}
-  }
-
-  function emptyCustomLearningContent() {
-    return { vocabulary: [], sentences: [], chunks: [], dialogues: [], updatedAt: null };
-  }
-
-  function slugifyWord(word) {
-    return normalizeWordKey(String(word || ""))
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 80) || "custom";
-  }
-
-  function uniqueByNormalized(items, getter) {
-    const seen = new Set();
-    return items.filter((item) => {
-      const key = normalizeWordKey(String(getter(item) || ""));
-      if (!key || seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-  }
-
-  function normalizeCustomSentence(entry, index = 0) {
-    if (!entry || typeof entry !== "object") return null;
-    const english = cleanCustomText(entry.english || entry.sentence, 220);
-    if (!english) return null;
-    return {
-      id: cleanCustomText(entry.id, 120) || `custom-sentence-${slugifyWord(english)}-${index + 1}`,
-      scenario: "learning",
-      english,
-      chinese: cleanCustomText(entry.chinese, 220),
-      pronunciation: cleanCustomText(entry.pronunciation, 160),
-      usage: cleanCustomText(entry.usage, 260) || "Use this to practice a custom vocabulary word.",
-      isCustom: true
-    };
-  }
-
-  function normalizeCustomChunk(entry, index = 0, sourceWord = "") {
-    if (!entry || typeof entry !== "object") return null;
-    const phrase = cleanCustomText(entry.phrase || entry.chunk, 120);
-    if (!phrase) return null;
-    const allowedTypes = new Set(CHUNK_TYPES.map((type) => type.id));
-    const type = allowedTypes.has(cleanCustomText(entry.type, 40)) ? cleanCustomText(entry.type, 40) : "collocation";
-    const words = cleanVocabularyList(entry.words?.length ? entry.words : (sourceWord || phrase).split(/\s+/));
-    return {
-      id: cleanCustomText(entry.id, 120) || `custom-chunk-${slugifyWord(phrase)}-${index + 1}`,
-      phrase,
-      chinese: cleanCustomText(entry.chinese, 160),
-      pronunciation: cleanCustomText(entry.pronunciation, 120),
-      words,
-      type,
-      isCustom: true
-    };
-  }
-
-  function normalizeCustomDialogue(entry, index = 0) {
-    if (!entry || typeof entry !== "object") return null;
-    const lines = (Array.isArray(entry.lines) ? entry.lines : []).slice(0, 8).map((line, lineIndex) => ({
-      speaker: cleanCustomText(line?.speaker, 20) || (lineIndex % 2 === 0 ? "A" : "B"),
-      english: cleanCustomText(line?.english, 220),
-      chinese: cleanCustomText(line?.chinese, 220),
-      pronunciation: cleanCustomText(line?.pronunciation, 160)
-    })).filter((line) => line.english);
-    if (!lines.length) return null;
-    const title = cleanCustomText(entry.title, 120) || "Custom practice";
-    return {
-      id: cleanCustomText(entry.id, 120) || `custom-dialogue-${slugifyWord(title)}-${index + 1}`,
-      scenario: "learning",
-      title,
-      chineseTitle: cleanCustomText(entry.chineseTitle, 120) || "自定义练习",
-      context: cleanCustomText(entry.context, 240) || "Custom vocabulary practice.",
-      lines,
-      isCustom: true
-    };
-  }
-
-  function normalizeCustomLearningContent(payload) {
-    const source = payload && typeof payload === "object" ? payload : emptyCustomLearningContent();
-    const vocabulary = uniqueByNormalized((Array.isArray(source.vocabulary) ? source.vocabulary : []).map(normalizeCustomWordEntry).filter(Boolean), (item) => item.word);
-    const sentences = uniqueByNormalized((Array.isArray(source.sentences) ? source.sentences : []).map(normalizeCustomSentence).filter(Boolean), (item) => item.english);
-    const chunks = uniqueByNormalized((Array.isArray(source.chunks) ? source.chunks : []).map((item, index) => normalizeCustomChunk(item, index)).filter(Boolean), (item) => item.phrase);
-    const dialogues = (Array.isArray(source.dialogues) ? source.dialogues : []).map(normalizeCustomDialogue).filter(Boolean);
-    return { vocabulary, sentences, chunks, dialogues, updatedAt: source.updatedAt || null };
-  }
-
-  function loadCustomLearningContent() {
-    return normalizeCustomLearningContent(readJson(STORAGE_CUSTOM_LEARNING_CONTENT_KEY, emptyCustomLearningContent()));
-  }
-
-  function saveCustomLearningContentLocal(payload) {
-    customLearningContent = normalizeCustomLearningContent(payload);
-    customVocabulary = loadCustomVocabulary();
-    saveJson(STORAGE_CUSTOM_LEARNING_CONTENT_KEY, customLearningContent);
-    allVocabularyCache = null;
-    dictionaryItemsCache = null;
   }
 
   function normalizeWordKey(word) {
@@ -8911,74 +8651,17 @@ pass=通过；传递
     return sounds;
   }
 
-  function buildCustomVocabularyEntry(entry) {
-    const word = cleanCustomText(entry?.word, 80);
-    if (!word) return null;
-    const normalized = normalizeWordKey(word);
-    const localIpa = getBritishIpa(word);
-    const ipa = cleanCustomText(entry?.ipa, 120) || localIpa;
-    const localVowelTeams = getVocabularyVowelTeams(word);
-    const vowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
-    const localVowelTeamSounds = getVocabularyVowelTeamSoundMap(word, ipa);
-    const vowelTeamSounds = {
-      ...localVowelTeamSounds,
-      ...cleanVowelTeamSounds(entry?.vowelTeamSounds, vowelTeams)
-    };
-    const localRoots = getVocabularyRoots(word);
-    const roots = cleanVocabularyList(entry?.roots?.length ? entry.roots : localRoots, new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS)));
-    return {
-      id: `custom-${slugifyWord(normalized)}`,
-      word,
-      chinese: cleanCustomText(entry?.chinese, 160) || getCommonWordChinese(word),
-      scenario: "custom",
-      partOfSpeech: cleanCustomText(entry?.partOfSpeech, 80) || getCommonWordPartOfSpeech(word, {}) || "custom word",
-      pronunciation: cleanCustomText(entry?.pronunciation, 120),
-      example: cleanCustomText(entry?.example, 220),
-      theme: cleanVocabularyTheme(entry?.theme) || getVocabularyTheme(word),
-      isCompound: NON_COMPOUND_PHRASES.has(normalized) ? false : (typeof entry?.isCompound === "boolean" ? entry.isCompound : isVocabularyCompound(word)),
-      prefix: cleanVocabularyPrefix(entry?.prefix) !== "none" ? cleanVocabularyPrefix(entry?.prefix) : getVocabularyPrefix(word),
-      suffix: cleanVocabularySuffix(entry?.suffix) !== "none" ? cleanVocabularySuffix(entry?.suffix) : getVocabularySuffix(word),
-      roots,
-      syllableType: cleanVocabularySyllableType(entry?.syllableType) || getVocabularySyllableType(word),
-      vowelTeams,
-      vowelTeamSounds,
-      ipa,
-      isCustom: true,
-      rank: "Custom"
-    };
-  }
-
-  function normalizeCustomWordEntry(entry) {
-    if (!entry || typeof entry !== "object") return null;
-    return buildCustomVocabularyEntry(entry);
-  }
-
-  function loadCustomVocabulary() {
-    const rawItems = readJson(STORAGE_CUSTOM_VOCAB_KEY, []);
-    if (!Array.isArray(rawItems)) return [];
-    const seen = new Set();
-    return rawItems.reduce((items, entry) => {
-      const item = normalizeCustomWordEntry(entry);
-      if (!item) return items;
-      const normalized = normalizeWordKey(item.word);
-      if (seen.has(normalized)) return items;
-      seen.add(normalized);
-      items.push(item);
-      return items;
-    }, []);
-  }
-
   function getAllSentences() {
-    return uniqueByNormalized([...PHRASES, ...customLearningContent.sentences], (item) => item.english);
+    return PHRASES;
   }
 
   function getAllVocabularyPhrases() {
-    return uniqueVocabularyPhraseEntries([...VOCABULARY_PHRASES, ...customLearningContent.chunks]);
+    return VOCABULARY_PHRASES;
   }
 
   function getAllDialogues() {
     const seen = new Set();
-    return [...DIALOGUES, ...customLearningContent.dialogues].filter((dialogue) => {
+    return DIALOGUES.filter((dialogue) => {
       const key = dialogue.id || normalizeWordKey(dialogue.title || "");
       if (!key || seen.has(key)) return false;
       seen.add(key);
@@ -9853,7 +9536,7 @@ pass=通过；传递
   }
 
   function getBaseVocabulary() {
-    return [...VOCABULARY, ...customVocabulary, ...customLearningContent.vocabulary]
+    return VOCABULARY
       .filter((item) => !isDeletedVocabularyWord(item.word) && !isAlphabetOnlyVocabularyItem(item))
       .map(applyImportedIndexExactPlacement);
   }
@@ -11132,247 +10815,6 @@ pass=通过；传递
     updateProgress();
   }
 
-  function setCustomAddStatus(message, tone = "") {
-    const status = document.getElementById("customAddStatus");
-    if (!status) return;
-    status.textContent = message || "";
-    status.style.color = tone === "error" ? "#b91c1c" : tone === "success" ? "#166534" : "";
-  }
-
-  function getCustomAddElements() {
-    return {
-      word: document.getElementById("customWordInput"),
-      chinese: document.getElementById("customChineseInput"),
-      part: document.getElementById("customPartInput"),
-      pronunciation: document.getElementById("customPronunciationInput"),
-      ipa: document.getElementById("customIpaInput"),
-      theme: document.getElementById("customThemeInput"),
-      prefix: document.getElementById("customPrefixInput"),
-      suffix: document.getElementById("customSuffixInput"),
-      roots: document.getElementById("customRootsInput"),
-      syllable: document.getElementById("customSyllableInput"),
-      vowelTeams: document.getElementById("customVowelTeamsInput"),
-      example: document.getElementById("customExampleInput"),
-      practice: document.getElementById("customPracticeInput"),
-      autofill: document.getElementById("customAutofillButton"),
-      save: document.getElementById("customSaveButton"),
-      clear: document.getElementById("customClearButton")
-    };
-  }
-
-  function renderCustomAddOptions() {
-    const { theme, syllable } = getCustomAddElements();
-    if (theme) {
-      theme.innerHTML = [
-        `<option value="">No theme</option>`,
-        ...Object.entries(VOCABULARY_THEME_LABELS).map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
-      ].join("");
-    }
-    if (syllable) {
-      syllable.innerHTML = [
-        `<option value="">No syllable type</option>`,
-        ...Object.entries(VOCABULARY_SYLLABLE_LABELS).map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
-      ].join("");
-    }
-  }
-
-  function setCustomAddForm(item = {}, packageDraft = null) {
-    const elements = getCustomAddElements();
-    const word = cleanCustomText(item.word || elements.word?.value, 80);
-    if (elements.word) elements.word.value = word;
-    if (elements.chinese) elements.chinese.value = cleanCustomText(item.chinese, 160);
-    if (elements.part) elements.part.value = cleanCustomText(item.partOfSpeech, 80);
-    if (elements.pronunciation) elements.pronunciation.value = cleanCustomText(item.pronunciation, 120);
-    if (elements.ipa) elements.ipa.value = cleanCustomText(item.ipa, 120);
-    if (elements.theme) elements.theme.value = cleanVocabularyTheme(item.theme);
-    if (elements.prefix) elements.prefix.value = cleanVocabularyPrefix(item.prefix || "none");
-    if (elements.suffix) elements.suffix.value = cleanVocabularySuffix(item.suffix || "none");
-    if (elements.roots) elements.roots.value = cleanVocabularyList(item.roots || [], new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS))).join(", ");
-    if (elements.syllable) elements.syllable.value = cleanVocabularySyllableType(item.syllableType);
-    if (elements.vowelTeams) elements.vowelTeams.value = cleanVocabularyList(item.vowelTeams || [], new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS))).join(", ");
-    if (elements.example) elements.example.value = cleanCustomText(item.example, 220);
-    customAutofillDraft = {
-      chunks: packageDraft?.chunks || [],
-      sentences: packageDraft?.sentences || [],
-      dialogues: packageDraft?.dialogues || []
-    };
-    if (elements.practice) {
-      elements.practice.value = JSON.stringify(customAutofillDraft, null, 2);
-    }
-  }
-
-  function clearCustomAddForm() {
-    setCustomAddForm({}, { chunks: [], sentences: [], dialogues: [] });
-    setCustomAddStatus("");
-  }
-
-  function collectCustomVocabularyItem() {
-    const elements = getCustomAddElements();
-    const word = cleanCustomText(elements.word?.value, 80);
-    if (!word) return null;
-    return buildCustomVocabularyEntry({
-      word,
-      chinese: elements.chinese?.value,
-      partOfSpeech: elements.part?.value,
-      pronunciation: elements.pronunciation?.value,
-      ipa: elements.ipa?.value,
-      theme: elements.theme?.value,
-      prefix: elements.prefix?.value,
-      suffix: elements.suffix?.value,
-      roots: cleanVocabularyList(elements.roots?.value, new Set(Object.keys(VOCABULARY_ROOT_DEFINITIONS))),
-      syllableType: elements.syllable?.value,
-      vowelTeams: cleanVocabularyList(elements.vowelTeams?.value, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS))),
-      example: elements.example?.value,
-      isCustom: true
-    });
-  }
-
-  function collectCustomPracticePackage(word) {
-    const { practice } = getCustomAddElements();
-    if (!practice?.value.trim()) return { chunks: [], sentences: [], dialogues: [] };
-    try {
-      const parsed = JSON.parse(practice.value);
-      return {
-        chunks: (Array.isArray(parsed.chunks) ? parsed.chunks : []).map((item, index) => normalizeCustomChunk(item, index, word)).filter(Boolean),
-        sentences: (Array.isArray(parsed.sentences) ? parsed.sentences : []).map(normalizeCustomSentence).filter(Boolean),
-        dialogues: (Array.isArray(parsed.dialogues) ? parsed.dialogues : []).map(normalizeCustomDialogue).filter(Boolean)
-      };
-    } catch (error) {
-      throw new Error("Practice package JSON is invalid.");
-    }
-  }
-
-  function mergeCustomLearningContent(item, packageDraft) {
-    const existingBase = getAllVocabulary().find((entry) => normalizeWordKey(entry.word) === normalizeWordKey(item.word));
-    const next = {
-      ...customLearningContent,
-      vocabulary: existingBase && !existingBase.isCustom
-        ? customLearningContent.vocabulary
-        : uniqueByNormalized([...customLearningContent.vocabulary, item], (entry) => entry.word),
-      sentences: uniqueByNormalized([...customLearningContent.sentences, ...packageDraft.sentences], (entry) => entry.english),
-      chunks: uniqueByNormalized([...customLearningContent.chunks, ...packageDraft.chunks], (entry) => entry.phrase),
-      dialogues: [...customLearningContent.dialogues, ...packageDraft.dialogues].filter((dialogue, index, all) => all.findIndex((candidate) => candidate.id === dialogue.id) === index),
-      updatedAt: new Date().toISOString()
-    };
-    return normalizeCustomLearningContent(next);
-  }
-
-  async function persistCustomLearningContent(payload) {
-    saveCustomLearningContentLocal(payload);
-    try {
-      const adminKey = localStorage.getItem("learningEnglishAdminKey") || "";
-      const headers = { "Content-Type": "application/json" };
-      if (adminKey) headers["X-Learning-English-Admin-Key"] = adminKey;
-      const response = await fetch(LEARNING_ENGLISH_CUSTOM_API, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(payload)
-      });
-      if (!response.ok) throw new Error(`API save failed (${response.status})`);
-      const result = await response.json();
-      if (result.payload) saveCustomLearningContentLocal(result.payload);
-      return { durable: true, result };
-    } catch (error) {
-      return { durable: false, error };
-    }
-  }
-
-  async function loadRemoteCustomLearningContent() {
-    const local = loadCustomLearningContent();
-    let remote = null;
-    for (const url of [LEARNING_ENGLISH_CUSTOM_API, LEARNING_ENGLISH_CUSTOM_DATA_URL]) {
-      try {
-        const response = await fetch(url, { cache: "no-store" });
-        if (!response.ok) continue;
-        remote = normalizeCustomLearningContent(await response.json());
-        break;
-      } catch (error) {}
-    }
-    if (!remote) {
-      customLearningContent = local;
-      render();
-      return;
-    }
-    saveCustomLearningContentLocal({
-      vocabulary: [...remote.vocabulary, ...local.vocabulary],
-      sentences: [...remote.sentences, ...local.sentences],
-      chunks: [...remote.chunks, ...local.chunks],
-      dialogues: [...remote.dialogues, ...local.dialogues],
-      updatedAt: remote.updatedAt || local.updatedAt
-    });
-    render();
-  }
-
-  async function handleCustomAutofill() {
-    const elements = getCustomAddElements();
-    const word = cleanCustomText(elements.word?.value, 80);
-    if (!word) {
-      setCustomAddStatus("Enter a word first.", "error");
-      return;
-    }
-    const existing = getAllVocabulary().find((item) => normalizeWordKey(item.word) === normalizeWordKey(word));
-    elements.autofill.disabled = true;
-    setCustomAddStatus(existing ? "Existing word found. Drafting supplemental practice..." : "Drafting with AI...");
-    try {
-      const response = await fetch(LEARNING_ENGLISH_AUTOFILL_API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ word })
-      });
-      if (!response.ok) {
-        const errorPayload = await response.json().catch(() => ({}));
-        throw new Error(errorPayload.error || `Auto-fill failed (${response.status})`);
-      }
-      const payload = await response.json();
-      const packageDraft = payload.package || { item: payload.item, chunks: [], sentences: [], dialogues: [] };
-      setCustomAddForm({ ...packageDraft.item, word }, packageDraft);
-      setCustomAddStatus(existing ? "Draft ready. Existing word will not be duplicated." : "Draft ready. Review before saving.", "success");
-    } catch (error) {
-      setCustomAddForm({ word }, { chunks: [], sentences: [], dialogues: [] });
-      setCustomAddStatus(`${error.message}. You can still fill fields manually.`, "error");
-    } finally {
-      elements.autofill.disabled = false;
-    }
-  }
-
-  async function handleCustomSave() {
-    const elements = getCustomAddElements();
-    const item = collectCustomVocabularyItem();
-    if (!item) {
-      setCustomAddStatus("Enter a word before saving.", "error");
-      return;
-    }
-    let packageDraft;
-    try {
-      packageDraft = collectCustomPracticePackage(item.word);
-    } catch (error) {
-      setCustomAddStatus(error.message, "error");
-      return;
-    }
-    elements.save.disabled = true;
-    setCustomAddStatus("Saving...");
-    const next = mergeCustomLearningContent(item, packageDraft);
-    const result = await persistCustomLearningContent(next);
-    render();
-    setCustomAddStatus(result.durable ? "Saved to custom Learning English data." : "Saved in this browser. API durable save was unavailable.", result.durable ? "success" : "error");
-    elements.save.disabled = false;
-  }
-
-  function setupCustomAddPanel() {
-    renderCustomAddOptions();
-    clearCustomAddForm();
-    const elements = getCustomAddElements();
-    elements.autofill?.addEventListener("click", handleCustomAutofill);
-    elements.save?.addEventListener("click", handleCustomSave);
-    elements.clear?.addEventListener("click", clearCustomAddForm);
-    elements.word?.addEventListener("input", () => {
-      const existing = getAllVocabulary().find((item) => normalizeWordKey(item.word) === normalizeWordKey(elements.word.value));
-      setCustomAddStatus(existing ? "This word already exists. Saving will add only custom practice content." : "");
-    });
-  }
-
-  setupCustomAddPanel();
-
   document.querySelectorAll(".learning-tab").forEach((button) => {
     button.addEventListener("click", () => {
       selectedView = button.dataset.view;
@@ -11767,7 +11209,6 @@ pass=通过；传递
   });
 
   render();
-  loadRemoteCustomLearningContent();
 </script>
 </body>
 </html>
