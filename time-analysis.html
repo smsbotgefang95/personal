@@ -5891,7 +5891,7 @@
     });
     const trackerList = document.getElementById("trackerTaskList");
     const dueFilterValue = dueFilter?.value || "all";
-    const rowsForDisplay = shouldHideDoneTasksForDueFilter(dueFilterValue)
+    const rowsForDisplay = !query && shouldHideDoneTasksForDueFilter(dueFilterValue)
       ? rows.filter((entry) => entry.status !== "done")
       : rows;
     const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
