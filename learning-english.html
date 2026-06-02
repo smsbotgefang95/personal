@@ -8544,6 +8544,15 @@ pass=通过；传递
     return false;
   }
 
+  function isImportedIndexVocabularyWord(word) {
+    const normalized = normalizeWordKey(String(word || ""));
+    if (!normalized) return false;
+    if (COMPOUND_WORDS.has(normalized) || OPEN_COMPOUND_WORDS.has(normalized)) return true;
+    if (isPhraseLikeVocabularyEntry(normalized)) return false;
+    if (/[.?!]/.test(normalized)) return false;
+    return true;
+  }
+
   function isVocabularyCompound(word) {
     const normalized = normalizeWordKey(String(word || ""));
     if (NON_COMPOUND_PHRASES.has(normalized)) return false;
@@ -9713,6 +9722,7 @@ pass=通过；传递
       const word = cleanCustomText(entry?.word || entry?.text, 120);
       const key = normalizeWordKey(word);
       if (!key || seen.has(key)) return false;
+      if (!isImportedIndexVocabularyWord(word)) return false;
       const singularWord = IMPORTED_INDEX_PLURAL_CLEANUP[key];
       if (singularWord) {
         const singularKey = normalizeWordKey(singularWord);
