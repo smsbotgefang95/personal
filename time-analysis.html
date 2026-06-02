@@ -3180,6 +3180,19 @@
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
   const SEARCH_RENDER_DELAY_MS = 200;
+  const AUTO_DONE_TASK_IDS = new Set(["86a2heyde"]);
+  const AUTO_DONE_TASK_NAMES = new Set([
+    "work out",
+    "workout",
+    "shower",
+    "stretch",
+    "soak butt",
+    "soak feet",
+    "weigh myself",
+    "put on clothes",
+    "update daily kpis",
+    "teach dad english"
+  ]);
   const TASK_SEARCH_ALIASES = [
     {
       taskIds: ["86adxpw95"],
@@ -3262,6 +3275,7 @@
   let trackerSearchRenderTimer = null;
   let trackerActivityRowsRenderTimer = null;
   let timePayloadSyncQueue = Promise.resolve();
+  let autoDoneSyncing = false;
   const taskTableSort = {
     business: { key: "total", direction: "desc" },
     personal: { key: "total", direction: "desc" }
@@ -4072,6 +4086,7 @@
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
         taskOrder: orderOptionValue(value?.taskOrder),
+        autoDoneDate: dateInputValue(value?.autoDoneDate),
         updatedAt: cleanLabel(value?.updatedAt, "")
       };
       ["listId", "taskName", "department", "priority", "taskCategory", "taskType", "notes"].forEach((field) => {
@@ -4424,6 +4439,7 @@
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
     if (syncState) setTrackerStatus(syncState, "saved");
+    scheduleAutoDoneRoutineTaskSync();
   }
 
   function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.") {
@@ -5102,6 +5118,7 @@
       ...timePayload,
       entries: [...completed, ...(timePayload.entries || [])]
     });
+    await autoMarkTimeLoggedRoutineTasksDone();
     setTrackerStatus(`Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.`, "saved");
   }
 
@@ -5308,6 +5325,7 @@
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
       taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder),
+      autoDoneDate: dateInputValue(existing.autoDoneDate),
       listId: Object.prototype.hasOwnProperty.call(existing, "listId") ? cleanLabel(existing.listId, "") : cleanLabel(entry.listId, ""),
       taskName: Object.prototype.hasOwnProperty.call(existing, "taskName") ? cleanLabel(existing.taskName, "") : cleanLabel(entry.taskName, ""),
       department: Object.prototype.hasOwnProperty.call(existing, "department") ? cleanLabel(existing.department, "") : cleanLabel(entry.department, ""),
@@ -5354,9 +5372,95 @@
   }
 
   function taskStatusPatch(entry, status) {
-    if (status !== "done") return { status: "todo" };
+    if (status !== "done") return { status: "todo", autoDoneDate: "" };
     const nextDueDate = nextRecurringDueDate(entry);
     return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, status: "todo" } : { status: "done" };
+  }
+
+  function normalizeAutoDoneTaskName(value) {
+    return cleanLabel(value, "")
+      .replace(/^[^A-Za-z0-9]+/, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
+  function isAutoDoneRoutineTask(entry) {
+    const taskId = cleanLabel(entry?.taskId, "");
+    if (AUTO_DONE_TASK_IDS.has(taskId)) return true;
+    return AUTO_DONE_TASK_NAMES.has(normalizeAutoDoneTaskName(entry?.taskName));
+  }
+
+  function timeEntryIsCompletedToday(entry, today = businessDateKey(new Date())) {
+    if (!entry?.start || !entry.stop) return false;
+    const start = new Date(entry.start);
+    if (Number.isNaN(start.getTime())) return false;
+    return businessDateKey(start) === today;
+  }
+
+  function overrideValueChanged(current, next) {
+    return ["dueDate", "dueDateManaged", "dueTime", "status", "recurrence", "recurringText", "taskOrder", "autoDoneDate", "notes"].some((field) => {
+      const isDateField = field === "dueDate" || field === "autoDoneDate";
+      const currentValue = isDateField ? dateInputValue(current?.[field]) : current?.[field];
+      const nextValue = isDateField ? dateInputValue(next?.[field]) : next?.[field];
+      return currentValue !== nextValue;
+    });
+  }
+
+  async function autoMarkTimeLoggedRoutineTasksDone() {
+    if (autoDoneSyncing) return;
+    const today = businessDateKey(new Date());
+    const loggedTargets = new Set((timePayload.entries || [])
+      .filter((entry) => timeEntryIsCompletedToday(entry, today))
+      .filter(isAutoDoneRoutineTask)
+      .map((entry) => cleanLabel(entry.taskId, "") || normalizeAutoDoneTaskName(entry.taskName))
+      .filter(Boolean));
+    if (!loggedTargets.size) return;
+
+    const matchingRows = trackerActivities().filter((entry) => {
+      if (!isAutoDoneRoutineTask(entry)) return false;
+      const taskId = cleanLabel(entry.taskId, "");
+      return loggedTargets.has(taskId) || loggedTargets.has(normalizeAutoDoneTaskName(entry.taskName));
+    });
+    if (!matchingRows.length) return;
+
+    const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    let changedCount = 0;
+    matchingRows.forEach((entry) => {
+      taskOverrideKeysForEdit(entry).forEach((key) => {
+        const current = currentTaskOverrideForKey(entry, key);
+        if (current.autoDoneDate === today) return;
+        const next = {
+          ...current,
+          ...taskStatusPatch(entry, "done"),
+          autoDoneDate: today,
+          updatedAt: isoNow()
+        };
+        if (next.recurrence !== "custom") next.recurringText = "";
+        if (overrideValueChanged(nextOverrides[key] || current, next)) {
+          nextOverrides[key] = next;
+          changedCount += 1;
+        }
+      });
+    });
+    if (!changedCount) return;
+
+    autoDoneSyncing = true;
+    try {
+      await saveTimePayload({
+        ...timePayload,
+        taskOverrides: nextOverrides
+      });
+      setTrackerStatus(`Marked ${matchingRows.length.toLocaleString()} time-logged ${matchingRows.length === 1 ? "task" : "tasks"} done.`, "saved");
+    } finally {
+      autoDoneSyncing = false;
+    }
+  }
+
+  function scheduleAutoDoneRoutineTaskSync() {
+    window.setTimeout(() => {
+      autoMarkTimeLoggedRoutineTasksDone().catch((error) => setTrackerStatus(error.message, "error"));
+    }, 0);
   }
 
   function saveEditableTaskField(control, rows) {
@@ -7511,6 +7615,7 @@
       });
       await saveTimePayload(timePayload);
       setTrackerStatus("Synced due dates from this device.", "saved");
+      scheduleAutoDoneRoutineTaskSync();
       return true;
     }
     timePayload = mergeTimePayloads(response, localPayload, { preferServer: timePayloadHasPrivateData(response) });
@@ -7519,6 +7624,7 @@
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
       setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing local data.", timePayloadHasPrivateData(response) ? "saved" : "");
+      scheduleAutoDoneRoutineTaskSync();
       return true;
     }
     if (taskCatalogEntries.length) {
@@ -7528,6 +7634,7 @@
       renderDashboard(appEntries, appMetrics);
     }
     setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing fallback counts.", timePayloadHasPrivateData(response) ? "saved" : "");
+    scheduleAutoDoneRoutineTaskSync();
     return true;
   }
 
@@ -7548,6 +7655,7 @@
     showPrivateTimeLoadButton(true);
     renderTracker();
     setTrackerStatus("Track ready. Open an analysis tab to load the full dashboard.", "saved");
+    scheduleAutoDoneRoutineTaskSync();
     try {
       if (await ensureTimeAdminKey()) {
         window.setTimeout(() => {
@@ -7625,11 +7733,14 @@
         timePayload = nextPayload;
         renderOptimisticTimerState();
         setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
-        syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`).catch((error) => setTrackerStatus(error.message, "error"));
+        syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`)
+          .then(() => autoMarkTimeLoggedRoutineTasksDone())
+          .catch((error) => setTrackerStatus(error.message, "error"));
         return;
       }
       timePayload = nextPayload;
       await saveTimePayload(timePayload);
+      await autoMarkTimeLoggedRoutineTasksDone();
       setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
       return;
     }
@@ -7657,6 +7768,7 @@
     timePayload.entries = [...completed, ...(timePayload.entries || [])];
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
+    await autoMarkTimeLoggedRoutineTasksDone();
     setTrackerStatus(`Stopped ${active.taskName}`, "saved");
   }
 
