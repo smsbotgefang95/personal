@@ -6054,6 +6054,30 @@
     }, SEARCH_RENDER_DELAY_MS);
   }
 
+  function clearTrackerFiltersForTaskSearch() {
+    const dueFilter = document.getElementById("dueStatusFilter");
+    const recurrenceFilter = document.getElementById("recurrenceFilter");
+    const priorityFilter = document.getElementById("trackerPriorityFilter");
+    const listFilter = document.getElementById("trackerListFilter");
+    const departmentFilter = document.getElementById("trackerDepartmentFilter");
+    const categoryFilter = document.getElementById("trackerCategoryFilter");
+    const typeFilter = document.getElementById("trackerTypeFilter");
+    if (dueFilter) dueFilter.value = "all";
+    if (recurrenceFilter) recurrenceFilter.value = "all";
+    if (priorityFilter) priorityFilter.value = "";
+    if (listFilter) listFilter.value = "";
+    if (departmentFilter) departmentFilter.value = "";
+    if (categoryFilter) categoryFilter.value = "";
+    if (typeFilter) typeFilter.value = "";
+    trackerPriorityFilterTouched = false;
+  }
+
+  function handleTrackerTaskSearchInput() {
+    const taskSearch = document.getElementById("taskSearchInput");
+    if (taskSearch?.value.trim()) clearTrackerFiltersForTaskSearch();
+    scheduleTrackerSearchRender();
+  }
+
   function priorityOptionSort(a, b) {
     const groupA = TRACK_GROUP_ORDER.indexOf(trackGroupName({ priority: a }));
     const groupB = TRACK_GROUP_ORDER.indexOf(trackGroupName({ priority: b }));
@@ -6135,7 +6159,7 @@
     const typeFilter = document.getElementById("trackerTypeFilter");
     if (typeFilter) typeFilter.oninput = renderActivityRows;
     const taskSearch = document.getElementById("taskSearchInput");
-    if (taskSearch) taskSearch.oninput = scheduleTrackerSearchRender;
+    if (taskSearch) taskSearch.oninput = handleTrackerTaskSearchInput;
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
     const orderSort = document.getElementById("orderSortBtn");
