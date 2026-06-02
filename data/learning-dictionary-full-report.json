@@ -249,7 +249,57 @@
     },
     {
       "line": null,
+      "text": "call button",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "cash a traveler's check",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "checkbook",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "catcher's mask",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "change-of-address form",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "change the baby's diaper",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "brussels sprout",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "bubble the answer",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "chicken wings",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "Children's Clothing Department",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "clogged",
       "reason": "manual reconstruction"
     },
     {
@@ -260,6 +310,21 @@
     {
       "line": null,
       "text": "certified mail",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "customs and immigration",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "customs declaration form",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "drive-through window",
       "reason": "manual reconstruction"
     },
     {
@@ -350,6 +415,11 @@
     {
       "line": null,
       "text": "Fahrenheit",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "find your seat",
       "reason": "manual reconstruction"
     },
     {
@@ -639,6 +709,46 @@
     },
     {
       "line": null,
+      "text": "hand-held video game",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "helmet",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "handicapped-accessible room",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "help each other",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "handicapped parking only",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "health-care attendant",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "homemaker",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "horseback riding",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "hand in your homework",
       "reason": "manual reconstruction"
     },
@@ -684,12 +794,32 @@
     },
     {
       "line": null,
+      "text": "stow your carry-on bag",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "soft",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "video cassette recorder",
       "reason": "manual reconstruction"
     },
     {
       "line": null,
       "text": "this afternoon",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "take the bus to school",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "thank-you note",
       "reason": "manual reconstruction"
     },
     {
@@ -714,12 +844,47 @@
     },
     {
       "line": null,
+      "text": "watering can",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "water the flowers",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "wash the dishes",
       "reason": "manual reconstruction"
     },
     {
       "line": null,
       "text": "water pollution",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "witch",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "write a thank-you note",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "window cleaner",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "word-processing program",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "zoom lens",
       "reason": "manual reconstruction"
     },
     {
@@ -1248,6 +1413,47 @@
     },
     {
       "line": 8,
+      "text": "change the baby's brussels sprout",
+      "refs": [
+        "49-21"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
+      "text": "change-of-address bubble the answer",
+      "refs": [
+        "7-54"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
+      "text": "call button 97-?",
+      "refs": [
+        "132-13"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
+      "text": "cash a traveler's check checkbook",
+      "refs": [
+        "81-16",
+        "81-19"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
+      "text": "catcher's mas k",
+      "refs": [
+        "143-5"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 8,
       "text": "'2-2 cellophane tape",
       "refs": [
         "120-33"
@@ -1275,6 +1481,14 @@
       "text": "child day-care worker certified mail",
       "refs": [
         "82-9"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 11,
+      "text": "Children's Clothing dogged",
+      "refs": [
+        "30-2"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1311,6 +1525,23 @@
     },
     {
       "line": 14,
+      "text": "drive-through window customs",
+      "refs": [
+        "131-22",
+        "161-3"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 14,
+      "text": "customs declaration detour",
+      "refs": [
+        "130-14"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 14,
       "text": "cut up 58-' diaper pail",
       "refs": [
         "25-10"
@@ -1330,6 +1561,14 @@
       "refs": [
         "9-6",
         "86-4"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 17,
+      "text": "find your-seat",
+      "refs": [
+        "132-J"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1384,10 +1623,35 @@
     },
     {
       "line": 23,
+      "text": "hand-held video game helmet",
+      "refs": [
+        "123-1",
+        "139-19"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 23,
       "text": ". hot water heater",
       "refs": [
         "30-3"
       ]
+    },
+    {
+      "line": 23,
+      "text": "handicapped-accessible help each other",
+      "refs": [
+        "6-28"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 23,
+      "text": "handicapped parking hen",
+      "refs": [
+        "151-20"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 23,
@@ -1413,6 +1677,14 @@
     },
     {
       "line": 23,
+      "text": "health-care attendant homemaker",
+      "refs": [
+        "113-37"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 23,
       "text": "hand In your homework hearing impaired",
       "refs": [
         "42-23"
@@ -1424,6 +1696,14 @@
       "text": "heating and air conditioning horror movie",
       "refs": [
         "149-26"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 23,
+      "text": "service 31- L horseback riding",
+      "refs": [
+        "140-H"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1528,11 +1808,28 @@
       "reason": "replaced by manual correction"
     },
     {
+      "line": 44,
+      "text": "stow your carry-on soft",
+      "refs": [
+        "44-39"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
       "line": 47,
       "text": "time dock 121-' superintendent",
       "refs": [
         "29-41"
       ]
+    },
+    {
+      "line": 47,
+      "text": "take the bus to school thank-you note",
+      "refs": [
+        "108-17",
+        "108-toe"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 47,
@@ -1568,9 +1865,34 @@
     },
     {
       "line": 53,
+      "text": "write a thank-you note please speak to ... ? window cleaner",
+      "refs": [
+        "32-13",
+        "13-22"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 53,
       "text": "I like your city very water pollution",
       "refs": [
         "158-14"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 53,
+      "text": "l'd like a wake-up call water the flowers",
+      "refs": [
+        "35-0"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 53,
+      "text": "watering can 35-;3 witch",
+      "refs": [
+        "45"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1594,6 +1916,14 @@
       "text": "I'm here for five days. woman",
       "refs": [
         "42-9"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 53,
+      "text": "word-processing zoom lens",
+      "refs": [
+        "77-17"
       ],
       "reason": "replaced by manual correction"
     },
@@ -2083,8 +2413,10 @@
     "brush",
     "brush my hair",
     "brush myteeth",
+    "brussels sprout",
     "bubble bath",
     "bubble soap",
+    "bubble the answer",
     "bucket",
     "bud",
     "buffalo",
@@ -2154,7 +2486,7 @@
     "calculator",
     "calculus",
     "calf",
-    "call button 97-?",
+    "call button",
     "callular phone",
     "camcorder",
     "camera",
@@ -2224,7 +2556,7 @@
     "carving knife",
     "cash",
     "cash a check",
-    "cash a traveler's check checkbook",
+    "cash a traveler's check",
     "cash machine",
     "cash register",
     "cashier",
@@ -2236,7 +2568,7 @@
     "cat",
     "cat food",
     "catch",
-    "catcher's mas k",
+    "catcher's mask",
     "catcher's mitt",
     "caterpillar",
     "catfish",
@@ -2268,8 +2600,8 @@
     "chalkboard",
     "chandelier",
     "change purse",
-    "change the baby's brussels sprout",
-    "change-of-address bubble the answer",
+    "change the baby's diaper",
+    "change-of-address form",
     "changing pad",
     "changing table",
     "cheap",
@@ -2282,6 +2614,7 @@
     "check your blood bulbs",
     "check-in",
     "check-in counter",
+    "checkbook",
     "checked",
     "checkers",
     "checkout",
@@ -2322,7 +2655,7 @@
     "child-care worker",
     "children",
     "children's book",
-    "Children's Clothing dogged",
+    "Children's Clothing Department",
     "children's program",
     "children's section",
     "chili",
@@ -2370,6 +2703,7 @@
     "clippers",
     "cllnic",
     "cllpboard",
+    "clogged",
     "closet",
     "cloth diaper",
     "clothes",
@@ -2562,7 +2896,8 @@
     "customer pick-up area",
     "Customer Service describe",
     "customs and desktop computer",
-    "customs declaration detour",
+    "customs and immigration",
+    "customs declaration form",
     "customs officer",
     "cut",
     "cutting board",
@@ -2753,7 +3088,7 @@
     "driuling",
     "drive",
     "drive to work",
-    "drive-through window customs",
+    "drive-through window",
     "driver's ed",
     "driver's education",
     "driveway",
@@ -2985,7 +3320,7 @@
     "fill out an application egg",
     "film",
     "fin",
-    "find your-seat",
+    "find your seat",
     "Fine, thanks.",
     "Fine.",
     "finen",
@@ -3313,10 +3648,10 @@
     "hand towel",
     "hand truck",
     "hand vacuum",
-    "hand-held video game helmet",
+    "hand-held video game",
     "handbag",
-    "handicapped parking hen",
-    "handicapped-accessible help each other",
+    "handicapped parking only",
+    "handicapped-accessible room",
     "handkerchief",
     "handsaw",
     "handsome",
@@ -3352,7 +3687,7 @@
     "health",
     "health club",
     "health-care aide",
-    "health-care attendant homemaker",
+    "health-care attendant",
     "hearing impaired",
     "heart",
     "heart attack",
@@ -3378,6 +3713,8 @@
     "Hello.",
     "Hello. My name is...",
     "Hello. This is... May I please speak to..?",
+    "helmet",
+    "help each other",
     "help wanted sign",
     "Help!",
     "hen house",
@@ -3422,6 +3759,7 @@
     "Home Furnishings Department",
     "home health aide",
     "home repairperson",
+    "homemaker",
     "homesick",
     "homework",
     "honest",
@@ -3432,6 +3770,7 @@
     "horn",
     "horror movie",
     "horse",
+    "horseback riding",
     "hose",
     "hospital",
     "hospital bed",
@@ -3653,7 +3992,6 @@
     "knuckle",
     "koala",
     "koala bear",
-    "l'd like a wake-up call water the flowers",
     "l'd like to get tickets for a waterfall",
     "l'd like to introduce .... watermelon",
     "l'm sorry. . .. isn't here wealthy",
@@ -4819,7 +5157,6 @@
     "serve",
     "serve the mear",
     "server",
-    "service 31- L horseback riding",
     "service station",
     "serviceman",
     "servicewoman",
@@ -4993,6 +5330,7 @@
     "socks",
     "soda",
     "sofa",
+    "soft",
     "softball",
     "softball glove",
     "softball pJayer",
@@ -5123,7 +5461,7 @@
     "stork",
     "storm door",
     "stove",
-    "stow your carry-on soft",
+    "stow your carry-on bag",
     "straight line",
     "strainer",
     "straw",
@@ -5244,7 +5582,7 @@
     "take out a piece of tent stakes",
     "take out the garbage",
     "take photographs test tube",
-    "take the bus to school thank-you note",
+    "take the bus to school",
     "take the order",
     "take vitamins",
     "take your receipt",
@@ -5312,6 +5650,7 @@
     "tests",
     "textbook",
     "Thank you.",
+    "thank-you note",
     "Thanks.",
     "that?",
     "the guitar",
@@ -5660,8 +5999,9 @@
     "water main break",
     "water pollution",
     "water skis",
+    "water the flowers",
     "watercolor",
-    "watering can 35-;3 witch",
+    "watering can",
     "waterskiing",
     "wave",
     "wavy",
@@ -5707,6 +6047,7 @@
     "wildfire",
     "wind",
     "window",
+    "window cleaner",
     "window screen",
     "window seat",
     "windshield",
@@ -5720,6 +6061,7 @@
     "wipes",
     "wire",
     "wire stripper",
+    "witch",
     "withdraw cash",
     "withdrawaJ slip",
     "withdrawal",
@@ -5737,7 +6079,7 @@
     "woodworking kit",
     "wool",
     "word",
-    "word-processing zoom lens",
+    "word-processing program",
     "work",
     "work alone",
     "work area",
@@ -5767,7 +6109,7 @@
     "write a final copy",
     "write a first draft",
     "write a letter",
-    "write a thank-you note please speak to ... ? window cleaner",
+    "write a thank-you note",
     "write on a separate sheet of Hi.",
     "write on the board",
     "writinq process",
@@ -5799,6 +6141,7 @@
     "zip code",
     "zipper",
     "zoo",
+    "zoom lens",
     "zucchini"
   ],
   "missingChineseSample": [
@@ -6117,28 +6460,28 @@
   ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4349,
-    "uniqueEntries": 4193,
+    "parsedEntries": 4382,
+    "uniqueEntries": 4206,
     "translatedEntries": 4,
-    "missingChinese": 4189,
+    "missingChinese": 4202,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
-      "daily": 280,
+      "daily": 281,
       "describing": 146,
       "food": 448,
-      "health": 393,
-      "home": 472,
-      "nature": 282,
+      "health": 395,
+      "home": 473,
+      "nature": 281,
       "numbers": 82,
       "personal": 51,
       "recreation": 430,
       "school": 288,
-      "services": 170,
-      "shopping": 160,
-      "transportation": 262,
-      "travel": 108,
-      "work": 266
+      "services": 172,
+      "shopping": 163,
+      "transportation": 264,
+      "travel": 109,
+      "work": 268
     }
   }
 }
