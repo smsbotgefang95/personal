@@ -5446,6 +5446,18 @@
     return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, status: "todo" } : { status: "done" };
   }
 
+  function isDailyRecurringTask(entry) {
+    return (entry?.recurrence || inferRecurrence(entry)) === "daily";
+  }
+
+  function autoDoneStatusPatch(entry, autoDoneDate) {
+    if (isDailyRecurringTask(entry)) {
+      const nextDueDate = addDateKeyDays(autoDoneDate, 1);
+      if (nextDueDate) return { dueDate: nextDueDate, dueDateManaged: true, status: "todo" };
+    }
+    return taskStatusPatch(entry, "done");
+  }
+
   function normalizeLoggedTaskTargetName(value) {
     return cleanLabel(value, "")
       .replace(/^[^A-Za-z0-9]+/, "")
@@ -5517,10 +5529,9 @@
     matchingRows.forEach(({ entry, autoDoneDate }) => {
       taskOverrideKeysForEdit(entry).forEach((key) => {
         const current = currentTaskOverrideForKey(entry, key);
-        if (current.autoDoneDate === autoDoneDate) return;
         const next = {
           ...current,
-          ...taskStatusPatch(entry, "done"),
+          ...autoDoneStatusPatch(entry, autoDoneDate),
           autoDoneDate,
           updatedAt: isoNow()
         };
