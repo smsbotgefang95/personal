@@ -4061,6 +4061,7 @@
       dueDate,
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
       dueTime,
+      dueDateEditedAt: override ? cleanLabel(override.dueDateEditedAt, "") : "",
       status: hasOverride ? (override.status === "done" ? "done" : "todo") : normalizedTaskStatus(entry.status),
       recurrence,
       recurring: recurrence !== "none",
@@ -4099,6 +4100,7 @@
         dueDate: dateInputValue(value?.dueDate),
         dueDateManaged: value?.dueDateManaged === true,
         dueTime: timeInputValue(value?.dueTime),
+        dueDateEditedAt: cleanLabel(value?.dueDateEditedAt, ""),
         status: value?.status === "done" ? "done" : "todo",
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
@@ -5399,6 +5401,7 @@
       dueDate: overrideOwnsDueDate(entry, existing) ? dateInputValue(existing.dueDate) : "",
       dueDateManaged: existing.dueDateManaged === true,
       dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : "",
+      dueDateEditedAt: cleanLabel(existing.dueDateEditedAt, ""),
       status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
@@ -5492,16 +5495,30 @@
     return dateKey(start);
   }
 
+  function timeEntryCompletedAt(entry) {
+    const completedAt = new Date(entry?.stop || entry?.updatedAt || entry?.start || "");
+    return Number.isNaN(completedAt.getTime()) ? 0 : completedAt.getTime();
+  }
+
+  function latestLoggedCompletionAfter(loggedDates, dateValue, editedAtValue) {
+    if (!dateValue) return false;
+    const latestCompletedAt = Number(loggedDates.get(dateValue)) || 0;
+    if (!latestCompletedAt) return false;
+    const editedAt = editedAtValue ? new Date(editedAtValue) : null;
+    if (!editedAt || Number.isNaN(editedAt.getTime())) return true;
+    return latestCompletedAt > editedAt.getTime();
+  }
+
   function autoDoneDateForTask(entry, loggedDates) {
     const dueDate = dueDateKey(entry);
-    if (dueDate && loggedDates.has(dueDate)) return dueDate;
+    if (dueDate && latestLoggedCompletionAfter(loggedDates, dueDate, entry.dueDateEditedAt)) return dueDate;
     const today = dateKey(new Date());
-    if (!dueDate && loggedDates.has(today)) return today;
+    if (!dueDate && latestLoggedCompletionAfter(loggedDates, today, entry.dueDateEditedAt)) return today;
     return "";
   }
 
   function overrideValueChanged(current, next) {
-    return ["dueDate", "dueDateManaged", "dueTime", "status", "recurrence", "recurringText", "taskOrder", "autoDoneDate", "notes"].some((field) => {
+    return ["dueDate", "dueDateManaged", "dueTime", "dueDateEditedAt", "status", "recurrence", "recurringText", "taskOrder", "autoDoneDate", "notes"].some((field) => {
       const isDateField = field === "dueDate" || field === "autoDoneDate";
       const currentValue = isDateField ? dateInputValue(current?.[field]) : current?.[field];
       const nextValue = isDateField ? dateInputValue(next?.[field]) : next?.[field];
@@ -5515,18 +5532,22 @@
     (timePayload.entries || []).forEach((entry) => {
       const loggedDate = timeEntryCompletionDate(entry);
       if (!loggedDate) return;
+      const completedAt = timeEntryCompletedAt(entry);
       autoDoneTaskTargets(entry).forEach((target) => {
-        if (!loggedDatesByTarget.has(target)) loggedDatesByTarget.set(target, new Set());
-        loggedDatesByTarget.get(target).add(loggedDate);
+        if (!loggedDatesByTarget.has(target)) loggedDatesByTarget.set(target, new Map());
+        const loggedDates = loggedDatesByTarget.get(target);
+        loggedDates.set(loggedDate, Math.max(Number(loggedDates.get(loggedDate)) || 0, completedAt));
       });
     });
     if (!loggedDatesByTarget.size) return;
 
     const matchingRows = trackerActivities()
       .map((entry) => {
-        const loggedDates = new Set();
+        const loggedDates = new Map();
         autoDoneTaskTargets(entry).forEach((target) => {
-          (loggedDatesByTarget.get(target) || []).forEach((loggedDate) => loggedDates.add(loggedDate));
+          (loggedDatesByTarget.get(target) || new Map()).forEach((completedAt, loggedDate) => {
+            loggedDates.set(loggedDate, Math.max(Number(loggedDates.get(loggedDate)) || 0, completedAt));
+          });
         });
         return { entry, autoDoneDate: autoDoneDateForTask(entry, loggedDates) };
       })
@@ -6064,7 +6085,7 @@
         await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueKey);
         if (!entry) return;
-        saveTaskOverride(entry, { dueDate: input.value }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { dueDate: input.value, dueDateEditedAt: isoNow() }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-due-time-key]").forEach((input) => {
@@ -8064,6 +8085,11 @@
       setTrackerStatus("Stop time must be after start time.", "error");
       return;
     }
+    const editDueDate = document.getElementById("editDueDate").value;
+    const existingDueDate = dateInputValue(entry.dueDate || entry.dueDateText);
+    const dueDateChanged = editDueDate !== existingDueDate;
+    const currentOverride = currentTaskOverride(entry);
+    const updatedAt = isoNow();
     Object.assign(entry, {
       start,
       stop,
@@ -8077,27 +8103,29 @@
       section: document.getElementById("editSection").value.trim(),
       taskCategory: normalizeTaskCategory(document.getElementById("editCategory").value),
       taskType: document.getElementById("editType").value.trim(),
-      dueDate: document.getElementById("editDueDate").value,
-      dueDateText: document.getElementById("editDueDate").value,
+      dueDate: editDueDate,
+      dueDateText: editDueDate,
       dueTime: timeInputValue(document.getElementById("editDueTime").value),
       recurring: document.getElementById("editRecurrence").value !== "none",
       recurringText: document.getElementById("editRecurrence").value === "custom"
         ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom")))
         : (document.getElementById("editRecurrence").value === "none" ? "" : recurrenceLabel(document.getElementById("editRecurrence").value)),
       notes: document.getElementById("editNotes").value.trim(),
-      updatedAt: isoNow()
+      updatedAt
     });
     timePayload.taskOverrides = {
       ...(timePayload.taskOverrides || {}),
       [taskOverrideKey(entry)]: {
-        dueDate: document.getElementById("editDueDate").value,
+        dueDate: editDueDate,
+        dueDateManaged: dueDateChanged || currentOverride.dueDateManaged === true,
         dueTime: timeInputValue(document.getElementById("editDueTime").value),
-        status: currentTaskOverride(entry).status,
+        dueDateEditedAt: dueDateChanged ? updatedAt : cleanLabel(currentOverride.dueDateEditedAt, ""),
+        status: currentOverride.status,
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
-        taskOrder: currentTaskOverride(entry).taskOrder,
+        taskOrder: currentOverride.taskOrder,
         notes: document.getElementById("editNotes").value.trim(),
-        updatedAt: isoNow()
+        updatedAt
       }
     };
     closeEditEntry();
