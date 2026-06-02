@@ -1115,11 +1115,6 @@
       "mergedIntoLine": 32
     },
     {
-      "text": "bag",
-      "line": 44,
-      "mergedIntoLine": 2
-    },
-    {
       "text": "specialist",
       "line": 44,
       "mergedIntoLine": 17
@@ -1128,11 +1123,6 @@
       "text": "supervisor",
       "line": 47,
       "mergedIntoLine": 38
-    },
-    {
-      "text": "guard",
-      "line": 47,
-      "mergedIntoLine": 23
     },
     {
       "text": "slip",
@@ -1170,6 +1160,11 @@
       "mergedIntoLine": 38
     },
     {
+      "text": "write a thank-you note",
+      "line": 53,
+      "mergedIntoLine": 47
+    },
+    {
       "text": "water",
       "line": 53,
       "mergedIntoLine": 5
@@ -1183,11 +1178,6 @@
       "text": "Department",
       "line": 53,
       "mergedIntoLine": 11
-    },
-    {
-      "text": "program",
-      "line": 53,
-      "mergedIntoLine": 17
     },
     {
       "text": "air conditioning",
@@ -1246,6 +1236,11 @@
     },
     {
       "text": "Good night.",
+      "line": 0,
+      "mergedIntoLine": 53
+    },
+    {
+      "text": "Hello. This is... May I please speak to..?",
       "line": 0,
       "mergedIntoLine": 53
     },
@@ -1340,9 +1335,74 @@
       "mergedIntoLine": 53
     },
     {
+      "text": "horseback riding",
+      "line": 0,
+      "mergedIntoLine": 23
+    },
+    {
+      "text": "heating and air conditioning service",
+      "line": 0,
+      "mergedIntoLine": 23
+    },
+    {
+      "text": "horror movie",
+      "line": 0,
+      "mergedIntoLine": 23
+    },
+    {
+      "text": "stow your carry-on bag",
+      "line": 0,
+      "mergedIntoLine": 44
+    },
+    {
+      "text": "soft",
+      "line": 0,
+      "mergedIntoLine": 44
+    },
+    {
+      "text": "take the bus to school",
+      "line": 0,
+      "mergedIntoLine": 47
+    },
+    {
+      "text": "thank-you note",
+      "line": 0,
+      "mergedIntoLine": 47
+    },
+    {
       "text": "third floor",
       "line": 0,
       "mergedIntoLine": 47
+    },
+    {
+      "text": "watering can",
+      "line": 0,
+      "mergedIntoLine": 53
+    },
+    {
+      "text": "witch",
+      "line": 0,
+      "mergedIntoLine": 53
+    },
+    {
+      "text": "write a thank-you note",
+      "line": 0,
+      "mergedIntoLine": 47
+    },
+    {
+      "text": "window cleaner",
+      "line": 0,
+      "mergedIntoLine": 53
+    },
+    {
+      "text": "word-processing program",
+      "line": 0,
+      "mergedIntoLine": 53
+    },
+    {
+      "text": "zoom lens",
+      "line": 0,
+      "mergedIntoLine": 53
     }
   ],
   "suspiciousRefs": [],
@@ -1692,22 +1752,6 @@
       "reason": "replaced by manual correction"
     },
     {
-      "line": 23,
-      "text": "heating and air conditioning horror movie",
-      "refs": [
-        "149-26"
-      ],
-      "reason": "replaced by manual correction"
-    },
-    {
-      "line": 23,
-      "text": "service 31- L horseback riding",
-      "refs": [
-        "140-H"
-      ],
-      "reason": "replaced by manual correction"
-    },
-    {
       "line": 29,
       "text": "long-sleeved shirt 71-'",
       "refs": [
@@ -1808,28 +1852,11 @@
       "reason": "replaced by manual correction"
     },
     {
-      "line": 44,
-      "text": "stow your carry-on soft",
-      "refs": [
-        "44-39"
-      ],
-      "reason": "replaced by manual correction"
-    },
-    {
       "line": 47,
       "text": "time dock 121-' superintendent",
       "refs": [
         "29-41"
       ]
-    },
-    {
-      "line": 47,
-      "text": "take the bus to school thank-you note",
-      "refs": [
-        "108-17",
-        "108-toe"
-      ],
-      "reason": "replaced by manual correction"
     },
     {
       "line": 47,
@@ -1865,15 +1892,6 @@
     },
     {
       "line": 53,
-      "text": "write a thank-you note please speak to ... ? window cleaner",
-      "refs": [
-        "32-13",
-        "13-22"
-      ],
-      "reason": "replaced by manual correction"
-    },
-    {
-      "line": 53,
       "text": "I like your city very water pollution",
       "refs": [
         "158-14"
@@ -1885,14 +1903,6 @@
       "text": "l'd like a wake-up call water the flowers",
       "refs": [
         "35-0"
-      ],
-      "reason": "replaced by manual correction"
-    },
-    {
-      "line": 53,
-      "text": "watering can 35-;3 witch",
-      "refs": [
-        "45"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1916,14 +1926,6 @@
       "text": "I'm here for five days. woman",
       "refs": [
         "42-9"
-      ],
-      "reason": "replaced by manual correction"
-    },
-    {
-      "line": 53,
-      "text": "word-processing zoom lens",
-      "refs": [
-        "77-17"
       ],
       "reason": "replaced by manual correction"
     },
@@ -5717,6 +5719,7 @@
     "today",
     "toddler",
     "toe",
+    "toe guard",
     "toenail",
     "tofu",
     "toilet",
@@ -6460,10 +6463,10 @@
   ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4382,
-    "uniqueEntries": 4206,
+    "parsedEntries": 4388,
+    "uniqueEntries": 4207,
     "translatedEntries": 4,
-    "missingChinese": 4202,
+    "missingChinese": 4203,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
@@ -6481,7 +6484,7 @@
       "shopping": 163,
       "transportation": 264,
       "travel": 109,
-      "work": 268
+      "work": 269
     }
   }
 }

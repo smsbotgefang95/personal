@@ -341,7 +341,6 @@ CORRECTED_MALFORMED_ENTRIES = {
     "handicapped parking hen",
     "health-care attendant homemaker",
     "heating and air conditioning horror movie",
-    "service 31- L horseback riding",
     "bottle-return machine bank officer",
     "Furniture Oepartment get up",
     "go to an Internet Hour",
@@ -359,14 +358,9 @@ CORRECTED_MALFORMED_ENTRIES = {
     "put your bag on the read a book",
     "put your computer in a read the newspaper",
     "science fiction movie sand",
-    "stow your carry-on soft",
-    "take the bus to school thank-you note",
     "shipping department seat the customers",
     "vacuum cleaner waiter",
-    "watering can 35-;3 witch",
     "video cassette recorder wash the dishes",
-    "word-processing zoom lens",
-    "write a thank-you note please speak to ... ? window cleaner",
 }
 
 
