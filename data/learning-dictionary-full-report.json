@@ -204,6 +204,11 @@
     },
     {
       "line": null,
+      "text": "bank officer",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "bottle-return machine",
       "reason": "manual reconstruction"
     },
@@ -329,6 +334,11 @@
     },
     {
       "line": null,
+      "text": "go to an Internet cafe",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "gospel music",
       "reason": "manual reconstruction"
     },
@@ -420,6 +430,11 @@
     {
       "line": null,
       "text": "identification number",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "ice cream truck",
       "reason": "manual reconstruction"
     },
     {
@@ -589,6 +604,16 @@
     },
     {
       "line": null,
+      "text": "Furniture Department",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "Home Furnishings Department",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "put your bag on the conveyor belt",
       "reason": "manual reconstruction"
     },
@@ -610,6 +635,26 @@
     {
       "line": null,
       "text": "video cassette recorder",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "this afternoon",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "talk about your skills and qualifications",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "vacuum cleaner attachments",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "waiter",
       "reason": "manual reconstruction"
     },
     {
@@ -710,6 +755,11 @@
       "mergedIntoLine": 11
     },
     {
+      "text": "Department",
+      "line": 23,
+      "mergedIntoLine": 11
+    },
+    {
       "text": "clothesline",
       "line": 23,
       "mergedIntoLine": 11
@@ -717,7 +767,7 @@
     {
       "text": "Department",
       "line": 23,
-      "mergedIntoLine": 23
+      "mergedIntoLine": 11
     },
     {
       "text": "sandwich",
@@ -727,7 +777,7 @@
     {
       "text": "Department",
       "line": 23,
-      "mergedIntoLine": 23
+      "mergedIntoLine": 11
     },
     {
       "text": "immigration",
@@ -762,7 +812,7 @@
     {
       "text": "Department",
       "line": 29,
-      "mergedIntoLine": 23
+      "mergedIntoLine": 11
     },
     {
       "text": "machine",
@@ -890,6 +940,11 @@
       "mergedIntoLine": 47
     },
     {
+      "text": "transmission",
+      "line": 50,
+      "mergedIntoLine": 2
+    },
+    {
       "text": "tray",
       "line": 50,
       "mergedIntoLine": 38
@@ -903,6 +958,11 @@
       "text": "paper",
       "line": 53,
       "mergedIntoLine": 47
+    },
+    {
+      "text": "Department",
+      "line": 53,
+      "mergedIntoLine": 11
     },
     {
       "text": "program",
@@ -1081,6 +1141,14 @@
     },
     {
       "line": 5,
+      "text": "bottle-return machine bank officer",
+      "refs": [
+        "80-13"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 5,
       "text": "-27 brake pedal",
       "refs": [
         "127-72",
@@ -1200,11 +1268,27 @@
     },
     {
       "line": 20,
+      "text": "go to an Internet Hour",
+      "refs": [
+        "53-35"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 20,
       "text": "get some information gospel music",
       "refs": [
         "148-7",
         "143-C",
         "143-10"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 20,
+      "text": "Furniture Oepartment get up",
+      "refs": [
+        "9-1"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1228,6 +1312,14 @@
       "refs": [
         "133-20"
       ]
+    },
+    {
+      "line": 23,
+      "text": "Home Furnishings ice cream truck",
+      "refs": [
+        "41-28"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 29,
@@ -1328,11 +1420,28 @@
       ]
     },
     {
+      "line": 47,
+      "text": "about your skills and this afternoon",
+      "refs": [
+        "19-13"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
       "line": 50,
       "text": "tunnel 128-' use a cell phone here volleyball court",
       "refs": [
         "142-14"
       ]
+    },
+    {
+      "line": 50,
+      "text": "vacuum cleaner waiter",
+      "refs": [
+        "62-12",
+        "115-36"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 50,
@@ -1356,6 +1465,14 @@
       "refs": [
         "162-a"
       ]
+    },
+    {
+      "line": 53,
+      "text": "l'rn from ....",
+      "refs": [
+        "164-11"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 53,
@@ -1383,7 +1500,6 @@
     "abdomen",
     "about",
     "about your health",
-    "about your skills and this afternoon",
     "aboye",
     "accelerator",
     "accordion",
@@ -1463,7 +1579,7 @@
     "anteater",
     "antelope",
     "antenna",
-    "antibiotic ointrnent",
+    "antibiotic ointment",
     "antier",
     "antihistarnlne crearn",
     "antipasto",
@@ -1491,7 +1607,7 @@
     "archery",
     "architect",
     "area code",
-    "arithrnetic",
+    "arithmetic",
     "arm",
     "armadillo",
     "armchair",
@@ -1616,6 +1732,7 @@
     "bandage",
     "banjo",
     "bank",
+    "bank officer",
     "bank online",
     "bank robbery",
     "bank vault",
@@ -1797,7 +1914,6 @@
     "bottle",
     "bottle opener",
     "bottle-return machine",
-    "bottle-return machine bank officer",
     "bounce",
     "bow and arrow",
     "bow tie",
@@ -1867,6 +1983,7 @@
     "bulb",
     "bulJetin board",
     "bulldozer",
+    "bumper",
     "bumper pad",
     "bun",
     "bunch",
@@ -1875,7 +1992,6 @@
     "burglary",
     "burn",
     "burner",
-    "burnper",
     "burp",
     "burrito",
     "bus",
@@ -1918,8 +2034,8 @@
     "cafeteria",
     "cafeteria worker",
     "cake",
+    "cake mix",
     "cake pan",
-    "cake rnix",
     "calculator",
     "calculus",
     "calf",
@@ -2122,8 +2238,8 @@
     "city",
     "city hall",
     "city manager",
+    "clams",
     "clarinet",
-    "clarns",
     "class",
     "classical music",
     "classified ad",
@@ -2383,7 +2499,6 @@
     "deodorant",
     "Department",
     "department store",
-    "Departrnent",
     "deposit slip",
     "depression",
     "depth",
@@ -2468,10 +2583,10 @@
     "dog",
     "dog food",
     "dogwood",
-    "dol! house furniture",
     "doli",
     "doll clothing",
     "doll house",
+    "doll house furniture",
     "dollar",
     "dolly",
     "dolphin",
@@ -2625,6 +2740,7 @@
     "elose the wound",
     "elutch",
     "embarrassed",
+    "embroidery",
     "emergency brake",
     "emergency exit",
     "emergency instruction exit",
@@ -2655,7 +2771,6 @@
     "equals",
     "ER",
     "erase the board",
-    "ernbroidery",
     "erop",
     "escalator",
     "esophagus",
@@ -2891,7 +3006,7 @@
     "fur",
     "furious",
     "furniture",
-    "Furniture Oepartment get up",
+    "Furniture Department",
     "furniture polish",
     "furniture store",
     "galaxy",
@@ -2984,7 +3099,7 @@
     "go to a health club",
     "go to a museum",
     "go to a park",
-    "go to an Internet Hour",
+    "go to an Internet cafe",
     "go to an interview",
     "go to bed",
     "go to school",
@@ -3188,7 +3303,7 @@
     "home attendant",
     "home economics",
     "home fries",
-    "Home Furnishings ice cream truck",
+    "Home Furnishings Department",
     "home health aide",
     "home repairperson",
     "homesick",
@@ -3260,6 +3375,7 @@
     "ice cream scoop",
     "ice cream shop",
     "ice cream sundae",
+    "ice cream truck",
     "ice hockey",
     "ice machine",
     "ice pack",
@@ -3286,8 +3402,8 @@
     "infection",
     "inflatable pool",
     "influenza",
+    "information",
     "information booth",
-    "inforrnation",
     "injection",
     "injured",
     "ink cartridge",
@@ -3306,7 +3422,7 @@
     "insulation",
     "insurance card",
     "inter5tate highway",
-    "intercorn",
+    "intercom",
     "international club",
     "Internet cafe",
     "interpreter",
@@ -3328,7 +3444,6 @@
     "It's very .",
     "It's very...",
     "itchy",
-    "iurnber",
     "IV.",
     "j",
     "jack",
@@ -3426,7 +3541,6 @@
     "l'd like to introduce .... watermelon",
     "l'm sorry. . .. isn't here wealthy",
     "l'm sorry. What did you web address",
-    "l'rn from ....",
     "lab",
     "lab technician",
     "label",
@@ -3552,6 +3666,7 @@
     "lug wrench",
     "luggage carrier",
     "luggage cart",
+    "lumber",
     "lunar eclipse",
     "lunch",
     "lunchroom monitor",
@@ -3598,6 +3713,7 @@
     "marigold",
     "mark the answer sheet",
     "marker",
+    "married",
     "Mars",
     "martial arts",
     "mascara",
@@ -3714,10 +3830,12 @@
     "murder",
     "muscles",
     "museum",
+    "mushroom",
     "music",
+    "music club",
     "music store",
     "musical",
-    "musical cornedy",
+    "musical comedy",
     "musician",
     "mussels",
     "mustache",
@@ -3755,7 +3873,7 @@
     "nervous",
     "nest",
     "new",
-    "new rnoon",
+    "new moon",
     "news program",
     "newspaper",
     "newspaper artide",
@@ -3827,7 +3945,6 @@
     "October",
     "octopus",
     "odometer",
-    "Oepartment",
     "of speech",
     "off",
     "office",
@@ -4400,9 +4517,6 @@
     "rinse",
     "ripped",
     "river",
-    "rnarried",
-    "rnushroom",
-    "rnusic club",
     "roach killer",
     "road",
     "road test instructions",
@@ -4730,8 +4844,10 @@
     "sllde",
     "slow",
     "slug",
+    "small",
     "small intestine",
     "smoggy",
+    "smoke detector",
     "smooth",
     "snack bar",
     "snack foods",
@@ -4836,8 +4952,6 @@
     "square",
     "squid",
     "squirrel",
-    "srnall",
-    "srnoke detector",
     "stable",
     "stacking tray",
     "stained",
@@ -5021,6 +5135,7 @@
     "take your transaction thigh",
     "takecareof",
     "tal!",
+    "talk about your skills and qualifications",
     "talk about your things",
     "talk show",
     "taller",
@@ -5092,6 +5207,7 @@
     "thin",
     "third [loor",
     "thirsty",
+    "this afternoon",
     "this evening",
     "This is . _ ..",
     "This is...",
@@ -5218,7 +5334,6 @@
     "translate",
     "translator",
     "transmission",
-    "transrnission",
     "trash bags",
     "trash bin",
     "trash can",
@@ -5297,6 +5412,7 @@
     "typhoon",
     "U.F.O.",
     "ugly",
+    "umbrella",
     "uncle",
     "uncomfortable",
     "unconscious",
@@ -5317,7 +5433,6 @@
     "upset",
     "Uranus",
     "URL",
-    "urnbrella",
     "use",
     "use hand signals",
     "use the computer",
@@ -5326,8 +5441,8 @@
     "vacancy sign",
     "vacuum",
     "vacuum c1eaner",
-    "vacuum cleaner waiter",
-    "vacuurn cleaner bag",
+    "vacuum cleaner attachments",
+    "vacuum cleaner bag",
     "valet parking",
     "valley",
     "van",
@@ -5383,6 +5498,7 @@
     "waffles",
     "wagon",
     "waist",
+    "waiter",
     "waiting room",
     "waitress",
     "wake-up call",
@@ -5551,8 +5667,8 @@
     "Yes. Hold on a moment.",
     "Yeso Hold on a momento",
     "yesterday",
+    "yesterday afternoon",
     "yesterday morning",
-    "yesterdayafternoon",
     "yesterdayevening",
     "yield",
     "yogurt",
@@ -5576,7 +5692,6 @@
     "abdomen",
     "about",
     "about your health",
-    "about your skills and this afternoon",
     "aboye",
     "accelerator",
     "accordion",
@@ -5652,7 +5767,7 @@
     "anteater",
     "antelope",
     "antenna",
-    "antibiotic ointrnent",
+    "antibiotic ointment",
     "antier",
     "antihistarnlne crearn",
     "antipasto",
@@ -5667,18 +5782,148 @@
     "apostrophe",
     "appetizers",
     "apple",
-    "apple juice"
+    "apple juice",
+    "appliance repairperson"
   ],
   "missingCategory": [],
   "missingPlacements": [],
-  "correctedEntryRefs": [
+  "correctedEntryText": [
+    {
+      "line": 2,
+      "to": "arithmetic",
+      "refs": [
+        "105"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "antibiotic ointment",
+      "refs": [
+        "90-7"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "cake mix",
+      "refs": [
+        "53-37"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "bumper",
+      "refs": [
+        "126-1"
+      ]
+    },
     {
       "line": 11,
-      "text": "concert",
-      "removedCount": 2
-    }
-  ],
-  "correctedEntryText": [
+      "to": "Department",
+      "refs": [
+        "74-9",
+        "74-12",
+        "74-10",
+        "74-11",
+        "74-6",
+        "74-8"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "clams",
+      "refs": [
+        "50-32"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "doll house furniture",
+      "refs": [
+        "79-11"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "embroidery",
+      "refs": [
+        "134-F",
+        "134-18"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "information",
+      "refs": [
+        "75-F",
+        "118-8"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "intercom",
+      "refs": [
+        "25-2",
+        "29-29"
+      ]
+    },
+    {
+      "line": 29,
+      "to": "lumber",
+      "refs": [
+        "122-23"
+      ]
+    },
+    {
+      "line": 29,
+      "to": "married",
+      "refs": [
+        "44-47"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "new moon",
+      "refs": [
+        "111-21"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "mushroom",
+      "refs": [
+        "49-26"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "music club",
+      "refs": [
+        "147-E"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "musical comedy",
+      "refs": [
+        "148-16"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "small",
+      "refs": [
+        "44-10",
+        "71-34",
+        "72-6"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "smoke detector",
+      "refs": [
+        "29-37"
+      ]
+    },
     {
       "line": 47,
       "to": "table",
@@ -5688,22 +5933,65 @@
         "62-5",
         "63-H"
       ]
+    },
+    {
+      "line": 50,
+      "to": "vacuum cleaner bag",
+      "refs": [
+        "32-7"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "transmission",
+      "refs": [
+        "126-24"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "umbrella",
+      "refs": [
+        "67-15",
+        "21-9"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "Department",
+      "refs": [
+        "74-8"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "yesterday afternoon",
+      "refs": [
+        "19-9"
+      ]
+    }
+  ],
+  "correctedEntryRefs": [
+    {
+      "line": 11,
+      "text": "concert",
+      "removedCount": 2
     }
   ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4329,
-    "uniqueEntries": 4191,
+    "parsedEntries": 4338,
+    "uniqueEntries": 4190,
     "translatedEntries": 4,
-    "missingChinese": 4187,
+    "missingChinese": 4186,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
-      "daily": 280,
+      "daily": 279,
       "describing": 146,
-      "food": 449,
+      "food": 448,
       "health": 393,
-      "home": 470,
+      "home": 471,
       "nature": 281,
       "numbers": 82,
       "personal": 51,
@@ -5711,9 +5999,9 @@
       "school": 288,
       "services": 170,
       "shopping": 160,
-      "transportation": 263,
+      "transportation": 262,
       "travel": 108,
-      "work": 265
+      "work": 266
     }
   }
 }
