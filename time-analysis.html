@@ -814,6 +814,17 @@
     overflow-wrap: anywhere;
   }
 
+  .active-timer-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: -2px 0 14px;
+  }
+
+  .active-timer-meta[hidden] {
+    display: none;
+  }
+
   .recent-task-strip {
     display: grid;
     gap: 7px;
@@ -2537,6 +2548,10 @@
   }
 
   @media (max-width: 640px) {
+    .active-timer-meta {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .tracker-filter-bar {
       position: static;
       top: auto;
@@ -2607,6 +2622,20 @@
             <div class="timer-label" id="timerStateLabel">Ready</div>
             <div class="timer-value" id="timerValue">00:00:00</div>
             <div class="timer-task" id="timerTask">No timer running</div>
+          </div>
+          <div class="active-timer-meta" id="activeTimerMeta" hidden>
+            <div class="tracker-field">
+              <label for="activeTimerDepartment">Department</label>
+              <select class="tracker-select" id="activeTimerDepartment" data-active-timer-field="department" aria-label="Active timer department"></select>
+            </div>
+            <div class="tracker-field">
+              <label for="activeTimerCategory">Category</label>
+              <select class="tracker-select" id="activeTimerCategory" data-active-timer-field="taskCategory" aria-label="Active timer category"></select>
+            </div>
+            <div class="tracker-field">
+              <label for="activeTimerType">Type</label>
+              <select class="tracker-select" id="activeTimerType" data-active-timer-field="taskType" aria-label="Active timer type"></select>
+            </div>
           </div>
           <div class="recent-task-strip" aria-label="Recent tracked tasks">
             <div class="recent-task-header">
@@ -3180,19 +3209,6 @@
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
   const SEARCH_RENDER_DELAY_MS = 200;
-  const AUTO_DONE_TASK_IDS = new Set(["86a2heyde"]);
-  const AUTO_DONE_TASK_NAMES = new Set([
-    "work out",
-    "workout",
-    "shower",
-    "stretch",
-    "soak butt",
-    "soak feet",
-    "weigh myself",
-    "put on clothes",
-    "update daily kpis",
-    "teach dad english"
-  ]);
   const TASK_SEARCH_ALIASES = [
     {
       taskIds: ["86adxpw95"],
@@ -3257,6 +3273,7 @@
   let mergeTaskPreviousFocus = null;
   let editingEntryId = "";
   let timerTick = null;
+  let activeTimerMetaSignature = "";
   let currentSourcePills = [];
   let fullDashboardLoaded = false;
   let fullDashboardLoadPromise = null;
@@ -4439,7 +4456,7 @@
       if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
     }
     if (syncState) setTrackerStatus(syncState, "saved");
-    scheduleAutoDoneRoutineTaskSync();
+    scheduleAutoDoneTaskSync();
   }
 
   function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.") {
@@ -4625,11 +4642,52 @@
     return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":");
   }
 
+  function activeTimerMetadataOptions(field, active) {
+    if (field === "department") return metadataOptions("department");
+    if (field === "taskCategory") return metadataFilterOptions(trackerActivities(), "taskCategory");
+    if (field === "taskType") return metadataFilterOptions(trackerActivities(), "taskType");
+    return active?.[field] ? [active[field]] : [];
+  }
+
+  function activeTimerSelectOptionsHtml(field, active, placeholder) {
+    const current = field === "taskCategory"
+      ? normalizeTaskCategory(active?.[field])
+      : cleanLabel(active?.[field], "");
+    const values = activeTimerMetadataOptions(field, active);
+    const uniqueValues = Array.from(new Set([current, ...values].filter(Boolean)));
+    return [
+      `<option value=""${current ? "" : " selected"}>${escapeHtml(placeholder)}</option>`,
+      ...uniqueValues.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
+    ].join("");
+  }
+
+  function renderActiveTimerMetadata(active) {
+    const panel = document.getElementById("activeTimerMeta");
+    if (!panel) return;
+    panel.hidden = !active;
+    if (!active) {
+      activeTimerMetaSignature = "";
+      return;
+    }
+    const signature = [
+      active.id,
+      active.department,
+      active.taskCategory,
+      active.taskType
+    ].map((value) => cleanLabel(value, "")).join("|||");
+    if (signature === activeTimerMetaSignature) return;
+    activeTimerMetaSignature = signature;
+    document.getElementById("activeTimerDepartment").innerHTML = activeTimerSelectOptionsHtml("department", active, "Department");
+    document.getElementById("activeTimerCategory").innerHTML = activeTimerSelectOptionsHtml("taskCategory", active, "Category");
+    document.getElementById("activeTimerType").innerHTML = activeTimerSelectOptionsHtml("taskType", active, "Type");
+  }
+
   function renderTimerState() {
     const active = timePayload.activeEntry;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
     document.getElementById("timerValue").textContent = formatClock(active ? activeDurationMs() : 0);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
+    renderActiveTimerMetadata(active);
     document.getElementById("startTimerBtn").disabled = false;
     document.getElementById("stopTimerBtn").disabled = !active;
     document.getElementById("cancelTimerBtn").disabled = !active;
@@ -5129,7 +5187,7 @@
       ...timePayload,
       entries: [...completed, ...(timePayload.entries || [])]
     });
-    await autoMarkTimeLoggedRoutineTasksDone();
+    await autoMarkTimeLoggedTasksDone();
     setTrackerStatus(`Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.`, "saved");
   }
 
@@ -5388,7 +5446,7 @@
     return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, status: "todo" } : { status: "done" };
   }
 
-  function normalizeAutoDoneTaskName(value) {
+  function normalizeLoggedTaskTargetName(value) {
     return cleanLabel(value, "")
       .replace(/^[^A-Za-z0-9]+/, "")
       .replace(/\s+/g, " ")
@@ -5396,17 +5454,29 @@
       .toLowerCase();
   }
 
-  function isAutoDoneRoutineTask(entry) {
-    const taskId = cleanLabel(entry?.taskId, "");
-    if (AUTO_DONE_TASK_IDS.has(taskId)) return true;
-    return AUTO_DONE_TASK_NAMES.has(normalizeAutoDoneTaskName(entry?.taskName));
+  function autoDoneTaskTargets(entry) {
+    const taskName = normalizeLoggedTaskTargetName(entry?.taskName);
+    return [
+      taskOverrideKey(entry),
+      cleanLabel(entry?.taskId, ""),
+      effectiveTaskId(entry?.taskId, entry?.taskName),
+      taskName
+    ].filter(Boolean);
   }
 
-  function timeEntryIsCompletedToday(entry, today = businessDateKey(new Date())) {
-    if (!entry?.start || !entry.stop) return false;
+  function timeEntryCompletionDate(entry) {
+    if (!entry?.start || !entry.stop) return "";
     const start = new Date(entry.start);
-    if (Number.isNaN(start.getTime())) return false;
-    return businessDateKey(start) === today;
+    if (Number.isNaN(start.getTime())) return "";
+    return dateKey(start);
+  }
+
+  function autoDoneDateForTask(entry, loggedDates) {
+    const dueDate = dueDateKey(entry);
+    if (dueDate && loggedDates.has(dueDate)) return dueDate;
+    const today = dateKey(new Date());
+    if (!dueDate && loggedDates.has(today)) return today;
+    return "";
   }
 
   function overrideValueChanged(current, next) {
@@ -5418,33 +5488,40 @@
     });
   }
 
-  async function autoMarkTimeLoggedRoutineTasksDone() {
+  async function autoMarkTimeLoggedTasksDone() {
     if (autoDoneSyncing) return;
-    const today = businessDateKey(new Date());
-    const loggedTargets = new Set((timePayload.entries || [])
-      .filter((entry) => timeEntryIsCompletedToday(entry, today))
-      .filter(isAutoDoneRoutineTask)
-      .map((entry) => cleanLabel(entry.taskId, "") || normalizeAutoDoneTaskName(entry.taskName))
-      .filter(Boolean));
-    if (!loggedTargets.size) return;
-
-    const matchingRows = trackerActivities().filter((entry) => {
-      if (!isAutoDoneRoutineTask(entry)) return false;
-      const taskId = cleanLabel(entry.taskId, "");
-      return loggedTargets.has(taskId) || loggedTargets.has(normalizeAutoDoneTaskName(entry.taskName));
+    const loggedDatesByTarget = new Map();
+    (timePayload.entries || []).forEach((entry) => {
+      const loggedDate = timeEntryCompletionDate(entry);
+      if (!loggedDate) return;
+      autoDoneTaskTargets(entry).forEach((target) => {
+        if (!loggedDatesByTarget.has(target)) loggedDatesByTarget.set(target, new Set());
+        loggedDatesByTarget.get(target).add(loggedDate);
+      });
     });
+    if (!loggedDatesByTarget.size) return;
+
+    const matchingRows = trackerActivities()
+      .map((entry) => {
+        const loggedDates = new Set();
+        autoDoneTaskTargets(entry).forEach((target) => {
+          (loggedDatesByTarget.get(target) || []).forEach((loggedDate) => loggedDates.add(loggedDate));
+        });
+        return { entry, autoDoneDate: autoDoneDateForTask(entry, loggedDates) };
+      })
+      .filter((item) => item.autoDoneDate);
     if (!matchingRows.length) return;
 
     const nextOverrides = { ...(timePayload.taskOverrides || {}) };
     let changedCount = 0;
-    matchingRows.forEach((entry) => {
+    matchingRows.forEach(({ entry, autoDoneDate }) => {
       taskOverrideKeysForEdit(entry).forEach((key) => {
         const current = currentTaskOverrideForKey(entry, key);
-        if (current.autoDoneDate === today) return;
+        if (current.autoDoneDate === autoDoneDate) return;
         const next = {
           ...current,
           ...taskStatusPatch(entry, "done"),
-          autoDoneDate: today,
+          autoDoneDate,
           updatedAt: isoNow()
         };
         if (next.recurrence !== "custom") next.recurringText = "";
@@ -5468,9 +5545,9 @@
     }
   }
 
-  function scheduleAutoDoneRoutineTaskSync() {
+  function scheduleAutoDoneTaskSync() {
     window.setTimeout(() => {
-      autoMarkTimeLoggedRoutineTasksDone().catch((error) => setTrackerStatus(error.message, "error"));
+      autoMarkTimeLoggedTasksDone().catch((error) => setTrackerStatus(error.message, "error"));
     }, 0);
   }
 
@@ -7626,7 +7703,7 @@
       });
       await saveTimePayload(timePayload);
       setTrackerStatus("Synced due dates from this device.", "saved");
-      scheduleAutoDoneRoutineTaskSync();
+      scheduleAutoDoneTaskSync();
       return true;
     }
     timePayload = mergeTimePayloads(response, localPayload, { preferServer: timePayloadHasPrivateData(response) });
@@ -7635,7 +7712,7 @@
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
       setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing local data.", timePayloadHasPrivateData(response) ? "saved" : "");
-      scheduleAutoDoneRoutineTaskSync();
+      scheduleAutoDoneTaskSync();
       return true;
     }
     if (taskCatalogEntries.length) {
@@ -7645,7 +7722,7 @@
       renderDashboard(appEntries, appMetrics);
     }
     setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing fallback counts.", timePayloadHasPrivateData(response) ? "saved" : "");
-    scheduleAutoDoneRoutineTaskSync();
+    scheduleAutoDoneTaskSync();
     return true;
   }
 
@@ -7666,7 +7743,7 @@
     showPrivateTimeLoadButton(true);
     renderTracker();
     setTrackerStatus("Track ready. Open an analysis tab to load the full dashboard.", "saved");
-    scheduleAutoDoneRoutineTaskSync();
+    scheduleAutoDoneTaskSync();
     try {
       if (await ensureTimeAdminKey()) {
         window.setTimeout(() => {
@@ -7745,13 +7822,13 @@
         renderOptimisticTimerState();
         setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
         syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`)
-          .then(() => autoMarkTimeLoggedRoutineTasksDone())
+          .then(() => autoMarkTimeLoggedTasksDone())
           .catch((error) => setTrackerStatus(error.message, "error"));
         return;
       }
       timePayload = nextPayload;
       await saveTimePayload(timePayload);
-      await autoMarkTimeLoggedRoutineTasksDone();
+      await autoMarkTimeLoggedTasksDone();
       setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
       return;
     }
@@ -7779,7 +7856,7 @@
     timePayload.entries = [...completed, ...(timePayload.entries || [])];
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
-    await autoMarkTimeLoggedRoutineTasksDone();
+    await autoMarkTimeLoggedTasksDone();
     setTrackerStatus(`Stopped ${active.taskName}`, "saved");
   }
 
@@ -7790,6 +7867,33 @@
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
     setTrackerStatus("Timer canceled", "saved");
+  }
+
+  async function saveActiveTimerMetadata(control) {
+    const active = timePayload.activeEntry;
+    const field = control?.dataset?.activeTimerField;
+    if (!active || !field) return;
+    const value = field === "taskCategory"
+      ? normalizeTaskCategory(control.value)
+      : (field === "taskType" ? normalizeTaskType(control.value) : cleanLabel(control.value, ""));
+    const current = field === "taskCategory"
+      ? normalizeTaskCategory(active[field])
+      : cleanLabel(active[field], "");
+    if (value === current) return;
+    const updatedAt = isoNow();
+    timePayload = cleanClientPayload({
+      ...timePayload,
+      activeEntry: {
+        ...active,
+        [field]: value,
+        updatedAt
+      },
+      updatedAt
+    });
+    activeTimerMetaSignature = "";
+    renderTimerState();
+    await saveTimePayload(timePayload);
+    setTrackerStatus(`Updated active timer ${field === "taskCategory" ? "category" : field}.`, "saved");
   }
 
   document.querySelectorAll(".tab-btn").forEach((button) => {
@@ -7835,6 +7939,16 @@
 
   document.getElementById("cancelTimerBtn").addEventListener("click", () => {
     cancelTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.querySelectorAll("[data-active-timer-field]").forEach((control) => {
+    control.addEventListener("change", () => {
+      saveActiveTimerMetadata(control).catch((error) => {
+        activeTimerMetaSignature = "";
+        renderTimerState();
+        setTrackerStatus(error.message, "error");
+      });
+    });
   });
 
   document.querySelectorAll("[data-track-mode]").forEach((button) => {
