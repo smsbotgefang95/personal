@@ -5057,9 +5057,20 @@
     ].filter(Boolean).join(" ").toLowerCase();
   }
 
+  function normalizedTrackerSearchText(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   function matchesTaskSearch(entry, query) {
     if (!query) return true;
-    return trackerSearchText(entry).includes(query);
+    const text = trackerSearchText(entry);
+    if (text.includes(query)) return true;
+    const normalizedQuery = normalizedTrackerSearchText(query);
+    return Boolean(normalizedQuery && normalizedTrackerSearchText(text).includes(normalizedQuery));
   }
 
   async function savePastTimeEntry(entry, editor) {

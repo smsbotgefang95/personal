@@ -1,2 +1,3 @@
 phase,date,title,summary,hours
 1,2026-06-01,Fix task search filters,Task search now clears stale tracker filters so matching tasks stay visible.,0.5
+2,2026-06-02,Normalize task search,Task search now matches punctuation-free natural queries for underscored and slashed task names.,0.5
