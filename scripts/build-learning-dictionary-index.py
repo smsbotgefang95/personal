@@ -468,7 +468,36 @@ PAGE_TOPIC_RULES = [
 
 PREFIXES = ("anti", "auto", "bio", "co", "dis", "inter", "micro", "multi", "non", "over", "pre", "re", "sub", "super", "trans", "un")
 SUFFIXES = ("tion", "sion", "ment", "ness", "less", "able", "ible", "ful", "er", "or", "ist", "ing", "ed", "s")
-VOWEL_TEAMS = ("ai", "ay", "ea", "ee", "ie", "oa", "oe", "oo", "ou", "ow", "ue", "ew", "oi", "oy", "au", "aw")
+VOWEL_TEAMS = (
+    "ai",
+    "air",
+    "are",
+    "ay",
+    "ea",
+    "ear",
+    "ee",
+    "eer",
+    "ei",
+    "ere",
+    "ey",
+    "ie",
+    "igh",
+    "ire",
+    "oa",
+    "oe",
+    "oi",
+    "oo",
+    "oor",
+    "ore",
+    "ou",
+    "our",
+    "ow",
+    "oy",
+    "ue",
+    "ui",
+    "ure",
+)
+VOWEL_TEAM_MATCH_ORDER = sorted(VOWEL_TEAMS, key=len, reverse=True)
 
 
 @dataclass
@@ -623,9 +652,17 @@ def get_syllable_type(text: str) -> str:
         return ""
     if normalized.endswith("e") and len(normalized) > 2:
         return "silent-e"
-    if any(team in normalized for team in VOWEL_TEAMS):
+    if get_vowel_teams(text):
         return "vowel-team"
     return "closed" if re.search(r"[aeiou][^aeiou]$", normalized) else "open"
+
+
+def get_vowel_teams(text: str) -> list[str]:
+    normalized = re.sub(r"[^a-z]", "", text.lower())
+    if not normalized:
+        return []
+    teams = set(re.findall("|".join(VOWEL_TEAM_MATCH_ORDER), normalized))
+    return [team for team in VOWEL_TEAMS if team in teams]
 
 
 def build_entries(raw_text: str) -> tuple[list[dict], dict]:
@@ -782,7 +819,7 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
             "suffix": get_suffix(entry.text),
             "roots": [],
             "syllableType": get_syllable_type(entry.text),
-            "vowelTeams": [team for team in VOWEL_TEAMS if team in normalized],
+            "vowelTeams": get_vowel_teams(entry.text),
             "compound": is_vocabulary_compound(entry.text),
         }
         report["missingIpa"].append(entry.text)

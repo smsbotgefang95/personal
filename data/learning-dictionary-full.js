@@ -167,10 +167,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -276,7 +274,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ou"
+      "ou",
+      "our"
     ],
     "compound": false
   },
@@ -592,7 +591,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "ui"
     ],
     "compound": false
   },
@@ -731,7 +731,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -802,7 +804,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ie"
+      "ie",
+      "ire"
     ],
     "compound": false
   },
@@ -995,7 +998,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -1281,7 +1286,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -1350,7 +1357,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ie"
+      "ie",
+      "ure"
     ],
     "compound": false
   },
@@ -1700,7 +1708,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -1736,7 +1744,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -1772,7 +1780,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": true
   },
@@ -1823,7 +1831,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": true
   },
@@ -1874,7 +1882,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -1910,7 +1918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -1946,7 +1954,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -1982,7 +1990,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -2018,7 +2026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
+      "air",
       "ie"
     ],
     "compound": false
@@ -2055,7 +2063,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -2091,7 +2099,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -2127,7 +2135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -2163,7 +2171,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -3347,7 +3355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -3809,7 +3817,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": true
   },
   {
@@ -3844,7 +3854,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air",
+      "ere"
     ],
     "compound": false
   },
@@ -3986,8 +3997,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "oi"
+      "oi",
+      "oo"
     ],
     "compound": false
   },
@@ -4193,7 +4204,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "are"
     ],
     "compound": false
   },
@@ -4331,7 +4342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -4469,8 +4480,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -4503,8 +4516,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -4539,7 +4554,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oa"
+      "oa",
+      "ure"
     ],
     "compound": false
   },
@@ -4573,8 +4589,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -4961,6 +4979,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea",
       "ou",
+      "our",
       "ue"
     ],
     "compound": false
@@ -5130,10 +5149,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -5455,10 +5472,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -5810,9 +5825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -5845,10 +5858,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ist",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -5897,9 +5908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -5932,10 +5941,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -5968,10 +5975,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -6004,10 +6009,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -6040,10 +6043,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "or",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -6076,10 +6077,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "auto",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -6112,10 +6111,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -6148,10 +6145,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -6269,8 +6264,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -6304,7 +6301,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -6625,7 +6624,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ere"
     ],
     "compound": false
   },
@@ -6990,7 +6989,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -7213,8 +7212,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -7282,7 +7283,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea",
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -7316,7 +7320,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -7748,7 +7754,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ai",
-      "ea"
+      "are"
     ],
     "compound": false
   },
@@ -7955,7 +7961,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ai",
-      "ea"
+      "are"
     ],
     "compound": false
   },
@@ -8384,7 +8390,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -9025,10 +9031,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -9849,7 +9853,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -10260,8 +10264,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -11009,7 +11015,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -11045,7 +11051,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -11153,8 +11159,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "au"
+      "ea"
     ],
     "compound": false
   },
@@ -11672,7 +11677,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -12502,8 +12509,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay",
-      "ew"
+      "ay"
     ],
     "compound": false
   },
@@ -13034,8 +13040,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -13223,7 +13231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -14081,7 +14089,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "oo"
+      "oo",
+      "ure"
     ],
     "compound": false
   },
@@ -14118,7 +14127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "silent-e",
     "vowelTeams": [
       "oo",
-      "au"
+      "ure"
     ],
     "compound": false
   },
@@ -15463,7 +15472,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "oo"
+      "oo",
+      "ore"
     ],
     "compound": false
   },
@@ -15726,7 +15736,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -15832,8 +15842,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -16018,7 +16030,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": true
   },
   {
@@ -16846,8 +16860,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -17525,8 +17541,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "our"
     ],
     "compound": false
   },
@@ -17577,8 +17592,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "our"
     ],
     "compound": false
   },
@@ -17719,7 +17733,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -17953,10 +17969,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": true
   },
   {
@@ -18026,7 +18040,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -18125,7 +18141,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -18452,8 +18468,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -18486,8 +18504,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -18520,8 +18540,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -18554,8 +18576,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -18864,8 +18888,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "au"
+      "ure"
     ],
     "compound": false
   },
@@ -19168,7 +19191,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -19352,7 +19377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -20506,7 +20531,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -21181,6 +21206,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
+      "ere",
       "ou"
     ],
     "compound": false
@@ -21572,7 +21598,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -21673,8 +21701,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -22436,7 +22466,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -22718,8 +22750,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -23635,8 +23669,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -23960,8 +23996,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ow",
-      "au"
+      "ow"
     ],
     "compound": false
   },
@@ -24212,8 +24247,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ing",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -24768,7 +24805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ere"
     ],
     "compound": false
   },
@@ -24935,7 +24972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -25112,7 +25149,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -25465,7 +25504,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -25502,7 +25541,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "oo",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -25893,7 +25932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ee"
+      "eer"
     ],
     "compound": false
   },
@@ -26399,10 +26438,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -26507,10 +26544,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -26753,8 +26788,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -26923,6 +26960,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
       "ay"
     ],
     "compound": true
@@ -26986,8 +27024,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": true
   },
   {
@@ -27036,7 +27076,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": true
   },
   {
@@ -27339,8 +27381,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -27375,7 +27419,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "ey"
     ],
     "compound": false
   },
@@ -27994,10 +28039,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -28031,7 +28074,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -28065,7 +28110,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -28100,7 +28147,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "ire"
     ],
     "compound": false
   },
@@ -28483,10 +28531,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -28631,7 +28677,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -28667,7 +28713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -28771,7 +28817,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": true
   },
@@ -29972,10 +30018,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -30282,8 +30326,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -30403,7 +30449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -31043,8 +31089,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -31167,8 +31215,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -31236,7 +31286,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -31349,7 +31401,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -31382,8 +31436,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are",
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -31417,7 +31474,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -31957,7 +32016,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -32093,7 +32154,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ee"
+    ],
     "compound": false
   },
   {
@@ -32126,7 +32189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -32404,7 +32467,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ie"
+      "ie",
+      "ore"
     ],
     "compound": false
   },
@@ -32514,8 +32578,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -32799,8 +32865,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "oi"
+      "oi",
+      "oo"
     ],
     "compound": false
   },
@@ -33097,7 +33163,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -33300,7 +33366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -33892,7 +33958,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ie",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -33928,7 +33994,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "our"
     ],
     "compound": false
   },
@@ -33964,7 +34031,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -34448,7 +34515,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -34910,10 +34977,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -34948,8 +35013,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "ew"
+      "ea"
     ],
     "compound": false
   },
@@ -35523,7 +35587,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -36220,7 +36286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "are"
     ],
     "compound": true
   },
@@ -36324,7 +36390,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -36615,7 +36681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -37027,10 +37093,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -37063,11 +37127,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au",
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": true
   },
   {
@@ -37138,6 +37199,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
       "ay"
     ],
     "compound": true
@@ -37486,8 +37548,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea",
-      "ee"
+      "ee",
+      "ei"
     ],
     "compound": false
   },
@@ -37596,7 +37658,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "eer"
     ],
     "compound": false
   },
@@ -38206,7 +38268,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -39265,7 +39329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
+      "air",
       "oo"
     ],
     "compound": false
@@ -39502,8 +39566,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -39659,6 +39725,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
+      "ore",
       "ou"
     ],
     "compound": false
@@ -40118,8 +40185,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -40609,7 +40678,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa",
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -40644,6 +40716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "oe",
       "oi"
     ],
     "compound": false
@@ -40786,7 +40859,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oor"
+    ],
     "compound": false
   },
   {
@@ -40819,10 +40894,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -40872,7 +40945,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oo",
+      "ow"
     ],
     "compound": false
   },
@@ -40909,7 +40983,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ou"
+      "ou",
+      "oy"
     ],
     "compound": false
   },
@@ -40945,8 +41020,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "our",
+      "oy"
     ],
     "compound": false
   },
@@ -40982,8 +41057,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ow"
+      "our",
+      "ow",
+      "oy"
     ],
     "compound": false
   },
@@ -41472,7 +41548,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "ure"
     ],
     "compound": false
   },
@@ -41642,8 +41719,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -41746,7 +41825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -41783,7 +41862,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ai",
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -41819,7 +41898,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -41855,7 +41934,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -41891,7 +41970,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -41942,7 +42021,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -41993,7 +42072,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -42030,7 +42109,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ay",
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -42134,8 +42213,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "oo",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -42297,7 +42377,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -42368,8 +42450,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "oi"
+      "oi",
+      "ou"
     ],
     "compound": false
   },
@@ -42405,6 +42487,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
+      "ey",
       "ou",
       "ow"
     ],
@@ -42921,10 +43004,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -42957,10 +43038,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -42993,10 +43072,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -43029,10 +43106,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -43368,8 +43443,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -43471,7 +43548,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ow"
+    ],
     "compound": false
   },
   {
@@ -43626,8 +43705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay",
-      "ew"
+      "ay"
     ],
     "compound": false
   },
@@ -43768,7 +43846,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -44043,7 +44123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -44886,7 +44966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -44937,7 +45017,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -44973,7 +45053,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -45009,7 +45089,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -45045,7 +45125,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -45081,7 +45161,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -45118,6 +45198,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "silent-e",
     "vowelTeams": [
       "ea",
+      "ear",
       "oa"
     ],
     "compound": false
@@ -45154,7 +45235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -45190,7 +45271,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -45421,7 +45502,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ere"
     ],
     "compound": false
   },
@@ -45529,7 +45611,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": true
   },
@@ -45632,7 +45714,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -46082,7 +46166,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -46325,7 +46411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -46495,8 +46581,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -46531,6 +46619,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "oa"
     ],
     "compound": false
@@ -46856,7 +46945,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
-      "ou"
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -46891,7 +46981,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -47593,7 +47685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
+      "air",
       "ay"
     ],
     "compound": false
@@ -47774,7 +47866,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -48010,7 +48102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "eer"
     ],
     "compound": false
   },
@@ -48148,7 +48240,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -48184,7 +48276,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -48815,8 +48907,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "ou"
+      "ear",
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -49203,7 +49296,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ee",
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -49237,9 +49333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -49287,10 +49381,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -49650,7 +49742,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ai"
+    ],
     "compound": true
   },
   {
@@ -49718,7 +49812,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -49751,8 +49847,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -49785,8 +49883,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -49821,6 +49921,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "ow"
     ],
     "compound": false
@@ -49855,8 +49956,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are",
+      "ey"
+    ],
     "compound": true
   },
   {
@@ -49891,6 +49995,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "ow"
     ],
     "compound": false
@@ -49927,6 +50032,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "ow"
     ],
     "compound": false
@@ -49961,8 +50067,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -49995,8 +50103,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -50029,8 +50139,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -50312,8 +50424,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -50384,7 +50498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -50653,7 +50767,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -50686,8 +50802,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -50860,8 +50978,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "au"
+      "oo"
     ],
     "compound": true
   },
@@ -51014,10 +51131,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": true
   },
   {
@@ -51065,10 +51180,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -51556,7 +51669,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -51676,7 +51791,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ie"
+      "ie",
+      "ui"
     ],
     "compound": false
   },
@@ -51744,8 +51860,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -51778,8 +51896,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -52254,7 +52374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -52529,7 +52649,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52563,7 +52685,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52597,7 +52721,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire",
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -52630,8 +52757,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52679,8 +52808,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52714,7 +52845,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52749,7 +52882,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ee"
+      "ire"
     ],
     "compound": false
   },
@@ -52798,8 +52931,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh",
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52832,8 +52968,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52867,7 +53005,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -52902,7 +53042,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "ire"
     ],
     "compound": false
   },
@@ -52972,7 +53113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -53551,8 +53692,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -53763,8 +53906,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -53897,7 +54042,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -53933,7 +54078,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -53969,7 +54114,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -54307,6 +54452,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ere",
       "ow"
     ],
     "compound": false
@@ -54526,10 +54672,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -54596,10 +54740,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -55064,7 +55206,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ore"
     ],
     "compound": false
   },
@@ -55098,8 +55241,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -55134,7 +55279,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oo",
+      "ore"
     ],
     "compound": false
   },
@@ -55168,8 +55314,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -55202,8 +55350,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -55236,8 +55386,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -55271,7 +55423,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire",
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -55656,8 +55811,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "ou"
+      "oor",
+      "our"
     ],
     "compound": false
   },
@@ -55867,8 +56022,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -56277,7 +56434,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": true
   },
@@ -56326,8 +56483,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -56637,7 +56796,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -56740,8 +56901,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -56776,7 +56939,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "ai",
+      "ui"
     ],
     "compound": false
   },
@@ -56810,8 +56974,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -56844,8 +57010,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -56880,7 +57048,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "ui"
     ],
     "compound": false
   },
@@ -57018,8 +57187,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ue",
-      "au"
+      "ue"
     ],
     "compound": false
   },
@@ -57056,8 +57224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ay",
-      "ue",
-      "aw"
+      "ue"
     ],
     "compound": false
   },
@@ -57349,7 +57516,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -57382,8 +57551,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -57416,8 +57587,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -57451,7 +57624,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore",
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -57742,7 +57918,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -58455,9 +58631,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -58776,9 +58950,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -58813,7 +58985,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -59086,7 +59258,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -59155,8 +59329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ay",
-      "aw"
+      "ay"
     ],
     "compound": false
   },
@@ -59207,8 +59380,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ay",
-      "aw"
+      "ay"
     ],
     "compound": false
   },
@@ -59382,6 +59554,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ei",
       "ou"
     ],
     "compound": false
@@ -59521,8 +59694,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "oa",
-      "ou",
-      "au"
+      "our"
     ],
     "compound": false
   },
@@ -59556,8 +59728,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -59831,7 +60005,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -59866,6 +60042,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "ou"
     ],
     "compound": false
@@ -59917,6 +60094,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "ou"
     ],
     "compound": false
@@ -60254,7 +60432,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ay",
-      "aw"
+      "oa"
     ],
     "compound": false
   },
@@ -60323,7 +60501,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oi"
+    ],
     "compound": false
   },
   {
@@ -60357,7 +60537,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oo"
+    ],
     "compound": false
   },
   {
@@ -60392,7 +60574,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ie"
+      "ie",
+      "oo"
     ],
     "compound": false
   },
@@ -60427,7 +60610,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oo"
+    ],
     "compound": false
   },
   {
@@ -60461,7 +60646,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea",
+      "oo"
+    ],
     "compound": false
   },
   {
@@ -60530,7 +60718,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "igh"
     ],
     "compound": false
   },
@@ -60601,7 +60790,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -60635,7 +60826,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -60670,7 +60863,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "oa"
     ],
     "compound": false
   },
@@ -60705,7 +60899,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -60739,7 +60935,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -60773,7 +60971,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -60824,7 +61024,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ie",
-      "ew"
+      "oa"
     ],
     "compound": false
   },
@@ -60965,7 +61165,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -60999,7 +61201,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ow"
+    ],
     "compound": false
   },
   {
@@ -61433,6 +61637,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "igh",
       "oo"
     ],
     "compound": false
@@ -61932,8 +62137,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -62001,7 +62208,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -62034,8 +62243,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -62069,7 +62280,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -62539,7 +62752,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -62854,7 +63069,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -62889,7 +63106,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our",
+      "ui"
     ],
     "compound": false
   },
@@ -62925,7 +63143,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ui"
     ],
     "compound": false
   },
@@ -62974,8 +63193,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -63042,8 +63263,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -63212,10 +63435,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -63362,7 +63583,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63398,7 +63619,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63434,7 +63655,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63470,7 +63691,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63506,7 +63727,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63542,7 +63763,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63593,7 +63814,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63629,7 +63850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -63665,7 +63886,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
+      "air",
       "ay"
     ],
     "compound": false
@@ -64007,7 +64228,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ee"
+      "ee",
+      "igh"
     ],
     "compound": false
   },
@@ -64228,8 +64450,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "our"
     ],
     "compound": false
   },
@@ -64624,10 +64845,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -64730,6 +64949,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "igh",
       "oo"
     ],
     "compound": false
@@ -64935,7 +65155,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are",
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -65359,10 +65582,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -65808,6 +66029,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "silent-e",
     "vowelTeams": [
       "ai",
+      "are",
       "ea"
     ],
     "compound": true
@@ -65844,6 +66066,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
       "ea"
     ],
     "compound": true
@@ -65880,8 +66103,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
-      "ea"
+      "air",
+      "ear"
     ],
     "compound": false
   },
@@ -65932,7 +66155,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -65968,7 +66191,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -66004,7 +66227,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ear"
     ],
     "compound": false
   },
@@ -66112,7 +66336,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ai",
+      "air",
       "ea"
     ],
     "compound": false
@@ -66560,8 +66784,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -66594,8 +66820,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -66680,6 +66908,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
+      "ei",
       "ow"
     ],
     "compound": false
@@ -66785,8 +67014,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -66997,7 +67228,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -67215,8 +67448,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -67251,7 +67486,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "oo"
+      "igh",
+      "oo",
+      "ure"
     ],
     "compound": false
   },
@@ -67316,7 +67553,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air",
+      "igh"
     ],
     "compound": false
   },
@@ -67352,7 +67590,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "igh"
     ],
     "compound": false
   },
@@ -67388,7 +67627,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "igh"
     ],
     "compound": true
   },
@@ -67422,8 +67662,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": true
   },
   {
@@ -67458,7 +67700,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay"
+      "ay",
+      "igh"
     ],
     "compound": false
   },
@@ -67713,8 +67956,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -67866,8 +68111,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -67901,7 +68148,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -67934,8 +68183,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -67970,7 +68221,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay"
+      "ay",
+      "ey"
     ],
     "compound": false
   },
@@ -68004,8 +68256,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -68038,8 +68292,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -68072,8 +68328,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -68106,8 +68364,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -68274,7 +68534,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -68308,7 +68570,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ee"
+    ],
     "compound": false
   },
   {
@@ -68450,7 +68714,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air",
+      "ere"
     ],
     "compound": false
   },
@@ -68532,10 +68797,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -68604,7 +68867,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ew"
+      "ey"
     ],
     "compound": false
   },
@@ -69319,8 +69582,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "ou"
+      "ear",
+      "our"
     ],
     "compound": false
   },
@@ -69356,7 +69619,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -69502,7 +69765,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "ui"
     ],
     "compound": false
   },
@@ -69721,8 +69985,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "are",
+      "ou"
     ],
     "compound": false
   },
@@ -69758,9 +70022,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
+      "oi",
       "ou",
-      "ow",
-      "oi"
+      "ow"
     ],
     "compound": false
   },
@@ -69796,6 +70061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
       "ou",
       "ow"
     ],
@@ -70467,7 +70733,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -70502,7 +70769,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -70572,7 +70841,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oi"
+    ],
     "compound": false
   },
   {
@@ -70606,7 +70877,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oor"
+    ],
     "compound": false
   },
   {
@@ -70711,7 +70984,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay"
+      "ay",
+      "ere"
     ],
     "compound": false
   },
@@ -70784,6 +71058,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ere",
+      "igh",
       "ow"
     ],
     "compound": false
@@ -71072,8 +71348,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -72140,8 +72418,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -72449,7 +72729,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -72690,7 +72972,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay"
+      "ay",
+      "igh"
     ],
     "compound": false
   },
@@ -72994,8 +73277,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ie",
-      "ew"
+      "ie"
     ],
     "compound": false
   },
@@ -74060,10 +74342,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -74341,8 +74621,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -74409,10 +74691,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -74447,8 +74727,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "ou"
     ],
     "compound": false
   },
@@ -74484,7 +74763,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ew"
+      "ore"
     ],
     "compound": false
   },
@@ -74519,9 +74798,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "aw"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -74694,7 +74971,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -74728,8 +75005,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -74915,8 +75194,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -74951,7 +75232,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -74987,7 +75268,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -75057,8 +75338,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -75091,8 +75374,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -75329,8 +75614,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -75433,6 +75720,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "igh",
       "oo"
     ],
     "compound": false
@@ -75673,8 +75961,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -75707,8 +75997,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -75758,6 +76050,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "oa"
     ],
     "compound": false
@@ -75794,8 +76087,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oa",
-      "au"
+      "ey",
+      "oa"
     ],
     "compound": false
   },
@@ -75831,7 +76124,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "ai",
+      "ey"
     ],
     "compound": false
   },
@@ -75972,7 +76266,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ey"
     ],
     "compound": false
   },
@@ -76006,8 +76301,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -76125,7 +76422,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -76197,7 +76494,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -76545,7 +76842,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "igh"
     ],
     "compound": true
   },
@@ -76854,7 +77152,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
+      "ear",
       "oa"
     ],
     "compound": false
@@ -76891,6 +77189,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ea",
       "ow"
     ],
     "compound": false
@@ -76925,7 +77224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -76960,7 +77259,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oi"
+    ],
     "compound": false
   },
   {
@@ -76995,7 +77296,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ere"
     ],
     "compound": false
   },
@@ -78008,7 +78310,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -78109,8 +78413,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -78213,10 +78519,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -78276,10 +78580,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -78312,10 +78614,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -78348,10 +78648,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -78386,8 +78684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "au"
+      "oo"
     ],
     "compound": false
   },
@@ -78457,8 +78754,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "aw"
+      "oo"
     ],
     "compound": false
   },
@@ -78492,10 +78788,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -78530,8 +78824,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
-      "aw"
+      "air"
     ],
     "compound": false
   },
@@ -78582,8 +78875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ow",
-      "aw"
+      "ow"
     ],
     "compound": false
   },
@@ -78617,10 +78909,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -80389,8 +80679,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -80423,8 +80715,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -80459,7 +80753,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "igh"
     ],
     "compound": false
   },
@@ -80493,8 +80788,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -80527,8 +80824,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -80561,8 +80860,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ing",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -80609,8 +80910,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -81052,7 +81355,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oa"
+      "oa",
+      "ui"
     ],
     "compound": false
   },
@@ -81086,8 +81390,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -81155,7 +81461,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -81224,7 +81532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -81925,7 +82233,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -82261,10 +82571,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -82394,7 +82702,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ear"
+    ],
     "compound": false
   },
   {
@@ -82524,7 +82834,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -82559,7 +82871,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "au"
+      "ear"
     ],
     "compound": false
   },
@@ -82595,7 +82907,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "aw"
+      "ea"
     ],
     "compound": false
   },
@@ -83579,6 +83891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ea",
       "ee"
     ],
     "compound": false
@@ -83986,7 +84299,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -85436,8 +85749,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -85577,7 +85892,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": true
   },
   {
@@ -85625,8 +85942,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -86004,8 +86323,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -86038,8 +86359,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -86135,8 +86458,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -86169,8 +86494,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -86418,7 +86745,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -86592,8 +86919,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -86728,10 +87057,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": true
   },
   {
@@ -87273,8 +87600,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -87671,8 +88000,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ow",
-      "aw"
+      "ow"
     ],
     "compound": false
   },
@@ -87706,8 +88034,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -88264,7 +88594,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -89191,8 +89523,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -89242,8 +89576,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "au"
+      "ou"
     ],
     "compound": false
   },
@@ -89622,8 +89955,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "or",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -89656,8 +89991,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -89690,10 +90027,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -89864,10 +90199,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -89902,8 +90235,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "ew"
+      "oo"
     ],
     "compound": false
   },
@@ -89937,10 +90269,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -89988,10 +90318,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -90025,9 +90353,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "ew"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -90060,10 +90386,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -90096,10 +90420,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -90386,8 +90708,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -90420,8 +90744,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -90455,7 +90781,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -90490,6 +90818,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "igh",
       "ow"
     ],
     "compound": false
@@ -90524,8 +90853,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -90558,8 +90889,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -90677,7 +91010,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "oo"
     ],
     "compound": false
   },
@@ -90711,8 +91044,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -90780,7 +91115,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ou"
+    ],
     "compound": true
   },
   {
@@ -91143,6 +91480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ea",
       "oa"
     ],
     "compound": false
@@ -91648,7 +91986,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -92380,7 +92718,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -92671,7 +93011,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -92704,8 +93046,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -93217,6 +93561,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ea",
       "ee"
     ],
     "compound": false
@@ -93253,7 +93598,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -93701,7 +94046,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "oo",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -94025,7 +94370,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -94807,7 +95154,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
+      "oor",
       "ou"
     ],
     "compound": false
@@ -95171,7 +95518,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "ai",
+      "igh"
     ],
     "compound": false
   },
@@ -96361,7 +96709,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "ai",
+      "ey"
     ],
     "compound": false
   },
@@ -97467,8 +97816,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -97728,8 +98079,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -97913,8 +98266,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -98424,7 +98779,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -98984,7 +99341,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -99020,7 +99377,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -99056,7 +99413,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -99485,8 +99842,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -99966,9 +100325,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -100191,7 +100548,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -100428,10 +100787,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -101217,7 +101574,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "are"
     ],
     "compound": false
   },
@@ -101354,7 +101711,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -101497,7 +101856,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
+      "ear",
       "ie"
     ],
     "compound": false
@@ -102027,7 +102386,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ui"
     ],
     "compound": false
   },
@@ -102211,7 +102571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -102622,7 +102982,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -103114,8 +103476,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "au"
+      "ea"
     ],
     "compound": false
   },
@@ -103762,7 +104123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay",
       "ea",
-      "aw"
+      "oa"
     ],
     "compound": false
   },
@@ -103798,7 +104159,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ere"
     ],
     "compound": false
   },
@@ -103909,8 +104271,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ay",
-      "ea",
-      "aw"
+      "ea"
     ],
     "compound": false
   },
@@ -103997,7 +104358,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ere"
     ],
     "compound": false
   },
@@ -104035,8 +104397,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea",
       "ee",
-      "ow",
-      "ew"
+      "ow"
     ],
     "compound": false
   },
@@ -104763,8 +105124,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "oi"
+      "oi",
+      "ou"
     ],
     "compound": false
   },
@@ -104800,7 +105161,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -105099,7 +105460,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -105427,7 +105790,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -105701,10 +106064,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -105807,10 +106168,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -106706,7 +107065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -106742,7 +107101,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -106814,6 +107173,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ere",
       "ow"
     ],
     "compound": false
@@ -107032,8 +107392,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ow",
-      "aw"
+      "ow"
     ],
     "compound": false
   },
@@ -107172,7 +107531,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -107206,7 +107567,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -107380,7 +107743,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -107723,7 +108088,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -107959,7 +108324,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -108369,7 +108736,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -108849,8 +109216,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay",
       "oo",
-      "ou",
-      "aw"
+      "our"
     ],
     "compound": false
   },
@@ -108967,7 +109333,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -109003,8 +109369,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay",
-      "aw"
+      "ay"
     ],
     "compound": false
   },
@@ -109040,7 +109405,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -109077,7 +109443,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ay",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -109215,7 +109581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "are"
     ],
     "compound": false
   },
@@ -109523,7 +109889,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ie"
+      "ui"
     ],
     "compound": false
   },
@@ -109557,8 +109923,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -109591,8 +109959,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -109627,7 +109997,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ow"
+      "ow",
+      "ui"
     ],
     "compound": false
   },
@@ -110509,7 +110880,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "ai",
+      "ore"
     ],
     "compound": false
   },
@@ -110582,7 +110954,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ai",
-      "ou"
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -111277,8 +111650,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "ew"
+      "ea"
     ],
     "compound": false
   },
@@ -111387,7 +111759,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -111423,7 +111795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
+      "ear",
       "ow"
     ],
     "compound": false
@@ -111460,9 +111832,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "ie",
-      "ew"
+      "ear",
+      "ie"
     ],
     "compound": false
   },
@@ -111511,8 +111882,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "re",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -112113,8 +112486,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -112147,8 +112522,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -112181,8 +112558,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -112400,8 +112779,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "re",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -112604,7 +112985,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -112723,7 +113105,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -112774,7 +113156,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -112811,7 +113193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "silent-e",
     "vowelTeams": [
       "ea",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -112984,8 +113366,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ie",
-      "ue",
-      "ew"
+      "ue"
     ],
     "compound": false
   },
@@ -113055,8 +113436,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "re",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -113195,7 +113578,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "oa"
+    ],
     "compound": false
   },
   {
@@ -113277,10 +113662,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "re",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -113315,8 +113698,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "au"
+      "ou"
     ],
     "compound": false
   },
@@ -113557,9 +113939,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "ew"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -113826,7 +114206,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -113860,7 +114242,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -113895,6 +114279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "igh",
       "ow"
     ],
     "compound": false
@@ -113930,7 +114315,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -113963,8 +114350,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -114654,7 +115043,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -115172,6 +115561,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ey",
       "oo"
     ],
     "compound": false
@@ -115260,8 +115650,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ie",
-      "oo",
-      "ew"
+      "oo"
     ],
     "compound": false
   },
@@ -116144,8 +116533,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -116521,7 +116912,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -117912,10 +118303,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -118031,10 +118420,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -118082,10 +118469,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -118119,9 +118504,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "au"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -118155,7 +118538,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ee"
+    ],
     "compound": false
   },
   {
@@ -118188,7 +118573,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -118222,10 +118607,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -118605,6 +118988,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
       "ow"
     ],
     "compound": false
@@ -118639,8 +119023,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -118851,8 +119237,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "ew"
+      "oo"
     ],
     "compound": false
   },
@@ -118996,7 +119381,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ie"
+      "ee",
+      "ie",
+      "ui"
     ],
     "compound": false
   },
@@ -119360,7 +119747,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -119394,10 +119781,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -120164,7 +120549,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -120690,8 +121075,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee",
-      "aw"
+      "ee"
     ],
     "compound": false
   },
@@ -120945,7 +121329,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -121165,7 +121551,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -121376,10 +121762,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -121500,6 +121884,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
+      "ore",
       "ow"
     ],
     "compound": false
@@ -121583,10 +121968,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -121619,10 +122002,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "er",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -121656,9 +122037,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "ew"
-    ],
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -121797,6 +122176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "are",
       "oo"
     ],
     "compound": false
@@ -121832,7 +122212,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -122653,7 +123035,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "oe"
+      "oe",
+      "ore"
     ],
     "compound": false
   },
@@ -123009,7 +123392,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -123864,6 +124249,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ai",
       "ow"
     ],
     "compound": false
@@ -124299,7 +124685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -124367,10 +124753,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -124441,7 +124825,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -124578,7 +124962,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -124936,10 +125322,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": true
   },
   {
@@ -128116,7 +128500,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -128150,7 +128536,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -128183,8 +128571,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -128285,8 +128675,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -128423,10 +128815,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -128493,10 +128883,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": true
   },
   {
@@ -128531,7 +128919,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oa"
+      "oa",
+      "ore"
     ],
     "compound": false
   },
@@ -128635,10 +129024,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -128856,7 +129243,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -128892,7 +129279,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -129000,8 +129387,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "oy",
-      "au"
+      "oy"
     ],
     "compound": false
   },
@@ -129073,7 +129459,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ee"
+    ],
     "compound": false
   },
   {
@@ -129279,7 +129667,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are",
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -129640,7 +130031,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -129675,7 +130066,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -130689,7 +131082,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -130722,8 +131117,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -130756,8 +131153,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -130898,7 +131297,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
+      "air",
       "ay"
     ],
     "compound": false
@@ -131499,7 +131898,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "eer"
     ],
     "compound": false
   },
@@ -131650,8 +132050,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -131686,7 +132088,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ere"
     ],
     "compound": false
   },
@@ -131824,8 +132227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee",
-      "ew"
+      "ee"
     ],
     "compound": false
   },
@@ -132182,8 +132584,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire",
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -132541,6 +132946,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ore",
       "ow"
     ],
     "compound": false
@@ -132611,7 +133017,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -132696,7 +133102,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
+      "our",
       "ow"
     ],
     "compound": false
@@ -132803,10 +133209,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -132841,8 +133245,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ie",
-      "aw"
+      "ie"
     ],
     "compound": false
   },
@@ -132891,10 +133294,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -133030,7 +133431,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "ee",
+      "igh"
     ],
     "compound": true
   },
@@ -133242,8 +133644,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -133314,7 +133718,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -133622,7 +134026,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -133707,7 +134111,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -134118,8 +134522,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -134153,7 +134559,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -134187,7 +134595,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -135244,8 +135654,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ow",
-      "oi"
+      "oi",
+      "ow"
     ],
     "compound": false
   },
@@ -135562,7 +135972,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -135897,8 +136307,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -136120,7 +136532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -136652,7 +137064,6 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ew",
       "oi"
     ],
     "compound": false
@@ -136774,7 +137185,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "ai",
+      "igh"
     ],
     "compound": false
   },
@@ -136860,7 +137272,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -136895,7 +137309,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ea",
+      "our"
     ],
     "compound": false
   },
@@ -136931,7 +137346,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay"
+      "ay",
+      "ea"
     ],
     "compound": false
   },
@@ -136966,7 +137382,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -137016,6 +137434,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ea",
       "ow"
     ],
     "compound": false
@@ -137052,7 +137471,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ea",
+      "our"
     ],
     "compound": false
   },
@@ -137086,8 +137506,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -137120,8 +137542,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -137191,7 +137615,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "oe",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -137453,7 +137877,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ei",
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -137490,7 +137916,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ou"
+      "ey",
+      "our"
     ],
     "compound": false
   },
@@ -137526,7 +137953,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "ey",
+      "our",
+      "ure"
     ],
     "compound": false
   },
@@ -137562,7 +137991,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ey",
+      "igh",
+      "our"
     ],
     "compound": false
   },
@@ -137596,8 +138027,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "are"
+    ],
     "compound": false
   },
   {
@@ -137681,7 +138114,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "our"
     ],
     "compound": false
   },
@@ -137717,7 +138151,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "our"
     ],
     "compound": false
   },
@@ -138057,7 +138492,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ea"
+      "ea",
+      "ure"
     ],
     "compound": false
   },
@@ -138091,8 +138527,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -138161,7 +138599,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -138897,7 +139335,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -139437,7 +139875,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ure"
+    ],
     "compound": false
   },
   {
@@ -139472,7 +139912,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "au"
+      "ure"
     ],
     "compound": false
   },
@@ -139644,7 +140084,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -139850,8 +140290,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -140107,8 +140549,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -140476,7 +140920,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -140859,7 +141303,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -140968,7 +141412,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
-      "ie"
+      "ie",
+      "ui"
     ],
     "compound": true
   },
@@ -141653,8 +142098,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -141702,8 +142149,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -141955,7 +142404,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -141989,7 +142440,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -142023,7 +142476,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -142057,7 +142512,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -142090,8 +142547,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ed",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -142243,8 +142702,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -142893,7 +143354,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": false
   },
   {
@@ -143071,8 +143534,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -143578,6 +144043,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "igh",
       "ow"
     ],
     "compound": false
@@ -143786,7 +144252,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -143822,7 +144288,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -143858,7 +144324,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
+      "our",
       "ue"
     ],
     "compound": false
@@ -144305,6 +144771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
+      "ore",
       "oy"
     ],
     "compound": false
@@ -144647,8 +145114,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": true
   },
   {
@@ -145978,8 +146447,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -147004,8 +147475,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -147087,8 +147560,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -147121,8 +147596,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -147155,8 +147632,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -147765,8 +148244,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -147837,6 +148318,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
+      "ea",
       "ee"
     ],
     "compound": false
@@ -148044,7 +148526,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -148179,10 +148663,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -148550,7 +149032,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -148955,7 +149437,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -149536,8 +150018,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -149706,10 +150190,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "au"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -150016,8 +150498,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -150390,8 +150874,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -150493,7 +150979,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ore"
+    ],
     "compound": false
   },
   {
@@ -150560,8 +151048,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -150913,7 +151403,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -151210,8 +151700,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -151244,8 +151736,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ey"
+    ],
     "compound": false
   },
   {
@@ -151280,7 +151774,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ay"
+      "ay",
+      "ey"
     ],
     "compound": false
   },
@@ -151314,8 +151809,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ere"
+    ],
     "compound": false
   },
   {
@@ -151350,7 +151847,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ee"
+      "eer"
     ],
     "compound": false
   },
@@ -152007,7 +152504,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -152264,6 +152761,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
+      "are",
       "ou"
     ],
     "compound": false
@@ -152332,8 +152830,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": true
   },
   {
@@ -152395,8 +152895,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "igh"
+    ],
     "compound": false
   },
   {
@@ -152533,7 +153035,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai"
+      "air"
     ],
     "compound": false
   },
@@ -153441,7 +153943,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo"
+      "oor"
     ],
     "compound": false
   },
@@ -153879,8 +154381,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -153913,8 +154417,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "ing",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -153947,8 +154453,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "s",
     "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ei"
+    ],
     "compound": false
   },
   {
@@ -154151,8 +154659,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ui"
+    ],
     "compound": true
   },
   {
@@ -154221,7 +154731,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou"
+      "ou",
+      "oy"
     ],
     "compound": false
   },
@@ -154257,8 +154768,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ou",
-      "ew"
+      "ou"
     ],
     "compound": false
   },
@@ -154292,10 +154802,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ew"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -154382,7 +154890,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ai",
+      "air",
       "ee"
     ],
     "compound": false
@@ -154627,7 +155135,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": true
   },
@@ -154699,8 +155207,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
-      "ew"
+      "ea"
     ],
     "compound": false
   },
@@ -154866,7 +155373,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -155428,7 +155937,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -155461,8 +155972,10 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ire"
+    ],
     "compound": false
   },
   {
@@ -155495,10 +156008,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -155531,10 +156042,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -155567,10 +156076,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "prefix": "none",
     "suffix": "none",
     "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "aw"
-    ],
+    "syllableType": "closed",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -155779,8 +156286,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "oo",
-      "ew"
+      "oo"
     ],
     "compound": false
   },
@@ -156246,7 +156752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "are"
     ],
     "compound": false
   },
@@ -157097,7 +157603,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -157131,7 +157639,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -157165,7 +157675,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -157199,7 +157711,9 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
-    "vowelTeams": [],
+    "vowelTeams": [
+      "ea"
+    ],
     "compound": false
   },
   {
@@ -157733,7 +158247,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea"
+      "ear"
     ],
     "compound": false
   },
@@ -157784,7 +158298,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
-      "ea",
+      "ear",
       "oo"
     ],
     "compound": false
@@ -158156,7 +158670,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -158244,7 +158758,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
-      "ou"
+      "our"
     ],
     "compound": false
   },
@@ -158281,7 +158795,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ee",
-      "ou"
+      "our"
     ],
     "compound": false
   },
