@@ -4697,7 +4697,10 @@
   }
 
   function recentTaskKey(entry) {
-    return `${cleanLabel(entry?.listId, "unknown-list")}|||${cleanLabel(entry?.taskId || taskIdFor(entry?.taskName), taskIdFor(entry?.taskName))}`;
+    const listId = cleanLabel(entry?.listId, "unknown-list");
+    const taskId = cleanLabel(entry?.taskId, "");
+    const taskName = cleanLabel(entry?.taskName, "Untitled task").toLowerCase().replace(/\s+/g, " ").trim();
+    return `${listId}|||${taskId ? `id:${taskId}` : `name:${taskName}`}`;
   }
 
   function recentTaskStartMs(entry) {
@@ -4717,14 +4720,20 @@
     catch (error) {}
   }
 
-  function recentTrackedTasks(entries, activeEntry = null) {
+  function recentTrackedTaskSource() {
+    const active = timePayload.activeEntry
+      ? entriesWithTaskOverrides([normalizeNativeEntry(timePayload.activeEntry, -1)])
+        .map((entry) => ({ ...entry, isActiveRecentTask: true }))
+      : [];
+    return [...active, ...nativeCompletedEntries()];
+  }
+
+  function recentTrackedTasks(entries = recentTrackedTaskSource()) {
     const byTask = new Map();
+    const activeEntry = entries.find((entry) => entry?.isActiveRecentTask);
     const activeKey = activeEntry ? recentTaskKey(activeEntry) : "";
     const hiddenKeys = hiddenRecentTaskKeys();
-    [
-      ...(activeEntry ? [{ ...activeEntry, isActiveRecentTask: true }] : []),
-      ...entries
-    ]
+    entries
       .sort((a, b) => {
         if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
         return recentTaskStartMs(b) - recentTaskStartMs(a);
@@ -4748,10 +4757,10 @@
     });
   }
 
-  function renderRecentTaskSwitcher(entries) {
+  function renderRecentTaskSwitcher(entries = recentTrackedTaskSource()) {
     const recentList = document.getElementById("recentTaskList");
     if (!recentList) return;
-    const tasks = recentTrackedTasks(entries, timePayload.activeEntry);
+    const tasks = recentTrackedTasks(entries);
     const hiddenKeys = hiddenRecentTaskKeys();
     const resetButton = document.getElementById("recentTaskResetBtn");
     if (resetButton) resetButton.hidden = hiddenKeys.size === 0;
@@ -4780,7 +4789,7 @@
         const nextHiddenKeys = hiddenRecentTaskKeys();
         nextHiddenKeys.add(control.dataset.hideRecentTask);
         writeHiddenRecentTaskKeys(nextHiddenKeys);
-        renderRecentTaskSwitcher(entries);
+        renderRecentTaskSwitcher();
       };
       control.addEventListener("click", hideTask);
       control.addEventListener("keydown", (event) => {
@@ -4790,7 +4799,7 @@
     if (resetButton) {
       resetButton.onclick = () => {
         writeHiddenRecentTaskKeys(new Set());
-        renderRecentTaskSwitcher(entries);
+        renderRecentTaskSwitcher();
       };
     }
     syncRecentTaskActiveState();
@@ -6341,7 +6350,7 @@
     const entries = nativeCompletedEntries();
     renderTimerState();
     renderMetadataOptions();
-    renderRecentTaskSwitcher(entries);
+    renderRecentTaskSwitcher();
     renderQuickChips(entries);
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
@@ -7830,6 +7839,7 @@
       });
       if (optimistic) {
         timePayload = nextPayload;
+        renderRecentTaskSwitcher();
         renderOptimisticTimerState();
         setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
         syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`)
@@ -7850,6 +7860,7 @@
     });
     if (optimistic) {
       timePayload = nextPayload;
+      renderRecentTaskSwitcher();
       renderOptimisticTimerState();
       setTrackerStatus(`Started ${entry.taskName}`, "saved");
       syncOptimisticTimePayload(nextPayload, `Started ${entry.taskName}`).catch((error) => setTrackerStatus(error.message, "error"));
