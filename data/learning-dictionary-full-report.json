@@ -189,7 +189,22 @@
     },
     {
       "line": null,
+      "text": "air conditioning",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "air pump",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "appliance repairperson",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "bakery",
       "reason": "manual reconstruction"
     },
     {
@@ -325,6 +340,16 @@
     {
       "line": null,
       "text": "Good-bye",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "environmental problems",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "Fahrenheit",
       "reason": "manual reconstruction"
     },
     {
@@ -614,6 +639,26 @@
     },
     {
       "line": null,
+      "text": "hand in your homework",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "hearing impaired",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "heating and air conditioning service",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "horror movie",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "put your bag on the conveyor belt",
       "reason": "manual reconstruction"
     },
@@ -634,12 +679,22 @@
     },
     {
       "line": null,
+      "text": "repair",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
       "text": "video cassette recorder",
       "reason": "manual reconstruction"
     },
     {
       "line": null,
       "text": "this afternoon",
+      "reason": "manual reconstruction"
+    },
+    {
+      "line": null,
+      "text": "third floor",
       "reason": "manual reconstruction"
     },
     {
@@ -970,6 +1025,11 @@
       "mergedIntoLine": 17
     },
     {
+      "text": "air conditioning",
+      "line": 0,
+      "mergedIntoLine": 2
+    },
+    {
       "text": "bird watching",
       "line": 0,
       "mergedIntoLine": 5
@@ -1113,6 +1173,11 @@
       "text": "You're welcome.",
       "line": 0,
       "mergedIntoLine": 53
+    },
+    {
+      "text": "third floor",
+      "line": 0,
+      "mergedIntoLine": 47
     }
   ],
   "suspiciousRefs": [],
@@ -1130,6 +1195,23 @@
       "refs": [
         "80-6"
       ]
+    },
+    {
+      "line": 2,
+      "text": "appliance repairperson bakery",
+      "refs": [
+        "36-1",
+        "127-67"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 2,
+      "text": "balance the checkbook air pump",
+      "refs": [
+        "126-41"
+      ],
+      "reason": "replaced by manual correction"
     },
     {
       "line": 2,
@@ -1260,6 +1342,14 @@
       "reason": "replaced by manual correction"
     },
     {
+      "line": 17,
+      "text": "environmental Fahrenheit",
+      "refs": [
+        "14-20"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
       "line": 20,
       "text": "-' O garment worker",
       "refs": [
@@ -1318,6 +1408,22 @@
       "text": "Home Furnishings ice cream truck",
       "refs": [
         "41-28"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 23,
+      "text": "hand In your homework hearing impaired",
+      "refs": [
+        "42-23"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 23,
+      "text": "heating and air conditioning horror movie",
+      "refs": [
+        "149-26"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1386,6 +1492,15 @@
       "text": "put your computer in a read the newspaper",
       "refs": [
         "11-5"
+      ],
+      "reason": "replaced by manual correction"
+    },
+    {
+      "line": 38,
+      "text": "b repair",
+      "refs": [
+        "72-25",
+        "117-22"
       ],
       "reason": "replaced by manual correction"
     },
@@ -1545,6 +1660,7 @@
     "air filter",
     "air letter",
     "air pollution",
+    "air pump",
     "air purifier",
     "air sickness bag",
     "air tank",
@@ -1596,7 +1712,6 @@
     "apple",
     "apple juice",
     "appliance repairperson",
-    "appliance repairperson bakery",
     "application form",
     "apply for a loan",
     "appointment",
@@ -1666,7 +1781,6 @@
     "average weight",
     "avocado",
     "ax",
-    "b repair",
     "baboon",
     "baby",
     "baby backpack",
@@ -1716,10 +1830,10 @@
     "baked goods",
     "baked potato",
     "baker",
+    "bakery",
     "balance",
     "balance bearn",
     "balance the checkbook",
-    "balance the checkbook air pump",
     "balcony",
     "bald",
     "ballerina",
@@ -2016,6 +2130,7 @@
     "button",
     "buttonhole",
     "buy",
+    "buy souvenirs",
     "buy two tlckets",
     "buythis",
     "buzzer",
@@ -2451,7 +2566,6 @@
     "customs officer",
     "cut",
     "cutting board",
-    "cuy souvenirs",
     "cycling",
     "cylinder",
     "cymbals",
@@ -2767,7 +2881,7 @@
     "entra nce ramp",
     "entree",
     "envelope",
-    "environmental Fahrenheit",
+    "environmental problems",
     "equals",
     "ER",
     "erase the board",
@@ -2819,6 +2933,7 @@
     "face powder",
     "facecloth",
     "factory worker",
+    "Fahrenheit",
     "faint",
     "fair",
     "fall",
@@ -3192,7 +3307,7 @@
     "hamper",
     "hamster",
     "hand",
-    "hand In your homework hearing impaired",
+    "hand in your homework",
     "hand lotion",
     "hand signals",
     "hand towel",
@@ -3238,12 +3353,13 @@
     "health club",
     "health-care aide",
     "health-care attendant homemaker",
+    "hearing impaired",
     "heart",
     "heart attack",
     "heart disease",
     "heat wave",
     "heater",
-    "heating and air conditioning horror movie",
+    "heating and air conditioning service",
     "heating bill",
     "heating pad",
     "heating system",
@@ -3314,6 +3430,7 @@
     "hoof",
     "hop",
     "horn",
+    "horror movie",
     "horse",
     "hose",
     "hospital",
@@ -4480,6 +4597,7 @@
     "remove your card",
     "rent",
     "rent a car",
+    "repair",
     "repairperson",
     "repeat your name",
     "report",
@@ -5205,7 +5323,7 @@
     "thick",
     "thimble",
     "thin",
-    "third [loor",
+    "third floor",
     "thirsty",
     "this afternoon",
     "this evening",
@@ -5735,6 +5853,7 @@
     "air filter",
     "air letter",
     "air pollution",
+    "air pump",
     "air purifier",
     "air sickness bag",
     "air tank",
@@ -5782,8 +5901,7 @@
     "apostrophe",
     "appetizers",
     "apple",
-    "apple juice",
-    "appliance repairperson"
+    "apple juice"
   ],
   "missingCategory": [],
   "missingPlacements": [],
@@ -5814,6 +5932,13 @@
       "to": "bumper",
       "refs": [
         "126-1"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "buy souvenirs",
+      "refs": [
+        "163-5"
       ]
     },
     {
@@ -5926,6 +6051,13 @@
     },
     {
       "line": 47,
+      "to": "third floor",
+      "refs": [
+        "28-16"
+      ]
+    },
+    {
+      "line": 47,
       "to": "table",
       "refs": [
         "4-6",
@@ -5973,6 +6105,11 @@
   ],
   "correctedEntryRefs": [
     {
+      "line": 2,
+      "text": "air conditioning",
+      "removedCount": 1
+    },
+    {
       "line": 11,
       "text": "concert",
       "removedCount": 2
@@ -5980,19 +6117,19 @@
   ],
   "summary": {
     "rawLines": 55,
-    "parsedEntries": 4338,
-    "uniqueEntries": 4190,
+    "parsedEntries": 4349,
+    "uniqueEntries": 4193,
     "translatedEntries": 4,
-    "missingChinese": 4186,
+    "missingChinese": 4189,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
-      "daily": 279,
+      "daily": 280,
       "describing": 146,
       "food": 448,
       "health": 393,
-      "home": 471,
-      "nature": 281,
+      "home": 472,
+      "nature": 282,
       "numbers": 82,
       "personal": 51,
       "recreation": 430,
