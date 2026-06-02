@@ -4062,6 +4062,7 @@
       dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
       dueTime,
       dueDateEditedAt: override ? cleanLabel(override.dueDateEditedAt, "") : "",
+      dueDateManualHold: override ? dateInputValue(override.dueDateManualHold) : "",
       status: hasOverride ? (override.status === "done" ? "done" : "todo") : normalizedTaskStatus(entry.status),
       recurrence,
       recurring: recurrence !== "none",
@@ -4101,6 +4102,7 @@
         dueDateManaged: value?.dueDateManaged === true,
         dueTime: timeInputValue(value?.dueTime),
         dueDateEditedAt: cleanLabel(value?.dueDateEditedAt, ""),
+        dueDateManualHold: dateInputValue(value?.dueDateManualHold),
         status: value?.status === "done" ? "done" : "todo",
         recurrence,
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
@@ -5198,7 +5200,7 @@
       ...timePayload,
       entries: [...completed, ...(timePayload.entries || [])]
     });
-    await autoMarkTimeLoggedTasksDone();
+    await autoMarkTimeLoggedTasksDone({ sourceEntries: completed });
     setTrackerStatus(`Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.`, "saved");
   }
 
@@ -5402,6 +5404,7 @@
       dueDateManaged: existing.dueDateManaged === true,
       dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : "",
       dueDateEditedAt: cleanLabel(existing.dueDateEditedAt, ""),
+      dueDateManualHold: dateInputValue(existing.dueDateManualHold),
       status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
@@ -5455,7 +5458,7 @@
   function taskStatusPatch(entry, status) {
     if (status !== "done") return { status: "todo", autoDoneDate: "" };
     const nextDueDate = nextRecurringDueDate(entry);
-    return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, status: "todo" } : { status: "done" };
+    return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, dueDateManualHold: "", status: "todo" } : { dueDateManualHold: "", status: "done" };
   }
 
   function isDailyRecurringTask(entry) {
@@ -5465,7 +5468,7 @@
   function autoDoneStatusPatch(entry, autoDoneDate) {
     if (isDailyRecurringTask(entry)) {
       const nextDueDate = addDateKeyDays(autoDoneDate, 1);
-      if (nextDueDate) return { dueDate: nextDueDate, dueDateManaged: true, status: "todo" };
+      if (nextDueDate) return { dueDate: nextDueDate, dueDateManaged: true, dueDateManualHold: "", status: "todo" };
     }
     return taskStatusPatch(entry, "done");
   }
@@ -5509,8 +5512,9 @@
     return latestCompletedAt > editedAt.getTime();
   }
 
-  function autoDoneDateForTask(entry, loggedDates) {
+  function autoDoneDateForTask(entry, loggedDates, { ignoreManualHold = false } = {}) {
     const dueDate = dueDateKey(entry);
+    if (!ignoreManualHold && dueDate && entry.dueDateManualHold === dueDate) return "";
     if (dueDate && latestLoggedCompletionAfter(loggedDates, dueDate, entry.dueDateEditedAt)) return dueDate;
     const today = dateKey(new Date());
     if (!dueDate && latestLoggedCompletionAfter(loggedDates, today, entry.dueDateEditedAt)) return today;
@@ -5518,18 +5522,20 @@
   }
 
   function overrideValueChanged(current, next) {
-    return ["dueDate", "dueDateManaged", "dueTime", "dueDateEditedAt", "status", "recurrence", "recurringText", "taskOrder", "autoDoneDate", "notes"].some((field) => {
-      const isDateField = field === "dueDate" || field === "autoDoneDate";
+    return ["dueDate", "dueDateManaged", "dueTime", "dueDateEditedAt", "dueDateManualHold", "status", "recurrence", "recurringText", "taskOrder", "autoDoneDate", "notes"].some((field) => {
+      const isDateField = field === "dueDate" || field === "autoDoneDate" || field === "dueDateManualHold";
       const currentValue = isDateField ? dateInputValue(current?.[field]) : current?.[field];
       const nextValue = isDateField ? dateInputValue(next?.[field]) : next?.[field];
       return currentValue !== nextValue;
     });
   }
 
-  async function autoMarkTimeLoggedTasksDone() {
+  async function autoMarkTimeLoggedTasksDone({ sourceEntries = null } = {}) {
     if (autoDoneSyncing) return;
     const loggedDatesByTarget = new Map();
-    (timePayload.entries || []).forEach((entry) => {
+    const entriesForAutoDone = Array.isArray(sourceEntries) ? sourceEntries : (timePayload.entries || []);
+    const ignoreManualHold = Array.isArray(sourceEntries);
+    entriesForAutoDone.forEach((entry) => {
       const loggedDate = timeEntryCompletionDate(entry);
       if (!loggedDate) return;
       const completedAt = timeEntryCompletedAt(entry);
@@ -5549,7 +5555,7 @@
             loggedDates.set(loggedDate, Math.max(Number(loggedDates.get(loggedDate)) || 0, completedAt));
           });
         });
-        return { entry, autoDoneDate: autoDoneDateForTask(entry, loggedDates) };
+        return { entry, autoDoneDate: autoDoneDateForTask(entry, loggedDates, { ignoreManualHold }) };
       })
       .filter((item) => item.autoDoneDate);
     if (!matchingRows.length) return;
@@ -6085,7 +6091,7 @@
         await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === input.dataset.dueKey);
         if (!entry) return;
-        saveTaskOverride(entry, { dueDate: input.value, dueDateEditedAt: isoNow() }).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, { dueDate: input.value, dueDateEditedAt: isoNow(), dueDateManualHold: input.value }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-due-time-key]").forEach((input) => {
@@ -7864,13 +7870,13 @@
         renderOptimisticTimerState();
         setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
         syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`)
-          .then(() => autoMarkTimeLoggedTasksDone())
+          .then(() => autoMarkTimeLoggedTasksDone({ sourceEntries: completed }))
           .catch((error) => setTrackerStatus(error.message, "error"));
         return;
       }
       timePayload = nextPayload;
       await saveTimePayload(timePayload);
-      await autoMarkTimeLoggedTasksDone();
+      await autoMarkTimeLoggedTasksDone({ sourceEntries: completed });
       setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
       return;
     }
@@ -7899,7 +7905,7 @@
     timePayload.entries = [...completed, ...(timePayload.entries || [])];
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
-    await autoMarkTimeLoggedTasksDone();
+    await autoMarkTimeLoggedTasksDone({ sourceEntries: completed });
     setTrackerStatus(`Stopped ${active.taskName}`, "saved");
   }
 
@@ -8120,6 +8126,7 @@
         dueDateManaged: dueDateChanged || currentOverride.dueDateManaged === true,
         dueTime: timeInputValue(document.getElementById("editDueTime").value),
         dueDateEditedAt: dueDateChanged ? updatedAt : cleanLabel(currentOverride.dueDateEditedAt, ""),
+        dueDateManualHold: dueDateChanged ? editDueDate : dateInputValue(currentOverride.dueDateManualHold),
         status: currentOverride.status,
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
