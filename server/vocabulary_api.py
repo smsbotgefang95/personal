@@ -656,6 +656,8 @@ def clean_task_overrides(value):
             "dueDate": clean_due_date(item.get("dueDate")),
             "dueDateManaged": item.get("dueDateManaged") is True,
             "dueTime": clean_due_time(item.get("dueTime")),
+            "dueDateEditedAt": clean_time_text(item.get("dueDateEditedAt"), 40),
+            "dueDateManualHold": clean_due_date(item.get("dueDateManualHold")),
             "status": "done" if item.get("status") == "done" else "todo",
             "recurrence": recurrence,
             "recurringText": clean_time_text(item.get("recurringText"), 120) if recurrence == "custom" else "",
@@ -680,6 +682,8 @@ def clean_task_overrides(value):
             override["dueDate"]
             or override["dueDateManaged"]
             or override["dueTime"]
+            or override["dueDateEditedAt"]
+            or override["dueDateManualHold"]
             or override["status"] == "done"
             or override["recurrence"] != "none"
             or override["recurringText"]
@@ -689,7 +693,7 @@ def clean_task_overrides(value):
             or metadata_fields_present
         ):
             overrides[key] = override
-        elif item.get("dueDate") == "" or item.get("dueTime") == "" or item.get("taskOrder") == "" or item.get("notes") == "":
+        elif item.get("dueDate") == "" or item.get("dueTime") == "" or item.get("dueDateManualHold") == "" or item.get("taskOrder") == "" or item.get("notes") == "":
             overrides[key] = override
     return overrides
 
