@@ -5616,6 +5616,7 @@ pass=通过；传递
 
   function isValidVocabularyVowelTeamFilter(value) {
     return value === "all"
+      || !!getVocabularyVowelTeamLengthGroup(value)
       || Object.prototype.hasOwnProperty.call(VOCABULARY_VOWEL_TEAM_LABELS, value)
       || !!getVocabularyVowelTeamChildFilter(value);
   }
@@ -5632,6 +5633,8 @@ pass=通过；传递
     if (filterValue === "all") return true;
     if (!isVocabularySingleWord(item)) return false;
     const vowelTeams = item.vowelTeams || [];
+    const lengthGroup = getVocabularyVowelTeamLengthGroup(filterValue);
+    if (lengthGroup) return vowelTeams.some((team) => team.length === lengthGroup.length);
     const childFilter = getVocabularyVowelTeamChildFilter(filterValue);
     if (!childFilter) return vowelTeams.includes(filterValue);
     return vowelTeams.includes(childFilter.team) && getVocabularyVowelTeamSound(item, childFilter.team) === childFilter.ipa;
@@ -10145,7 +10148,18 @@ pass=通过；传递
     return length === 3 || length === 2 ? `length:${length}` : "";
   }
 
+  function getVocabularyVowelTeamLengthGroup(value) {
+    if (value === "length:3") return { id: "length:3", label: "3个字母", length: 3 };
+    if (value === "length:2") return { id: "length:2", label: "2个字母", length: 2 };
+    return null;
+  }
+
   function expandVocabularyVowelTeamPath(value) {
+    const selectedLengthGroup = getVocabularyVowelTeamLengthGroup(value);
+    if (selectedLengthGroup) {
+      vocabularyVowelTeamLengthGroupsExpanded.add(selectedLengthGroup.id);
+      return;
+    }
     const parent = getVocabularyVowelTeamFilterParent(value);
     const team = parent || (Object.prototype.hasOwnProperty.call(VOCABULARY_VOWEL_TEAM_LABELS, value) ? value : "");
     if (!team) return;
@@ -10177,17 +10191,21 @@ pass=通过；传递
     }, new Map());
     const getLabel = (value) => {
       if (value === "all") return allLabel;
+      const lengthGroup = getVocabularyVowelTeamLengthGroup(value);
+      if (lengthGroup) return lengthGroup.label;
       const childFilter = getVocabularyVowelTeamChildFilter(value);
       if (childFilter) return childFilter.label;
       return VOCABULARY_VOWEL_TEAM_LABELS[value] || allLabel;
     };
     const isSelectedInLengthGroup = (group) => {
+      if (selectedVocabularyVowelTeam === group.id) return true;
       const selectedTeam = selectedChildFilter?.team || selectedVocabularyVowelTeam;
       return teamEntries.some(([team]) => team.length === group.length && selectedTeam === team);
     };
 
     vocabularyVowelTeamFilter.innerHTML = [
       `<option value="all">${allLabel}</option>`,
+      ...lengthGroups.map((group) => `<option value="${escapeHtml(group.id)}">${escapeHtml(group.label)}</option>`),
       ...teamEntries.flatMap(([team, label]) => [
         `<option value="${escapeHtml(team)}">${escapeHtml(label)}</option>`,
         ...childFiltersByTeam.get(team).map((filter) => `<option value="${escapeHtml(filter.value)}">${escapeHtml(filter.label)}</option>`)
@@ -11115,7 +11133,9 @@ pass=通过；传递
       } else {
         vocabularyVowelTeamLengthGroupsExpanded.add(value);
       }
+      selectedVocabularyVowelTeam = value;
       vocabularyVowelTeamMenuOpen = true;
+      saveSelectedVocabularyVowelTeam();
       renderVocabularyList();
       return;
     }
