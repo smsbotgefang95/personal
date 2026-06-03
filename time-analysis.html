@@ -116,11 +116,21 @@
     font-weight: 700;
   }
 
-  .tabs {
+  .tabs-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     margin: 16px 0 18px;
+  }
+
+  .tabs {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
   }
 
   .tab-btn {
@@ -789,40 +799,44 @@
 
   .timer-display {
     display: grid;
-    gap: 4px;
-    margin-bottom: 14px;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "label value"
+      "task task";
+    align-items: baseline;
+    justify-content: end;
+    gap: 2px 9px;
+    flex: 0 1 360px;
+    margin-left: auto;
+    min-width: min(100%, 250px);
+    max-width: 100%;
+    text-align: right;
   }
 
   .timer-label {
+    grid-area: label;
     color: #c7d2fe;
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     font-weight: 850;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
   .timer-value {
+    grid-area: value;
     font-variant-numeric: tabular-nums;
-    font-size: clamp(2.6rem, 12vw, 4.7rem);
+    font-size: 1.42rem;
     font-weight: 900;
     line-height: 1;
   }
 
   .timer-task {
+    grid-area: task;
     min-height: 1.4em;
     color: var(--muted);
-    overflow-wrap: anywhere;
-  }
-
-  .active-timer-meta {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin: -2px 0 14px;
-  }
-
-  .active-timer-meta[hidden] {
-    display: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .recent-task-strip {
@@ -2548,8 +2562,19 @@
   }
 
   @media (max-width: 640px) {
-    .active-timer-meta {
-      grid-template-columns: minmax(0, 1fr);
+    .tabs-row {
+      align-items: stretch;
+    }
+
+    .timer-display {
+      flex-basis: 100%;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .timer-task {
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     .tracker-filter-bar {
@@ -2596,14 +2621,21 @@
   <div id="statusBox" class="status-box">Loading time data...</div>
 
   <div id="dashboard" hidden>
-    <nav class="tabs" aria-label="Time analysis sections">
-      <button class="tab-btn active" type="button" data-tab="track">Track</button>
-      <button class="tab-btn" type="button" data-tab="details">Entries</button>
-      <button class="tab-btn" type="button" data-tab="overview">Overview</button>
-      <button class="tab-btn" type="button" data-tab="business">Business</button>
-      <button class="tab-btn" type="button" data-tab="personal">Personal</button>
-      <button class="tab-btn" type="button" data-tab="actions">Actions</button>
-    </nav>
+    <div class="tabs-row">
+      <nav class="tabs" aria-label="Time analysis sections">
+        <button class="tab-btn active" type="button" data-tab="track">Track</button>
+        <button class="tab-btn" type="button" data-tab="details">Entries</button>
+        <button class="tab-btn" type="button" data-tab="overview">Overview</button>
+        <button class="tab-btn" type="button" data-tab="business">Business</button>
+        <button class="tab-btn" type="button" data-tab="personal">Personal</button>
+        <button class="tab-btn" type="button" data-tab="actions">Actions</button>
+      </nav>
+      <div class="timer-display">
+        <div class="timer-label" id="timerStateLabel">Ready</div>
+        <div class="timer-value" id="timerValue">00:00:00</div>
+        <div class="timer-task" id="timerTask">No timer running</div>
+      </div>
+    </div>
 
     <section id="panel-track" class="panel active">
       <section class="tracker-shell" aria-labelledby="trackerHeading">
@@ -2617,25 +2649,6 @@
           <div class="tracker-sync-row">
             <p class="tracker-status" id="trackerStatus" hidden></p>
             <button class="btn btn-indigo private-time-load-btn" id="loadPrivateTimeBtn" type="button" hidden data-load-private-time>Load private data</button>
-          </div>
-          <div class="timer-display">
-            <div class="timer-label" id="timerStateLabel">Ready</div>
-            <div class="timer-value" id="timerValue">00:00:00</div>
-            <div class="timer-task" id="timerTask">No timer running</div>
-          </div>
-          <div class="active-timer-meta" id="activeTimerMeta" hidden>
-            <div class="tracker-field">
-              <label for="activeTimerDepartment">Department</label>
-              <select class="tracker-select" id="activeTimerDepartment" data-active-timer-field="department" aria-label="Active timer department"></select>
-            </div>
-            <div class="tracker-field">
-              <label for="activeTimerCategory">Category</label>
-              <select class="tracker-select" id="activeTimerCategory" data-active-timer-field="taskCategory" aria-label="Active timer category"></select>
-            </div>
-            <div class="tracker-field">
-              <label for="activeTimerType">Type</label>
-              <select class="tracker-select" id="activeTimerType" data-active-timer-field="taskType" aria-label="Active timer type"></select>
-            </div>
           </div>
           <div class="recent-task-strip" aria-label="Recent tracked tasks">
             <div class="recent-task-header">
@@ -3273,7 +3286,6 @@
   let mergeTaskPreviousFocus = null;
   let editingEntryId = "";
   let timerTick = null;
-  let activeTimerMetaSignature = "";
   let currentSourcePills = [];
   let fullDashboardLoaded = false;
   let fullDashboardLoadPromise = null;
@@ -7940,33 +7952,6 @@
     setTrackerStatus("Timer canceled", "saved");
   }
 
-  async function saveActiveTimerMetadata(control) {
-    const active = timePayload.activeEntry;
-    const field = control?.dataset?.activeTimerField;
-    if (!active || !field) return;
-    const value = field === "taskCategory"
-      ? normalizeTaskCategory(control.value)
-      : (field === "taskType" ? normalizeTaskType(control.value) : cleanLabel(control.value, ""));
-    const current = field === "taskCategory"
-      ? normalizeTaskCategory(active[field])
-      : cleanLabel(active[field], "");
-    if (value === current) return;
-    const updatedAt = isoNow();
-    timePayload = cleanClientPayload({
-      ...timePayload,
-      activeEntry: {
-        ...active,
-        [field]: value,
-        updatedAt
-      },
-      updatedAt
-    });
-    activeTimerMetaSignature = "";
-    renderTimerState();
-    await saveTimePayload(timePayload);
-    setTrackerStatus(`Updated active timer ${field === "taskCategory" ? "category" : field}.`, "saved");
-  }
-
   document.querySelectorAll(".tab-btn").forEach((button) => {
     button.addEventListener("click", () => {
       document.querySelectorAll(".tab-btn").forEach((item) => item.classList.remove("active"));
@@ -8010,16 +7995,6 @@
 
   document.getElementById("cancelTimerBtn").addEventListener("click", () => {
     cancelTimer().catch((error) => setTrackerStatus(error.message, "error"));
-  });
-
-  document.querySelectorAll("[data-active-timer-field]").forEach((control) => {
-    control.addEventListener("change", () => {
-      saveActiveTimerMetadata(control).catch((error) => {
-        activeTimerMetaSignature = "";
-        renderTimerState();
-        setTrackerStatus(error.message, "error");
-      });
-    });
   });
 
   document.querySelectorAll("[data-track-mode]").forEach((button) => {
