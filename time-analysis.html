@@ -5789,20 +5789,13 @@
     return candidate;
   }
 
-  function duplicatedTaskEntry(entry, taskName, timestamp) {
+  function duplicatedTaskOverride(entry, taskName, timestamp) {
     const recurrence = entry.recurrence || inferRecurrence(entry);
     const recurringText = recurrence === "custom"
       ? cleanLabel(entry.recurringText, "")
       : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
     return {
-      id: nativeId("duplicate"),
-      sourceType: "native",
-      start: timestamp,
-      stop: timestamp,
-      durationMs: 0,
       listId: cleanLabel(entry.listId, "901301650324"),
-      listName: listNameForId(cleanLabel(entry.listId, "901301650324")),
-      taskId: taskIdFor(taskName),
       taskName,
       department: cleanLabel(entry.department, ""),
       priority: cleanLabel(entry.priority, ""),
@@ -5811,15 +5804,14 @@
       taskType: entry.taskType === "Other" ? "" : cleanLabel(entry.taskType, ""),
       status: entry.status === "done" ? "done" : "todo",
       dueDate: dateInputValue(entry.dueDate),
-      dueDateText: "",
+      dueDateManaged: Boolean(dateInputValue(entry.dueDate)),
+      dueDateManualHold: "",
       dueTime: timeInputValue(entry.dueTime),
-      startDate: "",
-      startDateText: "",
-      recurring: recurrence !== "none",
+      recurrence,
       recurringText,
       taskOrder: orderOptionValue(entry.taskOrder),
       notes: cleanLabel(entry.notes, ""),
-      createdAt: timestamp,
+      privateTask: true,
       updatedAt: timestamp
     };
   }
@@ -5829,19 +5821,20 @@
     if (!selectedRows.length) return;
     const timestamp = isoNow();
     const usedNames = new Set(trackerActivities().map((entry) => cleanLabel(entry.taskName, "").toLowerCase()).filter(Boolean));
-    const duplicatedEntries = selectedRows.map((entry) => {
+    const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    const duplicatedKeys = selectedRows.map((entry) => {
       const taskName = uniqueDuplicateTaskName(entry.taskName, usedNames);
-      return duplicatedTaskEntry(entry, taskName, timestamp);
+      const listId = cleanLabel(entry.listId, "901301650324");
+      const key = `${listId}|||${taskIdFor(`${taskName}-${nativeId("copy")}`)}`;
+      nextOverrides[key] = duplicatedTaskOverride(entry, taskName, timestamp);
+      return key;
     });
     selectedTaskKeys.clear();
     await saveTimePayload({
       ...timePayload,
-      entries: [
-        ...(timePayload.entries || []),
-        ...duplicatedEntries
-      ]
+      taskOverrides: nextOverrides
     });
-    setTrackerStatus(`Duplicated ${duplicatedEntries.length.toLocaleString()} ${duplicatedEntries.length === 1 ? "task" : "tasks"}`, "saved");
+    setTrackerStatus(`Duplicated ${duplicatedKeys.length.toLocaleString()} ${duplicatedKeys.length === 1 ? "task" : "tasks"}`, "saved");
   }
 
   function selectedTaskNameOptions(rows) {
