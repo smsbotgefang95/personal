@@ -2074,6 +2074,12 @@
     color: #d1d5db;
   }
 
+  .due-filter-btn {
+    height: 38px;
+    min-height: 38px;
+    padding: 7px 10px;
+  }
+
   .btn:disabled {
     cursor: not-allowed;
     opacity: 0.55;
@@ -2668,8 +2674,8 @@
                   <label id="dueStatusFilterLabel">Due filter</label>
                   <input id="dueStatusFilter" type="hidden" value="all" />
                   <div class="due-filter-buttons" role="group" aria-labelledby="dueStatusFilterLabel">
-                    <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
+                    <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
                   </div>
                 </div>
                 <div class="tracker-field tracker-search-field">
