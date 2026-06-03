@@ -4063,6 +4063,7 @@
       dueTime,
       dueDateEditedAt: override ? cleanLabel(override.dueDateEditedAt, "") : "",
       dueDateManualHold: override ? dateInputValue(override.dueDateManualHold) : "",
+      autoDoneDate: override ? dateInputValue(override.autoDoneDate) : "",
       status: hasOverride ? (override.status === "done" ? "done" : "todo") : normalizedTaskStatus(entry.status),
       recurrence,
       recurring: recurrence !== "none",
@@ -5512,9 +5513,22 @@
     return latestCompletedAt > editedAt.getTime();
   }
 
+  function manualHoldBlocksAutoDone(entry, dueDate, { ignoreManualHold = false } = {}) {
+    const manualHold = dateInputValue(entry?.dueDateManualHold);
+    if (!dueDate || !manualHold) return false;
+    if (dueDate < manualHold) return true;
+    return dueDate === manualHold && !ignoreManualHold;
+  }
+
+  function alreadyAutoDoneForDueDate(entry, dueDate) {
+    const autoDoneDate = dateInputValue(entry?.autoDoneDate);
+    return Boolean(dueDate && autoDoneDate && dueDate <= autoDoneDate);
+  }
+
   function autoDoneDateForTask(entry, loggedDates, { ignoreManualHold = false } = {}) {
     const dueDate = dueDateKey(entry);
-    if (!ignoreManualHold && dueDate && entry.dueDateManualHold === dueDate) return "";
+    if (alreadyAutoDoneForDueDate(entry, dueDate)) return "";
+    if (manualHoldBlocksAutoDone(entry, dueDate, { ignoreManualHold })) return "";
     if (dueDate && latestLoggedCompletionAfter(loggedDates, dueDate, entry.dueDateEditedAt)) return dueDate;
     const today = dateKey(new Date());
     if (!dueDate && latestLoggedCompletionAfter(loggedDates, today, entry.dueDateEditedAt)) return today;
