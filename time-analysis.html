@@ -1103,12 +1103,12 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 1.1fr) repeat(4, minmax(140px, 1fr));
+    grid-template-columns: minmax(190px, 280px) minmax(150px, 180px);
     grid-template-areas:
-      "due recurrence list priority department"
-      "category category type type sort";
+      "due sort";
     gap: 8px;
     align-items: start;
+    justify-content: start;
     overflow-x: visible;
     width: 100%;
     min-width: 0;
@@ -1129,29 +1129,9 @@
   }
 
   .due-filter-field { grid-area: due; }
-  .recurrence-filter-field { grid-area: recurrence; }
-  .list-filter-field { grid-area: list; }
-  .priority-filter-field { grid-area: priority; }
-  .department-filter-field { grid-area: department; }
-  .category-filter-field { grid-area: category; }
-  .type-filter-field { grid-area: type; }
   .order-sort-control {
     grid-area: sort;
     align-self: end;
-  }
-
-  .due-filter-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-start;
-    min-width: 0;
-    padding-top: 2px;
-  }
-
-  .due-filter-actions:not(:has(:not([hidden]))) {
-    display: none;
   }
 
   #dueStatusFilter {
@@ -2115,13 +2095,6 @@
     justify-self: start;
   }
 
-  .due-private-sync-btn {
-    min-height: 38px;
-    align-self: center;
-    padding-inline: 16px;
-    white-space: nowrap;
-  }
-
   .due-sync-note {
     align-self: center;
     margin: 0;
@@ -2505,11 +2478,7 @@
     .tracker-filter-controls {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-areas:
-        "due recurrence"
-        "list priority"
-        "department department"
-        "category type"
-        "sort sort";
+        "due sort";
     }
     .quick-chip {
       min-height: 48px;
@@ -2585,17 +2554,7 @@
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
         "due"
-        "recurrence"
-        "list"
-        "priority"
-        "department"
-        "category"
-        "type"
         "sort";
-    }
-    .due-filter-actions {
-      align-items: center;
-      flex-direction: row;
     }
     .order-sort-control {
       width: 100%;
@@ -2700,63 +2659,13 @@
             <div class="tracker-filter-bar">
               <div class="tracker-filter-controls">
                 <div class="tracker-field due-filter-field">
-                  <label for="dueStatusFilter">Due</label>
+                  <label for="dueStatusFilter">Due today</label>
                   <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
-                    <option value="all">All</option>
-                    <option value="overdue">Overdue</option>
                     <option value="today">Due today</option>
-                    <option value="tomorrow">Due tomorrow</option>
-                    <option value="set">Due date set</option>
-                    <option value="none">Due date not set</option>
-                  </select>
-                </div>
-                <div class="tracker-field recurrence-filter-field">
-                  <label for="recurrenceFilter">Recurrence</label>
-                  <select class="tracker-select" id="recurrenceFilter" aria-label="Filter tasks by recurrence">
-                    <option value="all">All</option>
-                    <option value="recurring">Recurring</option>
-                    <option value="none">Not recurring</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="custom">Custom</option>
-                  </select>
-                </div>
-                <div class="tracker-field list-filter-field">
-                  <label for="trackerListFilter">List</label>
-                  <select class="tracker-select" id="trackerListFilter" aria-label="Filter tasks by list">
-                    <option value="">All</option>
-                  </select>
-                </div>
-                <div class="tracker-field priority-filter-field">
-                  <label for="trackerPriorityFilter">Priority</label>
-                  <select class="tracker-select" id="trackerPriorityFilter" aria-label="Filter tasks by priority">
-                    <option value="">All</option>
-                  </select>
-                </div>
-                <div class="tracker-field department-filter-field">
-                  <label for="trackerDepartmentFilter">Department</label>
-                  <select class="tracker-select" id="trackerDepartmentFilter" aria-label="Filter tasks by department">
-                    <option value="">All</option>
-                  </select>
-                </div>
-                <div class="tracker-field category-filter-field">
-                  <label for="trackerCategoryFilter">Category</label>
-                  <select class="tracker-select" id="trackerCategoryFilter" aria-label="Filter tasks by category">
-                    <option value="">All</option>
-                  </select>
-                </div>
-                <div class="tracker-field type-filter-field">
-                  <label for="trackerTypeFilter">Type</label>
-                  <select class="tracker-select" id="trackerTypeFilter" aria-label="Filter tasks by type">
-                    <option value="">All</option>
+                    <option value="all">Due all</option>
                   </select>
                 </div>
                 <button class="btn btn-ghost order-sort-control" id="orderSortBtn" type="button">Sort 1-30</button>
-              </div>
-              <div class="due-filter-actions">
-                <button class="btn btn-indigo private-time-load-btn due-private-sync-btn" type="button" hidden data-load-private-time>Sync due dates</button>
-                <p class="due-sync-note" hidden data-private-time-fallback-note>Fallback counts</p>
               </div>
               <div class="tracker-search-row">
                 <div class="tracker-field">
@@ -3301,7 +3210,6 @@
   let selectedTaskKeys = new Set();
   let bulkTaskStatusValue = "done";
   let trackOrderDirection = "asc";
-  let trackerPriorityFilterTouched = false;
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
   let trackerActivityRowsRenderTimer = null;
@@ -5192,10 +5100,10 @@
   function updateDueStatusFilterOptions(rows) {
     const select = document.getElementById("dueStatusFilter");
     if (!select) return;
-    const current = select.value || "all";
+    const current = select.value || "today";
     const counts = dueStatusFilterCounts(rows);
     const labels = {
-      all: "All",
+      all: "Due all",
       none: `Due date not set (${counts.none})`,
       set: `Due date set (${counts.set})`,
       today: `Due today (${counts.today})`,
@@ -5256,37 +5164,6 @@
       .join("");
   }
 
-  function populateTrackerListFilter() {
-    const select = document.getElementById("trackerListFilter");
-    if (!select) return;
-    const current = select.value || "";
-    select.innerHTML = `<option value="">All</option>${nativeListOptions
-      .map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)}</option>`)
-      .join("")}`;
-    select.value = nativeListOptions.some((item) => item.id === current) ? current : "";
-  }
-
-  function populateTrackerDepartmentFilter(rows = trackerActivities()) {
-    const select = document.getElementById("trackerDepartmentFilter");
-    if (!select) return;
-    const current = select.value || "";
-    const values = new Set(DEPARTMENT_OPTIONS);
-    rows.forEach((entry) => {
-      const department = cleanLabel(entry.department, "");
-      if (department) values.add(department);
-    });
-    const options = Array.from(values).sort((a, b) => {
-      const indexA = DEPARTMENT_OPTIONS.indexOf(a);
-      const indexB = DEPARTMENT_OPTIONS.indexOf(b);
-      if (indexA !== -1 || indexB !== -1) return (indexA === -1 ? DEPARTMENT_OPTIONS.length : indexA) - (indexB === -1 ? DEPARTMENT_OPTIONS.length : indexB);
-      return a.localeCompare(b);
-    });
-    select.innerHTML = `<option value="">All</option>${options
-      .map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`)
-      .join("")}`;
-    select.value = options.includes(current) ? current : "";
-  }
-
   function priorityFilterOptions(rows) {
     return Array.from(new Set(rows
       .map((entry) => trackGroupName(entry))
@@ -5301,13 +5178,6 @@
       `<option value=""${current ? "" : " selected"}>${escapeHtml(allLabel)}</option>`,
       ...options.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
     ].join("");
-  }
-
-  function populateTrackerPriorityFilter(rows = trackerActivities()) {
-    const select = document.getElementById("trackerPriorityFilter");
-    if (!select) return;
-    const selected = trackerPriorityFilterTouched ? select.value : "";
-    select.innerHTML = priorityFilterOptionsHtml(rows, "All", selected);
   }
 
   function metadataFilterOptions(rows, field) {
@@ -5989,34 +5859,13 @@
   function renderActivityRows() {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
-    const recurrenceFilter = document.getElementById("recurrenceFilter");
-    const priorityFilter = document.getElementById("trackerPriorityFilter");
-    const listFilter = document.getElementById("trackerListFilter");
-    const departmentFilter = document.getElementById("trackerDepartmentFilter");
-    const categoryFilter = document.getElementById("trackerCategoryFilter");
-    const typeFilter = document.getElementById("trackerTypeFilter");
     const taskSearch = document.getElementById("taskSearchInput");
     const query = taskSearch?.value.trim().toLowerCase() || "";
-    const selectedListId = listFilter?.value || "";
-    const selectedDepartment = departmentFilter?.value || "";
-    const selectedCategory = categoryFilter?.value || "";
-    const selectedType = typeFilter?.value || "";
     const allRows = trackerActivities();
-    populateTrackerPriorityFilter(allRows);
-    const selectedPriority = priorityFilter?.value || "";
-    populateTrackerDepartmentFilter(allRows);
-    populateTrackerMetadataFilter("trackerCategoryFilter", allRows, "taskCategory", "All");
-    populateTrackerMetadataFilter("trackerTypeFilter", allRows, "taskType", "All");
     updateDueStatusFilterOptions(allRows);
     const rows = allRows.filter((entry) => {
-      if (selectedPriority && trackGroupName(entry) !== selectedPriority) return false;
-      if (selectedListId && entry.listId !== selectedListId) return false;
-      if (selectedDepartment && entry.department !== selectedDepartment) return false;
-      if (selectedCategory && entry.taskCategory !== selectedCategory) return false;
-      if (selectedType && entry.taskType !== selectedType) return false;
       if (!isPrivateTrackerManaged(entry) && (dueFilter?.value || "all") !== "all") return false;
       return matchesDueStatusFilter(entry, dueFilter?.value || "all")
-        && matchesRecurrenceFilter(entry, recurrenceFilter?.value || "all")
         && matchesTaskSearch(entry, query);
     });
     const trackerList = document.getElementById("trackerTaskList");
@@ -6301,20 +6150,7 @@
 
   function clearTrackerFiltersForTaskSearch() {
     const dueFilter = document.getElementById("dueStatusFilter");
-    const recurrenceFilter = document.getElementById("recurrenceFilter");
-    const priorityFilter = document.getElementById("trackerPriorityFilter");
-    const listFilter = document.getElementById("trackerListFilter");
-    const departmentFilter = document.getElementById("trackerDepartmentFilter");
-    const categoryFilter = document.getElementById("trackerCategoryFilter");
-    const typeFilter = document.getElementById("trackerTypeFilter");
     if (dueFilter) dueFilter.value = "all";
-    if (recurrenceFilter) recurrenceFilter.value = "all";
-    if (priorityFilter) priorityFilter.value = "";
-    if (listFilter) listFilter.value = "";
-    if (departmentFilter) departmentFilter.value = "";
-    if (categoryFilter) categoryFilter.value = "";
-    if (typeFilter) typeFilter.value = "";
-    trackerPriorityFilterTouched = false;
   }
 
   function handleTrackerTaskSearchInput() {
@@ -6378,8 +6214,6 @@
 
   function renderTracker() {
     populateListSelect(document.getElementById("trackerList"), document.getElementById("trackerList").value || "901301650324");
-    populateTrackerListFilter();
-    populateTrackerDepartmentFilter();
     const entries = nativeCompletedEntries();
     renderTimerState();
     renderMetadataOptions();
@@ -6388,21 +6222,6 @@
     renderActivityRows();
     const dueFilter = document.getElementById("dueStatusFilter");
     if (dueFilter) dueFilter.oninput = renderActivityRows;
-    const recurrenceFilter = document.getElementById("recurrenceFilter");
-    if (recurrenceFilter) recurrenceFilter.oninput = renderActivityRows;
-    const priorityFilter = document.getElementById("trackerPriorityFilter");
-    if (priorityFilter) priorityFilter.oninput = () => {
-      trackerPriorityFilterTouched = true;
-      renderActivityRows();
-    };
-    const listFilter = document.getElementById("trackerListFilter");
-    if (listFilter) listFilter.oninput = renderActivityRows;
-    const departmentFilter = document.getElementById("trackerDepartmentFilter");
-    if (departmentFilter) departmentFilter.oninput = renderActivityRows;
-    const categoryFilter = document.getElementById("trackerCategoryFilter");
-    if (categoryFilter) categoryFilter.oninput = renderActivityRows;
-    const typeFilter = document.getElementById("trackerTypeFilter");
-    if (typeFilter) typeFilter.oninput = renderActivityRows;
     const taskSearch = document.getElementById("taskSearchInput");
     if (taskSearch) taskSearch.oninput = handleTrackerTaskSearchInput;
     const trackerList = document.getElementById("trackerList");
