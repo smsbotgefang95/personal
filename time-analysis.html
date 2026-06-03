@@ -1103,9 +1103,9 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 280px) minmax(150px, 180px);
+    grid-template-columns: minmax(190px, 280px) minmax(150px, 180px) minmax(240px, 1fr);
     grid-template-areas:
-      "due sort";
+      "due sort search";
     gap: 8px;
     align-items: start;
     justify-content: start;
@@ -1119,9 +1119,8 @@
     min-width: 0;
   }
 
-  .tracker-search-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
+  .tracker-search-field {
+    grid-area: search;
   }
 
   .tracker-filter-controls .due-filter-field {
@@ -2476,9 +2475,10 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr) minmax(150px, 180px);
       grid-template-areas:
-        "due sort";
+        "due sort"
+        "search search";
     }
     .quick-chip {
       min-height: 48px;
@@ -2554,7 +2554,8 @@
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
         "due"
-        "sort";
+        "sort"
+        "search";
     }
     .order-sort-control {
       width: 100%;
@@ -2659,16 +2660,14 @@
             <div class="tracker-filter-bar">
               <div class="tracker-filter-controls">
                 <div class="tracker-field due-filter-field">
-                  <label for="dueStatusFilter">Due today</label>
+                  <label for="dueStatusFilter">Due filter</label>
                   <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
                     <option value="today">Due today</option>
-                    <option value="all">Due all</option>
+                    <option value="all" selected>Due all</option>
                   </select>
                 </div>
                 <button class="btn btn-ghost order-sort-control" id="orderSortBtn" type="button">Sort 1-30</button>
-              </div>
-              <div class="tracker-search-row">
-                <div class="tracker-field">
+                <div class="tracker-field tracker-search-field">
                   <label for="taskSearchInput">Task search</label>
                   <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
                 </div>
@@ -3124,6 +3123,9 @@
   const BUSINESS_TIME_ZONE = "America/New_York";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
+  const HIDDEN_RECENT_TASKS_VERSION = "20260603-ai-agent-keep";
+  const HIDDEN_RECENT_TASKS_VERSION_PREFIX = `${HIDDEN_RECENT_TASKS_VERSION}|||`;
+  const RECENT_TASK_LIMIT = 8;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
     "soak butt",
@@ -3131,6 +3133,10 @@
     "weigh myself",
     "talk to matt",
     "sleep"
+  ]);
+  const PINNED_RECENT_TASK_NAMES = new Set([
+    "run ai agent",
+    "run ai agent_personal"
   ]);
   const SEARCH_RENDER_DELAY_MS = 200;
   const TASK_SEARCH_ALIASES = [
@@ -4606,14 +4612,51 @@
     return DEFAULT_RECENT_TASK_EXCLUDED_NAMES.has(normalizedRecentTaskName(entry?.taskName));
   }
 
+  function isPinnedRecentTask(entry) {
+    return PINNED_RECENT_TASK_NAMES.has(normalizedRecentTaskName(entry?.taskName));
+  }
+
+  function rawHiddenRecentTaskKeys() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(HIDDEN_RECENT_TASKS_STORAGE) || "[]");
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function unversionedHiddenRecentTaskKey(key) {
+    return key.startsWith(HIDDEN_RECENT_TASKS_VERSION_PREFIX)
+      ? key.slice(HIDDEN_RECENT_TASKS_VERSION_PREFIX.length)
+      : key;
+  }
+
+  function versionedHiddenRecentTaskKey(key) {
+    return `${HIDDEN_RECENT_TASKS_VERSION_PREFIX}${key}`;
+  }
+
   function hiddenRecentTaskKeys() {
-    try { return new Set(JSON.parse(localStorage.getItem(HIDDEN_RECENT_TASKS_STORAGE) || "[]")); }
-    catch (error) { return new Set(); }
+    return new Set(rawHiddenRecentTaskKeys().map(unversionedHiddenRecentTaskKey));
+  }
+
+  function isRecentTaskHidden(entry, key, activeKey) {
+    if (key === activeKey) return false;
+    const hiddenItems = rawHiddenRecentTaskKeys();
+    if (!hiddenItems.some((item) => unversionedHiddenRecentTaskKey(item) === key)) return false;
+    return !isPinnedRecentTask(entry) || hiddenItems.includes(versionedHiddenRecentTaskKey(key));
   }
 
   function writeHiddenRecentTaskKeys(keys) {
-    try { localStorage.setItem(HIDDEN_RECENT_TASKS_STORAGE, JSON.stringify(Array.from(keys))); }
+    try { localStorage.setItem(HIDDEN_RECENT_TASKS_STORAGE, JSON.stringify(Array.from(keys).map(versionedHiddenRecentTaskKey))); }
     catch (error) {}
+  }
+
+  function hideRecentTaskKey(key) {
+    try {
+      const nextKeys = rawHiddenRecentTaskKeys().filter((item) => unversionedHiddenRecentTaskKey(item) !== key);
+      nextKeys.push(versionedHiddenRecentTaskKey(key));
+      localStorage.setItem(HIDDEN_RECENT_TASKS_STORAGE, JSON.stringify(nextKeys));
+    } catch (error) {}
   }
 
   function recentTrackedTaskSource() {
@@ -4628,7 +4671,6 @@
     const byTask = new Map();
     const activeEntry = entries.find((entry) => entry?.isActiveRecentTask);
     const activeKey = activeEntry ? recentTaskKey(activeEntry) : "";
-    const hiddenKeys = hiddenRecentTaskKeys();
     entries
       .sort((a, b) => {
         if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
@@ -4638,10 +4680,22 @@
         if (!entry?.taskName) return;
         if (isDefaultRecentTaskExcluded(entry)) return;
         const key = recentTaskKey(entry);
-        if (hiddenKeys.has(key) && key !== activeKey) return;
+        if (isRecentTaskHidden(entry, key, activeKey)) return;
         if (!byTask.has(key)) byTask.set(key, entry);
       });
-    return Array.from(byTask.values()).slice(0, 8);
+    const tasks = Array.from(byTask.values());
+    const visibleTasks = tasks.slice(0, RECENT_TASK_LIMIT);
+    const visibleKeys = new Set(visibleTasks.map(recentTaskKey));
+    tasks
+      .filter((entry) => isPinnedRecentTask(entry) && !visibleKeys.has(recentTaskKey(entry)))
+      .forEach((entry) => {
+        const removableIndex = visibleTasks.findIndex((item) => !item.isActiveRecentTask && !isPinnedRecentTask(item));
+        if (removableIndex === -1) return;
+        visibleKeys.delete(recentTaskKey(visibleTasks[removableIndex]));
+        visibleTasks.splice(removableIndex, 1, entry);
+        visibleKeys.add(recentTaskKey(entry));
+      });
+    return visibleTasks;
   }
 
   function syncRecentTaskActiveState() {
@@ -4683,9 +4737,7 @@
       const hideTask = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const nextHiddenKeys = hiddenRecentTaskKeys();
-        nextHiddenKeys.add(control.dataset.hideRecentTask);
-        writeHiddenRecentTaskKeys(nextHiddenKeys);
+        hideRecentTaskKey(control.dataset.hideRecentTask);
         renderRecentTaskSwitcher();
       };
       control.addEventListener("click", hideTask);
@@ -5100,7 +5152,7 @@
   function updateDueStatusFilterOptions(rows) {
     const select = document.getElementById("dueStatusFilter");
     if (!select) return;
-    const current = select.value || "today";
+    const current = select.value || "all";
     const counts = dueStatusFilterCounts(rows);
     const labels = {
       all: "Due all",
@@ -7616,7 +7668,6 @@
     }
     showPrivateTimeLoadButton(true);
     renderTracker();
-    setTrackerStatus("Track ready. Open an analysis tab to load the full dashboard.", "saved");
     scheduleAutoDoneTaskSync();
     try {
       if (await ensureTimeAdminKey()) {
