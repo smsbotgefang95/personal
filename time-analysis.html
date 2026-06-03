@@ -5492,11 +5492,17 @@
     ].filter(Boolean);
   }
 
-  function timeEntryCompletionDate(entry) {
-    if (!entry?.start || !entry.stop) return "";
+  function timeEntryCompletionDates(entry) {
+    if (!entry?.start || !entry.stop) return [];
     const start = new Date(entry.start);
-    if (Number.isNaN(start.getTime())) return "";
-    return dateKey(start);
+    const stop = new Date(entry.stop);
+    if (Number.isNaN(start.getTime())) return [];
+    const dates = [dateKey(start)];
+    if (isSleepTimerEntry(entry) && !Number.isNaN(stop.getTime())) {
+      const stopDate = dateKey(stop);
+      if (stopDate && stopDate !== dates[0]) dates.push(stopDate);
+    }
+    return dates.filter(Boolean);
   }
 
   function timeEntryCompletedAt(entry) {
@@ -5550,13 +5556,15 @@
     const entriesForAutoDone = Array.isArray(sourceEntries) ? sourceEntries : (timePayload.entries || []);
     const ignoreManualHold = Array.isArray(sourceEntries);
     entriesForAutoDone.forEach((entry) => {
-      const loggedDate = timeEntryCompletionDate(entry);
-      if (!loggedDate) return;
+      const loggedDatesForEntry = timeEntryCompletionDates(entry);
+      if (!loggedDatesForEntry.length) return;
       const completedAt = timeEntryCompletedAt(entry);
       autoDoneTaskTargets(entry).forEach((target) => {
         if (!loggedDatesByTarget.has(target)) loggedDatesByTarget.set(target, new Map());
         const loggedDates = loggedDatesByTarget.get(target);
-        loggedDates.set(loggedDate, Math.max(Number(loggedDates.get(loggedDate)) || 0, completedAt));
+        loggedDatesForEntry.forEach((loggedDate) => {
+          loggedDates.set(loggedDate, Math.max(Number(loggedDates.get(loggedDate)) || 0, completedAt));
+        });
       });
     });
     if (!loggedDatesByTarget.size) return;
