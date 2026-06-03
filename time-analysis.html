@@ -1103,9 +1103,9 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 280px) minmax(150px, 180px) minmax(240px, 1fr);
+    grid-template-columns: minmax(190px, 280px) minmax(240px, 1fr);
     grid-template-areas:
-      "due sort search";
+      "due search";
     gap: 8px;
     align-items: start;
     justify-content: start;
@@ -1128,10 +1128,6 @@
   }
 
   .due-filter-field { grid-area: due; }
-  .order-sort-control {
-    grid-area: sort;
-    align-self: end;
-  }
 
   #dueStatusFilter {
     width: 100%;
@@ -2475,10 +2471,10 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: minmax(0, 1fr) minmax(150px, 180px);
+      grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
-        "due sort"
-        "search search";
+        "due"
+        "search";
     }
     .quick-chip {
       min-height: 48px;
@@ -2554,11 +2550,7 @@
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
         "due"
-        "sort"
         "search";
-    }
-    .order-sort-control {
-      width: 100%;
     }
     .due-sync-note {
       white-space: normal;
@@ -2666,7 +2658,6 @@
                     <option value="all" selected>Due all</option>
                   </select>
                 </div>
-                <button class="btn btn-ghost order-sort-control" id="orderSortBtn" type="button">Sort 1-30</button>
                 <div class="tracker-field tracker-search-field">
                   <label for="taskSearchInput">Task search</label>
                   <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
@@ -3215,7 +3206,6 @@
   let expandedCustomRecurrenceKeys = new Set();
   let selectedTaskKeys = new Set();
   let bulkTaskStatusValue = "done";
-  let trackOrderDirection = "asc";
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
   let trackerActivityRowsRenderTimer = null;
@@ -4915,7 +4905,7 @@
     const hasOrderA = Number.isFinite(orderA);
     const hasOrderB = Number.isFinite(orderB);
     if (hasOrderA && hasOrderB && orderA !== orderB) {
-      return trackOrderDirection === "desc" ? orderB - orderA : orderA - orderB;
+      return orderA - orderB;
     }
     if (hasOrderA !== hasOrderB) return hasOrderA ? -1 : 1;
     const priorityDiff = TRACK_GROUP_ORDER.indexOf(trackGroupName(a)) - TRACK_GROUP_ORDER.indexOf(trackGroupName(b));
@@ -5195,13 +5185,6 @@
       options.push(`<option value="${value}"${value === current ? " selected" : ""}>${i}</option>`);
     }
     return options.join("");
-  }
-
-  function updateOrderSortButton() {
-    const button = document.getElementById("orderSortBtn");
-    if (!button) return;
-    button.textContent = trackOrderDirection === "asc" ? "Sort 1-30" : "Sort 30-1";
-    button.setAttribute("aria-label", `Task order sort ${trackOrderDirection === "asc" ? "ascending" : "descending"}`);
   }
 
   function recurrenceOptionsHtml(selected) {
@@ -6278,15 +6261,6 @@
     if (taskSearch) taskSearch.oninput = handleTrackerTaskSearchInput;
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
-    const orderSort = document.getElementById("orderSortBtn");
-    if (orderSort) {
-      updateOrderSortButton();
-      orderSort.onclick = () => {
-        trackOrderDirection = trackOrderDirection === "asc" ? "desc" : "asc";
-        updateOrderSortButton();
-        renderActivityRows();
-      };
-    }
   }
 
   function renderNativeDashboard() {
