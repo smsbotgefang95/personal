@@ -5051,11 +5051,11 @@
     try { localStorage.setItem(TRACK_COLLAPSED_STORAGE, JSON.stringify(Array.from(collapsedTrackGroups))); } catch (error) {}
   }
 
-  function collapseDueDateTrackGroups(groups) {
+  function expandDueDateTrackGroups(groups) {
     let changed = false;
     groups.forEach(([, , collapseKey]) => {
-      if (!collapseKey || !collapseKey.startsWith("due:") || collapsedTrackGroups.has(collapseKey)) return;
-      collapsedTrackGroups.add(collapseKey);
+      if (!collapseKey || !collapseKey.startsWith("due:") || !collapsedTrackGroups.has(collapseKey)) return;
+      collapsedTrackGroups.delete(collapseKey);
       changed = true;
     });
     if (changed) saveCollapsedTrackGroups();
@@ -6039,7 +6039,7 @@
     `;
   }
 
-  function renderActivityRows({ collapseDueDateGroups = false } = {}) {
+  function renderActivityRows({ expandDueDateGroups = false } = {}) {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
     const taskSearch = document.getElementById("taskSearchInput");
@@ -6058,7 +6058,7 @@
       : rows;
     const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
     const groups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
-    if (collapseDueDateGroups && groupedByDueDate && !query) collapseDueDateTrackGroups(groups);
+    if (expandDueDateGroups && groupedByDueDate && !query) expandDueDateTrackGroups(groups);
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
     trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel]) => {
@@ -6409,7 +6409,7 @@
         const dueFilter = document.getElementById("dueStatusFilter");
         const nextFilter = button.dataset.dueFilterValue || "all";
         if (dueFilter) dueFilter.value = nextFilter;
-        renderActivityRows({ collapseDueDateGroups: nextFilter === "all" });
+        renderActivityRows({ expandDueDateGroups: nextFilter === "all" });
       };
     });
     const taskSearch = document.getElementById("taskSearchInput");
