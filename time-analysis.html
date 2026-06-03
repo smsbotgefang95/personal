@@ -4647,10 +4647,8 @@
     return csvRawRowCount + nativeCount;
   }
 
-  function analysisSourcePills(nativeCount = nativeCompletedEntries().length) {
-    const pills = csvImportedEntries.length ? TIME_CSV_FILES.map(shortFileName) : [];
-    if (nativeCount) pills.push("Native time tracking");
-    return pills.length ? pills : ["Native time tracking"];
+  function analysisSourcePills() {
+    return csvImportedEntries.length ? TIME_CSV_FILES.map(shortFileName) : [];
   }
 
   function activeDurationMs() {
@@ -7771,7 +7769,7 @@
     showPrivateTimeLoadButton(!timePayloadHasPrivateData(response));
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
-      setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing local data.", timePayloadHasPrivateData(response) ? "saved" : "");
+      if (!timePayloadHasPrivateData(response)) setTrackerStatus("Shared Time Analysis data is empty. Showing local data.");
       scheduleAutoDoneTaskSync();
       return true;
     }
@@ -7781,7 +7779,7 @@
       renderTracker();
       renderDashboard(appEntries, appMetrics);
     }
-    setTrackerStatus(timePayloadHasPrivateData(response) ? "Loaded shared due dates." : "Shared Time Analysis data is empty. Showing fallback counts.", timePayloadHasPrivateData(response) ? "saved" : "");
+    if (!timePayloadHasPrivateData(response)) setTrackerStatus("Shared Time Analysis data is empty. Showing fallback counts.");
     scheduleAutoDoneTaskSync();
     return true;
   }
