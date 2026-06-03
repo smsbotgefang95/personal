@@ -4051,9 +4051,10 @@
         recurringText: recurrence === "custom" ? cleanLabel(value?.recurringText, "") : "",
         taskOrder: orderOptionValue(value?.taskOrder),
         autoDoneDate: dateInputValue(value?.autoDoneDate),
+        privateTask: value?.privateTask === true,
         updatedAt: cleanLabel(value?.updatedAt, "")
       };
-      ["listId", "taskName", "department", "priority", "taskCategory", "taskType", "notes"].forEach((field) => {
+      ["listId", "taskName", "department", "priority", "section", "taskCategory", "taskType", "notes"].forEach((field) => {
         if (Object.prototype.hasOwnProperty.call(value || {}, field)) cleaned[field] = field === "taskCategory" ? normalizeTaskCategory(value[field]) : cleanLabel(value[field], "");
       });
       return [key, cleaned];
@@ -4555,6 +4556,51 @@
     return entriesWithTaskOverrides((timePayload.entries || []).map(normalizeNativeEntry));
   }
 
+  function privateTaskOverrideEntries() {
+    return Object.entries(timePayload.taskOverrides || {}).flatMap(([key, override], index) => {
+      if (override?.privateTask !== true || !cleanLabel(override.taskName, "")) return [];
+      const parts = taskKeyParts(key);
+      const listId = cleanLabel(override.listId, parts.listId);
+      const taskName = cleanLabel(override.taskName, "Untitled task");
+      const taskId = cleanLabel(parts.taskId, taskIdFor(taskName));
+      const recurrence = override.recurrence || "none";
+      return [{
+        id: `private-task:${key}`,
+        sourceFile: "Private task",
+        sourceIndex: 100000 + index,
+        sourceType: "private-task",
+        start: null,
+        stop: null,
+        date: "",
+        displayDate: "",
+        week: "Private task",
+        durationMs: 0,
+        hours: 0,
+        listId,
+        listName: listNameForId(listId),
+        taskId,
+        taskName,
+        department: cleanLabel(override.department, ""),
+        priority: cleanLabel(override.priority, ""),
+        section: cleanLabel(override.section, ""),
+        taskCategory: normalizeTaskCategory(override.taskCategory),
+        taskType: cleanLabel(override.taskType, ""),
+        dueDate: dateInputValue(override.dueDate),
+        dueDateText: dateInputValue(override.dueDate),
+        dueTime: timeInputValue(override.dueTime),
+        startDate: "",
+        startDateText: "",
+        recurring: recurrence !== "none",
+        recurringText: recurrence === "custom" ? cleanLabel(override.recurringText, "") : (recurrence === "none" ? "" : recurrenceLabel(recurrence)),
+        recurrence,
+        taskOrder: orderOptionValue(override.taskOrder),
+        notes: cleanLabel(override.notes, ""),
+        status: override.status === "done" ? "done" : "todo",
+        privateTask: true
+      }];
+    });
+  }
+
   function composedAnalysisEntries(importedEntries = csvImportedEntries) {
     const byKey = new Map();
     [
@@ -4819,7 +4865,7 @@
       appEntries.length === taskCatalogEntries.length &&
       appEntries.every((entry, index) => entry?.id && entry.id === taskCatalogEntries[index]?.id);
     const catalogSources = appEntriesAreCatalogRows ? [] : taskCatalogEntries;
-    const sources = [...catalogSources, ...appEntries, ...nativeCompletedEntries()]
+    const sources = [...catalogSources, ...appEntries, ...nativeCompletedEntries(), ...privateTaskOverrideEntries()]
       .map(applyTaskMerge)
       .map(applyTaskOverride);
     const byTask = new Map();
@@ -5003,6 +5049,16 @@
 
   function saveCollapsedTrackGroups() {
     try { localStorage.setItem(TRACK_COLLAPSED_STORAGE, JSON.stringify(Array.from(collapsedTrackGroups))); } catch (error) {}
+  }
+
+  function collapseDueDateTrackGroups(groups) {
+    let changed = false;
+    groups.forEach(([, , collapseKey]) => {
+      if (!collapseKey || !collapseKey.startsWith("due:") || collapsedTrackGroups.has(collapseKey)) return;
+      collapsedTrackGroups.add(collapseKey);
+      changed = true;
+    });
+    if (changed) saveCollapsedTrackGroups();
   }
 
   function activityMeta(entry) {
@@ -5326,10 +5382,12 @@
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
       taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder),
       autoDoneDate: dateInputValue(existing.autoDoneDate),
+      privateTask: existing.privateTask === true || entry.privateTask === true,
       listId: Object.prototype.hasOwnProperty.call(existing, "listId") ? cleanLabel(existing.listId, "") : cleanLabel(entry.listId, ""),
       taskName: Object.prototype.hasOwnProperty.call(existing, "taskName") ? cleanLabel(existing.taskName, "") : cleanLabel(entry.taskName, ""),
       department: Object.prototype.hasOwnProperty.call(existing, "department") ? cleanLabel(existing.department, "") : cleanLabel(entry.department, ""),
       priority: Object.prototype.hasOwnProperty.call(existing, "priority") ? cleanLabel(existing.priority, "") : cleanLabel(entry.priority, ""),
+      section: Object.prototype.hasOwnProperty.call(existing, "section") ? cleanLabel(existing.section, "") : cleanLabel(entry.section, ""),
       taskCategory: Object.prototype.hasOwnProperty.call(existing, "taskCategory") ? normalizeTaskCategory(existing.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(existing, "taskType") ? cleanLabel(existing.taskType, "") : cleanLabel(entry.taskType, ""),
       notes: Object.prototype.hasOwnProperty.call(existing, "notes") ? cleanLabel(existing.notes, "") : cleanLabel(entry.notes, "")
@@ -5988,7 +6046,7 @@
     `;
   }
 
-  function renderActivityRows() {
+  function renderActivityRows({ collapseDueDateGroups = false } = {}) {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
     const taskSearch = document.getElementById("taskSearchInput");
@@ -6005,10 +6063,11 @@
     const rowsForDisplay = !query && shouldHideDoneTasksForDueFilter(dueFilterValue)
       ? rows.filter((entry) => entry.status !== "done")
       : rows;
-    const groups = shouldGroupActivitiesByDueDate(dueFilterValue) ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
+    const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
+    const groups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
+    if (collapseDueDateGroups && groupedByDueDate && !query) collapseDueDateTrackGroups(groups);
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
-    const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
     trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel]) => {
       const groupKey = collapseKey || group;
       const collapsed = !query && collapsedTrackGroups.has(groupKey);
@@ -6355,8 +6414,9 @@
     document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
       button.onclick = () => {
         const dueFilter = document.getElementById("dueStatusFilter");
-        if (dueFilter) dueFilter.value = button.dataset.dueFilterValue || "all";
-        renderActivityRows();
+        const nextFilter = button.dataset.dueFilterValue || "all";
+        if (dueFilter) dueFilter.value = nextFilter;
+        renderActivityRows({ collapseDueDateGroups: nextFilter === "all" });
       };
     });
     const taskSearch = document.getElementById("taskSearchInput");
@@ -7732,11 +7792,13 @@
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
     timePayload = readLocalTimePayload();
-    currentSourcePills = ["Task catalog"];
+    currentSourcePills = [];
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboard").hidden = false;
-    document.getElementById("pageSubtitle").textContent = "Track time now · analysis loads on demand";
-    document.getElementById("sourcePills").innerHTML = `<span class="source-pill">Task catalog</span>`;
+    const pageSubtitle = document.getElementById("pageSubtitle");
+    pageSubtitle.textContent = "";
+    pageSubtitle.hidden = true;
+    document.getElementById("sourcePills").innerHTML = "";
     try {
       taskCatalogEntries = await loadTaskCatalogEntries();
     } catch (catalogError) {
