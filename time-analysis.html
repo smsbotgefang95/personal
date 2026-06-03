@@ -6968,7 +6968,9 @@
   function renderDashboard(entries, metrics) {
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboard").hidden = false;
-    document.getElementById("pageSubtitle").textContent = `${metrics.weeks.length} Sunday-Saturday weeks · ${formatHours(metrics.totalHours, 2)} tracked · ${metrics.dedupedCount.toLocaleString()} entries`;
+    const pageSubtitle = document.getElementById("pageSubtitle");
+    pageSubtitle.textContent = "";
+    pageSubtitle.hidden = true;
     document.getElementById("sourcePills").innerHTML = currentSourcePills.map((label) => `<span class="source-pill">${escapeHtml(label)}</span>`).join("");
 
     renderOverview(entries, metrics);
