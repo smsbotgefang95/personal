@@ -3221,6 +3221,14 @@
   const BUSINESS_TIME_ZONE = "America/New_York";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
+  const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
+    "update daily kpis",
+    "soak butt",
+    "poop",
+    "weigh myself",
+    "talk to matt",
+    "sleep"
+  ]);
   const SEARCH_RENDER_DELAY_MS = 200;
   const TASK_SEARCH_ALIASES = [
     {
@@ -4659,52 +4667,11 @@
     return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":");
   }
 
-  function activeTimerMetadataOptions(field, active) {
-    if (field === "department") return metadataOptions("department");
-    if (field === "taskCategory") return metadataFilterOptions(trackerActivities(), "taskCategory");
-    if (field === "taskType") return metadataFilterOptions(trackerActivities(), "taskType");
-    return active?.[field] ? [active[field]] : [];
-  }
-
-  function activeTimerSelectOptionsHtml(field, active, placeholder) {
-    const current = field === "taskCategory"
-      ? normalizeTaskCategory(active?.[field])
-      : cleanLabel(active?.[field], "");
-    const values = activeTimerMetadataOptions(field, active);
-    const uniqueValues = Array.from(new Set([current, ...values].filter(Boolean)));
-    return [
-      `<option value=""${current ? "" : " selected"}>${escapeHtml(placeholder)}</option>`,
-      ...uniqueValues.map((value) => `<option value="${escapeHtml(value)}"${value === current ? " selected" : ""}>${escapeHtml(value)}</option>`)
-    ].join("");
-  }
-
-  function renderActiveTimerMetadata(active) {
-    const panel = document.getElementById("activeTimerMeta");
-    if (!panel) return;
-    panel.hidden = !active;
-    if (!active) {
-      activeTimerMetaSignature = "";
-      return;
-    }
-    const signature = [
-      active.id,
-      active.department,
-      active.taskCategory,
-      active.taskType
-    ].map((value) => cleanLabel(value, "")).join("|||");
-    if (signature === activeTimerMetaSignature) return;
-    activeTimerMetaSignature = signature;
-    document.getElementById("activeTimerDepartment").innerHTML = activeTimerSelectOptionsHtml("department", active, "Department");
-    document.getElementById("activeTimerCategory").innerHTML = activeTimerSelectOptionsHtml("taskCategory", active, "Category");
-    document.getElementById("activeTimerType").innerHTML = activeTimerSelectOptionsHtml("taskType", active, "Type");
-  }
-
   function renderTimerState() {
     const active = timePayload.activeEntry;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
     document.getElementById("timerValue").textContent = formatClock(active ? activeDurationMs() : 0);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
-    renderActiveTimerMetadata(active);
     document.getElementById("startTimerBtn").disabled = false;
     document.getElementById("stopTimerBtn").disabled = !active;
     document.getElementById("cancelTimerBtn").disabled = !active;
@@ -4725,6 +4692,18 @@
     if (entry.start instanceof Date) return entry.start.getTime() || 0;
     const parsed = new Date(entry.start).getTime();
     return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  function normalizedRecentTaskName(taskName) {
+    return cleanLabel(taskName, "")
+      .replace(/^[^A-Za-z0-9]+/, "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function isDefaultRecentTaskExcluded(entry) {
+    return DEFAULT_RECENT_TASK_EXCLUDED_NAMES.has(normalizedRecentTaskName(entry?.taskName));
   }
 
   function hiddenRecentTaskKeys() {
@@ -4757,6 +4736,7 @@
       })
       .forEach((entry) => {
         if (!entry?.taskName) return;
+        if (isDefaultRecentTaskExcluded(entry)) return;
         const key = recentTaskKey(entry);
         if (hiddenKeys.has(key) && key !== activeKey) return;
         if (!byTask.has(key)) byTask.set(key, entry);
