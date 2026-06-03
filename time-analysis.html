@@ -2179,7 +2179,7 @@
 
   .bulk-task-spacer { flex: 1 1 auto; }
 
-  .bulk-task-merge {
+  .bulk-task-action {
     min-height: 40px;
     border: 1px solid #4b5563;
     border-radius: 8px;
@@ -2228,7 +2228,7 @@
 
     .bulk-task-field,
     .bulk-task-status-select,
-    .bulk-task-merge,
+    .bulk-task-action,
     .bulk-task-apply {
       width: 100%;
     }
@@ -4520,6 +4520,7 @@
       section: cleanLabel(entry.section, ""),
       taskCategory,
       taskType,
+      status: normalizedTaskStatus(entry.status),
       dueDate: cleanLabel(entry.dueDate, ""),
       dueDateText: cleanLabel(entry.dueDateText, ""),
       dueTime: timeInputValue(entry.dueTime),
@@ -5660,7 +5661,8 @@
           <button class="bulk-task-clear" type="button" data-clear-task-selection aria-label="Clear selected tasks">&times;</button>
         </div>
         <div class="bulk-task-spacer"></div>
-        <button class="bulk-task-merge" type="button" data-merge-selected-tasks${selectedRows.length < 2 ? " disabled" : ""}>Merge</button>
+        <button class="bulk-task-action" type="button" data-duplicate-selected-tasks>Duplicate</button>
+        <button class="bulk-task-action" type="button" data-merge-selected-tasks${selectedRows.length < 2 ? " disabled" : ""}>Merge</button>
         <label class="bulk-task-field" for="bulkTaskStatus">
           <span>Status</span>
           <select class="bulk-task-status-select" id="bulkTaskStatus" data-bulk-status>
@@ -5680,6 +5682,9 @@
     });
     document.querySelector("[data-apply-bulk-status]")?.addEventListener("click", () => {
       applyBulkTaskStatus(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
+    });
+    document.querySelector("[data-duplicate-selected-tasks]")?.addEventListener("click", () => {
+      duplicateSelectedTasks(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
     });
     document.querySelector("[data-merge-selected-tasks]")?.addEventListener("click", () => {
       openMergeTaskDialog(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
@@ -5708,6 +5713,73 @@
       taskOverrides: nextOverrides
     });
     setTrackerStatus(`Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`, "saved");
+  }
+
+  function uniqueDuplicateTaskName(baseName, usedNames) {
+    const root = `${cleanLabel(baseName, "Untitled task")} Copy`;
+    let candidate = root;
+    let index = 2;
+    while (usedNames.has(candidate.toLowerCase())) {
+      candidate = `${root} ${index}`;
+      index += 1;
+    }
+    usedNames.add(candidate.toLowerCase());
+    return candidate;
+  }
+
+  function duplicatedTaskEntry(entry, taskName, timestamp) {
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    const recurringText = recurrence === "custom"
+      ? cleanLabel(entry.recurringText, "")
+      : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
+    return {
+      id: nativeId("duplicate"),
+      sourceType: "native",
+      start: timestamp,
+      stop: timestamp,
+      durationMs: 0,
+      listId: cleanLabel(entry.listId, "901301650324"),
+      listName: listNameForId(cleanLabel(entry.listId, "901301650324")),
+      taskId: taskIdFor(taskName),
+      taskName,
+      department: cleanLabel(entry.department, ""),
+      priority: cleanLabel(entry.priority, ""),
+      section: cleanLabel(entry.section, ""),
+      taskCategory: normalizeTaskCategory(entry.taskCategory),
+      taskType: entry.taskType === "Other" ? "" : cleanLabel(entry.taskType, ""),
+      status: entry.status === "done" ? "done" : "todo",
+      dueDate: dateInputValue(entry.dueDate),
+      dueDateText: "",
+      dueTime: timeInputValue(entry.dueTime),
+      startDate: "",
+      startDateText: "",
+      recurring: recurrence !== "none",
+      recurringText,
+      taskOrder: orderOptionValue(entry.taskOrder),
+      notes: cleanLabel(entry.notes, ""),
+      createdAt: timestamp,
+      updatedAt: timestamp
+    };
+  }
+
+  async function duplicateSelectedTasks(visibleRows) {
+    const selectedRows = selectedVisibleTaskRows(visibleRows);
+    if (!selectedRows.length) return;
+    const timestamp = isoNow();
+    const usedNames = new Set(trackerActivities().map((entry) => cleanLabel(entry.taskName, "").toLowerCase()).filter(Boolean));
+    const duplicatedEntries = selectedRows.map((entry) => {
+      const taskName = uniqueDuplicateTaskName(entry.taskName, usedNames);
+      return duplicatedTaskEntry(entry, taskName, timestamp);
+    });
+    selectedTaskKeys.clear();
+    await saveTimePayload({
+      ...timePayload,
+      entries: [
+        ...(timePayload.entries || []),
+        ...duplicatedEntries
+      ]
+    });
+    setTrackerStatus(`Duplicated ${duplicatedEntries.length.toLocaleString()} ${duplicatedEntries.length === 1 ? "task" : "tasks"}`, "saved");
   }
 
   function selectedTaskNameOptions(rows) {
