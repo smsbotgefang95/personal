@@ -7792,14 +7792,15 @@
     pageSubtitle.textContent = "";
     pageSubtitle.hidden = true;
     document.getElementById("sourcePills").innerHTML = "";
-    try {
-      taskCatalogEntries = await loadTaskCatalogEntries();
-    } catch (catalogError) {
-      taskCatalogEntries = [];
-    }
     showPrivateTimeLoadButton(true);
     renderTracker();
     scheduleAutoDoneTaskSync();
+    loadTaskCatalogEntries().then((entries) => {
+      taskCatalogEntries = entries;
+      renderTimePayloadState();
+    }).catch(() => {
+      taskCatalogEntries = [];
+    });
     try {
       if (await ensureTimeAdminKey()) {
         window.setTimeout(() => {
