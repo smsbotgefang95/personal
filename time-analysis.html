@@ -3233,6 +3233,8 @@
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
   let trackerActivityRowsRenderTimer = null;
+  let trackerDeferredRowsRenderToken = 0;
+  let trackerDeferredRowsBusyTimer = null;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -4461,6 +4463,21 @@
     });
   }
 
+  function scheduleDeferredActivityRowsRender(options = {}) {
+    const token = ++trackerDeferredRowsRenderToken;
+    window.clearTimeout(trackerDeferredRowsBusyTimer);
+    trackerDeferredRowsBusyTimer = window.setTimeout(() => {
+      if (token === trackerDeferredRowsRenderToken) setTrackerListRenderBusy(true);
+    }, 120);
+    scheduleAfterPaint(() => {
+      if (token !== trackerDeferredRowsRenderToken) return;
+      window.clearTimeout(trackerDeferredRowsBusyTimer);
+      trackerDeferredRowsBusyTimer = null;
+      renderActivityRows(options);
+      setTrackerListRenderBusy(false);
+    });
+  }
+
   function markRecentTaskStarting(button, entry) {
     if (!button || !entry) return;
     const key = recentTaskKey(entry);
@@ -5105,15 +5122,18 @@
   }
 
   function dueStatusFilterCounts(rows) {
-    const privateRows = rows.filter(isPrivateTrackerManaged);
-    const actionableRows = privateRows.filter((entry) => entry.status !== "done");
-    return {
-      none: privateRows.filter((entry) => matchesDueStatusFilter(entry, "none")).length,
-      set: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "set")).length,
-      today: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "today")).length,
-      tomorrow: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "tomorrow")).length,
-      overdue: actionableRows.filter((entry) => matchesDueStatusFilter(entry, "overdue")).length
-    };
+    const counts = { none: 0, set: 0, today: 0, tomorrow: 0, overdue: 0 };
+    rows.forEach((entry) => {
+      if (!isPrivateTrackerManaged(entry)) return;
+      const status = dueStatus(entry);
+      if (status === "none") counts.none += 1;
+      if (entry.status === "done") return;
+      if (status !== "none") counts.set += 1;
+      if (status === "today") counts.today += 1;
+      else if (status === "tomorrow") counts.tomorrow += 1;
+      else if (status === "overdue") counts.overdue += 1;
+    });
+    return counts;
   }
 
   function matchesRecurrenceFilter(entry, filter) {
@@ -5235,10 +5255,26 @@
     };
     document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
       const value = button.dataset.dueFilterValue || "";
-      button.textContent = labels[value] || button.textContent;
-      button.setAttribute("aria-pressed", String(value === current));
+      const label = labels[value] || button.textContent;
+      const pressed = String(value === current);
+      if (button.textContent !== label) button.textContent = label;
+      if (button.getAttribute("aria-pressed") !== pressed) button.setAttribute("aria-pressed", pressed);
     });
     input.value = current;
+  }
+
+  function syncDueFilterButtonState(current) {
+    document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
+      const pressed = String((button.dataset.dueFilterValue || "") === current);
+      if (button.getAttribute("aria-pressed") !== pressed) button.setAttribute("aria-pressed", pressed);
+    });
+  }
+
+  function setTrackerListRenderBusy(busy) {
+    const trackerList = document.getElementById("trackerTaskList");
+    if (!trackerList) return;
+    if (busy) trackerList.setAttribute("aria-busy", "true");
+    else trackerList.removeAttribute("aria-busy");
   }
 
   function syncDueStatusFilterWidth(select) {
@@ -6117,12 +6153,16 @@
     syncTaskSelectionUi(visibleRows);
     document.querySelectorAll(".track-group-header").forEach((button) => {
       button.addEventListener("click", () => {
-        const group = button.closest(".track-group")?.dataset.trackGroup;
+        const section = button.closest(".track-group");
+        const group = section?.dataset.trackGroup;
         if (!group) return;
-        if (collapsedTrackGroups.has(group)) collapsedTrackGroups.delete(group);
-        else collapsedTrackGroups.add(group);
+        const collapsed = !collapsedTrackGroups.has(group);
+        if (collapsed) collapsedTrackGroups.add(group);
+        else collapsedTrackGroups.delete(group);
+        section.classList.toggle("collapsed", collapsed);
+        button.setAttribute("aria-expanded", String(!collapsed));
         saveCollapsedTrackGroups();
-        renderActivityRows();
+        scheduleDeferredActivityRowsRender();
       });
     });
     document.querySelectorAll("[data-due-key]").forEach((input) => {
@@ -6409,7 +6449,8 @@
         const dueFilter = document.getElementById("dueStatusFilter");
         const nextFilter = button.dataset.dueFilterValue || "all";
         if (dueFilter) dueFilter.value = nextFilter;
-        renderActivityRows({ expandDueDateGroups: nextFilter === "all" });
+        syncDueFilterButtonState(nextFilter);
+        scheduleDeferredActivityRowsRender({ expandDueDateGroups: nextFilter === "all" });
       };
     });
     const taskSearch = document.getElementById("taskSearchInput");
