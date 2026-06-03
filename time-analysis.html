@@ -1129,9 +1129,22 @@
 
   .due-filter-field { grid-area: due; }
 
-  #dueStatusFilter {
+  .due-filter-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .due-filter-btn {
     width: 100%;
-    min-width: 0;
+    min-height: 42px;
+    white-space: nowrap;
+  }
+
+  .due-filter-btn[aria-pressed="true"] {
+    background: rgba(96, 165, 250, 0.2);
+    border-color: rgba(96, 165, 250, 0.55);
+    color: #bfdbfe;
   }
 
   .tracker-filter-bar label {
@@ -2652,11 +2665,12 @@
             <div class="tracker-filter-bar">
               <div class="tracker-filter-controls">
                 <div class="tracker-field due-filter-field">
-                  <label for="dueStatusFilter">Due filter</label>
-                  <select class="tracker-select" id="dueStatusFilter" aria-label="Filter tasks by due date">
-                    <option value="today">Due today</option>
-                    <option value="all" selected>Due all</option>
-                  </select>
+                  <label id="dueStatusFilterLabel">Due filter</label>
+                  <input id="dueStatusFilter" type="hidden" value="all" />
+                  <div class="due-filter-buttons" role="group" aria-labelledby="dueStatusFilterLabel">
+                    <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
+                    <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
+                  </div>
                 </div>
                 <div class="tracker-field tracker-search-field">
                   <label for="taskSearchInput">Task search</label>
@@ -5140,9 +5154,9 @@
   }
 
   function updateDueStatusFilterOptions(rows) {
-    const select = document.getElementById("dueStatusFilter");
-    if (!select) return;
-    const current = select.value || "all";
+    const input = document.getElementById("dueStatusFilter");
+    if (!input) return;
+    const current = input.value || "all";
     const counts = dueStatusFilterCounts(rows);
     const labels = {
       all: "Due all",
@@ -5152,11 +5166,12 @@
       tomorrow: `Due tomorrow (${counts.tomorrow})`,
       overdue: `Overdue (${counts.overdue})`
     };
-    Array.from(select.options).forEach((option) => {
-      option.textContent = labels[option.value] || option.textContent;
+    document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
+      const value = button.dataset.dueFilterValue || "";
+      button.textContent = labels[value] || button.textContent;
+      button.setAttribute("aria-pressed", String(value === current));
     });
-    select.value = current;
-    syncDueStatusFilterWidth(select);
+    input.value = current;
   }
 
   function syncDueStatusFilterWidth(select) {
@@ -6255,8 +6270,13 @@
     renderRecentTaskSwitcher();
     renderQuickChips(entries);
     renderActivityRows();
-    const dueFilter = document.getElementById("dueStatusFilter");
-    if (dueFilter) dueFilter.oninput = renderActivityRows;
+    document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
+      button.onclick = () => {
+        const dueFilter = document.getElementById("dueStatusFilter");
+        if (dueFilter) dueFilter.value = button.dataset.dueFilterValue || "all";
+        renderActivityRows();
+      };
+    });
     const taskSearch = document.getElementById("taskSearchInput");
     if (taskSearch) taskSearch.oninput = handleTrackerTaskSearchInput;
     const trackerList = document.getElementById("trackerList");
