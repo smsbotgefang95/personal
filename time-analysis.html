@@ -82,7 +82,7 @@
   .page-header {
     display: grid;
     gap: 12px;
-    margin: 6px 0 18px;
+    margin: 6px 0 4px;
   }
 
   .subtitle,
@@ -101,6 +101,10 @@
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
+  }
+
+  .source-row:empty {
+    display: none;
   }
 
   .source-pill {
@@ -122,7 +126,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin: 16px 0 18px;
+    margin: 4px 0 18px;
   }
 
   .tabs {
@@ -7818,8 +7822,8 @@
         timePayload = nextPayload;
         renderRecentTaskSwitcher();
         renderOptimisticTimerState();
-        setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
-        syncOptimisticTimePayload(nextPayload, `Switched from ${active.taskName} to ${entry.taskName}`)
+        setTrackerStatus("Saved", "saved");
+        syncOptimisticTimePayload(nextPayload, "Saved")
           .then(() => autoMarkTimeLoggedTasksDone({ sourceEntries: completed }))
           .catch((error) => setTrackerStatus(error.message, "error"));
         return;
@@ -7827,7 +7831,7 @@
       timePayload = nextPayload;
       await saveTimePayload(timePayload);
       await autoMarkTimeLoggedTasksDone({ sourceEntries: completed });
-      setTrackerStatus(`Switched from ${active.taskName} to ${entry.taskName}`, "saved");
+      setTrackerStatus("Saved", "saved");
       return;
     }
     const nextPayload = cleanClientPayload({
