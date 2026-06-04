@@ -5472,7 +5472,7 @@
   }
 
   function isDailyRecurringTask(entry) {
-    return (entry?.recurrence || inferRecurrence(entry)) === "daily";
+    return isSleepTimerEntry(entry) || (entry?.recurrence || inferRecurrence(entry)) === "daily";
   }
 
   function autoDoneStatusPatch(entry, autoDoneDate) {
@@ -5504,14 +5504,8 @@
   function timeEntryCompletionDates(entry) {
     if (!entry?.start || !entry.stop) return [];
     const start = new Date(entry.start);
-    const stop = new Date(entry.stop);
     if (Number.isNaN(start.getTime())) return [];
-    const dates = [dateKey(start)];
-    if (isSleepTimerEntry(entry) && !Number.isNaN(stop.getTime())) {
-      const stopDate = dateKey(stop);
-      if (stopDate && stopDate !== dates[0]) dates.push(stopDate);
-    }
-    return dates.filter(Boolean);
+    return [dateKey(start)].filter(Boolean);
   }
 
   function timeEntryCompletedAt(entry) {
@@ -5540,8 +5534,22 @@
     return Boolean(dueDate && autoDoneDate && dueDate <= autoDoneDate);
   }
 
+  function latestLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold = false } = {}) {
+    let latestDate = "";
+    (loggedDates || new Map()).forEach((completedAt, loggedDate) => {
+      const dateValue = dateInputValue(loggedDate);
+      if (!dateValue) return;
+      if (alreadyAutoDoneForDueDate(entry, dateValue)) return;
+      if (manualHoldBlocksAutoDone(entry, dateValue, { ignoreManualHold })) return;
+      if (!latestLoggedCompletionAfter(loggedDates, dateValue, entry.dueDateEditedAt)) return;
+      if (!latestDate || dateValue > latestDate) latestDate = dateValue;
+    });
+    return latestDate;
+  }
+
   function autoDoneDateForTask(entry, loggedDates, { ignoreManualHold = false } = {}) {
     const dueDate = dueDateKey(entry);
+    if (isSleepTimerEntry(entry)) return latestLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold });
     if (alreadyAutoDoneForDueDate(entry, dueDate)) return "";
     if (manualHoldBlocksAutoDone(entry, dueDate, { ignoreManualHold })) return "";
     if (dueDate && latestLoggedCompletionAfter(loggedDates, dueDate, entry.dueDateEditedAt)) return dueDate;
