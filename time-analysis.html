@@ -5491,8 +5491,8 @@
       .toLowerCase();
   }
 
-  const AUTO_DONE_EXCLUDED_TASK_IDS = new Set(["86aem1p9g"]);
-  const AUTO_DONE_EXCLUDED_TASK_NAMES = new Set(["serve meals"]);
+  const AUTO_DONE_EXCLUDED_TASK_IDS = new Set(["86aem1p9g", "86a71bmpz"]);
+  const AUTO_DONE_EXCLUDED_TASK_NAMES = new Set(["serve meals", "do dishes"]);
 
   function isAutoDoneExcludedTask(entry) {
     const taskId = cleanLabel(entry?.taskId, "");
