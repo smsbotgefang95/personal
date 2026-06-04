@@ -376,7 +376,7 @@ function setEntryPanelOpen(open) {
 
 function toggleForm() {
   const panel = document.getElementById('entryPanel');
-  const shouldOpen = panel.style.display === 'none';
+  const shouldOpen = getComputedStyle(panel).display === 'none';
   setEntryPanelOpen(shouldOpen);
   const entryDate = document.getElementById('entryDate')?.value || '';
   if (shouldOpen && entryDate && loadedEntryDate !== entryDate) onDateChange();
