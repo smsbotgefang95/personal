@@ -5491,7 +5491,20 @@
       .toLowerCase();
   }
 
+  const AUTO_DONE_EXCLUDED_TASK_IDS = new Set(["86aem1p9g"]);
+  const AUTO_DONE_EXCLUDED_TASK_NAMES = new Set(["serve meals"]);
+
+  function isAutoDoneExcludedTask(entry) {
+    const taskId = cleanLabel(entry?.taskId, "");
+    const effectiveId = effectiveTaskId(entry?.taskId, entry?.taskName);
+    const taskName = normalizeLoggedTaskTargetName(entry?.taskName);
+    return AUTO_DONE_EXCLUDED_TASK_IDS.has(taskId) ||
+      AUTO_DONE_EXCLUDED_TASK_IDS.has(effectiveId) ||
+      AUTO_DONE_EXCLUDED_TASK_NAMES.has(taskName);
+  }
+
   function autoDoneTaskTargets(entry) {
+    if (isAutoDoneExcludedTask(entry)) return [];
     const taskName = normalizeLoggedTaskTargetName(entry?.taskName);
     return [
       taskOverrideKey(entry),
