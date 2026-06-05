@@ -3235,6 +3235,7 @@
   let trackerActivityRowsRenderTimer = null;
   let trackerDeferredRowsRenderToken = 0;
   let trackerDeferredRowsBusyTimer = null;
+  let trackerNameAutosizeToken = 0;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -4395,7 +4396,13 @@
     return enqueueTimePayloadSync(() => timeApi("POST", pendingPayload));
   }
 
-  function renderTimePayloadState({ syncState = "" } = {}) {
+  function renderTimePayloadState({ syncState = "", renderScope = "full" } = {}) {
+    if (renderScope === "activityRows") {
+      scheduleDeferredActivityRowsRender();
+      if (syncState) setTrackerStatus(syncState, "saved");
+      scheduleAutoDoneTaskSync();
+      return;
+    }
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderNativeDashboard();
     } else {
@@ -4409,19 +4416,19 @@
     scheduleAutoDoneTaskSync();
   }
 
-  function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.") {
+  function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.", { renderScope = "full" } = {}) {
     timePayload = cleanClientPayload(pendingPayload);
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(true);
-    renderTimePayloadState();
+    renderTimePayloadState({ renderScope });
     setTrackerStatus(message, "saved");
   }
 
-  async function saveTimePayload(nextPayload, { promptForKey = false } = {}) {
+  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full" } = {}) {
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
     const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
     if (!key) {
-      saveTimePayloadLocally(pendingPayload);
+      saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope });
       return;
     }
     try {
@@ -4430,13 +4437,13 @@
       writeLocalTimePayload(timePayload);
     } catch (error) {
       if (error.status === 401) {
-        saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to resume sync.");
+        saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to resume sync.", { renderScope });
         return;
       }
       throw error;
     }
     showPrivateTimeLoadButton(false);
-    renderTimePayloadState();
+    renderTimePayloadState({ renderScope });
     setTrackerStatus("Saved", "saved");
   }
 
@@ -5830,6 +5837,8 @@
     await saveTimePayload({
       ...timePayload,
       taskOverrides: nextOverrides
+    }, {
+      renderScope: "activityRows"
     });
     setTrackerStatus(`Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`, "saved");
   }
@@ -5988,6 +5997,30 @@
     control.style.height = "auto";
     if (!control.scrollHeight) return;
     control.style.height = `${control.scrollHeight}px`;
+  }
+
+  function scheduleTaskNameAutosizes() {
+    const token = ++trackerNameAutosizeToken;
+    const controls = Array.from(document.querySelectorAll(".track-name-input"));
+    let index = 0;
+    const schedule = (callback) => {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(callback, { timeout: 500 });
+        return;
+      }
+      window.setTimeout(() => callback({ timeRemaining: () => 8 }), 16);
+    };
+    const runBatch = (deadline) => {
+      if (token !== trackerNameAutosizeToken) return;
+      let count = 0;
+      while (index < controls.length && count < 24 && (!deadline || deadline.timeRemaining() > 2)) {
+        autosizeTaskNameInput(controls[index]);
+        index += 1;
+        count += 1;
+      }
+      if (index < controls.length) schedule(runBatch);
+    };
+    schedule(runBatch);
   }
 
   function pastEntryEditorHtml(entry, key) {
@@ -6268,9 +6301,7 @@
         }
       });
     });
-    window.setTimeout(() => {
-      document.querySelectorAll(".track-name-input").forEach(autosizeTaskNameInput);
-    }, 0);
+    scheduleTaskNameAutosizes();
     document.querySelectorAll("[data-recurrence-key]").forEach((select) => {
       select.addEventListener("change", async () => {
         await flushPendingTaskNameInput(rows);
