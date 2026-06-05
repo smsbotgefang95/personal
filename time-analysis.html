@@ -6746,11 +6746,14 @@
     }, delayMs);
   }
 
-  function scheduleImmediateTrackerSearchRender() {
+  function schedulePostPaintTrackerSearchRender() {
     cancelTrackerSearchRender();
     trackerSearchRenderTimer = window.requestAnimationFrame(() => {
       trackerSearchRenderTimer = null;
-      renderActivityRows({ skipDueCountUpdate: true });
+      trackerSearchRenderTimeout = window.setTimeout(() => {
+        trackerSearchRenderTimeout = null;
+        renderActivityRows({ skipDueCountUpdate: true });
+      }, 0);
     });
   }
 
@@ -6775,7 +6778,11 @@
     syncTaskSearchClearButton();
     resetDueAllVisibleRowLimit();
     if (hasQuery) clearTrackerFiltersForTaskSearch();
-    scheduleTrackerSearchRender();
+    if (hasQuery) {
+      scheduleTrackerSearchRender();
+    } else {
+      schedulePostPaintTrackerSearchRender();
+    }
   }
 
   function clearTrackerTaskSearch() {
@@ -6786,7 +6793,7 @@
     resetDueAllVisibleRowLimit();
     cancelTrackerSearchRender();
     taskSearch.focus();
-    scheduleImmediateTrackerSearchRender();
+    schedulePostPaintTrackerSearchRender();
   }
 
   function priorityOptionSort(a, b) {
