@@ -31,6 +31,10 @@
     --danger: #ef4444;
     --danger-soft: #1a0000;
     --shadow: none;
+    --site-nav-height: 44px;
+    --frozen-time-header-height: 165px;
+    --time-sticky-stack-top: 209px;
+    --tracker-filter-height: 84px;
     --track-select-width: 30px;
     --track-task-width: 340px;
     --track-notes-width: 160px;
@@ -87,7 +91,7 @@
 
   .frozen-time-header {
     position: sticky;
-    top: 44px;
+    top: var(--site-nav-height);
     z-index: 19;
     display: grid;
     gap: 12px;
@@ -1109,8 +1113,8 @@
 
   .tracker-filter-bar {
     position: sticky;
-    top: 42px;
-    z-index: 30;
+    top: var(--time-sticky-stack-top);
+    z-index: 18;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1255,7 +1259,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     position: sticky;
-    top: 43px;
+    top: calc(var(--time-sticky-stack-top) + var(--tracker-filter-height));
     z-index: 4;
   }
 
@@ -3241,7 +3245,6 @@
     "run ai agent",
     "run ai agent_personal"
   ]);
-  const SEARCH_RENDER_DELAY_MS = 200;
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
   const TASK_SEARCH_ALIASES = [
@@ -3328,6 +3331,7 @@
   let trackerNameAutosizeToken = 0;
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
   let trackerActivitiesCache = { signature: "", rows: null };
+  let lastTrackerRowsForDueCounts = null;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -4760,6 +4764,24 @@
     return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":");
   }
 
+  function updateStickyLayoutMetrics() {
+    const root = document.documentElement;
+    const nav = document.querySelector(".site-nav");
+    const frozenHeader = document.querySelector(".frozen-time-header");
+    const filterBar = document.querySelector(".tracker-filter-bar");
+    const navHeight = Math.round(nav?.getBoundingClientRect().height || 44);
+    const headerHeight = Math.round(frozenHeader?.getBoundingClientRect().height || 165);
+    const filterHeight = Math.round(filterBar?.getBoundingClientRect().height || 84);
+    root.style.setProperty("--site-nav-height", `${navHeight}px`);
+    root.style.setProperty("--frozen-time-header-height", `${headerHeight}px`);
+    root.style.setProperty("--time-sticky-stack-top", `${navHeight + headerHeight}px`);
+    root.style.setProperty("--tracker-filter-height", `${filterHeight}px`);
+  }
+
+  function scheduleStickyLayoutMetricsUpdate() {
+    window.requestAnimationFrame(updateStickyLayoutMetrics);
+  }
+
   function renderTimerState() {
     const active = timePayload.activeEntry;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
@@ -4771,6 +4793,7 @@
     if (timerTick) window.clearInterval(timerTick);
     timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
     syncRecentTaskActiveState();
+    scheduleStickyLayoutMetricsUpdate();
   }
 
   function recentTaskKey(entry) {
@@ -5073,6 +5096,7 @@
       })))
       .sort((a, b) => compareTaskOrder(a, b));
     const resolvedRows = rows.length ? rows : fallbackActivities.map(applyTaskOverride);
+    resolvedRows.forEach(cacheTrackerSearchText);
     trackerActivitiesCache = { signature, rows: resolvedRows };
     return resolvedRows;
   }
@@ -5349,12 +5373,29 @@
       .trim();
   }
 
-  function matchesTaskSearch(entry, query) {
-    if (!query) return true;
+  function trackerSearchQuery(value) {
+    const text = String(value || "").trim().toLowerCase();
+    return {
+      text,
+      normalized: text ? normalizedTrackerSearchText(text) : ""
+    };
+  }
+
+  function cacheTrackerSearchText(entry) {
     const text = trackerSearchText(entry);
-    if (text.includes(query)) return true;
-    const normalizedQuery = normalizedTrackerSearchText(query);
-    return Boolean(normalizedQuery && normalizedTrackerSearchText(text).includes(normalizedQuery));
+    entry._trackerSearchText = text;
+    entry._trackerNormalizedSearchText = normalizedTrackerSearchText(text);
+    return entry;
+  }
+
+  function matchesTaskSearch(entry, query) {
+    const queryText = typeof query === "string" ? query : query?.text || "";
+    if (!queryText) return true;
+    const text = entry._trackerSearchText || trackerSearchText(entry);
+    if (text.includes(queryText)) return true;
+    const normalizedQuery = typeof query === "string" ? normalizedTrackerSearchText(query) : query?.normalized || "";
+    if (!normalizedQuery) return false;
+    return (entry._trackerNormalizedSearchText || normalizedTrackerSearchText(text)).includes(normalizedQuery);
   }
 
   async function savePastTimeEntry(entry, editor) {
@@ -6303,13 +6344,16 @@
     `;
   }
 
-  function renderActivityRows({ expandDueDateGroups = false } = {}) {
+  function renderActivityRows({ expandDueDateGroups = false, skipDueCountUpdate = false } = {}) {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
     const taskSearch = document.getElementById("taskSearchInput");
-    const query = taskSearch?.value.trim().toLowerCase() || "";
+    const query = trackerSearchQuery(taskSearch?.value || "");
     const allRows = trackerActivities();
-    updateDueStatusFilterOptions(allRows);
+    if (!skipDueCountUpdate || lastTrackerRowsForDueCounts !== allRows) {
+      updateDueStatusFilterOptions(allRows);
+      lastTrackerRowsForDueCounts = allRows;
+    }
     const rows = allRows.filter((entry) => {
       if (!isPrivateTrackerManaged(entry) && (dueFilter?.value || "all") !== "all") return false;
       return matchesDueStatusFilter(entry, dueFilter?.value || "all")
@@ -6317,21 +6361,21 @@
     });
     const trackerList = document.getElementById("trackerTaskList");
     const dueFilterValue = dueFilter?.value || "all";
-    const rowsForDisplay = !query && shouldHideDoneTasksForDueFilter(dueFilterValue)
+    const rowsForDisplay = !query.text && shouldHideDoneTasksForDueFilter(dueFilterValue)
       ? rows.filter((entry) => entry.status !== "done")
       : rows;
     const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
     const allGroups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
-    if (expandDueDateGroups && groupedByDueDate && !query) expandDueDateTrackGroups(allGroups);
-    if (dueFilterValue !== "all" || query) resetDueAllVisibleRowLimit();
-    const groupLimit = dueFilterValue === "all" && !query ? dueAllVisibleRowLimit : Number.POSITIVE_INFINITY;
+    if (expandDueDateGroups && groupedByDueDate && !query.text) expandDueDateTrackGroups(allGroups);
+    if (dueFilterValue !== "all" && !query.text) resetDueAllVisibleRowLimit();
+    const groupLimit = (dueFilterValue === "all" || query.text) ? dueAllVisibleRowLimit : Number.POSITIVE_INFINITY;
     const groupRenderState = limitedTrackerGroups(allGroups, groupLimit);
     const groups = groupRenderState.groups;
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
     trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel, originalCount]) => {
       const groupKey = collapseKey || group;
-      const collapsed = !query && collapsedTrackGroups.has(groupKey);
+      const collapsed = !query.text && collapsedTrackGroups.has(groupKey);
       const groupTitle = fullGroupLabel || group;
       const dueGroupClass = groupedByDueDate ? " due-group-name" : "";
       const dueHeaderClass = groupedByDueDate ? " due-group-header" : "";
@@ -6608,16 +6652,19 @@
   }
 
   function scheduleTrackerSearchRender() {
-    window.clearTimeout(trackerSearchRenderTimer);
-    trackerSearchRenderTimer = window.setTimeout(() => {
+    if (trackerSearchRenderTimer) window.cancelAnimationFrame(trackerSearchRenderTimer);
+    trackerSearchRenderTimer = window.requestAnimationFrame(() => {
       trackerSearchRenderTimer = null;
-      renderActivityRows();
-    }, SEARCH_RENDER_DELAY_MS);
+      renderActivityRows({ skipDueCountUpdate: true });
+    });
   }
 
   function clearTrackerFiltersForTaskSearch() {
     const dueFilter = document.getElementById("dueStatusFilter");
-    if (dueFilter) dueFilter.value = "all";
+    if (dueFilter) {
+      dueFilter.value = "all";
+      syncDueFilterButtonState("all");
+    }
   }
 
   function syncTaskSearchClearButton() {
@@ -6630,6 +6677,7 @@
   function handleTrackerTaskSearchInput() {
     const taskSearch = document.getElementById("taskSearchInput");
     syncTaskSearchClearButton();
+    resetDueAllVisibleRowLimit();
     if (taskSearch?.value.trim()) clearTrackerFiltersForTaskSearch();
     scheduleTrackerSearchRender();
   }
@@ -6639,10 +6687,11 @@
     if (!taskSearch) return;
     taskSearch.value = "";
     syncTaskSearchClearButton();
-    window.clearTimeout(trackerSearchRenderTimer);
+    resetDueAllVisibleRowLimit();
+    if (trackerSearchRenderTimer) window.cancelAnimationFrame(trackerSearchRenderTimer);
     trackerSearchRenderTimer = null;
-    renderActivityRows();
     taskSearch.focus();
+    scheduleTrackerSearchRender();
   }
 
   function priorityOptionSort(a, b) {
@@ -7286,6 +7335,7 @@
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboardControls").hidden = false;
     document.getElementById("dashboard").hidden = false;
+    scheduleStickyLayoutMetricsUpdate();
     const pageSubtitle = document.getElementById("pageSubtitle");
     pageSubtitle.textContent = "";
     pageSubtitle.hidden = true;
@@ -7819,12 +7869,13 @@
     };
 
     let detailsSearchRenderTimer = null;
+    const DETAILS_SEARCH_RENDER_DELAY_MS = 200;
     const scheduleDetailsSearchRender = () => {
       window.clearTimeout(detailsSearchRenderTimer);
       detailsSearchRenderTimer = window.setTimeout(() => {
         detailsSearchRenderTimer = null;
         updateTable();
-      }, SEARCH_RENDER_DELAY_MS);
+      }, DETAILS_SEARCH_RENDER_DELAY_MS);
     };
 
     searchInput.oninput = scheduleDetailsSearchRender;
@@ -8112,6 +8163,7 @@
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboardControls").hidden = false;
     document.getElementById("dashboard").hidden = false;
+    scheduleStickyLayoutMetricsUpdate();
     const pageSubtitle = document.getElementById("pageSubtitle");
     pageSubtitle.textContent = "";
     pageSubtitle.hidden = true;
@@ -8435,6 +8487,9 @@
     closeEditEntry();
     await saveTimePayload(timePayload);
   });
+
+  window.addEventListener("load", scheduleStickyLayoutMetricsUpdate);
+  window.addEventListener("resize", scheduleStickyLayoutMetricsUpdate);
 
   loadDashboard();
 </script>
