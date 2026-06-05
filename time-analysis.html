@@ -3306,7 +3306,7 @@
     fourthThursday: 4,
     fifthThursday: 5
   };
-  const TRACK_GROUP_ORDER = ["📌 Job Must", "📌 Life Must", "✴️ Should", "🌱 Routine", "☕️ Downtime", "Other"];
+  const TRACK_GROUP_ORDER = ["📌 Must_Business", "📌 Must_Personal", "✴️ Should", "🌱 Routine_Business", "🌱 Routine_Personal", "☕️ Downtime", "Other"];
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
     "2. Gain traction",
@@ -5032,12 +5032,19 @@
   function trackGroupName(entry) {
     const priority = cleanLabel(entry.priority, "Other").trim();
     const normalized = priority.replace(/\s+/g, " ");
-    if (/job must/i.test(normalized)) return "📌 Job Must";
-    if (/life must/i.test(normalized)) return "📌 Life Must";
+    if (/job must|must_business/i.test(normalized)) return "📌 Must_Business";
+    if (/life must|must_personal/i.test(normalized)) return "📌 Must_Personal";
     if (/should/i.test(normalized)) return "✴️ Should";
-    if (/routine/i.test(normalized)) return "🌱 Routine";
+    if (/routine_business/i.test(normalized)) return "🌱 Routine_Business";
+    if (/routine_personal/i.test(normalized)) return "🌱 Routine_Personal";
+    if (/routine/i.test(normalized)) return isBusinessEntry(entry) ? "🌱 Routine_Business" : "🌱 Routine_Personal";
     if (/downtime/i.test(normalized)) return "☕️ Downtime";
     return normalized && normalized !== "Uncategorized" ? normalized : "Other";
+  }
+
+  function isBusinessEntry(entry) {
+    const listName = cleanLabel(entry?.listName, "");
+    return /\b(?:in|on)?\s*business\b/i.test(listName);
   }
 
   function groupedActivities(rows) {
@@ -5198,7 +5205,7 @@
       entry.taskName,
       entry.listName || listNameForId(entry.listId),
       entry.department,
-      entry.priority,
+      trackGroupName(entry),
       entry.section,
       entry.taskCategory,
       entry.taskType,
@@ -5367,10 +5374,12 @@
   }
 
   function priorityFilterOptions(rows) {
-    return Array.from(new Set(rows
-      .map((entry) => trackGroupName(entry))
-      .filter((value) => value && value !== "Other")
-    )).sort(priorityOptionSort);
+    const values = new Set(TRACK_GROUP_ORDER.filter((value) => value !== "Other"));
+    rows.forEach((entry) => {
+      const value = trackGroupName(entry);
+      if (value && value !== "Other") values.add(value);
+    });
+    return Array.from(values).sort(priorityOptionSort);
   }
 
   function priorityFilterOptionsHtml(rows, allLabel, selected = "") {
@@ -5439,7 +5448,7 @@
         ${metadataSelectOptionsHtml(metadataOptions("section"), entry.section, "Section")}
       </select>
       <select class="track-meta-select track-meta-select-compact" data-edit-key="${escapeHtml(key)}" data-edit-field="priority" aria-label="Priority for ${escapeHtml(entry.taskName)}">
-        ${metadataSelectOptionsHtml(metadataOptions("priority"), entry.priority, "Priority")}
+        ${metadataSelectOptionsHtml(metadataOptions("priority"), trackGroupName(entry), "Priority")}
       </select>
       <select class="track-meta-select track-meta-select-compact" data-edit-key="${escapeHtml(key)}" data-edit-field="taskCategory" aria-label="Task category for ${escapeHtml(entry.taskName)}">
         ${metadataSelectOptionsHtml(metadataOptions("taskCategory"), entry.taskCategory, "Category")}
@@ -6519,6 +6528,14 @@
 
   function metadataOptions(field) {
     if (field === "department") return DEPARTMENT_OPTIONS;
+    if (field === "priority") {
+      const values = new Set(TRACK_GROUP_ORDER.filter((value) => value !== "Other"));
+      metadataSourcesForField(field).forEach((entry) => {
+        const value = trackGroupName(entry);
+        if (value && value !== "Other") values.add(value);
+      });
+      return Array.from(values).sort(priorityOptionSort);
+    }
     if (field === "taskCategory") return TASK_CATEGORY_OPTIONS;
     const values = new Set();
     metadataSourcesForField(field).forEach((entry) => {
@@ -6528,7 +6545,7 @@
       values.add(value);
     });
     const options = Array.from(values);
-    return field === "priority" ? options.sort(priorityOptionSort) : options.sort((a, b) => a.localeCompare(b));
+    return options.sort((a, b) => a.localeCompare(b));
   }
 
   function renderMetadataOptions() {
@@ -6951,7 +6968,7 @@
       taskNames.set(entry.taskId, entry.taskName);
 
       addHours(byListId, entry.listId, entry.hours);
-      addHours(byPriority, entry.priority || "No priority", entry.hours);
+      addHours(byPriority, trackGroupName(entry) || "No priority", entry.hours);
       addHours(byDepartment, entry.department || "No department", entry.hours);
       addHours(byTaskId, entry.taskId, entry.hours);
       if (entry.start) addHours(byEnergy, entryEnergyWindow(entry.start), entry.hours);
@@ -7502,7 +7519,7 @@
     document.getElementById("editRecurrenceCustom").innerHTML = customRecurrenceHtml(effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "");
     document.getElementById("editRecurrenceCustomWrap").hidden = (effectiveEntry.recurrence || "none") !== "custom";
     document.getElementById("editDepartment").value = entry.department || "";
-    document.getElementById("editPriority").value = entry.priority || "";
+    document.getElementById("editPriority").value = trackGroupName(effectiveEntry);
     document.getElementById("editSection").value = entry.section || "";
     document.getElementById("editCategory").value = effectiveEntry.taskCategory || "";
     document.getElementById("editType").value = entry.taskType || "";
@@ -7631,7 +7648,7 @@
           timeOnly(entry.start),
           timeOnly(entry.stop),
           entry.listName,
-          entry.priority,
+          trackGroupName(entry),
           entry.taskCategory,
           entry.taskType === "Other" ? "" : entry.taskType
         ];
