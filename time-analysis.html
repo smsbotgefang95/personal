@@ -4931,7 +4931,7 @@
 
   function privatePayloadCollectionSignature(collection) {
     return Object.entries(collection || {})
-      .map(([key, value]) => `${key}:${value?.updatedAt || ""}:${value?.taskName || ""}:${value?.status || ""}:${value?.dueDate || ""}:${value?.dueTime || ""}:${value?.taskOrder || ""}:${value?.recurrence || ""}`)
+      .map(([key, value]) => `${key}:${value?.updatedAt || ""}:${value?.taskName || ""}:${value?.status || ""}:${value?.dueDate || ""}:${value?.dueTime || ""}:${value?.dueDateEditedAt || ""}:${value?.dueDateManualHold || ""}:${value?.taskOrder || ""}:${value?.recurrence || ""}:${value?.autoDoneDate || ""}`)
       .sort()
       .join("|");
   }
@@ -5524,7 +5524,9 @@
       dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : "",
       dueDateEditedAt: cleanLabel(existing.dueDateEditedAt, ""),
       dueDateManualHold: dateInputValue(existing.dueDateManualHold),
-      status: existing.status === "done" || entry.status === "done" ? "done" : "todo",
+      status: Object.prototype.hasOwnProperty.call(existing, "status")
+        ? (existing.status === "done" ? "done" : "todo")
+        : (entry.status === "done" ? "done" : "todo"),
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
       taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder),
@@ -5577,7 +5579,7 @@
   }
 
   function taskStatusPatch(entry, status) {
-    if (status !== "done") return { status: "todo", autoDoneDate: "" };
+    if (status !== "done") return { status: "todo", autoDoneDate: "", dueDateEditedAt: isoNow() };
     const nextDueDate = nextRecurringDueDate(entry);
     return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, dueDateManualHold: "", status: "todo" } : { dueDateManualHold: "", status: "done" };
   }
