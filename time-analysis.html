@@ -1242,10 +1242,13 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: var(--track-select-width) minmax(240px, 1.35fr) minmax(110px, 0.7fr) 64px 80px minmax(254px, 1.2fr) minmax(168px, 1fr) 88px;
+    grid-template-areas:
+      "select task notes order status due recurrence time"
+      ". list department section priority category type .";
     gap: 10px;
     align-items: center;
-    min-width: 2418px;
+    min-width: 0;
   }
 
   .track-list-header {
@@ -1268,6 +1271,7 @@
     top: 0;
     left: 10px;
     z-index: 12;
+    grid-area: select;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1277,32 +1281,50 @@
   }
 
   .track-list-header + .track-group {
-    margin-top: 38px;
+    margin-top: 0;
+  }
+
+  .tracker-list > .track-list-header {
+    display: none;
+    position: relative;
+    top: auto;
   }
 
   .track-list-header > div:nth-child(2),
   .track-task-cell {
-    position: sticky;
-    left: var(--track-select-width);
+    position: relative;
     z-index: 8;
-    width: var(--track-task-width);
-    min-width: var(--track-task-width);
-    max-width: var(--track-task-width);
+    width: auto;
+    min-width: 0;
+    max-width: none;
     overflow: hidden;
     background: #030712;
   }
 
   .track-list-header > div:nth-child(2) {
-    grid-column: 2;
+    grid-area: task;
     z-index: 10;
     background: #020617;
   }
 
+  .track-list-header > div:nth-child(3) { grid-area: notes; }
+  .track-list-header > div:nth-child(4) { grid-area: order; }
+  .track-list-header > div:nth-child(5) { grid-area: status; }
+  .track-list-header > div:nth-child(6) { grid-area: due; }
+  .track-list-header > div:nth-child(7) { grid-area: recurrence; }
+  .track-list-header > div:nth-child(8) { grid-area: list; }
+  .track-list-header > div:nth-child(9) { grid-area: department; }
+  .track-list-header > div:nth-child(10) { grid-area: section; }
+  .track-list-header > div:nth-child(11) { grid-area: priority; }
+  .track-list-header > div:nth-child(12) { grid-area: category; }
+  .track-list-header > div:nth-child(13) { grid-area: type; }
+  .track-list-header > div:nth-child(14) { grid-area: time; }
+
   .track-row {
     position: relative;
     display: grid;
-    min-width: 2418px;
-    min-height: 68px;
+    min-width: 0;
+    min-height: 118px;
     padding: 10px;
     border-bottom: 1px solid var(--border);
   }
@@ -1310,7 +1332,10 @@
   .track-row-inner {
     position: relative;
     display: grid;
-    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: var(--track-select-width) minmax(240px, 1.35fr) minmax(110px, 0.7fr) 64px 80px minmax(254px, 1.2fr) minmax(168px, 1fr) 88px;
+    grid-template-areas:
+      "select task notes order status due recurrence time"
+      ". list department section priority category type .";
     column-gap: 10px;
     row-gap: 10px;
     align-items: center;
@@ -1358,10 +1383,11 @@
   }
 
   .track-select-cell {
-    position: sticky;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 11;
+    grid-area: select;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1452,17 +1478,19 @@
   }
 
   .track-task-cell {
+    grid-area: task;
     display: grid;
     gap: 4px;
     align-self: stretch;
     align-content: center;
     height: 100%;
     min-height: 48px;
-    min-width: var(--track-task-width);
-    max-width: var(--track-task-width);
+    min-width: 0;
+    max-width: none;
   }
 
   .track-notes-cell {
+    grid-area: notes;
     width: 100%;
     min-width: 0;
     height: 42px;
@@ -1664,6 +1692,7 @@
   }
 
   .track-order-cell {
+    grid-area: order;
     color: #d1d5db;
     font-variant-numeric: tabular-nums;
     font-size: 0.92rem;
@@ -1679,6 +1708,17 @@
     min-width: 0;
     align-self: center;
   }
+
+  .track-status-cell { grid-area: status; }
+  .track-due-cell { grid-area: due; }
+  .track-recurrence-cell { grid-area: recurrence; }
+  .track-row-inner > .track-meta-select:nth-child(8) { grid-area: list; }
+  .track-row-inner > .track-meta-select:nth-child(9) { grid-area: department; }
+  .track-row-inner > .track-meta-select:nth-child(10) { grid-area: section; }
+  .track-row-inner > .track-meta-select:nth-child(11) { grid-area: priority; }
+  .track-row-inner > .track-meta-select:nth-child(12) { grid-area: category; }
+  .track-row-inner > .track-meta-select:nth-child(13) { grid-area: type; }
+  .track-time { grid-area: time; }
 
   .track-order-select {
     width: 100%;
@@ -1759,7 +1799,7 @@
 
   .track-due-inputs {
     display: grid;
-    grid-template-columns: 168px 106px;
+    grid-template-columns: minmax(0, 1fr) 88px;
     gap: 6px;
     align-items: end;
     min-width: 0;
@@ -2619,6 +2659,33 @@
       padding-top: 8px;
       padding-bottom: 8px;
     }
+    .track-list-header,
+    .track-row-inner {
+      grid-template-columns: var(--track-select-width) minmax(0, 1fr) minmax(0, 88px);
+      grid-template-areas:
+        "select task time"
+        "notes notes notes"
+        "order status recurrence"
+        "due due due"
+        "list list list"
+        "department section priority"
+        "category category type";
+    }
+    .track-list-header {
+      position: static;
+      top: auto;
+      min-height: 0;
+    }
+    .track-list-header > div {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .track-row {
+      min-height: 0;
+    }
+    .track-due-inputs {
+      grid-template-columns: minmax(0, 1fr) 88px;
+    }
     .track-recurrence-control > .track-recurrence-custom {
       left: 0;
       right: auto;
@@ -2628,6 +2695,9 @@
       position: sticky;
       top: 0;
       z-index: 3;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
     }
     .track-group-header.due-group-header {
       top: auto;
@@ -3247,6 +3317,7 @@
   ]);
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
+  const TRACKER_SEARCH_RENDER_DELAY_MS = 180;
   const TASK_SEARCH_ALIASES = [
     {
       taskIds: ["86adxpw95"],
@@ -3325,6 +3396,7 @@
   let bulkTaskStatusValue = "done";
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
+  let trackerSearchRenderTimeout = null;
   let trackerActivityRowsRenderTimer = null;
   let trackerDeferredRowsRenderToken = 0;
   let trackerDeferredRowsBusyTimer = null;
@@ -6651,8 +6723,31 @@
     });
   }
 
-  function scheduleTrackerSearchRender() {
+  function cancelTrackerSearchRender() {
     if (trackerSearchRenderTimer) window.cancelAnimationFrame(trackerSearchRenderTimer);
+    if (trackerSearchRenderTimeout) window.clearTimeout(trackerSearchRenderTimeout);
+    trackerSearchRenderTimer = null;
+    trackerSearchRenderTimeout = null;
+  }
+
+  function scheduleTrackerSearchRender({ delayMs = TRACKER_SEARCH_RENDER_DELAY_MS } = {}) {
+    cancelTrackerSearchRender();
+    const render = () => {
+      trackerSearchRenderTimeout = null;
+      trackerSearchRenderTimer = null;
+      renderActivityRows({ skipDueCountUpdate: true });
+    };
+    trackerSearchRenderTimeout = window.setTimeout(() => {
+      trackerSearchRenderTimeout = null;
+      trackerSearchRenderTimer = window.requestAnimationFrame(() => {
+        trackerSearchRenderTimer = null;
+        render();
+      });
+    }, delayMs);
+  }
+
+  function scheduleImmediateTrackerSearchRender() {
+    cancelTrackerSearchRender();
     trackerSearchRenderTimer = window.requestAnimationFrame(() => {
       trackerSearchRenderTimer = null;
       renderActivityRows({ skipDueCountUpdate: true });
@@ -6676,9 +6771,10 @@
 
   function handleTrackerTaskSearchInput() {
     const taskSearch = document.getElementById("taskSearchInput");
+    const hasQuery = !!taskSearch?.value.trim();
     syncTaskSearchClearButton();
     resetDueAllVisibleRowLimit();
-    if (taskSearch?.value.trim()) clearTrackerFiltersForTaskSearch();
+    if (hasQuery) clearTrackerFiltersForTaskSearch();
     scheduleTrackerSearchRender();
   }
 
@@ -6688,10 +6784,9 @@
     taskSearch.value = "";
     syncTaskSearchClearButton();
     resetDueAllVisibleRowLimit();
-    if (trackerSearchRenderTimer) window.cancelAnimationFrame(trackerSearchRenderTimer);
-    trackerSearchRenderTimer = null;
+    cancelTrackerSearchRender();
     taskSearch.focus();
-    scheduleTrackerSearchRender();
+    scheduleImmediateTrackerSearchRender();
   }
 
   function priorityOptionSort(a, b) {
@@ -7872,6 +7967,11 @@
     const DETAILS_SEARCH_RENDER_DELAY_MS = 200;
     const scheduleDetailsSearchRender = () => {
       window.clearTimeout(detailsSearchRenderTimer);
+      if (!searchInput.value.trim()) {
+        detailsSearchRenderTimer = null;
+        updateTable();
+        return;
+      }
       detailsSearchRenderTimer = window.setTimeout(() => {
         detailsSearchRenderTimer = null;
         updateTable();
