@@ -1428,6 +1428,22 @@
     text-align: center;
   }
 
+  .track-load-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
+  .track-load-more .btn {
+    padding: 8px 12px;
+    font-size: 0.84rem;
+  }
+
   .track-group {
     border-bottom: 1px solid var(--border);
     min-width: 0;
@@ -3154,6 +3170,8 @@
     "run ai agent_personal"
   ]);
   const SEARCH_RENDER_DELAY_MS = 200;
+  const DUE_ALL_INITIAL_ROW_LIMIT = 80;
+  const DUE_ALL_ROW_INCREMENT = 80;
   const TASK_SEARCH_ALIASES = [
     {
       taskIds: ["86adxpw95"],
@@ -3236,6 +3254,7 @@
   let trackerDeferredRowsRenderToken = 0;
   let trackerDeferredRowsBusyTimer = null;
   let trackerNameAutosizeToken = 0;
+  let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -5064,6 +5083,29 @@
     ]);
   }
 
+  function limitedTrackerGroups(groups, limit) {
+    const totalCount = groups.reduce((total, [, entries]) => total + entries.length, 0);
+    if (!Number.isFinite(limit) || limit <= 0 || totalCount <= limit) {
+      return { groups, visibleCount: totalCount, totalCount, limited: false };
+    }
+    let remaining = limit;
+    let visibleCount = 0;
+    const nextGroups = [];
+    groups.forEach(([group, entries, collapseKey, fullGroupLabel]) => {
+      if (remaining <= 0) return;
+      const visibleEntries = entries.slice(0, remaining);
+      if (!visibleEntries.length) return;
+      visibleCount += visibleEntries.length;
+      remaining -= visibleEntries.length;
+      nextGroups.push([group, visibleEntries, collapseKey, fullGroupLabel, entries.length]);
+    });
+    return { groups: nextGroups, visibleCount, totalCount, limited: true };
+  }
+
+  function resetDueAllVisibleRowLimit() {
+    dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
+  }
+
   function dueGroupCompactLabel(due) {
     if (due === "none") return "No due";
     const date = parseDateInput(due);
@@ -6147,22 +6189,27 @@
       ? rows.filter((entry) => entry.status !== "done")
       : rows;
     const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
-    const groups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
-    if (expandDueDateGroups && groupedByDueDate && !query) expandDueDateTrackGroups(groups);
+    const allGroups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
+    if (expandDueDateGroups && groupedByDueDate && !query) expandDueDateTrackGroups(allGroups);
+    if (dueFilterValue !== "all" || query) resetDueAllVisibleRowLimit();
+    const groupLimit = dueFilterValue === "all" && !query ? dueAllVisibleRowLimit : Number.POSITIVE_INFINITY;
+    const groupRenderState = limitedTrackerGroups(allGroups, groupLimit);
+    const groups = groupRenderState.groups;
     const visibleRows = visibleTaskRowsForGroups(groups);
     pruneSelectedTaskKeys(visibleRows);
-    trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel]) => {
+    trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel, originalCount]) => {
       const groupKey = collapseKey || group;
       const collapsed = !query && collapsedTrackGroups.has(groupKey);
       const groupTitle = fullGroupLabel || group;
       const dueGroupClass = groupedByDueDate ? " due-group-name" : "";
       const dueHeaderClass = groupedByDueDate ? " due-group-header" : "";
+      const countLabel = originalCount && originalCount !== entries.length ? `${entries.length}/${originalCount}` : entries.length;
       return `
         <section class="track-group${collapsed ? " collapsed" : ""}" data-track-group="${escapeHtml(groupKey)}">
           <button class="track-group-header${dueHeaderClass}" type="button" aria-expanded="${collapsed ? "false" : "true"}">
             <span class="track-group-caret">▾</span>
             <span class="track-group-name${dueGroupClass}" title="${escapeHtml(groupTitle)}">${escapeHtml(group)}</span>
-            <span class="track-group-count">${entries.length}</span>
+            <span class="track-group-count">${countLabel}</span>
           </button>
           ${entries.map((entry) => activityRowHtml(entry, active)).join("")}
         </section>
@@ -6187,7 +6234,19 @@
           <div>Time</div>
         </div>
       `);
+      if (groupRenderState.limited) {
+        trackerList.insertAdjacentHTML("beforeend", `
+          <div class="track-load-more">
+            <span>${groupRenderState.visibleCount.toLocaleString()} of ${groupRenderState.totalCount.toLocaleString()} tasks shown</span>
+            <button class="btn btn-ghost" type="button" data-show-more-due-all>Show more tasks</button>
+          </div>
+        `);
+      }
     }
+    document.querySelector("[data-show-more-due-all]")?.addEventListener("click", () => {
+      dueAllVisibleRowLimit += DUE_ALL_ROW_INCREMENT;
+      scheduleDeferredActivityRowsRender();
+    });
     document.querySelector("[data-select-all-visible]")?.addEventListener("change", (event) => {
       const checked = event.target.checked;
       visibleRows.forEach((entry) => {
@@ -6500,6 +6559,7 @@
       button.onclick = () => {
         const dueFilter = document.getElementById("dueStatusFilter");
         const nextFilter = button.dataset.dueFilterValue || "all";
+        resetDueAllVisibleRowLimit();
         if (dueFilter) dueFilter.value = nextFilter;
         syncDueFilterButtonState(nextFilter);
         scheduleDeferredActivityRowsRender({ expandDueDateGroups: nextFilter === "all" });
