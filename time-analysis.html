@@ -915,6 +915,8 @@
   }
 
   .recent-task-btn {
+    display: flex;
+    align-items: center;
     flex: 1 1 auto;
     align-self: stretch;
     min-width: 0;
@@ -940,9 +942,11 @@
   }
 
   .recent-task-name {
+    display: block;
+    max-width: 100%;
     min-width: 0;
     overflow: hidden;
-    padding: 6px 2px 6px 10px;
+    padding: 6px 8px 6px 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -3255,6 +3259,7 @@
   let trackerDeferredRowsBusyTimer = null;
   let trackerNameAutosizeToken = 0;
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
+  let trackerActivitiesCache = { signature: "", rows: null };
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -4913,7 +4918,42 @@
     renderActivityRows();
   }
 
+  function activitySourceSignature(entries) {
+    if (!Array.isArray(entries) || !entries.length) return "0";
+    const first = entries[0] || {};
+    const last = entries[entries.length - 1] || {};
+    return [
+      entries.length,
+      first.id || first.taskId || first.taskName || "",
+      last.id || last.taskId || last.taskName || ""
+    ].join(":");
+  }
+
+  function privatePayloadCollectionSignature(collection) {
+    return Object.entries(collection || {})
+      .map(([key, value]) => `${key}:${value?.updatedAt || ""}:${value?.taskName || ""}:${value?.status || ""}:${value?.dueDate || ""}:${value?.dueTime || ""}:${value?.taskOrder || ""}:${value?.recurrence || ""}`)
+      .sort()
+      .join("|");
+  }
+
+  function trackerActivitiesSignature() {
+    return [
+      activitySourceSignature(taskCatalogEntries),
+      activitySourceSignature(appEntries),
+      activitySourceSignature(timePayload.entries || []),
+      timePayload.activeEntry?.id || "",
+      timePayload.activeEntry?.start || "",
+      timePayload.updatedAt || "",
+      privatePayloadCollectionSignature(timePayload.taskOverrides),
+      privatePayloadCollectionSignature(timePayload.taskMerges)
+    ].join("||");
+  }
+
   function trackerActivities() {
+    const signature = trackerActivitiesSignature();
+    if (trackerActivitiesCache.signature === signature && trackerActivitiesCache.rows) {
+      return trackerActivitiesCache.rows;
+    }
     const appEntriesAreCatalogRows = taskCatalogEntries.length > 0 &&
       appEntries.length === taskCatalogEntries.length &&
       appEntries.every((entry, index) => entry?.id && entry.id === taskCatalogEntries[index]?.id);
@@ -4964,7 +5004,9 @@
         })
       })))
       .sort((a, b) => compareTaskOrder(a, b));
-    return rows.length ? rows : fallbackActivities.map(applyTaskOverride);
+    const resolvedRows = rows.length ? rows : fallbackActivities.map(applyTaskOverride);
+    trackerActivitiesCache = { signature, rows: resolvedRows };
+    return resolvedRows;
   }
 
   function visibleTrackerTaskKey(entry) {
@@ -6587,10 +6629,14 @@
       button.onclick = () => {
         const dueFilter = document.getElementById("dueStatusFilter");
         const nextFilter = button.dataset.dueFilterValue || "all";
+        if ((dueFilter?.value || "all") === nextFilter) {
+          syncDueFilterButtonState(nextFilter);
+          return;
+        }
         resetDueAllVisibleRowLimit();
         if (dueFilter) dueFilter.value = nextFilter;
         syncDueFilterButtonState(nextFilter);
-        scheduleDeferredActivityRowsRender({ expandDueDateGroups: nextFilter === "all" });
+        scheduleDeferredActivityRowsRender();
       };
     });
     const taskSearch = document.getElementById("taskSearchInput");
