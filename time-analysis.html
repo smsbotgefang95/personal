@@ -3306,11 +3306,11 @@
     fourthThursday: 4,
     fifthThursday: 5
   };
-  const TRACK_GROUP_ORDER = ["📌 Must_Business", "📌 Must_Life", "📌 Must_Personal", "✴️ Should", "🌱 Routine_Business", "🌱 Routine_Personal", "☕️ Downtime", "Other"];
+  const TRACK_GROUP_ORDER = ["📌 Must_Work", "📌 Must_Life", "✴️ Should", "🌱 Routine_Work", "🌱 Routine_Life", "☕️ Downtime", "Other"];
   const TASK_PRIORITY_CORRECTIONS = {
-    "86a64xmy4": "📌 Must_Personal",
-    "86a9tae9b": "🌱 Routine_Personal",
-    "86a654xch": "🌱 Routine_Personal"
+    "86a64xmy4": "📌 Must_Life",
+    "86a9tae9b": "🌱 Routine_Life",
+    "86a654xch": "🌱 Routine_Life"
   };
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
@@ -3350,7 +3350,7 @@
     { taskName: "Brush teeth", listId: "901306296518", listName: "🌼 Survival", priority: "🌱 Routine", section: "9.01.4. Have a regular routine", taskCategory: "Routine", taskType: "Work" },
     { taskName: "Walk", listId: "901301650324", listName: "🌈 Personal", department: "9.01. Health & fitness", priority: "🌱 Routine", section: "9.01.3. Exercise", taskCategory: "Health", taskType: "Work" },
     { taskName: "Nap", listId: "901306296518", listName: "🌼 Survival", priority: "☕️ Downtime", section: "9.01.1. Sleep well", taskCategory: "Routine", taskType: "Work" },
-    { taskName: "Take a break", listId: "901301650324", listName: "🌈 Personal", priority: "🌱 Routine_Personal", section: "9.01.4. Have a regular routine", taskCategory: "Rest", taskType: "Work" },
+    { taskName: "Take a break", listId: "901301650324", listName: "🌈 Personal", priority: "🌱 Routine_Life", section: "9.01.4. Have a regular routine", taskCategory: "Rest", taskType: "Work" },
     { taskName: "Plan for dad's activities", listId: "901301650324", listName: "🌈 Personal", department: "Family", priority: "📌 Must_Life", section: "9.07.4. Take dad to places", taskCategory: "Planning", taskType: "Owner" }
   ].map((item, index) => ({
     ...item,
@@ -5042,13 +5042,13 @@
   function trackGroupName(entry) {
     const priority = cleanLabel(entry.priority, "Other").trim();
     const normalized = priority.replace(/\s+/g, " ");
-    if (/job must|must_business/i.test(normalized)) return "📌 Must_Business";
+    if (/job must|must_work|must_business/i.test(normalized)) return "📌 Must_Work";
     if (/life must|must_life/i.test(normalized)) return "📌 Must_Life";
-    if (/must_personal/i.test(normalized)) return "📌 Must_Personal";
+    if (/must_personal/i.test(normalized)) return "📌 Must_Life";
     if (/should/i.test(normalized)) return "✴️ Should";
-    if (/routine_business/i.test(normalized)) return "🌱 Routine_Business";
-    if (/routine_personal/i.test(normalized)) return "🌱 Routine_Personal";
-    if (/routine/i.test(normalized)) return isBusinessEntry(entry) ? "🌱 Routine_Business" : "🌱 Routine_Personal";
+    if (/routine_work|routine_business/i.test(normalized)) return "🌱 Routine_Work";
+    if (/routine_life|routine_personal/i.test(normalized)) return "🌱 Routine_Life";
+    if (/routine/i.test(normalized)) return isBusinessEntry(entry) ? "🌱 Routine_Work" : "🌱 Routine_Life";
     if (/downtime/i.test(normalized)) return "☕️ Downtime";
     return normalized && normalized !== "Uncategorized" ? normalized : "Other";
   }
