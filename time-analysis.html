@@ -85,6 +85,17 @@
     margin: 6px 0 4px;
   }
 
+  .frozen-time-header {
+    position: sticky;
+    top: 44px;
+    z-index: 19;
+    display: grid;
+    gap: 12px;
+    margin: -20px -24px 18px;
+    padding: 20px 24px 0;
+    background: var(--bg);
+  }
+
   .subtitle,
   .section-note,
   .muted {
@@ -126,7 +137,9 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin: 4px 0 18px;
+    margin: 4px 0 0;
+    padding-bottom: 18px;
+    background: var(--bg);
   }
 
   .tabs {
@@ -1129,6 +1142,54 @@
 
   .tracker-search-field {
     grid-area: search;
+  }
+
+  .tracker-search-control {
+    position: relative;
+    min-width: 0;
+  }
+
+  #taskSearchInput {
+    padding-left: 42px;
+    padding-right: 10px;
+  }
+
+  #taskSearchInput::-webkit-search-cancel-button,
+  #taskSearchInput::-webkit-search-decoration {
+    display: none;
+    -webkit-appearance: none;
+  }
+
+  .task-search-clear {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    display: inline-grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 0;
+    border-radius: 6px;
+    padding: 0;
+    background: transparent;
+    color: #60a5fa;
+    font: inherit;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transform: translateY(-50%);
+  }
+
+  .task-search-clear:hover,
+  .task-search-clear:focus-visible {
+    background: rgba(96, 165, 250, 0.12);
+    color: #93c5fd;
+    outline: none;
+  }
+
+  .task-search-clear[hidden] {
+    display: none;
   }
 
   .tracker-filter-controls .due-filter-field {
@@ -2605,33 +2666,37 @@
 <site-nav active-page="time-analysis"></site-nav>
 
 <main>
-  <header class="page-header">
-    <div>
-      <h1>Time Analysis</h1>
-      <p class="subtitle" id="pageSubtitle">Loading time entries...</p>
-    </div>
-    <div class="source-row" id="sourcePills"></div>
-  </header>
+  <div class="frozen-time-header">
+    <header class="page-header">
+      <div>
+        <h1>Time Analysis</h1>
+        <p class="subtitle" id="pageSubtitle">Loading time entries...</p>
+      </div>
+      <div class="source-row" id="sourcePills"></div>
+    </header>
 
-  <div id="statusBox" class="status-box">Loading time data...</div>
+    <div id="statusBox" class="status-box">Loading time data...</div>
 
-  <div id="dashboard" hidden>
-    <div class="tabs-row">
-      <nav class="tabs" aria-label="Time analysis sections">
-        <button class="tab-btn active" type="button" data-tab="track">Track</button>
-        <button class="tab-btn" type="button" data-tab="details">Entries</button>
-        <button class="tab-btn" type="button" data-tab="overview">Overview</button>
-        <button class="tab-btn" type="button" data-tab="business">Business</button>
-        <button class="tab-btn" type="button" data-tab="personal">Personal</button>
-        <button class="tab-btn" type="button" data-tab="actions">Actions</button>
-      </nav>
-      <div class="timer-display">
-        <div class="timer-label" id="timerStateLabel">Ready</div>
-        <div class="timer-value" id="timerValue">00:00:00</div>
-        <div class="timer-task" id="timerTask">No timer running</div>
+    <div id="dashboardControls" hidden>
+      <div class="tabs-row">
+        <nav class="tabs" aria-label="Time analysis sections">
+          <button class="tab-btn active" type="button" data-tab="track">Track</button>
+          <button class="tab-btn" type="button" data-tab="details">Entries</button>
+          <button class="tab-btn" type="button" data-tab="overview">Overview</button>
+          <button class="tab-btn" type="button" data-tab="business">Business</button>
+          <button class="tab-btn" type="button" data-tab="personal">Personal</button>
+          <button class="tab-btn" type="button" data-tab="actions">Actions</button>
+        </nav>
+        <div class="timer-display">
+          <div class="timer-label" id="timerStateLabel">Ready</div>
+          <div class="timer-value" id="timerValue">00:00:00</div>
+          <div class="timer-task" id="timerTask">No timer running</div>
+        </div>
       </div>
     </div>
+  </div>
 
+  <div id="dashboard" hidden>
     <section id="panel-track" class="panel active">
       <section class="tracker-shell" aria-label="Time tracker">
         <div class="tracker-card card">
@@ -2704,7 +2769,10 @@
                 </div>
                 <div class="tracker-field tracker-search-field">
                   <label for="taskSearchInput">Task search</label>
-                  <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
+                  <div class="tracker-search-control">
+                    <button class="task-search-clear" id="taskSearchClearBtn" type="button" aria-label="Clear task search" hidden>&times;</button>
+                    <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -6552,10 +6620,29 @@
     if (dueFilter) dueFilter.value = "all";
   }
 
+  function syncTaskSearchClearButton() {
+    const taskSearch = document.getElementById("taskSearchInput");
+    const clearButton = document.getElementById("taskSearchClearBtn");
+    if (!clearButton) return;
+    clearButton.hidden = !(taskSearch?.value || "").trim();
+  }
+
   function handleTrackerTaskSearchInput() {
     const taskSearch = document.getElementById("taskSearchInput");
+    syncTaskSearchClearButton();
     if (taskSearch?.value.trim()) clearTrackerFiltersForTaskSearch();
     scheduleTrackerSearchRender();
+  }
+
+  function clearTrackerTaskSearch() {
+    const taskSearch = document.getElementById("taskSearchInput");
+    if (!taskSearch) return;
+    taskSearch.value = "";
+    syncTaskSearchClearButton();
+    window.clearTimeout(trackerSearchRenderTimer);
+    trackerSearchRenderTimer = null;
+    renderActivityRows();
+    taskSearch.focus();
   }
 
   function priorityOptionSort(a, b) {
@@ -6642,7 +6729,13 @@
       };
     });
     const taskSearch = document.getElementById("taskSearchInput");
-    if (taskSearch) taskSearch.oninput = handleTrackerTaskSearchInput;
+    if (taskSearch) {
+      taskSearch.oninput = handleTrackerTaskSearchInput;
+      taskSearch.onsearch = handleTrackerTaskSearchInput;
+    }
+    const taskSearchClear = document.getElementById("taskSearchClearBtn");
+    if (taskSearchClear) taskSearchClear.onclick = clearTrackerTaskSearch;
+    syncTaskSearchClearButton();
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
   }
@@ -7191,6 +7284,7 @@
 
   function renderDashboard(entries, metrics) {
     document.getElementById("statusBox").hidden = true;
+    document.getElementById("dashboardControls").hidden = false;
     document.getElementById("dashboard").hidden = false;
     const pageSubtitle = document.getElementById("pageSubtitle");
     pageSubtitle.textContent = "";
@@ -8016,6 +8110,7 @@
     timePayload = readLocalTimePayload();
     currentSourcePills = [];
     document.getElementById("statusBox").hidden = true;
+    document.getElementById("dashboardControls").hidden = false;
     document.getElementById("dashboard").hidden = false;
     const pageSubtitle = document.getElementById("pageSubtitle");
     pageSubtitle.textContent = "";
