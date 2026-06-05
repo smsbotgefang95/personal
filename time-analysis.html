@@ -3306,7 +3306,10 @@
     fourthThursday: 4,
     fifthThursday: 5
   };
-  const TRACK_GROUP_ORDER = ["📌 Must_Business", "📌 Must_Life", "✴️ Should", "🌱 Routine_Business", "🌱 Routine_Personal", "☕️ Downtime", "Other"];
+  const TRACK_GROUP_ORDER = ["📌 Must_Business", "📌 Must_Life", "📌 Must_Personal", "✴️ Should", "🌱 Routine_Business", "🌱 Routine_Personal", "☕️ Downtime", "Other"];
+  const TASK_PRIORITY_CORRECTIONS = {
+    "86a64xmy4": "📌 Must_Personal"
+  };
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
     "2. Gain traction",
@@ -3423,6 +3426,11 @@
   function cleanLabel(value, fallback = "Uncategorized") {
     const text = String(value ?? "").trim();
     return text || fallback;
+  }
+
+  function correctedTaskPriority(entry, priority) {
+    const taskId = cleanLabel(entry?.taskId, "");
+    return TASK_PRIORITY_CORRECTIONS[taskId] || priority;
   }
 
   function displayListName(value, fallback = "Uncategorized") {
@@ -4018,7 +4026,7 @@
       listName: listNameForId(listId),
       taskName: Object.prototype.hasOwnProperty.call(override || {}, "taskName") ? cleanLabel(override.taskName, entry.taskName) : entry.taskName,
       department: Object.prototype.hasOwnProperty.call(override || {}, "department") ? cleanLabel(override.department, "") : entry.department,
-      priority: Object.prototype.hasOwnProperty.call(override || {}, "priority") ? cleanLabel(override.priority, "") : entry.priority,
+      priority: correctedTaskPriority(entry, Object.prototype.hasOwnProperty.call(override || {}, "priority") ? cleanLabel(override.priority, "") : entry.priority),
       taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? normalizeTaskCategory(override.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       notes: Object.prototype.hasOwnProperty.call(override || {}, "notes") ? cleanLabel(override.notes, "") : cleanLabel(entry.notes, ""),
@@ -5033,7 +5041,8 @@
     const priority = cleanLabel(entry.priority, "Other").trim();
     const normalized = priority.replace(/\s+/g, " ");
     if (/job must|must_business/i.test(normalized)) return "📌 Must_Business";
-    if (/life must|must_life|must_personal/i.test(normalized)) return "📌 Must_Life";
+    if (/life must|must_life/i.test(normalized)) return "📌 Must_Life";
+    if (/must_personal/i.test(normalized)) return "📌 Must_Personal";
     if (/should/i.test(normalized)) return "✴️ Should";
     if (/routine_business/i.test(normalized)) return "🌱 Routine_Business";
     if (/routine_personal/i.test(normalized)) return "🌱 Routine_Personal";
@@ -7801,7 +7810,7 @@
   async function loadCsvEntries() {
     const rawRows = [];
     for (const file of TIME_CSV_FILES) {
-      const response = await fetch(encodeURI(file));
+      const response = await fetch(encodeURI(file), { cache: "no-store" });
       if (!response.ok) throw new Error(`${file} returned HTTP ${response.status}`);
       const text = await response.text();
       parseCsv(text).forEach((row) => rawRows.push({ row, file }));

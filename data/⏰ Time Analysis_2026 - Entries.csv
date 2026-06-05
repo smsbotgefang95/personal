@@ -762,7 +762,7 @@ W02,5:37:26 AM,5:49:59 AM,0:12:33,🌼 Survival Mode,901306296518,🍔 Eat,86a5m
 W02,5:49:58 AM,5:53:36 AM,0:03:38,🌈 Personal,901301650324,🆘 Help family and friends,86a5nekrz,9.08. Social,📌 Life Must,9.08.1. Help family and friends,,
 W02,5:53:36 AM,6:05:22 AM,0:11:46,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W02,6:05:21 AM,6:07:19 AM,0:01:58,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
-W02,6:07:19 AM,6:20:59 AM,0:13:40,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,✴️ Should,9.11.1. Manage stuff,,
+W02,6:07:19 AM,6:20:59 AM,0:13:40,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,📌 Must_Personal,9.11.1. Manage stuff,,
 W02,6:20:58 AM,6:34:09 AM,0:13:11,🌈 Personal,901301650324,🧾 Manage financials_Personal,86a5naynx,9.09. Financial,📌 Life Must,9.09.1. Manage money,,
 W02,6:34:09 AM,6:35:47 AM,0:01:38,🚀 On Business,900601952633,✅ Manage tasks,,2. Gain traction,📌 Job Must,2.5. Manage tasks,🙂 👌 Work,Owner
 W02,6:35:47 AM,6:56:09 AM,0:20:22,🚀 On Business,900601952633,✏️ Plan for things,86a27xgca,2. Gain traction,📌 Job Must,"2.1. Plan (Y, Q, M, W, D)",🙂 👌 Work,Owner
@@ -797,7 +797,7 @@ W02,9:07:26 AM,9:16:45 AM,0:09:19,👩🏻‍💻 In Business,901301162602,💬 
 W02,9:16:45 AM,9:19:53 AM,0:03:08,🚀 On Business,900601952633,🤖 Automate tasks_Check if automation works correctly,86ady936z,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W02,9:19:53 AM,9:25:16 AM,0:05:23,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W02,9:25:16 AM,9:40:25 AM,0:15:09,🚀 On Business,900601952633,✏️ Plan for things,86a27xgca,2. Gain traction,📌 Job Must,"2.1. Plan (Y, Q, M, W, D)",🙂 👌 Work,Owner
-W02,9:40:25 AM,9:47:26 AM,0:07:01,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,✴️ Should,9.11.1. Manage stuff,,
+W02,9:40:25 AM,9:47:26 AM,0:07:01,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,📌 Must_Personal,9.11.1. Manage stuff,,
 W02,9:47:26 AM,9:52:08 AM,0:04:42,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W02,9:52:08 AM,10:01:27 AM,0:09:19,🚀 On Business,900601952633,🤖 Automate tasks_Check if automation works correctly,86ady936z,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W02,10:01:27 AM,10:08:55 AM,0:07:28,👩🏻‍💻 In Business,901301162602,📊 Track KPI,86a89q6tw,2. Gain traction,📌 Job Must,2.2. Develop and monitor KPIs,🙂 👌 Work,Manager
@@ -806,7 +806,7 @@ W02,10:18:13 AM,10:18:59 AM,0:00:46,🚀 On Business,900601952633,✅ Manage tim
 W02,10:18:59 AM,10:19:07 AM,0:00:08,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
 W02,10:19:29 AM,10:36:20 AM,0:16:51,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
 W02,10:36:20 AM,10:42:08 AM,0:05:48,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ Invelo,,5. Build processes,📌 Job Must,5.3. Set up softwares,🙂 👌 Work,Manager
-W02,10:42:07 AM,10:53:59 AM,0:11:52,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,✴️ Should,9.11.1. Manage stuff,,
+W02,10:42:07 AM,10:53:59 AM,0:11:52,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,📌 Must_Personal,9.11.1. Manage stuff,,
 W02,10:54:09 AM,11:01:55 AM,0:07:46,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W02,11:01:55 AM,11:25:24 AM,0:23:29,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W02,11:25:24 AM,11:39:18 AM,0:13:54,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
@@ -1450,7 +1450,7 @@ W03,9:45:35 AM,10:04:00 AM,0:18:25,🌈 Personal,901301650324,📚 Read and lear
 W03,10:04:11 AM,10:06:06 AM,0:01:55,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W03,10:06:06 AM,10:56:16 AM,0:50:10,🌈 Personal,901301650324,📚 Read and learn,,9.02. Intellectual,📌 Life Must,9.02. Intellectual,,
 W03,10:56:16 AM,11:01:47 AM,0:05:31,🌈 Personal,901301650324,👩🏻‍🍳 Cook meals,86a5336b5,9.11. Quality of life,📌 Life Must,9.11.4. Do house chores,,
-W03,11:01:46 AM,11:08:22 AM,0:06:36,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,✴️ Should,9.11.1. Manage stuff,,
+W03,11:01:46 AM,11:08:22 AM,0:06:36,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,📌 Must_Personal,9.11.1. Manage stuff,,
 W03,11:08:21 AM,11:17:00 AM,0:08:39,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W03,11:17:08 AM,11:28:54 AM,0:11:46,🌈 Personal,901301650324,🗃️ Organize food,86a5r673p,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W03,11:29:02 AM,11:30:34 AM,0:01:32,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
@@ -1471,7 +1471,7 @@ W03,4:33:55 AM,4:38:06 AM,0:04:11,🌈 Personal,901301650324,🧾 Manage financi
 W03,4:38:06 AM,4:58:02 AM,0:19:56,🌈 Personal,901301650324,🛒 Do grocery shopping online,86a66mfrh,9.11. Quality of life,📌 Life Must,9.11.4. Do house chores,,
 W03,4:58:02 AM,5:10:34 AM,0:12:32,🌈 Personal,901301650324,📚 Read and learn,,9.02. Intellectual,📌 Life Must,9.02. Intellectual,,
 W03,5:10:34 AM,5:12:44 AM,0:02:10,🚀 On Business,900601952633,✏️ Plan for things,86a27xgca,2. Gain traction,📌 Job Must,"2.1. Plan (Y, Q, M, W, D)",🙂 👌 Work,Owner
-W03,5:12:44 AM,5:14:49 AM,0:02:05,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,✴️ Should,9.11.1. Manage stuff,,
+W03,5:12:44 AM,5:14:49 AM,0:02:05,🌈 Personal,901301650324,🚘 Manage the car,86a64xmy4,9.11. Quality of life,📌 Must_Personal,9.11.1. Manage stuff,,
 W03,5:14:49 AM,5:17:17 AM,0:02:28,🌈 Personal,901301650324,🆘 Help family and friends,86a5nekrz,9.08. Social,📌 Life Must,9.08.1. Help family and friends,,
 W03,5:17:17 AM,5:17:18 AM,0:00:01,🚀 On Business,900601952633,✅ Manage tasks,,2. Gain traction,📌 Job Must,2.5. Manage tasks,🙂 👌 Work,Owner
 W03,5:17:18 AM,5:25:30 AM,0:08:12,🚀 On Business,900601952633,✏️ Plan for things,86a27xgca,2. Gain traction,📌 Job Must,"2.1. Plan (Y, Q, M, W, D)",🙂 👌 Work,Owner
