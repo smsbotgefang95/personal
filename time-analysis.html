@@ -3306,7 +3306,7 @@
     fourthThursday: 4,
     fifthThursday: 5
   };
-  const TRACK_GROUP_ORDER = ["📌 Must_Business", "📌 Must_Personal", "✴️ Should", "🌱 Routine_Business", "🌱 Routine_Personal", "☕️ Downtime", "Other"];
+  const TRACK_GROUP_ORDER = ["📌 Must_Business", "📌 Must_Life", "✴️ Should", "🌱 Routine_Business", "🌱 Routine_Personal", "☕️ Downtime", "Other"];
   const DEPARTMENT_OPTIONS = [
     "1. Lead the company",
     "2. Gain traction",
@@ -3346,7 +3346,7 @@
     { taskName: "Walk", listId: "901301650324", listName: "🌈 Personal", department: "9.01. Health & fitness", priority: "🌱 Routine", section: "9.01.3. Exercise", taskCategory: "Health", taskType: "Work" },
     { taskName: "Nap", listId: "901306296518", listName: "🌼 Survival", priority: "☕️ Downtime", section: "9.01.1. Sleep well", taskCategory: "Routine", taskType: "Work" },
     { taskName: "Take a break", listId: "901301650324", listName: "🌈 Personal", priority: "☕️ Downtime", section: "9.01.4. Have a regular routine", taskCategory: "Rest", taskType: "Work" },
-    { taskName: "Plan for dad's activities", listId: "901301650324", listName: "🌈 Personal", department: "Family", priority: "📌 Must_Personal", section: "9.07.4. Take dad to places", taskCategory: "Planning", taskType: "Owner" }
+    { taskName: "Plan for dad's activities", listId: "901301650324", listName: "🌈 Personal", department: "Family", priority: "📌 Must_Life", section: "9.07.4. Take dad to places", taskCategory: "Planning", taskType: "Owner" }
   ].map((item, index) => ({
     ...item,
     id: `fallback-${index}`,
@@ -5033,7 +5033,7 @@
     const priority = cleanLabel(entry.priority, "Other").trim();
     const normalized = priority.replace(/\s+/g, " ");
     if (/job must|must_business/i.test(normalized)) return "📌 Must_Business";
-    if (/life must|must_personal/i.test(normalized)) return "📌 Must_Personal";
+    if (/life must|must_life|must_personal/i.test(normalized)) return "📌 Must_Life";
     if (/should/i.test(normalized)) return "✴️ Should";
     if (/routine_business/i.test(normalized)) return "🌱 Routine_Business";
     if (/routine_personal/i.test(normalized)) return "🌱 Routine_Personal";

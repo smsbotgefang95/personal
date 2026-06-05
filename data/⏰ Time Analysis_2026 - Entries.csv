@@ -34,7 +34,7 @@ W01,8:49:24 AM,11:31:01 AM,2:41:37,🌈 Personal,901301650324,🧼 Do dishes,86a
 W01,11:31:13 AM,12:07:49 PM,0:36:36,🌈 Personal,901301650324,🗃️ Organize food,86a5r673p,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W01,12:08:01 PM,12:21:31 PM,0:13:30,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W01,12:21:41 PM,12:21:44 PM,0:00:03,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
-W01,12:21:50 PM,12:29:07 PM,0:07:17,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W01,12:21:50 PM,12:29:07 PM,0:07:17,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W01,12:29:18 PM,12:43:13 PM,0:13:55,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W01,12:43:25 PM,12:56:54 PM,0:13:29,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W01,12:57:09 PM,1:23:26 PM,0:26:17,🌼 Survival Mode,901306296518,💤 Nap,86a2gxhgk,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -389,7 +389,7 @@ W01,12:31:17 PM,1:03:41 PM,0:32:24,🌼 Survival Mode,901306296518,🚶🏻‍�
 W01,1:03:52 PM,1:17:11 PM,0:13:19,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W01,1:17:25 PM,1:17:27 PM,0:00:02,🌼 Survival Mode,901306296518,🚶🏻‍♀️Walk,86a2h4h22,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
 W01,1:17:33 PM,2:01:16 PM,0:43:43,🌼 Survival Mode,901306296518,💤 Nap,86a2gxhgk,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
-W01,2:01:31 PM,2:49:49 PM,0:48:18,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W01,2:01:31 PM,2:49:49 PM,0:48:18,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W01,2:49:49 PM,3:46:32 PM,0:56:43,🌈 Personal,901301650324,🧼 Clean rooms,86a2ct001,9.11. Quality of life,📌 Life Must,9.11.3. Clean up stuff,,
 W01,3:46:43 PM,4:03:34 PM,0:16:51,🌼 Survival Mode,901306296518,🚿 Shower,86a2hacmc,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W01,4:03:45 PM,4:19:09 PM,0:15:24,🌈 Personal,901301650324,🤡 Take dad to places,86a6804rr,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
@@ -659,10 +659,10 @@ W02,9:53:45 AM,9:56:40 AM,0:02:55,👩🏻‍💻 In Business,901301162602,🛟 
 W02,9:56:40 AM,10:01:55 AM,0:05:15,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
 W02,10:01:55 AM,10:04:01 AM,0:02:06,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W02,10:04:01 AM,10:06:46 AM,0:02:45,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
-W02,10:06:46 AM,10:13:28 AM,0:06:42,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W02,10:06:46 AM,10:13:28 AM,0:06:42,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W02,10:13:28 AM,10:15:45 AM,0:02:17,👩🏻‍💻 In Business,901301162602,💬 Send SMS,86a51g8r7,4. Do deals,📌 Job Must,4.3. Market to prospects,☹️ 👌 Obligation,Work
 W02,10:15:44 AM,10:19:00 AM,0:03:16,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W02,10:19:00 AM,10:22:38 AM,0:03:38,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W02,10:19:00 AM,10:22:38 AM,0:03:38,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W02,10:22:38 AM,10:27:12 AM,0:04:34,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
 W02,10:27:12 AM,10:35:09 AM,0:07:57,👩🏻‍💻 In Business,901301162602,🛟 Contact support_QBO,86a71dykj,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,🙂 👌 Work,Admin
 W02,10:35:09 AM,10:48:23 AM,0:13:14,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
@@ -6050,13 +6050,13 @@ W13,5:16:32 PM,5:23:47 PM,0:07:15,🌈 Personal,901301650324,🛍️ Buy stuff,8
 W13,5:23:47 PM,5:26:44 PM,0:02:57,🌈 Personal,901301650324,🆘 Help family and friends,86a5nekrz,9.08. Social,📌 Life Must,9.08.1. Help family and friends,,
 W13,5:26:44 PM,5:51:33 PM,0:24:49,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W13,5:51:33 PM,5:54:03 PM,0:02:30,🌈 Personal,901301650324,📚 Read and learn,,9.02. Intellectual,📌 Life Must,9.02. Intellectual,,
-W13,5:54:03 PM,6:01:26 PM,0:07:23,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W13,5:54:03 PM,6:01:26 PM,0:07:23,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W13,6:01:25 PM,6:14:44 PM,0:13:19,🌈 Personal,901301650324,🧼 Clean rooms,86a2ct001,9.11. Quality of life,📌 Life Must,9.11.3. Clean up stuff,,
 W13,6:14:44 PM,6:20:01 PM,0:05:17,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
-W13,6:20:01 PM,7:37:51 PM,1:17:50,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W13,6:20:01 PM,7:37:51 PM,1:17:50,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W13,7:37:51 PM,7:45:11 PM,0:07:20,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W13,7:45:10 PM,7:51:42 PM,0:06:32,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
-W13,7:51:42 PM,8:30:42 PM,0:39:00,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W13,7:51:42 PM,8:30:42 PM,0:39:00,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W13,8:30:00 PM,9:17:00 PM,0:47:00,🌈 Personal,901301650324,🗣️ Talk to Matt,86a654xch,9.06. Love,☕️ Downtime,9.06. Love,,
 W13,9:17:00 PM,11:59:00 PM,2:42:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W13,12:00:00 AM,6:22:00 AM,6:22:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -6523,7 +6523,7 @@ W14,11:30:34 AM,11:44:45 AM,0:14:11,🌈 Personal,901301650324,❤️ Invite fam
 W14,11:44:45 AM,11:45:05 AM,0:00:20,🌈 Personal,901301650324,🗃️ Organize emails,,9.11. Quality of life,📌 Life Must,9.11.2. Organize stuff,,
 W14,11:45:05 AM,2:14:21 PM,2:29:16,🌈 Personal,901301650324,❤️ Invite family and friends over,,9.08. Social,📌 Life Must,9.08.3. Spend time w/ family and friends,,
 W14,2:14:54 PM,2:32:55 PM,0:18:01,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
-W14,2:32:55 PM,4:20:53 PM,1:47:58,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W14,2:32:55 PM,4:20:53 PM,1:47:58,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W14,4:20:52 PM,5:40:19 PM,1:19:27,🌈 Personal,901301650324,🏓 Play Pingpong w/ dad,,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
 W14,5:40:36 PM,5:48:34 PM,0:07:58,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W14,5:48:43 PM,6:01:27 PM,0:12:44,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
@@ -6660,7 +6660,7 @@ W15,1:10:01 PM,1:16:51 PM,0:06:50,🌼 Survival Mode,901306296518,👗 Put on cl
 W15,1:16:50 PM,3:18:20 PM,2:01:30,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,3:18:20 PM,3:24:19 PM,0:05:59,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,3:24:19 PM,4:20:43 PM,0:56:24,🌈 Personal,901301650324,🏋🏻‍♀️ Work out,86a2heyde,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
-W15,4:20:42 PM,5:21:54 PM,1:01:12,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,4:20:42 PM,5:21:54 PM,1:01:12,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,5:21:53 PM,5:23:11 PM,0:01:18,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W15,5:23:21 PM,5:24:56 PM,0:01:35,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,5:25:01 PM,5:28:43 PM,0:03:42,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
@@ -6674,7 +6674,7 @@ W15,6:12:38 PM,6:16:09 PM,0:03:31,🌈 Personal,901301650324,🏖️ Take a brea
 W15,6:16:09 PM,6:26:07 PM,0:09:58,🌈 Personal,901301650324,🧾 Manage financials_Personal,86a5naynx,9.09. Financial,📌 Life Must,9.09.1. Manage money,,
 W15,6:26:07 PM,6:28:16 PM,0:02:09,🚀 On Business,900601952633,✅ Manage tasks,,2. Gain traction,📌 Job Must,2.5. Manage tasks,🙂 👌 Work,Owner
 W15,6:28:16 PM,6:28:58 PM,0:00:42,👩🏻‍💻 In Business,901301162602,🔨 Learn Manus,,5. Build processes,📌 Job Must,5.2. Learn and troubleshoot softwares,🙂 👌 Work,Work
-W15,6:28:58 PM,7:44:13 PM,1:15:15,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,6:28:58 PM,7:44:13 PM,1:15:15,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,7:44:13 PM,8:04:56 PM,0:20:43,🌼 Survival Mode,901306296518,🚿 Shower,86a2hacmc,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,8:05:02 PM,8:21:27 PM,0:16:25,🌈 Personal,901301650324,🪣 Soak feet,86a8cg0pc,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,8:21:35 PM,8:30:52 PM,0:09:17,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
@@ -6733,7 +6733,7 @@ W15,1:53:57 PM,1:59:40 PM,0:05:43,🌼 Survival Mode,901306296518,👗 Put on cl
 W15,1:59:40 PM,1:59:41 PM,0:00:01,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,1:59:41 PM,2:01:06 PM,0:01:25,🚀 On Business,900601952633,✅ Manage time tracked,86a68njak,2. Gain traction,📌 Job Must,2.6. Manage time,🙂 👌 Work,Owner
 W15,2:01:06 PM,2:19:56 PM,0:18:50,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W15,2:19:56 PM,3:05:45 PM,0:45:49,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,2:19:56 PM,3:05:45 PM,0:45:49,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,3:05:45 PM,3:09:59 PM,0:04:14,🌈 Personal,901301650324,💆🏻‍♀️ Massage,86aec0tc9,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,3:09:59 PM,3:22:18 PM,0:12:19,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,3:22:18 PM,3:26:41 PM,0:04:23,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ VA,86a6fm2mm,6. Build the team,📌 Job Must,6.2. VA,🙂 👌 Work,Manager
@@ -6746,7 +6746,7 @@ W15,5:28:14 PM,6:06:42 PM,0:38:28,🚀 On Business,900601952633,👩🏻‍🎓 
 W15,6:06:42 PM,6:16:39 PM,0:09:57,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,6:16:39 PM,6:22:47 PM,0:06:08,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,6:22:46 PM,6:24:00 PM,0:01:14,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W15,6:24:00 PM,8:33:45 PM,2:09:45,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,6:24:00 PM,8:33:45 PM,2:09:45,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,8:33:45 PM,8:40:53 PM,0:07:08,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,8:40:52 PM,9:10:11 PM,0:29:19,🌈 Personal,901301650324,🗣️ Talk to Matt,86a654xch,9.06. Love,☕️ Downtime,9.06. Love,,
 W15,9:10:00 PM,11:59:00 PM,2:49:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -6761,7 +6761,7 @@ W15,6:13:39 AM,6:40:07 AM,0:26:28,🚀 On Business,900601952633,🤖 Automate ta
 W15,6:40:06 AM,6:44:06 AM,0:04:00,👩🏻‍💻 In Business,901301162602,📋 Import prospects to Invelo,86a45jucq,4. Do deals,📌 Job Must,4.1. Generate prospects,☹️ 👌 Obligation,Work
 W15,6:44:06 AM,6:48:04 AM,0:03:58,👩🏻‍💻 In Business,901301162602,🕵🏻 Skip trace prospects,86a83c16d,4. Do deals,📌 Job Must,4.3. Market to prospects,🙂 👌 Work,Work
 W15,6:48:04 AM,6:51:06 AM,0:03:02,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ 4BBH,86a6470ph,6. Build the team,📌 Job Must,6.3. Wholesaler,🙂 👌 Work,Manager
-W15,6:51:06 AM,6:52:34 AM,0:01:28,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,6:51:06 AM,6:52:34 AM,0:01:28,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,6:52:34 AM,6:53:50 AM,0:01:16,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,6:53:50 AM,6:54:53 AM,0:01:03,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,6:54:53 AM,7:02:49 AM,0:07:56,🌈 Personal,901301650324,👩🏻‍🍳 Serve meals,86aem1p9g,9.11. Quality of life,🌱 Routine,9.11.4. Do house chores,,
@@ -6779,14 +6779,14 @@ W15,8:33:10 AM,8:46:55 AM,0:13:45,🚀 On Business,900601952633,🤖 Automate ta
 W15,8:46:55 AM,9:26:08 AM,0:39:13,🚀 On Business,900601952633,👩🏻‍🎓 Attend webinar_PropertyRadar,,6. Build the team,📌 Job Must,6.1. Self,😀 👍 Magic,Owner
 W15,9:26:08 AM,9:34:10 AM,0:08:02,👩🏻‍💻 In Business,901301162602,🔨 Learn PropertyRadar,86a30qb92,5. Build processes,📌 Life Must,5.2. Learn and troubleshoot softwares,🙂 👌 Work,Work
 W15,9:34:10 AM,10:05:29 AM,0:31:19,👩🏻‍💻 In Business,901301162602,🛟 Contact support_PropertyRadar,86ab3k10k,5. Build processes,📌 Job Must,5.2. Learn and troubleshoot softwares,🙂 👌 Work,Work
-W15,10:05:29 AM,10:11:30 AM,0:06:01,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,10:05:29 AM,10:11:30 AM,0:06:01,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,10:11:29 AM,10:16:15 AM,0:04:46,👩🏻‍💻 In Business,901301162602,🛟 Contact support_PropertyRadar,86ab3k10k,5. Build processes,📌 Job Must,5.2. Learn and troubleshoot softwares,🙂 👌 Work,Work
-W15,10:16:15 AM,10:20:15 AM,0:04:00,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,10:16:15 AM,10:20:15 AM,0:04:00,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,10:20:14 AM,10:21:09 AM,0:00:55,👩🏻‍💻 In Business,901301162602,🛟 Contact support_PropertyRadar,86ab3k10k,5. Build processes,📌 Job Must,5.2. Learn and troubleshoot softwares,🙂 👌 Work,Work
 W15,10:21:09 AM,10:31:18 AM,0:10:09,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,10:31:18 AM,10:35:09 AM,0:03:51,🚀 On Business,900601952633,🤖 Automate tasks_Check if automation works correctly,86ady936z,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,10:35:09 AM,10:41:12 AM,0:06:03,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ 4BBH,86a6470ph,6. Build the team,📌 Job Must,6.3. Wholesaler,🙂 👌 Work,Manager
-W15,10:41:11 AM,11:04:29 AM,0:23:18,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,10:41:11 AM,11:04:29 AM,0:23:18,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,11:04:29 AM,11:11:47 AM,0:07:18,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W15,11:12:00 AM,11:17:42 AM,0:05:42,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,11:17:41 AM,11:27:11 AM,0:09:30,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
@@ -6805,7 +6805,7 @@ W15,6:39:19 PM,6:45:20 PM,0:06:01,🌈 Personal,901301650324,🧼 Do dishes,86a7
 W15,6:45:20 PM,6:49:28 PM,0:04:08,🌈 Personal,901301650324,🗑️ Take out trash (And recycle bins on Wed),86a73jktf,9.11. Quality of life,🌱 Routine,9.11.4. Do house chores,,
 W15,6:49:27 PM,6:52:13 PM,0:02:46,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W15,6:52:13 PM,7:05:54 PM,0:13:41,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W15,7:05:54 PM,7:17:52 PM,0:11:58,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,7:05:54 PM,7:17:52 PM,0:11:58,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,7:18:08 PM,7:28:08 PM,0:10:00,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,7:28:11 PM,7:29:49 PM,0:01:38,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,7:29:48 PM,7:30:35 PM,0:00:47,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
@@ -6956,14 +6956,14 @@ W15,2:39:48 PM,2:51:46 PM,0:11:58,👩🏻‍💻 In Business,901301162602,🏠 
 W15,2:51:46 PM,3:10:17 PM,0:18:31,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,3:10:17 PM,4:11:59 PM,1:01:42,🌈 Personal,901301650324,🏋🏻‍♀️ Work out,86a2heyde,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
 W15,4:11:59 PM,4:27:25 PM,0:15:26,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W15,4:27:25 PM,5:32:39 PM,1:05:14,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,4:27:25 PM,5:32:39 PM,1:05:14,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,5:32:38 PM,5:36:47 PM,0:04:09,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ 4BBH,86a6470ph,6. Build the team,📌 Job Must,6.3. Wholesaler,🙂 👌 Work,Manager
-W15,5:36:46 PM,6:25:36 PM,0:48:50,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,5:36:46 PM,6:25:36 PM,0:48:50,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,6:25:36 PM,6:28:17 PM,0:02:41,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,6:28:17 PM,6:35:04 PM,0:06:47,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W15,6:35:04 PM,6:53:35 PM,0:18:31,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
-W15,6:53:34 PM,7:05:56 PM,0:12:22,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
-W15,7:05:55 PM,7:33:57 PM,0:28:02,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,6:53:34 PM,7:05:56 PM,0:12:22,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
+W15,7:05:55 PM,7:33:57 PM,0:28:02,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,7:33:57 PM,7:57:40 PM,0:23:43,🌼 Survival Mode,901306296518,🚿 Shower,86a2hacmc,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,7:57:39 PM,8:19:30 PM,0:21:51,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,8:19:30 PM,8:30:58 PM,0:11:28,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
@@ -6980,11 +6980,11 @@ W15,6:10:51 AM,6:12:02 AM,0:01:11,👩🏻‍💻 In Business,901301162602,📋 
 W15,6:12:02 AM,6:14:52 AM,0:02:50,👩🏻‍💻 In Business,901301162602,🕵🏻 Skip trace prospects,86a83c16d,4. Do deals,📌 Job Must,4.3. Market to prospects,🙂 👌 Work,Work
 W15,6:14:51 AM,6:26:02 AM,0:11:11,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,6:26:02 AM,6:41:13 AM,0:15:11,🌈 Personal,901301650324,🛒 Do grocery shopping,86a2fkvvg,9.11. Quality of life,📌 Life Must,9.11.4. Do house chores,,
-W15,6:41:22 AM,6:47:38 AM,0:06:16,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,6:41:22 AM,6:47:38 AM,0:06:16,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,6:49:52 AM,7:00:00 AM,0:10:08,🌈 Personal,901301650324,🛒 Do grocery shopping,86a2fkvvg,9.11. Quality of life,📌 Life Must,9.11.4. Do house chores,,
 W15,7:00:00 AM,7:00:47 AM,0:00:47,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W15,7:00:47 AM,7:04:20 AM,0:03:33,🌈 Personal,901301650324,👩🏻‍🍳 Serve meals,86aem1p9g,9.11. Quality of life,🌱 Routine,9.11.4. Do house chores,,
-W15,7:04:20 AM,7:08:29 AM,0:04:09,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W15,7:04:20 AM,7:08:29 AM,0:04:09,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W15,7:08:28 AM,7:22:08 AM,0:13:40,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W15,7:22:21 AM,7:33:29 AM,0:11:08,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W15,7:33:29 AM,7:34:27 AM,0:00:58,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
@@ -7172,7 +7172,7 @@ W16,12:52:54 PM,1:14:18 PM,0:21:24,🌈 Personal,901301650324,🏖️ Take a bre
 W16,1:14:29 PM,1:14:36 PM,0:00:07,🚀 On Business,900601952633,👩🏻‍🎓 Attend training_Deal flow challenge,,6. Build the team,📌 Life Must,6.1. Self,😀 👍 Magic,Owner
 W16,1:14:35 PM,4:22:17 PM,3:07:42,🚀 On Business,900601952633,👩🏻‍🎓 Attend training_Deal flow challenge,,6. Build the team,📌 Life Must,6.1. Self,😀 👍 Magic,Owner
 W16,4:22:16 PM,4:25:04 PM,0:02:48,👩🏻‍💻 In Business,901301162602,📊 Track KPI,86a89q6tw,2. Gain traction,📌 Job Must,2.2. Develop and monitor KPIs,🙂 👌 Work,Manager
-W16,4:25:02 PM,4:28:46 PM,0:03:44,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W16,4:25:02 PM,4:28:46 PM,0:03:44,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W16,4:28:45 PM,4:30:56 PM,0:02:11,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W16,4:31:17 PM,5:00:49 PM,0:29:32,🌈 Personal,901301650324,🗃️ Organize stuff,86a5r4zkp,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W16,5:01:07 PM,5:17:07 PM,0:16:00,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ RX,86a742axt,6. Build the team,📌 Job Must,6.6. Investor,🙂 👌 Work,Work
@@ -7358,7 +7358,7 @@ W16,6:10:58 PM,6:14:11 PM,0:03:13,👩🏻‍💻 In Business,901301162602,👩�
 W16,6:14:10 PM,6:14:57 PM,0:00:47,🌈 Personal,901301650324,🧼 Clean rooms,86a2ct001,9.11. Quality of life,📌 Life Must,9.11.3. Clean up stuff,,
 W16,6:14:57 PM,6:26:33 PM,0:11:36,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W16,6:26:32 PM,6:48:48 PM,0:22:16,🌈 Personal,901301650324,🌷Grow flowers and plants,86adrww47,9.11. Quality of life,📌 Life Must,9.11.5. Others,,
-W16,6:48:47 PM,8:17:09 PM,1:28:22,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W16,6:48:47 PM,8:17:09 PM,1:28:22,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W16,8:17:09 PM,8:20:18 PM,0:03:09,🌈 Personal,901301650324,💯 Update daily KPIs,86a2hpd34,9.04. Character,🌱 Routine,9.04. Consistency,,
 W16,8:20:17 PM,8:28:35 PM,0:08:18,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W16,8:28:34 PM,8:29:35 PM,0:01:01,🚀 On Business,900601952633,✅ Manage tasks,,2. Gain traction,📌 Job Must,2.5. Manage tasks,🙂 👌 Work,Owner
@@ -7395,9 +7395,9 @@ W16,10:29:26 AM,10:33:35 AM,0:04:09,👩🏻‍💻 In Business,901301162602,�
 W16,10:33:35 AM,10:35:30 AM,0:01:55,👩🏻‍💻 In Business,901301162602,🏠 Pull prospects_Foreclosure,86aenmett,4. Do deals,📌 Job Must,4.1. Generate prospects,☹️ 👌 Obligation,Work
 W16,10:35:30 AM,11:04:39 AM,0:29:09,🌈 Personal,901301650324,🗃️ Organize food,86a5r673p,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W16,11:04:38 AM,11:11:02 AM,0:06:24,🌈 Personal,901301650324,🧾 Manage financials_Personal,86a5naynx,9.09. Financial,📌 Life Must,9.09.1. Manage money,,
-W16,11:11:02 AM,11:11:32 AM,0:00:30,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W16,11:11:02 AM,11:11:32 AM,0:00:30,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W16,11:11:31 AM,11:28:25 AM,0:16:54,🌈 Personal,901301650324,🧾 Manage financials_Personal,86a5naynx,9.09. Financial,📌 Life Must,9.09.1. Manage money,,
-W16,11:28:24 AM,11:37:21 AM,0:08:57,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W16,11:28:24 AM,11:37:21 AM,0:08:57,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W16,11:37:21 AM,11:44:17 AM,0:06:56,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W16,11:44:28 AM,11:49:48 AM,0:05:20,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W16,11:49:54 AM,12:00:52 PM,0:10:58,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
@@ -7411,7 +7411,7 @@ W16,1:07:49 PM,1:10:33 PM,0:02:44,🌼 Survival Mode,901306296518,👗 Put on cl
 W16,1:10:33 PM,3:15:23 PM,2:04:50,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W16,3:15:23 PM,3:19:23 PM,0:04:00,🚀 On Business,900601952633,🔍 Search and hire vendors,86a7c5ah9,6. Build the team,📌 Job Must,6.4. Vendor_Hire,🙂 👌 Work,Manager
 W16,3:19:22 PM,3:40:35 PM,0:21:13,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
-W16,3:40:35 PM,5:31:09 PM,1:50:34,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W16,3:40:35 PM,5:31:09 PM,1:50:34,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W16,5:31:09 PM,5:31:50 PM,0:00:41,🌈 Personal,901301650324,👩🏻‍🍳 Serve meals,86aem1p9g,9.11. Quality of life,🌱 Routine,9.11.4. Do house chores,,
 W16,5:31:56 PM,5:40:25 PM,0:08:29,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W16,5:40:24 PM,5:47:43 PM,0:07:19,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
@@ -7421,7 +7421,7 @@ W16,7:18:38 PM,7:27:12 PM,0:08:34,🌈 Personal,901301650324,🌷Grow flowers an
 W16,7:27:24 PM,7:28:41 PM,0:01:17,🚀 On Business,900601952633,✏️ Plan for things,86a27xgca,2. Gain traction,📌 Job Must,"2.1. Plan (Y, Q, M, W, D)",🙂 👌 Work,Owner
 W16,7:28:40 PM,7:41:35 PM,0:12:55,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W16,7:41:35 PM,8:13:25 PM,0:31:50,🌈 Personal,901301650324,🌷Grow flowers and plants,86adrww47,9.11. Quality of life,📌 Life Must,9.11.5. Others,,
-W16,8:13:24 PM,8:39:45 PM,0:26:21,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W16,8:13:24 PM,8:39:45 PM,0:26:21,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W16,8:39:44 PM,8:50:29 PM,0:10:45,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W16,8:50:28 PM,9:26:01 PM,0:35:33,🌈 Personal,901301650324,🗣️ Talk to Matt,86a654xch,9.06. Love,☕️ Downtime,9.06. Love,,
 W16,9:26:00 PM,11:59:00 PM,2:33:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -7448,9 +7448,9 @@ W17,7:23:57 AM,7:37:37 AM,0:13:40,🌈 Personal,901301650324,🧼 Do dishes,86a7
 W17,7:37:36 AM,7:38:03 AM,0:00:27,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W17,7:38:03 AM,7:41:45 AM,0:03:42,🌈 Personal,901301650324,🗃️ Organize stuff,86a5r4zkp,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W17,7:41:45 AM,7:47:56 AM,0:06:11,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
-W17,7:47:56 AM,8:46:06 AM,0:58:10,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,7:47:56 AM,8:46:06 AM,0:58:10,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,8:46:06 AM,8:49:56 AM,0:03:50,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
-W17,8:49:56 AM,11:33:07 AM,2:43:11,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,8:49:56 AM,11:33:07 AM,2:43:11,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,11:33:00 AM,11:35:00 AM,0:02:00,🌈 Personal,901301650324,👩🏻‍🍳 Serve meals,86aem1p9g,9.11. Quality of life,🌱 Routine,9.11.4. Do house chores,,
 W17,11:35:00 AM,11:45:00 AM,0:10:00,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W17,11:45:57 AM,11:50:47 AM,0:04:50,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
@@ -7458,7 +7458,7 @@ W17,11:50:47 AM,12:07:00 PM,0:16:13,🌈 Personal,901301650324,🧼 Do dishes,86
 W17,12:06:59 PM,12:15:03 PM,0:08:04,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W17,12:15:10 PM,1:09:53 PM,0:54:43,🌼 Survival Mode,901306296518,💤 Nap,86a2gxhgk,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W17,1:10:23 PM,1:27:40 PM,0:17:17,🌈 Personal,901301650324,🧾 Manage financials_Personal,86a5naynx,9.09. Financial,📌 Life Must,9.09.1. Manage money,,
-W17,1:27:40 PM,1:59:57 PM,0:32:17,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,1:27:40 PM,1:59:57 PM,0:32:17,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,1:59:57 PM,2:30:51 PM,0:30:54,🌈 Personal,901301650324,💈 Have a haircut,,9.01. Health & fitness,📌 Job Must,9.01.4. Have a regular routine,,
 W17,2:30:00 PM,3:30:00 PM,1:00:00,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W17,3:30:00 PM,5:13:00 PM,1:43:00,🌈 Personal,901301650324,🗣️ Talk to family and friends,86a754k81,9.08. Social,📌 Life Must,9.08.2. Stay in touch w/ family and friends,,
@@ -7554,7 +7554,7 @@ W17,4:27:25 PM,4:34:30 PM,0:07:05,🌈 Personal,901301650324,🏖️ Take a brea
 W17,4:34:29 PM,4:36:32 PM,0:02:03,🚀 On Business,900601952633,👩🏻‍🎓 Attend training_Deal flow challenge,,6. Build the team,📌 Life Must,6.1. Self,😀 👍 Magic,Owner
 W17,4:36:32 PM,4:37:48 PM,0:01:16,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W17,4:37:47 PM,5:05:30 PM,0:27:43,🚀 On Business,900601952633,👩🏻‍🎓 Attend training_Deal flow challenge,,6. Build the team,📌 Life Must,6.1. Self,😀 👍 Magic,Owner
-W17,5:05:30 PM,5:13:07 PM,0:07:37,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,5:05:30 PM,5:13:07 PM,0:07:37,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,5:13:06 PM,5:16:54 PM,0:03:48,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W17,5:16:53 PM,5:18:18 PM,0:01:25,🌈 Personal,901301650324,💆🏻‍♀️ Massage,86aec0tc9,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W17,5:18:17 PM,5:20:50 PM,0:02:33,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
@@ -7915,30 +7915,30 @@ W17,2:27:45 PM,2:30:04 PM,0:02:19,🌼 Survival Mode,901306296518,👗 Put on cl
 W17,2:30:03 PM,3:14:00 PM,0:43:57,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W17,3:14:00 PM,3:18:20 PM,0:04:20,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W17,3:18:20 PM,3:19:11 PM,0:00:51,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W17,3:19:11 PM,3:19:57 PM,0:00:46,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,3:19:11 PM,3:19:57 PM,0:00:46,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,3:19:56 PM,3:22:12 PM,0:02:16,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W17,3:22:12 PM,3:36:38 PM,0:14:26,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,3:22:12 PM,3:36:38 PM,0:14:26,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,3:36:37 PM,3:47:07 PM,0:10:30,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W17,3:47:07 PM,3:47:18 PM,0:00:11,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,3:47:07 PM,3:47:18 PM,0:00:11,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,3:47:18 PM,3:59:54 PM,0:12:36,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W17,3:59:54 PM,3:59:54 PM,0:00:00,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W17,4:06:34 PM,4:20:38 PM,0:14:04,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W17,4:20:38 PM,5:34:14 PM,1:13:36,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,4:20:38 PM,5:34:14 PM,1:13:36,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,5:34:14 PM,5:39:22 PM,0:05:08,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W17,5:39:21 PM,5:47:10 PM,0:07:49,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W17,5:47:10 PM,5:53:12 PM,0:06:02,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
 W17,5:53:11 PM,5:53:57 PM,0:00:46,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W17,5:53:56 PM,6:07:13 PM,0:13:17,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W17,6:07:13 PM,6:13:08 PM,0:05:55,🌈 Personal,901301650324,🗣️ Talk to family and friends,86a754k81,9.08. Social,📌 Life Must,9.08.2. Stay in touch w/ family and friends,,
-W17,6:13:08 PM,6:26:38 PM,0:13:30,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,6:13:08 PM,6:26:38 PM,0:13:30,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,6:26:37 PM,6:38:47 PM,0:12:10,🚀 On Business,900601952633,🤖 Run AI agent,86agzhyhy,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W17,6:38:46 PM,6:52:46 PM,0:14:00,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,6:38:46 PM,6:52:46 PM,0:14:00,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,6:52:45 PM,6:54:24 PM,0:01:39,🌈 Personal,901301650324,🌷Grow flowers and plants,86adrww47,9.11. Quality of life,📌 Life Must,9.11.5. Others,,
-W17,6:54:24 PM,7:29:33 PM,0:35:09,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,6:54:24 PM,7:29:33 PM,0:35:09,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,7:29:33 PM,7:40:30 PM,0:10:57,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
-W17,7:40:30 PM,8:04:57 PM,0:24:27,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,7:40:30 PM,8:04:57 PM,0:24:27,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,8:04:56 PM,8:11:23 PM,0:06:27,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,☕️ Downtime,9.01.4. Have a regular routine,,
-W17,8:11:23 PM,8:51:29 PM,0:40:06,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,✴️ Should,9.07.4. Take dad to places,,
+W17,8:11:23 PM,8:51:29 PM,0:40:06,🌈 Personal,901301650324,✏️ Plan for dad's activities,86a2d1k37,9.07. Dad,📌 Must_Life,9.07.4. Take dad to places,,
 W17,8:51:29 PM,8:56:15 PM,0:04:46,🌈 Personal,901301650324,🗣️ Talk to Matt,86a654xch,9.06. Love,☕️ Downtime,9.06. Love,,
 W17,8:56:15 PM,9:01:25 PM,0:05:10,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W17,9:01:24 PM,9:53:51 PM,0:52:27,🌈 Personal,901301650324,🗣️ Talk to Matt,86a654xch,9.06. Love,☕️ Downtime,9.06. Love,,
