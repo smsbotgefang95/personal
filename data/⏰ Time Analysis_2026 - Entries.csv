@@ -44,7 +44,7 @@ W01,5:53:16 PM,6:08:20 PM,0:15:04,🌈 Personal,901301650324,🛍️ Buy stuff,8
 W01,6:08:20 PM,6:21:47 PM,0:13:27,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W01,6:21:47 PM,6:50:39 PM,0:28:52,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
 W01,6:50:39 PM,6:59:48 PM,0:09:09,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
-W01,6:59:48 PM,7:09:00 PM,0:09:12,🌈 Personal,901301650324,📺 Watch TV/movie with dad,,9.07. Dad,☕️ Downtime,9.07.5. Watch a movie/TV,,
+W01,6:59:48 PM,7:09:00 PM,0:09:12,🌈 Personal,901301650324,📺 Watch TV/movie with dad,,9.07. Dad,📌 Must_Life,9.07.5. Watch a movie/TV,,
 W01,7:09:00 PM,7:15:40 PM,0:06:40,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W01,7:15:44 PM,11:59:44 PM,4:44:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W01,12:00:00 AM,5:39:00 AM,5:39:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -1299,8 +1299,8 @@ W03,2:07:01 AM,2:14:31 AM,0:07:30,🌈 Personal,901301650324,🏖️ Take a brea
 W03,2:14:31 AM,2:18:38 AM,0:04:07,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W03,2:18:38 AM,2:45:08 AM,0:26:30,👩🏻‍💻 In Business,901301162602,🏠 Pull prospects_Probate,,4. Do deals,📌 Job Must,4.1. Generate prospects,☹️ 👌 Obligation,Work
 W03,2:45:08 AM,2:50:23 AM,0:05:15,🌈 Personal,901301650324,🗑️ Take out trash (And recycle bins on Wed),86a73jktf,9.11. Quality of life,🌱 Routine,9.11.4. Do house chores,,
-W03,2:50:51 AM,2:55:51 AM,0:05:00,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
-W03,2:55:53 AM,2:55:56 AM,0:00:03,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W03,2:50:51 AM,2:55:51 AM,0:05:00,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
+W03,2:55:53 AM,2:55:56 AM,0:00:03,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W03,2:56:49 AM,3:22:22 AM,0:25:33,👩🏻‍💻 In Business,901301162602,🏠 Pull prospects_Probate,,4. Do deals,📌 Job Must,4.1. Generate prospects,☹️ 👌 Obligation,Work
 W03,3:22:22 AM,3:41:23 AM,0:19:01,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
 W03,3:42:04 AM,3:52:03 AM,0:09:59,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
@@ -1383,7 +1383,7 @@ W03,11:59:39 AM,12:26:03 PM,0:26:24,🌼 Survival Mode,901306296518,🚶🏻‍�
 W03,12:26:03 PM,12:40:26 PM,0:14:23,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W03,12:40:26 PM,1:06:55 PM,0:26:29,🌼 Survival Mode,901306296518,💤 Nap,86a2gxhgk,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W03,1:06:55 AM,1:09:18 AM,0:02:23,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
-W03,1:09:18 AM,1:11:55 AM,0:02:37,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W03,1:09:18 AM,1:11:55 AM,0:02:37,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W03,1:11:55 AM,1:14:46 AM,0:02:51,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W03,1:14:46 AM,1:16:33 AM,0:01:47,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ VA,86a6fm2mm,6. Build the team,📌 Job Must,6.2. VA,🙂 👌 Work,Manager
 W03,1:16:33 AM,1:18:05 AM,0:01:32,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
@@ -1637,7 +1637,7 @@ W04,11:29:52 AM,11:33:09 AM,0:03:17,🌼 Survival Mode,901306296518,🍔 Eat,86a
 W04,11:33:09 AM,11:39:45 AM,0:06:36,👩🏻‍💻 In Business,901301162602,💬 Send SMS,86a51g8r7,4. Do deals,📌 Job Must,4.3. Market to prospects,☹️ 👌 Obligation,Work
 W04,11:39:45 AM,11:48:12 AM,0:08:27,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W04,11:48:12 AM,11:59:58 AM,0:11:46,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
-W04,11:59:57 AM,12:01:03 PM,0:01:06,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W04,11:59:57 AM,12:01:03 PM,0:01:06,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W04,12:01:03 PM,12:32:23 PM,0:31:20,🌼 Survival Mode,901306296518,🚶🏻‍♀️Walk,86a2h4h22,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
 W04,12:32:22 PM,12:41:06 PM,0:08:44,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W04,12:41:05 PM,1:10:24 PM,0:29:19,🌼 Survival Mode,901306296518,💤 Nap,86a2gxhgk,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -2414,7 +2414,7 @@ W05,9:44:32 AM,9:47:03 AM,0:02:31,👩🏻‍💻 In Business,901301162602,👩�
 W05,9:47:03 AM,9:59:40 AM,0:12:37,🚀 On Business,900601952633,🤖 Automate tasks_Check if automation works correctly,86ady936z,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W05,9:59:40 AM,10:06:14 AM,0:06:34,🌈 Personal,901301650324,💆🏻‍♀️ Massage,86aec0tc9,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W05,10:06:14 AM,10:09:19 AM,0:03:05,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W05,10:09:18 AM,10:45:54 AM,0:36:36,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W05,10:09:18 AM,10:45:54 AM,0:36:36,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W05,10:45:54 AM,11:00:20 AM,0:14:26,👩🏻‍💻 In Business,901301162602,🛟 Contact support_QBO,86a71dykj,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,🙂 👌 Work,Admin
 W05,11:00:00 AM,11:36:00 AM,0:36:00,👩🏻‍💻 In Business,901301162602,🔍 Search and hire vendors,86a7c5ah9,6. Build the team,📌 Job Must,6.4. Vendor_Hire,🙂 👌 Work,Manager
 W05,11:36:20 AM,11:41:51 AM,0:05:31,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
@@ -3029,7 +3029,7 @@ W06,6:30:51 PM,6:38:46 PM,0:07:55,🌈 Personal,901301650324,🆘 Help family an
 W06,6:39:13 PM,6:51:27 PM,0:12:14,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W06,6:51:27 PM,6:57:56 PM,0:06:29,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
 W06,6:57:56 PM,7:47:43 PM,0:49:47,🌈 Personal,901301650324,🆘 Help family and friends,86a5nekrz,9.08. Social,📌 Life Must,9.08.1. Help family and friends,,
-W06,7:47:56 PM,8:54:06 PM,1:06:10,🌈 Personal,901301650324,📺 Watch TV/movie with dad,,9.07. Dad,☕️ Downtime,9.07.5. Watch a movie/TV,,
+W06,7:47:56 PM,8:54:06 PM,1:06:10,🌈 Personal,901301650324,📺 Watch TV/movie with dad,,9.07. Dad,📌 Must_Life,9.07.5. Watch a movie/TV,,
 W06,8:54:05 PM,9:06:37 PM,0:12:32,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W06,9:06:00 PM,11:59:00 PM,2:53:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W07,12:00:00 AM,5:52:00 AM,5:52:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
@@ -4596,7 +4596,7 @@ W10,11:47:15 AM,11:53:52 AM,0:06:37,🌈 Personal,901301650324,🧼 Do dishes,86
 W10,11:53:52 AM,11:56:42 AM,0:02:50,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W10,11:56:42 AM,12:07:10 PM,0:10:28,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
 W10,12:07:10 PM,12:42:53 PM,0:35:43,🌼 Survival Mode,901306296518,🚶🏻‍♀️Walk,86a2h4h22,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
-W10,12:42:53 PM,12:46:19 PM,0:03:26,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W10,12:42:53 PM,12:46:19 PM,0:03:26,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W10,12:46:00 PM,12:50:00 PM,0:04:00,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W10,12:50:00 PM,1:20:00 PM,0:30:00,🌼 Survival Mode,901306296518,💤 Nap,86a2gxhgk,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W10,1:21:16 PM,1:28:16 PM,0:07:00,🌼 Survival Mode,901306296518,👗 Put on clothes,86a64a6vp,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
@@ -4684,7 +4684,7 @@ W10,3:34:18 PM,3:35:29 PM,0:01:11,👩🏻‍💻 In Business,901301162602,👩�
 W10,3:35:29 PM,3:50:31 PM,0:15:02,🚀 On Business,900601952633,🔍 Search and hire vendors,86a7c5ah9,6. Build the team,📌 Job Must,6.4. Vendor_Hire,🙂 👌 Work,Manager
 W10,3:50:31 PM,4:03:40 PM,0:13:09,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Manage phone numbers,,4. Do deals,📌 Job Must,4.1. Generate prospects,🙂 👌 Work,Work
 W10,4:03:39 PM,4:12:01 PM,0:08:22,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
-W10,4:12:01 PM,4:19:54 PM,0:07:53,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W10,4:12:01 PM,4:19:54 PM,0:07:53,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W10,4:19:54 PM,4:21:14 PM,0:01:20,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
 W10,4:21:13 PM,5:28:43 PM,1:07:30,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
 W10,5:28:43 PM,5:31:30 PM,0:02:47,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
@@ -4761,7 +4761,7 @@ W10,2:52:19 PM,2:53:59 PM,0:01:40,🌈 Personal,901301650324,🧾 Manage financi
 W10,2:53:59 PM,2:56:54 PM,0:02:55,🌈 Personal,901301650324,🗃️ Organize Mac docs,86a6473b9,9.11. Quality of life,📌 Life Must,9.11.2. Organize stuff,,
 W10,2:56:54 PM,4:13:38 PM,1:16:44,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
 W10,4:13:37 PM,4:22:28 PM,0:08:51,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
-W10,4:22:28 PM,4:31:32 PM,0:09:04,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W10,4:22:28 PM,4:31:32 PM,0:09:04,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W10,4:31:32 PM,4:33:41 PM,0:02:09,🌈 Personal,901301650324,👩🏻‍🔧 Work on the house/yard,86adxpw95,,📌 Life Must,,,
 W10,4:33:40 PM,4:43:33 PM,0:09:53,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ RX,86a742axt,6. Build the team,📌 Job Must,6.6. Investor,🙂 👌 Work,Work
 W10,4:43:32 PM,5:42:38 PM,0:59:06,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
@@ -4884,7 +4884,7 @@ W11,8:35:55 AM,8:38:23 AM,0:02:28,👩🏻‍💻 In Business,901301162602,💬 
 W11,8:38:23 AM,9:19:54 AM,0:41:31,👩🏻‍💻 In Business,901301162602,🖥 Zoom w/ Rashel,86adxp45d,6. Build the team,📌 Job Must,6.5. Vendor_Work,🙂 👌 Work,Manager
 W11,9:19:54 AM,9:37:36 AM,0:17:42,👩🏻‍💻 In Business,901301162602,💬 Send SMS,86a51g8r7,4. Do deals,📌 Job Must,4.3. Market to prospects,☹️ 👌 Obligation,Work
 W11,9:37:36 AM,9:41:49 AM,0:04:13,🌈 Personal,901301650324,🆘 Help family and friends,86a5nekrz,9.08. Social,📌 Life Must,9.08.1. Help family and friends,,
-W11,9:41:49 AM,9:44:09 AM,0:02:20,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W11,9:41:49 AM,9:44:09 AM,0:02:20,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W11,9:44:09 AM,9:47:51 AM,0:03:42,🌈 Personal,901301650324,💯 Update daily KPIs,86a2hpd34,9.04. Character,🌱 Routine,9.04. Consistency,,
 W11,9:47:51 AM,9:48:41 AM,0:00:50,🚀 On Business,900601952633,🤖 Automate tasks_Check if automation works correctly,86ady936z,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W11,9:48:40 AM,9:54:45 AM,0:06:05,👩🏻‍💻 In Business,901301162602,👩🏻‍💻 Work w/ 4BBH,86a6470ph,6. Build the team,📌 Job Must,6.3. Wholesaler,🙂 👌 Work,Manager
@@ -4977,7 +4977,7 @@ W11,1:09:51 PM,1:15:45 PM,0:05:54,🌼 Survival Mode,901306296518,👗 Put on cl
 W11,1:15:52 PM,1:18:02 PM,0:02:10,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W11,1:18:02 PM,1:22:54 PM,0:04:52,👩🏻‍💻 In Business,901301162602,🗃️ Work on bookkeeping,86a2fy00y,7. Fulfill fin and legal obligations,📌 Job Must,7.2. Handle bookkeeping,☹️ 👎 Incompetence,Admin
 W11,1:22:53 PM,1:33:44 PM,0:10:51,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
-W11,1:33:44 PM,1:37:55 PM,0:04:11,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W11,1:33:44 PM,1:37:55 PM,0:04:11,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W11,1:37:55 PM,4:46:04 PM,3:08:09,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
 W11,4:46:03 PM,4:50:38 PM,0:04:35,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W11,4:50:38 PM,4:50:56 PM,0:00:18,👩🏻‍💻 In Business,901301162602,‼️ File tax_Business,,7. Fulfill fin and legal obligations,📌 Job Must,7.3. File tax,☹️ 👎 Incompetence,Admin
@@ -5367,7 +5367,7 @@ W12,2:54:40 PM,3:01:55 PM,0:07:15,🌈 Personal,901301650324,🏖️ Take a brea
 W12,3:01:55 PM,3:06:38 PM,0:04:43,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
 W12,3:06:38 PM,3:16:12 PM,0:09:34,🌈 Personal,901301650324,🌼 HOA_Attend activities/meetings,,9.08. Social,📌 Job Must,9.08.4. Engage with the community,,
 W12,3:16:12 PM,4:19:38 PM,1:03:26,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
-W12,4:19:38 PM,4:20:53 PM,0:01:15,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W12,4:19:38 PM,4:20:53 PM,0:01:15,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W12,4:20:53 PM,4:49:23 PM,0:28:30,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
 W12,4:49:22 PM,4:54:32 PM,0:05:10,🌈 Personal,901301650324,🧾 Manage financials_Personal,86a5naynx,9.09. Financial,📌 Life Must,9.09.1. Manage money,,
 W12,4:54:32 PM,5:04:55 PM,0:10:23,🌈 Personal,901301650324,🧼 Clean rooms,86a2ct001,9.11. Quality of life,📌 Life Must,9.11.3. Clean up stuff,,
@@ -5826,7 +5826,7 @@ W13,3:12:29 PM,4:58:48 PM,1:46:19,🌈 Personal,901301650324,🧾 Manage financi
 W13,4:58:48 PM,5:00:43 PM,0:01:55,👩🏻‍💻 In Business,901301162602,📊 Track KPI,86a89q6tw,2. Gain traction,📌 Job Must,2.2. Develop and monitor KPIs,🙂 👌 Work,Manager
 W13,5:00:43 PM,5:06:37 PM,0:05:54,🌈 Personal,901301650324,🏋🏻‍♀️ Work out,86a2heyde,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
 W13,5:06:37 PM,5:10:12 PM,0:03:35,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
-W13,5:10:38 PM,5:18:12 PM,0:07:34,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W13,5:10:38 PM,5:18:12 PM,0:07:34,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W13,5:18:12 PM,6:01:28 PM,0:43:16,🌈 Personal,901301650324,🏋🏻‍♀️ Work out,86a2heyde,9.01. Health & fitness,🌱 Routine,9.01.3. Exercise,,
 W13,6:01:28 PM,6:06:39 PM,0:05:11,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W13,6:06:39 PM,7:00:56 PM,0:54:17,🌈 Personal,901301650324,🌷Grow flowers and plants,86adrww47,9.11. Quality of life,📌 Job Must,9.11.5. Others,,
@@ -6192,7 +6192,7 @@ W14,1:28:08 PM,1:29:09 PM,0:01:01,🚀 On Business,900601952633,🤖 Automate ta
 W14,1:29:09 PM,2:06:59 PM,0:37:50,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
 W14,2:06:59 PM,3:03:40 PM,0:56:41,🌈 Personal,901301650324,‼️ File tax_Dad,,9.07. Dad,📌 Job Must,9.07.1. Help dad stay in the States,,
 W14,3:04:06 PM,3:08:40 PM,0:04:34,🌈 Personal,901301650324,🌷Grow flowers and plants,86adrww47,9.11. Quality of life,📌 Job Must,9.11.5. Others,,
-W14,3:08:40 PM,3:19:37 PM,0:10:57,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W14,3:08:40 PM,3:19:37 PM,0:10:57,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W14,3:19:37 PM,3:43:56 PM,0:24:19,🌈 Personal,901301650324,🗣️ Talk to family and friends,86a754k81,9.08. Social,📌 Life Must,9.08.2. Stay in touch w/ family and friends,,
 W14,3:43:55 PM,5:34:28 PM,1:50:33,👩🏻‍💻 In Business,901301162602,🧾 Manage financials_Business,86aad2qdn,7. Fulfill fin and legal obligations,📌 Job Must,7.5. Manage other things,☹️ 👎 Incompetence,
 W14,5:34:28 PM,5:50:09 PM,0:15:41,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
@@ -6790,7 +6790,7 @@ W15,10:41:11 AM,11:04:29 AM,0:23:18,🌈 Personal,901301650324,✏️ Plan for d
 W15,11:04:29 AM,11:11:47 AM,0:07:18,🌼 Survival Mode,901306296518,🍔 Eat,86a5m77df,9.01. Health & fitness,🌱 Routine,9.01.2. Eat healthy food,,
 W15,11:12:00 AM,11:17:42 AM,0:05:42,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W15,11:17:41 AM,11:27:11 AM,0:09:30,🌈 Personal,901301650324,🧼 Do dishes,86a71bmpz,9.11. Quality of life,🌱 Routine,9.11.3. Clean up stuff,,
-W15,11:27:00 AM,4:40:00 PM,5:13:00,🌈 Personal,901301650324,📺 Watch TV/movie with dad,,9.07. Dad,☕️ Downtime,9.07.5. Watch a movie/TV,,
+W15,11:27:00 AM,4:40:00 PM,5:13:00,🌈 Personal,901301650324,📺 Watch TV/movie with dad,,9.07. Dad,📌 Must_Life,9.07.5. Watch a movie/TV,,
 W15,4:40:01 PM,4:44:41 PM,0:04:40,🚀 On Business,900601952633,✅ Manage time tracked,86a68njak,2. Gain traction,📌 Job Must,2.6. Manage time,🙂 👌 Work,Owner
 W15,4:44:41 PM,4:53:45 PM,0:09:04,🌈 Personal,901301650324,🗣️ Talk to family and friends,86a754k81,9.08. Social,📌 Life Must,9.08.2. Stay in touch w/ family and friends,,
 W15,4:53:45 PM,5:03:02 PM,0:09:17,🌈 Personal,901301650324,🛍️ Buy stuff,86a2ajf11,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
@@ -6809,7 +6809,7 @@ W15,7:05:54 PM,7:17:52 PM,0:11:58,🌈 Personal,901301650324,✏️ Plan for dad
 W15,7:18:08 PM,7:28:08 PM,0:10:00,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,7:28:11 PM,7:29:49 PM,0:01:38,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W15,7:29:48 PM,7:30:35 PM,0:00:47,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
-W15,7:30:34 PM,7:37:27 PM,0:06:53,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W15,7:30:34 PM,7:37:27 PM,0:06:53,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W15,7:37:27 PM,8:00:52 PM,0:23:25,🌼 Survival Mode,901306296518,🚿 Shower,86a2hacmc,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,8:01:17 PM,8:19:18 PM,0:18:01,🌈 Personal,901301650324,🪣 Soak feet,86a8cg0pc,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,8:19:25 PM,8:28:17 PM,0:08:52,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
@@ -6916,7 +6916,7 @@ W15,8:22:34 AM,8:55:19 AM,0:32:45,🚀 On Business,900601952633,🤖 Automate ta
 W15,8:55:19 AM,9:03:19 AM,0:08:00,🌈 Personal,901301650324,💆🏻‍♀️ Massage,86aec0tc9,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W15,9:03:19 AM,9:22:40 AM,0:19:21,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,9:22:40 AM,9:25:40 AM,0:03:00,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
-W15,9:25:40 AM,9:33:29 AM,0:07:49,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W15,9:25:40 AM,9:33:29 AM,0:07:49,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W15,9:33:29 AM,9:46:18 AM,0:12:49,🚀 On Business,900601952633,🤖 Automate tasks,86a5h21yb,5. Build processes,📌 Job Must,5.7. Automate tasks,🙂 👌 Work,Owner
 W15,9:46:17 AM,9:52:08 AM,0:05:51,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W15,9:52:08 AM,9:55:48 AM,0:03:40,🌈 Personal,901301650324,🧼 Clean rooms,86a2ct001,9.11. Quality of life,📌 Life Must,9.11.3. Clean up stuff,,
@@ -7181,7 +7181,7 @@ W16,5:19:42 PM,5:47:35 PM,0:27:53,👩🏻‍💻 In Business,901301162602,🗣�
 W16,5:47:35 PM,8:05:45 PM,2:18:10,🌼 Survival Mode,901306296518,🪥 Brush teeth,86a64942j,9.01. Health & fitness,🌱 Routine,9.01.4. Have a regular routine,,
 W16,8:05:44 PM,8:06:06 PM,0:00:22,🌈 Personal,901301650324,🏖️ Take a break,86a9tae9b,9.01. Health & fitness,🌱 Routine_Personal,9.01.4. Have a regular routine,,
 W16,8:06:06 PM,8:18:44 PM,0:12:38,🌈 Personal,901301650324,🚛 Move to a new house,86a5y1b0q,9.11. Quality of life,📌 Life Must,9.11.1. Manage stuff,,
-W16,8:18:21 PM,8:29:21 PM,0:11:00,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,☕️ Downtime,9.08.2. Stay in touch w/ family and friends,,
+W16,8:18:21 PM,8:29:21 PM,0:11:00,🌈 Personal,901301650324,🗣️ Talk to neighbors,,9.08. Social,📌 Must_Life,9.08.2. Stay in touch w/ family and friends,,
 W16,8:29:28 PM,8:56:28 PM,0:27:00,🌈 Personal,901301650324,🗣️ Talk to Matt,86a654xch,9.06. Love,🌱 Routine_Personal,9.06. Love,,
 W16,8:56:00 PM,12:00:00 AM,-20:56:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
 W16,12:00:00 AM,5:20:00 AM,5:20:00,🌼 Survival Mode,901306296518,🛏️ Sleep,86a647u0q,9.01. Health & fitness,🌱 Routine,9.01.1. Sleep well,,
