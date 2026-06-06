@@ -4,3 +4,4 @@ phase,date,title,summary,hours
 3,2026-06-02,Show done search matches,Task search now includes done tasks so completed matches remain findable.,0.5
 4,2026-06-06,Simplify tracker rows,Tracker rows now show four core fields for easier scanning.,0.5
 5,2026-06-06,Wrap tracker fields,Tracker rows now wrap four fields into two visual lines.,0.5
+6,2026-06-06,Fix add task grid,Add Task form now uses four-column field rows.,0.5

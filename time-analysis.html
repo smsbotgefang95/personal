@@ -1045,6 +1045,26 @@
     gap: 10px;
   }
 
+  .custom-entry,
+  .advanced-fields {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .custom-entry > .tracker-grid {
+    display: contents;
+  }
+
+  .custom-entry .tracker-list-field {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .custom-entry .tracker-list-select {
+    width: 100%;
+  }
+
   .tracker-field {
     display: grid;
     gap: 5px;
@@ -2163,11 +2183,6 @@
     display: none;
   }
 
-  .custom-entry {
-    display: grid;
-    gap: 12px;
-  }
-
   .tracker-actions,
   .edit-actions {
     display: flex;
@@ -2473,12 +2488,6 @@
     cursor: pointer;
   }
 
-  .advanced-fields {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-
   .details-table th.actions-column,
   .details-table td.actions-column {
     min-width: 128px;
@@ -2564,6 +2573,7 @@
     .analysis-grid,
     .toolbar,
     .past-entry-editor,
+    .custom-entry,
     .tracker-grid,
     .advanced-fields { grid-template-columns: 1fr; }
     .past-entry-editor {
