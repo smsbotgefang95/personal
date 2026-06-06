@@ -1065,6 +1065,14 @@
     grid-column: 1 / -1;
   }
 
+  #advancedFields #trackerRecurrenceCustomWrap {
+    grid-column: 1 / -1;
+  }
+
+  .add-task-time-field {
+    max-width: 150px;
+  }
+
   .tracker-field {
     display: grid;
     gap: 5px;
@@ -2829,21 +2837,24 @@
               </div>
               <div class="tracker-field">
                 <label for="trackerDueDate">Due date</label>
-                <div class="edit-due-controls">
-                  <div class="date-picker-control">
-                    <input class="tracker-input" id="trackerDueDate" type="date" />
-                    <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M8 2v4"></path>
-                        <path d="M16 2v4"></path>
-                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                        <path d="M3 10h18"></path>
-                      </svg>
-                    </button>
-                  </div>
-                  <input class="tracker-input" id="trackerDueTime" type="time" aria-label="Due time" />
+                <div class="date-picker-control">
+                  <input class="tracker-input" id="trackerDueDate" type="date" />
+                  <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M8 2v4"></path>
+                      <path d="M16 2v4"></path>
+                      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
+              <div class="tracker-field add-task-time-field">
+                <label for="trackerDueTime">Time</label>
+                <input class="tracker-input" id="trackerDueTime" type="time" />
+              </div>
+            </div>
+            <div class="advanced-fields" id="advancedFields">
               <div class="tracker-field">
                 <label for="trackerRecurrence">Occurrence</label>
                 <select class="tracker-select" id="trackerRecurrence"></select>
@@ -2852,8 +2863,6 @@
                 <label id="trackerRecurrenceCustomLabel">Custom occurrence</label>
                 <div id="trackerRecurrenceCustom" class="custom-recurrence" aria-labelledby="trackerRecurrenceCustomLabel"></div>
               </div>
-            </div>
-            <div class="advanced-fields" id="advancedFields">
               <div class="tracker-field">
                 <label for="trackerDepartment">Department</label>
                 <input class="tracker-input" id="trackerDepartment" type="text" autocomplete="off" list="departmentOptions" />
