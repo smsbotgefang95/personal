@@ -6060,7 +6060,6 @@
         ...timePayload,
         taskOverrides: nextOverrides
       });
-      setTrackerStatus(`Marked ${matchingRows.length.toLocaleString()} time-logged ${matchingRows.length === 1 ? "task" : "tasks"} done.`, "saved");
     } finally {
       autoDoneSyncing = false;
     }
