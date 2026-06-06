@@ -8673,6 +8673,7 @@ pass=通过；传递
   function isImportedIndexVocabularyWord(word) {
     const normalized = normalizeWordKey(String(word || ""));
     if (!normalized) return false;
+    if (/\s/.test(normalized)) return false;
     if (COMPOUND_WORDS.has(normalized) || OPEN_COMPOUND_WORDS.has(normalized)) return true;
     if (isPhraseLikeVocabularyEntry(normalized)) return false;
     if (/[.?!]/.test(normalized)) return false;
