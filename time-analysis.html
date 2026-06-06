@@ -3281,7 +3281,9 @@
   const PINNED_RECENT_TASK_NAMES = new Set([
     "run ai agent",
     "run ai agent_personal",
-    "run ai agent_life"
+    "run ai agent_life",
+    "grow flowers and plants",
+    "grow stuff"
   ]);
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
@@ -4906,7 +4908,9 @@
 
   function isPinnedRecentTask(entry) {
     const taskName = normalizedRecentTaskName(entry?.taskName);
-    return PINNED_RECENT_TASK_NAMES.has(taskName) || taskName.startsWith("run ai agent_");
+    return PINNED_RECENT_TASK_NAMES.has(taskName) ||
+      taskName.startsWith("run ai agent_") ||
+      taskName.startsWith("grow ");
   }
 
   function rawHiddenRecentTaskKeys() {
