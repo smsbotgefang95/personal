@@ -2732,6 +2732,7 @@
     { id: "phrase-by-car", phrase: "by car", chinese: "坐车", pronunciation: "by kar", words: ["by", "car"], type: "fixed-expression" },
     { id: "phrase-by-air", phrase: "by air", chinese: "乘飞机", pronunciation: "by air", words: ["by", "air"], type: "fixed-expression" },
     { id: "phrase-on-foot", phrase: "on foot", chinese: "步行", pronunciation: "on foot", words: ["on", "foot"], type: "fixed-expression" },
+    { id: "phrase-in-front-of", phrase: "in front of", chinese: "在...前面", pronunciation: "in frunt uv", words: ["in", "front", "of"], type: "fixed-expression" },
     { id: "phrase-in-line", phrase: "in line", chinese: "排队", pronunciation: "in line", words: ["in", "line"], type: "fixed-expression" },
     { id: "phrase-on-paper", phrase: "on paper", chinese: "在纸上", pronunciation: "on PAY-per", words: ["on", "paper"], type: "fixed-expression" },
     { id: "phrase-in-person", phrase: "in person", chinese: "亲自", pronunciation: "in PER-sun", words: ["in", "person"], type: "fixed-expression" },
@@ -5101,7 +5102,110 @@ pass=通过；传递
     "woodworking",
     "workbook",
     "workplace",
-    "yearbook"
+    "yearbook",
+    "aftershave",
+    "anklesocks",
+    "anteater",
+    "armrest",
+    "audiotape",
+    "babyfood",
+    "babysitter",
+    "backache",
+    "backhoe",
+    "backpack",
+    "backyard",
+    "barnyard",
+    "bedspread",
+    "beehive",
+    "blackout",
+    "blueberries",
+    "bluegrass",
+    "bobsled",
+    "bobsledding",
+    "bricklayer",
+    "bulldozer",
+    "businessman",
+    "busperson",
+    "buttonhole",
+    "camcorder",
+    "candlestick",
+    "carpool",
+    "cartwheel",
+    "catfish",
+    "cheerleading",
+    "chimneysweep",
+    "coconut",
+    "courtyard",
+    "dishroom",
+    "dragonfly",
+    "drainpipe",
+    "drumsticks",
+    "earache",
+    "eggplant",
+    "eyebrow",
+    "eyelid",
+    "eyeliner",
+    "feedback",
+    "fingernail",
+    "fireescape",
+    "forehead",
+    "foreman",
+    "forklift",
+    "frostbite",
+    "gallbladder",
+    "gearshift",
+    "goldfish",
+    "grandchildren",
+    "grandfather",
+    "grandmother",
+    "grandson",
+    "grapefruit",
+    "grasshopper",
+    "hacksaw",
+    "hairclip",
+    "hairdresser",
+    "hairnet",
+    "hairspray",
+    "hatchback",
+    "headache",
+    "headrest",
+    "heatstroke",
+    "hubcap",
+    "hummingbird",
+    "jackhammer",
+    "jellyfish",
+    "joystick",
+    "ladybug",
+    "lamppost",
+    "lampshade",
+    "landlord",
+    "landslide",
+    "lawnmower",
+    "letterhead",
+    "lifeguard",
+    "lipstick",
+    "loudspeaker",
+    "loveseat",
+    "manhole",
+    "midnight",
+    "midwife",
+    "mousetrap",
+    "nightgown",
+    "nightshirt",
+    "nightstand",
+    "overpass",
+    "paintbrush",
+    "pantyhose",
+    "sandbox",
+    "silverware",
+    "software",
+    "stomachache",
+    "townhome",
+    "turntable",
+    "underpants",
+    "undershirt",
+    "waterskiing",
+    "windsurfing"
   ]);
 
   const OPEN_COMPOUND_WORDS = new Set([
@@ -5263,6 +5367,12 @@ pass=通过；传递
     il: "il- not/in",
     ir: "ir- not/in",
     dis: "dis- opposite",
+    anti: "anti- against",
+    auto: "auto- self",
+    bio: "bio- life",
+    inter: "inter- between",
+    micro: "micro- small",
+    multi: "multi- many",
     pre: "pre- before",
     pro: "pro- forward",
     over: "over- too much",
@@ -5286,11 +5396,15 @@ pass=通过；传递
     er: "-er person",
     est: "-est",
     tion: "-tion / -sion",
+    sion: "-sion",
     ment: "-ment",
     ness: "-ness",
     able: "-able / -ible",
+    ible: "-ible",
     ful: "-ful",
-    less: "-less"
+    less: "-less",
+    or: "-or person/tool",
+    ist: "-ist person"
   };
   const VOCABULARY_SUFFIX_FILTER_LABELS = Object.fromEntries(
     Object.entries(VOCABULARY_SUFFIX_LABELS).filter(([suffix]) => !["s", "ed"].includes(suffix))
@@ -8688,9 +8802,13 @@ pass=通过；传递
     return /-/.test(normalized);
   }
 
-  function getVocabularyCompoundSubtype(word) {
+  function getVocabularyCompoundSubtype(itemOrWord) {
+    const word = typeof itemOrWord === "object" && itemOrWord ? itemOrWord.word : itemOrWord;
     const normalized = normalizeWordKey(String(word || ""));
-    if (!isVocabularyCompound(normalized)) return "";
+    const isCompound = typeof itemOrWord === "object" && itemOrWord
+      ? Boolean(itemOrWord.isCompound || itemOrWord.compound || isVocabularyCompound(normalized))
+      : isVocabularyCompound(normalized);
+    if (!isCompound) return "";
     if (/-/.test(normalized)) return "compound-hyphenated";
     if (/\s/.test(normalized)) return "compound-open";
     return "compound-closed";
@@ -8720,7 +8838,7 @@ pass=通过；传递
   function getVocabularyWordFormation(item) {
     const curated = getVocabularyCuratedWordFormation(item?.word);
     if (curated) return curated;
-    const compoundSubtype = getVocabularyCompoundSubtype(item?.word);
+    const compoundSubtype = getVocabularyCompoundSubtype(item);
     if (compoundSubtype) return compoundSubtype;
     if (isDerivedVocabularyItem(item)) return "derived";
     if (isPlainSingleVocabularyWord(item?.word)) return "simple";
@@ -9875,7 +9993,7 @@ pass=通过；传递
     const localVowelTeams = getVocabularyVowelTeams(word);
     const importedVowelTeams = cleanVocabularyList(entry?.vowelTeams?.length ? entry.vowelTeams : localVowelTeams, new Set(Object.keys(VOCABULARY_VOWEL_TEAM_LABELS)));
     const vowelTeams = localVowelTeams.includes("air") ? localVowelTeams : importedVowelTeams;
-    const isCompound = isVocabularyCompound(word);
+    const isCompound = Boolean(entry?.isCompound || entry?.compound || isVocabularyCompound(word));
     const morphologyItem = { word, isCompound };
     return {
       id: cleanCustomText(entry?.id, 120) || `index-${slugifyWord(word)}`,

@@ -1498,7 +1498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0043-aftershave-lotion",
@@ -2771,7 +2771,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0080-anniversary",
@@ -3073,7 +3073,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0087-antelope",
@@ -4236,7 +4236,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0121-arnmonia",
@@ -5767,7 +5767,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0162-auditorium",
@@ -6745,7 +6745,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0188-babysitter",
@@ -6779,7 +6779,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0189-back",
@@ -6917,7 +6917,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0193-backboard",
@@ -6989,7 +6989,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oe"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0195-backpack",
@@ -7038,7 +7038,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0196-backup-light",
@@ -7108,7 +7108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0198-bacon-lettuce-and-tomato-adaptar",
@@ -9169,7 +9169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0252-barrette",
@@ -11347,7 +11347,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0304-bee",
@@ -11419,7 +11419,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ee"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0306-beet",
@@ -13184,7 +13184,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0354-bladder",
@@ -13571,7 +13571,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -14336,7 +14336,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ie",
       "ue"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0385-bluegrass",
@@ -14372,7 +14372,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ue"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0386-blueprints",
@@ -14861,7 +14861,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0397-bobsledding",
@@ -14891,11 +14891,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0398-body-lotion",
@@ -16046,7 +16046,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -17108,7 +17108,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0457-bridge",
@@ -18492,7 +18492,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0493-bumper",
@@ -19323,7 +19323,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0515-businesswornan",
@@ -19391,7 +19391,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0517-butcher",
@@ -19663,7 +19663,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0525-buy",
@@ -20662,7 +20662,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0553-camera",
@@ -20858,7 +20858,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -21305,7 +21305,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0571-candy",
@@ -22821,7 +22821,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0612-carrot",
@@ -22975,7 +22975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ee"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0617-carving-knife",
@@ -23671,7 +23671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0636-cauliflower",
@@ -23920,7 +23920,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -25578,14 +25578,14 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ea",
       "eer"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0688-cheese",
@@ -26884,7 +26884,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ee",
       "ey"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0726-chimpanzee",
@@ -27258,7 +27258,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -28630,7 +28630,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The School",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -28839,7 +28839,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Airplane Travel",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
@@ -28873,7 +28873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Household Problems and Repairs",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "vowel-team",
@@ -28909,12 +28909,12 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Fruits",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0782-cocoon",
@@ -28943,7 +28943,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Birds and Insects",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -29028,7 +29028,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Dairy Products, Juices, and Beverages",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -29295,7 +29295,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Money",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "vowel-team",
@@ -29331,7 +29331,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Kitchen Utensils and Cookware",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "closed",
@@ -29509,7 +29509,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Clothing Problems and Alterations",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
@@ -29647,7 +29647,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Types of Schools",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -29681,7 +29681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Personal Hygiene",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -29715,7 +29715,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "English Language Arts and Composition",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
@@ -29955,7 +29955,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Food Preparation and Recipes",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -30110,7 +30110,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Entertainment",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
@@ -30172,7 +30172,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Types of Entertainment",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -30240,7 +30240,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Universe",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
@@ -30274,7 +30274,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Describing People and Things",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "able",
     "roots": [],
     "syllableType": "silent-e",
@@ -30308,7 +30308,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Bedroom",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "closed",
@@ -30342,7 +30342,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "English Language Arts and Composition",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -30478,7 +30478,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Airplane Travel",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "ment",
     "roots": [],
     "syllableType": "open",
@@ -30512,7 +30512,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Outdoor Recreation",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "open",
@@ -30638,7 +30638,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Classroom",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "closed",
@@ -31030,7 +31030,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Places to Go",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -31113,7 +31113,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Hotel",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -31185,7 +31185,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Science",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "open",
@@ -31219,7 +31219,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Construction Site",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -31253,7 +31253,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Groceries",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "open",
@@ -31287,7 +31287,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Personal Hygiene",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "closed",
@@ -31321,7 +31321,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Types of Housing and Communities",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -31355,7 +31355,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Types of Housing and Communities",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
@@ -31404,7 +31404,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Public Transportation",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "or",
     "roots": [],
     "syllableType": "closed",
@@ -31508,7 +31508,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Describing Physical States and Emotions",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "ed",
     "roots": [],
     "syllableType": "closed",
@@ -31542,7 +31542,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Ailments, Symptoms, and Injuries",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "ed",
     "roots": [],
     "syllableType": "closed",
@@ -31576,7 +31576,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Energy, Conservation, and the Environment",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "tion",
     "roots": [],
     "syllableType": "closed",
@@ -31680,7 +31680,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Universe",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "tion",
     "roots": [],
     "syllableType": "closed",
@@ -31714,7 +31714,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Job Skills and Activities",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -31850,7 +31850,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Containers and Quantities",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "vowel-team",
@@ -31959,7 +31959,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Types of Vehicles",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "ible",
     "roots": [],
     "syllableType": "silent-e",
@@ -32172,7 +32172,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Kitchen",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32283,7 +32283,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Groceries",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32393,7 +32393,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Car Parts and Maintenance",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32429,7 +32429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Beach",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32480,7 +32480,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Library",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32516,7 +32516,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Workplace",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32737,7 +32737,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Body",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -32787,7 +32787,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Classroom Actions",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -32857,7 +32857,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "English Language Arts and Composition",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "open",
@@ -32891,7 +32891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Job Safety",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -33029,7 +33029,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Living Room",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33080,7 +33080,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Ailments, Symptoms, and Injuries",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33188,8 +33188,8 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Medical Advice",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
-    "suffix": "ing",
+    "prefix": "none",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -33239,7 +33239,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Medical Specialists",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "or",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33304,7 +33304,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Kitchen",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33340,7 +33340,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Types of Housing and Communities",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33376,7 +33376,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Supermarket",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "s",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33412,7 +33412,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Occupations II",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33449,7 +33449,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The City",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -33486,14 +33486,14 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "The Apartment Building",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
       "our"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0899-cousin",
@@ -33537,7 +33537,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Family Members II",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
@@ -33573,7 +33573,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Kitchen Utensils and Cookware",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "er",
     "roots": [],
     "syllableType": "closed",
@@ -33715,7 +33715,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Animals and Pets",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "co",
+    "prefix": "none",
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
@@ -35891,7 +35891,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -36966,7 +36966,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Job Safety",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "none",
+    "prefix": "de",
     "suffix": "or",
     "roots": [],
     "syllableType": "closed",
@@ -37034,7 +37034,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Car Parts and Maintenance",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "none",
+    "prefix": "de",
     "suffix": "er",
     "roots": [],
     "syllableType": "closed",
@@ -37407,7 +37407,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "topic": "Personal Hygiene",
     "partOfSpeech": "index entry",
     "ipa": "",
-    "prefix": "none",
+    "prefix": "de",
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
@@ -39319,7 +39319,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1061-dishwasher",
@@ -41602,7 +41602,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -42052,7 +42052,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1132-drain",
@@ -42124,7 +42124,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ai"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1134-drama",
@@ -42691,6 +42691,40 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
+    "id": "index-added-drink",
+    "type": "word",
+    "text": "drink",
+    "word": "drink",
+    "chinese": "喝；饮料",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "51"
+    ],
+    "sourcePages": [
+      51
+    ],
+    "placements": [
+      {
+        "ref": "51",
+        "page": 51,
+        "theme": "food",
+        "topic": "Dairy Products, Juices, and Beverages"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 5,
+    "theme": "food",
+    "topic": "Dairy Products, Juices, and Beverages",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "open",
+    "vowelTeams": [],
+    "compound": false
+  },
+  {
     "id": "index-1148-drink-fluids",
     "type": "word",
     "text": "drink fluids",
@@ -42754,7 +42788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -43176,7 +43210,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1163-drunk-driving",
@@ -44280,7 +44314,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ear"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1193-earplugs",
@@ -45046,7 +45080,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1214-ejm",
@@ -47921,7 +47955,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -49150,7 +49184,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ey",
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1322-eyebrow-pencil",
@@ -49259,7 +49293,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ey"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1325-eyeliner",
@@ -49295,7 +49329,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ey"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1326-fabric-softener",
@@ -50582,7 +50616,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ee"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1361-fence",
@@ -51698,7 +51732,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ai"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1391-fip",
@@ -52000,7 +52034,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ire"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1399-firefighter",
@@ -52377,7 +52411,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -54202,7 +54236,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ea",
       "ore"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1459-foreign-film",
@@ -54347,7 +54381,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ore"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1463-forest",
@@ -54488,7 +54522,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1467-form",
@@ -54907,7 +54941,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -55546,7 +55580,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1496-frozen-dinners",
@@ -56549,7 +56583,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1524-gallon",
@@ -57806,7 +57840,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ear"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1559-geography",
@@ -60142,7 +60176,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1622-golf",
@@ -60807,7 +60841,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1641-grandfather",
@@ -60841,7 +60875,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1642-grandmother",
@@ -60890,7 +60924,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1643-grandparents",
@@ -60960,7 +60994,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1645-grape-juice",
@@ -61032,7 +61066,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ui"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1647-grapefruitjuice",
@@ -61170,7 +61204,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1651-grate",
@@ -62207,7 +62241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1679-haddock",
@@ -62271,7 +62305,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -62499,7 +62533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "air"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1686-hairdresser",
@@ -62535,7 +62569,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "air"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1687-hairdryer",
@@ -62622,7 +62656,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "air"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1689-hairspray",
@@ -62659,7 +62693,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "air",
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1690-half",
@@ -64097,7 +64131,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1732-hatchet",
@@ -64483,7 +64517,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1743-headboard",
@@ -64592,7 +64626,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1746-health",
@@ -65093,7 +65127,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1761-heavy",
@@ -66405,7 +66439,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -68647,7 +68681,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -68839,7 +68873,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1860-hula-hoop",
@@ -68979,7 +69013,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1864-hump",
@@ -72742,7 +72776,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1967-jaguar",
@@ -73329,7 +73363,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1984-jersey",
@@ -73813,7 +73847,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -74046,7 +74080,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oy"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2004-juice-paks",
@@ -74614,7 +74648,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -74968,7 +75002,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -76465,7 +76499,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2071-lake",
@@ -76650,7 +76684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2076-lampshade",
@@ -76684,7 +76718,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2077-landlord",
@@ -76718,7 +76752,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2078-landscaper",
@@ -76786,7 +76820,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2080-lantern",
@@ -77509,7 +77543,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2099-lawyer",
@@ -77730,7 +77764,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -78611,7 +78645,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2128-letterhead-paper",
@@ -79156,7 +79190,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2141-lifeguard-stand",
@@ -79490,7 +79524,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -79953,7 +79987,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2161-liquid-soap",
@@ -80484,7 +80518,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ea",
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2176-loveseat",
@@ -80520,7 +80554,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2177-low",
@@ -82096,7 +82130,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2220-manicurist",
@@ -84438,7 +84472,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2285-midwife",
@@ -84472,7 +84506,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2286-millimeter-camera",
@@ -85303,7 +85337,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -85960,7 +85994,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2324-mouth",
@@ -86529,6 +86563,42 @@ window.LEARNING_DICTIONARY_FULL = [
     "syllableType": "vowel-team",
     "vowelTeams": [
       "are"
+    ],
+    "compound": false
+  },
+  {
+    "id": "index-added-mph-mile-per-hour",
+    "type": "word",
+    "text": "MPH (mile per hour)",
+    "word": "MPH (mile per hour)",
+    "chinese": "英里/小时",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "128-19"
+    ],
+    "sourcePages": [
+      128
+    ],
+    "placements": [
+      {
+        "ref": "128-19",
+        "page": 128,
+        "theme": "transportation",
+        "topic": "Highways and Streets"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 44,
+    "theme": "transportation",
+    "topic": "Highways and Streets",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "our"
     ],
     "compound": false
   },
@@ -89313,7 +89383,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "igh",
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2407-nightshirt",
@@ -89349,7 +89419,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2408-nightstand",
@@ -89385,7 +89455,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2409-nipple",
@@ -93886,7 +93956,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2532-ovo",
@@ -94904,7 +94974,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ai"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2556-painter",
@@ -94985,7 +95055,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -95417,7 +95487,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2569-papaya",
@@ -97895,7 +97965,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -108837,7 +108907,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -109091,7 +109161,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -113370,7 +113440,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -114182,7 +114252,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -114541,7 +114611,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -115333,7 +115403,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -116099,7 +116169,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3127-sandpaper",
@@ -116853,7 +116923,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -122935,7 +123005,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "are"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3303-simmer",
@@ -123666,7 +123736,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -123736,7 +123806,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -124012,7 +124082,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -124469,7 +124539,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -124643,7 +124713,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -125566,7 +125636,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -125637,7 +125707,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -125674,7 +125744,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -125746,7 +125816,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -126471,7 +126541,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "are"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3397-solar-eclipse",
@@ -128945,7 +129015,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -130693,7 +130763,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3514-stop",
@@ -133309,7 +133379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -133878,6 +133948,42 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
+    "id": "index-added-sweet",
+    "type": "word",
+    "text": "sweet",
+    "word": "sweet",
+    "chinese": "甜的",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "44"
+    ],
+    "sourcePages": [
+      44
+    ],
+    "placements": [
+      {
+        "ref": "44",
+        "page": 44,
+        "theme": "describing",
+        "topic": "Describing People and Things"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 47,
+    "theme": "describing",
+    "topic": "Describing People and Things",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "ee"
+    ],
+    "compound": false
+  },
+  {
     "id": "index-3603-swim",
     "type": "word",
     "text": "swim",
@@ -133988,7 +134094,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -141308,7 +141414,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -142372,7 +142478,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3823-townhouse",
@@ -145565,7 +145671,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3905-turquoise",
@@ -146824,7 +146930,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3939-undershirt",
@@ -146858,7 +146964,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3940-unhappy",
@@ -147433,6 +147539,40 @@ window.LEARNING_DICTIONARY_FULL = [
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
+    "vowelTeams": [],
+    "compound": false
+  },
+  {
+    "id": "index-added-useless",
+    "type": "word",
+    "text": "useless",
+    "word": "useless",
+    "chinese": "没用的",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "45"
+    ],
+    "sourcePages": [
+      45
+    ],
+    "placements": [
+      {
+        "ref": "45",
+        "page": 45,
+        "theme": "describing",
+        "topic": "Describing People and Things"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 50,
+    "theme": "describing",
+    "topic": "Describing People and Things",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "less",
+    "roots": [],
+    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -150030,7 +150170,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -151437,11 +151577,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4066-wave",
@@ -152015,7 +152155,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -153254,11 +153394,11 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4116-windy",
@@ -154084,7 +154224,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -154740,7 +154880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
@@ -155908,7 +156048,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
-    "suffix": "ing",
+    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [

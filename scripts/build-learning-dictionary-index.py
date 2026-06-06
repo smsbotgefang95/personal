@@ -161,6 +161,109 @@ COMPOUND_WORDS = {
     "workbook",
     "workplace",
     "yearbook",
+    "aftershave",
+    "anklesocks",
+    "anteater",
+    "armrest",
+    "audiotape",
+    "babyfood",
+    "babysitter",
+    "backache",
+    "backhoe",
+    "backpack",
+    "backyard",
+    "barnyard",
+    "bedspread",
+    "beehive",
+    "blackout",
+    "blueberries",
+    "bluegrass",
+    "bobsled",
+    "bobsledding",
+    "bricklayer",
+    "bulldozer",
+    "businessman",
+    "busperson",
+    "buttonhole",
+    "camcorder",
+    "candlestick",
+    "carpool",
+    "cartwheel",
+    "catfish",
+    "cheerleading",
+    "chimneysweep",
+    "coconut",
+    "courtyard",
+    "dishroom",
+    "dragonfly",
+    "drainpipe",
+    "drumsticks",
+    "earache",
+    "eggplant",
+    "eyebrow",
+    "eyelid",
+    "eyeliner",
+    "feedback",
+    "fingernail",
+    "fireescape",
+    "forehead",
+    "foreman",
+    "forklift",
+    "frostbite",
+    "gallbladder",
+    "gearshift",
+    "goldfish",
+    "grandchildren",
+    "grandfather",
+    "grandmother",
+    "grandson",
+    "grapefruit",
+    "grasshopper",
+    "hacksaw",
+    "hairclip",
+    "hairdresser",
+    "hairnet",
+    "hairspray",
+    "hatchback",
+    "headache",
+    "headrest",
+    "heatstroke",
+    "hubcap",
+    "hummingbird",
+    "jackhammer",
+    "jellyfish",
+    "joystick",
+    "ladybug",
+    "lamppost",
+    "lampshade",
+    "landlord",
+    "landslide",
+    "lawnmower",
+    "letterhead",
+    "lifeguard",
+    "lipstick",
+    "loudspeaker",
+    "loveseat",
+    "manhole",
+    "midnight",
+    "midwife",
+    "mousetrap",
+    "nightgown",
+    "nightshirt",
+    "nightstand",
+    "overpass",
+    "paintbrush",
+    "pantyhose",
+    "sandbox",
+    "silverware",
+    "software",
+    "stomachache",
+    "townhome",
+    "turntable",
+    "underpants",
+    "undershirt",
+    "waterskiing",
+    "windsurfing",
 }
 OPEN_COMPOUND_WORDS = {
     "air conditioner",
@@ -304,6 +407,10 @@ EXCLUDED_VOCABULARY_ENTRIES = (
 )
 ADDED_VOCABULARY_ENTRIES_WITH_STABLE_IDS = {
     "bassoon",
+    "drink",
+    "mph (mile per hour)",
+    "sweet",
+    "useless",
 }
 
 REF_TOKEN = r"\d{1,3}(?:[-~·.][~A-Za-z0-9]{1,3}){0,2}(?![A-Za-z0-9-])"
@@ -738,8 +845,13 @@ PAGE_TOPIC_RULES = [
     for index, (start, theme, topic) in enumerate(PAGE_TOPIC_STARTS[:-1])
 ]
 
-PREFIXES = ("anti", "auto", "bio", "co", "dis", "inter", "micro", "multi", "non", "over", "pre", "re", "sub", "super", "trans", "un")
-SUFFIXES = ("tion", "sion", "ment", "ness", "less", "able", "ible", "ful", "er", "or", "ist", "ing", "ed", "s")
+PREFIXES = ("anti", "auto", "bio", "dis", "inter", "micro", "multi", "non", "over", "pre", "re", "sub", "super", "trans", "un")
+PREFIX_OVERRIDES = {
+    "defibrillator": "de",
+    "defroster": "de",
+    "deodorant": "de",
+}
+SUFFIXES = ("tion", "sion", "ment", "ness", "less", "able", "ible", "ful", "er", "or", "ist", "ed", "s")
 VOWEL_TEAMS = (
     "ai",
     "air",
@@ -908,6 +1020,8 @@ def get_prefix(text: str) -> str:
     if not is_plain_single_word(text):
         return "none"
     normalized = re.sub(r"[^a-z]", "", text.lower())
+    if normalized in PREFIX_OVERRIDES:
+        return PREFIX_OVERRIDES[normalized]
     return next((prefix for prefix in PREFIXES if normalized.startswith(prefix) and len(normalized) > len(prefix) + 2), "none")
 
 
