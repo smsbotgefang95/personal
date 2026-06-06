@@ -80,11 +80,98 @@ NON_COMPOUND_PHRASES = {
     "get up",
     "wash dishes",
 }
-EXCLUDED_VOCABULARY_ENTRIES = {
+LEGACY_EXCLUDED_VOCABULARY_ENTRIES = {
     "front yard",
-    "go shopping",
     "yard sale",
     "yard waste bag",
+}
+NEWLY_EXCLUDED_VOCABULARY_ENTRIES_WITH_STABLE_IDS = {
+    "3-point turn",
+    "air bag",
+    "air sickness bag",
+    "application form",
+    "bottle-return machine",
+    "book bag",
+    "bread-and-butter plate",
+    "bread-and-butter plate bassoon",
+    "carry-on bag",
+    "can-return machine",
+    "cd-rom drive",
+    "change-of-address form",
+    "check-in counter",
+    "chest x-ray",
+    "child day-care worker",
+    "child-care center",
+    "child-care worker",
+    "clip-on earrings",
+    "cross-country skiing",
+    "cross-country skis",
+    "customer pick-up area",
+    "customs declaration form",
+    "day-care center",
+    "dead-bolt lock",
+    "drive-through window",
+    "e-mail address",
+    "eye-care center",
+    "fast-food restaurant",
+    "first-aid kit",
+    "first-aid manual",
+    "food-service worker",
+    "form a hypothesis",
+    "forms of payment",
+    "front-end loader",
+    "garment bag",
+    "hand-held video game",
+    "handicapped-accessible room",
+    "health-care aide",
+    "health-care attendant",
+    "high-top sneakers",
+    "knee-high socks",
+    "laundry bag",
+    "long-sleeved shirt",
+    "low-fat milk",
+    "makeup bag",
+    "medica] history form",
+    "no u-turn",
+    "non-aspirin pain ointment",
+    "non-smoking room",
+    "one-way street",
+    "paper bag",
+    "plastic bag",
+    "post-it note pad",
+    "put your bag on the conveyor belt",
+    "registration form",
+    "short-sleeved shirt",
+    "shoulder bag",
+    "sleeping bag",
+    "stow your carry-on bag",
+    "sweet pepper",
+    "sweet potato",
+    "thank-you note",
+    "three-piece suit",
+    "tote bag",
+    "two-family house",
+    "v-neck sweater",
+    "vacuum cleaner bag",
+    "wake-up call",
+    "walkie-talkie set",
+    "warm-up suit",
+    "white-water rafting",
+    "word-processing program",
+    "x-ray machine",
+    "x-ray technician",
+}
+RAW_OCR_EXCLUDED_VOCABULARY_ENTRIES = {
+    "vacuurn cleaner bag",
+}
+EXCLUDED_VOCABULARY_ENTRIES = (
+    LEGACY_EXCLUDED_VOCABULARY_ENTRIES
+    | NEWLY_EXCLUDED_VOCABULARY_ENTRIES_WITH_STABLE_IDS
+    | RAW_OCR_EXCLUDED_VOCABULARY_ENTRIES
+)
+ADDED_VOCABULARY_ENTRIES_WITH_STABLE_IDS = {
+    "bassoon",
+    "go shopping",
 }
 
 REF_TOKEN = r"\d{1,3}(?:[-~·.][~A-Za-z0-9]{1,3}){0,2}(?![A-Za-z0-9-])"
@@ -140,6 +227,7 @@ MANUAL_WRAPPED_ENTRIES = [
     ("balance the checkbook", ["81-16"]),
     ("bacon, lettuce, and tomato sandwich", ["61-27"]),
     ("bank officer", ["80-13"]),
+    ("bassoon", ["150-15"]),
     ("bottle-return machine", ["55-25"]),
     ("bread-and-butter plate", ["63-24"]),
     ("bring in your homework", ["6-22"]),
@@ -836,6 +924,7 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         report["duplicateEntries"].append({"text": entry.text, "line": entry.line, "mergedIntoLine": existing.line})
 
     entries = []
+    added_entries_seen = 0
     for index, entry in enumerate(sorted(merged.values(), key=lambda item: item.text.casefold()), 1):
         refs = list(dict.fromkeys(entry.refs))
         pages = sorted({page for ref in refs if (page := page_from_ref(ref)) is not None})
@@ -851,11 +940,22 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
         if suspicious_refs:
             report["suspiciousRefs"].append({"text": entry.text, "refs": suspicious_refs})
         normalized = entry.text.casefold()
+        slug = re.sub(r"[^a-z0-9]+", "-", normalized).strip("-") or "entry"
+        if normalized in ADDED_VOCABULARY_ENTRIES_WITH_STABLE_IDS:
+            item_id = f"index-added-{slug}"
+            added_entries_seen += 1
+        else:
+            excluded_entries_before = sum(
+                1
+                for excluded_entry in NEWLY_EXCLUDED_VOCABULARY_ENTRIES_WITH_STABLE_IDS
+                if excluded_entry < normalized
+            )
+            item_id = f"index-{index + excluded_entries_before - added_entries_seen:04d}-{slug}"
         chinese = translations.get(normalized, "")
         if not chinese and len(report["missingChineseSample"]) < 100:
             report["missingChineseSample"].append(entry.text)
         word = {
-            "id": f"index-{index:04d}-{re.sub(r'[^a-z0-9]+', '-', normalized).strip('-') or 'entry'}",
+            "id": item_id,
             "type": "word",
             "text": entry.text,
             "word": entry.text,

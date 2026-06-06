@@ -68,42 +68,6 @@
     "compound": false
   },
   {
-    "id": "index-0003-3-point-turn",
-    "type": "word",
-    "text": "3-point turn",
-    "word": "3-point turn",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "130-25"
-    ],
-    "sourcePages": [
-      130
-    ],
-    "placements": [
-      {
-        "ref": "130-25",
-        "page": 130,
-        "theme": "transportation",
-        "topic": "Traffic Signs and Directions"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 2,
-    "theme": "transportation",
-    "topic": "Traffic Signs and Directions",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oi"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-0004-a-m",
     "type": "word",
     "text": "A.M.",
@@ -1713,42 +1677,6 @@
     "compound": false
   },
   {
-    "id": "index-0048-air-bag",
-    "type": "word",
-    "text": "air bag",
-    "word": "air bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "127-49"
-    ],
-    "sourcePages": [
-      127
-    ],
-    "placements": [
-      {
-        "ref": "127-49",
-        "page": 127,
-        "theme": "transportation",
-        "topic": "Car Parts and Maintenance"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 2,
-    "theme": "transportation",
-    "topic": "Car Parts and Maintenance",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "air"
-    ],
-    "compound": false
-  },
-  {
     "id": "index-0049-air-conditioner",
     "type": "word",
     "text": "air conditioner",
@@ -2028,42 +1956,6 @@
     "vowelTeams": [
       "air",
       "ie"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-0056-air-sickness-bag",
-    "type": "word",
-    "text": "air sickness bag",
-    "word": "air sickness bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "132-18"
-    ],
-    "sourcePages": [
-      132
-    ],
-    "placements": [
-      {
-        "ref": "132-18",
-        "page": 132,
-        "theme": "transportation",
-        "topic": "Airplane Travel"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 2,
-    "theme": "transportation",
-    "topic": "Airplane Travel",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "air"
     ],
     "compound": false
   },
@@ -3857,40 +3749,6 @@
       "air",
       "ere"
     ],
-    "compound": false
-  },
-  {
-    "id": "index-0106-application-form",
-    "type": "word",
-    "text": "application form",
-    "word": "application form",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "118-F"
-    ],
-    "sourcePages": [
-      118
-    ],
-    "placements": [
-      {
-        "ref": "118-F",
-        "page": 118,
-        "theme": "work",
-        "topic": "Job Search"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 2,
-    "theme": "work",
-    "topic": "Job Search",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
     "compound": false
   },
   {
@@ -9966,6 +9824,42 @@
     "compound": false
   },
   {
+    "id": "index-added-bassoon",
+    "type": "word",
+    "text": "bassoon",
+    "word": "bassoon",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "150-15"
+    ],
+    "sourcePages": [
+      150
+    ],
+    "placements": [
+      {
+        "ref": "150-15",
+        "page": 150,
+        "theme": "recreation",
+        "topic": "Musical Instruments"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 0,
+    "theme": "recreation",
+    "topic": "Musical Instruments",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "vowel-team",
+    "vowelTeams": [
+      "oo"
+    ],
+    "compound": false
+  },
+  {
     "id": "index-0267-bat",
     "type": "word",
     "text": "bat",
@@ -15356,42 +15250,6 @@
     "compound": false
   },
   {
-    "id": "index-0406-book-bag",
-    "type": "word",
-    "text": "book bag",
-    "word": "book bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "70-24"
-    ],
-    "sourcePages": [
-      70
-    ],
-    "placements": [
-      {
-        "ref": "70-24",
-        "page": 70,
-        "theme": "clothes",
-        "topic": "Jewelry and Accessories"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 5,
-    "theme": "clothes",
-    "topic": "Jewelry and Accessories",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oo"
-    ],
-    "compound": false
-  },
-  {
     "id": "index-0407-book-of-stamps",
     "type": "word",
     "text": "book of stamps",
@@ -15985,42 +15843,6 @@
     "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-0421-bottle-return-machine",
-    "type": "word",
-    "text": "bottle-return machine",
-    "word": "bottle-return machine",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "55-25"
-    ],
-    "sourcePages": [
-      55
-    ],
-    "placements": [
-      {
-        "ref": "55-25",
-        "page": 55,
-        "theme": "food",
-        "topic": "The Supermarket"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "food",
-    "topic": "The Supermarket",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [
-      "ere"
-    ],
-    "compound": true
   },
   {
     "id": "index-0422-bounce",
@@ -16992,79 +16814,6 @@
       "ea"
     ],
     "compound": false
-  },
-  {
-    "id": "index-0448-bread-and-butter-plate",
-    "type": "word",
-    "text": "bread-and-butter plate",
-    "word": "bread-and-butter plate",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "63-24"
-    ],
-    "sourcePages": [
-      63
-    ],
-    "placements": [
-      {
-        "ref": "63-24",
-        "page": 63,
-        "theme": "food",
-        "topic": "The Restaurant"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "food",
-    "topic": "The Restaurant",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [
-      "ea"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-0449-bread-and-butter-plate-bassoon",
-    "type": "word",
-    "text": "bread-and-butter plate bassoon",
-    "word": "bread-and-butter plate bassoon",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "150-15"
-    ],
-    "sourcePages": [
-      150
-    ],
-    "placements": [
-      {
-        "ref": "150-15",
-        "page": 150,
-        "theme": "recreation",
-        "topic": "Musical Instruments"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 5,
-    "theme": "recreation",
-    "topic": "Musical Instruments",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ea",
-      "oo"
-    ],
-    "compound": true
   },
   {
     "id": "index-0450-break",
@@ -21423,40 +21172,6 @@
     "compound": false
   },
   {
-    "id": "index-0566-can-return-machine",
-    "type": "word",
-    "text": "can-return machine",
-    "word": "can-return machine",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "55-24"
-    ],
-    "sourcePages": [
-      55
-    ],
-    "placements": [
-      {
-        "ref": "55-24",
-        "page": 55,
-        "theme": "food",
-        "topic": "The Supermarket"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 8,
-    "theme": "food",
-    "topic": "The Supermarket",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-0567-canary",
     "type": "word",
     "text": "canary",
@@ -23143,55 +22858,6 @@
     "compound": false
   },
   {
-    "id": "index-0613-carry-on-bag",
-    "type": "word",
-    "text": "carry-on bag",
-    "word": "carry-on bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "131-10",
-      "132-1"
-    ],
-    "sourcePages": [
-      131,
-      132
-    ],
-    "placements": [
-      {
-        "ref": "131-10",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      },
-      {
-        "ref": "132-1",
-        "page": 132,
-        "theme": "transportation",
-        "topic": "Airplane Travel"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "132-1",
-        "page": 132,
-        "theme": "transportation",
-        "topic": "Airplane Travel"
-      }
-    ],
-    "sourceLine": 8,
-    "theme": "transportation",
-    "topic": "The Airport",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-0614-carton",
     "type": "word",
     "text": "carton",
@@ -24227,40 +23893,6 @@
     "compound": true
   },
   {
-    "id": "index-0641-cd-rom-drive",
-    "type": "word",
-    "text": "CD-ROM drive",
-    "word": "CD-ROM drive",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "78-4"
-    ],
-    "sourcePages": [
-      78
-    ],
-    "placements": [
-      {
-        "ref": "78-4",
-        "page": 78,
-        "theme": "shopping",
-        "topic": "Computers"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 8,
-    "theme": "shopping",
-    "topic": "Computers",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-0642-ceiling",
     "type": "word",
     "text": "ceiling",
@@ -25160,40 +24792,6 @@
     "compound": false
   },
   {
-    "id": "index-0665-change-of-address-form",
-    "type": "word",
-    "text": "change-of-address form",
-    "word": "change-of-address form",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "82-15"
-    ],
-    "sourcePages": [
-      82
-    ],
-    "placements": [
-      {
-        "ref": "82-15",
-        "page": 82,
-        "theme": "services",
-        "topic": "The Post Office"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "services",
-    "topic": "The Post Office",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-0666-changing-pad",
     "type": "word",
     "text": "changing pad",
@@ -25616,42 +25214,6 @@
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": true
-  },
-  {
-    "id": "index-0677-check-in-counter",
-    "type": "word",
-    "text": "check-in counter",
-    "word": "check-in counter",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "131-11"
-    ],
-    "sourcePages": [
-      131
-    ],
-    "placements": [
-      {
-        "ref": "131-11",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 8,
-    "theme": "transportation",
-    "topic": "The Airport",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou"
-    ],
     "compound": true
   },
   {
@@ -26568,42 +26130,6 @@
     "compound": false
   },
   {
-    "id": "index-0702-chest-x-ray",
-    "type": "word",
-    "text": "chest X-ray",
-    "word": "chest X-ray",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "92-H"
-    ],
-    "sourcePages": [
-      92
-    ],
-    "placements": [
-      {
-        "ref": "92-H",
-        "page": 92,
-        "theme": "health",
-        "topic": "The Medical Exam"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 8,
-    "theme": "health",
-    "topic": "The Medical Exam",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ay"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-0703-chewing-gum",
     "type": "word",
     "text": "chewing gum",
@@ -27016,159 +26542,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-0714-child-day-care-worker",
-    "type": "word",
-    "text": "child day-care worker",
-    "word": "child day-care worker",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "112-17"
-    ],
-    "sourcePages": [
-      112
-    ],
-    "placements": [
-      {
-        "ref": "112-17",
-        "page": 112,
-        "theme": "work",
-        "topic": "Occupations I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "work",
-    "topic": "Occupations I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are",
-      "ay"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-0715-child-care-center",
-    "type": "word",
-    "text": "child-care center",
-    "word": "child-care center",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "36-9",
-      "84-G",
-      "100-19"
-    ],
-    "sourcePages": [
-      36,
-      84,
-      100
-    ],
-    "placements": [
-      {
-        "ref": "36-9",
-        "page": 36,
-        "theme": "community",
-        "topic": "Places Around Town I"
-      },
-      {
-        "ref": "84-G",
-        "page": 84,
-        "theme": "services",
-        "topic": "Community Institutions"
-      },
-      {
-        "ref": "100-19",
-        "page": 100,
-        "theme": "health",
-        "topic": "Baby Care"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "84-G",
-        "page": 84,
-        "theme": "services",
-        "topic": "Community Institutions"
-      },
-      {
-        "ref": "100-19",
-        "page": 100,
-        "theme": "health",
-        "topic": "Baby Care"
-      }
-    ],
-    "sourceLine": 8,
-    "theme": "community",
-    "topic": "Places Around Town I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-0716-child-care-worker",
-    "type": "word",
-    "text": "child-care worker",
-    "word": "child-care worker",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "84-17",
-      "100-20"
-    ],
-    "sourcePages": [
-      84,
-      100
-    ],
-    "placements": [
-      {
-        "ref": "84-17",
-        "page": 84,
-        "theme": "services",
-        "topic": "Community Institutions"
-      },
-      {
-        "ref": "100-20",
-        "page": 100,
-        "theme": "health",
-        "topic": "Baby Care"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "100-20",
-        "page": 100,
-        "theme": "health",
-        "topic": "Baby Care"
-      }
-    ],
-    "sourceLine": 8,
-    "theme": "services",
-    "topic": "Community Institutions",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are"
-    ],
-    "compound": true
   },
   {
     "id": "index-0717-children",
@@ -28873,42 +28246,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-0763-clip-on-earrings",
-    "type": "word",
-    "text": "clip-on earrings",
-    "word": "clip-on earrings",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "71-13"
-    ],
-    "sourcePages": [
-      71
-    ],
-    "placements": [
-      {
-        "ref": "71-13",
-        "page": 71,
-        "theme": "clothes",
-        "topic": "Describing Clothing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 11,
-    "theme": "clothes",
-    "topic": "Describing Clothing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ear"
-    ],
-    "compound": true
   },
   {
     "id": "index-0764-clippers",
@@ -35489,78 +34826,6 @@
     "compound": false
   },
   {
-    "id": "index-0935-cross-country-skiing",
-    "type": "word",
-    "text": "cross-country skiing",
-    "word": "cross-country skiing",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "144-B"
-    ],
-    "sourcePages": [
-      144
-    ],
-    "placements": [
-      {
-        "ref": "144-B",
-        "page": 144,
-        "theme": "recreation",
-        "topic": "Winter Sports and Recreation"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 14,
-    "theme": "recreation",
-    "topic": "Winter Sports and Recreation",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-0936-cross-country-skis",
-    "type": "word",
-    "text": "cross-country skis",
-    "word": "cross-country skis",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "144-5"
-    ],
-    "sourcePages": [
-      144
-    ],
-    "placements": [
-      {
-        "ref": "144-5",
-        "page": 144,
-        "theme": "recreation",
-        "topic": "Winter Sports and Recreation"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 14,
-    "theme": "recreation",
-    "topic": "Winter Sports and Recreation",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-0937-crosswalk",
     "type": "word",
     "text": "crosswalk",
@@ -36378,42 +35643,6 @@
     "compound": false
   },
   {
-    "id": "index-0957-customer-pick-up-area",
-    "type": "word",
-    "text": "customer pick-up area",
-    "word": "customer pick-up area",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "74-7"
-    ],
-    "sourcePages": [
-      74
-    ],
-    "placements": [
-      {
-        "ref": "74-7",
-        "page": 74,
-        "theme": "shopping",
-        "topic": "The Department Store"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 14,
-    "theme": "shopping",
-    "topic": "The Department Store",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-0958-customer-service-describe",
     "type": "word",
     "text": "Customer Service describe",
@@ -36512,55 +35741,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-0961-customs-declaration-form",
-    "type": "word",
-    "text": "customs declaration form",
-    "word": "customs declaration form",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "131-24",
-      "161-13"
-    ],
-    "sourcePages": [
-      131,
-      161
-    ],
-    "placements": [
-      {
-        "ref": "131-24",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      },
-      {
-        "ref": "161-13",
-        "page": 161,
-        "theme": "travel",
-        "topic": "Arriving at a Destination"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "161-13",
-        "page": 161,
-        "theme": "travel",
-        "topic": "Arriving at a Destination"
-      }
-    ],
-    "sourceLine": 0,
-    "theme": "transportation",
-    "topic": "The Airport",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -37338,43 +36518,6 @@
     "compound": false
   },
   {
-    "id": "index-0983-day-care-center",
-    "type": "word",
-    "text": "day-care center",
-    "word": "day-care center",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "36-9"
-    ],
-    "sourcePages": [
-      36
-    ],
-    "placements": [
-      {
-        "ref": "36-9",
-        "page": 36,
-        "theme": "community",
-        "topic": "Places Around Town I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 14,
-    "theme": "community",
-    "topic": "Places Around Town I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are",
-      "ay"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-0984-dead-end",
     "type": "word",
     "text": "dead end",
@@ -37409,42 +36552,6 @@
       "ea"
     ],
     "compound": false
-  },
-  {
-    "id": "index-0985-dead-bolt-lock",
-    "type": "word",
-    "text": "dead-bolt lock",
-    "word": "dead-bolt lock",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "29-36"
-    ],
-    "sourcePages": [
-      29
-    ],
-    "placements": [
-      {
-        "ref": "29-36",
-        "page": 29,
-        "theme": "home",
-        "topic": "The Apartment Building"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 14,
-    "theme": "home",
-    "topic": "The Apartment Building",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ea"
-    ],
-    "compound": true
   },
   {
     "id": "index-0986-debate-club",
@@ -43724,58 +42831,6 @@
     "compound": false
   },
   {
-    "id": "index-1152-drive-through-window",
-    "type": "word",
-    "text": "drive-through window",
-    "word": "drive-through window",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "131-22",
-      "161-3"
-    ],
-    "sourcePages": [
-      131,
-      161
-    ],
-    "placements": [
-      {
-        "ref": "131-22",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      },
-      {
-        "ref": "161-3",
-        "page": 161,
-        "theme": "travel",
-        "topic": "Arriving at a Destination"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "161-3",
-        "page": 161,
-        "theme": "travel",
-        "topic": "Arriving at a Destination"
-      }
-    ],
-    "sourceLine": 0,
-    "theme": "transportation",
-    "topic": "The Airport",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou",
-      "ow"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-1153-driver-s-ed",
     "type": "word",
     "text": "driver's ed",
@@ -45021,42 +44076,6 @@
     "sourceLine": 0,
     "theme": "school",
     "topic": "Literature and Writing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ai"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-1187-e-mail-address",
-    "type": "word",
-    "text": "e-mail address",
-    "word": "e-mail address",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "1-15"
-    ],
-    "sourcePages": [
-      1
-    ],
-    "placements": [
-      {
-        "ref": "1-15",
-        "page": 1,
-        "theme": "personal",
-        "topic": "Personal Information"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 17,
-    "theme": "personal",
-    "topic": "Personal Information",
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
@@ -50097,43 +49116,6 @@
     "compound": false
   },
   {
-    "id": "index-1320-eye-care-center",
-    "type": "word",
-    "text": "eye-care center",
-    "word": "eye-care center",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "37-23"
-    ],
-    "sourcePages": [
-      37
-    ],
-    "placements": [
-      {
-        "ref": "37-23",
-        "page": 37,
-        "theme": "community",
-        "topic": "Places Around Town I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 17,
-    "theme": "community",
-    "topic": "Places Around Town I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are",
-      "ey"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-1321-eyebrow",
     "type": "word",
     "text": "eyebrow",
@@ -51115,42 +50097,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-1347-fast-food-restaurant",
-    "type": "word",
-    "text": "fast-food restaurant",
-    "word": "fast-food restaurant",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "37-24"
-    ],
-    "sourcePages": [
-      37
-    ],
-    "placements": [
-      {
-        "ref": "37-24",
-        "page": 37,
-        "theme": "community",
-        "topic": "Places Around Town I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 17,
-    "theme": "community",
-    "topic": "Places Around Town I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oo"
-    ],
-    "compound": true
   },
   {
     "id": "index-1348-fasten-seat-belt-sign-fisher",
@@ -53322,93 +52268,6 @@
     "compound": false
   },
   {
-    "id": "index-1406-first-aid-kit",
-    "type": "word",
-    "text": "first-aid kit",
-    "word": "first-aid kit",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "90-2",
-      "123-22"
-    ],
-    "sourcePages": [
-      90,
-      123
-    ],
-    "placements": [
-      {
-        "ref": "90-2",
-        "page": 90,
-        "theme": "health",
-        "topic": "First Aid"
-      },
-      {
-        "ref": "123-22",
-        "page": 123,
-        "theme": "work",
-        "topic": "Job Safety"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "123-22",
-        "page": 123,
-        "theme": "work",
-        "topic": "Job Safety"
-      }
-    ],
-    "sourceLine": 17,
-    "theme": "health",
-    "topic": "First Aid",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ai"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-1407-first-aid-manual",
-    "type": "word",
-    "text": "first-aid manual",
-    "word": "first-aid manual",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "90-1"
-    ],
-    "sourcePages": [
-      90
-    ],
-    "placements": [
-      {
-        "ref": "90-1",
-        "page": 90,
-        "theme": "health",
-        "topic": "First Aid"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 17,
-    "theme": "health",
-    "topic": "First Aid",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ai"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-1408-fish",
     "type": "word",
     "text": "fish",
@@ -55036,42 +53895,6 @@
     "compound": false
   },
   {
-    "id": "index-1451-food-service-worker",
-    "type": "word",
-    "text": "food-service worker",
-    "word": "food-service worker",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "113-30"
-    ],
-    "sourcePages": [
-      113
-    ],
-    "placements": [
-      {
-        "ref": "113-30",
-        "page": 113,
-        "theme": "work",
-        "topic": "Occupations I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 20,
-    "theme": "work",
-    "topic": "Occupations I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oo"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-1452-foot",
     "type": "word",
     "text": "foot",
@@ -55755,76 +54578,6 @@
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-1468-form-a-hypothesis",
-    "type": "word",
-    "text": "form a hypothesis",
-    "word": "form a hypothesis",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "110-8"
-    ],
-    "sourcePages": [
-      110
-    ],
-    "placements": [
-      {
-        "ref": "110-8",
-        "page": 110,
-        "theme": "school",
-        "topic": "Science"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 20,
-    "theme": "school",
-    "topic": "Science",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-1469-forms-of-payment",
-    "type": "word",
-    "text": "forms of payment",
-    "word": "forms of payment",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "81"
-    ],
-    "sourcePages": [
-      81
-    ],
-    "placements": [
-      {
-        "ref": "81",
-        "page": 81,
-        "theme": "services",
-        "topic": "Finances"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 20,
-    "theme": "services",
-    "topic": "Finances",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ay"
-    ],
     "compound": false
   },
   {
@@ -56760,42 +55513,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-1494-front-end-loader",
-    "type": "word",
-    "text": "front-end loader",
-    "word": "front-end loader",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "122-14"
-    ],
-    "sourcePages": [
-      122
-    ],
-    "placements": [
-      {
-        "ref": "122-14",
-        "page": 122,
-        "theme": "work",
-        "topic": "The Construction Site"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 20,
-    "theme": "work",
-    "topic": "The Construction Site",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oa"
-    ],
-    "compound": true
   },
   {
     "id": "index-1495-frostbite",
@@ -58548,40 +57265,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-1544-garment-bag",
-    "type": "word",
-    "text": "garment bag",
-    "word": "garment bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "131-20"
-    ],
-    "sourcePages": [
-      131
-    ],
-    "placements": [
-      {
-        "ref": "131-20",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 20,
-    "theme": "transportation",
-    "topic": "The Airport",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -60786,6 +59469,40 @@
       "ea",
       "oo"
     ],
+    "compound": false
+  },
+  {
+    "id": "index-added-go-shopping",
+    "type": "word",
+    "text": "go shopping",
+    "word": "go shopping",
+    "chinese": "",
+    "source": "word-by-word-index",
+    "sourceRefs": [
+      "163-11"
+    ],
+    "sourcePages": [
+      163
+    ],
+    "placements": [
+      {
+        "ref": "163-11",
+        "page": 163,
+        "theme": "travel",
+        "topic": "Tourist Activities"
+      }
+    ],
+    "alternatePlacements": [],
+    "sourceLine": 20,
+    "theme": "travel",
+    "topic": "Tourist Activities",
+    "partOfSpeech": "index entry",
+    "ipa": "",
+    "prefix": "none",
+    "suffix": "none",
+    "roots": [],
+    "syllableType": "open",
+    "vowelTeams": [],
     "compound": false
   },
   {
@@ -64714,40 +63431,6 @@
     "compound": false
   },
   {
-    "id": "index-1710-hand-held-video-game",
-    "type": "word",
-    "text": "hand-held video game",
-    "word": "hand-held video game",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "76-35"
-    ],
-    "sourcePages": [
-      76
-    ],
-    "placements": [
-      {
-        "ref": "76-35",
-        "page": 76,
-        "theme": "shopping",
-        "topic": "Video and Audio Equipment"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "shopping",
-    "topic": "Video and Audio Equipment",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-1711-handbag",
     "type": "word",
     "text": "handbag",
@@ -64814,42 +63497,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-1713-handicapped-accessible-room",
-    "type": "word",
-    "text": "handicapped-accessible room",
-    "word": "handicapped-accessible room",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "162-4"
-    ],
-    "sourcePages": [
-      162
-    ],
-    "placements": [
-      {
-        "ref": "162-4",
-        "page": 162,
-        "theme": "travel",
-        "topic": "Hotel Communication"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "travel",
-    "topic": "Hotel Communication",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oo"
-    ],
-    "compound": true
   },
   {
     "id": "index-1714-handkerchief",
@@ -66067,81 +64714,6 @@
       "ea"
     ],
     "compound": false
-  },
-  {
-    "id": "index-1748-health-care-aide",
-    "type": "word",
-    "text": "health-care aide",
-    "word": "health-care aide",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "113-35"
-    ],
-    "sourcePages": [
-      113
-    ],
-    "placements": [
-      {
-        "ref": "113-35",
-        "page": 113,
-        "theme": "work",
-        "topic": "Occupations I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 23,
-    "theme": "work",
-    "topic": "Occupations I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [
-      "ai",
-      "are",
-      "ea"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-1749-health-care-attendant",
-    "type": "word",
-    "text": "health-care attendant",
-    "word": "health-care attendant",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "113-35"
-    ],
-    "sourcePages": [
-      113
-    ],
-    "placements": [
-      {
-        "ref": "113-35",
-        "page": 113,
-        "theme": "work",
-        "topic": "Occupations I"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "work",
-    "topic": "Occupations I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "are",
-      "ea"
-    ],
-    "compound": true
   },
   {
     "id": "index-1750-hearing-impaired",
@@ -67765,43 +66337,6 @@
       "igh"
     ],
     "compound": false
-  },
-  {
-    "id": "index-1791-high-top-sneakers",
-    "type": "word",
-    "text": "high-top sneakers",
-    "word": "high-top sneakers",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "69-20"
-    ],
-    "sourcePages": [
-      69
-    ],
-    "placements": [
-      {
-        "ref": "69-20",
-        "page": 69,
-        "theme": "clothes",
-        "topic": "Exercise Clothing and Footwear"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 23,
-    "theme": "clothes",
-    "topic": "Exercise Clothing and Footwear",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ea",
-      "igh"
-    ],
-    "compound": true
   },
   {
     "id": "index-1792-high-tops",
@@ -77050,43 +75585,6 @@
     "compound": false
   },
   {
-    "id": "index-2045-knee-high-socks",
-    "type": "word",
-    "text": "knee-high socks",
-    "word": "knee-high socks",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "71-9"
-    ],
-    "sourcePages": [
-      71
-    ],
-    "placements": [
-      {
-        "ref": "71-9",
-        "page": 71,
-        "theme": "clothes",
-        "topic": "Describing Clothing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 26,
-    "theme": "clothes",
-    "topic": "Describing Clothing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee",
-      "igh"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-2046-knee-hiqhs",
     "type": "word",
     "text": "knee-hiqhs",
@@ -78783,40 +77281,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "open",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-2091-laundry-bag",
-    "type": "word",
-    "text": "laundry bag",
-    "word": "laundry bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "73-5"
-    ],
-    "sourcePages": [
-      73
-    ],
-    "placements": [
-      {
-        "ref": "73-5",
-        "page": 73,
-        "theme": "clothes",
-        "topic": "Laundry"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 26,
-    "theme": "clothes",
-    "topic": "Laundry",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -81739,42 +80203,6 @@
     "compound": false
   },
   {
-    "id": "index-2167-long-sleeved-shirt",
-    "type": "word",
-    "text": "long-sleeved shirt",
-    "word": "long-sleeved shirt",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "71-1"
-    ],
-    "sourcePages": [
-      71
-    ],
-    "placements": [
-      {
-        "ref": "71-1",
-        "page": 71,
-        "theme": "clothes",
-        "topic": "Describing Clothing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "clothes",
-    "topic": "Describing Clothing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-2168-look-at-the-screen",
     "type": "word",
     "text": "look at the screen",
@@ -82178,42 +80606,6 @@
       "ow"
     ],
     "compound": false
-  },
-  {
-    "id": "index-2178-low-fat-milk",
-    "type": "word",
-    "text": "low-fat milk",
-    "word": "low-fat milk",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "51-2"
-    ],
-    "sourcePages": [
-      51
-    ],
-    "placements": [
-      {
-        "ref": "51-2",
-        "page": 51,
-        "theme": "food",
-        "topic": "Dairy Products, Juices, and Beverages"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 29,
-    "theme": "food",
-    "topic": "Dairy Products, Juices, and Beverages",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ow"
-    ],
-    "compound": true
   },
   {
     "id": "index-2179-lower-the-shades",
@@ -83444,40 +81836,6 @@
     "sourceLine": 29,
     "theme": "daily",
     "topic": "Everyday Activities I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-2211-makeup-bag",
-    "type": "word",
-    "text": "makeup bag",
-    "word": "makeup bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "70-26"
-    ],
-    "sourcePages": [
-      70
-    ],
-    "placements": [
-      {
-        "ref": "70-26",
-        "page": 70,
-        "theme": "clothes",
-        "topic": "Jewelry and Accessories"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 29,
-    "theme": "clothes",
-    "topic": "Jewelry and Accessories",
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
@@ -84785,40 +83143,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-2248-medica-history-form",
-    "type": "word",
-    "text": "medica] history form",
-    "word": "medica] history form",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "93-4"
-    ],
-    "sourcePages": [
-      93
-    ],
-    "placements": [
-      {
-        "ref": "93-4",
-        "page": 93,
-        "theme": "health",
-        "topic": "Medical and Dental Procedures"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 29,
-    "theme": "health",
-    "topic": "Medical and Dental Procedures",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -91287,42 +89611,6 @@
     "compound": false
   },
   {
-    "id": "index-2414-no-u-turn",
-    "type": "word",
-    "text": "no U-turn",
-    "word": "no U-turn",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "130-4"
-    ],
-    "sourcePages": [
-      130
-    ],
-    "placements": [
-      {
-        "ref": "130-4",
-        "page": 130,
-        "theme": "transportation",
-        "topic": "Traffic Signs and Directions"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 32,
-    "theme": "transportation",
-    "topic": "Traffic Signs and Directions",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-2415-noisy",
     "type": "word",
     "text": "noisy",
@@ -91359,58 +89647,6 @@
     "compound": false
   },
   {
-    "id": "index-2416-non-aspirin-pain-ointment",
-    "type": "word",
-    "text": "non-aspirin pain ointment",
-    "word": "non-aspirin pain ointment",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "95-11",
-      "100-13"
-    ],
-    "sourcePages": [
-      95,
-      100
-    ],
-    "placements": [
-      {
-        "ref": "95-11",
-        "page": 95,
-        "theme": "health",
-        "topic": "Medicine"
-      },
-      {
-        "ref": "100-13",
-        "page": 100,
-        "theme": "health",
-        "topic": "Baby Care"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "100-13",
-        "page": 100,
-        "theme": "health",
-        "topic": "Baby Care"
-      }
-    ],
-    "sourceLine": 32,
-    "theme": "health",
-    "topic": "Medicine",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ai",
-      "oi"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-2417-non-fiction",
     "type": "word",
     "text": "non-fiction",
@@ -91442,42 +89678,6 @@
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": true
-  },
-  {
-    "id": "index-2418-non-smoking-room",
-    "type": "word",
-    "text": "non-smoking room",
-    "word": "non-smoking room",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "162-3"
-    ],
-    "sourcePages": [
-      162
-    ],
-    "placements": [
-      {
-        "ref": "162-3",
-        "page": 162,
-        "theme": "travel",
-        "topic": "Hotel Communication"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 32,
-    "theme": "travel",
-    "topic": "Hotel Communication",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "oo"
-    ],
     "compound": true
   },
   {
@@ -93941,43 +92141,6 @@
       "ay"
     ],
     "compound": false
-  },
-  {
-    "id": "index-2483-one-way-street",
-    "type": "word",
-    "text": "one-way street",
-    "word": "one-way street",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "128-23"
-    ],
-    "sourcePages": [
-      128
-    ],
-    "placements": [
-      {
-        "ref": "128-23",
-        "page": 128,
-        "theme": "transportation",
-        "topic": "Highways and Streets"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 32,
-    "theme": "transportation",
-    "topic": "Highways and Streets",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ay",
-      "ee"
-    ],
-    "compound": true
   },
   {
     "id": "index-2484-onion",
@@ -97369,40 +95532,6 @@
     "ipa": "",
     "prefix": "none",
     "suffix": "er",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-2571-paper-bag",
-    "type": "word",
-    "text": "paper bag",
-    "word": "paper bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "55-13"
-    ],
-    "sourcePages": [
-      55
-    ],
-    "placements": [
-      {
-        "ref": "55-13",
-        "page": 55,
-        "theme": "food",
-        "topic": "The Supermarket"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 32,
-    "theme": "food",
-    "topic": "The Supermarket",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
@@ -103511,40 +101640,6 @@
     "compound": false
   },
   {
-    "id": "index-2736-plastic-bag",
-    "type": "word",
-    "text": "plastic bag",
-    "word": "plastic bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "55-19"
-    ],
-    "sourcePages": [
-      55
-    ],
-    "placements": [
-      {
-        "ref": "55-19",
-        "page": 55,
-        "theme": "food",
-        "topic": "The Supermarket"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 35,
-    "theme": "food",
-    "topic": "The Supermarket",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
     "id": "index-2737-plastic-utensil",
     "type": "word",
     "text": "plastic utensil",
@@ -106475,40 +104570,6 @@
     "syllableType": "silent-e",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-2814-post-it-note-pad",
-    "type": "word",
-    "text": "Post-It note pad",
-    "word": "Post-It note pad",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "120-11"
-    ],
-    "sourcePages": [
-      120
-    ],
-    "placements": [
-      {
-        "ref": "120-11",
-        "page": 120,
-        "theme": "work",
-        "topic": "Office Supplies and Equipment"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 35,
-    "theme": "work",
-    "topic": "Office Supplies and Equipment",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": true
   },
   {
     "id": "index-2815-postage",
@@ -109558,43 +107619,6 @@
     "syllableType": "vowel-team",
     "vowelTeams": [
       "ay"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-2899-put-your-bag-on-the-conveyor-belt",
-    "type": "word",
-    "text": "put your bag on the conveyor belt",
-    "word": "put your bag on the conveyor belt",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "132-C"
-    ],
-    "sourcePages": [
-      132
-    ],
-    "placements": [
-      {
-        "ref": "132-C",
-        "page": 132,
-        "theme": "transportation",
-        "topic": "Airplane Travel"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 0,
-    "theme": "transportation",
-    "topic": "Airplane Travel",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ey",
-      "our"
     ],
     "compound": false
   },
@@ -112866,40 +110890,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-2987-registration-form",
-    "type": "word",
-    "text": "registration form",
-    "word": "registration form",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "82-16"
-    ],
-    "sourcePages": [
-      82
-    ],
-    "placements": [
-      {
-        "ref": "82-16",
-        "page": 82,
-        "theme": "services",
-        "topic": "The Post Office"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 41,
-    "theme": "services",
-    "topic": "The Post Office",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
     "vowelTeams": [],
     "compound": false
   },
@@ -123689,42 +121679,6 @@
     "compound": false
   },
   {
-    "id": "index-3267-short-sleeved-shirt",
-    "type": "word",
-    "text": "short-sleeved shirt",
-    "word": "short-sleeved shirt",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "71-2"
-    ],
-    "sourcePages": [
-      71
-    ],
-    "placements": [
-      {
-        "ref": "71-2",
-        "page": 71,
-        "theme": "clothes",
-        "topic": "Describing Clothing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 41,
-    "theme": "clothes",
-    "topic": "Describing Clothing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-3268-shorten",
     "type": "word",
     "text": "shorten",
@@ -123969,42 +121923,6 @@
     "ipa": "",
     "prefix": "none",
     "suffix": "er",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-3274-shoulder-bag",
-    "type": "word",
-    "text": "shoulder bag",
-    "word": "shoulder bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "70-22"
-    ],
-    "sourcePages": [
-      70
-    ],
-    "placements": [
-      {
-        "ref": "70-22",
-        "page": 70,
-        "theme": "clothes",
-        "topic": "Jewelry and Accessories"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 41,
-    "theme": "clothes",
-    "topic": "Jewelry and Accessories",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
     "roots": [],
     "syllableType": "vowel-team",
     "vowelTeams": [
@@ -126752,42 +124670,6 @@
     "sourceLine": 44,
     "theme": "daily",
     "topic": "Everyday Activities I",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-3347-sleeping-bag",
-    "type": "word",
-    "text": "sleeping bag",
-    "word": "sleeping bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "139-2"
-    ],
-    "sourcePages": [
-      139
-    ],
-    "placements": [
-      {
-        "ref": "139-2",
-        "page": 139,
-        "theme": "recreation",
-        "topic": "Outdoor Recreation"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 44,
-    "theme": "recreation",
-    "topic": "Outdoor Recreation",
     "partOfSpeech": "index entry",
     "ipa": "",
     "prefix": "none",
@@ -133259,43 +131141,6 @@
     "compound": false
   },
   {
-    "id": "index-3523-stow-your-carry-on-bag",
-    "type": "word",
-    "text": "stow your carry-on bag",
-    "word": "stow your carry-on bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "132-1"
-    ],
-    "sourcePages": [
-      132
-    ],
-    "placements": [
-      {
-        "ref": "132-1",
-        "page": 132,
-        "theme": "transportation",
-        "topic": "Airplane Travel"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 44,
-    "theme": "transportation",
-    "topic": "Airplane Travel",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "our",
-      "ow"
-    ],
-    "compound": false
-  },
-  {
     "id": "index-3524-straight-line",
     "type": "word",
     "text": "straight line",
@@ -136131,78 +133976,6 @@
     "vowelTeams": [
       "ee",
       "oor"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-3601-sweet-pepper",
-    "type": "word",
-    "text": "sweet pepper",
-    "word": "sweet pepper",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "49-31"
-    ],
-    "sourcePages": [
-      49
-    ],
-    "placements": [
-      {
-        "ref": "49-31",
-        "page": 49,
-        "theme": "food",
-        "topic": "Vegetables"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 47,
-    "theme": "food",
-    "topic": "Vegetables",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-3602-sweet-potato",
-    "type": "word",
-    "text": "sweet potato",
-    "word": "sweet potato",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "49-29"
-    ],
-    "sourcePages": [
-      49
-    ],
-    "placements": [
-      {
-        "ref": "49-29",
-        "page": 49,
-        "theme": "food",
-        "topic": "Vegetables"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 47,
-    "theme": "food",
-    "topic": "Vegetables",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee"
     ],
     "compound": false
   },
@@ -140595,42 +138368,6 @@
     "compound": false
   },
   {
-    "id": "index-3712-thank-you-note",
-    "type": "word",
-    "text": "thank-you note",
-    "word": "thank-you note",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "108-17"
-    ],
-    "sourcePages": [
-      108
-    ],
-    "placements": [
-      {
-        "ref": "108-17",
-        "page": 108,
-        "theme": "school",
-        "topic": "Literature and Writing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 47,
-    "theme": "school",
-    "topic": "Literature and Writing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-3713-thanks",
     "type": "word",
     "text": "Thanks.",
@@ -141557,44 +139294,6 @@
       "ee"
     ],
     "compound": false
-  },
-  {
-    "id": "index-3738-three-piece-suit",
-    "type": "word",
-    "text": "three-piece suit",
-    "word": "three-piece suit",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "66-13"
-    ],
-    "sourcePages": [
-      66
-    ],
-    "placements": [
-      {
-        "ref": "66-13",
-        "page": 66,
-        "theme": "clothes",
-        "topic": "Clothing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 47,
-    "theme": "clothes",
-    "topic": "Clothing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ee",
-      "ie",
-      "ui"
-    ],
-    "compound": true
   },
   {
     "id": "index-3739-throat",
@@ -144398,40 +142097,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-3812-tote-bag",
-    "type": "word",
-    "text": "tote bag",
-    "word": "tote bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "70-23"
-    ],
-    "sourcePages": [
-      70
-    ],
-    "placements": [
-      {
-        "ref": "70-23",
-        "page": 70,
-        "theme": "clothes",
-        "topic": "Jewelry and Accessories"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 47,
-    "theme": "clothes",
-    "topic": "Jewelry and Accessories",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
     "vowelTeams": [],
     "compound": false
   },
@@ -148641,42 +146306,6 @@
     "compound": false
   },
   {
-    "id": "index-3922-two-family-house",
-    "type": "word",
-    "text": "two-family house",
-    "word": "two-family house",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "20-3"
-    ],
-    "sourcePages": [
-      20
-    ],
-    "placements": [
-      {
-        "ref": "20-3",
-        "page": 20,
-        "theme": "home",
-        "topic": "Types of Housing and Communities"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 50,
-    "theme": "home",
-    "topic": "Types of Housing and Communities",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [
-      "ou"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-3923-type",
     "type": "word",
     "text": "type",
@@ -149944,42 +147573,6 @@
     "compound": false
   },
   {
-    "id": "index-3957-v-neck-sweater",
-    "type": "word",
-    "text": "V-neck sweater",
-    "word": "V-neck sweater",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "71-5"
-    ],
-    "sourcePages": [
-      71
-    ],
-    "placements": [
-      {
-        "ref": "71-5",
-        "page": 71,
-        "theme": "clothes",
-        "topic": "Describing Clothing"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 50,
-    "theme": "clothes",
-    "topic": "Describing Clothing",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ea"
-    ],
-    "compound": true
-  },
-  {
     "id": "index-3958-vacancy-sign",
     "type": "word",
     "text": "vacancy sign",
@@ -150120,42 +147713,6 @@
     ],
     "alternatePlacements": [],
     "sourceLine": 0,
-    "theme": "home",
-    "topic": "Cleaning Your Home",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ea"
-    ],
-    "compound": false
-  },
-  {
-    "id": "index-3962-vacuum-cleaner-bag",
-    "type": "word",
-    "text": "vacuum cleaner bag",
-    "word": "vacuum cleaner bag",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "32-7"
-    ],
-    "sourcePages": [
-      32
-    ],
-    "placements": [
-      {
-        "ref": "32-7",
-        "page": 32,
-        "theme": "home",
-        "topic": "Cleaning Your Home"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 50,
     "theme": "home",
     "topic": "Cleaning Your Home",
     "partOfSpeech": "index entry",
@@ -152359,40 +149916,6 @@
     "compound": false
   },
   {
-    "id": "index-4021-wake-up-call",
-    "type": "word",
-    "text": "wake-up call",
-    "word": "wake-up call",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "162-d"
-    ],
-    "sourcePages": [
-      162
-    ],
-    "placements": [
-      {
-        "ref": "162-d",
-        "page": 162,
-        "theme": "travel",
-        "topic": "Hotel Communication"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 50,
-    "theme": "travel",
-    "topic": "Hotel Communication",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-4022-walk",
     "type": "word",
     "text": "walk",
@@ -152576,42 +150099,6 @@
     "suffix": "none",
     "roots": [],
     "syllableType": "silent-e",
-    "vowelTeams": [
-      "ie"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-4027-walkie-talkie-set",
-    "type": "word",
-    "text": "walkie-talkie set",
-    "word": "walkie-talkie set",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "79-20"
-    ],
-    "sourcePages": [
-      79
-    ],
-    "placements": [
-      {
-        "ref": "79-20",
-        "page": 79,
-        "theme": "shopping",
-        "topic": "The Toy Store"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 50,
-    "theme": "shopping",
-    "topic": "The Toy Store",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
     "vowelTeams": [
       "ie"
     ],
@@ -153014,42 +150501,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-4039-warm-up-suit",
-    "type": "word",
-    "text": "warm-up suit",
-    "word": "warm-up suit",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "69-4"
-    ],
-    "sourcePages": [
-      69
-    ],
-    "placements": [
-      {
-        "ref": "69-4",
-        "page": 69,
-        "theme": "clothes",
-        "topic": "Exercise Clothing and Footwear"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 50,
-    "theme": "clothes",
-    "topic": "Exercise Clothing and Footwear",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ui"
-    ],
-    "compound": true
   },
   {
     "id": "index-4040-warning-lights",
@@ -155357,40 +152808,6 @@
     "compound": false
   },
   {
-    "id": "index-4101-white-water-rafting",
-    "type": "word",
-    "text": "white-water rafting",
-    "word": "white-water rafting",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "145-E"
-    ],
-    "sourcePages": [
-      145
-    ],
-    "placements": [
-      {
-        "ref": "145-E",
-        "page": 145,
-        "theme": "recreation",
-        "topic": "Water Sports and Recreation"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 53,
-    "theme": "recreation",
-    "topic": "Water Sports and Recreation",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-4102-whiten-myteeth",
     "type": "word",
     "text": "whiten myteeth",
@@ -156924,40 +154341,6 @@
     "compound": false
   },
   {
-    "id": "index-4142-word-processing-program",
-    "type": "word",
-    "text": "word-processing program",
-    "word": "word-processing program",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "78-19"
-    ],
-    "sourcePages": [
-      78
-    ],
-    "placements": [
-      {
-        "ref": "78-19",
-        "page": 78,
-        "theme": "shopping",
-        "topic": "Computers"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 53,
-    "theme": "shopping",
-    "topic": "Computers",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": true
-  },
-  {
     "id": "index-4143-work",
     "type": "word",
     "text": "work",
@@ -158163,93 +155546,6 @@
     "syllableType": "open",
     "vowelTeams": [],
     "compound": false
-  },
-  {
-    "id": "index-4176-x-ray-machine",
-    "type": "word",
-    "text": "X-ray machine",
-    "word": "X-ray machine",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "92-9",
-      "131-9"
-    ],
-    "sourcePages": [
-      92,
-      131
-    ],
-    "placements": [
-      {
-        "ref": "92-9",
-        "page": 92,
-        "theme": "health",
-        "topic": "The Medical Exam"
-      },
-      {
-        "ref": "131-9",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      }
-    ],
-    "alternatePlacements": [
-      {
-        "ref": "131-9",
-        "page": 131,
-        "theme": "transportation",
-        "topic": "The Airport"
-      }
-    ],
-    "sourceLine": 53,
-    "theme": "health",
-    "topic": "The Medical Exam",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "silent-e",
-    "vowelTeams": [
-      "ay"
-    ],
-    "compound": true
-  },
-  {
-    "id": "index-4177-x-ray-technician",
-    "type": "word",
-    "text": "X-ray technician",
-    "word": "X-ray technician",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "97-23"
-    ],
-    "sourcePages": [
-      97
-    ],
-    "placements": [
-      {
-        "ref": "97-23",
-        "page": 97,
-        "theme": "health",
-        "topic": "The Hospital"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 53,
-    "theme": "health",
-    "topic": "The Hospital",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "vowel-team",
-    "vowelTeams": [
-      "ay"
-    ],
-    "compound": true
   },
   {
     "id": "index-4178-xylophone",
