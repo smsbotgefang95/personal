@@ -3493,7 +3493,6 @@
     "go on a diet",
     "go online",
     "go over the answers",
-    "go shopping",
     "go sightseeing",
     "go straight",
     "go to a club",
@@ -5131,8 +5130,6 @@
     "shoot",
     "shop",
     "shopper",
-    "shopping basket",
-    "shopping cart",
     "shopping mal!",
     "shore",
     "short",
@@ -6357,6 +6354,13 @@
     },
     {
       "line": 20,
+      "text": "go shopping",
+      "refs": [
+        "163-11"
+      ]
+    },
+    {
+      "line": 20,
       "text": "front yard",
       "refs": [
         "27"
@@ -6480,6 +6484,20 @@
       "text": "Post-It note pad",
       "refs": [
         "120-11"
+      ]
+    },
+    {
+      "line": 41,
+      "text": "shopping basket",
+      "refs": [
+        "55-3"
+      ]
+    },
+    {
+      "line": 41,
+      "text": "shopping cart",
+      "refs": [
+        "55-8"
       ]
     },
     {
@@ -6945,15 +6963,15 @@
   "summary": {
     "rawLines": 55,
     "parsedEntries": 4389,
-    "uniqueEntries": 4131,
+    "uniqueEntries": 4128,
     "translatedEntries": 4,
-    "missingChinese": 4127,
+    "missingChinese": 4124,
     "themeCounts": {
       "clothes": 238,
       "community": 100,
       "daily": 281,
       "describing": 146,
-      "food": 440,
+      "food": 438,
       "health": 388,
       "home": 468,
       "nature": 281,
@@ -6964,7 +6982,7 @@
       "services": 168,
       "shopping": 158,
       "transportation": 252,
-      "travel": 106,
+      "travel": 105,
       "work": 262
     }
   }

@@ -2065,7 +2065,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "air"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0060-aisle",
@@ -4202,7 +4202,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "air"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0120-armrest",
@@ -6953,7 +6953,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0194-backhoe",
@@ -8507,7 +8507,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ie"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0234-banana",
@@ -8914,7 +8914,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0245-barbar-shop",
@@ -9033,7 +9033,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0248-barber",
@@ -9365,7 +9365,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0256-baseball-cap",
@@ -9649,7 +9649,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0263-basketball-court",
@@ -10183,7 +10183,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0274-bathroom",
@@ -10234,7 +10234,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0275-bathroom-sink",
@@ -10319,7 +10319,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0277-battery",
@@ -11665,7 +11665,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0313-below",
@@ -12392,7 +12392,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0332-bikini-panties",
@@ -15511,7 +15511,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0412-booksontape",
@@ -17193,7 +17193,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ie"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0459-briefs",
@@ -19527,7 +19527,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0521-butternut-squash",
@@ -24685,7 +24685,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0662-chandelier",
@@ -25264,7 +25264,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0679-checked",
@@ -25368,7 +25368,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0682-checkout-counter",
@@ -28533,7 +28533,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0772-clothespin",
@@ -28567,7 +28567,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0773-co-pilot",
@@ -32179,7 +32179,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0865-cookie-cutter",
@@ -33457,7 +33457,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ou",
       "our"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0898-courtyard",
@@ -34872,7 +34872,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0938-crow",
@@ -36309,7 +36309,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-0977-data-entry-clerk",
@@ -39368,7 +39368,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1062-dishwasher-detergent",
@@ -40455,7 +40455,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1091-doctor",
@@ -40672,7 +40672,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1096-doli",
@@ -41300,7 +41300,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oor"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1113-doorman",
@@ -41351,7 +41351,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oor"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1114-doorway",
@@ -41388,7 +41388,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ay",
       "oor"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1115-dorm",
@@ -42932,7 +42932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1156-dropper",
@@ -44015,7 +44015,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1185-e",
@@ -44462,7 +44462,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ear"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1198-easel",
@@ -49482,7 +49482,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1331-factory-worker",
@@ -50062,7 +50062,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1346-fast",
@@ -52052,7 +52052,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "igh",
       "ire"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1400-firefly",
@@ -52088,7 +52088,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ire"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1401-fireplace",
@@ -52124,7 +52124,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ire"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1402-fireplace-screen",
@@ -52725,7 +52725,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1421-flask",
@@ -54021,7 +54021,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1454-football-field",
@@ -59472,40 +59472,6 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-added-go-shopping",
-    "type": "word",
-    "text": "go shopping",
-    "word": "go shopping",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "163-11"
-    ],
-    "sourcePages": [
-      163
-    ],
-    "placements": [
-      {
-        "ref": "163-11",
-        "page": 163,
-        "theme": "travel",
-        "topic": "Tourist Activities"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 20,
-    "theme": "travel",
-    "topic": "Tourist Activities",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
     "id": "index-1604-go-sightseeing",
     "type": "word",
     "text": "go sightseeing",
@@ -62948,7 +62914,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1697-ham",
@@ -63462,7 +63428,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1712-handicapped-parking-only",
@@ -63532,7 +63498,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ie"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1715-handsaw",
@@ -63566,7 +63532,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1716-handsome",
@@ -63634,7 +63600,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1718-hang-clothes-on-the-high-school",
@@ -64554,7 +64520,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ea",
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1744-headphones",
@@ -66409,7 +66375,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ay",
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1794-hiking",
@@ -67457,7 +67423,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1822-homesick",
@@ -67491,7 +67457,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1823-homework",
@@ -67539,7 +67505,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1824-honest",
@@ -68505,7 +68471,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "oa",
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1850-household-appliances-guidance-counselor",
@@ -68651,7 +68617,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ee",
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1854-housekeeping",
@@ -68688,7 +68654,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ee",
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-1855-housekeeping-cart",
@@ -74392,7 +74358,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ui"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2013-june",
@@ -74827,7 +74793,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ey",
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2024-keyboard-instruments-laundry-basket",
@@ -74901,7 +74867,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ai",
       "ey"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2026-kick",
@@ -79458,7 +79424,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2147-lightening-bug",
@@ -83039,7 +83005,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2245-meatloaf",
@@ -83076,7 +83042,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ea",
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2246-mechanic",
@@ -86094,7 +86060,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2326-move-in",
@@ -88278,7 +88244,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "silent-e",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2378-necktie",
@@ -88314,7 +88280,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ie"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2379-nectarine",
@@ -88846,7 +88812,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2393-newspaper-artide",
@@ -88914,7 +88880,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2395-newt",
@@ -90095,7 +90061,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2430-notebook-computer",
@@ -93743,7 +93709,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2527-overdose-on-drugs",
@@ -95194,7 +95160,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2562-pancreas",
@@ -95841,7 +95807,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2580-paragraph",
@@ -96790,7 +96756,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2605-passenger",
@@ -100413,7 +100379,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2704-pilot",
@@ -101157,7 +101123,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2724-plaid",
@@ -102239,7 +102205,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ay",
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2752-playpen",
@@ -102275,7 +102241,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2753-playroom",
@@ -102312,7 +102278,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ay",
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2754-plays",
@@ -102966,7 +102932,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2771-pneumatic-drill",
@@ -103119,7 +103085,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2775-poems",
@@ -104123,7 +104089,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2801-popular-music",
@@ -108470,7 +108436,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ue"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2923-radiation",
@@ -109058,7 +109024,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ai",
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2939-rainforest",
@@ -109095,7 +109061,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ai",
       "ore"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2940-raining",
@@ -110630,7 +110596,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-2980-reel",
@@ -114751,7 +114717,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3089-rye-bread",
@@ -116167,7 +116133,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3128-sandwich",
@@ -118246,7 +118212,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ea",
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3181-seafood-salad",
@@ -118319,7 +118285,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3183-seal",
@@ -118463,7 +118429,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ea"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3187-seasons",
@@ -121404,74 +121370,6 @@ window.LEARNING_DICTIONARY_FULL = [
     "compound": false
   },
   {
-    "id": "index-3261-shopping-basket",
-    "type": "word",
-    "text": "shopping basket",
-    "word": "shopping basket",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "55-3"
-    ],
-    "sourcePages": [
-      55
-    ],
-    "placements": [
-      {
-        "ref": "55-3",
-        "page": 55,
-        "theme": "food",
-        "topic": "The Supermarket"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 41,
-    "theme": "food",
-    "topic": "The Supermarket",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "closed",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
-    "id": "index-3262-shopping-cart",
-    "type": "word",
-    "text": "shopping cart",
-    "word": "shopping cart",
-    "chinese": "",
-    "source": "word-by-word-index",
-    "sourceRefs": [
-      "55-8"
-    ],
-    "sourcePages": [
-      55
-    ],
-    "placements": [
-      {
-        "ref": "55-8",
-        "page": 55,
-        "theme": "food",
-        "topic": "The Supermarket"
-      }
-    ],
-    "alternatePlacements": [],
-    "sourceLine": 41,
-    "theme": "food",
-    "topic": "The Supermarket",
-    "partOfSpeech": "index entry",
-    "ipa": "",
-    "prefix": "none",
-    "suffix": "none",
-    "roots": [],
-    "syllableType": "open",
-    "vowelTeams": [],
-    "compound": false
-  },
-  {
     "id": "index-3263-shopping-mal",
     "type": "word",
     "text": "shopping mal!",
@@ -122827,7 +122725,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3297-sign-alease",
@@ -123702,7 +123600,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oa"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3319-skateboard-ramp",
@@ -125709,7 +125607,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "oa",
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3375-snowboarding",
@@ -125818,7 +125716,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3378-snowmobiling",
@@ -125890,7 +125788,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3380-soap",
@@ -126452,7 +126350,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3394-softball-glove",
@@ -129370,7 +129268,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "air",
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3474-stamp",
@@ -132333,7 +132231,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ay"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3556-subway-station",
@@ -132595,7 +132493,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ui"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3563-suite",
@@ -132767,7 +132665,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3568-sunblock",
@@ -132801,7 +132699,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3569-sunburn",
@@ -132835,7 +132733,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3570-sunday",
@@ -132907,7 +132805,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3572-sunglasses",
@@ -132956,7 +132854,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3573-sunny",
@@ -133026,7 +132924,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3575-sunscreen",
@@ -133077,7 +132975,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ee"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3576-suntan-lotion",
@@ -134242,7 +134140,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ui"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3609-swing-set",
@@ -135119,7 +135017,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ai",
       "igh"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3630-tailpipe",
@@ -138329,7 +138227,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3711-thank-you",
@@ -141683,7 +141581,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3801-toothbrush",
@@ -141734,7 +141632,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3802-toothbrush-holder",
@@ -141806,7 +141704,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3804-top",
@@ -142511,7 +142409,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ou",
       "ow"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3824-towrope",
@@ -145786,7 +145684,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-3908-turtleneck-shirt",
@@ -149476,7 +149374,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ey"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4010-volleyball-net",
@@ -150466,7 +150364,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "are",
       "ou"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4038-warm",
@@ -150807,7 +150705,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "open",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4048-washer",
@@ -150999,7 +150897,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4052-watch",
@@ -151475,7 +151373,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "roots": [],
     "syllableType": "closed",
     "vowelTeams": [],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4064-watering-can",
@@ -152036,7 +151934,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ee"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4080-weight",
@@ -152595,7 +152493,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "air",
       "ee"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4095-whirlpool",
@@ -153044,7 +152942,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "ire"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4108-wind",
@@ -154084,7 +153982,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4136-woods",
@@ -154156,7 +154054,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4138-woodworking",
@@ -154192,7 +154090,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4139-woodworking-kit",
@@ -154722,7 +154620,7 @@ window.LEARNING_DICTIONARY_FULL = [
     "vowelTeams": [
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4154-worker",
@@ -155803,7 +155701,7 @@ window.LEARNING_DICTIONARY_FULL = [
       "ear",
       "oo"
     ],
-    "compound": false
+    "compound": true
   },
   {
     "id": "index-4185-yes-hold-on-a-moment",
