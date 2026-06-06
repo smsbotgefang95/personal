@@ -2713,6 +2713,7 @@
       <div class="tabs-row">
         <nav class="tabs" aria-label="Time analysis sections">
           <button class="tab-btn active" type="button" data-tab="track">Track</button>
+          <button class="tab-btn" type="button" data-tab="add-task">Add Task</button>
           <button class="tab-btn" type="button" data-tab="details">Entries</button>
           <button class="tab-btn" type="button" data-tab="overview">Overview</button>
           <button class="tab-btn" type="button" data-tab="business">Business</button>
@@ -2747,9 +2748,50 @@
             <button class="track-mode-btn active" id="trackModeNow" type="button" data-track-mode="now" aria-pressed="true">Now</button>
             <button class="track-mode-btn" id="trackModePast" type="button" data-track-mode="past" aria-pressed="false">Past</button>
           </div>
+          <div class="tracker-form">
+            <div class="tracker-filter-bar">
+              <div class="tracker-filter-controls">
+                <div class="tracker-field tracker-select-filter-field">
+                  <button class="btn btn-ghost tracker-select-all-btn" id="trackerSelectAllBtn" type="button" aria-pressed="false">Select all</button>
+                </div>
+                <div class="tracker-field due-filter-field">
+                  <label id="dueStatusFilterLabel">Due filter</label>
+                  <input id="dueStatusFilter" type="hidden" value="all" />
+                  <div class="due-filter-buttons" role="group" aria-labelledby="dueStatusFilterLabel">
+                    <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
+                    <button class="btn btn-ghost due-filter-btn" id="dueTomorrowFilterBtn" type="button" data-due-filter-value="tomorrow" aria-pressed="false">Due tomorrow</button>
+                    <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
+                  </div>
+                </div>
+                <div class="tracker-field tracker-search-field">
+                  <label for="taskSearchInput">Task search</label>
+                  <div class="tracker-search-control">
+                    <button class="task-search-clear" id="taskSearchClearBtn" type="button" aria-label="Clear task search" hidden>&times;</button>
+                    <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
+            <datalist id="departmentOptions"></datalist>
+            <datalist id="priorityOptions"></datalist>
+            <datalist id="sectionOptions"></datalist>
+            <datalist id="categoryOptions"></datalist>
+            <datalist id="typeOptions"></datalist>
+            <div class="tracker-actions">
+              <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
+              <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="panel-add-task" class="panel">
+      <section class="tracker-shell" aria-label="Add task">
+        <div class="tracker-card card">
           <form class="tracker-form" id="trackerForm">
-            <button class="advanced-toggle" id="customToggle" type="button" aria-expanded="false">Add new task</button>
-            <div class="custom-entry" id="customFields" hidden>
+            <div class="custom-entry" id="customFields">
               <div class="quick-chips" id="quickChips" aria-label="Recent activities"></div>
               <div class="tracker-grid">
                 <div class="tracker-field">
@@ -2816,39 +2858,8 @@
                 <textarea class="tracker-textarea" id="trackerNotes"></textarea>
               </div>
             </div>
-            <div class="tracker-filter-bar">
-              <div class="tracker-filter-controls">
-                <div class="tracker-field tracker-select-filter-field">
-                  <button class="btn btn-ghost tracker-select-all-btn" id="trackerSelectAllBtn" type="button" aria-pressed="false">Select all</button>
-                </div>
-                <div class="tracker-field due-filter-field">
-                  <label id="dueStatusFilterLabel">Due filter</label>
-                  <input id="dueStatusFilter" type="hidden" value="all" />
-                  <div class="due-filter-buttons" role="group" aria-labelledby="dueStatusFilterLabel">
-                    <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
-                    <button class="btn btn-ghost due-filter-btn" id="dueTomorrowFilterBtn" type="button" data-due-filter-value="tomorrow" aria-pressed="false">Due tomorrow</button>
-                    <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
-                  </div>
-                </div>
-                <div class="tracker-field tracker-search-field">
-                  <label for="taskSearchInput">Task search</label>
-                  <div class="tracker-search-control">
-                    <button class="task-search-clear" id="taskSearchClearBtn" type="button" aria-label="Clear task search" hidden>&times;</button>
-                    <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tracker-list" id="trackerTaskList" aria-label="Tap an activity to track"></div>
-            <datalist id="departmentOptions"></datalist>
-            <datalist id="priorityOptions"></datalist>
-            <datalist id="sectionOptions"></datalist>
-            <datalist id="categoryOptions"></datalist>
-            <datalist id="typeOptions"></datalist>
             <div class="tracker-actions">
-              <button class="btn btn-primary" id="startTimerBtn" type="submit" hidden>Start Custom</button>
-              <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
-              <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
+              <button class="btn btn-primary" id="startTimerBtn" type="submit">Start Custom</button>
             </div>
           </form>
         </div>
@@ -8687,8 +8698,11 @@
       document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
       button.classList.add("active");
       document.getElementById(`panel-${button.dataset.tab}`).classList.add("active");
-      if (button.dataset.tab !== "track") {
+      if (!["track", "add-task"].includes(button.dataset.tab)) {
         ensureFullDashboardLoaded().catch((error) => setTrackerStatus(error.message, "error"));
+      }
+      if (button.dataset.tab === "add-task") {
+        window.requestAnimationFrame(() => document.getElementById("trackerTask")?.focus());
       }
       Object.values(charts).forEach((item) => item.resize());
       scheduleStickyLayoutMetricsUpdate();
@@ -8704,7 +8718,7 @@
     scheduleStickyLayoutMetricsUpdate();
   });
 
-  document.getElementById("customToggle").addEventListener("click", () => {
+  document.getElementById("customToggle")?.addEventListener("click", () => {
     const fields = document.getElementById("customFields");
     const startButton = document.getElementById("startTimerBtn");
     const expanded = fields.hidden;
