@@ -1128,9 +1128,9 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 280px) minmax(240px, 1fr);
+    grid-template-columns: minmax(190px, 280px) minmax(160px, 220px) minmax(150px, 180px) minmax(220px, 1fr);
     grid-template-areas:
-      "due search";
+      "due priority date search";
     gap: 8px;
     align-items: start;
     justify-content: start;
@@ -1201,6 +1201,10 @@
   }
 
   .due-filter-field { grid-area: due; }
+
+  .tracker-priority-filter-field { grid-area: priority; }
+
+  .tracker-due-date-filter-field { grid-area: date; }
 
   .due-filter-buttons {
     display: grid;
@@ -2585,10 +2589,11 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
-        "due"
-        "search";
+        "due due"
+        "priority date"
+        "search search";
     }
     .quick-chip {
       min-height: 48px;
@@ -2667,6 +2672,8 @@
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
         "due"
+        "priority"
+        "date"
         "search";
     }
     .due-sync-note {
@@ -2779,6 +2786,14 @@
                     <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
                   </div>
+                </div>
+                <div class="tracker-field tracker-priority-filter-field">
+                  <label for="trackerPriorityFilter">Priority</label>
+                  <select class="tracker-input" id="trackerPriorityFilter" aria-label="Filter tracker tasks by priority"></select>
+                </div>
+                <div class="tracker-field tracker-due-date-filter-field">
+                  <label for="trackerDueDateFilter">Due date</label>
+                  <input class="tracker-input" id="trackerDueDateFilter" type="date" aria-label="Filter tracker tasks by due date" />
                 </div>
                 <div class="tracker-field tracker-search-field">
                   <label for="taskSearchInput">Task search</label>
@@ -3394,7 +3409,7 @@
     fourthThursday: 4,
     fifthThursday: 5
   };
-  const TRACK_GROUP_ORDER = ["📌 Must_Work", "📌 Must_Life", "✴️ Should", "🌱 Routine_Work", "🌱 Routine_Life", "☕️ Downtime", "Other"];
+  const TRACK_GROUP_ORDER = ["📌 Must_Work", "📌 Must_Life", "🌱 Routine_Work", "🌱 Routine_Life", "☕️ Downtime", "Other"];
   const TASK_PRIORITY_CORRECTIONS = {
     "86a64xmy4": "📌 Must_Life",
     "86a9tae9b": "🌱 Routine_Life",
@@ -5190,7 +5205,7 @@
     if (/job must|must_work|must_business/i.test(normalized)) return "📌 Must_Work";
     if (/life must|must_life/i.test(normalized)) return "📌 Must_Life";
     if (/must_personal/i.test(normalized)) return "📌 Must_Life";
-    if (/should/i.test(normalized)) return "✴️ Should";
+    if (/should/i.test(normalized)) return "Other";
     if (/routine_work|routine_business/i.test(normalized)) return "🌱 Routine_Work";
     if (/routine_life|routine_personal/i.test(normalized)) return "🌱 Routine_Life";
     if (/routine/i.test(normalized)) return isBusinessEntry(entry) ? "🌱 Routine_Work" : "🌱 Routine_Life";
@@ -5474,6 +5489,12 @@
       if (button.getAttribute("aria-pressed") !== pressed) button.setAttribute("aria-pressed", pressed);
     });
     input.value = current;
+  }
+
+  function updateTrackerPriorityFilterOptions(rows) {
+    const priorityFilter = document.getElementById("trackerPriorityFilter");
+    if (!priorityFilter) return;
+    priorityFilter.innerHTML = priorityFilterOptionsHtml(rows, "All priorities", priorityFilter.value || "");
   }
 
   function syncDueFilterButtonState(current) {
@@ -6342,9 +6363,14 @@
   function renderActivityRows({ expandDueDateGroups = false, skipDueCountUpdate = false } = {}) {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
+    const priorityFilter = document.getElementById("trackerPriorityFilter");
+    const dueDateFilter = document.getElementById("trackerDueDateFilter");
     const taskSearch = document.getElementById("taskSearchInput");
     const query = trackerSearchQuery(taskSearch?.value || "");
     const allRows = trackerActivities();
+    updateTrackerPriorityFilterOptions(allRows);
+    const priorityValue = priorityFilter?.value || "";
+    const dueDateValue = dueDateFilter?.value || "";
     if (!skipDueCountUpdate || lastTrackerRowsForDueCounts !== allRows) {
       updateDueStatusFilterOptions(allRows);
       lastTrackerRowsForDueCounts = allRows;
@@ -6352,6 +6378,8 @@
     const rows = allRows.filter((entry) => {
       if (!isPrivateTrackerManaged(entry) && (dueFilter?.value || "all") !== "all") return false;
       return matchesDueStatusFilter(entry, dueFilter?.value || "all")
+        && (!priorityValue || trackGroupName(entry) === priorityValue)
+        && (!dueDateValue || dueDateKey(entry) === dueDateValue)
         && matchesTaskSearch(entry, query);
     });
     const trackerList = document.getElementById("trackerTaskList");
@@ -6810,6 +6838,14 @@
     const taskSearchClear = document.getElementById("taskSearchClearBtn");
     if (taskSearchClear) taskSearchClear.onclick = clearTrackerTaskSearch;
     syncTaskSearchClearButton();
+    [document.getElementById("trackerPriorityFilter"), document.getElementById("trackerDueDateFilter")].forEach((control) => {
+      if (!control) return;
+      control.oninput = () => {
+        resetDueAllVisibleRowLimit();
+        scheduleDeferredActivityRowsRender();
+      };
+      control.onchange = control.oninput;
+    });
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
   }
