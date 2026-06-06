@@ -3423,6 +3423,7 @@
     ["daily", "Daily"],
     ["weekly", "Weekly"],
     ["monthly", "Monthly"],
+    ["yearly", "Yearly"],
     ["custom", "Custom"]
   ];
   const CUSTOM_RECURRENCE_DAYS = [
@@ -3919,6 +3920,7 @@
     if (recurrence === "daily") return formatDateInput(addLocalDays(baseDate, 1));
     if (recurrence === "weekly") return formatDateInput(addLocalDays(baseDate, 7));
     if (recurrence === "monthly") return formatDateInput(addLocalMonths(baseDate, 1));
+    if (recurrence === "yearly") return formatDateInput(addLocalMonths(baseDate, 12));
     if (recurrence !== "custom") return "";
     const settings = parseCustomRecurrenceText(entry.recurringText);
     const every = Math.max(1, Math.min(99, Number(settings.every) || 1));
@@ -3933,6 +3935,7 @@
     if (/every\s+day|daily/.test(text)) return "daily";
     if (/every\s+week|weekly/.test(text)) return "weekly";
     if (/every\s+month|monthly/.test(text)) return "monthly";
+    if (/every\s+year|yearly|annually|annual/.test(text)) return "yearly";
     if (text === "recurring task") return "daily";
     return entry.recurring ? "custom" : "none";
   }
@@ -5647,7 +5650,7 @@
     const recurrence = entry.recurrence || inferRecurrence(entry);
     if (filter === "recurring") return recurrence !== "none";
     if (filter === "none") return recurrence === "none";
-    if (["daily", "weekly", "monthly", "custom"].includes(filter)) return recurrence === filter;
+    if (["daily", "weekly", "monthly", "yearly", "custom"].includes(filter)) return recurrence === filter;
     return true;
   }
 
