@@ -1208,7 +1208,9 @@
 
   .tracker-select-all-btn {
     width: 100%;
-    min-height: 42px;
+    height: 38px;
+    min-height: 38px;
+    padding: 7px 10px;
     white-space: nowrap;
   }
 
@@ -2177,6 +2179,7 @@
     color: #d1d5db;
   }
 
+  .tracker-select-all-btn,
   .due-filter-btn {
     height: 38px;
     min-height: 38px;
@@ -2206,6 +2209,11 @@
     gap: 10px;
     justify-items: start;
     margin-bottom: 16px;
+  }
+
+  .tracker-sync-row:has(> .tracker-status[hidden]):has(> .private-time-load-btn[hidden]) {
+    display: none;
+    margin-bottom: 0;
   }
 
   .private-time-load-btn {
