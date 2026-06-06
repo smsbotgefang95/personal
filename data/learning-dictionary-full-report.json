@@ -3432,7 +3432,6 @@
     "front porch",
     "front steps",
     "front walk",
-    "front yard",
     "front-end loader",
     "frostbite",
     "frozen dinners",
@@ -3543,7 +3542,6 @@
     "go on a diet",
     "go online",
     "go over the answers",
-    "go shopping",
     "go sightseeing",
     "go straight",
     "go to a club",
@@ -6121,8 +6119,6 @@
     "xylophone",
     "yam",
     "yard",
-    "yard sale",
-    "yard waste bag",
     "yardstick",
     "yarn",
     "year",
@@ -6461,12 +6457,43 @@
       "removedCount": 2
     }
   ],
+  "discardedNonWordEntries": [
+    {
+      "line": 20,
+      "text": "go shopping",
+      "refs": [
+        "163-11"
+      ]
+    },
+    {
+      "line": 20,
+      "text": "front yard",
+      "refs": [
+        "27"
+      ]
+    },
+    {
+      "line": 53,
+      "text": "yard sale",
+      "refs": [
+        "136-9",
+        "13-15"
+      ]
+    },
+    {
+      "line": 53,
+      "text": "yard waste bag",
+      "refs": [
+        "35-16"
+      ]
+    }
+  ],
   "summary": {
     "rawLines": 55,
     "parsedEntries": 4388,
-    "uniqueEntries": 4207,
+    "uniqueEntries": 4203,
     "translatedEntries": 4,
-    "missingChinese": 4203,
+    "missingChinese": 4199,
     "themeCounts": {
       "clothes": 251,
       "community": 104,
@@ -6474,16 +6501,16 @@
       "describing": 146,
       "food": 448,
       "health": 395,
-      "home": 473,
+      "home": 471,
       "nature": 281,
       "numbers": 82,
       "personal": 51,
-      "recreation": 430,
+      "recreation": 429,
       "school": 288,
       "services": 172,
       "shopping": 163,
       "transportation": 264,
-      "travel": 109,
+      "travel": 108,
       "work": 269
     }
   }

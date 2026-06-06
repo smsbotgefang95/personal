@@ -78,8 +78,13 @@ NON_COMPOUND_PHRASES = {
     "about your skills and this afternoon",
     "find your-seat",
     "get up",
-    "go shopping",
     "wash dishes",
+}
+EXCLUDED_VOCABULARY_ENTRIES = {
+    "front yard",
+    "go shopping",
+    "yard sale",
+    "yard waste bag",
 }
 
 REF_TOKEN = r"\d{1,3}(?:[-~·.][~A-Za-z0-9]{1,3}){0,2}(?![A-Za-z0-9-])"
@@ -803,6 +808,9 @@ def build_entries(raw_text: str) -> tuple[list[dict], dict]:
             continue
         if normalized_text in CORRECTED_MALFORMED_ENTRIES:
             report["discardedMalformedEntries"].append({"line": entry.line, "text": normalized_text, "refs": entry.refs, "reason": "replaced by manual correction"})
+            continue
+        if normalized_text.casefold() in EXCLUDED_VOCABULARY_ENTRIES:
+            report.setdefault("discardedNonWordEntries", []).append({"line": entry.line, "text": normalized_text, "refs": entry.refs})
             continue
         if is_malformed_entry_text(normalized_text):
             report["discardedMalformedEntries"].append({"line": entry.line, "text": normalized_text, "refs": entry.refs})
