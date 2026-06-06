@@ -4663,6 +4663,12 @@
     return enqueueTimePayloadSync(() => timeApi("POST", pendingPayload));
   }
 
+  function renderTrackerFromCurrentData() {
+    if (taskCatalogEntries.length) appEntries = entriesWithTaskOverrides(taskCatalogEntries);
+    else if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
+    renderTracker();
+  }
+
   function renderTimePayloadState({ syncState = "", renderScope = "full" } = {}) {
     if (renderScope === "activityRows") {
       scheduleDeferredActivityRowsRender();
@@ -4671,15 +4677,19 @@
       return;
     }
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
-      renderNativeDashboard().catch((error) => {
-        setTrackerStatus(error.message || "Time Analysis dashboard could not be rendered.", "error");
-      });
+      if (fullDashboardLoaded) {
+        renderNativeDashboard().catch((error) => {
+          setTrackerStatus(error.message || "Time Analysis dashboard could not be rendered.", "error");
+        });
+      } else {
+        renderTrackerFromCurrentData();
+      }
     } else {
-      if (taskCatalogEntries.length) appEntries = entriesWithTaskOverrides(taskCatalogEntries);
-      else if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
-      if (appEntries.length && appMetrics) appMetrics = buildMetrics(appEntries, appMetrics.rawRowCount || appEntries.length);
-      renderTracker();
-      if (appEntries.length && appMetrics) renderDashboard(appEntries, appMetrics);
+      renderTrackerFromCurrentData();
+      if (fullDashboardLoaded && appEntries.length && appMetrics) {
+        appMetrics = buildMetrics(appEntries, appMetrics.rawRowCount || appEntries.length);
+        renderDashboard(appEntries, appMetrics);
+      }
     }
     if (syncState) setTrackerStatus(syncState, "saved");
     scheduleAutoDoneTaskSync();
@@ -8557,7 +8567,7 @@
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(!timePayloadHasPrivateData(response));
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
-      renderNativeDashboard();
+      renderTimePayloadState();
       if (!timePayloadHasPrivateData(response)) setTrackerStatus("Shared Time Analysis data is empty. Showing local data.");
       scheduleAutoDoneTaskSync();
       return true;
