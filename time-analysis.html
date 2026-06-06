@@ -1266,10 +1266,10 @@
 
   .track-list-header {
     display: grid;
-    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 324px 250px 250px 250px 250px 180px 180px 140px 96px;
     gap: 10px;
     align-items: center;
-    min-width: 2418px;
+    min-width: 2462px;
   }
 
   .track-list-header {
@@ -1331,7 +1331,7 @@
   .track-row {
     position: relative;
     display: grid;
-    min-width: 2418px;
+    min-width: 2462px;
     min-height: 68px;
     padding: 10px;
     border-bottom: 1px solid var(--border);
@@ -1340,7 +1340,7 @@
   .track-row-inner {
     position: relative;
     display: grid;
-    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 280px 250px 250px 250px 250px 180px 180px 140px 96px;
+    grid-template-columns: var(--track-select-width) minmax(var(--track-task-width), 1fr) var(--track-notes-width) 68px 82px 324px 250px 250px 250px 250px 180px 180px 140px 96px;
     column-gap: 10px;
     row-gap: 10px;
     align-items: center;
@@ -1789,7 +1789,7 @@
 
   .track-due-inputs {
     display: grid;
-    grid-template-columns: 168px 106px;
+    grid-template-columns: minmax(226px, 1fr) 86px;
     gap: 6px;
     align-items: end;
     min-width: 0;
@@ -1856,7 +1856,7 @@
 
   .edit-due-controls {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(110px, 140px);
+    grid-template-columns: minmax(230px, 1fr) 94px;
     gap: 8px;
     align-items: stretch;
   }
@@ -2548,6 +2548,12 @@
   }
 
   @media (max-width: 720px) {
+    .edit-due-controls {
+      grid-template-columns: minmax(210px, 1fr) 88px;
+    }
+  }
+
+  @media (max-width: 520px) {
     .edit-due-controls {
       grid-template-columns: minmax(0, 1fr);
     }
