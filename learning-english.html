@@ -8854,7 +8854,7 @@ pass=通过；传递
 
   function getVocabularyWordFormationTagLabel(item, selectedFormation) {
     const formation = getVocabularyWordFormation(item);
-    if (!formation || selectedFormation === "all") return "";
+    if (!formation) return "";
     if (selectedFormation === "compound" && formation.startsWith("compound-")) {
       return VOCABULARY_WORD_FORMATION_LABELS.compound;
     }
