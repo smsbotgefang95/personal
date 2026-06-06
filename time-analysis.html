@@ -1045,6 +1045,26 @@
     gap: 10px;
   }
 
+  .add-task-grid,
+  #advancedFields {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .add-task-grid .tracker-list-field {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .add-task-grid .tracker-list-select {
+    width: 100%;
+  }
+
+  .add-task-grid #trackerRecurrenceCustomWrap {
+    grid-column: 1 / -1;
+  }
+
   .tracker-field {
     display: grid;
     gap: 5px;
@@ -2569,6 +2589,7 @@
     .toolbar,
     .past-entry-editor,
     .tracker-grid,
+    .add-task-grid,
     .advanced-fields { grid-template-columns: 1fr; }
     .past-entry-editor {
       margin-left: 0;
@@ -2797,39 +2818,35 @@
       <section class="tracker-shell" aria-label="Add task">
         <div class="tracker-card card">
           <form class="tracker-form" id="trackerForm">
-            <div class="custom-entry" id="customFields">
-              <div class="tracker-grid">
-                <div class="tracker-field">
-                  <label for="trackerTask">Custom task</label>
-                  <input class="tracker-input" id="trackerTask" type="text" autocomplete="off" placeholder="What are you doing?" />
-                </div>
-                <div class="tracker-field tracker-list-field">
-                  <label for="trackerList">List</label>
-                  <select class="tracker-select tracker-list-select" id="trackerList" required></select>
+            <div class="custom-entry add-task-grid" id="customFields">
+              <div class="tracker-field">
+                <label for="trackerTask">Custom task</label>
+                <input class="tracker-input" id="trackerTask" type="text" autocomplete="off" placeholder="What are you doing?" />
+              </div>
+              <div class="tracker-field tracker-list-field">
+                <label for="trackerList">List</label>
+                <select class="tracker-select tracker-list-select" id="trackerList" required></select>
+              </div>
+              <div class="tracker-field">
+                <label for="trackerDueDate">Due date</label>
+                <div class="edit-due-controls">
+                  <div class="date-picker-control">
+                    <input class="tracker-input" id="trackerDueDate" type="date" />
+                    <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <input class="tracker-input" id="trackerDueTime" type="time" aria-label="Due time" />
                 </div>
               </div>
-              <div class="tracker-grid">
-                <div class="tracker-field">
-                  <label for="trackerDueDate">Due date</label>
-                  <div class="edit-due-controls">
-                    <div class="date-picker-control">
-                      <input class="tracker-input" id="trackerDueDate" type="date" />
-                      <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                          <path d="M8 2v4"></path>
-                          <path d="M16 2v4"></path>
-                          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                          <path d="M3 10h18"></path>
-                        </svg>
-                      </button>
-                    </div>
-                    <input class="tracker-input" id="trackerDueTime" type="time" aria-label="Due time" />
-                  </div>
-                </div>
-                <div class="tracker-field">
-                  <label for="trackerRecurrence">Occurrence</label>
-                  <select class="tracker-select" id="trackerRecurrence"></select>
-                </div>
+              <div class="tracker-field">
+                <label for="trackerRecurrence">Occurrence</label>
+                <select class="tracker-select" id="trackerRecurrence"></select>
               </div>
               <div class="tracker-field" id="trackerRecurrenceCustomWrap" hidden>
                 <label id="trackerRecurrenceCustomLabel">Custom occurrence</label>
