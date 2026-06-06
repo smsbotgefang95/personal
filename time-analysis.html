@@ -2761,6 +2761,33 @@
                   <select class="tracker-select tracker-list-select" id="trackerList" required></select>
                 </div>
               </div>
+              <div class="tracker-grid">
+                <div class="tracker-field">
+                  <label for="trackerDueDate">Due date</label>
+                  <div class="edit-due-controls">
+                    <div class="date-picker-control">
+                      <input class="tracker-input" id="trackerDueDate" type="date" />
+                      <button class="date-picker-button" type="button" aria-label="Open calendar" title="Open calendar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M8 2v4"></path>
+                          <path d="M16 2v4"></path>
+                          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                          <path d="M3 10h18"></path>
+                        </svg>
+                      </button>
+                    </div>
+                    <input class="tracker-input" id="trackerDueTime" type="time" aria-label="Due time" />
+                  </div>
+                </div>
+                <div class="tracker-field">
+                  <label for="trackerRecurrence">Occurrence</label>
+                  <select class="tracker-select" id="trackerRecurrence"></select>
+                </div>
+              </div>
+              <div class="tracker-field" id="trackerRecurrenceCustomWrap" hidden>
+                <label id="trackerRecurrenceCustomLabel">Custom occurrence</label>
+                <div id="trackerRecurrenceCustom" class="custom-recurrence" aria-labelledby="trackerRecurrenceCustomLabel"></div>
+              </div>
             </div>
             <button class="btn btn-ghost details-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
             <div class="advanced-fields" id="advancedFields" hidden>
@@ -4308,6 +4335,11 @@
   function trackerFormValues(startIso = isoNow()) {
     const taskName = document.getElementById("trackerTask").value.trim();
     const list = selectedList("trackerList");
+    const recurrence = document.getElementById("trackerRecurrence").value || "none";
+    const recurringText = recurrence === "custom"
+      ? customRecurrenceText(readCustomRecurrence(document.getElementById("trackerRecurrenceCustom")))
+      : (recurrence === "none" ? "" : recurrenceLabel(recurrence));
+    const dueDate = dateInputValue(document.getElementById("trackerDueDate").value);
     return {
       id: nativeId(),
       sourceType: "native",
@@ -4323,13 +4355,14 @@
       section: document.getElementById("trackerSection").value.trim(),
       taskCategory: normalizeTaskCategory(document.getElementById("trackerCategory").value),
       taskType: document.getElementById("trackerType").value.trim(),
-      dueDate: "",
-      dueDateText: "",
-      dueTime: "",
+      dueDate,
+      dueDateText: dueDate,
+      dueTime: timeInputValue(document.getElementById("trackerDueTime").value),
       startDate: "",
       startDateText: "",
-      recurring: false,
-      recurringText: "",
+      recurring: recurrence !== "none",
+      recurringText,
+      recurrence,
       taskOrder: "",
       notes: document.getElementById("trackerNotes").value.trim(),
       createdAt: startIso,
@@ -7075,6 +7108,13 @@
 
   function renderTracker() {
     populateListSelect(document.getElementById("trackerList"), document.getElementById("trackerList").value || "901301650324");
+    const trackerRecurrence = document.getElementById("trackerRecurrence");
+    if (trackerRecurrence) trackerRecurrence.innerHTML = recurrenceOptionsHtml(trackerRecurrence.value || "none");
+    const trackerCustomRecurrence = document.getElementById("trackerRecurrenceCustom");
+    if (trackerCustomRecurrence && !trackerCustomRecurrence.innerHTML.trim()) {
+      trackerCustomRecurrence.innerHTML = customRecurrenceHtml("");
+    }
+    document.getElementById("trackerRecurrenceCustomWrap").hidden = (trackerRecurrence?.value || "none") !== "custom";
     const entries = nativeCompletedEntries();
     renderTimerState();
     renderMetadataOptions();
@@ -8747,6 +8787,22 @@
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !document.getElementById("mergeTaskDialog").hidden) closeMergeTaskDialog(null);
     if (event.key === "Escape" && !document.getElementById("timeAdminKeyDialog").hidden) closeTimeAdminKeyDialog("");
+  });
+
+  document.getElementById("trackerRecurrence").addEventListener("change", () => {
+    document.getElementById("trackerRecurrenceCustomWrap").hidden = document.getElementById("trackerRecurrence").value !== "custom";
+  });
+
+  document.getElementById("trackerRecurrenceCustom").addEventListener("click", (event) => {
+    const day = event.target.closest("[data-custom-day]");
+    if (!day) return;
+    toggleCustomRecurrenceDay(day);
+  });
+
+  document.getElementById("trackerRecurrenceCustom").addEventListener("change", (event) => {
+    const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
+    if (monthlyOption) syncCustomMonthlyDayOptions(event.currentTarget, monthlyOption);
+    syncCustomRecurrencePanel(event.currentTarget);
   });
 
   document.getElementById("editRecurrence").addEventListener("change", () => {
