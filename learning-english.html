@@ -8852,13 +8852,14 @@ pass=通过；传递
     return formation === selectedFormation;
   }
 
-  function getVocabularyWordFormationTagLabel(item, selectedFormation) {
+  function getVocabularyWordFormationTagLabels(item) {
     const formation = getVocabularyWordFormation(item);
-    if (!formation) return "";
-    if (selectedFormation === "compound" && formation.startsWith("compound-")) {
-      return VOCABULARY_WORD_FORMATION_LABELS.compound;
+    if (!formation) return [];
+    const label = VOCABULARY_WORD_FORMATION_LABELS[formation] || formation;
+    if (formation.startsWith("compound-")) {
+      return [VOCABULARY_WORD_FORMATION_LABELS.compound, label];
     }
-    return VOCABULARY_WORD_FORMATION_LABELS[formation] || formation;
+    return [label];
   }
 
   function cleanCustomText(value, limit = 240) {
@@ -10776,8 +10777,9 @@ pass=通过；传递
       const themeTag = themeLabel ? `<span class="vocabulary-tag">${escapeHtml(themeLabel)}</span>` : "";
       const duplicatesTheme = themeLabel && (themeLabel === label || themeLabel.startsWith(`${label} `));
       const labelTag = label && !duplicatesTheme ? `<span class="vocabulary-tag">${escapeHtml(label)}</span>` : "";
-      const wordFormationLabel = getVocabularyWordFormationTagLabel(item, compoundFilter);
-      const wordFormationTag = wordFormationLabel ? `<span class="vocabulary-tag">${escapeHtml(wordFormationLabel)}</span>` : "";
+      const wordFormationTag = getVocabularyWordFormationTagLabels(item)
+        .map((wordFormationLabel) => `<span class="vocabulary-tag">${escapeHtml(wordFormationLabel)}</span>`)
+        .join("");
       const showMorphology = isMorphologyVocabularyItem(item);
       const prefixTag = showMorphology && item.prefix && item.prefix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(item.prefix)}-</span>` : "";
       const suffixTag = showMorphology && item.suffix && item.suffix !== "none" ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SUFFIX_LABELS[item.suffix] || item.suffix)}</span>` : "";
