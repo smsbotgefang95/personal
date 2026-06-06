@@ -7,7 +7,6 @@
 <link rel="icon" type="image/png" href="assets/time-analysis-favicon-transparent.png?v=20260527-transparent" />
 <link rel="stylesheet" href="assets/site-nav.css?v=20260522-color-home" />
 <script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
-<script src="assets/chart.umd.min.js?v=20260524-top-task-pies"></script>
 <style>
   :root {
     --bg: #030712;
@@ -1128,9 +1127,9 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 280px) minmax(220px, 1fr) minmax(130px, 150px);
+    grid-template-columns: minmax(130px, 150px) minmax(190px, 280px) minmax(220px, 1fr);
     grid-template-areas:
-      "due search select";
+      "select due search";
     gap: 8px;
     align-items: start;
     justify-content: start;
@@ -2596,8 +2595,8 @@
     .tracker-filter-controls {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
-        "due due"
-        "search select";
+        "select due"
+        "search search";
     }
     .quick-chip {
       min-height: 48px;
@@ -2664,9 +2663,9 @@
     .tracker-filter-controls {
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
+        "select"
         "due"
         "search"
-        "select";
     }
     .due-sync-note {
       white-space: normal;
@@ -2771,6 +2770,9 @@
             </div>
             <div class="tracker-filter-bar">
               <div class="tracker-filter-controls">
+                <div class="tracker-field tracker-select-filter-field">
+                  <button class="btn btn-ghost tracker-select-all-btn" id="trackerSelectAllBtn" type="button" aria-pressed="false">Select all</button>
+                </div>
                 <div class="tracker-field due-filter-field">
                   <label id="dueStatusFilterLabel">Due filter</label>
                   <input id="dueStatusFilter" type="hidden" value="all" />
@@ -2785,9 +2787,6 @@
                     <button class="task-search-clear" id="taskSearchClearBtn" type="button" aria-label="Clear task search" hidden>&times;</button>
                     <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
                   </div>
-                </div>
-                <div class="tracker-field tracker-select-filter-field">
-                  <button class="btn btn-ghost tracker-select-all-btn" id="trackerSelectAllBtn" type="button" aria-pressed="false">Select all</button>
                 </div>
               </div>
             </div>
@@ -3233,6 +3232,7 @@
     "data/⏰ Time Analysis_2026 - Entries.csv"
   ];
   const TIME_TASK_CATALOG_FILE = "data/time-task-catalog.json";
+  const CHART_SCRIPT_URL = "assets/chart.umd.min.js?v=20260524-top-task-pies";
   const TIME_ENTRIES_API = (
     ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016"
   ) ? "http://localhost:8016/api/time-entries" : "/api/time-entries";
@@ -3246,6 +3246,7 @@
   const BUSINESS_MUST_REMINDER_STORAGE = "personal.timeTracking.businessMustReminders.fired.v1";
   const BUSINESS_MUST_REMINDER_MINUTES = 5;
   const BUSINESS_MUST_REMINDER_WINDOW_MS = 60 * 1000;
+  const BUSINESS_MUST_REMINDER_SOUND_VOLUME = 0.16;
   const RECENT_TASK_LIMIT = 8;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
@@ -3311,6 +3312,7 @@
   ];
 
   const charts = {};
+  let chartLibraryLoadPromise = null;
   let appEntries = [];
   let appMetrics = null;
   let csvImportedEntries = [];
@@ -3352,6 +3354,7 @@
   let lastTrackerRowsForDueCounts = null;
   let businessMustReminderTimer = null;
   let businessMustReminderFiredKeys = null;
+  let businessMustReminderAudioContext = null;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -4243,6 +4246,23 @@
     });
   }
 
+  function ensureChartLibraryLoaded() {
+    if (window.Chart) return Promise.resolve();
+    if (chartLibraryLoadPromise) return chartLibraryLoadPromise;
+    chartLibraryLoadPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = CHART_SCRIPT_URL;
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = () => {
+        chartLibraryLoadPromise = null;
+        reject(new Error("Chart library could not be loaded."));
+      };
+      document.head.appendChild(script);
+    });
+    return chartLibraryLoadPromise;
+  }
+
   function populateListSelect(select, value = "") {
     select.innerHTML = nativeListOptions
       .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === value ? " selected" : ""}>${escapeHtml(item.name)}</option>`)
@@ -4547,7 +4567,9 @@
       return;
     }
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
-      renderNativeDashboard();
+      renderNativeDashboard().catch((error) => {
+        setTrackerStatus(error.message || "Time Analysis dashboard could not be rendered.", "error");
+      });
     } else {
       if (taskCatalogEntries.length) appEntries = entriesWithTaskOverrides(taskCatalogEntries);
       else if (appEntries.length) appEntries = entriesWithTaskOverrides(appEntries);
@@ -5382,15 +5404,60 @@
     ].join("|||");
   }
 
+  function businessMustReminderAudio() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!businessMustReminderAudioContext) {
+      businessMustReminderAudioContext = new AudioContextClass();
+    }
+    return businessMustReminderAudioContext;
+  }
+
+  async function playBusinessMustReminderSound() {
+    const context = businessMustReminderAudio();
+    if (!context) return;
+    if (context.state === "suspended") await context.resume();
+    const start = context.currentTime + 0.02;
+    [
+      [880, start],
+      [1175, start + 0.22]
+    ].forEach(([frequency, toneStart]) => {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, toneStart);
+      gain.gain.setValueAtTime(0.0001, toneStart);
+      gain.gain.exponentialRampToValueAtTime(BUSINESS_MUST_REMINDER_SOUND_VOLUME, toneStart + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + 0.18);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start(toneStart);
+      oscillator.stop(toneStart + 0.2);
+    });
+  }
+
+  function unlockBusinessMustReminderSound() {
+    const context = businessMustReminderAudio();
+    if (!context || context.state !== "suspended") return;
+    context.resume().catch(() => {});
+  }
+
+  function armBusinessMustReminderSoundUnlock() {
+    ["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
+      window.addEventListener(eventName, unlockBusinessMustReminderSound, { once: true, passive: true });
+    });
+  }
+
   function showBusinessMustReminder(entry, dueAt) {
     const dueTime = dueAt.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
     const title = `Due in ${BUSINESS_MUST_REMINDER_MINUTES} min`;
     const body = `${cleanLabel(entry.taskName, "Business task")} is due at ${dueTime}.`;
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
-      return;
-    }
-    window.alert(`${title}: ${body}`);
+    playBusinessMustReminderSound().catch(() => {}).finally(() => {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
+        return;
+      }
+      window.alert(`${title}: ${body}`);
+    });
   }
 
   function checkBusinessMustReminders() {
@@ -6949,13 +7016,14 @@
     if (trackerList) trackerList.onchange = renderMetadataOptions;
   }
 
-  function renderNativeDashboard() {
+  async function renderNativeDashboard() {
     const nativeCount = nativeCompletedEntries().length;
     const entries = composedAnalysisEntries();
     currentSourcePills = analysisSourcePills(nativeCount);
     appEntries = entries;
     appMetrics = buildMetrics(appEntries, analysisRawRowCount(nativeCount));
     renderTracker();
+    await ensureChartLibraryLoaded();
     renderDashboard(appEntries, appMetrics);
   }
 
@@ -8252,6 +8320,7 @@
 
   async function loadCsvDashboard() {
     try {
+      await ensureChartLibraryLoaded();
       const csvData = await loadCsvEntries();
       csvImportedEntries = csvData.entries;
       csvRawRowCount = csvData.rawRowCount;
@@ -8333,9 +8402,10 @@
     pageSubtitle.textContent = "";
     pageSubtitle.hidden = true;
     document.getElementById("sourcePills").innerHTML = "";
-    showPrivateTimeLoadButton(true);
+    showPrivateTimeLoadButton(false);
     renderTracker();
     scheduleAutoDoneTaskSync();
+    armBusinessMustReminderSoundUnlock();
     startBusinessMustReminderMonitor();
     loadTaskCatalogEntries().then((entries) => {
       taskCatalogEntries = entries;
