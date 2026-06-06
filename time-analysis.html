@@ -5357,23 +5357,7 @@
   }
 
   function trackerSearchText(entry) {
-    return [
-      entry.taskName,
-      entry.listName || listNameForId(entry.listId),
-      entry.department,
-      trackGroupName(entry),
-      entry.section,
-      entry.taskCategory,
-      entry.taskType,
-      entry.dueDate,
-      entry.dueDateText,
-      entry.startDate,
-      entry.startDateText,
-      entry.recurringText,
-      entry.notes,
-      entry.searchText,
-      taskSearchAliases(entry)
-    ].filter(Boolean).join(" ").toLowerCase();
+    return cleanLabel(entry?.taskName, "").toLowerCase();
   }
 
   function normalizedTrackerSearchText(value) {
