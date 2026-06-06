@@ -2792,7 +2792,6 @@
         <div class="tracker-card card">
           <form class="tracker-form" id="trackerForm">
             <div class="custom-entry" id="customFields">
-              <div class="quick-chips" id="quickChips" aria-label="Recent activities"></div>
               <div class="tracker-grid">
                 <div class="tracker-field">
                   <label for="trackerTask">Custom task</label>
@@ -2831,8 +2830,7 @@
                 <div id="trackerRecurrenceCustom" class="custom-recurrence" aria-labelledby="trackerRecurrenceCustomLabel"></div>
               </div>
             </div>
-            <button class="btn btn-ghost details-toggle" id="advancedToggle" type="button" aria-expanded="false">Show details</button>
-            <div class="advanced-fields" id="advancedFields" hidden>
+            <div class="advanced-fields" id="advancedFields">
               <div class="tracker-field">
                 <label for="trackerDepartment">Department</label>
                 <input class="tracker-input" id="trackerDepartment" type="text" autocomplete="off" list="departmentOptions" />
@@ -5115,6 +5113,8 @@
   }
 
   function renderQuickChips(entries) {
+    const quickChips = document.getElementById("quickChips");
+    if (!quickChips) return;
     const byTask = new Map();
     entries
       .slice()
@@ -5128,7 +5128,7 @@
     const chips = Array.from(byTask.values())
       .sort((a, b) => b.count - a.count || (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
       .slice(0, 12);
-    document.getElementById("quickChips").innerHTML = chips.length
+    quickChips.innerHTML = chips.length
       ? chips.map((entry) => `<button class="quick-chip" type="button" data-task-id="${escapeHtml(entry.taskId)}" title="${escapeHtml(entry.taskName)}">${escapeHtml(entry.taskName)}</button>`).join("")
       : `<button class="quick-chip" type="button" data-preset-task="Review">Review</button><button class="quick-chip" type="button" data-preset-task="Plan">Plan</button><button class="quick-chip" type="button" data-preset-task="Admin">Admin</button>`;
     document.querySelectorAll(".quick-chip").forEach((button) => {
@@ -8707,15 +8707,6 @@
       Object.values(charts).forEach((item) => item.resize());
       scheduleStickyLayoutMetricsUpdate();
     });
-  });
-
-  document.getElementById("advancedToggle").addEventListener("click", () => {
-    const fields = document.getElementById("advancedFields");
-    const expanded = fields.hidden;
-    fields.hidden = !expanded;
-    document.getElementById("advancedToggle").textContent = expanded ? "Hide details" : "Show details";
-    document.getElementById("advancedToggle").setAttribute("aria-expanded", String(expanded));
-    scheduleStickyLayoutMetricsUpdate();
   });
 
   document.getElementById("customToggle")?.addEventListener("click", () => {
