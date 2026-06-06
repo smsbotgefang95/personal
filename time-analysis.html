@@ -1136,10 +1136,11 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(96px, 120px) minmax(500px, 540px) minmax(96px, 1fr);
+    grid-template-columns: minmax(150px, 160px) minmax(480px, 520px) minmax(40px, 1fr);
     grid-template-areas:
       "select due search";
-    gap: 8px;
+    column-gap: 20px;
+    row-gap: 8px;
     align-items: start;
     justify-content: start;
     overflow-x: visible;
@@ -1220,6 +1221,7 @@
     height: 38px;
     min-height: 38px;
     padding: 7px 10px;
+    font-size: 0.95rem;
     white-space: nowrap;
   }
 
@@ -1232,6 +1234,7 @@
   .due-filter-btn {
     width: 100%;
     min-height: 42px;
+    font-size: 0.95rem;
     white-space: nowrap;
   }
 
@@ -2612,7 +2615,7 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: minmax(96px, 120px) minmax(500px, 540px) minmax(96px, 1fr);
+      grid-template-columns: minmax(150px, 160px) minmax(480px, 520px) minmax(40px, 1fr);
       grid-template-areas:
         "select due search";
     }
