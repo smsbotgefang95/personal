@@ -4218,6 +4218,7 @@
   function setTrackerStatus(message, mode = "") {
     const status = document.getElementById("trackerStatus");
     if (!status) return;
+    if (mode === "saved" && message === "Saved") message = "";
     status.textContent = message || "";
     status.className = `tracker-status${mode ? ` ${mode}` : ""}`;
     status.hidden = !message;
@@ -4774,7 +4775,7 @@
   }
 
   function analysisSourcePills() {
-    return csvImportedEntries.length ? TIME_CSV_FILES.map(shortFileName) : [];
+    return [];
   }
 
   function activeDurationMs() {
@@ -5987,24 +5988,24 @@
     return visibleRows.filter((entry) => selectedTaskKeys.has(taskOverrideKey(entry)));
   }
 
-  function pruneSelectedTaskKeys(visibleRows) {
-    const visibleKeys = new Set(visibleRows.map(taskOverrideKey));
+  function pruneSelectedTaskKeys(selectableRows) {
+    const visibleKeys = new Set(selectableRows.map(taskOverrideKey));
     selectedTaskKeys = new Set(Array.from(selectedTaskKeys).filter((key) => visibleKeys.has(key)));
   }
 
-  function syncTaskSelectionUi(visibleRows) {
-    const selectedRows = selectedVisibleTaskRows(visibleRows);
+  function syncTaskSelectionUi(visibleRows, selectableRows = visibleRows) {
+    const selectedRows = selectedVisibleTaskRows(selectableRows);
     document.querySelectorAll("[data-select-task-key]").forEach((checkbox) => {
       checkbox.checked = selectedTaskKeys.has(checkbox.dataset.selectTaskKey);
     });
-    const selectAll = document.querySelector("[data-select-all-visible]");
+    const selectAll = document.querySelector("[data-select-all-tasks]");
     if (selectAll) {
-      selectAll.checked = Boolean(visibleRows.length) && selectedRows.length === visibleRows.length;
-      selectAll.indeterminate = selectedRows.length > 0 && selectedRows.length < visibleRows.length;
-      selectAll.disabled = !visibleRows.length;
+      selectAll.checked = Boolean(selectableRows.length) && selectedRows.length === selectableRows.length;
+      selectAll.indeterminate = selectedRows.length > 0 && selectedRows.length < selectableRows.length;
+      selectAll.disabled = !selectableRows.length;
       selectAll.classList.toggle("is-visible", Boolean(selectedRows.length));
     }
-    renderBulkTaskBar(visibleRows);
+    renderBulkTaskBar(selectableRows);
   }
 
   function renderBulkTaskBar(visibleRows) {
@@ -6032,7 +6033,7 @@
     `);
     document.querySelector("[data-clear-task-selection]")?.addEventListener("click", () => {
       selectedTaskKeys.clear();
-      syncTaskSelectionUi(visibleRows);
+      syncTaskSelectionUi(visibleRows, visibleRows);
     });
     document.querySelector("[data-bulk-status]")?.addEventListener("change", (event) => {
       bulkTaskStatusValue = event.target.value === "todo" ? "todo" : "done";
@@ -6395,7 +6396,8 @@
     const groupRenderState = limitedTrackerGroups(allGroups, groupLimit);
     const groups = groupRenderState.groups;
     const visibleRows = visibleTaskRowsForGroups(groups);
-    pruneSelectedTaskKeys(visibleRows);
+    const selectableRows = rowsForDisplay;
+    pruneSelectedTaskKeys(selectableRows);
     trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel, originalCount]) => {
       const groupKey = collapseKey || group;
       const collapsed = !query.text && collapsedTrackGroups.has(groupKey);
@@ -6417,7 +6419,7 @@
     if (rowsForDisplay.length) {
       trackerList.insertAdjacentHTML("afterbegin", `
         <div class="track-list-header">
-          <div><input class="track-select-all-checkbox" type="checkbox" data-select-all-visible aria-label="Select all visible tasks" /></div>
+          <div><input class="track-select-all-checkbox" type="checkbox" data-select-all-tasks aria-label="Select all filtered tasks" /></div>
           <div>Task</div>
           <div>Notes</div>
           <div>Order</div>
@@ -6446,23 +6448,23 @@
       dueAllVisibleRowLimit += DUE_ALL_ROW_INCREMENT;
       scheduleDeferredActivityRowsRender();
     });
-    document.querySelector("[data-select-all-visible]")?.addEventListener("change", (event) => {
+    document.querySelector("[data-select-all-tasks]")?.addEventListener("change", (event) => {
       const checked = event.target.checked;
-      visibleRows.forEach((entry) => {
+      selectableRows.forEach((entry) => {
         const key = taskOverrideKey(entry);
         if (checked) selectedTaskKeys.add(key);
         else selectedTaskKeys.delete(key);
       });
-      syncTaskSelectionUi(visibleRows);
+      syncTaskSelectionUi(visibleRows, selectableRows);
     });
     document.querySelectorAll("[data-select-task-key]").forEach((checkbox) => {
       checkbox.addEventListener("change", () => {
         if (checkbox.checked) selectedTaskKeys.add(checkbox.dataset.selectTaskKey);
         else selectedTaskKeys.delete(checkbox.dataset.selectTaskKey);
-        syncTaskSelectionUi(visibleRows);
+        syncTaskSelectionUi(visibleRows, selectableRows);
       });
     });
-    syncTaskSelectionUi(visibleRows);
+    syncTaskSelectionUi(visibleRows, selectableRows);
     document.querySelectorAll(".track-group-header").forEach((button) => {
       button.addEventListener("click", () => {
         const section = button.closest(".track-group");
