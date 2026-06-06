@@ -3268,7 +3268,7 @@
   const BUSINESS_MUST_REMINDER_STORAGE = "personal.timeTracking.businessMustReminders.fired.v1";
   const BUSINESS_MUST_REMINDER_MINUTES = 5;
   const BUSINESS_MUST_REMINDER_WINDOW_MS = 60 * 1000;
-  const BUSINESS_MUST_REMINDER_SOUND_VOLUME = 0.16;
+  const BUSINESS_MUST_REMINDER_SOUND_VOLUME = 0.34;
   const RECENT_TASK_LIMIT = 8;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
@@ -3375,11 +3375,13 @@
   let trackerDeferredRowsBusyTimer = null;
   let trackerNameAutosizeToken = 0;
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
+  let shouldCollapseDueAllGroupsOnRender = true;
   let trackerActivitiesCache = { signature: "", rows: null };
   let lastTrackerRowsForDueCounts = null;
   let businessMustReminderTimer = null;
   let businessMustReminderFiredKeys = null;
   let businessMustReminderAudioContext = null;
+  let businessMustReminderSoundReady = false;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -5380,6 +5382,16 @@
     if (changed) saveCollapsedTrackGroups();
   }
 
+  function collapseDueDateTrackGroups(groups) {
+    let changed = false;
+    groups.forEach(([, , collapseKey]) => {
+      if (!collapseKey || !collapseKey.startsWith("due:") || collapsedTrackGroups.has(collapseKey)) return;
+      collapsedTrackGroups.add(collapseKey);
+      changed = true;
+    });
+    if (changed) saveCollapsedTrackGroups();
+  }
+
   function activityMeta(entry) {
     return [
       entry.listName || listNameForId(entry.listId),
@@ -5455,38 +5467,74 @@
     return businessMustReminderAudioContext;
   }
 
+  function playBusinessMustReminderTone(context, frequency, toneStart, duration = 0.24) {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, toneStart);
+    gain.gain.setValueAtTime(0.0001, toneStart);
+    gain.gain.exponentialRampToValueAtTime(BUSINESS_MUST_REMINDER_SOUND_VOLUME, toneStart + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
+    oscillator.connect(gain).connect(context.destination);
+    oscillator.start(toneStart);
+    oscillator.stop(toneStart + duration + 0.03);
+  }
+
+  function primeBusinessMustReminderSound(context) {
+    const start = context.currentTime + 0.01;
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.frequency.setValueAtTime(880, start);
+    gain.gain.setValueAtTime(0.0001, start);
+    oscillator.connect(gain).connect(context.destination);
+    oscillator.start(start);
+    oscillator.stop(start + 0.03);
+  }
+
   async function playBusinessMustReminderSound() {
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
-    const start = context.currentTime + 0.02;
+    businessMustReminderSoundReady = context.state === "running";
+    const start = context.currentTime + 0.03;
     [
       [880, start],
-      [1175, start + 0.22]
-    ].forEach(([frequency, toneStart]) => {
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(frequency, toneStart);
-      gain.gain.setValueAtTime(0.0001, toneStart);
-      gain.gain.exponentialRampToValueAtTime(BUSINESS_MUST_REMINDER_SOUND_VOLUME, toneStart + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + 0.18);
-      oscillator.connect(gain).connect(context.destination);
-      oscillator.start(toneStart);
-      oscillator.stop(toneStart + 0.2);
-    });
+      [1175, start + 0.26],
+      [880, start + 0.58],
+      [1175, start + 0.84]
+    ].forEach(([frequency, toneStart]) => playBusinessMustReminderTone(context, frequency, toneStart));
   }
 
-  function unlockBusinessMustReminderSound() {
+  async function unlockBusinessMustReminderSound() {
     const context = businessMustReminderAudio();
-    if (!context || context.state !== "suspended") return;
-    context.resume().catch(() => {});
+    if (!context) return false;
+    try {
+      if (context.state === "suspended") await context.resume();
+      if (context.state === "running") {
+        primeBusinessMustReminderSound(context);
+        businessMustReminderSoundReady = true;
+        return true;
+      }
+    } catch (error) {
+      businessMustReminderSoundReady = false;
+    }
+    return false;
   }
 
   function armBusinessMustReminderSoundUnlock() {
+    const options = { passive: true };
+    const unlock = () => {
+      unlockBusinessMustReminderSound().then((unlocked) => {
+        if (!unlocked) return;
+        ["pointerdown", "keydown", "touchstart", "click"].forEach((eventName) => {
+          window.removeEventListener(eventName, unlock, options);
+        });
+      });
+    };
     ["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
-      window.addEventListener(eventName, unlockBusinessMustReminderSound, { once: true, passive: true });
+      window.addEventListener(eventName, unlock, options);
     });
+    window.addEventListener("click", unlock, options);
   }
 
   function showBusinessMustReminder(entry, dueAt) {
@@ -6602,6 +6650,10 @@
     const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
     const allGroups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
     if (expandDueDateGroups && groupedByDueDate && !query.text) expandDueDateTrackGroups(allGroups);
+    if (shouldCollapseDueAllGroupsOnRender && groupedByDueDate && !query.text) {
+      collapseDueDateTrackGroups(allGroups);
+      shouldCollapseDueAllGroupsOnRender = false;
+    }
     if (dueFilterValue !== "all" && !query.text) resetDueAllVisibleRowLimit();
     const groupLimit = (dueFilterValue === "all" || query.text) ? dueAllVisibleRowLimit : Number.POSITIVE_INFINITY;
     const groupRenderState = limitedTrackerGroups(allGroups, groupLimit);
@@ -7034,11 +7086,16 @@
         const dueFilter = document.getElementById("dueStatusFilter");
         const nextFilter = button.dataset.dueFilterValue || "all";
         if ((dueFilter?.value || "all") === nextFilter) {
+          if (nextFilter === "all") {
+            shouldCollapseDueAllGroupsOnRender = true;
+            scheduleDeferredActivityRowsRender();
+          }
           syncDueFilterButtonState(nextFilter);
           return;
         }
         resetDueAllVisibleRowLimit();
         if (dueFilter) dueFilter.value = nextFilter;
+        shouldCollapseDueAllGroupsOnRender = nextFilter === "all";
         syncDueFilterButtonState(nextFilter);
         scheduleDeferredActivityRowsRender();
       };
