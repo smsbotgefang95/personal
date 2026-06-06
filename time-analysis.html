@@ -904,17 +904,18 @@
 
   .recent-task-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 8px;
     align-items: center;
     min-width: 0;
+    overflow: hidden;
   }
 
   .recent-task-item {
     display: inline-flex;
     align-items: center;
     min-width: 0;
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     min-height: 36px;
     max-width: min(260px, 100%);
     border: 1px solid #374151;
@@ -922,6 +923,10 @@
     background: #111827;
     color: #f9fafb;
     overflow: hidden;
+  }
+
+  .recent-task-item[hidden] {
+    display: none;
   }
 
   .recent-task-item:hover,
@@ -1270,8 +1275,8 @@
     font-weight: 900;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    position: sticky;
-    top: calc(var(--time-sticky-stack-top) + var(--tracker-filter-height));
+    position: relative;
+    top: auto;
     z-index: 30;
   }
 
@@ -4985,6 +4990,19 @@
     });
   }
 
+  function fitRecentTasksToSingleRow(recentList) {
+    if (!recentList) return;
+    const items = Array.from(recentList.querySelectorAll(".recent-task-item"));
+    if (!items.length) return;
+    items.forEach((item) => { item.hidden = false; });
+    const listRect = recentList.getBoundingClientRect();
+    const maxRight = listRect.right + 1;
+    items.forEach((item) => {
+      const itemRect = item.getBoundingClientRect();
+      item.hidden = itemRect.right > maxRight || itemRect.top > listRect.top + 1;
+    });
+  }
+
   function renderRecentTaskSwitcher(entries = recentTrackedTaskSource()) {
     const recentList = document.getElementById("recentTaskList");
     if (!recentList) return;
@@ -5028,6 +5046,7 @@
         renderRecentTaskSwitcher();
       };
     }
+    scheduleAfterPaint(() => fitRecentTasksToSingleRow(recentList));
     syncRecentTaskActiveState();
   }
 
@@ -8734,6 +8753,7 @@
 
   window.addEventListener("load", scheduleStickyLayoutMetricsUpdate);
   window.addEventListener("resize", scheduleStickyLayoutMetricsUpdate);
+  window.addEventListener("resize", () => scheduleAfterPaint(() => fitRecentTasksToSingleRow(document.getElementById("recentTaskList"))));
 
   loadDashboard();
 </script>
