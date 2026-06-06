@@ -1136,7 +1136,7 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(130px, 150px) minmax(190px, 280px) minmax(220px, 1fr);
+    grid-template-columns: minmax(130px, 150px) minmax(470px, 540px) minmax(220px, 1fr);
     grid-template-areas:
       "select due search";
     gap: 8px;
@@ -2797,7 +2797,7 @@
                   <input id="dueStatusFilter" type="hidden" value="all" />
                   <div class="due-filter-buttons" role="group" aria-labelledby="dueStatusFilterLabel">
                     <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
-                    <button class="btn btn-ghost due-filter-btn" id="dueFutureFilterBtn" type="button" data-due-filter-value="future" aria-pressed="false">Future</button>
+                    <button class="btn btn-ghost due-filter-btn" id="dueTomorrowFilterBtn" type="button" data-due-filter-value="tomorrow" aria-pressed="false">Due tomorrow</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
                   </div>
                 </div>
@@ -5308,7 +5308,7 @@
   }
 
   function shouldHideDoneTasksForDueFilter(filter) {
-    return ["all", "set", "today", "tomorrow", "future", "overdue"].includes(filter);
+    return ["all", "set", "today", "tomorrow", "overdue"].includes(filter);
   }
 
   function groupedActivitiesByDueDate(rows) {
@@ -5537,13 +5537,12 @@
     if (filter === "set") return status !== "none";
     if (filter === "today") return status === "today";
     if (filter === "tomorrow") return status === "tomorrow";
-    if (filter === "future") return status === "tomorrow" || status === "upcoming";
     if (filter === "overdue") return status === "overdue";
     return true;
   }
 
   function dueStatusFilterCounts(rows) {
-    const counts = { none: 0, set: 0, today: 0, tomorrow: 0, future: 0, overdue: 0 };
+    const counts = { none: 0, set: 0, today: 0, tomorrow: 0, overdue: 0 };
     rows.forEach((entry) => {
       if (!isPrivateTrackerManaged(entry)) return;
       const status = dueStatus(entry);
@@ -5551,11 +5550,7 @@
       if (entry.status === "done") return;
       if (status !== "none") counts.set += 1;
       if (status === "today") counts.today += 1;
-      else if (status === "tomorrow") {
-        counts.tomorrow += 1;
-        counts.future += 1;
-      }
-      else if (status === "upcoming") counts.future += 1;
+      else if (status === "tomorrow") counts.tomorrow += 1;
       else if (status === "overdue") counts.overdue += 1;
     });
     return counts;
@@ -5677,7 +5672,6 @@
       set: `Due date set (${counts.set})`,
       today: `Due today (${counts.today})`,
       tomorrow: `Due tomorrow (${counts.tomorrow})`,
-      future: `Future (${counts.future})`,
       overdue: `Overdue (${counts.overdue})`
     };
     document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
