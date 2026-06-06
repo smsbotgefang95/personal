@@ -1128,9 +1128,9 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 280px) minmax(160px, 220px) minmax(150px, 180px) minmax(220px, 1fr) minmax(130px, 150px);
+    grid-template-columns: minmax(190px, 280px) minmax(220px, 1fr) minmax(130px, 150px);
     grid-template-areas:
-      "due priority date search select";
+      "due search select";
     gap: 8px;
     align-items: start;
     justify-content: start;
@@ -1201,10 +1201,6 @@
   }
 
   .due-filter-field { grid-area: due; }
-
-  .tracker-priority-filter-field { grid-area: priority; }
-
-  .tracker-due-date-filter-field { grid-area: date; }
 
   .tracker-select-filter-field {
     grid-area: select;
@@ -2601,7 +2597,6 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
         "due due"
-        "priority date"
         "search select";
     }
     .quick-chip {
@@ -2644,17 +2639,6 @@
       right: auto;
       width: min(330px, calc(100vw - 52px));
     }
-    .track-group-header {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-    }
-    .track-group-header.due-group-header {
-      top: auto;
-    }
   }
 
   @media (max-width: 640px) {
@@ -2681,8 +2665,6 @@
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
         "due"
-        "priority"
-        "date"
         "search"
         "select";
     }
@@ -2796,14 +2778,6 @@
                     <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
                   </div>
-                </div>
-                <div class="tracker-field tracker-priority-filter-field">
-                  <label for="trackerPriorityFilter">Priority</label>
-                  <select class="tracker-input" id="trackerPriorityFilter" aria-label="Filter tracker tasks by priority"></select>
-                </div>
-                <div class="tracker-field tracker-due-date-filter-field">
-                  <label for="trackerDueDateFilter">Due date</label>
-                  <input class="tracker-input" id="trackerDueDateFilter" type="date" aria-label="Filter tracker tasks by due date" />
                 </div>
                 <div class="tracker-field tracker-search-field">
                   <label for="taskSearchInput">Task search</label>
@@ -3269,6 +3243,9 @@
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
   const HIDDEN_RECENT_TASKS_VERSION = "20260603-ai-agent-keep";
   const HIDDEN_RECENT_TASKS_VERSION_PREFIX = `${HIDDEN_RECENT_TASKS_VERSION}|||`;
+  const BUSINESS_MUST_REMINDER_STORAGE = "personal.timeTracking.businessMustReminders.fired.v1";
+  const BUSINESS_MUST_REMINDER_MINUTES = 5;
+  const BUSINESS_MUST_REMINDER_WINDOW_MS = 60 * 1000;
   const RECENT_TASK_LIMIT = 8;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
@@ -3373,6 +3350,8 @@
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
   let trackerActivitiesCache = { signature: "", rows: null };
   let lastTrackerRowsForDueCounts = null;
+  let businessMustReminderTimer = null;
+  let businessMustReminderFiredKeys = null;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -3718,6 +3697,22 @@
     const minute = Number(match[2]);
     if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return "";
     return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+  }
+
+  function timeInputValueFromDueText(value) {
+    const text = String(value ?? "").trim();
+    const match = text.match(/\b(\d{1,2}):(\d{2})(?::\d{2})?\s*([AP]M)?\b/i);
+    if (!match) return "";
+    let hour = Number(match[1]);
+    const minute = Number(match[2]);
+    const meridiem = cleanLabel(match[3], "").toUpperCase();
+    if (meridiem === "PM" && hour < 12) hour += 12;
+    if (meridiem === "AM" && hour === 12) hour = 0;
+    return timeInputValue(`${hour}:${String(minute).padStart(2, "0")}`);
+  }
+
+  function effectiveDueTime(entry) {
+    return timeInputValue(entry?.dueTime) || timeInputValueFromDueText(entry?.dueDateText);
   }
 
   function parseDateInput(value) {
@@ -5344,6 +5339,85 @@
     return dateInputValue(entry.dueDate || entry.dueDateText);
   }
 
+  function businessMustDueDateTime(entry) {
+    const dueDate = dueDateKey(entry);
+    const dueTime = effectiveDueTime(entry);
+    if (!dueDate || !dueTime) return null;
+    const [year, month, day] = dueDate.split("-").map((part) => Number(part));
+    const [hour, minute] = dueTime.split(":").map((part) => Number(part));
+    if (![year, month, day, hour, minute].every(Number.isInteger)) return null;
+    const date = new Date(year, month - 1, day, hour, minute, 0, 0);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function isBusinessMustTask(entry) {
+    return isBusinessEntry(entry) && trackGroupName(entry) === "📌 Must_Work";
+  }
+
+  function readBusinessMustReminderFiredKeys() {
+    if (businessMustReminderFiredKeys) return new Set(businessMustReminderFiredKeys);
+    try {
+      const values = JSON.parse(localStorage.getItem(BUSINESS_MUST_REMINDER_STORAGE) || "[]");
+      businessMustReminderFiredKeys = new Set(Array.isArray(values) ? values : []);
+    } catch (error) {
+      businessMustReminderFiredKeys = new Set();
+    }
+    return new Set(businessMustReminderFiredKeys);
+  }
+
+  function writeBusinessMustReminderFiredKeys(keys) {
+    businessMustReminderFiredKeys = new Set(keys);
+    try {
+      localStorage.setItem(BUSINESS_MUST_REMINDER_STORAGE, JSON.stringify(Array.from(keys).slice(-300)));
+    } catch (error) {
+      // Local storage is optional; the in-memory set still prevents repeated alerts in this page session.
+    }
+  }
+
+  function businessMustReminderKey(entry, dueAt) {
+    return [
+      taskOverrideKey(entry),
+      formatDateInput(dueAt),
+      timeInputValue(`${dueAt.getHours()}:${String(dueAt.getMinutes()).padStart(2, "0")}`)
+    ].join("|||");
+  }
+
+  function showBusinessMustReminder(entry, dueAt) {
+    const dueTime = dueAt.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    const title = `Due in ${BUSINESS_MUST_REMINDER_MINUTES} min`;
+    const body = `${cleanLabel(entry.taskName, "Business task")} is due at ${dueTime}.`;
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
+      return;
+    }
+    window.alert(`${title}: ${body}`);
+  }
+
+  function checkBusinessMustReminders() {
+    const now = Date.now();
+    const firedKeys = readBusinessMustReminderFiredKeys();
+    let changed = false;
+    trackerActivities().forEach((entry) => {
+      if (entry.status === "done" || !isBusinessMustTask(entry)) return;
+      const dueAt = businessMustDueDateTime(entry);
+      if (!dueAt) return;
+      const reminderAt = dueAt.getTime() - BUSINESS_MUST_REMINDER_MINUTES * 60 * 1000;
+      if (now < reminderAt || now > dueAt.getTime() + BUSINESS_MUST_REMINDER_WINDOW_MS) return;
+      const key = businessMustReminderKey(entry, dueAt);
+      if (firedKeys.has(key)) return;
+      firedKeys.add(key);
+      changed = true;
+      showBusinessMustReminder(entry, dueAt);
+    });
+    if (changed) writeBusinessMustReminderFiredKeys(firedKeys);
+  }
+
+  function startBusinessMustReminderMonitor() {
+    if (businessMustReminderTimer) return;
+    checkBusinessMustReminders();
+    businessMustReminderTimer = window.setInterval(checkBusinessMustReminders, BUSINESS_MUST_REMINDER_WINDOW_MS);
+  }
+
   function dueStatus(entry) {
     const due = dueDateKey(entry);
     if (!due) return "none";
@@ -5507,12 +5581,6 @@
     input.value = current;
   }
 
-  function updateTrackerPriorityFilterOptions(rows) {
-    const priorityFilter = document.getElementById("trackerPriorityFilter");
-    if (!priorityFilter) return;
-    priorityFilter.innerHTML = priorityFilterOptionsHtml(rows, "All priorities", priorityFilter.value || "");
-  }
-
   function syncDueFilterButtonState(current) {
     document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
       const pressed = String((button.dataset.dueFilterValue || "") === current);
@@ -5568,10 +5636,10 @@
   }
 
   function priorityFilterOptions(rows) {
-    const values = new Set(TRACK_GROUP_ORDER.filter((value) => value !== "Other"));
+    const values = new Set(TRACK_GROUP_ORDER.filter((value) => value !== "Other" && value !== "☕️ Downtime"));
     rows.forEach((entry) => {
       const value = trackGroupName(entry);
-      if (value && value !== "Other") values.add(value);
+      if (value && value !== "Other" && value !== "☕️ Downtime") values.add(value);
     });
     return Array.from(values).sort(priorityOptionSort);
   }
@@ -6332,7 +6400,7 @@
     const customSummary = customText || recurrenceLabel("custom", customText);
     const order = orderOptionValue(entry.taskOrder);
     const dueDateValue = dateInputValue(entry.dueDate);
-    const dueTimeValue = timeInputValue(entry.dueTime);
+    const dueTimeValue = effectiveDueTime(entry);
     return `
       <div class="track-row">
         <div class="track-row-inner">
@@ -6406,14 +6474,9 @@
   function renderActivityRows({ expandDueDateGroups = false, skipDueCountUpdate = false } = {}) {
     const active = timePayload.activeEntry;
     const dueFilter = document.getElementById("dueStatusFilter");
-    const priorityFilter = document.getElementById("trackerPriorityFilter");
-    const dueDateFilter = document.getElementById("trackerDueDateFilter");
     const taskSearch = document.getElementById("taskSearchInput");
     const query = trackerSearchQuery(taskSearch?.value || "");
     const allRows = trackerActivities();
-    updateTrackerPriorityFilterOptions(allRows);
-    const priorityValue = priorityFilter?.value || "";
-    const dueDateValue = dueDateFilter?.value || "";
     if (!skipDueCountUpdate || lastTrackerRowsForDueCounts !== allRows) {
       updateDueStatusFilterOptions(allRows);
       lastTrackerRowsForDueCounts = allRows;
@@ -6421,8 +6484,6 @@
     const rows = allRows.filter((entry) => {
       if (!isPrivateTrackerManaged(entry) && (dueFilter?.value || "all") !== "all") return false;
       return matchesDueStatusFilter(entry, dueFilter?.value || "all")
-        && (!priorityValue || trackGroupName(entry) === priorityValue)
-        && (!dueDateValue || dueDateKey(entry) === dueDateValue)
         && matchesTaskSearch(entry, query);
     });
     const trackerList = document.getElementById("trackerTaskList");
@@ -6817,10 +6878,10 @@
   function metadataOptions(field) {
     if (field === "department") return DEPARTMENT_OPTIONS;
     if (field === "priority") {
-      const values = new Set(TRACK_GROUP_ORDER.filter((value) => value !== "Other"));
+      const values = new Set(TRACK_GROUP_ORDER.filter((value) => value !== "Other" && value !== "☕️ Downtime"));
       metadataSourcesForField(field).forEach((entry) => {
         const value = trackGroupName(entry);
-        if (value && value !== "Other") values.add(value);
+        if (value && value !== "Other" && value !== "☕️ Downtime") values.add(value);
       });
       return Array.from(values).sort(priorityOptionSort);
     }
@@ -6884,14 +6945,6 @@
     const trackerSelectAll = document.getElementById("trackerSelectAllBtn");
     if (trackerSelectAll) trackerSelectAll.onclick = toggleFilteredTaskSelection;
     syncTaskSearchClearButton();
-    [document.getElementById("trackerPriorityFilter"), document.getElementById("trackerDueDateFilter")].forEach((control) => {
-      if (!control) return;
-      control.oninput = () => {
-        resetDueAllVisibleRowLimit();
-        scheduleDeferredActivityRowsRender();
-      };
-      control.onchange = control.oninput;
-    });
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
   }
@@ -8283,6 +8336,7 @@
     showPrivateTimeLoadButton(true);
     renderTracker();
     scheduleAutoDoneTaskSync();
+    startBusinessMustReminderMonitor();
     loadTaskCatalogEntries().then((entries) => {
       taskCatalogEntries = entries;
       renderTimePayloadState();
