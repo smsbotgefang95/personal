@@ -640,7 +640,7 @@ def clean_due_time(value):
 
 def clean_recurrence(value):
     value = clean_time_text(value, 20).lower()
-    return value if value in {"none", "daily", "weekly", "monthly", "custom"} else "none"
+    return value if value in {"none", "daily", "weekly", "monthly", "yearly", "custom"} else "none"
 
 
 def clean_task_overrides(value):
