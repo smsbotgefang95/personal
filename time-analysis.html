@@ -6753,6 +6753,7 @@
     trackerList.innerHTML = rowsForDisplay.length ? groups.map(([group, entries, collapseKey, fullGroupLabel, originalCount]) => {
       const groupKey = collapseKey || group;
       const collapsed = !query.text && collapsedTrackGroups.has(groupKey);
+      const visibleEntriesHtml = collapsed ? "" : entries.map((entry) => activityRowHtml(entry, active)).join("");
       const groupTitle = fullGroupLabel || group;
       const dueGroupClass = groupedByDueDate ? " due-group-name" : "";
       const dueHeaderClass = groupedByDueDate ? " due-group-header" : "";
@@ -6764,7 +6765,7 @@
             <span class="track-group-name${dueGroupClass}" title="${escapeHtml(groupTitle)}">${escapeHtml(group)}</span>
             <span class="track-group-count">${countLabel}</span>
           </button>
-          ${entries.map((entry) => activityRowHtml(entry, active)).join("")}
+          ${visibleEntriesHtml}
         </section>
       `;
     }).join("") : `<div class="track-empty">No tasks match the current filters.</div>`;
