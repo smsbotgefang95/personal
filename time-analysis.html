@@ -1128,9 +1128,9 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(190px, 280px) minmax(160px, 220px) minmax(150px, 180px) minmax(220px, 1fr);
+    grid-template-columns: minmax(190px, 280px) minmax(160px, 220px) minmax(150px, 180px) minmax(220px, 1fr) minmax(130px, 150px);
     grid-template-areas:
-      "due priority date search";
+      "due priority date search select";
     gap: 8px;
     align-items: start;
     justify-content: start;
@@ -1205,6 +1205,17 @@
   .tracker-priority-filter-field { grid-area: priority; }
 
   .tracker-due-date-filter-field { grid-area: date; }
+
+  .tracker-select-filter-field {
+    grid-area: select;
+    align-self: end;
+  }
+
+  .tracker-select-all-btn {
+    width: 100%;
+    min-height: 42px;
+    white-space: nowrap;
+  }
 
   .due-filter-buttons {
     display: grid;
@@ -2591,7 +2602,7 @@
       grid-template-areas:
         "due due"
         "priority date"
-        "search search";
+        "search select";
     }
     .quick-chip {
       min-height: 48px;
@@ -2672,7 +2683,8 @@
         "due"
         "priority"
         "date"
-        "search";
+        "search"
+        "select";
     }
     .due-sync-note {
       white-space: normal;
@@ -2799,6 +2811,9 @@
                     <button class="task-search-clear" id="taskSearchClearBtn" type="button" aria-label="Clear task search" hidden>&times;</button>
                     <input class="tracker-input" id="taskSearchInput" type="search" autocomplete="off" placeholder="Search tasks..." aria-label="Search tracker tasks" />
                   </div>
+                </div>
+                <div class="tracker-field tracker-select-filter-field">
+                  <button class="btn btn-ghost tracker-select-all-btn" id="trackerSelectAllBtn" type="button" aria-pressed="false">Select all</button>
                 </div>
               </div>
             </div>
@@ -3345,6 +3360,8 @@
   })();
   let expandedCustomRecurrenceKeys = new Set();
   let selectedTaskKeys = new Set();
+  let lastTrackerVisibleRows = [];
+  let lastTrackerSelectableRows = [];
   let bulkTaskStatusValue = "done";
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
@@ -5992,6 +6009,8 @@
   }
 
   function syncTaskSelectionUi(visibleRows, selectableRows = visibleRows) {
+    lastTrackerVisibleRows = visibleRows;
+    lastTrackerSelectableRows = selectableRows;
     const selectedRows = selectedVisibleTaskRows(selectableRows);
     document.querySelectorAll("[data-select-task-key]").forEach((checkbox) => {
       checkbox.checked = selectedTaskKeys.has(checkbox.dataset.selectTaskKey);
@@ -6003,7 +6022,32 @@
       selectAll.disabled = !selectableRows.length;
       selectAll.classList.toggle("is-visible", Boolean(selectedRows.length));
     }
+    const selectAllButton = document.getElementById("trackerSelectAllBtn");
+    if (selectAllButton) {
+      const selectedCount = selectedRows.length;
+      const totalCount = selectableRows.length;
+      const allSelected = Boolean(totalCount) && selectedCount === totalCount;
+      selectAllButton.disabled = !totalCount;
+      selectAllButton.textContent = allSelected ? "Clear selected" : `Select all (${totalCount.toLocaleString()})`;
+      selectAllButton.setAttribute("aria-pressed", allSelected ? "true" : "false");
+      selectAllButton.title = totalCount
+        ? (allSelected ? "Clear selected tasks" : `Select all ${totalCount.toLocaleString()} filtered tasks`)
+        : "No tasks match the current filters";
+    }
     renderBulkTaskBar(selectableRows);
+  }
+
+  function toggleFilteredTaskSelection() {
+    const selectableRows = lastTrackerSelectableRows || [];
+    if (!selectableRows.length) return;
+    const selectedRows = selectedVisibleTaskRows(selectableRows);
+    const shouldSelectAll = selectedRows.length !== selectableRows.length;
+    selectableRows.forEach((entry) => {
+      const key = taskOverrideKey(entry);
+      if (shouldSelectAll) selectedTaskKeys.add(key);
+      else selectedTaskKeys.delete(key);
+    });
+    syncTaskSelectionUi(lastTrackerVisibleRows || selectableRows, selectableRows);
   }
 
   function renderBulkTaskBar(visibleRows) {
@@ -6837,6 +6881,8 @@
     }
     const taskSearchClear = document.getElementById("taskSearchClearBtn");
     if (taskSearchClear) taskSearchClear.onclick = clearTrackerTaskSearch;
+    const trackerSelectAll = document.getElementById("trackerSelectAllBtn");
+    if (trackerSelectAll) trackerSelectAll.onclick = toggleFilteredTaskSelection;
     syncTaskSearchClearButton();
     [document.getElementById("trackerPriorityFilter"), document.getElementById("trackerDueDateFilter")].forEach((control) => {
       if (!control) return;
