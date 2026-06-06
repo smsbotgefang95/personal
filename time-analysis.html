@@ -1275,8 +1275,8 @@
     font-weight: 900;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: calc(var(--time-sticky-stack-top) + var(--tracker-filter-height));
     z-index: 30;
   }
 
