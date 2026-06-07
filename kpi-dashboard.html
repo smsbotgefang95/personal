@@ -741,7 +741,7 @@ async function onDateChange() {
       setSegVal('footbath',    data.footbath);
       setSegVal('massage',     data.massage);
       setSegVal('sleepOnTime', data.sleepOnTime);
-      setSegVal('sleepTracked', data.sleepTracked);
+      setSegVal('sleepTracked', data.sleepTracked || 'Yes');
       setSegVal('wakeOnTime',  data.wakeOnTime);
       setSegVal('badMood',     data.badMood);
       if (data.workoutNotes)    document.getElementById('workoutNotes').value    = data.workoutNotes;
