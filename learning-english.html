@@ -5658,6 +5658,30 @@ pass=通过；传递
     consonant_le: "辅音-le音节"
   };
 
+  const VOCABULARY_R_CONTROLLED_SOUND_GROUPS = [
+    { id: "r_sound_ar", label: "R控制: /ɑr/", sound: "/ɑr/", spellings: ["ar"] },
+    { id: "r_sound_er", label: "R控制: /ɝ/ /ɚ/", sound: "/ɝ/ /ɚ/", spellings: ["er", "ir", "ur"] },
+    { id: "r_sound_or", label: "R控制: /ɔr/", sound: "/ɔr/", spellings: ["or"] },
+    { id: "r_sound_ir", label: "R控制: /ɪr/", sound: "/ɪr/", spellings: ["ear", "eer", "ere"] },
+    { id: "r_sound_air", label: "R控制: /ɛr/", sound: "/ɛr/", spellings: ["air", "are", "ear"] }
+  ];
+  const VOCABULARY_R_CONTROLLED_SOUND_BY_ID = Object.fromEntries(
+    VOCABULARY_R_CONTROLLED_SOUND_GROUPS.map((group) => [group.id, group])
+  );
+  const VOCABULARY_R_CONTROLLED_LETTER_FILTERS = Object.fromEntries(
+    VOCABULARY_R_CONTROLLED_SOUND_GROUPS.flatMap((group) => group.spellings.map((spelling) => [
+      `r_letters_${group.id.replace("r_sound_", "")}_${spelling}`,
+      { value: `r_letters_${group.id.replace("r_sound_", "")}_${spelling}`, sound: group.id, spelling }
+    ]))
+  );
+  const LEGACY_R_CONTROLLED_FILTER_MAP = {
+    ar: "r_sound_ar",
+    er_ir_ur: "r_sound_er",
+    or: "r_sound_or",
+    ear_eer_ere: "r_sound_ir",
+    air_are_ear: "r_sound_air"
+  };
+
   const VOCABULARY_SYLLABLE_OVERRIDES = {
     one: "closed"
   };
@@ -6037,15 +6061,82 @@ pass=通过；传递
     return base ? `第三人称单数: ${base}` : "";
   }
 
+  function getRControlledSoundForSpelling(normalized, spelling, ipa = "") {
+    const normalizedIpa = String(ipa || getBritishIpa(normalized) || "").replaceAll("oʊ", "əʊ");
+    if (spelling === "air" || spelling === "are") return "r_sound_air";
+    if (spelling === "ear") {
+      if (/(eə|ɛr)/.test(normalizedIpa)) return "r_sound_air";
+      if (/(ɜː|ɝ|ɚ)/.test(normalizedIpa)) return "r_sound_er";
+      return "r_sound_ir";
+    }
+    if (spelling === "eer" || spelling === "ere") {
+      return /(eə|ɛr)/.test(normalizedIpa) ? "r_sound_air" : "r_sound_ir";
+    }
+    if (spelling === "or") {
+      return /(ɜː|ɝ|ɚ|ər)/.test(normalizedIpa) ? "r_sound_er" : "r_sound_or";
+    }
+    if (spelling === "er" || spelling === "ir" || spelling === "ur") return "r_sound_er";
+    if (spelling === "ar") {
+      if (/(ɔː|ɔr)/.test(normalizedIpa)) return "r_sound_or";
+      if (/ər$/.test(normalizedIpa) || (/(ɜː|ɝ|ɚ|ər)/.test(normalizedIpa) && !/(ɑː|ɑr)/.test(normalizedIpa))) return "r_sound_er";
+      return "r_sound_ar";
+    }
+    return "";
+  }
+
+  function getVocabularyRControlledClassifications(word, ipa = "") {
+    const normalized = String(word || "").toLowerCase().replace(/[^a-z]/g, "");
+    if (!normalized) return [];
+    const spellings = ["air", "are", "ear", "eer", "ere", "or", "er", "ir", "ur", "ar"];
+    const usedRanges = [];
+    const classifications = [];
+    const seen = new Set();
+    spellings.forEach((spelling) => {
+      const pattern = new RegExp(spelling, "g");
+      for (const match of normalized.matchAll(pattern)) {
+        const start = match.index;
+        const end = start + spelling.length;
+        if (usedRanges.some((range) => start < range.end && end > range.start)) continue;
+        const sound = getRControlledSoundForSpelling(normalized, spelling, ipa);
+        if (!sound) continue;
+        const key = `${sound}:${spelling}`;
+        if (!seen.has(key)) {
+          classifications.push({ sound, spelling });
+          seen.add(key);
+        }
+        usedRanges.push({ start, end });
+      }
+    });
+    return classifications;
+  }
+
   function hasRControlledSyllable(word) {
-    for (let index = 0; index < word.length - 1; index += 1) {
-      if (!/[aeiou]/.test(word[index]) || word[index + 1] !== "r") continue;
-      const next = word[index + 2] || "";
-      const afterDoubleR = next === "r" ? (word[index + 3] || "") : "";
+    if (getVocabularyRControlledClassifications(word).length) return true;
+    const normalized = String(word || "").toLowerCase().replace(/[^a-z]/g, "");
+    for (let index = 0; index < normalized.length - 1; index += 1) {
+      if (!/[aeiou]/.test(normalized[index]) || normalized[index + 1] !== "r") continue;
+      const next = normalized[index + 2] || "";
+      const afterDoubleR = next === "r" ? (normalized[index + 3] || "") : "";
       if (/[aeiouy]/.test(next) || /[aeiouy]/.test(afterDoubleR)) continue;
       return true;
     }
     return false;
+  }
+
+  function matchesVocabularySyllableFilter(item, filterValue) {
+    if (filterValue === "all") return true;
+    if (filterValue === "r_controlled") return item.syllableType === "r_controlled";
+    const classifications = getVocabularyRControlledClassifications(item.word, getVocabularyIpa(item));
+    if (Object.prototype.hasOwnProperty.call(VOCABULARY_R_CONTROLLED_SOUND_BY_ID, filterValue)) {
+      return item.syllableType === "r_controlled" && classifications.some((classification) => classification.sound === filterValue);
+    }
+    const letterFilter = VOCABULARY_R_CONTROLLED_LETTER_FILTERS[filterValue];
+    if (letterFilter) {
+      return item.syllableType === "r_controlled" && classifications.some((classification) => (
+        classification.sound === letterFilter.sound && classification.spelling === letterFilter.spelling
+      ));
+    }
+    return item.syllableType === filterValue;
   }
 
   function getVocabularySyllableType(word) {
@@ -8905,6 +8996,14 @@ pass=通过；传递
     return Object.prototype.hasOwnProperty.call(VOCABULARY_SYLLABLE_LABELS, syllableType) ? syllableType : "";
   }
 
+  function isValidVocabularySyllableFilter(value) {
+    const normalizedValue = LEGACY_R_CONTROLLED_FILTER_MAP[value] || value;
+    return normalizedValue === "all"
+      || Object.prototype.hasOwnProperty.call(VOCABULARY_SYLLABLE_LABELS, value)
+      || Object.prototype.hasOwnProperty.call(VOCABULARY_R_CONTROLLED_SOUND_BY_ID, normalizedValue)
+      || Object.prototype.hasOwnProperty.call(VOCABULARY_R_CONTROLLED_LETTER_FILTERS, normalizedValue);
+  }
+
   function cleanVocabularyList(value, allowed = null) {
     const items = Array.isArray(value) ? value : String(value || "").split(",");
     const seen = new Set();
@@ -9246,7 +9345,8 @@ pass=通过；传递
   function loadSelectedVocabularySyllable() {
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_SYLLABLE_FILTER_KEY);
-      return saved === "all" || Object.prototype.hasOwnProperty.call(VOCABULARY_SYLLABLE_LABELS, saved) ? saved : "all";
+      const migrated = LEGACY_R_CONTROLLED_FILTER_MAP[saved] || saved;
+      return isValidVocabularySyllableFilter(migrated) ? migrated : "all";
     } catch (error) {
       return "all";
     }
@@ -10671,7 +10771,7 @@ pass=通过；传递
       const matchesPrefix = prefixFilter === "all" || (matchesMorphology && item.prefix === prefixFilter);
       const matchesSuffix = suffixFilter === "all" || (matchesMorphology && item.suffix === suffixFilter);
       const matchesRoot = !includeRoot || rootFilter === "all" || (matchesMorphology && (item.roots || []).includes(rootFilter));
-      const matchesSyllable = syllableFilter === "all" || item.syllableType === syllableFilter;
+      const matchesSyllable = matchesVocabularySyllableFilter(item, syllableFilter);
       const matchesVowelTeam = matchesVocabularyVowelTeamFilter(item, vowelTeamFilter);
       const matchesIpa = ipaMatchesFilter(getVocabularyIpa(item), ipaFilter);
       return matchesStatus && matchesPart && matchesTheme && matchesWordFormation && matchesLetterCount && matchesTense && matchesPrefix && matchesSuffix && matchesRoot && matchesSyllable && matchesVowelTeam && matchesIpa && matchesSearch(item);
@@ -10800,7 +10900,14 @@ pass=通过；传递
         const definition = VOCABULARY_ROOT_DEFINITIONS[root];
         return definition ? `<span class="vocabulary-tag">词根: ${escapeHtml(definition.label)}</span>` : "";
       }).join("") : "";
-      const syllableTag = item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "";
+      const rControlledClassifications = item.syllableType === "r_controlled" ? getVocabularyRControlledClassifications(item.word, ipa) : [];
+      const syllableTag = rControlledClassifications.length
+        ? rControlledClassifications.map((classification) => {
+          const group = VOCABULARY_R_CONTROLLED_SOUND_BY_ID[classification.sound];
+          const label = group ? `R控制: ${group.sound} (${classification.spelling})` : "R控制音节";
+          return `<span class="vocabulary-tag">${escapeHtml(label)}</span>`;
+        }).join("")
+        : (item.syllableType ? `<span class="vocabulary-tag">${escapeHtml(VOCABULARY_SYLLABLE_LABELS[item.syllableType] || item.syllableType)}</span>` : "");
       const vowelTeamTag = (item.vowelTeams || []).length ? `<span class="vocabulary-tag">元音组合: ${item.vowelTeams.map((team) => escapeHtml(team)).join(", ")}</span>` : "";
       return `
         <article class="vocabulary-card" data-vocabulary-card="${item.id}">
@@ -11470,7 +11577,20 @@ pass=通过；传递
   const vocabularySyllableFilter = document.getElementById("vocabularySyllableFilter");
   vocabularySyllableFilter.innerHTML = [
     `<option value="all">所有音节</option>`,
-    ...Object.entries(VOCABULARY_SYLLABLE_LABELS).map(([type, label]) => `<option value="${type}">${escapeHtml(label)}</option>`)
+    ...Object.entries(VOCABULARY_SYLLABLE_LABELS).flatMap(([type, label]) => {
+      const option = `<option value="${type}">${escapeHtml(label)}</option>`;
+      if (type !== "r_controlled") return [option];
+      return [
+        option,
+        ...VOCABULARY_R_CONTROLLED_SOUND_GROUPS.flatMap((group) => [
+          `<option value="${group.id}">${escapeHtml(group.label)}</option>`,
+          ...group.spellings.map((spelling) => {
+            const letterFilter = `r_letters_${group.id.replace("r_sound_", "")}_${spelling}`;
+            return `<option value="${letterFilter}">&nbsp;&nbsp;${escapeHtml(spelling)}</option>`;
+          })
+        ])
+      ];
+    })
   ].join("");
   vocabularySyllableFilter.addEventListener("change", (event) => {
     selectedVocabularySyllable = event.target.value;
