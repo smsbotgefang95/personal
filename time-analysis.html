@@ -912,7 +912,10 @@
     gap: 8px;
     align-items: center;
     min-width: 0;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
   }
 
   .recent-task-item {
@@ -5099,12 +5102,6 @@
     const items = Array.from(recentList.querySelectorAll(".recent-task-item"));
     if (!items.length) return;
     items.forEach((item) => { item.hidden = false; });
-    const listRect = recentList.getBoundingClientRect();
-    const maxRight = listRect.right + 1;
-    items.forEach((item) => {
-      const itemRect = item.getBoundingClientRect();
-      item.hidden = itemRect.right > maxRight || itemRect.top > listRect.top + 1;
-    });
   }
 
   function renderRecentTaskSwitcher(entries = recentTrackedTaskSource()) {
