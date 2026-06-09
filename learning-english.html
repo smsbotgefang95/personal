@@ -5273,14 +5273,9 @@ pass=通过；传递
     { id: "derived-suffix-person", label: "人物/职业后缀 Person suffixes", group: "派生词: 名词派生" },
     { id: "derived-suffix-abstract", label: "抽象/状态后缀 Abstract suffixes", group: "派生词: 名词派生" },
     { id: "derived-verb", label: "1.2 动词派生 Verb derivation", group: "派生词: 语法功能" },
-    { id: "derived-suffix-verb", label: "动词化后缀 Verb-forming suffixes", group: "派生词: 动词派生" },
     { id: "derived-adjective", label: "1.3 形容词派生 Adjective derivation", group: "派生词: 语法功能" },
-    { id: "derived-suffix-adjective", label: "形容词化后缀 Adjective-forming suffixes", group: "派生词: 形容词派生" },
     { id: "derived-adverb", label: "1.4 副词派生 Adverb derivation", group: "派生词: 语法功能" },
-    { id: "derived-suffix-adverb", label: "副词化后缀 Adverb-forming suffixes", group: "派生词: 副词派生" },
     { id: "derived-prefix", label: "2.1 前缀派生 Prefix derivation", group: "派生词: 词缀位置" },
-    { id: "derived-prefix-negative", label: "否定前缀 Negative prefixes", group: "派生词: 词缀位置" },
-    { id: "derived-prefix-direction", label: "方向前缀 Direction prefixes", group: "派生词: 词缀位置" },
     { id: "derived-suffix", label: "2.2 后缀派生 Suffix derivation", group: "派生词: 词缀位置" },
     { id: "derived-both-affixes", label: "2.3 双缀派生 Prefix + suffix", group: "派生词: 词缀位置" },
     { id: "compound-closed", label: "3.1 闭合复合词 Closed compounds", group: "复合词分类" },
@@ -5314,11 +5309,6 @@ pass=通过；传递
     onomatopoeia: new Set(["bang", "buzz", "meow"]),
     "transliteration-calque": new Set(["beer garden", "skyscraper"]),
     portmanteau: new Set(["brexit", "infomercial"])
-  };
-
-  const DERIVED_PREFIX_GROUPS = {
-    "derived-prefix-negative": new Set(["un", "in", "im", "il", "ir", "dis", "non"]),
-    "derived-prefix-direction": new Set(["re", "pre", "sub"])
   };
 
   const DERIVED_SUFFIX_GROUPS = {
@@ -5450,6 +5440,8 @@ pass=通过；传递
   const VOCABULARY_SUFFIX_FILTER_LABELS = Object.fromEntries(
     Object.entries(VOCABULARY_SUFFIX_LABELS).filter(([suffix]) => !["s", "ed"].includes(suffix))
   );
+  const VOCABULARY_DERIVED_PREFIX_FILTER_PREFIX = "derived-prefix:";
+  const VOCABULARY_DERIVED_SUFFIX_FILTER_PREFIX = "derived-suffix:";
 
   const VOCABULARY_ROOT_DEFINITIONS = {
     form: {
@@ -9006,9 +8998,6 @@ pass=通过；传递
     const suffix = getVocabularyDerivedSuffix(item);
     const types = [];
     if (prefix) types.push("derived-prefix");
-    Object.entries(DERIVED_PREFIX_GROUPS).forEach(([type, prefixes]) => {
-      if (prefixes.has(prefix)) types.push(type);
-    });
     if (suffix) types.push("derived-suffix");
     Object.entries(DERIVED_SUFFIX_GROUPS).forEach(([type, suffixes]) => {
       if (suffixes.has(suffix)) types.push(type);
@@ -9035,8 +9024,26 @@ pass=通过；传递
     return "";
   }
 
+  function getVocabularyDerivedAffixFilterValue(type, affix) {
+    const prefix = type === "prefix" ? VOCABULARY_DERIVED_PREFIX_FILTER_PREFIX : VOCABULARY_DERIVED_SUFFIX_FILTER_PREFIX;
+    return `${prefix}${affix}`;
+  }
+
+  function parseVocabularyDerivedAffixFilter(value) {
+    if (String(value || "").startsWith(VOCABULARY_DERIVED_PREFIX_FILTER_PREFIX)) {
+      return { type: "prefix", affix: value.slice(VOCABULARY_DERIVED_PREFIX_FILTER_PREFIX.length) };
+    }
+    if (String(value || "").startsWith(VOCABULARY_DERIVED_SUFFIX_FILTER_PREFIX)) {
+      return { type: "suffix", affix: value.slice(VOCABULARY_DERIVED_SUFFIX_FILTER_PREFIX.length) };
+    }
+    return null;
+  }
+
   function matchesVocabularyWordFormation(item, selectedFormation) {
     if (selectedFormation === "all") return true;
+    const affixFilter = parseVocabularyDerivedAffixFilter(selectedFormation);
+    if (affixFilter?.type === "prefix") return getVocabularyDerivedPrefix(item) === affixFilter.affix;
+    if (affixFilter?.type === "suffix") return getVocabularyDerivedSuffix(item) === affixFilter.affix;
     const formation = getVocabularyWordFormation(item);
     if (selectedFormation.startsWith("derived-")) return getVocabularyDerivedTypes(item).includes(selectedFormation);
     if (selectedFormation === "derived") return formation === "derived";
@@ -9367,6 +9374,9 @@ pass=通过；传递
     try {
       const saved = localStorage.getItem(STORAGE_VOCAB_COMPOUND_FILTER_KEY);
       if (saved === "single") return "simple";
+      const affixFilter = parseVocabularyDerivedAffixFilter(saved);
+      if (affixFilter?.type === "prefix" && Object.prototype.hasOwnProperty.call(VOCABULARY_PREFIX_LABELS, affixFilter.affix) && affixFilter.affix !== "none") return saved;
+      if (affixFilter?.type === "suffix" && Object.prototype.hasOwnProperty.call(VOCABULARY_SUFFIX_FILTER_LABELS, affixFilter.affix) && affixFilter.affix !== "none") return saved;
       return ["all", ...VOCABULARY_WORD_FORMATION_TYPES.map((type) => type.id)].includes(saved) ? saved : "all";
     } catch (error) {
       return "all";
@@ -10563,8 +10573,23 @@ pass=通过；传递
       const count = counts.get(type.id) || 0;
       return `${type.label}${count ? ` (${count})` : ""}`;
     };
+    const formatAffixLabel = (affix, label, count) => `${label}${count ? ` (${count})` : ""}`;
     const allLabel = "所有构词法";
-    const optionTypes = VOCABULARY_WORD_FORMATION_TYPES;
+    const derivedPrefixOptions = getVocabularyFilterOptions(sourceVocabulary.filter((item) => !!getVocabularyDerivedPrefix(item)), "prefix", VOCABULARY_PREFIX_LABELS);
+    const derivedSuffixOptions = getVocabularyFilterOptions(sourceVocabulary.filter((item) => !!getVocabularyDerivedSuffix(item)), "suffix", VOCABULARY_SUFFIX_FILTER_LABELS, { exclude: ["s", "ed"] });
+    const affixOptionTypes = [
+      ...derivedPrefixOptions.map(([prefix, count]) => ({
+        id: getVocabularyDerivedAffixFilterValue("prefix", prefix),
+        label: formatAffixLabel(prefix, VOCABULARY_PREFIX_LABELS[prefix], count),
+        affixLabel: VOCABULARY_PREFIX_LABELS[prefix]
+      })),
+      ...derivedSuffixOptions.map(([suffix, count]) => ({
+        id: getVocabularyDerivedAffixFilterValue("suffix", suffix),
+        label: formatAffixLabel(suffix, VOCABULARY_SUFFIX_FILTER_LABELS[suffix], count),
+        affixLabel: VOCABULARY_SUFFIX_FILTER_LABELS[suffix]
+      }))
+    ];
+    const optionTypes = [...VOCABULARY_WORD_FORMATION_TYPES, ...affixOptionTypes];
     const selectedType = optionTypes.find((type) => type.id === selectedVocabularyCompound);
     vocabularyWordFormationFilter.innerHTML = [
       `<option value="all">${allLabel}</option>`,
@@ -10589,10 +10614,7 @@ pass=通过；传递
     };
     const renderDerivedGrammarOptions = () => {
       const functionChildGroups = {
-        "derived-noun": "派生词: 名词派生",
-        "derived-verb": "派生词: 动词派生",
-        "derived-adjective": "派生词: 形容词派生",
-        "derived-adverb": "派生词: 副词派生"
+        "derived-noun": "派生词: 名词派生"
       };
       return VOCABULARY_WORD_FORMATION_TYPES
         .filter((subtype) => subtype.group === "派生词: 语法功能")
@@ -10603,17 +10625,24 @@ pass=通过；传递
         .join("");
     };
     const renderDerivedPositionOptions = () => {
-      const prefixChildren = new Set(["derived-prefix-negative", "derived-prefix-direction"]);
       return VOCABULARY_WORD_FORMATION_TYPES
         .filter((subtype) => subtype.group === "派生词: 词缀位置")
-        .filter((subtype) => !prefixChildren.has(subtype.id))
         .map((subtype) => {
           const childOptions = subtype.id === "derived-prefix"
-            ? VOCABULARY_WORD_FORMATION_TYPES
-              .filter((child) => prefixChildren.has(child.id))
-              .map((child) => renderOption(child, "is-subgroup is-nested-subgroup"))
+            ? derivedPrefixOptions
+              .map(([prefix, count]) => renderOption({
+                id: getVocabularyDerivedAffixFilterValue("prefix", prefix),
+                label: formatAffixLabel(prefix, VOCABULARY_PREFIX_LABELS[prefix], count)
+              }, "is-subgroup is-nested-subgroup"))
               .join("")
-            : "";
+            : subtype.id === "derived-suffix"
+              ? derivedSuffixOptions
+                .map(([suffix, count]) => renderOption({
+                  id: getVocabularyDerivedAffixFilterValue("suffix", suffix),
+                  label: formatAffixLabel(suffix, VOCABULARY_SUFFIX_FILTER_LABELS[suffix], count)
+                }, "is-subgroup is-nested-subgroup"))
+                .join("")
+              : "";
           return `${renderOption(subtype, "is-subgroup")}${childOptions}`;
         })
         .join("");
