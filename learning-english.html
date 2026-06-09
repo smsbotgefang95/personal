@@ -6106,19 +6106,19 @@ pass=通过；传递
     if (spelling === "air" || spelling === "are") return "r_sound_air";
     if (spelling === "ear") {
       if (/(eə|ɛr)/.test(normalizedIpa)) return "r_sound_air";
-      if (/(ɜː|ɝ|ɚ)/.test(normalizedIpa)) return "r_sound_er";
+      if (/(ɜː|ɜr|ɝ|ɚ)/.test(normalizedIpa)) return "r_sound_er";
       return "r_sound_ir";
     }
     if (spelling === "eer" || spelling === "ere") {
       return /(eə|ɛr)/.test(normalizedIpa) ? "r_sound_air" : "r_sound_ir";
     }
     if (spelling === "or") {
-      return /(ɜː|ɝ|ɚ|ər)/.test(normalizedIpa) ? "r_sound_er" : "r_sound_or";
+      return /(ɜː|ɜr|ɝ|ɚ|ər)/.test(normalizedIpa) ? "r_sound_er" : "r_sound_or";
     }
     if (spelling === "er" || spelling === "ir" || spelling === "ur") return "r_sound_er";
     if (spelling === "ar") {
       if (/(ɔː|ɔr)/.test(normalizedIpa)) return "r_sound_or";
-      if (/ər$/.test(normalizedIpa) || (/(ɜː|ɝ|ɚ|ər)/.test(normalizedIpa) && !/(ɑː|ɑr)/.test(normalizedIpa))) return "r_sound_er";
+      if (/ər$/.test(normalizedIpa) || (/(ɜː|ɜr|ɝ|ɚ|ər)/.test(normalizedIpa) && !/(ɑː|ɑr)/.test(normalizedIpa))) return "r_sound_er";
       return "r_sound_ar";
     }
     return "";
