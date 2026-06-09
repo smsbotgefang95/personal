@@ -910,9 +910,29 @@
   ],
   "duplicateEntries": [
     {
+      "text": "block",
+      "line": 5,
+      "mergedIntoLine": 5
+    },
+    {
+      "text": "brace",
+      "line": 5,
+      "mergedIntoLine": 5
+    },
+    {
       "text": "board",
       "line": 5,
       "mergedIntoLine": 2
+    },
+    {
+      "text": "cherry",
+      "line": 8,
+      "mergedIntoLine": 8
+    },
+    {
+      "text": "card",
+      "line": 8,
+      "mergedIntoLine": 8
     },
     {
       "text": "chair",
@@ -925,9 +945,14 @@
       "mergedIntoLine": 2
     },
     {
-      "text": "copies",
+      "text": "copy",
       "line": 11,
       "mergedIntoLine": 11
+    },
+    {
+      "text": "dish",
+      "line": 14,
+      "mergedIntoLine": 8
     },
     {
       "text": "Counter",
@@ -941,6 +966,11 @@
     },
     {
       "text": "form",
+      "line": 14,
+      "mergedIntoLine": 8
+    },
+    {
+      "text": "diaper",
       "line": 14,
       "mergedIntoLine": 8
     },
@@ -980,6 +1010,11 @@
       "mergedIntoLine": 11
     },
     {
+      "text": "group",
+      "line": 23,
+      "mergedIntoLine": 5
+    },
+    {
       "text": "Department",
       "line": 23,
       "mergedIntoLine": 11
@@ -1015,6 +1050,16 @@
       "mergedIntoLine": 20
     },
     {
+      "text": "light",
+      "line": 26,
+      "mergedIntoLine": 26
+    },
+    {
+      "text": "leaf",
+      "line": 26,
+      "mergedIntoLine": 26
+    },
+    {
       "text": "Friday",
       "line": 29,
       "mergedIntoLine": 20
@@ -1040,14 +1085,29 @@
       "mergedIntoLine": 2
     },
     {
+      "text": "mouse",
+      "line": 29,
+      "mergedIntoLine": 29
+    },
+    {
       "text": "car",
       "line": 29,
       "mergedIntoLine": 8
     },
     {
+      "text": "note",
+      "line": 32,
+      "mergedIntoLine": 32
+    },
+    {
       "text": "Novocaine™",
       "line": 32,
       "mergedIntoLine": 20
+    },
+    {
+      "text": "nut",
+      "line": 32,
+      "mergedIntoLine": 32
     },
     {
       "text": "order",
@@ -1075,12 +1135,22 @@
       "mergedIntoLine": 8
     },
     {
+      "text": "plain",
+      "line": 35,
+      "mergedIntoLine": 35
+    },
+    {
       "text": "player",
       "line": 35,
       "mergedIntoLine": 35
     },
     {
       "text": "player",
+      "line": 35,
+      "mergedIntoLine": 35
+    },
+    {
+      "text": "play",
       "line": 35,
       "mergedIntoLine": 35
     },
@@ -1095,9 +1165,24 @@
       "mergedIntoLine": 14
     },
     {
+      "text": "problem",
+      "line": 38,
+      "mergedIntoLine": 17
+    },
+    {
+      "text": "roll",
+      "line": 38,
+      "mergedIntoLine": 38
+    },
+    {
       "text": "room",
       "line": 38,
       "mergedIntoLine": 11
+    },
+    {
+      "text": "bed",
+      "line": 38,
+      "mergedIntoLine": 5
     },
     {
       "text": "reservation",
@@ -1110,9 +1195,24 @@
       "mergedIntoLine": 32
     },
     {
+      "text": "scale",
+      "line": 41,
+      "mergedIntoLine": 41
+    },
+    {
       "text": "needle",
       "line": 41,
       "mergedIntoLine": 32
+    },
+    {
+      "text": "shelf",
+      "line": 41,
+      "mergedIntoLine": 41
+    },
+    {
+      "text": "straw",
+      "line": 44,
+      "mergedIntoLine": 44
     },
     {
       "text": "specialist",
@@ -1135,7 +1235,7 @@
       "mergedIntoLine": 17
     },
     {
-      "text": "qualifications",
+      "text": "qualification",
       "line": 47,
       "mergedIntoLine": 38
     },
@@ -1143,6 +1243,11 @@
       "text": "teacher",
       "line": 47,
       "mergedIntoLine": 41
+    },
+    {
+      "text": "tooth",
+      "line": 47,
+      "mergedIntoLine": 47
     },
     {
       "text": "up",
@@ -1175,8 +1280,23 @@
       "mergedIntoLine": 47
     },
     {
+      "text": "wipe",
+      "line": 53,
+      "mergedIntoLine": 2
+    },
+    {
       "text": "Department",
       "line": 53,
+      "mergedIntoLine": 11
+    },
+    {
+      "text": "weight",
+      "line": 53,
+      "mergedIntoLine": 53
+    },
+    {
+      "text": "child",
+      "line": 0,
       "mergedIntoLine": 11
     },
     {
@@ -1993,7 +2113,7 @@
     "aluminum foil",
     "ambulance",
     "American deese",
-    "amphibians",
+    "amphibian",
     "amusement park",
     "anesthesiologist",
     "anesthetic",
@@ -2005,7 +2125,8 @@
     "answer",
     "answer sheet",
     "answer the question",
-    "antacid tablets",
+    "ant",
+    "antacid tablet",
     "anteater",
     "antelope",
     "antenna",
@@ -2016,13 +2137,12 @@
     "antipasto plate",
     "antiseptic cleansing astronomer",
     "antiseptic cleansing wipe",
-    "ants",
-    "apartment ads",
-    "apartment listings",
+    "apartment ad",
+    "apartment listing",
     "apartment number",
     "apex",
     "apostrophe",
-    "appetizers",
+    "appetizer",
     "apple",
     "apple juice",
     "appliance repairperson",
@@ -2048,7 +2168,7 @@
     "arrival and departure monitor",
     "art",
     "art gallery",
-    "arteries",
+    "artery",
     "artichoke",
     "article",
     "artist",
@@ -2077,7 +2197,7 @@
     "atlas",
     "ATM",
     "ATMmachine",
-    "attachments",
+    "attachment",
     "audio cassette",
     "audiologist",
     "audiotape",
@@ -2086,7 +2206,7 @@
     "aunt",
     "author",
     "autobiography",
-    "automatic baking products",
+    "automatic baking product",
     "autumn",
     "available",
     "avalanche",
@@ -2105,7 +2225,7 @@
     "baby powder",
     "baby seat",
     "baby shampoo",
-    "baby wipes",
+    "baby wipe",
     "babyfood",
     "babysitter",
     "back",
@@ -2207,7 +2327,7 @@
     "beach blanket",
     "beach towel",
     "beach umbrella",
-    "beads",
+    "bead",
     "beak",
     "beaker",
     "beam",
@@ -2222,7 +2342,6 @@
     "bed frame",
     "bed pan",
     "bed table",
-    "beds",
     "bedspread",
     "bee",
     "beehive",
@@ -2238,9 +2357,9 @@
     "bench",
     "bend",
     "benefits",
-    "berries",
+    "berry",
     "between",
-    "beverages",
+    "beverage",
     "bicycle",
     "bicycle heJmet",
     "bicycle path",
@@ -2253,18 +2372,18 @@
     "bike shorts",
     "bikeway",
     "bikini panties",
-    "billiard balls",
+    "billiard ball",
     "billiards",
     "binder",
-    "bindings",
+    "binding",
     "binoculars",
     "biography",
     "biohazard",
     "biology",
     "birch",
+    "bird",
     "bird watching",
     "birdie",
-    "birds",
     "birthing room",
     "biscuit",
     "bison",
@@ -2291,12 +2410,11 @@
     "blll",
     "bloated",
     "block",
-    "blocks",
     "blond",
     "blood",
     "blood pressure",
     "blood pressure gauge",
-    "blood tests",
+    "blood test",
     "blood work",
     "bloody nose",
     "blouse",
@@ -2304,9 +2422,9 @@
     "blrthday",
     "blue",
     "blue jay",
-    "blueberries",
+    "blueberry",
     "bluegrass",
-    "blueprints",
+    "blueprint",
     "blues",
     "blush",
     "boa constrictor",
@@ -2323,7 +2441,7 @@
     "bok choy",
     "bologna",
     "bolt",
-    "bones",
+    "bone",
     "boogie board",
     "book",
     "book of stamps",
@@ -2337,7 +2455,7 @@
     "boots",
     "bored",
     "boss",
-    "botanical gardens",
+    "botanical garden",
     "bottle",
     "bottle opener",
     "bounce",
@@ -2357,7 +2475,6 @@
     "bra",
     "brace",
     "bracelet",
-    "braces",
     "brain",
     "brainstorm ideas",
     "brake",
@@ -2404,7 +2521,7 @@
     "bug spray",
     "build",
     "build models",
-    "building blocks",
+    "building block",
     "building manager",
     "bulb",
     "bulJetin board",
@@ -2438,7 +2555,7 @@
     "butter knife",
     "butterfly",
     "butternut squash",
-    "buttocks",
+    "buttock",
     "button",
     "buttonhole",
     "buy",
@@ -2492,7 +2609,7 @@
     "canister",
     "canned fruit",
     "canned goods",
-    "canned vegetables",
+    "canned vegetable",
     "canoe",
     "canoeinq",
     "cantaloupe",
@@ -2507,7 +2624,7 @@
     "car dealership",
     "car jacking",
     "car payment",
-    "car rental counters",
+    "car rental counter",
     "card",
     "card cataloq",
     "card machine",
@@ -2517,8 +2634,7 @@
     "cardinal number",
     "cardiologist",
     "cardiopulmonary chalk",
-    "cards",
-    "care instructions",
+    "care instruction",
     "carnation",
     "carnel",
     "carnival",
@@ -2602,10 +2718,9 @@
     "cheese",
     "cheeseburger",
     "chef",
+    "chemical",
     "chemical spill",
-    "chemicals",
     "chemistry",
-    "cherries",
     "cherry",
     "cherry picker",
     "chess",
@@ -2614,23 +2729,22 @@
     "chest of drawers",
     "chest pain",
     "chewing gum",
-    "chicken breasts",
+    "chicken breast",
     "chicken coop",
-    "chicken legs",
+    "chicken leg",
     "chicken pox",
     "chicken salad sandwich car seat",
     "chicken sandwich",
-    "chicken thighs",
-    "chicken wings",
+    "chicken thigh",
+    "chicken wing",
     "chicleen",
     "child",
-    "children",
     "children's book",
     "Children's Clothing Department",
     "children's program",
     "children's section",
     "chili",
-    "chills",
+    "chill",
     "chimney",
     "chimneysweep",
     "chimpanzee",
@@ -2657,7 +2771,7 @@
     "city",
     "city hall",
     "city manager",
-    "clams",
+    "clam",
     "clarinet",
     "class",
     "classical music",
@@ -2686,7 +2800,7 @@
     "coat closet",
     "coat rack",
     "cockpit",
-    "cockroaches",
+    "cockroach",
     "coconut",
     "cocoon",
     "cod",
@@ -2695,12 +2809,12 @@
     "coffee pot",
     "coffee shop",
     "coffee table",
+    "coin",
     "coin catalog",
     "coin collection",
-    "coins",
     "colander",
     "cold",
-    "cold tablets",
+    "cold tablet",
     "cole slaw",
     "collar",
     "collect coins",
@@ -2709,8 +2823,8 @@
     "college",
     "cologne",
     "colon",
-    "color markers",
-    "colored pencils",
+    "color marker",
+    "colored pencil",
     "coloring book",
     "comb",
     "comb my hair",
@@ -2730,7 +2844,7 @@
     "compact disc",
     "compartment",
     "compass",
-    "compass directions",
+    "compass direction",
     "computer",
     "computer elub",
     "computer game",
@@ -2744,9 +2858,9 @@
     "concert hall",
     "concierge",
     "concierge desk",
-    "conclusions",
+    "conclusion",
     "concrete",
-    "condiments",
+    "condiment",
     "conditioner",
     "condo",
     "condominium",
@@ -2771,15 +2885,15 @@
     "cook",
     "cook dinner",
     "cookbook",
+    "cookie",
     "cookie cutter",
     "cookie sheet",
-    "cookies",
     "cooking oil",
     "cool",
     "coolant",
     "cooler",
     "copier",
-    "copies",
+    "copy",
     "copy center",
     "copy machine",
     "copy the word",
@@ -2788,20 +2902,20 @@
     "cornea",
     "correct",
     "correct your mistakes",
-    "corrections",
+    "correction",
     "corrosive",
     "cottage cheese",
-    "cotton balls",
+    "cotton ball",
     "cotton swab",
     "couch",
     "cough",
-    "cough drops",
+    "cough drop",
     "cough syrup",
     "counseling",
     "counselor",
     "counter",
     "country",
-    "coupons",
+    "coupon",
     "courier",
     "courthouse",
     "courtyard",
@@ -2815,12 +2929,12 @@
     "CPU",
     "crab",
     "cracked",
-    "crackers",
+    "cracker",
     "cradle",
     "craft fair",
-    "cramps",
+    "cramp",
     "crane",
-    "crayons",
+    "crayon",
     "crea m",
     "cream cheese",
     "creamer",
@@ -2845,7 +2959,7 @@
     "crow",
     "crucible tongs",
     "cruise",
-    "crutches",
+    "crutch",
     "csr accident",
     "cubby",
     "cube",
@@ -2869,9 +2983,9 @@
     "cutting board",
     "cycling",
     "cylinder",
-    "cymbals",
+    "cymbal",
     "daffodll",
-    "dairy products",
+    "dairy product",
     "daisy",
     "dangerous",
     "danish",
@@ -2880,8 +2994,8 @@
     "dark green",
     "dashboard",
     "data entry clerk",
+    "date",
     "date of birth",
-    "dates",
     "daughter",
     "daughter-in-Iaw",
     "day",
@@ -2930,7 +3044,6 @@
     "diamond",
     "diaper",
     "diaper pin",
-    "diapers",
     "diarrhea",
     "dice",
     "dictionary",
@@ -2958,7 +3071,6 @@
     "dish drainer",
     "dish rack",
     "dish towel",
-    "dishes",
     "dishonest",
     "dishroom",
     "dishwasher",
@@ -3058,11 +3170,11 @@
     "driveway",
     "dropper",
     "drought",
+    "drug",
     "drug dealing",
     "drug store",
-    "drugs",
-    "drums",
-    "drumsticks",
+    "drum",
+    "drumstick",
     "drunk driving",
     "dry",
     "dry cleaners",
@@ -3092,7 +3204,7 @@
     "ear infection",
     "ear muffs",
     "earache",
-    "earplugs",
+    "earplug",
     "earrings",
     "ears, nose, and throat expensive",
     "Earth",
@@ -3118,7 +3230,7 @@
     "elastic bandage",
     "elay",
     "elbow",
-    "elbow pads",
+    "elbow pad",
     "elclerly person",
     "eldercare worker",
     "elderly",
@@ -3172,14 +3284,14 @@
     "engine",
     "engineer",
     "English",
-    "English muffins",
+    "English muffin",
     "ENT specialist",
     "enter your personal filling",
     "enter your PIN number",
     "entra nce ramp",
     "entree",
     "envelope",
-    "environmental problems",
+    "environmental problem",
     "equals",
     "ER",
     "erase the board",
@@ -3217,11 +3329,11 @@
     "extra-small",
     "eye",
     "eye chart",
-    "eye drops",
+    "eye drop",
     "eye shadow",
     "eyebrow",
     "eyebrow pencil",
-    "eyelashes",
+    "eyelash",
     "eyelid",
     "eyeliner",
     "fabric softener",
@@ -3319,8 +3431,8 @@
     "flask",
     "flat panel screen",
     "flat sheet",
+    "flea",
     "flea market",
-    "fleas",
     "flight attendant",
     "flip-flops",
     "flood",
@@ -3355,7 +3467,7 @@
     "forehead",
     "foreign film",
     "foreign language book",
-    "foreign language fuses",
+    "foreign language fuse",
     "foreman",
     "forest",
     "forest fire",
@@ -3367,13 +3479,13 @@
     "fountain",
     "fourth floor",
     "fox",
-    "fractions",
+    "fraction",
     "Freeze!",
     "freezer",
     "freezing",
     "freight elevator",
     "French",
-    "french fries",
+    "french fry",
     "French horn",
     "Friday",
     "fried chicken",
@@ -3384,11 +3496,11 @@
     "front door",
     "front light",
     "front porch",
-    "front steps",
+    "front step",
     "front walk",
     "frostbite",
-    "frozen dinners",
-    "frozen foods",
+    "frozen dinner",
+    "frozen food",
     "frozen orange juice",
     "frozen vegeta bies",
     "frozen yogurt",
@@ -3450,7 +3562,7 @@
     "gauze",
     "gearshift",
     "geography",
-    "geometric shapes",
+    "geometric shape",
     "geometry",
     "geothermal energy",
     "geranium",
@@ -3514,7 +3626,7 @@
     "goldfish",
     "golf",
     "golf ball",
-    "golf clubs",
+    "golf club",
     "good",
     "Good afternoon.",
     "Good evening.",
@@ -3533,12 +3645,12 @@
     "grandchildren",
     "grandfather",
     "grandmother",
-    "grandparents",
+    "grandparent",
     "grandson",
+    "grape",
     "grape juice",
     "grapefruit",
     "grapefruitjuice",
-    "grapes",
     "graph paper",
     "grasshopper",
     "grate",
@@ -3553,7 +3665,6 @@
     "grocery store",
     "ground beef",
     "group",
-    "groups",
     "grow",
     "guard",
     "guest",
@@ -3562,7 +3673,7 @@
     "guided tour",
     "guinea pig",
     "guitar",
-    "gums",
+    "gum",
     "gurney",
     "gutter",
     "gym",
@@ -3596,7 +3707,7 @@
     "hand",
     "hand in your homework",
     "hand lotion",
-    "hand signals",
+    "hand signal",
     "hand towel",
     "hand truck",
     "hand vacuum",
@@ -3672,7 +3783,7 @@
     "Hi. I'm ....",
     "Hi. I'm...",
     "hibiscus",
-    "hiccups",
+    "hiccup",
     "high",
     "high blood pressure",
     "high chair",
@@ -3702,7 +3813,7 @@
     "holly",
     "home attendant",
     "home economics",
-    "home fries",
+    "home fry",
     "Home Furnishings Department",
     "home health aide",
     "home repairperson",
@@ -3737,7 +3848,7 @@
     "houseboat",
     "Household Appliances guidance counselor",
     "household bilis",
-    "household items",
+    "household item",
     "housekeeper",
     "housekeeping",
     "housekeeping cart",
@@ -3785,7 +3896,7 @@
     "ice skates",
     "ice skating",
     "iced tea",
-    "ideas",
+    "idea",
     "identification number",
     "ignition",
     "iguana",
@@ -3813,10 +3924,10 @@
     "ink pad",
     "inline skates",
     "inline skating",
+    "insect",
     "insect bite",
     "insect repellant",
     "insect spray",
-    "insects",
     "insertthe ATM card",
     "instant coffee",
     "instant message",
@@ -3875,8 +3986,8 @@
     "Jewelry Counter",
     "jewelry store",
     "jigsaw puzzle",
-    "job ad abbreviations",
-    "job ads",
+    "job ad",
+    "job ad abbreviation",
     "job announcement",
     "job notice",
     "job search",
@@ -3889,13 +4000,13 @@
     "journal",
     "journalist",
     "joystick",
-    "juice paks",
-    "juices",
+    "juice",
+    "juice pak",
     "July",
     "jump",
     "jump rope",
     "jumper",
-    "jumper cables",
+    "jumper cable",
     "jumping jack",
     "jumpsuit",
     "June",
@@ -3914,8 +4025,8 @@
     "kick",
     "kiddie pool",
     "kidnapping",
+    "kidney",
     "kidney bean",
-    "kidneys",
     "kilometer",
     "kitchen",
     "kitchen chair",
@@ -3928,7 +4039,7 @@
     "kitten",
     "kiwi",
     "knee",
-    "knee pads",
+    "knee pad",
     "knee socks",
     "knee-hiqhs",
     "knife",
@@ -3957,7 +4068,7 @@
     "ladybug",
     "lake",
     "lamb",
-    "lamb chops",
+    "lamb chop",
     "lamp",
     "lamppost",
     "lampshade",
@@ -3993,7 +4104,6 @@
     "leather jacket",
     "leave a tip",
     "leave home",
-    "leaves",
     "left lane",
     "leg",
     "leg of lamb",
@@ -4029,10 +4139,9 @@
     "light",
     "light clothing",
     "light green",
-    "lightbulbs",
+    "lightbulb",
     "lightening bug",
     "lightning",
-    "lights",
     "lily",
     "lima bean",
     "limb",
@@ -4045,7 +4154,7 @@
     "lion",
     "lipstick",
     "liquid soap",
-    "liquid vitamins",
+    "liquid vitamin",
     "listen to music",
     "listen to the answer",
     "long johns",
@@ -4068,7 +4177,7 @@
     "lunar eclipse",
     "lunch",
     "lunchroom monitor",
-    "lungs",
+    "lung",
     "lycra sherts",
     "macaroni",
     "macaroni salad",
@@ -4114,17 +4223,17 @@
     "Mars",
     "martial arts",
     "mascara",
-    "mashed potatoes",
+    "mashed potato",
     "mask",
     "masking tape",
     "mason",
     "mat",
+    "match",
     "match the words",
-    "matches",
     "May I ask a question?",
     "me.",
     "measuring spoon",
-    "meatballs",
+    "meatball",
     "meatloaf",
     "mechanic",
     "median",
@@ -4152,7 +4261,6 @@
     "meteor",
     "meter",
     "meter maid",
-    "mice",
     "microfilm",
     "microfilm reader",
     "microphone",
@@ -4195,21 +4303,21 @@
     "mother-in-law",
     "motor scooter",
     "motorcyde",
+    "mountain",
     "mountain bike",
     "mountain biking",
     "mountain lion",
     "mountain peak",
     "mountain range",
-    "mountains",
     "mouse",
     "mousetrap",
     "mouth",
     "mouthwash",
     "move in",
     "mover",
+    "movie",
     "movie screen",
     "movie theater",
-    "movies",
     "moving truck",
     "moving van",
     "mow",
@@ -4225,7 +4333,7 @@
     "multiplication",
     "mumps",
     "murder",
-    "muscles",
+    "muscle",
     "museum",
     "mushroom",
     "music",
@@ -4234,11 +4342,11 @@
     "musical",
     "musical comedy",
     "musician",
-    "mussels",
+    "mussel",
     "mustache",
     "mustard",
     "mystery",
-    "nachos",
+    "nacho",
     "nail brush",
     "nail dipper",
     "nail file",
@@ -4296,7 +4404,7 @@
     "No Smoking sign",
     "noisy",
     "non-fiction",
-    "noodles",
+    "noodle",
     "noon",
     "north",
     "nose",
@@ -4309,7 +4417,6 @@
     "notebook",
     "notebook computer",
     "notebook paper",
-    "notes",
     "novel",
     "November",
     "Novocaine™",
@@ -4324,14 +4431,13 @@
     "nursery school",
     "nursing home",
     "nut",
-    "nuts",
     "nylon",
     "o'clock",
     "oak",
-    "oars",
+    "oar",
     "Object",
     "oboe",
-    "observations",
+    "observation",
     "observatory",
     "obstetridan",
     "obtuse angle",
@@ -4350,8 +4456,8 @@
     "oil paint",
     "Okay.",
     "old",
+    "olive",
     "olive oil",
-    "olives",
     "on",
     "on ramp",
     "once a week",
@@ -4391,7 +4497,7 @@
     "orthodontist",
     "orthopedist",
     "ostrich",
-    "other instruments",
+    "other instrument",
     "otter",
     "ounce",
     "out",
@@ -4412,7 +4518,7 @@
     "OVO player",
     "owl",
     "oxygen mask",
-    "oysters",
+    "oyster",
     "P.A system",
     "P.E.teacher",
     "P.M.",
@@ -4437,7 +4543,7 @@
     "paisley",
     "pajamas",
     "palm",
-    "pancakes",
+    "pancake",
     "pancreas",
     "panda",
     "pansy",
@@ -4449,21 +4555,21 @@
     "paper",
     "paper cup",
     "paper cutter",
-    "paper plates",
-    "paper products",
+    "paper plate",
+    "paper product",
     "paper shredder",
+    "paper towel",
     "paper towel holder",
-    "paper towels",
     "paperclip",
     "paragraph",
     "parakeet",
-    "parallel bars",
+    "parallel bar",
     "parallel park",
     "parallellines",
     "paramedic",
     "parcel",
     "parcel post",
-    "parents",
+    "parent",
     "paring knife",
     "park",
     "parka",
@@ -4504,8 +4610,8 @@
     "peacock",
     "peanut butter",
     "pear",
+    "pearl",
     "pearl necklace",
-    "pearls",
     "pedestrian",
     "pedestrian crossing",
     "pediatrician",
@@ -4528,7 +4634,7 @@
     "Perfume Counter",
     "period",
     "periodical section",
-    "perpendicular lines",
+    "perpendicular line",
     "personal cassette ping pong ball",
     "personal CD player",
     "personal digital audio pipe",
@@ -4561,7 +4667,7 @@
     "piano",
     "piccolo",
     "pickax",
-    "pickles",
+    "pickle",
     "pickup truck",
     "picnic",
     "picnic area",
@@ -4601,7 +4707,6 @@
     "placemat",
     "plaid",
     "plain",
-    "plains",
     "plan a procedure",
     "plane",
     "planet",
@@ -4628,7 +4733,6 @@
     "playground",
     "playpen",
     "playroom",
-    "plays",
     "Please don't bother me!",
     "Please go away!",
     "Please repeat that.",
@@ -4649,7 +4753,7 @@
     "pocket",
     "pocket calculator",
     "pocketbook",
-    "poems",
+    "poem",
     "poetry",
     "poi son sumac",
     "poinsettia",
@@ -4679,7 +4783,7 @@
     "porch",
     "porcupine",
     "pork",
-    "pork chops",
+    "pork chop",
     "porpoise",
     "portable cassette paw",
     "portable CD player",
@@ -4697,9 +4801,9 @@
     "postmark",
     "pot",
     "potato",
-    "potato chips",
+    "potato chip",
     "potato salad",
-    "potato skins",
+    "potato skin",
     "potholder",
     "potter's wheel",
     "pottery",
@@ -4728,7 +4832,7 @@
     "presentation board",
     "pressure",
     "pretty",
-    "pretzels",
+    "pretzel",
     "previous",
     "price",
     "price tag",
@@ -4741,7 +4845,6 @@
     "priority mail",
     "prism",
     "problem",
-    "problems",
     "procedure",
     "produce",
     "program",
@@ -4751,8 +4854,8 @@
     "pronounce the word",
     "proud",
     "provolone",
+    "prune",
     "prune the bushes",
-    "prunes",
     "pruning shears",
     "psychiatrist",
     "public telephone",
@@ -4775,7 +4878,7 @@
     "put your computer in a tray",
     "puzzle",
     "pyramid",
-    "qualifications",
+    "qualification",
     "quality control reception area",
     "quart",
     "quarter",
@@ -4788,7 +4891,7 @@
     "quill",
     "quilt",
     "quiz show",
-    "quotation marks",
+    "quotation mark",
     "R.V.",
     "rabbit",
     "raccoon",
@@ -4814,14 +4917,14 @@
     "rainforest",
     "raining",
     "raise your hand",
-    "raisins",
+    "raisin",
     "rake",
     "rake leaves",
     "ranch",
     "range",
     "rap music",
     "rash",
-    "raspberries",
+    "raspberry",
     "rat",
     "rattle",
     "rattlesnake",
@@ -4860,7 +4963,7 @@
     "refrigerator",
     "reggae",
     "regular price",
-    "reins",
+    "rein",
     "relax",
     "reliever",
     "relish",
@@ -4874,7 +4977,7 @@
     "report",
     "reporter",
     "representative",
-    "reptiles",
+    "reptile",
     "request an interview",
     "request information",
     "required",
@@ -4885,7 +4988,7 @@
     "rest in bed",
     "restaurant",
     "restaurant reservation router",
-    "restrooms",
+    "restroom",
     "resume",
     "resuscitation",
     "return",
@@ -4893,8 +4996,8 @@
     "revise",
     "rewrite",
     "rhinoceros",
+    "rib",
     "ribcage",
-    "ribs",
     "rice",
     "rich",
     "rider",
@@ -4908,7 +5011,7 @@
     "river",
     "roach killer",
     "road",
-    "road test instructions",
+    "road test instruction",
     "roast",
     "roast beef sandwich",
     "roastbeef",
@@ -4924,10 +5027,9 @@
     "rod",
     "roll",
     "roll of stamps",
-    "rollerblades",
+    "rollerblade",
     "rollerblading",
     "rolling pin",
-    "rolls",
     "roof",
     "roof rack",
     "roofer",
@@ -5000,7 +5102,7 @@
     "sandbox",
     "sandpaper",
     "sandwich",
-    "sandwich bags",
+    "sandwich bag",
     "sanitation worker",
     "satellite",
     "satellite dish",
@@ -5008,7 +5110,7 @@
     "Saturn",
     "sauce pan",
     "saucer",
-    "sausages",
+    "sausage",
     "saute",
     "save energy",
     "save water",
@@ -5017,9 +5119,8 @@
     "say?",
     "scaffolding",
     "scale",
-    "scales",
     "scallion",
-    "scallops",
+    "scallop",
     "scanner",
     "scarecrow",
     "scared",
@@ -5047,7 +5148,7 @@
     "scrub brush",
     "scuba diving",
     "sea anemone",
-    "sea animals",
+    "sea animal",
     "sea horse",
     "sea lion",
     "sea urchin",
@@ -5058,7 +5159,7 @@
     "sealing tape",
     "seam",
     "seashell",
-    "seasons",
+    "season",
     "seat",
     "seat belt",
     "seat the customers",
@@ -5118,7 +5219,6 @@
     "shell",
     "shellfish",
     "shelter",
-    "shelves",
     "shin",
     "shingle",
     "shiny",
@@ -5127,7 +5227,7 @@
     "shocked",
     "shoe polish",
     "shoe store",
-    "shoelaces",
+    "shoelace",
     "shoes",
     "shoot",
     "shop",
@@ -5144,7 +5244,7 @@
     "shoulder",
     "shoulder harness",
     "shoulder length",
-    "shoulder pads",
+    "shoulder pad",
     "shovel",
     "show",
     "show.",
@@ -5157,7 +5257,7 @@
     "shutter",
     "shuttle bus",
     "shuttlecock",
-    "siblings",
+    "sibling",
     "sick",
     "side",
     "side dish",
@@ -5194,12 +5294,12 @@
     "ski boots",
     "ski jacket",
     "ski mask",
-    "ski poles",
+    "ski pole",
     "ski trip",
     "skihat",
     "skiing",
+    "skill",
     "skillet",
-    "skills",
     "skim milk",
     "skin",
     "skinny",
@@ -5216,8 +5316,8 @@
     "sleep",
     "sleepy",
     "sleeting",
+    "sleeve",
     "sleeveless shirt",
-    "sleeves",
     "slice",
     "slim",
     "sling",
@@ -5233,7 +5333,7 @@
     "smoke detector",
     "smooth",
     "snack bar",
-    "snack foods",
+    "snack food",
     "snail",
     "snake",
     "sneakers",
@@ -5267,7 +5367,7 @@
     "solar energy",
     "solar system",
     "solid",
-    "solid figures",
+    "solid figure",
     "solid line",
     "some blood",
     "someone to get my",
@@ -5286,9 +5386,9 @@
     "sour cream",
     "sources of energy",
     "south",
-    "souvenirs",
+    "souvenir",
     "soy sauce",
-    "soybeans",
+    "soybean",
     "space exploration",
     "space station",
     "spade",
@@ -5296,7 +5396,7 @@
     "spaghetti and steamer",
     "Spanish",
     "spare tire",
-    "spark plugs",
+    "spark plug",
     "sparrow",
     "spatula",
     "speak",
@@ -5306,8 +5406,8 @@
     "speedometer",
     "spell your name",
     "sphere",
+    "spice",
     "spice rack",
-    "spices",
     "spider",
     "spinach",
     "spinach salad",
@@ -5325,7 +5425,7 @@
     "sport utility vehicle",
     "sports car",
     "sports program",
-    "spots",
+    "spot",
     "sprain",
     "spray gun",
     "spray starch",
@@ -5358,8 +5458,8 @@
     "steam",
     "steering wheel",
     "stem",
+    "step",
     "step ladder",
-    "steps",
     "stereo system",
     "stereo system pea",
     "sterile dressing pad",
@@ -5367,14 +5467,14 @@
     "stethoscope",
     "stewing beef",
     "stick",
-    "stickers",
+    "sticker",
     "stickshift",
     "stiff neck",
     "stingray",
     "stir",
     "stir-fry",
     "stirrups",
-    "stitches",
+    "stitch",
     "sto re directory",
     "stock clerk",
     "stockings",
@@ -5392,8 +5492,7 @@
     "straight line",
     "strainer",
     "straw",
-    "strawberries",
-    "straws",
+    "strawberry",
     "stream",
     "street",
     "street light",
@@ -5403,11 +5502,11 @@
     "strep throat",
     "stretch",
     "stretch suit",
+    "string",
     "string bean",
     "string of pearls",
-    "strings",
+    "stripe",
     "striped",
-    "stripes",
     "stroller",
     "student",
     "student government",
@@ -5419,7 +5518,7 @@
     "styptic pencil",
     "submarine roll",
     "subtraction",
-    "suburbs",
+    "suburb",
     "subway",
     "subway station",
     "subwaytoken",
@@ -5549,7 +5648,6 @@
     "teddy bear",
     "tee shirt",
     "teenager",
-    "teeth",
     "teeth whitener",
     "teething (ing",
     "telemarketer",
@@ -5572,8 +5670,8 @@
     "tent",
     "terminal",
     "terminal building",
-    "termites",
-    "tests",
+    "termite",
+    "test",
     "textbook",
     "Thank you.",
     "Thanks.",
@@ -5598,8 +5696,8 @@
     "thongs",
     "thorn",
     "thread",
-    "three fourths",
-    "three quarters",
+    "three fourth",
+    "three quarter",
     "three times a week",
     "throat",
     "throat lozenqes",
@@ -5619,9 +5717,9 @@
     "tiger",
     "tight",
     "tights",
-    "tiles",
+    "tile",
     "time",
-    "time cards",
+    "time card",
     "times",
     "timetable",
     "tip",
@@ -5630,7 +5728,7 @@
     "tire alarm box",
     "tire engine",
     "tired",
-    "tissues",
+    "tissue",
     "title",
     "to the left of",
     "to the right of",
@@ -5670,7 +5768,7 @@
     "torn",
     "tornado",
     "tornorrow night",
-    "tortilla chips",
+    "tortilla chip",
     "tortoise",
     "tossed salad",
     "total price",
@@ -5687,10 +5785,10 @@
     "townhouse",
     "towrope",
     "tOXIC waste",
+    "toy",
     "toy chest",
     "toy store",
     "toy truck",
-    "toys",
     "track",
     "track ball",
     "tractor",
@@ -5698,8 +5796,8 @@
     "trades school",
     "tradinq cards",
     "traffic light",
+    "traffic sign",
     "traffic signal",
-    "traffic signs",
     "tragedy",
     "trail map",
     "train",
@@ -5715,7 +5813,7 @@
     "translate",
     "translator",
     "transmission",
-    "trash bags",
+    "trash bag",
     "trash bin",
     "trash can",
     "trash chute",
@@ -5774,7 +5872,7 @@
     "tusk",
     "tuxedo",
     "TV",
-    "TV programs",
+    "TV program",
     "TVantenna",
     "tweezers",
     "twelve midnight",
@@ -5782,7 +5880,7 @@
     "twice a week",
     "twig",
     "twist",
-    "two thirds",
+    "two third",
     "type",
     "type a letter",
     "types of clothinq",
@@ -5821,7 +5919,7 @@
     "vacancy sign",
     "vacuum",
     "vacuum c1eaner",
-    "vacuum cleaner attachments",
+    "vacuum cleaner attachment",
     "valet parking",
     "valley",
     "van",
@@ -5831,12 +5929,12 @@
     "vault",
     "VCR",
     "veal cutlet",
+    "vegetable",
     "vegetable garden",
     "vegetable peeler",
-    "vegetable seeds",
-    "vegetables",
-    "vehicles",
-    "veins",
+    "vegetable seed",
+    "vehicle",
+    "vein",
     "vender",
     "vending machine",
     "vent",
@@ -5865,7 +5963,7 @@
     "visit",
     "visor",
     "vital signs monitor",
-    "vitamins",
+    "vitamin",
     "vocational school",
     "volcanic eruption",
     "volleyball",
@@ -5874,7 +5972,7 @@
     "voltage regulator",
     "volunteer",
     "vomit",
-    "waffles",
+    "waffle",
     "wagon",
     "waist",
     "waiter",
@@ -5896,7 +5994,7 @@
     "war movie",
     "warehouse",
     "warm",
-    "warning lights",
+    "warning light",
     "wart",
     "wash",
     "wash my face",
@@ -5938,7 +6036,6 @@
     "weekend",
     "weight",
     "weightlifting",
-    "weights",
     "welder",
     "west",
     "western",
@@ -5954,7 +6051,7 @@
     "whirlpool",
     "whisk",
     "whisk broom",
-    "whiskers",
+    "whisker",
     "white",
     "white bread",
     "whiten myteeth",
@@ -5969,14 +6066,13 @@
     "window screen",
     "window seat",
     "windshield",
-    "windshield wipers",
+    "windshield wiper",
     "windsurfing",
     "windy",
     "wine glass",
     "wing",
     "winter",
     "wipe",
-    "wipes",
     "wire",
     "wire stripper",
     "witch",
@@ -5992,7 +6088,7 @@
     "wooden spoon",
     "woodpecker",
     "woods",
-    "woodwinds",
+    "woodwind",
     "woodworking",
     "woodworking kit",
     "wool",
@@ -6135,7 +6231,8 @@
     "answer",
     "answer sheet",
     "answer the question",
-    "antacid tablets",
+    "ant",
+    "antacid tablet",
     "anteater",
     "antelope",
     "antenna",
@@ -6146,13 +6243,12 @@
     "antipasto plate",
     "antiseptic cleansing astronomer",
     "antiseptic cleansing wipe",
-    "ants",
-    "apartment ads",
-    "apartment listings",
+    "apartment ad",
+    "apartment listing",
     "apartment number",
     "apex",
     "apostrophe",
-    "appetizers",
+    "appetizer",
     "apple",
     "apple juice",
     "appliance repairperson",
@@ -6771,9 +6867,190 @@
     },
     {
       "line": 2,
+      "to": "baby wipe",
+      "refs": [
+        "100-10"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "amphibian",
+      "refs": [
+        "155"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "artery",
+      "refs": [
+        "87-68"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "antacid tablet",
+      "refs": [
+        "95-8"
+      ]
+    },
+    {
+      "line": 2,
       "to": "antibiotic ointment",
       "refs": [
         "90-7"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "ant",
+      "refs": [
+        "30-11c",
+        "124-10"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "apartment ad",
+      "refs": [
+        "28-1"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "apartment listing",
+      "refs": [
+        "28-2"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "appetizer",
+      "refs": [
+        "64"
+      ]
+    },
+    {
+      "line": 2,
+      "to": "automatic baking product",
+      "refs": [
+        "53"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "botanical garden",
+      "refs": [
+        "136-15"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "block",
+      "refs": [
+        "79-4"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "blood test",
+      "refs": [
+        "94-15"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "brace",
+      "refs": [
+        "94-20"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "berry",
+      "refs": [
+        "156-25"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "beverage",
+      "refs": [
+        "51"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "blueberry",
+      "refs": [
+        "48-31"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "blueprint",
+      "refs": [
+        "122-6"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "group",
+      "refs": [
+        "7-38",
+        "7-39"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "billiard ball",
+      "refs": [
+        "141-34"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "binding",
+      "refs": [
+        "144-3"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "bone",
+      "refs": [
+        "87-63"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "bird",
+      "refs": [
+        "154"
+      ]
+    },
+    {
+      "line": 5,
+      "to": "bead",
+      "refs": [
+        "70-8"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "card",
+      "refs": [
+        "11-7",
+        "135-0",
+        "135-34",
+        "81-28",
+        "132-17"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "care instruction",
+      "refs": [
+        "75-8"
       ]
     },
     {
@@ -6785,6 +7062,13 @@
     },
     {
       "line": 8,
+      "to": "building block",
+      "refs": [
+        "79-4"
+      ]
+    },
+    {
+      "line": 8,
       "to": "bumper",
       "refs": [
         "126-1"
@@ -6792,9 +7076,82 @@
     },
     {
       "line": 8,
+      "to": "chemical",
+      "refs": [
+        "110-16"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "canned vegetable",
+      "refs": [
+        "53-10"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "cherry",
+      "refs": [
+        "48-25",
+        "156-15"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "buttock",
+      "refs": [
+        "86-32"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "chicken breast",
+      "refs": [
+        "50-16"
+      ]
+    },
+    {
+      "line": 8,
       "to": "buy souvenirs",
       "refs": [
         "163-5"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "chicken leg",
+      "refs": [
+        "50-17"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "car rental counter",
+      "refs": [
+        "161-7"
+      ]
+    },
+    {
+      "line": 8,
+      "to": "chicken thigh",
+      "refs": [
+        "50-19"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "child",
+      "refs": [
+        "2",
+        "42-1",
+        "42-3"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "compass direction",
+      "refs": [
+        "130"
       ]
     },
     {
@@ -6811,9 +7168,191 @@
     },
     {
       "line": 11,
+      "to": "chill",
+      "refs": [
+        "88-21"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "correction",
+      "refs": [
+        "107-19"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cotton ball",
+      "refs": [
+        "93-9"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cockroach",
+      "refs": [
+        "30-11"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cough drop",
+      "refs": [
+        "95-6"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "conclusion",
+      "refs": [
+        "110-F"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "coupon",
+      "refs": [
+        "55-11"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "condiment",
+      "refs": [
+        "53"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "coin",
+      "refs": [
+        "17"
+      ]
+    },
+    {
+      "line": 11,
       "to": "clams",
       "refs": [
         "50-32"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "clam",
+      "refs": [
+        "50-32"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cold tablet",
+      "refs": [
+        "95-2"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cracker",
+      "refs": [
+        "53-3"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cramp",
+      "refs": [
+        "88-22"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "crayon",
+      "refs": [
+        "79-25"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "color marker",
+      "refs": [
+        "79-26"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "colored pencil",
+      "refs": [
+        "134-16"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "cookie",
+      "refs": [
+        "53-2"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "copy",
+      "refs": [
+        "119-d"
+      ]
+    },
+    {
+      "line": 11,
+      "to": "copy",
+      "refs": [
+        "119-d"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "dish",
+      "refs": [
+        "10-2"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "crutch",
+      "refs": [
+        "93-15"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "drug",
+      "refs": [
+        "91-9"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "drum",
+      "refs": [
+        "150-20"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "drumstick",
+      "refs": [
+        "50-17"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "diaper",
+      "refs": [
+        "54-19"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "cymbal",
+      "refs": [
+        "150-20a"
       ]
     },
     {
@@ -6824,11 +7363,212 @@
       ]
     },
     {
+      "line": 14,
+      "to": "dairy product",
+      "refs": [
+        "51"
+      ]
+    },
+    {
+      "line": 14,
+      "to": "date",
+      "refs": [
+        "48-27"
+      ]
+    },
+    {
       "line": 17,
       "to": "embroidery",
       "refs": [
         "134-F",
         "134-18"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "earplug",
+      "refs": [
+        "123-2"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "eye drop",
+      "refs": [
+        "95-10"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "eyelash",
+      "refs": [
+        "86-8"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "English muffin",
+      "refs": [
+        "53-32"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "elbow pad",
+      "refs": [
+        "140-11",
+        "81-23"
+      ]
+    },
+    {
+      "line": 17,
+      "to": "problem",
+      "refs": [
+        "158",
+        "110-A"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "fraction",
+      "refs": [
+        "105"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "french fry",
+      "refs": [
+        "60-7",
+        "64-20"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "flea",
+      "refs": [
+        "30-11b"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "front step",
+      "refs": [
+        "27-4"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "frozen dinner",
+      "refs": [
+        "52-20"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "frozen food",
+      "refs": [
+        "52"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "geometric shape",
+      "refs": [
+        "106"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "golf club",
+      "refs": [
+        "141-29"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "grandparent",
+      "refs": [
+        "2"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "foreign language fuse",
+      "refs": [
+        "33-14"
+      ]
+    },
+    {
+      "line": 20,
+      "to": "grape",
+      "refs": [
+        "48-24"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "vehicle",
+      "refs": [
+        "161-8"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "hiccup",
+      "refs": [
+        "88-20"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "household item",
+      "refs": [
+        "54"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "gum",
+      "refs": [
+        "86-19"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "home fry",
+      "refs": [
+        "61-14"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "idea",
+      "refs": [
+        "107-16",
+        "107-17"
+      ]
+    },
+    {
+      "line": 23,
+      "to": "hand signal",
+      "refs": [
+        "130-26"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "knee pad",
+      "refs": [
+        "140-7"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "leaf",
+      "refs": [
+        "35-E",
+        "156-2"
       ]
     },
     {
@@ -6841,10 +7581,88 @@
     },
     {
       "line": 26,
+      "to": "job ad abbreviation",
+      "refs": [
+        "118"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "job ad",
+      "refs": [
+        "118"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "insect",
+      "refs": [
+        "154"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "juice pak",
+      "refs": [
+        "51-21"
+      ]
+    },
+    {
+      "line": 26,
       "to": "intercom",
       "refs": [
         "25-2",
         "29-29"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "juice",
+      "refs": [
+        "51"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "lamb chop",
+      "refs": [
+        "50-7"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "jumper cable",
+      "refs": [
+        "126-30"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "lightbulb",
+      "refs": [
+        "33-13"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "light",
+      "refs": [
+        "7-42",
+        "7-45"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "kidney",
+      "refs": [
+        "87-65"
+      ]
+    },
+    {
+      "line": 26,
+      "to": "liquid vitamin",
+      "refs": [
+        "100-6"
       ]
     },
     {
@@ -6856,9 +7674,59 @@
     },
     {
       "line": 29,
+      "to": "lung",
+      "refs": [
+        "87-55"
+      ]
+    },
+    {
+      "line": 29,
       "to": "married",
       "refs": [
         "44-47"
+      ]
+    },
+    {
+      "line": 29,
+      "to": "mouse",
+      "refs": [
+        "30-11g",
+        "5-38",
+        "78-9",
+        "152-28"
+      ]
+    },
+    {
+      "line": 29,
+      "to": "mountain",
+      "refs": [
+        "136-13"
+      ]
+    },
+    {
+      "line": 29,
+      "to": "mashed potato",
+      "refs": [
+        "64-19"
+      ]
+    },
+    {
+      "line": 29,
+      "to": "match",
+      "refs": [
+        "139-9"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "movie",
+      "refs": [
+        "136-18",
+        "147-F",
+        "147-net",
+        "135-0",
+        "140-27",
+        "145-28"
       ]
     },
     {
@@ -6866,6 +7734,20 @@
       "to": "new moon",
       "refs": [
         "111-21"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "oyster",
+      "refs": [
+        "50-34"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "muscle",
+      "refs": [
+        "87-62"
       ]
     },
     {
@@ -6890,6 +7772,475 @@
       ]
     },
     {
+      "line": 32,
+      "to": "mussel",
+      "refs": [
+        "50-33"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "noodle",
+      "refs": [
+        "53-5",
+        "64-22"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "nacho",
+      "refs": [
+        "60-8",
+        "64-5"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "olive",
+      "refs": [
+        "53-19"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "note",
+      "refs": [
+        "7-44"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "pancake",
+      "refs": [
+        "61-9"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "nut",
+      "refs": [
+        "48-29",
+        "52-26"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "paper plate",
+      "refs": [
+        "54-5"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "paper product",
+      "refs": [
+        "54"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "oar",
+      "refs": [
+        "145-6"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "paper towel",
+      "refs": [
+        "32-12",
+        "54-6"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "observation",
+      "refs": [
+        "110-E"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "parallel bar",
+      "refs": [
+        "141-37"
+      ]
+    },
+    {
+      "line": 32,
+      "to": "other instrument",
+      "refs": [
+        "150"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "parent",
+      "refs": [
+        "2"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "poem",
+      "refs": [
+        "108-4"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "perpendicular line",
+      "refs": [
+        "106-16"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "plain",
+      "refs": [
+        "109-7"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "pork chop",
+      "refs": [
+        "50-11"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "pickle",
+      "refs": [
+        "53-18"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "pearl",
+      "refs": [
+        "70-6"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "play",
+      "refs": [
+        "148-8"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "potato chip",
+      "refs": [
+        "52-23"
+      ]
+    },
+    {
+      "line": 35,
+      "to": "potato skin",
+      "refs": [
+        "64-6"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "restroom",
+      "refs": [
+        "161-9"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "rib",
+      "refs": [
+        "50-5"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "qualification",
+      "refs": [
+        "118-H"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "road test instruction",
+      "refs": [
+        "130"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "pretzel",
+      "refs": [
+        "52-25"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "quotation mark",
+      "refs": [
+        "107-13"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "rein",
+      "refs": [
+        "140-15"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "rollerblade",
+      "refs": [
+        "140-6"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "roll",
+      "refs": [
+        "53-31"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "prune",
+      "refs": [
+        "48-26"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "reptile",
+      "refs": [
+        "155"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "bed",
+      "refs": [
+        "162-2"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "raisin",
+      "refs": [
+        "48-28"
+      ]
+    },
+    {
+      "line": 38,
+      "to": "raspberry",
+      "refs": [
+        "48-30"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "sausage",
+      "refs": [
+        "50-12",
+        "61-13"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "shoelace",
+      "refs": [
+        "99-49"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "scale",
+      "refs": [
+        "155-1c"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "scallop",
+      "refs": [
+        "50-30"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "shoulder pad",
+      "refs": [
+        "143-12"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "sandwich bag",
+      "refs": [
+        "54-8"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "sibling",
+      "refs": [
+        "2"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "sea animal",
+      "refs": [
+        "155"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "shelf",
+      "refs": [
+        "83-7"
+      ]
+    },
+    {
+      "line": 41,
+      "to": "season",
+      "refs": [
+        "19"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "stitch",
+      "refs": [
+        "93-11"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "spot",
+      "refs": [
+        "152-27a"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "strawberry",
+      "refs": [
+        "48-32"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "straw",
+      "refs": [
+        "54-4",
+        "60-20"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "ski pole",
+      "refs": [
+        "144-4"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "solid figure",
+      "refs": [
+        "106"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "skill",
+      "refs": [
+        "118-H"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "string",
+      "refs": [
+        "150"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "stripe",
+      "refs": [
+        "153-57a"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "souvenir",
+      "refs": [
+        "163-5"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "soybean",
+      "refs": [
+        "151-35"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "meatball",
+      "refs": [
+        "64-16"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "step",
+      "refs": [
+        "31-18"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "spark plug",
+      "refs": [
+        "126-31"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "suburb",
+      "refs": [
+        "20-14"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "sleeve",
+      "refs": [
+        "72-22"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "sticker",
+      "refs": [
+        "79-31",
+        "124-19"
+      ]
+    },
+    {
+      "line": 44,
+      "to": "spice",
+      "refs": [
+        "53-22"
+      ]
+    },
+    {
       "line": 44,
       "to": "small",
       "refs": [
@@ -6906,10 +8257,74 @@
       ]
     },
     {
+      "line": 44,
+      "to": "snack food",
+      "refs": [
+        "52"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "tile",
+      "refs": [
+        "31-17"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "time card",
+      "refs": [
+        "121-2"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "tissue",
+      "refs": [
+        "54-3"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "termite",
+      "refs": [
+        "30-11a"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "test",
+      "refs": [
+        "7-47",
+        "94-16"
+      ]
+    },
+    {
       "line": 47,
       "to": "third floor",
       "refs": [
         "28-16"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "qualification",
+      "refs": [
+        "118-H"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "three fourth",
+      "refs": [
+        "105"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "three quarter",
+      "refs": [
+        "105"
       ]
     },
     {
@@ -6923,6 +8338,66 @@
       ]
     },
     {
+      "line": 47,
+      "to": "tortilla chip",
+      "refs": [
+        "52-24"
+      ]
+    },
+    {
+      "line": 47,
+      "to": "tooth",
+      "refs": [
+        "9-3",
+        "98-A",
+        "98-D"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "vitamin",
+      "refs": [
+        "94-6",
+        "95-3",
+        "100-6"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "toy",
+      "refs": [
+        "100-23"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "traffic sign",
+      "refs": [
+        "130"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "waffle",
+      "refs": [
+        "61-10"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "attachment",
+      "refs": [
+        "32-6"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "TV program",
+      "refs": [
+        "149-D"
+      ]
+    },
+    {
       "line": 50,
       "to": "transmission",
       "refs": [
@@ -6931,10 +8406,70 @@
     },
     {
       "line": 50,
+      "to": "trash bag",
+      "refs": [
+        "54-9"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "vegetable seed",
+      "refs": [
+        "35-5"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "two third",
+      "refs": [
+        "105"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "vegetable",
+      "refs": [
+        "35-B",
+        "53-10"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "vein",
+      "refs": [
+        "87-67"
+      ]
+    },
+    {
+      "line": 50,
+      "to": "warning light",
+      "refs": [
+        "127-57",
+        "81-5",
+        "164-2"
+      ]
+    },
+    {
+      "line": 50,
       "to": "umbrella",
       "refs": [
         "67-15",
         "21-9"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "windshield wiper",
+      "refs": [
+        "126-10"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "wipe",
+      "refs": [
+        "54-18",
+        "100-10"
       ]
     },
     {
@@ -6949,6 +8484,49 @@
       "to": "yesterday afternoon",
       "refs": [
         "19-9"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "woodwind",
+      "refs": [
+        "150"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "weight",
+      "refs": [
+        "141-42"
+      ]
+    },
+    {
+      "line": 53,
+      "to": "whisker",
+      "refs": [
+        "152-34a"
+      ]
+    },
+    {
+      "line": 0,
+      "to": "chicken wing",
+      "refs": [
+        "50-18",
+        "64-4"
+      ]
+    },
+    {
+      "line": 0,
+      "to": "environmental problem",
+      "refs": [
+        "158"
+      ]
+    },
+    {
+      "line": 0,
+      "to": "vacuum cleaner attachment",
+      "refs": [
+        "32-6"
       ]
     }
   ],
@@ -6967,26 +8545,26 @@
   "summary": {
     "rawLines": 55,
     "parsedEntries": 4393,
-    "uniqueEntries": 4132,
+    "uniqueEntries": 4108,
     "translatedEntries": 8,
-    "missingChinese": 4124,
+    "missingChinese": 4100,
     "themeCounts": {
       "clothes": 238,
       "community": 100,
-      "daily": 281,
-      "describing": 148,
-      "food": 439,
-      "health": 388,
+      "daily": 275,
+      "describing": 147,
+      "food": 434,
+      "health": 387,
       "home": 468,
-      "nature": 281,
+      "nature": 278,
       "numbers": 82,
       "personal": 50,
-      "recreation": 425,
-      "school": 286,
-      "services": 168,
-      "shopping": 158,
+      "recreation": 423,
+      "school": 284,
+      "services": 166,
+      "shopping": 157,
       "transportation": 253,
-      "travel": 105,
+      "travel": 104,
       "work": 262
     }
   }
