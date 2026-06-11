@@ -3351,14 +3351,6 @@
     "talk to matt",
     "sleep"
   ]);
-  const PINNED_RECENT_TASK_NAMES = new Set([
-    "run ai agent",
-    "run ai agent_personal",
-    "run ai agent_life",
-    "do laundry",
-    "grow flowers and plants",
-    "grow stuff"
-  ]);
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
   const TRACKER_SEARCH_RENDER_DELAY_MS = 180;
@@ -5069,11 +5061,15 @@
     return `${listId}|||${taskId ? `id:${taskId}` : `name:${taskName}`}`;
   }
 
-  function recentTaskStartMs(entry) {
-    if (!entry?.start) return 0;
-    if (entry.start instanceof Date) return entry.start.getTime() || 0;
-    const parsed = new Date(entry.start).getTime();
+  function recentTaskDateMs(value) {
+    if (!value) return 0;
+    if (value instanceof Date) return value.getTime() || 0;
+    const parsed = new Date(value).getTime();
     return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  function recentTaskCompletedMs(entry) {
+    return recentTaskDateMs(entry?.stop) || recentTaskDateMs(entry?.updatedAt) || recentTaskDateMs(entry?.start);
   }
 
   function normalizedRecentTaskName(taskName) {
@@ -5088,52 +5084,51 @@
     return DEFAULT_RECENT_TASK_EXCLUDED_NAMES.has(normalizedRecentTaskName(entry?.taskName));
   }
 
-  function isPinnedRecentTask(entry) {
-    const taskName = normalizedRecentTaskName(entry?.taskName);
-    return PINNED_RECENT_TASK_NAMES.has(taskName) ||
-      taskName.startsWith("run ai agent_") ||
-      taskName.startsWith("grow ");
-  }
-
   function rawHiddenRecentTaskKeys() {
     try {
       const parsed = JSON.parse(localStorage.getItem(HIDDEN_RECENT_TASKS_STORAGE) || "[]");
-      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+      return Array.isArray(parsed) ? parsed : [];
     } catch (error) {
       return [];
     }
   }
 
-  function unversionedHiddenRecentTaskKey(key) {
+  function hiddenRecentTaskRecordKey(record) {
+    const key = typeof record === "string" ? record : record?.key;
+    if (typeof key !== "string") return "";
     return key.startsWith(HIDDEN_RECENT_TASKS_VERSION_PREFIX)
       ? key.slice(HIDDEN_RECENT_TASKS_VERSION_PREFIX.length)
       : key;
   }
 
-  function versionedHiddenRecentTaskKey(key) {
-    return `${HIDDEN_RECENT_TASKS_VERSION_PREFIX}${key}`;
+  function hiddenRecentTaskRecordHiddenAt(record) {
+    if (typeof record === "string") return 0;
+    const hiddenAt = recentTaskDateMs(record?.hiddenAt);
+    return hiddenAt || 0;
   }
 
   function hiddenRecentTaskKeys() {
-    return new Set(rawHiddenRecentTaskKeys().map(unversionedHiddenRecentTaskKey));
+    return new Set(rawHiddenRecentTaskKeys().map(hiddenRecentTaskRecordKey).filter(Boolean));
   }
 
   function isRecentTaskHidden(entry, key, activeKey) {
     if (key === activeKey) return false;
-    const hiddenItems = rawHiddenRecentTaskKeys();
-    if (!hiddenItems.some((item) => unversionedHiddenRecentTaskKey(item) === key)) return false;
-    return !isPinnedRecentTask(entry) || hiddenItems.includes(versionedHiddenRecentTaskKey(key));
+    const matchingHiddenItem = rawHiddenRecentTaskKeys().find((item) => hiddenRecentTaskRecordKey(item) === key);
+    if (!matchingHiddenItem) return false;
+    const completedAt = recentTaskCompletedMs(entry);
+    const hiddenAt = hiddenRecentTaskRecordHiddenAt(matchingHiddenItem);
+    return !completedAt || (hiddenAt && hiddenAt >= completedAt);
   }
 
   function writeHiddenRecentTaskKeys(keys) {
-    try { localStorage.setItem(HIDDEN_RECENT_TASKS_STORAGE, JSON.stringify(Array.from(keys).map(versionedHiddenRecentTaskKey))); }
+    try { localStorage.setItem(HIDDEN_RECENT_TASKS_STORAGE, JSON.stringify(Array.from(keys).map((key) => ({ key, hiddenAt: isoNow() })))); }
     catch (error) {}
   }
 
   function hideRecentTaskKey(key) {
     try {
-      const nextKeys = rawHiddenRecentTaskKeys().filter((item) => unversionedHiddenRecentTaskKey(item) !== key);
-      nextKeys.push(versionedHiddenRecentTaskKey(key));
+      const nextKeys = rawHiddenRecentTaskKeys().filter((item) => hiddenRecentTaskRecordKey(item) !== key);
+      nextKeys.push({ key, hiddenAt: isoNow() });
       localStorage.setItem(HIDDEN_RECENT_TASKS_STORAGE, JSON.stringify(nextKeys));
     } catch (error) {}
   }
@@ -5153,22 +5148,22 @@
     const activeKey = activeEntry ? recentTaskKey(activeEntry) : "";
     Array.from(entries)
       .sort((a, b) => {
-        if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
-        return recentTaskStartMs(b) - recentTaskStartMs(a);
+        return recentTaskCompletedMs(b) - recentTaskCompletedMs(a);
       })
       .forEach((entry) => {
         if (!entry?.taskName) return;
         if (isDefaultRecentTaskExcluded(entry)) return;
         const key = recentTaskKey(entry);
         if (isRecentTaskHidden(entry, key, activeKey)) return;
+        const current = byTask.get(key);
+        if (current?.isActiveRecentTask && !entry.isActiveRecentTask) {
+          byTask.set(key, entry);
+          return;
+        }
         if (!byTask.has(key)) byTask.set(key, entry);
       });
     return Array.from(byTask.values()).sort((a, b) => {
-      if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
-      const aPinned = isPinnedRecentTask(a);
-      const bPinned = isPinnedRecentTask(b);
-      if (aPinned !== bPinned) return aPinned ? -1 : 1;
-      return recentTaskStartMs(b) - recentTaskStartMs(a);
+      return recentTaskCompletedMs(b) - recentTaskCompletedMs(a);
     });
   }
 
