@@ -3340,6 +3340,9 @@
   const BUSINESS_MUST_REMINDER_MINUTES = 5;
   const BUSINESS_MUST_REMINDER_WINDOW_MS = 60 * 1000;
   const BUSINESS_MUST_REMINDER_SOUND_VOLUME = 0.34;
+  const AI_AGENT_BREAK_ALARM_THRESHOLD_MS = 30 * 60 * 1000;
+  const AI_AGENT_BREAK_ALARM_REPEAT_MS = 20 * 1000;
+  const AI_AGENT_BREAK_ALARM_SOUND_VOLUME = 0.42;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
     "soak butt",
@@ -3452,6 +3455,8 @@
   let businessMustReminderFiredKeys = null;
   let businessMustReminderAudioContext = null;
   let businessMustReminderSoundReady = false;
+  let aiAgentBreakAlarmTimer = null;
+  let aiAgentBreakAlarmActiveKey = "";
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -4959,6 +4964,57 @@
     return Math.max(0, Date.now() - new Date(timePayload.activeEntry.start).getTime());
   }
 
+  function normalizedBreakAlarmTaskName(value) {
+    return cleanLabel(value, "")
+      .replace(/^[^A-Za-z0-9]+/, "")
+      .replace(/[_-]+/g, " ")
+      .replace(/[^A-Za-z0-9]+/g, " ")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+  }
+
+  function isAiAgentBreakAlarmTask(entry) {
+    const taskName = normalizedBreakAlarmTaskName(entry?.taskName);
+    return taskName === "run ai agent" || taskName === "run ai agent work";
+  }
+
+  function aiAgentBreakAlarmKey(entry) {
+    if (!entry || !entry.start) return "";
+    return [
+      cleanLabel(entry.id, ""),
+      cleanLabel(entry.listId, ""),
+      cleanLabel(entry.taskId, ""),
+      normalizedBreakAlarmTaskName(entry.taskName),
+      cleanLabel(entry.start, "")
+    ].join("|||");
+  }
+
+  function stopAiAgentBreakAlarm() {
+    if (aiAgentBreakAlarmTimer) window.clearInterval(aiAgentBreakAlarmTimer);
+    aiAgentBreakAlarmTimer = null;
+    aiAgentBreakAlarmActiveKey = "";
+  }
+
+  function startAiAgentBreakAlarm(entry) {
+    const key = aiAgentBreakAlarmKey(entry);
+    if (!key || aiAgentBreakAlarmActiveKey === key) return;
+    stopAiAgentBreakAlarm();
+    aiAgentBreakAlarmActiveKey = key;
+    const ring = () => playAiAgentBreakAlarmSound().catch(() => {});
+    ring();
+    aiAgentBreakAlarmTimer = window.setInterval(ring, AI_AGENT_BREAK_ALARM_REPEAT_MS);
+    setTrackerStatus("Break alarm: Run AI agent has been running for 30 minutes.", "error");
+  }
+
+  function checkAiAgentBreakAlarm(active, durationMs) {
+    if (!active || !isAiAgentBreakAlarmTask(active) || durationMs < AI_AGENT_BREAK_ALARM_THRESHOLD_MS) {
+      stopAiAgentBreakAlarm();
+      return;
+    }
+    startAiAgentBreakAlarm(active);
+  }
+
   function formatClock(ms) {
     const totalSeconds = Math.floor(Math.max(0, ms) / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -4987,12 +5043,14 @@
 
   function renderTimerState() {
     const active = timePayload.activeEntry;
+    const durationMs = active ? activeDurationMs() : 0;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
-    document.getElementById("timerValue").textContent = formatClock(active ? activeDurationMs() : 0);
+    document.getElementById("timerValue").textContent = formatClock(durationMs);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
     document.getElementById("startTimerBtn").disabled = false;
     document.getElementById("stopTimerBtn").disabled = !active;
     document.getElementById("cancelTimerBtn").disabled = !active;
+    checkAiAgentBreakAlarm(active, durationMs);
     if (timerTick) window.clearInterval(timerTick);
     timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
     syncRecentTaskActiveState();
@@ -5587,6 +5645,19 @@
     oscillator.stop(toneStart + duration + 0.03);
   }
 
+  function playAiAgentBreakAlarmTone(context, frequency, toneStart, duration = 0.34) {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = "triangle";
+    oscillator.frequency.setValueAtTime(frequency, toneStart);
+    gain.gain.setValueAtTime(0.0001, toneStart);
+    gain.gain.exponentialRampToValueAtTime(AI_AGENT_BREAK_ALARM_SOUND_VOLUME, toneStart + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
+    oscillator.connect(gain).connect(context.destination);
+    oscillator.start(toneStart);
+    oscillator.stop(toneStart + duration + 0.03);
+  }
+
   function primeBusinessMustReminderSound(context) {
     const start = context.currentTime + 0.01;
     const oscillator = context.createOscillator();
@@ -5610,6 +5681,20 @@
       [880, start + 0.58],
       [1175, start + 0.84]
     ].forEach(([frequency, toneStart]) => playBusinessMustReminderTone(context, frequency, toneStart));
+  }
+
+  async function playAiAgentBreakAlarmSound() {
+    const context = businessMustReminderAudio();
+    if (!context) return;
+    if (context.state === "suspended") await context.resume();
+    businessMustReminderSoundReady = context.state === "running";
+    const start = context.currentTime + 0.03;
+    [
+      [660, start],
+      [990, start + 0.38],
+      [1320, start + 0.76],
+      [990, start + 1.16]
+    ].forEach(([frequency, toneStart]) => playAiAgentBreakAlarmTone(context, frequency, toneStart));
   }
 
   async function unlockBusinessMustReminderSound() {
