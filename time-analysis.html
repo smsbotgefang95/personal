@@ -3340,7 +3340,6 @@
   const BUSINESS_MUST_REMINDER_MINUTES = 5;
   const BUSINESS_MUST_REMINDER_WINDOW_MS = 60 * 1000;
   const BUSINESS_MUST_REMINDER_SOUND_VOLUME = 0.34;
-  const RECENT_TASK_LIMIT = 8;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
     "soak butt",
@@ -5088,7 +5087,7 @@
     const byTask = new Map();
     const activeEntry = entries.find((entry) => entry?.isActiveRecentTask);
     const activeKey = activeEntry ? recentTaskKey(activeEntry) : "";
-    entries
+    Array.from(entries)
       .sort((a, b) => {
         if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
         return recentTaskStartMs(b) - recentTaskStartMs(a);
@@ -5100,19 +5099,13 @@
         if (isRecentTaskHidden(entry, key, activeKey)) return;
         if (!byTask.has(key)) byTask.set(key, entry);
       });
-    const tasks = Array.from(byTask.values());
-    const visibleTasks = tasks.slice(0, RECENT_TASK_LIMIT);
-    const visibleKeys = new Set(visibleTasks.map(recentTaskKey));
-    tasks
-      .filter((entry) => isPinnedRecentTask(entry) && !visibleKeys.has(recentTaskKey(entry)))
-      .forEach((entry) => {
-        const removableIndex = visibleTasks.findIndex((item) => !item.isActiveRecentTask && !isPinnedRecentTask(item));
-        if (removableIndex === -1) return;
-        visibleKeys.delete(recentTaskKey(visibleTasks[removableIndex]));
-        visibleTasks.splice(removableIndex, 1, entry);
-        visibleKeys.add(recentTaskKey(entry));
-      });
-    return visibleTasks;
+    return Array.from(byTask.values()).sort((a, b) => {
+      if (a.isActiveRecentTask !== b.isActiveRecentTask) return a.isActiveRecentTask ? -1 : 1;
+      const aPinned = isPinnedRecentTask(a);
+      const bPinned = isPinnedRecentTask(b);
+      if (aPinned !== bPinned) return aPinned ? -1 : 1;
+      return recentTaskStartMs(b) - recentTaskStartMs(a);
+    });
   }
 
   function syncRecentTaskActiveState() {
