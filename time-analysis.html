@@ -4978,7 +4978,7 @@
 
   function isAiAgentBreakAlarmTask(entry) {
     const taskName = normalizedBreakAlarmTaskName(entry?.taskName);
-    return taskName === "run ai agent" || taskName === "run ai agent work";
+    return taskName === "run ai agent" || taskName.startsWith("run ai agent ");
   }
 
   function aiAgentBreakAlarmKey(entry) {
