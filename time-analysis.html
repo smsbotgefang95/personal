@@ -3415,6 +3415,8 @@
   let appMetrics = null;
   let csvImportedEntries = [];
   let csvRawRowCount = 0;
+  let csvEntriesLoaded = false;
+  let csvEntriesLoadPromise = null;
   let taskCatalogEntries = [];
   let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, taskMerges: {}, updatedAt: null };
   let timeAdminKey = "";
@@ -5140,7 +5142,8 @@
       ? entriesWithTaskOverrides([normalizeNativeEntry(timePayload.activeEntry, -1)])
         .map((entry) => ({ ...entry, isActiveRecentTask: true }))
       : [];
-    return [...active, ...nativeCompletedEntries()];
+    const importedLoggedEntries = csvImportedEntries.filter((entry) => entry?.start && entry?.stop);
+    return [...active, ...nativeCompletedEntries(), ...entriesWithTaskOverrides(importedLoggedEntries)];
   }
 
   function recentTrackedTasks(entries = recentTrackedTaskSource()) {
@@ -8621,12 +8624,37 @@
     return entries.map(normalizeCatalogEntry);
   }
 
+  async function ensureCsvEntriesLoaded() {
+    if (csvEntriesLoaded) {
+      return { entries: csvImportedEntries, rawRowCount: csvRawRowCount };
+    }
+    if (!csvEntriesLoadPromise) {
+      csvEntriesLoadPromise = loadCsvEntries().then((csvData) => {
+        csvImportedEntries = csvData.entries;
+        csvRawRowCount = csvData.rawRowCount;
+        csvEntriesLoaded = true;
+        return csvData;
+      }).finally(() => {
+        csvEntriesLoadPromise = null;
+      });
+    }
+    return csvEntriesLoadPromise;
+  }
+
+  function loadRecentTaskHistory() {
+    ensureCsvEntriesLoaded()
+      .then(() => {
+        renderRecentTaskSwitcher();
+      })
+      .catch((error) => {
+        setTrackerStatus(error.message || "Recent task history could not be loaded.", "error");
+      });
+  }
+
   async function loadCsvDashboard() {
     try {
       await ensureChartLibraryLoaded();
-      const csvData = await loadCsvEntries();
-      csvImportedEntries = csvData.entries;
-      csvRawRowCount = csvData.rawRowCount;
+      await ensureCsvEntriesLoaded();
       taskCatalogEntries = csvImportedEntries;
       const nativeCount = nativeCompletedEntries().length;
       appEntries = composedAnalysisEntries(csvImportedEntries);
@@ -8707,6 +8735,7 @@
     document.getElementById("sourcePills").innerHTML = "";
     showPrivateTimeLoadButton(false);
     renderTracker();
+    loadRecentTaskHistory();
     scheduleAutoDoneTaskSync();
     armBusinessMustReminderSoundUnlock();
     startBusinessMustReminderMonitor();
