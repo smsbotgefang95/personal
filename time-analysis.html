@@ -6428,6 +6428,14 @@
     selectedTaskKeys = new Set(Array.from(selectedTaskKeys).filter((key) => visibleKeys.has(key)));
   }
 
+  function revealSelectableTaskRows(selectableRows) {
+    if (!selectableRows.length) return;
+    dueAllVisibleRowLimit = Math.max(dueAllVisibleRowLimit, selectableRows.length);
+    if (!collapsedTrackGroups.size) return;
+    collapsedTrackGroups.clear();
+    saveCollapsedTrackGroups();
+  }
+
   function syncTaskSelectionUi(visibleRows, selectableRows = visibleRows) {
     lastTrackerVisibleRows = visibleRows;
     lastTrackerSelectableRows = selectableRows;
@@ -6467,6 +6475,11 @@
       if (shouldSelectAll) selectedTaskKeys.add(key);
       else selectedTaskKeys.delete(key);
     });
+    if (shouldSelectAll) {
+      revealSelectableTaskRows(selectableRows);
+      renderActivityRows({ skipDueCountUpdate: true });
+      return;
+    }
     syncTaskSelectionUi(lastTrackerVisibleRows || selectableRows, selectableRows);
   }
 
@@ -6915,6 +6928,11 @@
         if (checked) selectedTaskKeys.add(key);
         else selectedTaskKeys.delete(key);
       });
+      if (checked) {
+        revealSelectableTaskRows(selectableRows);
+        renderActivityRows({ skipDueCountUpdate: true });
+        return;
+      }
       syncTaskSelectionUi(visibleRows, selectableRows);
     });
     document.querySelectorAll("[data-select-task-key]").forEach((checkbox) => {
