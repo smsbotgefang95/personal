@@ -21,6 +21,12 @@ function extractFunction(source, name) {
   throw new Error(`Could not parse function ${name}`);
 }
 
+function extractConst(source, name) {
+  const match = source.match(new RegExp(`const ${name} = .*?;`));
+  if (!match) throw new Error(`Could not find const ${name}`);
+  return match[0];
+}
+
 const sandbox = {
   DEFAULT_RECENT_TASK_EXCLUDED_NAMES: new Set(),
   cleanLabel(value, fallback = "") {
@@ -100,3 +106,79 @@ assert.deepStrictEqual(
 );
 
 console.log("Recent task ordering checks passed.");
+
+const autoDoneSandbox = {
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  },
+  effectiveTaskId(taskId, taskName) {
+    const id = autoDoneSandbox.cleanLabel(taskId, "");
+    if (id) return id;
+    return autoDoneSandbox.cleanLabel(taskName, "")
+      .toLowerCase()
+      .replace(/^[^a-z0-9]+/, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  },
+  taskOverrideKey(entry) {
+    return [
+      autoDoneSandbox.cleanLabel(entry?.listId, ""),
+      autoDoneSandbox.effectiveTaskId(entry?.taskId, entry?.taskName)
+    ].filter(Boolean).join("::");
+  }
+};
+
+vm.createContext(autoDoneSandbox);
+vm.runInContext([
+  extractFunction(html, "normalizeLoggedTaskTargetName"),
+  extractConst(html, "AUTO_DONE_EXCLUDED_TASK_IDS"),
+  extractConst(html, "AUTO_DONE_EXCLUDED_TASK_NAMES"),
+  extractConst(html, "AUTO_DONE_EXCLUDED_AI_AGENT_TASK_NAMES"),
+  extractFunction(html, "normalizeAutoDoneAiAgentTaskName"),
+  extractFunction(html, "isAutoDoneExcludedAiAgentTask"),
+  extractFunction(html, "isAutoDoneExcludedTask"),
+  extractFunction(html, "autoDoneTaskTargets")
+].join("\n\n"), autoDoneSandbox);
+
+function autoDoneEntry(taskName, overrides = {}) {
+  return {
+    listId: "list-main",
+    listName: "Main",
+    taskId: "",
+    taskName,
+    start: "2026-06-12T08:00:00.000-04:00",
+    stop: "2026-06-12T09:00:00.000-04:00",
+    dueDate: "2026-06-12",
+    recurrence: "daily",
+    ...overrides
+  };
+}
+
+[
+  "Run AI Agent_Life",
+  "Run AI Agent_Work",
+  "🤖 Run AI Agent_Life",
+  "Run AI Agent Work",
+  "Run AI Agent-Work"
+].forEach((taskName) => {
+  assert.strictEqual(
+    autoDoneSandbox.autoDoneTaskTargets(autoDoneEntry(taskName)).length,
+    0,
+    `${taskName} should be excluded from logged-time auto-done`
+  );
+});
+
+assert.notStrictEqual(
+  autoDoneSandbox.autoDoneTaskTargets(autoDoneEntry("Run AI Agent")).length,
+  0,
+  "base Run AI Agent should not be excluded by the Life/Work-specific rule"
+);
+
+assert.notStrictEqual(
+  autoDoneSandbox.autoDoneTaskTargets(autoDoneEntry("Talk to Matt")).length,
+  0,
+  "normal logged tasks should still produce auto-done targets"
+);
+
+console.log("AI Agent auto-done exclusion checks passed.");
