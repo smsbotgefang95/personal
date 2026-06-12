@@ -5072,6 +5072,14 @@
     return recentTaskDateMs(entry?.stop) || recentTaskDateMs(entry?.updatedAt) || recentTaskDateMs(entry?.start);
   }
 
+  function compareRecentTasksByRecency(a, b) {
+    const completedDiff = recentTaskCompletedMs(b) - recentTaskCompletedMs(a);
+    if (completedDiff) return completedDiff;
+    const nameDiff = cleanLabel(a?.taskName, "").localeCompare(cleanLabel(b?.taskName, ""));
+    if (nameDiff) return nameDiff;
+    return recentTaskKey(a).localeCompare(recentTaskKey(b));
+  }
+
   function normalizedRecentTaskName(taskName) {
     return cleanLabel(taskName, "")
       .replace(/^[^A-Za-z0-9]+/, "")
@@ -5147,9 +5155,7 @@
     const activeEntry = entries.find((entry) => entry?.isActiveRecentTask);
     const activeKey = activeEntry ? recentTaskKey(activeEntry) : "";
     Array.from(entries)
-      .sort((a, b) => {
-        return recentTaskCompletedMs(b) - recentTaskCompletedMs(a);
-      })
+      .sort(compareRecentTasksByRecency)
       .forEach((entry) => {
         if (!entry?.taskName) return;
         if (isDefaultRecentTaskExcluded(entry)) return;
@@ -5162,9 +5168,7 @@
         }
         if (!byTask.has(key)) byTask.set(key, entry);
       });
-    return Array.from(byTask.values()).sort((a, b) => {
-      return recentTaskCompletedMs(b) - recentTaskCompletedMs(a);
-    });
+    return Array.from(byTask.values()).sort(compareRecentTasksByRecency);
   }
 
   function syncRecentTaskActiveState() {
