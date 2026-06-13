@@ -1167,7 +1167,7 @@
 
   .tracker-filter-controls {
     display: grid;
-    grid-template-columns: minmax(150px, 160px) minmax(480px, 520px) minmax(40px, 1fr);
+    grid-template-columns: minmax(150px, 160px) minmax(620px, 660px) minmax(40px, 1fr);
     grid-template-areas:
       "select due search";
     column-gap: 6px;
@@ -1258,7 +1258,7 @@
 
   .due-filter-buttons {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 6px;
   }
 
@@ -2653,7 +2653,7 @@
       flex-direction: column;
     }
     .tracker-filter-controls {
-      grid-template-columns: minmax(150px, 160px) minmax(480px, 520px) minmax(40px, 1fr);
+      grid-template-columns: minmax(150px, 160px) minmax(620px, 660px) minmax(40px, 1fr);
       grid-template-areas:
         "select due search";
     }
@@ -2726,6 +2726,15 @@
         "due"
         "search"
     }
+    .due-filter-buttons {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .due-filter-btn {
+      height: auto;
+      min-height: 48px;
+      white-space: normal;
+      line-height: 1.15;
+    }
     .due-sync-note {
       white-space: normal;
     }
@@ -2796,6 +2805,7 @@
                   <label id="dueStatusFilterLabel">Due filter</label>
                   <input id="dueStatusFilter" type="hidden" value="all" />
                   <div class="due-filter-buttons" role="group" aria-labelledby="dueStatusFilterLabel">
+                    <button class="btn btn-ghost due-filter-btn" id="dueOverdueFilterBtn" type="button" data-due-filter-value="overdue" aria-pressed="false">Overdue</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueTodayFilterBtn" type="button" data-due-filter-value="today" aria-pressed="false">Due today</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueTomorrowFilterBtn" type="button" data-due-filter-value="tomorrow" aria-pressed="false">Due tomorrow</button>
                     <button class="btn btn-ghost due-filter-btn" id="dueAllFilterBtn" type="button" data-due-filter-value="all" aria-pressed="true">Due all</button>
