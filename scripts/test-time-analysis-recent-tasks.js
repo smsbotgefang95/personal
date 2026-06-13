@@ -169,6 +169,17 @@ function autoDoneEntry(taskName, overrides = {}) {
   );
 });
 
+[
+  autoDoneEntry("🌷Grow flowers and plants", { taskId: "86adrww47" }),
+  autoDoneEntry("Grow flowers and plants")
+].forEach((entry) => {
+  assert.strictEqual(
+    autoDoneSandbox.autoDoneTaskTargets(entry).length,
+    0,
+    `${entry.taskName} should be excluded from logged-time auto-done`
+  );
+});
+
 assert.notStrictEqual(
   autoDoneSandbox.autoDoneTaskTargets(autoDoneEntry("Run AI Agent")).length,
   0,
