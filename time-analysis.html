@@ -357,13 +357,20 @@
   }
 
   .task-pie-label-list {
-    grid-column: 3;
     grid-row: 1;
     position: relative;
     z-index: 1;
     display: grid;
     gap: 8px;
     align-content: center;
+  }
+
+  .task-pie-label-list-left {
+    grid-column: 1;
+  }
+
+  .task-pie-label-list-right {
+    grid-column: 3;
   }
 
   .task-pie-label-item {
@@ -374,6 +381,25 @@
     padding: 7px 0;
     color: var(--text);
     line-height: 1.28;
+  }
+
+  .task-pie-label-list-left .task-pie-label-item {
+    grid-template-columns: auto minmax(0, 1fr) 14px;
+  }
+
+  .task-pie-label-list-left .task-pie-label-swatch {
+    grid-column: 3;
+  }
+
+  .task-pie-label-list-left .task-pie-label-name {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+  }
+
+  .task-pie-label-list-left .task-pie-label-value {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .task-pie-label-swatch {
@@ -2747,6 +2773,9 @@
       grid-column: 1;
       grid-row: auto;
     }
+    .task-pie-label-list-left {
+      display: none;
+    }
     .task-pie-label-value {
       grid-column: 2;
       justify-self: start;
@@ -3129,10 +3158,11 @@
           </div>
           <div class="task-pie-layout">
             <svg class="task-pie-connectors" id="businessTopTaskPieConnectors" aria-hidden="true"></svg>
+            <div class="task-pie-label-list task-pie-label-list-left" id="businessTopTaskPieLegendLeft"></div>
             <div class="chart-box short">
               <canvas id="businessTopTaskPieChart"></canvas>
             </div>
-            <div class="task-pie-label-list" id="businessTopTaskPieLegend"></div>
+            <div class="task-pie-label-list task-pie-label-list-right" id="businessTopTaskPieLegend"></div>
           </div>
         </section>
 
@@ -3208,10 +3238,11 @@
           </div>
           <div class="task-pie-layout">
             <svg class="task-pie-connectors" id="personalTopTaskPieConnectors" aria-hidden="true"></svg>
+            <div class="task-pie-label-list task-pie-label-list-left" id="personalTopTaskPieLegendLeft"></div>
             <div class="chart-box short">
               <canvas id="personalTopTaskPieChart"></canvas>
             </div>
-            <div class="task-pie-label-list" id="personalTopTaskPieLegend"></div>
+            <div class="task-pie-label-list task-pie-label-list-right" id="personalTopTaskPieLegend"></div>
           </div>
         </section>
 
@@ -8037,7 +8068,6 @@
       ...item,
       percent: total ? item.value / total * 100 : 0
     }));
-    if (options.legendId) renderTaskPieLegend(options.legendId, labeledEntries);
     const taskChart = chart(id, {
       type: "pie",
       data: {
@@ -8051,25 +8081,61 @@
       },
       options: pieOptions(total, { legend: false, tooltip: false })
     });
+    if (taskChart && options.legendId) {
+      renderTaskPieLegend({
+        leftId: options.legendLeftId,
+        rightId: options.legendId
+      }, labeledEntries, taskChart);
+    }
     if (options.legendId && options.connectorId && taskChart) {
-      scheduleTaskPieConnectors(taskChart, options.legendId, options.connectorId, labeledEntries);
+      scheduleTaskPieConnectors(taskChart, [options.legendLeftId, options.legendId], options.connectorId, labeledEntries);
     }
   }
 
-  function renderTaskPieLegend(id, entries) {
-    const legend = document.getElementById(id);
-    if (!legend) return;
-    legend.innerHTML = entries.map((item, index) => `
+  function taskPieEntryPlacement(chartInstance, index) {
+    const arc = chartInstance.getDatasetMeta(0)?.data?.[index];
+    if (!arc) return { side: "right", y: index };
+    const { y, startAngle, endAngle, outerRadius } = arc.getProps(["y", "startAngle", "endAngle", "outerRadius"], true);
+    const angle = (startAngle + endAngle) / 2;
+    return {
+      side: Math.cos(angle) < 0 ? "left" : "right",
+      y: y + Math.sin(angle) * (outerRadius + 22)
+    };
+  }
+
+  function taskPieLegendItemHtml(item, index) {
+    return `
       <div class="task-pie-label-item" data-task-pie-label-index="${index}">
         <span class="task-pie-label-swatch" style="--legend-color:${escapeHtml(item.color)};"></span>
         <span class="task-pie-label-name" title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</span>
         <span class="task-pie-label-value">${escapeHtml(formatHours(item.value, 1))} · ${escapeHtml(item.percent.toFixed(1))}%</span>
       </div>
-    `).join("");
+    `;
   }
 
-  function scheduleTaskPieConnectors(chartInstance, legendId, connectorId, entries) {
-    taskPieConnectorState.set(connectorId, { chart: chartInstance, legendId, entries });
+  function renderTaskPieLegend(ids, entries, chartInstance) {
+    const leftLegend = ids.leftId ? document.getElementById(ids.leftId) : null;
+    const rightLegend = document.getElementById(ids.rightId);
+    if (!rightLegend) return;
+
+    const leftItems = [];
+    const rightItems = [];
+    entries.forEach((item, index) => {
+      const placement = taskPieEntryPlacement(chartInstance, index);
+      const rendered = { html: taskPieLegendItemHtml(item, index), y: placement.y };
+      if (leftLegend && placement.side === "left") {
+        leftItems.push(rendered);
+      } else {
+        rightItems.push(rendered);
+      }
+    });
+
+    if (leftLegend) leftLegend.innerHTML = leftItems.sort((a, b) => a.y - b.y).map((item) => item.html).join("");
+    rightLegend.innerHTML = rightItems.sort((a, b) => a.y - b.y).map((item) => item.html).join("");
+  }
+
+  function scheduleTaskPieConnectors(chartInstance, legendIds, connectorId, entries) {
+    taskPieConnectorState.set(connectorId, { chart: chartInstance, legendIds: legendIds.filter(Boolean), entries });
     const draw = () => drawTaskPieConnectors(connectorId);
     requestAnimationFrame(draw);
     window.setTimeout(draw, 220);
@@ -8089,10 +8155,9 @@
   function drawTaskPieConnectors(connectorId) {
     const state = taskPieConnectorState.get(connectorId);
     const svg = document.getElementById(connectorId);
-    const legend = state ? document.getElementById(state.legendId) : null;
     const layout = svg?.closest(".task-pie-layout");
     const chartInstance = state?.chart;
-    if (!svg || !legend || !layout || !chartInstance?.canvas) return;
+    if (!svg || !layout || !chartInstance?.canvas) return;
 
     svg.innerHTML = "";
     if (window.getComputedStyle(svg).display === "none") return;
@@ -8110,13 +8175,17 @@
     const canvasTop = canvasRect.top - layoutRect.top;
 
     meta.data.forEach((arc, index) => {
-      const label = legend.querySelector(`[data-task-pie-label-index="${index}"]`);
+      const label = state.legendIds
+        .map((id) => document.getElementById(id)?.querySelector(`[data-task-pie-label-index="${index}"]`))
+        .find(Boolean);
       const entry = state.entries[index];
       if (!label || !entry) return;
       const { x, y, startAngle, endAngle, outerRadius } = arc.getProps(["x", "y", "startAngle", "endAngle", "outerRadius"], true);
       const angle = (startAngle + endAngle) / 2;
-      const anchorX = canvasLeft + (x + Math.cos(angle) * (outerRadius + 4)) * scaleX;
-      const anchorY = canvasTop + (y + Math.sin(angle) * (outerRadius + 4)) * scaleY;
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      const anchorX = canvasLeft + (x + cos * (outerRadius + 2)) * scaleX;
+      const anchorY = canvasTop + (y + sin * (outerRadius + 2)) * scaleY;
       const labelRect = label.getBoundingClientRect();
       const labelLeft = labelRect.left - layoutRect.left;
       const labelRight = labelRect.right - layoutRect.left;
@@ -8124,11 +8193,13 @@
       const labelCenterX = labelLeft + labelRect.width / 2;
       const labelIsLeftOfPie = labelCenterX < pieCenterX;
       const targetX = labelIsLeftOfPie ? labelRight + 8 : labelLeft - 8;
-      const targetY = labelRect.top - layoutRect.top + labelRect.height / 2;
+      const radialX = canvasLeft + (x + cos * (outerRadius + 20)) * scaleX;
+      const radialY = canvasTop + (y + sin * (outerRadius + 20)) * scaleY;
       const direction = targetX >= anchorX ? 1 : -1;
-      const elbowX = anchorX + direction * Math.max(18, Math.abs(targetX - anchorX) * 0.42);
+      const elbowX = direction > 0 ? Math.max(radialX, anchorX + 14) : Math.min(radialX, anchorX - 14);
+      const lineEndX = direction > 0 ? Math.max(targetX, elbowX + 18) : Math.min(targetX, elbowX - 18);
       const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-      polyline.setAttribute("points", `${anchorX.toFixed(1)},${anchorY.toFixed(1)} ${elbowX.toFixed(1)},${anchorY.toFixed(1)} ${targetX.toFixed(1)},${targetY.toFixed(1)}`);
+      polyline.setAttribute("points", `${anchorX.toFixed(1)},${anchorY.toFixed(1)} ${elbowX.toFixed(1)},${radialY.toFixed(1)} ${lineEndX.toFixed(1)},${radialY.toFixed(1)}`);
       polyline.setAttribute("fill", "none");
       polyline.setAttribute("stroke", entry.color);
       polyline.setAttribute("stroke-width", "1.5");
@@ -8298,6 +8369,7 @@
 
     renderTaskPieChart("businessTopTaskPieChart", metrics.byBusinessTaskId, metrics, {
       hideLegend: true,
+      legendLeftId: "businessTopTaskPieLegendLeft",
       legendId: "businessTopTaskPieLegend",
       connectorId: "businessTopTaskPieConnectors"
     });
@@ -8354,6 +8426,7 @@
 
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
       hideLegend: true,
+      legendLeftId: "personalTopTaskPieLegendLeft",
       legendId: "personalTopTaskPieLegend",
       connectorId: "personalTopTaskPieConnectors"
     });
@@ -8833,15 +8906,16 @@
       items.forEach((item) => {
         const rightSide = item.side === "right";
         const textX = rightSide
-          ? Math.min(canvasBounds.right - item.width, item.elbowX + 10)
-          : Math.max(canvasBounds.left + item.width, item.elbowX - 10);
-        const lineEndX = rightSide ? textX - 6 : textX + 6;
+          ? Math.min(canvasBounds.right - item.width, item.elbowX + 44)
+          : Math.max(canvasBounds.left + item.width, item.elbowX - 44);
+        const lineEndX = rightSide ? textX - 10 : textX + 10;
+        const bendX = item.elbowX;
+        const bendY = item.labelY;
 
-        ctx.strokeStyle = item.color;
-        ctx.fillStyle = item.color;
+        ctx.strokeStyle = "#9ca3af";
         ctx.beginPath();
         ctx.moveTo(item.anchorX, item.anchorY);
-        ctx.lineTo(item.elbowX, item.elbowY);
+        ctx.lineTo(bendX, bendY);
         ctx.lineTo(lineEndX, item.labelY);
         ctx.stroke();
 
