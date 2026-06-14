@@ -283,13 +283,13 @@
 
   .side-chart {
     display: grid;
-    grid-template-columns: 214px minmax(0, 1fr);
-    gap: 16px;
+    grid-template-columns: minmax(188px, 0.82fr) minmax(260px, 1.18fr);
+    gap: 18px;
     align-items: center;
   }
 
   .side-chart .chart-box {
-    width: 214px;
+    width: min(214px, 100%);
     height: 214px;
   }
 
@@ -320,6 +320,7 @@
   .chart-side-legend-label {
     min-width: 0;
     overflow-wrap: anywhere;
+    word-break: normal;
   }
 
   .bar-list {
@@ -7873,11 +7874,24 @@
   }
 
   function taskPieEntries(taskHoursMap, metrics) {
-    return topEntries(taskHoursMap, 10).map(([taskId, hours], index) => ({
-      label: metrics.taskNames.get(taskId) || "Untitled task",
-      value: hours,
-      color: TASK_PIE_COLORS[index % TASK_PIE_COLORS.length]
-    }));
+    const byLabel = new Map();
+    taskHoursMap.forEach((hours, taskId) => {
+      const label = cleanLabel(metrics.taskNames.get(taskId), "Untitled task");
+      const key = label.toLowerCase().replace(/\s+/g, " ").trim();
+      const existing = byLabel.get(key);
+      if (existing) {
+        existing.value += hours;
+      } else {
+        byLabel.set(key, { label, value: hours });
+      }
+    });
+    return Array.from(byLabel.values())
+      .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label))
+      .slice(0, 10)
+      .map((item, index) => ({
+        ...item,
+        color: TASK_PIE_COLORS[index % TASK_PIE_COLORS.length]
+      }));
   }
 
   function renderTaskPieChart(id, taskHoursMap, metrics, options = {}) {
@@ -7904,7 +7918,7 @@
     legend.innerHTML = entries.map((item) => `
       <div class="chart-side-legend-item">
         <span class="chart-side-legend-swatch" style="--legend-color:${escapeHtml(item.color)};"></span>
-        <span class="chart-side-legend-label">${escapeHtml(item.label)}</span>
+        <span class="chart-side-legend-label" title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</span>
       </div>
     `).join("");
   }
