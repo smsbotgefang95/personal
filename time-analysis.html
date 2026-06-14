@@ -8560,7 +8560,7 @@
       const meta = chart.getDatasetMeta(0);
       if (!dataset || !meta?.data?.length) return;
 
-      const { ctx, chartArea } = chart;
+      const { ctx } = chart;
       ctx.save();
       ctx.fillStyle = options.color || "#e5e7eb";
       ctx.font = options.font || "600 12px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
@@ -8571,19 +8571,11 @@
         const label = formatHours(value, options.digits ?? 1);
         const { x, y, base } = bar.getProps(["x", "y", "base"], true);
         const barWidth = Math.abs(x - base);
-        const labelWidth = ctx.measureText(label).width;
-        const outsideX = x + 8;
-        let labelX = outsideX;
-        let textAlign = "left";
+        const maxLabelWidth = Math.max(0, barWidth - 16);
+        if (!maxLabelWidth) return;
 
-        if (outsideX + labelWidth > chartArea.right) {
-          textAlign = "right";
-          labelX = Math.min(chartArea.right - 4, x - 8);
-          if (barWidth < labelWidth + 16) labelX = chartArea.right - 4;
-        }
-
-        ctx.textAlign = textAlign;
-        ctx.fillText(label, labelX, y);
+        ctx.textAlign = "right";
+        ctx.fillText(label, Math.max(base + 8, x - 10), y, maxLabelWidth);
       });
 
       ctx.restore();
@@ -8605,7 +8597,6 @@
       }
     };
     if (options.endValueLabels) {
-      chartOptions.layout = { padding: { right: 58 } };
       chartOptions.plugins.barEndValueLabels = { color: "#f9fafb", digits: 1 };
       chartOptions.plugins.tooltip = { enabled: false };
     }
