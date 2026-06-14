@@ -8607,6 +8607,7 @@
     if (options.endValueLabels) {
       chartOptions.layout = { padding: { right: 58 } };
       chartOptions.plugins.barEndValueLabels = { color: "#f9fafb", digits: 1 };
+      chartOptions.plugins.tooltip = { enabled: false };
     }
     return chartOptions;
   }
