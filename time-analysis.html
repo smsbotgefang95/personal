@@ -7963,7 +7963,7 @@
         labels: listEntries.map((item) => item.label),
         datasets: [{ data: listEntries.map((item) => item.value), backgroundColor: listEntries.map((item) => item.color), borderWidth: 2, borderColor: "#030712" }]
       },
-      options: doughnutOptions(metrics.totalHours)
+      options: doughnutOptions(metrics.totalHours, { legendPercent: true })
     });
 
     chart("priorityChart", {
@@ -8497,12 +8497,28 @@
   }
 
   function doughnutOptions(total, options = {}) {
+    const legendLabels = { boxWidth: 12, color: "#9ca3af" };
+    if (options.legendPercent) {
+      legendLabels.generateLabels = (chart) => {
+        const labels = Chart.overrides.doughnut.plugins.legend.labels.generateLabels(chart);
+        const values = chart.data.datasets[0]?.data || [];
+        return labels.map((item) => {
+          const value = Number(values[item.index]) || 0;
+          const percent = total ? value / total * 100 : 0;
+          return {
+            ...item,
+            text: `${item.text} ${percent.toFixed(1)}%`
+          };
+        });
+      };
+    }
+
     return {
       responsive: true,
       maintainAspectRatio: false,
       cutout: "62%",
       plugins: {
-        legend: options.legend === false ? { display: false } : { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        legend: options.legend === false ? { display: false } : { position: "bottom", labels: legendLabels },
         tooltip: {
           callbacks: {
             label: (context) => {
