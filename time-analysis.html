@@ -7972,7 +7972,8 @@
         labels: priorityEntries.map((item) => item.label),
         datasets: [{ data: priorityEntries.map((item) => item.value), backgroundColor: "#6366f1", borderRadius: 5 }]
       },
-      options: horizontalBarOptions()
+      options: horizontalBarOptions({ endValueLabels: true }),
+      plugins: [barEndValueLabelsPlugin]
     });
 
     renderWeeklyChart(metrics);
@@ -8552,8 +8553,45 @@
     };
   }
 
-  function horizontalBarOptions() {
-    return {
+  const barEndValueLabelsPlugin = {
+    id: "barEndValueLabels",
+    afterDatasetsDraw(chart, args, options) {
+      const dataset = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0);
+      if (!dataset || !meta?.data?.length) return;
+
+      const { ctx, chartArea } = chart;
+      ctx.save();
+      ctx.fillStyle = options.color || "#e5e7eb";
+      ctx.font = options.font || "600 12px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+      ctx.textBaseline = "middle";
+
+      meta.data.forEach((bar, index) => {
+        const value = Number(dataset.data[index]) || 0;
+        const label = formatHours(value, options.digits ?? 1);
+        const { x, y, base } = bar.getProps(["x", "y", "base"], true);
+        const barWidth = Math.abs(x - base);
+        const labelWidth = ctx.measureText(label).width;
+        const outsideX = x + 8;
+        let labelX = outsideX;
+        let textAlign = "left";
+
+        if (outsideX + labelWidth > chartArea.right) {
+          textAlign = "right";
+          labelX = Math.min(chartArea.right - 4, x - 8);
+          if (barWidth < labelWidth + 16) labelX = chartArea.right - 4;
+        }
+
+        ctx.textAlign = textAlign;
+        ctx.fillText(label, labelX, y);
+      });
+
+      ctx.restore();
+    }
+  };
+
+  function horizontalBarOptions(options = {}) {
+    const chartOptions = {
       indexAxis: "y",
       responsive: true,
       maintainAspectRatio: false,
@@ -8566,6 +8604,11 @@
         y: { ticks: { color: "#9ca3af" }, grid: { display: false } }
       }
     };
+    if (options.endValueLabels) {
+      chartOptions.layout = { padding: { right: 58 } };
+      chartOptions.plugins.barEndValueLabels = { color: "#f9fafb", digits: 1 };
+    }
+    return chartOptions;
   }
 
   function verticalBarOptions() {
