@@ -280,6 +280,7 @@
 
   .chart-box.short { height: 214px; }
   .chart-box.tall { height: 330px; }
+  .allocation-chart-box { height: 280px; }
 
   .side-chart {
     display: grid;
@@ -321,6 +322,80 @@
     min-width: 0;
     overflow-wrap: anywhere;
     word-break: normal;
+  }
+
+  .task-pie-section {
+    grid-column: 1 / -1;
+  }
+
+  .task-pie-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(280px, 340px) minmax(360px, 1fr);
+    gap: 26px;
+    align-items: center;
+    min-height: 340px;
+  }
+
+  .task-pie-layout .chart-box {
+    grid-column: 2;
+    grid-row: 1;
+    width: min(320px, 100%);
+    height: 320px;
+    justify-self: center;
+  }
+
+  .task-pie-connectors {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .task-pie-label-list {
+    grid-column: 3;
+    grid-row: 1;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 8px;
+    align-content: center;
+  }
+
+  .task-pie-label-item {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: start;
+    padding: 7px 0;
+    color: var(--text);
+    line-height: 1.28;
+  }
+
+  .task-pie-label-swatch {
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    background: var(--legend-color);
+  }
+
+  .task-pie-label-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    font-size: 0.92rem;
+    font-weight: 800;
+  }
+
+  .task-pie-label-value {
+    color: var(--muted);
+    font-size: 0.86rem;
+    font-weight: 800;
+    white-space: nowrap;
   }
 
   .bar-list {
@@ -748,6 +823,21 @@
   .personal-task-table th:first-child {
     z-index: 3;
     background: #1f2937;
+  }
+
+  .task-total-row {
+    background: rgba(99, 102, 241, 0.1);
+    color: #f8fafc;
+    font-weight: 850;
+  }
+
+  .task-total-row td {
+    border-bottom-color: rgba(99, 102, 241, 0.35);
+  }
+
+  .business-task-table .task-total-row td:first-child,
+  .personal-task-table .task-total-row td:first-child {
+    background: #172033;
   }
 
   .sort-header-btn {
@@ -2636,6 +2726,31 @@
       width: 100%;
       align-content: start;
     }
+    .task-pie-layout {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      min-height: 0;
+    }
+    .task-pie-layout .chart-box {
+      grid-column: 1;
+      grid-row: auto;
+      width: min(280px, 100%);
+      height: 280px;
+    }
+    .task-pie-connectors {
+      display: none;
+    }
+    .task-pie-label-item {
+      grid-template-columns: 14px minmax(0, 1fr);
+    }
+    .task-pie-label-list {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .task-pie-label-value {
+      grid-column: 2;
+      justify-self: start;
+    }
     .tab-btn { flex: 1 1 140px; }
     .tracker-card { padding: 16px; }
     .tracker-actions {
@@ -2921,7 +3036,7 @@
               <p class="section-note">Grouped by stable list identity.</p>
             </div>
           </div>
-          <div class="chart-box short">
+          <div class="chart-box short allocation-chart-box">
             <canvas id="allocationChart"></canvas>
           </div>
         </section>
@@ -3005,18 +3120,19 @@
       </section>
 
       <div class="grid-2">
-        <section class="section card" aria-labelledby="businessTopTaskPieHeading">
+        <section class="section card task-pie-section" aria-labelledby="businessTopTaskPieHeading">
           <div class="section-header">
             <div>
               <h2 id="businessTopTaskPieHeading">Top 10 Business Tasks</h2>
               <p class="section-note">Pie chart ranked by total task duration.</p>
             </div>
           </div>
-          <div class="side-chart">
+          <div class="task-pie-layout">
+            <svg class="task-pie-connectors" id="businessTopTaskPieConnectors" aria-hidden="true"></svg>
             <div class="chart-box short">
               <canvas id="businessTopTaskPieChart"></canvas>
             </div>
-            <div class="chart-side-legend" id="businessTopTaskPieLegend"></div>
+            <div class="task-pie-label-list" id="businessTopTaskPieLegend"></div>
           </div>
         </section>
 
@@ -3083,18 +3199,19 @@
       </section>
 
       <div class="grid-2">
-        <section class="section card" aria-labelledby="personalTopTaskPieHeading">
+        <section class="section card task-pie-section" aria-labelledby="personalTopTaskPieHeading">
           <div class="section-header">
             <div>
               <h2 id="personalTopTaskPieHeading">Top 10 Personal Tasks</h2>
               <p class="section-note">Pie chart ranked by total task duration.</p>
             </div>
           </div>
-          <div class="side-chart">
+          <div class="task-pie-layout">
+            <svg class="task-pie-connectors" id="personalTopTaskPieConnectors" aria-hidden="true"></svg>
             <div class="chart-box short">
               <canvas id="personalTopTaskPieChart"></canvas>
             </div>
-            <div class="chart-side-legend" id="personalTopTaskPieLegend"></div>
+            <div class="task-pie-label-list" id="personalTopTaskPieLegend"></div>
           </div>
         </section>
 
@@ -3414,6 +3531,8 @@
   ];
 
   const charts = {};
+  const taskPieConnectorState = new Map();
+  const taskPieConnectorObservers = new Map();
   let chartLibraryLoadPromise = null;
   let appEntries = [];
   let appMetrics = null;
@@ -7670,6 +7789,11 @@
       };
     });
     const sortedRows = sortTaskRows(rows, taskTableSort[tableName]);
+    const totalHours = rows.reduce((total, row) => total + row.totalHours, 0);
+    const totalWeekHours = new Map(displayWeeks.map((week) => [
+      week,
+      rows.reduce((total, row) => total + (row.weekHours.get(week) || 0), 0)
+    ]));
     const headers = [
       renderSortableHeader(tableName, "task", "Task"),
       renderSortableHeader(tableName, "total", "Total"),
@@ -7677,7 +7801,18 @@
     ];
 
     document.getElementById(headId).innerHTML = `<tr>${headers.map((header) => `<th>${header}</th>`).join("")}</tr>`;
-    document.getElementById(bodyId).innerHTML = sortedRows.map((row) => {
+    const totalWeekCells = displayWeeks.map((week) => {
+      const hours = totalWeekHours.get(week) || 0;
+      return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
+    }).join("");
+    const totalRow = `
+      <tr class="task-total-row">
+        <td>Total hours</td>
+        <td><strong>${escapeHtml(formatHours(totalHours, 2))}</strong></td>
+        ${totalWeekCells}
+      </tr>
+    `;
+    const taskRows = sortedRows.map((row) => {
       const weeklyCells = displayWeeks.map((week) => {
         const hours = row.weekHours.get(week) || 0;
         return `<td${hours ? "" : ' class="empty-cell"'}>${hours ? escapeHtml(formatHours(hours, 1)) : "-"}</td>`;
@@ -7690,6 +7825,7 @@
         </tr>
       `;
     }).join("");
+    document.getElementById(bodyId).innerHTML = `${totalRow}${taskRows}`;
 
     document.getElementById(headId).querySelectorAll("[data-sort-key]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -7896,19 +8032,110 @@
 
   function renderTaskPieChart(id, taskHoursMap, metrics, options = {}) {
     const entries = taskPieEntries(taskHoursMap, metrics);
-    if (options.legendId) renderSideLegend(options.legendId, entries);
-    chart(id, {
+    const total = entries.reduce((sum, item) => sum + item.value, 0);
+    const labeledEntries = entries.map((item) => ({
+      ...item,
+      percent: total ? item.value / total * 100 : 0
+    }));
+    if (options.legendId) renderTaskPieLegend(options.legendId, labeledEntries);
+    const taskChart = chart(id, {
       type: "pie",
       data: {
-        labels: entries.map((item) => item.label),
+        labels: labeledEntries.map((item) => item.label),
         datasets: [{
-          data: entries.map((item) => item.value),
-          backgroundColor: entries.map((item) => item.color),
+          data: labeledEntries.map((item) => item.value),
+          backgroundColor: labeledEntries.map((item) => item.color),
           borderWidth: 2,
           borderColor: "#111827"
         }]
       },
-      options: pieOptions(entries.reduce((total, item) => total + item.value, 0), { legend: !options.hideLegend })
+      options: pieOptions(total, { legend: false, tooltip: false })
+    });
+    if (options.legendId && options.connectorId && taskChart) {
+      scheduleTaskPieConnectors(taskChart, options.legendId, options.connectorId, labeledEntries);
+    }
+  }
+
+  function renderTaskPieLegend(id, entries) {
+    const legend = document.getElementById(id);
+    if (!legend) return;
+    legend.innerHTML = entries.map((item, index) => `
+      <div class="task-pie-label-item" data-task-pie-label-index="${index}">
+        <span class="task-pie-label-swatch" style="--legend-color:${escapeHtml(item.color)};"></span>
+        <span class="task-pie-label-name" title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</span>
+        <span class="task-pie-label-value">${escapeHtml(formatHours(item.value, 1))} · ${escapeHtml(item.percent.toFixed(1))}%</span>
+      </div>
+    `).join("");
+  }
+
+  function scheduleTaskPieConnectors(chartInstance, legendId, connectorId, entries) {
+    taskPieConnectorState.set(connectorId, { chart: chartInstance, legendId, entries });
+    const draw = () => drawTaskPieConnectors(connectorId);
+    requestAnimationFrame(draw);
+    window.setTimeout(draw, 220);
+
+    const layout = document.getElementById(connectorId)?.closest(".task-pie-layout");
+    if (!layout || taskPieConnectorObservers.has(connectorId)) return;
+    if (window.ResizeObserver) {
+      const observer = new ResizeObserver(draw);
+      observer.observe(layout);
+      taskPieConnectorObservers.set(connectorId, observer);
+    } else {
+      window.addEventListener("resize", draw);
+      taskPieConnectorObservers.set(connectorId, { disconnect: () => window.removeEventListener("resize", draw) });
+    }
+  }
+
+  function drawTaskPieConnectors(connectorId) {
+    const state = taskPieConnectorState.get(connectorId);
+    const svg = document.getElementById(connectorId);
+    const legend = state ? document.getElementById(state.legendId) : null;
+    const layout = svg?.closest(".task-pie-layout");
+    const chartInstance = state?.chart;
+    if (!svg || !legend || !layout || !chartInstance?.canvas) return;
+
+    svg.innerHTML = "";
+    if (window.getComputedStyle(svg).display === "none") return;
+
+    const layoutRect = layout.getBoundingClientRect();
+    const canvasRect = chartInstance.canvas.getBoundingClientRect();
+    const width = Math.max(layoutRect.width, 1);
+    const height = Math.max(layoutRect.height, 1);
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    const meta = chartInstance.getDatasetMeta(0);
+    const scaleX = canvasRect.width / (chartInstance.width || canvasRect.width || 1);
+    const scaleY = canvasRect.height / (chartInstance.height || canvasRect.height || 1);
+    const canvasLeft = canvasRect.left - layoutRect.left;
+    const canvasTop = canvasRect.top - layoutRect.top;
+
+    meta.data.forEach((arc, index) => {
+      const label = legend.querySelector(`[data-task-pie-label-index="${index}"]`);
+      const entry = state.entries[index];
+      if (!label || !entry) return;
+      const { x, y, startAngle, endAngle, outerRadius } = arc.getProps(["x", "y", "startAngle", "endAngle", "outerRadius"], true);
+      const angle = (startAngle + endAngle) / 2;
+      const anchorX = canvasLeft + (x + Math.cos(angle) * (outerRadius + 4)) * scaleX;
+      const anchorY = canvasTop + (y + Math.sin(angle) * (outerRadius + 4)) * scaleY;
+      const labelRect = label.getBoundingClientRect();
+      const labelLeft = labelRect.left - layoutRect.left;
+      const labelRight = labelRect.right - layoutRect.left;
+      const pieCenterX = canvasLeft + x * scaleX;
+      const labelCenterX = labelLeft + labelRect.width / 2;
+      const labelIsLeftOfPie = labelCenterX < pieCenterX;
+      const targetX = labelIsLeftOfPie ? labelRight + 8 : labelLeft - 8;
+      const targetY = labelRect.top - layoutRect.top + labelRect.height / 2;
+      const direction = targetX >= anchorX ? 1 : -1;
+      const elbowX = anchorX + direction * Math.max(18, Math.abs(targetX - anchorX) * 0.42);
+      const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+      polyline.setAttribute("points", `${anchorX.toFixed(1)},${anchorY.toFixed(1)} ${elbowX.toFixed(1)},${anchorY.toFixed(1)} ${targetX.toFixed(1)},${targetY.toFixed(1)}`);
+      polyline.setAttribute("fill", "none");
+      polyline.setAttribute("stroke", entry.color);
+      polyline.setAttribute("stroke-width", "1.5");
+      polyline.setAttribute("stroke-linecap", "round");
+      polyline.setAttribute("stroke-linejoin", "round");
+      polyline.setAttribute("opacity", "0.9");
+      svg.appendChild(polyline);
     });
   }
 
@@ -7963,7 +8190,8 @@
         labels: listEntries.map((item) => item.label),
         datasets: [{ data: listEntries.map((item) => item.value), backgroundColor: listEntries.map((item) => item.color), borderWidth: 2, borderColor: "#030712" }]
       },
-      options: doughnutOptions(metrics.totalHours, { legendPercent: true })
+      options: doughnutOptions(metrics.totalHours, { legend: false, tooltip: false, calloutLabels: true }),
+      plugins: [doughnutCalloutLabelsPlugin]
     });
 
     chart("priorityChart", {
@@ -8070,7 +8298,8 @@
 
     renderTaskPieChart("businessTopTaskPieChart", metrics.byBusinessTaskId, metrics, {
       hideLegend: true,
-      legendId: "businessTopTaskPieLegend"
+      legendId: "businessTopTaskPieLegend",
+      connectorId: "businessTopTaskPieConnectors"
     });
 
     const roleEntries = topEntries(metrics.byRole, 10).map(([label, hours]) => ({ label, value: hours, color: ROLE_COLORS[label] || ROLE_COLORS.Other }));
@@ -8125,7 +8354,8 @@
 
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
       hideLegend: true,
-      legendId: "personalTopTaskPieLegend"
+      legendId: "personalTopTaskPieLegend",
+      connectorId: "personalTopTaskPieConnectors"
     });
 
     const sectionEntries = topEntries(metrics.byPersonalSection, 10);
@@ -8508,7 +8738,7 @@
           const percent = total ? value / total * 100 : 0;
           return {
             ...item,
-            text: `${item.text} ${percent.toFixed(1)}%`
+            text: `${item.text}: ${formatHours(value, 1)} (${percent.toFixed(1)}%)`
           };
         });
       };
@@ -8518,9 +8748,10 @@
       responsive: true,
       maintainAspectRatio: false,
       cutout: "62%",
+      layout: options.calloutLabels ? { padding: { left: 150, right: 150, top: 16, bottom: 16 } } : undefined,
       plugins: {
         legend: options.legend === false ? { display: false } : { position: "bottom", labels: legendLabels },
-        tooltip: {
+        tooltip: options.tooltip === false ? { enabled: false } : {
           callbacks: {
             label: (context) => {
               const value = Number(context.parsed) || 0;
@@ -8528,10 +8759,100 @@
               return `${context.label}: ${formatHours(value, 1)} (${percent.toFixed(1)}%)`;
             }
           }
-        }
+        },
+        doughnutCalloutLabels: options.calloutLabels ? { enabled: true, total } : undefined
       }
     };
   }
+
+  const doughnutCalloutLabelsPlugin = {
+    id: "doughnutCalloutLabels",
+    afterDatasetsDraw(chart, args, options) {
+      if (!options?.enabled) return;
+      const dataset = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0);
+      if (!dataset || !meta?.data?.length) return;
+
+      const total = Number(options.total) || 0;
+      const { ctx } = chart;
+      const canvasBounds = {
+        left: 8,
+        right: chart.width - 8,
+        top: 12,
+        bottom: chart.height - 12
+      };
+      const font = "700 12px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+      const lineGap = 18;
+      const elbowLength = 16;
+
+      ctx.save();
+      ctx.font = font;
+
+      const items = meta.data.map((arc, index) => {
+        const value = Number(dataset.data[index]) || 0;
+        const percent = total ? value / total * 100 : 0;
+        const { x, y, startAngle, endAngle, outerRadius } = arc.getProps(["x", "y", "startAngle", "endAngle", "outerRadius"], true);
+        const angle = (startAngle + endAngle) / 2;
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const side = cos >= 0 ? "right" : "left";
+        const label = `${chart.data.labels[index]}: ${formatHours(value, 1)} (${percent.toFixed(1)}%)`;
+        return {
+          label,
+          color: dataset.backgroundColor?.[index] || "#9ca3af",
+          side,
+          anchorX: x + cos * outerRadius,
+          anchorY: y + sin * outerRadius,
+          elbowX: x + cos * (outerRadius + elbowLength),
+          elbowY: y + sin * (outerRadius + elbowLength),
+          labelY: y + sin * (outerRadius + elbowLength),
+          width: ctx.measureText(label).width
+        };
+      });
+
+      ["left", "right"].forEach((side) => {
+        const sideItems = items.filter((item) => item.side === side).sort((a, b) => a.labelY - b.labelY);
+        sideItems.forEach((item, index) => {
+          if (!index) {
+            item.labelY = Math.max(canvasBounds.top, item.labelY);
+            return;
+          }
+          item.labelY = Math.max(item.labelY, sideItems[index - 1].labelY + lineGap);
+        });
+        const overflow = sideItems.length ? sideItems[sideItems.length - 1].labelY - canvasBounds.bottom : 0;
+        if (overflow > 0) {
+          sideItems.forEach((item) => {
+            item.labelY -= overflow;
+          });
+        }
+      });
+
+      ctx.lineWidth = 1.5;
+      ctx.font = font;
+      ctx.textBaseline = "middle";
+      items.forEach((item) => {
+        const rightSide = item.side === "right";
+        const textX = rightSide
+          ? Math.min(canvasBounds.right - item.width, item.elbowX + 10)
+          : Math.max(canvasBounds.left + item.width, item.elbowX - 10);
+        const lineEndX = rightSide ? textX - 6 : textX + 6;
+
+        ctx.strokeStyle = item.color;
+        ctx.fillStyle = item.color;
+        ctx.beginPath();
+        ctx.moveTo(item.anchorX, item.anchorY);
+        ctx.lineTo(item.elbowX, item.elbowY);
+        ctx.lineTo(lineEndX, item.labelY);
+        ctx.stroke();
+
+        ctx.textAlign = rightSide ? "left" : "right";
+        ctx.fillStyle = "#f9fafb";
+        ctx.fillText(item.label, textX, item.labelY);
+      });
+
+      ctx.restore();
+    }
+  };
 
   function pieOptions(total, options = {}) {
     return {
@@ -8540,7 +8861,7 @@
       animation: false,
       plugins: {
         legend: options.legend === false ? { display: false } : { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
-        tooltip: {
+        tooltip: options.tooltip === false ? { enabled: false } : {
           callbacks: {
             label: (context) => {
               const value = Number(context.parsed) || 0;
@@ -8641,6 +8962,7 @@
     if (!window.Chart) return;
     if (charts[id]) charts[id].destroy();
     charts[id] = new Chart(document.getElementById(id), config);
+    return charts[id];
   }
 
   function showError(error) {
