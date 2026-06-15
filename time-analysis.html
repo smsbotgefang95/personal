@@ -611,10 +611,10 @@
 
   .toolbar {
     display: grid;
-    grid-template-columns: repeat(5, minmax(112px, 1fr)) minmax(140px, 156px) minmax(132px, 150px);
+    grid-template-columns: repeat(6, minmax(112px, 1fr)) minmax(140px, 156px) minmax(132px, 150px);
     grid-template-areas:
-      "list priority category type week date total"
-      "search search search search search search search";
+      "list priority category type week department date total"
+      "search search search search search search search search";
     gap: 10px;
     margin-bottom: 12px;
   }
@@ -625,6 +625,7 @@
   #categoryFilter { grid-area: category; }
   #typeFilter { grid-area: type; }
   #weekFilter { grid-area: week; }
+  #departmentFilter { grid-area: department; }
   #dateFilter { grid-area: date; }
   #detailsDayTotal { grid-area: total; }
 
@@ -2724,6 +2725,7 @@
         "category"
         "type"
         "week"
+        "department"
         "date"
         "total"
         "search";
