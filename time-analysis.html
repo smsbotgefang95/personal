@@ -355,8 +355,9 @@
     position: relative;
     z-index: 1;
     display: grid;
-    gap: 9px;
-    align-content: center;
+    height: 320px;
+    gap: 0;
+    align-content: space-between;
   }
 
   .task-pie-label-list-left {
@@ -371,11 +372,11 @@
   .task-pie-label-item {
     display: grid;
     grid-template-columns: 14px minmax(0, 1fr) auto;
-    gap: 10px;
+    gap: 8px;
     align-items: start;
-    padding: 6px 0;
+    padding: 2px 0;
     color: var(--text);
-    line-height: 1.28;
+    line-height: 1.22;
   }
 
   .task-pie-label-list-left .task-pie-label-item {
@@ -2763,6 +2764,9 @@
       display: grid;
       grid-column: 1;
       grid-row: auto;
+      height: auto;
+      gap: 3px;
+      align-content: start;
     }
     .task-pie-label-list-left {
       display: none;
