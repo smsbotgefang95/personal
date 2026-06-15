@@ -6294,10 +6294,14 @@
     });
   }
 
-  function taskStatusPatch(entry, status) {
+  function taskStatusPatch(entry, status, { advanceRecurring = true } = {}) {
     if (status !== "done") return { status: "todo", autoDoneDate: "", dueDateEditedAt: isoNow() };
-    const nextDueDate = nextRecurringDueDate(entry);
+    const nextDueDate = advanceRecurring ? nextRecurringDueDate(entry) : "";
     return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, dueDateManualHold: "", status: "todo" } : { dueDateManualHold: "", status: "done" };
+  }
+
+  function manualTaskStatusPatch(entry, status) {
+    return taskStatusPatch(entry, status, { advanceRecurring: false });
   }
 
   function isDailyRecurringTask(entry) {
@@ -6706,7 +6710,7 @@
       const current = currentTaskOverride(entry);
       const next = {
         ...current,
-        ...taskStatusPatch(entry, bulkTaskStatusValue),
+        ...manualTaskStatusPatch(entry, bulkTaskStatusValue),
         updatedAt: isoNow()
       };
       if (next.recurrence !== "custom") next.recurringText = "";
@@ -7152,7 +7156,7 @@
         await flushPendingTaskNameInput(rows);
         const entry = rows.find((item) => taskOverrideKey(item) === select.dataset.statusKey);
         if (!entry) return;
-        saveTaskOverride(entry, taskStatusPatch(entry, select.value)).catch((error) => setTrackerStatus(error.message, "error"));
+        saveTaskOverride(entry, manualTaskStatusPatch(entry, select.value)).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-order-key]").forEach((select) => {
