@@ -332,29 +332,18 @@
   .task-pie-layout {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(120px, 1fr) minmax(280px, 340px) minmax(360px, 1fr);
-    gap: 26px;
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+    gap: 28px;
     align-items: center;
-    min-height: 340px;
+    min-height: 360px;
   }
 
   .task-pie-layout .chart-box {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
     width: min(320px, 100%);
     height: 320px;
     justify-self: center;
-  }
-
-  .task-pie-connectors {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    pointer-events: none;
   }
 
   .task-pie-label-list {
@@ -362,16 +351,17 @@
     position: relative;
     z-index: 1;
     display: grid;
-    gap: 8px;
+    gap: 9px;
     align-content: center;
   }
 
   .task-pie-label-list-left {
+    display: none;
     grid-column: 1;
   }
 
   .task-pie-label-list-right {
-    grid-column: 3;
+    grid-column: 2;
   }
 
   .task-pie-label-item {
@@ -379,7 +369,7 @@
     grid-template-columns: 14px minmax(0, 1fr) auto;
     gap: 10px;
     align-items: start;
-    padding: 7px 0;
+    padding: 6px 0;
     color: var(--text);
     line-height: 1.28;
   }
@@ -414,7 +404,7 @@
     min-width: 0;
     overflow-wrap: anywhere;
     word-break: normal;
-    font-size: 0.92rem;
+    font-size: 0.96rem;
     font-weight: 800;
   }
 
@@ -2764,13 +2754,11 @@
       width: min(280px, 100%);
       height: 280px;
     }
-    .task-pie-connectors {
-      display: none;
-    }
     .task-pie-label-item {
       grid-template-columns: 14px minmax(0, 1fr);
     }
     .task-pie-label-list {
+      display: grid;
       grid-column: 1;
       grid-row: auto;
     }
@@ -3158,7 +3146,6 @@
             </div>
           </div>
           <div class="task-pie-layout">
-            <svg class="task-pie-connectors" id="businessTopTaskPieConnectors" aria-hidden="true"></svg>
             <div class="task-pie-label-list task-pie-label-list-left" id="businessTopTaskPieLegendLeft"></div>
             <div class="chart-box short">
               <canvas id="businessTopTaskPieChart"></canvas>
@@ -3238,7 +3225,6 @@
             </div>
           </div>
           <div class="task-pie-layout">
-            <svg class="task-pie-connectors" id="personalTopTaskPieConnectors" aria-hidden="true"></svg>
             <div class="task-pie-label-list task-pie-label-list-left" id="personalTopTaskPieLegendLeft"></div>
             <div class="chart-box short">
               <canvas id="personalTopTaskPieChart"></canvas>
@@ -3563,8 +3549,6 @@
   ];
 
   const charts = {};
-  const taskPieConnectorState = new Map();
-  const taskPieConnectorObservers = new Map();
   let chartLibraryLoadPromise = null;
   let appEntries = [];
   let appMetrics = null;
@@ -8088,20 +8072,6 @@
         rightId: options.legendId
       }, labeledEntries, taskChart);
     }
-    if (options.legendId && options.connectorId && taskChart) {
-      scheduleTaskPieConnectors(taskChart, [options.legendLeftId, options.legendId], options.connectorId, labeledEntries);
-    }
-  }
-
-  function taskPieEntryPlacement(chartInstance, index) {
-    const arc = chartInstance.getDatasetMeta(0)?.data?.[index];
-    if (!arc) return { side: "right", y: index };
-    const { y, startAngle, endAngle, outerRadius } = arc.getProps(["y", "startAngle", "endAngle", "outerRadius"], true);
-    const angle = (startAngle + endAngle) / 2;
-    return {
-      side: Math.cos(angle) < 0 ? "left" : "right",
-      y: y + Math.sin(angle) * (outerRadius + 22)
-    };
   }
 
   function taskPieLegendItemHtml(item, index) {
@@ -8114,102 +8084,13 @@
     `;
   }
 
-  function renderTaskPieLegend(ids, entries, chartInstance) {
+  function renderTaskPieLegend(ids, entries) {
     const leftLegend = ids.leftId ? document.getElementById(ids.leftId) : null;
     const rightLegend = document.getElementById(ids.rightId);
     if (!rightLegend) return;
 
-    const leftItems = [];
-    const rightItems = [];
-    entries.forEach((item, index) => {
-      const placement = taskPieEntryPlacement(chartInstance, index);
-      const rendered = { html: taskPieLegendItemHtml(item, index), y: placement.y };
-      if (leftLegend && placement.side === "left") {
-        leftItems.push(rendered);
-      } else {
-        rightItems.push(rendered);
-      }
-    });
-
-    if (leftLegend) leftLegend.innerHTML = leftItems.sort((a, b) => a.y - b.y).map((item) => item.html).join("");
-    rightLegend.innerHTML = rightItems.sort((a, b) => a.y - b.y).map((item) => item.html).join("");
-  }
-
-  function scheduleTaskPieConnectors(chartInstance, legendIds, connectorId, entries) {
-    taskPieConnectorState.set(connectorId, { chart: chartInstance, legendIds: legendIds.filter(Boolean), entries });
-    const draw = () => drawTaskPieConnectors(connectorId);
-    requestAnimationFrame(draw);
-    window.setTimeout(draw, 220);
-
-    const layout = document.getElementById(connectorId)?.closest(".task-pie-layout");
-    if (!layout || taskPieConnectorObservers.has(connectorId)) return;
-    if (window.ResizeObserver) {
-      const observer = new ResizeObserver(draw);
-      observer.observe(layout);
-      taskPieConnectorObservers.set(connectorId, observer);
-    } else {
-      window.addEventListener("resize", draw);
-      taskPieConnectorObservers.set(connectorId, { disconnect: () => window.removeEventListener("resize", draw) });
-    }
-  }
-
-  function drawTaskPieConnectors(connectorId) {
-    const state = taskPieConnectorState.get(connectorId);
-    const svg = document.getElementById(connectorId);
-    const layout = svg?.closest(".task-pie-layout");
-    const chartInstance = state?.chart;
-    if (!svg || !layout || !chartInstance?.canvas) return;
-
-    svg.innerHTML = "";
-    if (window.getComputedStyle(svg).display === "none") return;
-
-    const layoutRect = layout.getBoundingClientRect();
-    const canvasRect = chartInstance.canvas.getBoundingClientRect();
-    const width = Math.max(layoutRect.width, 1);
-    const height = Math.max(layoutRect.height, 1);
-    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-
-    const meta = chartInstance.getDatasetMeta(0);
-    const scaleX = canvasRect.width / (chartInstance.width || canvasRect.width || 1);
-    const scaleY = canvasRect.height / (chartInstance.height || canvasRect.height || 1);
-    const canvasLeft = canvasRect.left - layoutRect.left;
-    const canvasTop = canvasRect.top - layoutRect.top;
-
-    meta.data.forEach((arc, index) => {
-      const label = state.legendIds
-        .map((id) => document.getElementById(id)?.querySelector(`[data-task-pie-label-index="${index}"]`))
-        .find(Boolean);
-      if (!label) return;
-      const swatch = label.querySelector(".task-pie-label-swatch");
-      const connectorColor = swatch ? window.getComputedStyle(swatch).backgroundColor : "#9ca3af";
-      const { x, y, startAngle, endAngle, outerRadius } = arc.getProps(["x", "y", "startAngle", "endAngle", "outerRadius"], true);
-      const angle = (startAngle + endAngle) / 2;
-      const cos = Math.cos(angle);
-      const sin = Math.sin(angle);
-      const anchorX = canvasLeft + (x + cos * (outerRadius + 2)) * scaleX;
-      const anchorY = canvasTop + (y + sin * (outerRadius + 2)) * scaleY;
-      const labelRect = label.getBoundingClientRect();
-      const labelLeft = labelRect.left - layoutRect.left;
-      const labelRight = labelRect.right - layoutRect.left;
-      const pieCenterX = canvasLeft + x * scaleX;
-      const labelCenterX = labelLeft + labelRect.width / 2;
-      const labelIsLeftOfPie = labelCenterX < pieCenterX;
-      const targetX = labelIsLeftOfPie ? labelRight + 8 : labelLeft - 8;
-      const targetY = labelRect.top - layoutRect.top + labelRect.height / 2;
-      const radialX = canvasLeft + (x + cos * (outerRadius + 20)) * scaleX;
-      const direction = targetX >= anchorX ? 1 : -1;
-      const elbowX = direction > 0 ? Math.max(radialX, anchorX + 14) : Math.min(radialX, anchorX - 14);
-      const lineEndX = direction > 0 ? Math.max(targetX, elbowX + 18) : Math.min(targetX, elbowX - 18);
-      const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-      polyline.setAttribute("points", `${anchorX.toFixed(1)},${anchorY.toFixed(1)} ${elbowX.toFixed(1)},${targetY.toFixed(1)} ${lineEndX.toFixed(1)},${targetY.toFixed(1)}`);
-      polyline.setAttribute("fill", "none");
-      polyline.setAttribute("stroke", connectorColor);
-      polyline.setAttribute("stroke-width", "1.5");
-      polyline.setAttribute("stroke-linecap", "round");
-      polyline.setAttribute("stroke-linejoin", "round");
-      polyline.setAttribute("opacity", "0.9");
-      svg.appendChild(polyline);
-    });
+    if (leftLegend) leftLegend.innerHTML = "";
+    rightLegend.innerHTML = entries.map(taskPieLegendItemHtml).join("");
   }
 
   function renderSideLegend(id, entries) {
@@ -8372,8 +8253,7 @@
     renderTaskPieChart("businessTopTaskPieChart", metrics.byBusinessTaskId, metrics, {
       hideLegend: true,
       legendLeftId: "businessTopTaskPieLegendLeft",
-      legendId: "businessTopTaskPieLegend",
-      connectorId: "businessTopTaskPieConnectors"
+      legendId: "businessTopTaskPieLegend"
     });
 
     const roleEntries = topEntries(metrics.byRole, 10).map(([label, hours]) => ({ label, value: hours, color: ROLE_COLORS[label] || ROLE_COLORS.Other }));
@@ -8429,8 +8309,7 @@
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
       hideLegend: true,
       legendLeftId: "personalTopTaskPieLegendLeft",
-      legendId: "personalTopTaskPieLegend",
-      connectorId: "personalTopTaskPieConnectors"
+      legendId: "personalTopTaskPieLegend"
     });
 
     const sectionEntries = topEntries(metrics.byPersonalSection, 10);
