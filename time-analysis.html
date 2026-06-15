@@ -3323,6 +3323,7 @@
           <select class="control" id="categoryFilter" aria-label="Filter by category"></select>
           <select class="control" id="typeFilter" aria-label="Filter by type"></select>
           <select class="control" id="weekFilter" aria-label="Filter by week"></select>
+          <select class="control" id="departmentFilter" aria-label="Filter by department"></select>
           <input class="control" id="dateFilter" type="date" aria-label="Filter by date" />
           <button class="btn btn-indigo private-time-load-btn" type="button" hidden data-load-private-time>Load private data</button>
           <div class="details-day-total" id="detailsDayTotal" hidden></div>
@@ -8567,6 +8568,7 @@
 
   function renderDetails(entries, metrics) {
     const listFilter = document.getElementById("listFilter");
+    const departmentFilter = document.getElementById("departmentFilter");
     const priorityFilter = document.getElementById("priorityFilter");
     const categoryFilter = document.getElementById("categoryFilter");
     const typeFilter = document.getElementById("typeFilter");
@@ -8576,6 +8578,7 @@
     const detailsDayTotal = document.getElementById("detailsDayTotal");
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
+    departmentFilter.innerHTML = metadataFilterOptionsHtml(entries, "department", "All departments", departmentFilter.value || "");
     priorityFilter.innerHTML = priorityFilterOptionsHtml(entries, "All priorities", priorityFilter.value || "");
     categoryFilter.innerHTML = metadataFilterOptionsHtml(entries, "taskCategory", "All categories", categoryFilter.value || "");
     typeFilter.innerHTML = metadataFilterOptionsHtml(entries, "taskType", "All types", typeFilter.value || "");
@@ -8587,6 +8590,7 @@
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
       const listId = listFilter.value;
+      const department = departmentFilter.value;
       const priority = priorityFilter.value;
       const category = categoryFilter.value;
       const type = typeFilter.value;
@@ -8595,6 +8599,7 @@
       const filtered = entries
         .filter((entry) => {
           if (listId && entry.listId !== listId) return false;
+          if (department && entry.department !== department) return false;
           if (priority && trackGroupName(entry) !== priority) return false;
           if (category && entry.taskCategory !== category) return false;
           if (type && entry.taskType !== type) return false;
@@ -8668,7 +8673,7 @@
 
     searchInput.oninput = scheduleDetailsSearchRender;
     searchInput.onchange = updateTable;
-    [listFilter, priorityFilter, categoryFilter, typeFilter, weekFilter, dateFilter].forEach((control) => {
+    [listFilter, departmentFilter, priorityFilter, categoryFilter, typeFilter, weekFilter, dateFilter].forEach((control) => {
       control.oninput = updateTable;
       control.onchange = updateTable;
     });
