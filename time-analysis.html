@@ -4322,6 +4322,8 @@
     return /^(done|closed|complete|completed)$/.test(text) ? "done" : "todo";
   }
 
+  const MANUAL_DONE_DAILY_RESET_TASK_NAMES = new Set(["eat", "massage", "take a break"]);
+
   function normalizeManualDoneStateForToday(entry, override, state) {
     const status = state.status === "done" ? "done" : "todo";
     const dueDate = dateInputValue(state.dueDate);
@@ -4331,7 +4333,7 @@
     const taskName = normalizeLoggedTaskTargetName(
       Object.prototype.hasOwnProperty.call(override || {}, "taskName") ? override.taskName : entry?.taskName
     );
-    const resetsDaily = isDailyRecurringTask({ ...entry, recurrence: override?.recurrence || entry?.recurrence }) || taskName === "take a break";
+    const resetsDaily = isDailyRecurringTask({ ...entry, recurrence: override?.recurrence || entry?.recurrence }) || MANUAL_DONE_DAILY_RESET_TASK_NAMES.has(taskName);
     if (!resetsDaily) return { dueDate, status };
     if (dueDate && dueDate < today) return { dueDate: today, status: "todo" };
     if (dueDate) return { dueDate, status };
