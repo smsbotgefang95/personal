@@ -4322,6 +4322,24 @@
     return /^(done|closed|complete|completed)$/.test(text) ? "done" : "todo";
   }
 
+  function normalizeManualDoneStateForToday(entry, override, state) {
+    const status = state.status === "done" ? "done" : "todo";
+    const dueDate = dateInputValue(state.dueDate);
+    if (status !== "done") return { dueDate, status };
+    const today = businessDateKey(new Date());
+    if (!today) return { dueDate, status };
+    const taskName = normalizeLoggedTaskTargetName(
+      Object.prototype.hasOwnProperty.call(override || {}, "taskName") ? override.taskName : entry?.taskName
+    );
+    const resetsDaily = isDailyRecurringTask({ ...entry, recurrence: override?.recurrence || entry?.recurrence }) || taskName === "take a break";
+    if (!resetsDaily) return { dueDate, status };
+    if (dueDate && dueDate < today) return { dueDate: today, status: "todo" };
+    if (dueDate) return { dueDate, status };
+    const updatedDate = dateInputValue(override?.updatedAt);
+    if (updatedDate && updatedDate < today) return { dueDate, status: "todo" };
+    return { dueDate, status };
+  }
+
   function isPrivateTrackerManaged(entry) {
     return Boolean(entry?.hasPrivateTrackerOverride || entry?.hasPrivateTrackerData || entry?.sourceType === "native");
   }
@@ -4388,6 +4406,8 @@
     const dueDate = override
       ? (overrideOwnsDueDate(entry, override) ? dateInputValue(override.dueDate) : "")
       : dateInputValue(entry.dueDate || entry.dueDateText);
+    const status = hasOverride ? (override.status === "done" ? "done" : "todo") : normalizedTaskStatus(entry.status);
+    const manualStatus = normalizeManualDoneStateForToday({ ...entry, recurrence }, override, { dueDate, status });
     const dueTime = override ? timeInputValue(override.dueTime) : timeInputValue(entry.dueTime);
     const listId = Object.prototype.hasOwnProperty.call(override || {}, "listId") ? cleanLabel(override.listId, entry.listId) : entry.listId;
     return {
@@ -4401,13 +4421,13 @@
       taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? normalizeTaskCategory(override.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       notes: Object.prototype.hasOwnProperty.call(override || {}, "notes") ? cleanLabel(override.notes, "") : cleanLabel(entry.notes, ""),
-      dueDate,
-      dueDateText: dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
+      dueDate: manualStatus.dueDate,
+      dueDateText: manualStatus.dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
       dueTime,
       dueDateEditedAt: override ? cleanLabel(override.dueDateEditedAt, "") : "",
       dueDateManualHold: override ? dateInputValue(override.dueDateManualHold) : "",
       autoDoneDate: override ? dateInputValue(override.autoDoneDate) : "",
-      status: hasOverride ? (override.status === "done" ? "done" : "todo") : normalizedTaskStatus(entry.status),
+      status: manualStatus.status,
       recurrence,
       recurring: recurrence !== "none",
       recurringText,
@@ -6234,15 +6254,21 @@
 
   function currentTaskOverrideForKey(entry, key) {
     const existing = timePayload.taskOverrides?.[key] || {};
+    const currentDueDate = overrideOwnsDueDate(entry, existing) ? dateInputValue(existing.dueDate) : "";
+    const currentStatus = Object.prototype.hasOwnProperty.call(existing, "status")
+      ? (existing.status === "done" ? "done" : "todo")
+      : (entry.status === "done" ? "done" : "todo");
+    const manualStatus = normalizeManualDoneStateForToday(entry, existing, {
+      dueDate: currentDueDate,
+      status: currentStatus
+    });
     return {
-      dueDate: overrideOwnsDueDate(entry, existing) ? dateInputValue(existing.dueDate) : "",
+      dueDate: manualStatus.dueDate,
       dueDateManaged: existing.dueDateManaged === true,
       dueTime: Object.prototype.hasOwnProperty.call(existing, "dueTime") ? timeInputValue(existing.dueTime) : "",
       dueDateEditedAt: cleanLabel(existing.dueDateEditedAt, ""),
       dueDateManualHold: dateInputValue(existing.dueDateManualHold),
-      status: Object.prototype.hasOwnProperty.call(existing, "status")
-        ? (existing.status === "done" ? "done" : "todo")
-        : (entry.status === "done" ? "done" : "todo"),
+      status: manualStatus.status,
       recurrence: existing.recurrence || entry.recurrence || inferRecurrence(entry),
       recurringText: existing.recurringText || (entry.recurrence === "custom" ? entry.recurringText : ""),
       taskOrder: Object.prototype.hasOwnProperty.call(existing, "taskOrder") ? orderOptionValue(existing.taskOrder) : orderOptionValue(entry.taskOrder),
