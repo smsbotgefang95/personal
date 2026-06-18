@@ -16,6 +16,7 @@ DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "updatedAt": None}
 DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
+TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
 DEFAULT_QUESTION_PROGRESS = {
     "1": "review",
     "27": "learned",
@@ -1088,7 +1089,10 @@ class Handler(BaseHTTPRequestHandler):
                 return
             try:
                 length = int(self.headers.get("Content-Length", "0"))
-                raw = self.rfile.read(min(length, 1024 * 1024 * 4))
+                if length > TIME_ENTRIES_MAX_BODY_BYTES:
+                    self.send_json(413, {"ok": False, "error": "payload_too_large", "maxBytes": TIME_ENTRIES_MAX_BODY_BYTES})
+                    return
+                raw = self.rfile.read(length)
                 incoming = json.loads(raw.decode("utf-8"))
             except (ValueError, json.JSONDecodeError):
                 self.send_json(400, {"ok": False, "error": "invalid_json"})
