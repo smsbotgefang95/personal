@@ -333,6 +333,30 @@ sudo systemctl reload nginx
 echo "🔒 Confirming SSL status via Certbot..."
 sudo certbot --nginx -d "$DOMAIN" --keep-until-expiring --non-interactive --agree-tos --register-unsafely-without-email
 
+# Certbot can rewrite the active server block. Re-apply API upload limits after
+# its nginx installer runs so Time Analysis sync accepts the intended payload size.
+echo "📦 Ensuring Time Analysis API upload limit is active..."
+sudo python3 - "/etc/nginx/sites-available/$NGINX_CONF" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+text = path.read_text()
+needle = "    location = /api/time-entries {\n"
+directive = "        client_max_body_size 16m;\n"
+if needle not in text:
+    raise SystemExit("missing /api/time-entries nginx location")
+location_start = text.index(needle)
+location_end = text.index("    }\n", location_start)
+location_block = text[location_start:location_end]
+if directive not in location_block:
+    text = text[:location_start + len(needle)] + directive + text[location_start + len(needle):]
+    path.write_text(text)
+PY
+
+sudo nginx -t
+sudo systemctl reload nginx
+
 echo "=================================================="
 echo "🎉 Success! Your multi-page site is live at: https://$DOMAIN"
 echo "=================================================="
