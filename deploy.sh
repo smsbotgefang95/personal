@@ -336,7 +336,8 @@ sudo certbot --nginx -d "$DOMAIN" --keep-until-expiring --non-interactive --agre
 # Certbot can rewrite the active server block. Re-apply API upload limits after
 # its nginx installer runs so Time Analysis sync accepts the intended payload size.
 echo "📦 Ensuring Time Analysis API upload limit is active..."
-sudo python3 - "/etc/nginx/sites-available/$NGINX_CONF" <<'PY'
+TMP_NGINX_CONF=$(mktemp)
+python3 - "/etc/nginx/sites-available/$NGINX_CONF" > "$TMP_NGINX_CONF" <<'PY'
 from pathlib import Path
 import sys
 
@@ -351,8 +352,10 @@ location_end = text.index("    }\n", location_start)
 location_block = text[location_start:location_end]
 if directive not in location_block:
     text = text[:location_start + len(needle)] + directive + text[location_start + len(needle):]
-    path.write_text(text)
+print(text, end="")
 PY
+sudo tee "/etc/nginx/sites-available/$NGINX_CONF" > /dev/null < "$TMP_NGINX_CONF"
+rm -f "$TMP_NGINX_CONF"
 
 sudo nginx -t
 sudo systemctl reload nginx
