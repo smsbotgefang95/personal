@@ -6424,7 +6424,9 @@
 
   function alreadyAutoDoneForDueDate(entry, dueDate) {
     const autoDoneDate = dateInputValue(entry?.autoDoneDate);
-    return Boolean(dueDate && autoDoneDate && dueDate <= autoDoneDate);
+    if (!dueDate || !autoDoneDate || dueDate > autoDoneDate) return false;
+    if (dueDate === autoDoneDate && isDailyRecurringTask(entry) && entry?.status !== "done") return false;
+    return true;
   }
 
   function latestLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold = false } = {}) {

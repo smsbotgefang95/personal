@@ -193,3 +193,35 @@ assert.notStrictEqual(
 );
 
 console.log("AI Agent auto-done exclusion checks passed.");
+
+const autoDoneGuardSandbox = {
+  dateInputValue(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(String(value || "")) ? String(value) : "";
+  },
+  isDailyRecurringTask(entry) {
+    return entry?.recurrence === "daily";
+  }
+};
+
+vm.createContext(autoDoneGuardSandbox);
+vm.runInContext(extractFunction(html, "alreadyAutoDoneForDueDate"), autoDoneGuardSandbox);
+
+assert.strictEqual(
+  autoDoneGuardSandbox.alreadyAutoDoneForDueDate(
+    { recurrence: "daily", status: "todo", autoDoneDate: "2026-06-18" },
+    "2026-06-18"
+  ),
+  false,
+  "daily todo tasks stuck on their auto-done date should be eligible to advance"
+);
+
+assert.strictEqual(
+  autoDoneGuardSandbox.alreadyAutoDoneForDueDate(
+    { recurrence: "daily", status: "done", autoDoneDate: "2026-06-18" },
+    "2026-06-18"
+  ),
+  true,
+  "completed daily tasks should still be treated as already auto-done"
+);
+
+console.log("Auto-done recovery guard checks passed.");
