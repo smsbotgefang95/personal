@@ -3595,6 +3595,8 @@
   let trackerDeferredRowsRenderToken = 0;
   let trackerDeferredRowsBusyTimer = null;
   let trackerNameAutosizeToken = 0;
+  let pendingTaskNameAutosizeTimer = null;
+  const pendingTaskNameAutosizeControls = new Set();
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
   let shouldCollapseDueAllGroupsOnRender = true;
   let trackerActivitiesCache = { signature: "", rows: null };
@@ -6913,6 +6915,24 @@
     control.style.height = `${control.scrollHeight}px`;
   }
 
+  function scheduleTaskNameInputAutosize(control) {
+    if (!control) return;
+    pendingTaskNameAutosizeControls.add(control);
+    if (pendingTaskNameAutosizeTimer) window.clearTimeout(pendingTaskNameAutosizeTimer);
+    pendingTaskNameAutosizeTimer = window.setTimeout(() => {
+      pendingTaskNameAutosizeTimer = null;
+      const controls = Array.from(pendingTaskNameAutosizeControls);
+      pendingTaskNameAutosizeControls.clear();
+      controls.forEach(autosizeTaskNameInput);
+    }, 120);
+  }
+
+  function flushTaskNameInputAutosize(control) {
+    if (!control) return;
+    pendingTaskNameAutosizeControls.delete(control);
+    autosizeTaskNameInput(control);
+  }
+
   function scheduleTaskNameAutosizes() {
     const token = ++trackerNameAutosizeToken;
     const controls = Array.from(document.querySelectorAll(".track-name-input"));
@@ -7213,16 +7233,17 @@
           if (control.value.includes("\n")) {
             control.value = control.value.replace(/\s*\n+\s*/g, " ").trim();
             control.dataset.nameDirty = control.value.trim() === control.dataset.originalName ? "false" : "true";
-            autosizeTaskNameInput(control);
+            flushTaskNameInputAutosize(control);
             finishTaskNameInput(control, rows);
             return;
           }
           control.dataset.nameDirty = control.value.trim() === control.dataset.originalName ? "false" : "true";
-          autosizeTaskNameInput(control);
+          scheduleTaskNameInputAutosize(control);
         });
       }
       control.addEventListener("blur", () => {
         if (control.dataset.editField === "taskName") {
+          flushTaskNameInputAutosize(control);
           commitTaskNameInput(control, rows).catch((error) => setTrackerStatus(error.message, "error"));
           return;
         }
