@@ -3597,6 +3597,9 @@
   let trackerNameAutosizeToken = 0;
   let pendingTaskNameAutosizeTimer = null;
   const pendingTaskNameAutosizeControls = new Set();
+  let privateTimeRefreshTimer = null;
+  let privateTimeRefreshInFlight = false;
+  let lastPrivateTimeRefreshAt = 0;
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
   let shouldCollapseDueAllGroupsOnRender = true;
   let trackerActivitiesCache = { signature: "", rows: null };
@@ -4722,10 +4725,11 @@
   function mergeTimePayloads(serverPayload, localPayload, { preferServer = false } = {}) {
     const serverClean = cleanClientPayload(serverPayload);
     const localClean = cleanClientPayload(localPayload);
+    const activeEntry = mergedActiveEntry(serverClean, localClean, { preferServer });
     if (preferServer) {
       return cleanClientPayload({
         entries: serverClean.entries.length ? serverClean.entries : localClean.entries,
-        activeEntry: serverClean.activeEntry || localClean.activeEntry,
+        activeEntry,
         taskOverrides: serverClean.taskOverrides || {},
         taskMerges: serverClean.taskMerges || {},
         updatedAt: serverClean.updatedAt || localClean.updatedAt
@@ -4733,7 +4737,7 @@
     }
     return cleanClientPayload({
       entries: localClean.entries.length ? localClean.entries : serverClean.entries,
-      activeEntry: localClean.activeEntry || serverClean.activeEntry,
+      activeEntry,
       taskOverrides: {
         ...(serverClean.taskOverrides || {}),
         ...(localClean.taskOverrides || {})
@@ -4744,6 +4748,27 @@
       },
       updatedAt: localClean.updatedAt || serverClean.updatedAt
     });
+  }
+
+  function timestampMs(value) {
+    const date = value ? new Date(value) : null;
+    return date && !Number.isNaN(date.getTime()) ? date.getTime() : 0;
+  }
+
+  function activeEntryDateValues(entry) {
+    return entry ? [entry.updatedAt, entry.createdAt, entry.start] : [];
+  }
+
+  function mergedActiveEntry(serverClean, localClean, { preferServer = false } = {}) {
+    const serverHasData = timePayloadHasPrivateData(serverClean);
+    const localHasData = timePayloadHasPrivateData(localClean);
+    if (!serverHasData) return localClean.activeEntry || null;
+    if (!localHasData) return serverClean.activeEntry || null;
+    const serverLatest = latestTimePayloadDate(serverClean);
+    const localLatest = latestTimePayloadDate(localClean);
+    if (serverLatest > localLatest) return serverClean.activeEntry || null;
+    if (localLatest > serverLatest) return localClean.activeEntry || null;
+    return preferServer ? (serverClean.activeEntry || null) : (localClean.activeEntry || serverClean.activeEntry || null);
   }
 
   function timePayloadHasPrivateData(payload) {
@@ -4761,21 +4786,24 @@
     const dates = [
       clean.updatedAt,
       ...clean.entries.flatMap((entry) => [entry.updatedAt, entry.createdAt, entry.start, entry.stop]),
+      ...activeEntryDateValues(clean.activeEntry),
       ...Object.values(clean.taskOverrides || {}).map((entry) => entry.updatedAt),
       ...Object.values(clean.taskMerges || {}).map((entry) => entry.updatedAt)
     ]
-      .map((value) => {
-        const date = value ? new Date(value) : null;
-        return date && !Number.isNaN(date.getTime()) ? date.getTime() : 0;
-      })
+      .map(timestampMs)
       .filter(Boolean);
     return dates.length ? Math.max(...dates) : 0;
   }
 
   function shouldUploadLocalTimePayload(localPayload, serverPayload) {
+    const serverClean = cleanClientPayload(serverPayload);
+    const localClean = cleanClientPayload(localPayload);
     const localHasData = timePayloadHasPrivateData(localPayload);
     if (!localHasData) return false;
     if (!timePayloadHasPrivateData(serverPayload)) return true;
+    if (serverClean.activeEntry && localClean.activeEntry && serverClean.activeEntry.id !== localClean.activeEntry.id) {
+      return latestTimePayloadDate(localClean) > latestTimePayloadDate(serverClean);
+    }
     return latestTimePayloadDate(localPayload) > latestTimePayloadDate(serverPayload);
   }
 
@@ -4991,7 +5019,13 @@
       return;
     }
     try {
-      await postTimePayload(pendingPayload);
+      const response = await postTimePayload(pendingPayload);
+      const serverPayload = cleanClientPayload(response.payload || pendingPayload);
+      const pendingLatest = latestTimePayloadDate(pendingPayload);
+      if (latestTimePayloadDate(timePayload) <= pendingLatest) {
+        timePayload = serverPayload;
+        writeLocalTimePayload(timePayload);
+      }
       showPrivateTimeLoadButton(false);
       setTrackerStatus(successMessage, "saved");
     } catch (error) {
@@ -6738,15 +6772,16 @@
     if (!selectedRows.length) return;
     const nextOverrides = { ...(timePayload.taskOverrides || {}) };
     selectedRows.forEach((entry) => {
-      const key = taskOverrideKey(entry);
-      const current = currentTaskOverride(entry);
-      const next = {
-        ...current,
-        ...manualTaskStatusPatch(entry, bulkTaskStatusValue),
-        updatedAt: isoNow()
-      };
-      if (next.recurrence !== "custom") next.recurringText = "";
-      nextOverrides[key] = next;
+      taskOverrideKeysForEdit(entry).forEach((key) => {
+        const current = currentTaskOverrideForKey(entry, key);
+        const next = {
+          ...current,
+          ...manualTaskStatusPatch(entry, bulkTaskStatusValue),
+          updatedAt: isoNow()
+        };
+        if (next.recurrence !== "custom") next.recurringText = "";
+        nextOverrides[key] = next;
+      });
     });
     const changedCount = selectedRows.length;
     selectedTaskKeys.clear();
@@ -9176,6 +9211,27 @@
     return true;
   }
 
+  function schedulePrivateTimeRefresh({ delay = 0, force = false } = {}) {
+    if (privateTimeRefreshTimer) window.clearTimeout(privateTimeRefreshTimer);
+    privateTimeRefreshTimer = window.setTimeout(async () => {
+      privateTimeRefreshTimer = null;
+      const now = Date.now();
+      if (!force && now - lastPrivateTimeRefreshAt < 5000) return;
+      if (privateTimeRefreshInFlight) return;
+      privateTimeRefreshInFlight = true;
+      try {
+        if (await ensureTimeAdminKey()) {
+          await loadPrivateTimeData();
+          lastPrivateTimeRefreshAt = Date.now();
+        }
+      } catch (error) {
+        showPrivateTimeLoadButton(true);
+      } finally {
+        privateTimeRefreshInFlight = false;
+      }
+    }, delay);
+  }
+
   async function loadDashboard() {
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
@@ -9525,6 +9581,10 @@
   window.addEventListener("load", scheduleStickyLayoutMetricsUpdate);
   window.addEventListener("resize", scheduleStickyLayoutMetricsUpdate);
   window.addEventListener("resize", () => scheduleAfterPaint(() => fitRecentTasksToSingleRow(document.getElementById("recentTaskList"))));
+  window.addEventListener("focus", () => schedulePrivateTimeRefresh({ delay: 250 }));
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") schedulePrivateTimeRefresh({ delay: 250 });
+  });
 
   loadDashboard();
 </script>
