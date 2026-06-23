@@ -3506,7 +3506,8 @@
   ]);
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
-  const TRACKER_SEARCH_RENDER_DELAY_MS = 180;
+  const TRACKER_SEARCH_RENDER_DELAY_MS = 420;
+  const DETAILS_SEARCH_RENDER_DELAY_MS = 420;
   const TASK_SEARCH_ALIASES = [
     {
       taskIds: ["86adxpw95"],
@@ -7435,7 +7436,7 @@
       trackerSearchRenderTimeout = null;
       trackerSearchRenderTimer = window.requestAnimationFrame(() => {
         trackerSearchRenderTimer = null;
-        render();
+        window.setTimeout(render, 0);
       });
     }, delayMs);
   }
@@ -8749,7 +8750,6 @@
     };
 
     let detailsSearchRenderTimer = null;
-    const DETAILS_SEARCH_RENDER_DELAY_MS = 200;
     const scheduleDetailsSearchRender = () => {
       window.clearTimeout(detailsSearchRenderTimer);
       if (!searchInput.value.trim()) {
@@ -8759,7 +8759,7 @@
       }
       detailsSearchRenderTimer = window.setTimeout(() => {
         detailsSearchRenderTimer = null;
-        updateTable();
+        window.requestAnimationFrame(() => window.setTimeout(updateTable, 0));
       }, DETAILS_SEARCH_RENDER_DELAY_MS);
     };
 
