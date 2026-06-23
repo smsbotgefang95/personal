@@ -154,6 +154,7 @@
     flex: 1 1 auto;
     flex-wrap: wrap;
     gap: 8px;
+    align-items: center;
     min-width: 0;
   }
 
@@ -976,67 +977,84 @@
   }
 
   .recent-task-strip {
-    display: grid;
-    gap: 7px;
-    margin: -2px 0 14px;
-    min-width: 0;
+    position: relative;
+    flex: 0 0 auto;
   }
 
-  .recent-task-header {
-    display: flex;
+  .recent-task-strip[hidden] {
+    display: none;
+  }
+
+  .recent-task-toggle {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .recent-task-label {
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 850;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .recent-task-reset {
-    min-height: 26px;
-    border: 1px solid #374151;
+    gap: 8px;
+    min-height: 38px;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 3px 8px;
-    background: #0b1220;
-    color: #c7d2fe;
+    padding: 8px 12px;
+    background: #1f2937;
+    color: var(--muted);
     font: inherit;
-    font-size: 0.74rem;
+    font-size: 0.92rem;
     font-weight: 800;
     cursor: pointer;
   }
 
-  .recent-task-reset:hover,
-  .recent-task-reset:focus-visible {
-    border-color: #6366f1;
-    background: #1f2937;
+  .recent-task-toggle:hover,
+  .recent-task-toggle:focus-visible,
+  .recent-task-strip.open .recent-task-toggle {
+    border-color: var(--indigo);
     color: #ffffff;
+    outline: none;
+  }
+
+  .recent-task-toggle::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+  }
+
+  .recent-task-strip.open .recent-task-toggle::after {
+    transform: rotate(180deg);
   }
 
   .recent-task-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 40;
     display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
     gap: 8px;
-    align-items: center;
-    min-width: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 2px;
+    align-items: stretch;
+    width: min(320px, calc(100vw - 32px));
+    max-height: min(420px, calc(100vh - 180px));
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 8px;
+    background: #0f172a;
+    box-shadow: var(--shadow);
+    overflow-x: hidden;
+    overflow-y: auto;
     scrollbar-width: thin;
+  }
+
+  .recent-task-list[hidden] {
+    display: none;
   }
 
   .recent-task-item {
     display: inline-flex;
     align-items: center;
+    width: 100%;
     min-width: 0;
-    flex: 0 0 auto;
     min-height: 36px;
-    max-width: min(260px, 100%);
+    max-width: 100%;
     border: 1px solid #374151;
     border-radius: 8px;
     background: #111827;
@@ -1086,7 +1104,7 @@
     max-width: 100%;
     min-width: 0;
     overflow: hidden;
-    padding: 6px 8px 6px 10px;
+    padding: 7px 8px 7px 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -2927,10 +2945,6 @@
             <button class="btn btn-indigo private-time-load-btn" id="loadPrivateTimeBtn" type="button" hidden data-load-private-time>Load private data</button>
           </div>
           <div class="recent-task-strip" aria-label="Recent tracked tasks">
-            <div class="recent-task-header">
-              <div class="recent-task-label">Recent</div>
-              <button class="recent-task-reset" id="recentTaskResetBtn" type="button" hidden>Reset</button>
-            </div>
             <div class="recent-task-list" id="recentTaskList"></div>
           </div>
           <div class="track-mode-toggle" aria-label="Tracking mode">
@@ -5439,16 +5453,15 @@
   function renderRecentTaskSwitcher(entries = recentTrackedTaskSource()) {
     const recentList = document.getElementById("recentTaskList");
     if (!recentList) return;
+    const recentStrip = recentList.closest(".recent-task-strip");
     const tasks = recentTrackedTasks(entries);
-    const hiddenKeys = hiddenRecentTaskKeys();
-    const resetButton = document.getElementById("recentTaskResetBtn");
-    if (resetButton) resetButton.hidden = hiddenKeys.size === 0;
+    if (recentStrip) recentStrip.hidden = tasks.length === 0;
     recentList.innerHTML = tasks.length
       ? tasks.map((entry) => {
         const key = recentTaskKey(entry);
         return `<span class="recent-task-item"><button class="recent-task-btn" type="button" data-recent-task-key="${escapeHtml(key)}" title="${escapeHtml(`${entry.taskName} · ${entry.listName}`)}" aria-pressed="false"><span class="recent-task-name">${escapeHtml(entry.taskName)}</span></button><button class="recent-task-remove" type="button" data-hide-recent-task="${escapeHtml(key)}" aria-label="Hide ${escapeHtml(entry.taskName)} from recent tasks" title="Hide from Recent">&times;</button></span>`;
       }).join("")
-      : `<div class="recent-task-empty">No tracked tasks yet.</div>`;
+      : "";
     document.querySelectorAll("[data-recent-task-key]").forEach((button) => {
       button.addEventListener("click", () => {
         const entry = tasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
@@ -5473,12 +5486,6 @@
         if (event.key === "Enter" || event.key === " ") hideTask(event);
       });
     });
-    if (resetButton) {
-      resetButton.onclick = () => {
-        writeHiddenRecentTaskKeys(new Set());
-        renderRecentTaskSwitcher();
-      };
-    }
     scheduleAfterPaint(() => fitRecentTasksToSingleRow(recentList));
     syncRecentTaskActiveState();
   }
