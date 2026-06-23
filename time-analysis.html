@@ -2377,7 +2377,7 @@
   }
 
   .tracker-status.error { color: #fca5a5; }
-  .tracker-status.saved { color: #86efac; }
+  .tracker-status.saved { color: var(--muted); }
 
   .tracker-sync-row {
     display: grid;
@@ -4527,7 +4527,7 @@
   function setTrackerStatus(message, mode = "") {
     const status = document.getElementById("trackerStatus");
     if (!status) return;
-    if (mode === "saved" && message === "Saved") message = "";
+    if (mode === "saved") message = "";
     status.textContent = message || "";
     status.className = `tracker-status${mode ? ` ${mode}` : ""}`;
     status.hidden = !message;
