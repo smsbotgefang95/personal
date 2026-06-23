@@ -2926,6 +2926,10 @@
           <button class="tab-btn" type="button" data-tab="business">Business</button>
           <button class="tab-btn" type="button" data-tab="personal">Personal</button>
           <button class="tab-btn" type="button" data-tab="actions">Actions</button>
+          <div class="recent-task-strip" aria-label="Recent tracked tasks" hidden>
+            <button class="recent-task-toggle" id="recentTaskToggle" type="button" aria-expanded="false" aria-controls="recentTaskList">Recent tracked tasks</button>
+            <div class="recent-task-list" id="recentTaskList" hidden></div>
+          </div>
         </nav>
         <div class="timer-display">
           <div class="timer-label" id="timerStateLabel">Ready</div>
@@ -2943,9 +2947,6 @@
           <div class="tracker-sync-row">
             <p class="tracker-status" id="trackerStatus" hidden></p>
             <button class="btn btn-indigo private-time-load-btn" id="loadPrivateTimeBtn" type="button" hidden data-load-private-time>Load private data</button>
-          </div>
-          <div class="recent-task-strip" aria-label="Recent tracked tasks">
-            <div class="recent-task-list" id="recentTaskList"></div>
           </div>
           <div class="track-mode-toggle" aria-label="Tracking mode">
             <button class="track-mode-btn active" id="trackModeNow" type="button" data-track-mode="now" aria-pressed="true">Now</button>
@@ -5450,12 +5451,31 @@
     items.forEach((item) => { item.hidden = false; });
   }
 
+  function setRecentTaskDropdownOpen(open) {
+    const recentStrip = document.querySelector(".recent-task-strip");
+    const recentList = document.getElementById("recentTaskList");
+    const toggle = document.getElementById("recentTaskToggle");
+    if (!recentStrip || !recentList || !toggle || recentStrip.hidden) return;
+    recentStrip.classList.toggle("open", open);
+    recentList.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+
   function renderRecentTaskSwitcher(entries = recentTrackedTaskSource()) {
     const recentList = document.getElementById("recentTaskList");
     if (!recentList) return;
     const recentStrip = recentList.closest(".recent-task-strip");
+    const recentToggle = document.getElementById("recentTaskToggle");
     const tasks = recentTrackedTasks(entries);
-    if (recentStrip) recentStrip.hidden = tasks.length === 0;
+    if (recentStrip) {
+      recentStrip.hidden = tasks.length === 0;
+      if (!tasks.length) recentStrip.classList.remove("open");
+    }
+    if (recentToggle) {
+      recentToggle.hidden = tasks.length === 0;
+      recentToggle.onclick = () => setRecentTaskDropdownOpen(!recentStrip?.classList.contains("open"));
+    }
+    recentList.hidden = !recentStrip?.classList.contains("open");
     recentList.innerHTML = tasks.length
       ? tasks.map((entry) => {
         const key = recentTaskKey(entry);
@@ -5469,6 +5489,7 @@
         if (timePayload.activeEntry && recentTaskKey(timePayload.activeEntry) === button.dataset.recentTaskKey) return;
         const startIso = isoNow();
         markRecentTaskStarting(button, entry);
+        setRecentTaskDropdownOpen(false);
         scheduleAfterPaint(() => {
           startTimer(entry, { startIso }).catch((error) => setTrackerStatus(error.message, "error"));
         });
@@ -9465,6 +9486,17 @@
 
   document.getElementById("cancelTimerBtn").addEventListener("click", () => {
     cancelTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.addEventListener("click", (event) => {
+    const recentStrip = document.querySelector(".recent-task-strip");
+    if (recentStrip && !recentStrip.hidden && !recentStrip.contains(event.target)) {
+      setRecentTaskDropdownOpen(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setRecentTaskDropdownOpen(false);
   });
 
   document.querySelectorAll("[data-track-mode]").forEach((button) => {
