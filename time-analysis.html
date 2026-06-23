@@ -5013,6 +5013,31 @@
     setTrackerStatus(`Starting ${entry.taskName}...`);
   }
 
+  function markTrackRowStarting(button, entry) {
+    if (!button || !entry) return;
+    const row = button.closest(".track-row-inner");
+    document.querySelectorAll(".track-button.running").forEach((item) => {
+      if (item === button) return;
+      item.classList.remove("running");
+      item.setAttribute("aria-label", item.getAttribute("aria-label")?.replace(/^Stop /, "Start ") || "Start task");
+      item.querySelector("span[aria-hidden='true']")?.replaceChildren(document.createTextNode("▶"));
+      const label = item.querySelector(".track-button-label");
+      if (label) label.textContent = "Track";
+    });
+    button.classList.add("running");
+    button.setAttribute("aria-label", `Stop ${entry.taskName}`);
+    button.querySelector("span[aria-hidden='true']")?.replaceChildren(document.createTextNode("■"));
+    const label = button.querySelector(".track-button-label");
+    if (label) label.textContent = "Stop";
+    const statusCell = row?.querySelector(".track-status-cell");
+    if (statusCell) statusCell.innerHTML = `<span class="track-status running">DOING</span>`;
+    const timeCell = row?.querySelector(".track-time");
+    if (timeCell) timeCell.textContent = "00:00:00";
+    document.getElementById("timerStateLabel").textContent = "Running";
+    document.getElementById("timerValue").textContent = "00:00:00";
+    document.getElementById("timerTask").textContent = `${entry.taskName} · ${entry.listName}`;
+  }
+
   async function syncOptimisticTimePayload(pendingPayload, successMessage) {
     const key = await resolveTimeAdminKey({ promptForKey: false, intent: "save" });
     if (!key) {
@@ -5250,6 +5275,16 @@
     window.requestAnimationFrame(updateStickyLayoutMetrics);
   }
 
+  function syncRunningTrackRowClock(durationMs) {
+    const active = timePayload.activeEntry;
+    if (!active?.listId || !active?.taskId) return;
+    const key = `${active.listId}|||${active.taskId}`;
+    const button = document.querySelector(`button[data-track-key="${CSS.escape(key)}"]`);
+    const row = button?.closest(".track-row-inner");
+    const timeCell = row?.querySelector(".track-time");
+    if (timeCell) timeCell.textContent = formatClock(durationMs);
+  }
+
   function renderTimerState() {
     const active = timePayload.activeEntry;
     const durationMs = active ? activeDurationMs() : 0;
@@ -5262,6 +5297,7 @@
     checkAiAgentBreakAlarm(active, durationMs);
     if (timerTick) window.clearInterval(timerTick);
     timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
+    if (active) syncRunningTrackRowClock(durationMs);
     syncRecentTaskActiveState();
     scheduleStickyLayoutMetricsUpdate();
   }
@@ -7382,6 +7418,7 @@
         return;
       }
       const isRunning = timePayload.activeEntry && timePayload.activeEntry.taskId === entry.taskId && timePayload.activeEntry.listId === entry.listId;
+      if (!isRunning) markTrackRowStarting(button, entry);
       const action = isRunning ? stopTimer(tappedAt) : startTimer(entry, { startIso: tappedAt });
       await action;
     }
