@@ -6529,11 +6529,12 @@
     return true;
   }
 
-  function latestLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold = false } = {}) {
+  function latestEligibleLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold = false, onOrAfterDate = "" } = {}) {
     let latestDate = "";
     (loggedDates || new Map()).forEach((completedAt, loggedDate) => {
       const dateValue = dateInputValue(loggedDate);
       if (!dateValue) return;
+      if (onOrAfterDate && dateValue < onOrAfterDate) return;
       if (alreadyAutoDoneForDueDate(entry, dateValue)) return;
       if (manualHoldBlocksAutoDone(entry, dateValue, { ignoreManualHold })) return;
       if (!latestLoggedCompletionAfter(loggedDates, dateValue, entry.dueDateEditedAt)) return;
@@ -6544,10 +6545,15 @@
 
   function autoDoneDateForTask(entry, loggedDates, { ignoreManualHold = false } = {}) {
     const dueDate = dueDateKey(entry);
-    if (isSleepTimerEntry(entry)) return latestLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold });
+    if (isSleepTimerEntry(entry)) return latestEligibleLoggedAutoDoneDate(entry, loggedDates, { ignoreManualHold });
     if (alreadyAutoDoneForDueDate(entry, dueDate)) return "";
     if (manualHoldBlocksAutoDone(entry, dueDate, { ignoreManualHold })) return "";
-    if (dueDate && latestLoggedCompletionAfter(loggedDates, dueDate, entry.dueDateEditedAt)) return dueDate;
+    if (dueDate) {
+      return latestEligibleLoggedAutoDoneDate(entry, loggedDates, {
+        ignoreManualHold,
+        onOrAfterDate: dueDate
+      });
+    }
     const today = dateKey(new Date());
     if (!dueDate && latestLoggedCompletionAfter(loggedDates, today, entry.dueDateEditedAt)) return today;
     return "";
