@@ -4527,7 +4527,6 @@
   function setTrackerStatus(message, mode = "") {
     const status = document.getElementById("trackerStatus");
     if (!status) return;
-    if (mode === "saved") message = "";
     status.textContent = message || "";
     status.className = `tracker-status${mode ? ` ${mode}` : ""}`;
     status.hidden = !message;
@@ -6835,6 +6834,7 @@
   async function applyBulkTaskStatus(visibleRows) {
     const selectedRows = selectedVisibleTaskRows(visibleRows);
     if (!selectedRows.length) return;
+    const dueFilterValue = document.getElementById("dueStatusFilter")?.value || "all";
     const nextOverrides = { ...(timePayload.taskOverrides || {}) };
     selectedRows.forEach((entry) => {
       taskOverrideKeysForEdit(entry).forEach((key) => {
@@ -6856,7 +6856,12 @@
     }, {
       renderScope: "activityRows"
     });
-    setTrackerStatus(`Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`, "saved");
+    const baseMessage = `Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`;
+    const hidesDoneTasks = bulkTaskStatusValue === "done" && shouldHideDoneTasksForDueFilter(dueFilterValue);
+    const statusMessage = hidesDoneTasks
+      ? `${baseMessage}. Done tasks are hidden in ${dueFilterValue === "all" ? "Due all" : "this filter"}.`
+      : baseMessage;
+    setTrackerStatus(statusMessage, "saved");
   }
 
   function uniqueDuplicateTaskName(baseName, usedNames) {
