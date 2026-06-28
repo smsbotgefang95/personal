@@ -5289,31 +5289,6 @@
     window.requestAnimationFrame(updateStickyLayoutMetrics);
   }
 
-  function installContainedTableWheelScroll() {
-    document.querySelectorAll(".table-wrap").forEach((wrap) => {
-      if (wrap.dataset.wheelContainInstalled === "true") return;
-      wrap.dataset.wheelContainInstalled = "true";
-      wrap.addEventListener("wheel", (event) => {
-        const maxScrollTop = Math.max(0, wrap.scrollHeight - wrap.clientHeight);
-        const maxScrollLeft = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
-        const hasVerticalDelta = Math.abs(event.deltaY) > 0.5;
-        const hasHorizontalDelta = Math.abs(event.deltaX) > 0.5;
-        if ((!hasVerticalDelta && !hasHorizontalDelta) || (!maxScrollTop && !maxScrollLeft)) return;
-
-        const nextScrollTop = maxScrollTop
-          ? Math.max(0, Math.min(wrap.scrollTop + event.deltaY, maxScrollTop))
-          : wrap.scrollTop;
-        const nextScrollLeft = maxScrollLeft
-          ? Math.max(0, Math.min(wrap.scrollLeft + event.deltaX, maxScrollLeft))
-          : wrap.scrollLeft;
-
-        event.preventDefault();
-        if (nextScrollTop !== wrap.scrollTop) wrap.scrollTop = nextScrollTop;
-        if (nextScrollLeft !== wrap.scrollLeft) wrap.scrollLeft = nextScrollLeft;
-      }, { passive: false });
-    });
-  }
-
   function syncRunningTrackRowClock(durationMs) {
     const active = timePayload.activeEntry;
     if (!active?.listId || !active?.taskId) return;
@@ -9736,7 +9711,6 @@
     if (document.visibilityState === "visible") schedulePrivateTimeRefresh({ delay: 250 });
   });
 
-  installContainedTableWheelScroll();
   loadDashboard();
 </script>
 </body>
