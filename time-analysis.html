@@ -8562,7 +8562,8 @@
           borderRadius: 5
         }]
       },
-      options: verticalBarOptions()
+      options: verticalBarOptions({ valueLabels: true }),
+      plugins: [verticalBarValueLabelsPlugin]
     });
 
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
@@ -9132,6 +9133,34 @@
     }
   };
 
+  const verticalBarValueLabelsPlugin = {
+    id: "verticalBarValueLabels",
+    afterDatasetsDraw(chart, args, options) {
+      const dataset = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0);
+      if (!dataset || !meta?.data?.length) return;
+
+      const { ctx } = chart;
+      ctx.save();
+      ctx.fillStyle = options.color || "#f9fafb";
+      ctx.font = options.font || "700 12px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+      ctx.textAlign = "center";
+
+      meta.data.forEach((bar, index) => {
+        const value = Number(dataset.data[index]) || 0;
+        if (!value) return;
+        const label = formatHours(value, options.digits ?? 1);
+        const { x, y, base } = bar.getProps(["x", "y", "base"], true);
+        const barHeight = Math.abs(base - y);
+        const labelY = barHeight >= 24 ? y + 18 : y - 6;
+        ctx.textBaseline = barHeight >= 24 ? "top" : "bottom";
+        ctx.fillText(label, x, labelY);
+      });
+
+      ctx.restore();
+    }
+  };
+
   function horizontalBarOptions(options = {}) {
     const chartOptions = {
       indexAxis: "y",
@@ -9153,8 +9182,8 @@
     return chartOptions;
   }
 
-  function verticalBarOptions() {
-    return {
+  function verticalBarOptions(options = {}) {
+    const chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
@@ -9166,6 +9195,10 @@
         y: { beginAtZero: true, ticks: { color: "#9ca3af", callback: (value) => `${value}h` }, grid: { color: "#1f2937" } }
       }
     };
+    if (options.valueLabels) {
+      chartOptions.plugins.verticalBarValueLabels = { color: "#f9fafb", digits: 1 };
+    }
+    return chartOptions;
   }
 
   function percentBarOptions() {
