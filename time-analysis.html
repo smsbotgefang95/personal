@@ -646,6 +646,7 @@
     width: 100%;
     max-width: 100%;
     overflow: auto;
+    overscroll-behavior: contain;
     max-height: 620px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -7999,26 +8000,33 @@
     return Array.from(byTaskName.values());
   }
 
+  function trackedWeekCountFromFirstActivity(weeks, hoursByWeek) {
+    const firstActiveIndex = weeks.findIndex((week) => (hoursByWeek.get(week) || 0) > 0);
+    if (firstActiveIndex === -1) return 0;
+    return weeks.length - firstActiveIndex;
+  }
+
   function renderTaskTable(tableName, headId, bodyId, taskHoursMap, taskWeekMap, metrics) {
     const displayWeeks = [...metrics.weeks].reverse();
-    const weekCount = displayWeeks.length;
     const rows = consolidatedAnalyticsTaskRows(Array.from(taskHoursMap.entries()).map(([taskId, totalHours]) => {
       const weekHours = new Map(displayWeeks.map((week) => [week, taskWeekMap.get(`${taskId}|||${week}`) || 0]));
+      const trackedWeekCount = trackedWeekCountFromFirstActivity(metrics.weeks, weekHours);
       return {
         taskId,
         taskName: metrics.taskNames.get(taskId) || "Untitled task",
         totalHours,
-        weeklyAverageHours: weekCount ? totalHours / weekCount : 0,
+        weeklyAverageHours: trackedWeekCount ? totalHours / trackedWeekCount : 0,
         weekHours
       };
     }), displayWeeks);
     const sortedRows = sortTaskRows(rows, taskTableSort[tableName]);
     const totalHours = rows.reduce((total, row) => total + row.totalHours, 0);
-    const totalWeeklyAverageHours = weekCount ? totalHours / weekCount : 0;
     const totalWeekHours = new Map(displayWeeks.map((week) => [
       week,
       rows.reduce((total, row) => total + (row.weekHours.get(week) || 0), 0)
     ]));
+    const totalTrackedWeekCount = trackedWeekCountFromFirstActivity(metrics.weeks, totalWeekHours);
+    const totalWeeklyAverageHours = totalTrackedWeekCount ? totalHours / totalTrackedWeekCount : 0;
     const headers = [
       renderSortableHeader(tableName, "task", "Task"),
       renderSortableHeader(tableName, "total", "Total"),
@@ -8157,6 +8165,7 @@
     const ownerHours = byRole.get("Owner") || 0;
     const topPersonalSection = topEntries(byPersonalSection, 1)[0]?.[0] || "No section";
     const topPersonalCategory = topEntries(byPersonalCategory, 1)[0]?.[0] || "No category";
+    const personalTrackedWeekCount = trackedWeekCountFromFirstActivity(sortedWeeks, byWeekPersonal);
 
     return {
       rawRowCount,
@@ -8172,7 +8181,7 @@
       ownerPercent: businessHours ? ownerHours / businessHours * 100 : 0,
       personalHours,
       personalPercent: totalHours ? personalHours / totalHours * 100 : 0,
-      avgPersonal: sortedWeeks.length ? personalHours / sortedWeeks.length : 0,
+      avgPersonal: personalTrackedWeekCount ? personalHours / personalTrackedWeekCount : 0,
       topPersonalSection,
       topPersonalCategory,
       byListId,
