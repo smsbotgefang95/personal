@@ -7937,6 +7937,7 @@
   function taskSortValue(row, key) {
     if (key === "task") return row.taskName.toLowerCase();
     if (key === "total") return row.totalHours;
+    if (key === "weeklyAverage") return row.weeklyAverageHours || 0;
     return row.weekHours.get(key) || 0;
   }
 
@@ -8000,17 +8001,20 @@
 
   function renderTaskTable(tableName, headId, bodyId, taskHoursMap, taskWeekMap, metrics) {
     const displayWeeks = [...metrics.weeks].reverse();
+    const weekCount = displayWeeks.length;
     const rows = consolidatedAnalyticsTaskRows(Array.from(taskHoursMap.entries()).map(([taskId, totalHours]) => {
       const weekHours = new Map(displayWeeks.map((week) => [week, taskWeekMap.get(`${taskId}|||${week}`) || 0]));
       return {
         taskId,
         taskName: metrics.taskNames.get(taskId) || "Untitled task",
         totalHours,
+        weeklyAverageHours: weekCount ? totalHours / weekCount : 0,
         weekHours
       };
     }), displayWeeks);
     const sortedRows = sortTaskRows(rows, taskTableSort[tableName]);
     const totalHours = rows.reduce((total, row) => total + row.totalHours, 0);
+    const totalWeeklyAverageHours = weekCount ? totalHours / weekCount : 0;
     const totalWeekHours = new Map(displayWeeks.map((week) => [
       week,
       rows.reduce((total, row) => total + (row.weekHours.get(week) || 0), 0)
@@ -8018,6 +8022,7 @@
     const headers = [
       renderSortableHeader(tableName, "task", "Task"),
       renderSortableHeader(tableName, "total", "Total"),
+      renderSortableHeader(tableName, "weeklyAverage", "Weekly avg"),
       ...displayWeeks.map((week) => renderSortableHeader(tableName, week, week))
     ];
 
@@ -8030,6 +8035,7 @@
       <tr class="task-total-row">
         <td>Total hours</td>
         <td><strong>${escapeHtml(formatHours(totalHours, 2))}</strong></td>
+        <td><strong>${escapeHtml(formatHours(totalWeeklyAverageHours, 2))}</strong></td>
         ${totalWeekCells}
       </tr>
     `;
@@ -8042,6 +8048,7 @@
         <tr>
           <td title="${escapeHtml(row.taskName)}">${escapeHtml(row.taskName)}</td>
           <td><strong>${escapeHtml(formatHours(row.totalHours, 2))}</strong></td>
+          <td><strong>${escapeHtml(formatHours(row.weeklyAverageHours, 2))}</strong></td>
           ${weeklyCells}
         </tr>
       `;
@@ -8510,7 +8517,8 @@
           borderRadius: 5
         }]
       },
-      options: verticalBarOptions()
+      options: verticalBarOptionsWithValueLabels(),
+      plugins: [verticalBarValueLabelsPlugin]
     });
 
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
@@ -9070,6 +9078,32 @@
     }
   };
 
+  const verticalBarValueLabelsPlugin = {
+    id: "verticalBarValueLabels",
+    afterDatasetsDraw(chart, args, options) {
+      const dataset = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0);
+      if (!dataset || !meta?.data?.length) return;
+
+      const { ctx } = chart;
+      ctx.save();
+      ctx.fillStyle = options.color || "#f9fafb";
+      ctx.font = options.font || "600 12px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "bottom";
+
+      meta.data.forEach((bar, index) => {
+        const value = Number(dataset.data[index]) || 0;
+        if (!value) return;
+        const label = formatHours(value, options.digits ?? 1);
+        const { x, y } = bar.getProps(["x", "y"], true);
+        ctx.fillText(label, x, y - 6);
+      });
+
+      ctx.restore();
+    }
+  };
+
   function horizontalBarOptions(options = {}) {
     const chartOptions = {
       indexAxis: "y",
@@ -9104,6 +9138,12 @@
         y: { beginAtZero: true, ticks: { color: "#9ca3af", callback: (value) => `${value}h` }, grid: { color: "#1f2937" } }
       }
     };
+  }
+
+  function verticalBarOptionsWithValueLabels() {
+    const chartOptions = verticalBarOptions();
+    chartOptions.plugins.verticalBarValueLabels = { color: "#f9fafb", digits: 1 };
+    return chartOptions;
   }
 
   function percentBarOptions() {
