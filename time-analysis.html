@@ -646,6 +646,7 @@
     width: 100%;
     max-width: 100%;
     overflow: auto;
+    overscroll-behavior: contain;
     max-height: 620px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -5289,6 +5290,31 @@
     window.requestAnimationFrame(updateStickyLayoutMetrics);
   }
 
+  function installContainedTableWheelScroll() {
+    document.querySelectorAll(".table-wrap").forEach((wrap) => {
+      if (wrap.dataset.wheelContainInstalled === "true") return;
+      wrap.dataset.wheelContainInstalled = "true";
+      wrap.addEventListener("wheel", (event) => {
+        const maxScrollTop = Math.max(0, wrap.scrollHeight - wrap.clientHeight);
+        const maxScrollLeft = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+        const hasVerticalDelta = Math.abs(event.deltaY) > 0.5;
+        const hasHorizontalDelta = Math.abs(event.deltaX) > 0.5;
+        if ((!hasVerticalDelta && !hasHorizontalDelta) || (!maxScrollTop && !maxScrollLeft)) return;
+
+        const nextScrollTop = maxScrollTop
+          ? Math.max(0, Math.min(wrap.scrollTop + event.deltaY, maxScrollTop))
+          : wrap.scrollTop;
+        const nextScrollLeft = maxScrollLeft
+          ? Math.max(0, Math.min(wrap.scrollLeft + event.deltaX, maxScrollLeft))
+          : wrap.scrollLeft;
+
+        event.preventDefault();
+        if (nextScrollTop !== wrap.scrollTop) wrap.scrollTop = nextScrollTop;
+        if (nextScrollLeft !== wrap.scrollLeft) wrap.scrollLeft = nextScrollLeft;
+      }, { passive: false });
+    });
+  }
+
   function syncRunningTrackRowClock(durationMs) {
     const active = timePayload.activeEntry;
     if (!active?.listId || !active?.taskId) return;
@@ -7709,6 +7735,11 @@
     return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
   }
 
+  function timeWithShortDate(date) {
+    if (!date) return "-";
+    return date.toLocaleString(undefined, { month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
   function formatHours(hours, digits = 1) {
     if (!Number.isFinite(hours)) return "0h";
     if (Math.abs(hours) >= 100) return `${Math.round(hours).toLocaleString()}h`;
@@ -8770,6 +8801,10 @@
     return entry.date === dateValue || entryDateOverlapMs(entry, dateValue) > 0;
   }
 
+  function detailTimeValue(date, { showDate = false } = {}) {
+    return showDate ? timeWithShortDate(date) : timeOnly(date);
+  }
+
   function detailEntriesFor(entries) {
     const baseEntries = Array.isArray(entries) ? entries : [];
     if (!baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
@@ -8844,15 +8879,21 @@
         detailsDayTotal.textContent = "";
       }
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
+        const entryStartDate = entry.start instanceof Date && !Number.isNaN(entry.start.getTime()) ? dateKey(entry.start) : "";
+        const entryStopDate = entry.stop instanceof Date && !Number.isNaN(entry.stop.getTime()) ? dateKey(entry.stop) : "";
+        const spansMultipleDates = Boolean(entryStartDate && entryStopDate && entryStartDate !== entryStopDate);
+        const showStartDate = spansMultipleDates || Boolean(date && entryStartDate && entryStartDate !== date);
+        const showStopDate = spansMultipleDates || Boolean(date && entryStopDate && entryStopDate !== date);
+        const durationDisplay = date ? formatDuration(entryDateFilterMs(entry, date)) : formatDuration(entry.durationMs);
         const values = [
           entry.date,
           entry.week,
           entry.taskName,
           entry.department,
           entry.section,
-          formatDuration(entry.durationMs),
-          timeOnly(entry.start),
-          timeOnly(entry.stop),
+          durationDisplay,
+          detailTimeValue(entry.start, { showDate: showStartDate }),
+          detailTimeValue(entry.stop, { showDate: showStopDate }),
           entry.listName,
           trackGroupName(entry),
           entry.taskCategory,
@@ -9719,6 +9760,7 @@
     if (document.visibilityState === "visible") schedulePrivateTimeRefresh({ delay: 250 });
   });
 
+  installContainedTableWheelScroll();
   loadDashboard();
 </script>
 </body>
