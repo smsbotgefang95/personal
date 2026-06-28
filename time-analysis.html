@@ -8036,27 +8036,33 @@
     return weeks.length - firstActiveIndex;
   }
 
+  function weeklyAverageHoursFromFirstActivity(totalHours, weeks, hoursByWeek) {
+    const trackedWeekCount = trackedWeekCountFromFirstActivity(weeks, hoursByWeek);
+    return trackedWeekCount ? totalHours / trackedWeekCount : 0;
+  }
+
   function renderTaskTable(tableName, headId, bodyId, taskHoursMap, taskWeekMap, metrics) {
     const displayWeeks = [...metrics.weeks].reverse();
     const rows = consolidatedAnalyticsTaskRows(Array.from(taskHoursMap.entries()).map(([taskId, totalHours]) => {
       const weekHours = new Map(displayWeeks.map((week) => [week, taskWeekMap.get(`${taskId}|||${week}`) || 0]));
-      const trackedWeekCount = trackedWeekCountFromFirstActivity(metrics.weeks, weekHours);
       return {
         taskId,
         taskName: metrics.taskNames.get(taskId) || "Untitled task",
         totalHours,
-        weeklyAverageHours: trackedWeekCount ? totalHours / trackedWeekCount : 0,
+        weeklyAverageHours: weeklyAverageHoursFromFirstActivity(totalHours, metrics.weeks, weekHours),
         weekHours
       };
-    }), displayWeeks);
+    }), displayWeeks).map((row) => ({
+      ...row,
+      weeklyAverageHours: weeklyAverageHoursFromFirstActivity(row.totalHours, metrics.weeks, row.weekHours)
+    }));
     const sortedRows = sortTaskRows(rows, taskTableSort[tableName]);
     const totalHours = rows.reduce((total, row) => total + row.totalHours, 0);
     const totalWeekHours = new Map(displayWeeks.map((week) => [
       week,
       rows.reduce((total, row) => total + (row.weekHours.get(week) || 0), 0)
     ]));
-    const totalTrackedWeekCount = trackedWeekCountFromFirstActivity(metrics.weeks, totalWeekHours);
-    const totalWeeklyAverageHours = totalTrackedWeekCount ? totalHours / totalTrackedWeekCount : 0;
+    const totalWeeklyAverageHours = weeklyAverageHoursFromFirstActivity(totalHours, metrics.weeks, totalWeekHours);
     const headers = [
       renderSortableHeader(tableName, "task", "Task"),
       renderSortableHeader(tableName, "total", "Total"),
