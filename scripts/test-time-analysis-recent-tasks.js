@@ -107,6 +107,58 @@ assert.deepStrictEqual(
 
 console.log("Recent task ordering checks passed.");
 
+const analyticsSandbox = {
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  }
+};
+
+vm.createContext(analyticsSandbox);
+vm.runInContext([
+  extractFunction(html, "normalizedAnalyticsTaskName"),
+  extractFunction(html, "consolidatedAnalyticsTaskRows")
+].join("\n\n"), analyticsSandbox);
+
+assert.strictEqual(
+  analyticsSandbox.normalizedAnalyticsTaskName("🤖 Run AI agent_Work"),
+  "run ai agent work",
+  "analytics task normalization should ignore emoji and underscore separators"
+);
+
+const mergedAnalyticsRows = analyticsSandbox.consolidatedAnalyticsTaskRows([
+  {
+    taskId: "clickup-run-ai-agent",
+    taskName: "🤖 Run AI agent_Work",
+    totalHours: 197,
+    weekHours: new Map([["W27", 1], ["W26", 25.1]])
+  },
+  {
+    taskId: "native-run-ai-agent-work",
+    taskName: "Run Ai agent_work",
+    totalHours: 2.83,
+    weekHours: new Map([["W27", 0], ["W26", 1.6]])
+  }
+], ["W27", "W26"]);
+
+assert.strictEqual(
+  mergedAnalyticsRows.length,
+  1,
+  "analytics task rows should merge equivalent AI-agent labels"
+);
+
+assert.ok(
+  Math.abs(mergedAnalyticsRows[0].totalHours - 199.83) < 1e-9,
+  "merged analytics row should combine total hours"
+);
+
+assert.ok(
+  Math.abs(mergedAnalyticsRows[0].weekHours.get("W26") - 26.7) < 1e-9,
+  "merged analytics row should combine weekly hours"
+);
+
+console.log("Analytics task merge checks passed.");
+
 const autoDoneSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();

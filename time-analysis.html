@@ -7967,9 +7967,40 @@
     `;
   }
 
+  function normalizedAnalyticsTaskName(taskName) {
+    return cleanLabel(taskName, "")
+      .replace(/^[^A-Za-z0-9]+/, "")
+      .replace(/[_-]+/g, " ")
+      .replace(/[^A-Za-z0-9]+/g, " ")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+  }
+
+  function consolidatedAnalyticsTaskRows(rows, displayWeeks) {
+    const byTaskName = new Map();
+    rows.forEach((row) => {
+      const key = normalizedAnalyticsTaskName(row?.taskName) || cleanLabel(row?.taskId, "");
+      if (!key) return;
+      if (!byTaskName.has(key)) {
+        byTaskName.set(key, {
+          ...row,
+          weekHours: new Map(displayWeeks.map((week) => [week, row.weekHours.get(week) || 0]))
+        });
+        return;
+      }
+      const existing = byTaskName.get(key);
+      existing.totalHours += row.totalHours;
+      displayWeeks.forEach((week) => {
+        existing.weekHours.set(week, (existing.weekHours.get(week) || 0) + (row.weekHours.get(week) || 0));
+      });
+    });
+    return Array.from(byTaskName.values());
+  }
+
   function renderTaskTable(tableName, headId, bodyId, taskHoursMap, taskWeekMap, metrics) {
     const displayWeeks = [...metrics.weeks].reverse();
-    const rows = Array.from(taskHoursMap.entries()).map(([taskId, totalHours]) => {
+    const rows = consolidatedAnalyticsTaskRows(Array.from(taskHoursMap.entries()).map(([taskId, totalHours]) => {
       const weekHours = new Map(displayWeeks.map((week) => [week, taskWeekMap.get(`${taskId}|||${week}`) || 0]));
       return {
         taskId,
@@ -7977,7 +8008,7 @@
         totalHours,
         weekHours
       };
-    });
+    }), displayWeeks);
     const sortedRows = sortTaskRows(rows, taskTableSort[tableName]);
     const totalHours = rows.reduce((total, row) => total + row.totalHours, 0);
     const totalWeekHours = new Map(displayWeeks.map((week) => [
@@ -8203,7 +8234,7 @@
     const byLabel = new Map();
     taskHoursMap.forEach((hours, taskId) => {
       const label = cleanLabel(metrics.taskNames.get(taskId), "Untitled task");
-      const key = label.toLowerCase().replace(/\s+/g, " ").trim();
+      const key = normalizedAnalyticsTaskName(label) || label.toLowerCase().replace(/\s+/g, " ").trim();
       const existing = byLabel.get(key);
       if (existing) {
         existing.value += hours;
