@@ -646,6 +646,7 @@
     width: 100%;
     max-width: 100%;
     overflow: auto;
+    overscroll-behavior: contain;
     max-height: 620px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -8517,8 +8518,7 @@
           borderRadius: 5
         }]
       },
-      options: verticalBarOptionsWithValueLabels(),
-      plugins: [verticalBarValueLabelsPlugin]
+      options: verticalBarOptions()
     });
 
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
@@ -9078,32 +9078,6 @@
     }
   };
 
-  const verticalBarValueLabelsPlugin = {
-    id: "verticalBarValueLabels",
-    afterDatasetsDraw(chart, args, options) {
-      const dataset = chart.data.datasets[0];
-      const meta = chart.getDatasetMeta(0);
-      if (!dataset || !meta?.data?.length) return;
-
-      const { ctx } = chart;
-      ctx.save();
-      ctx.fillStyle = options.color || "#f9fafb";
-      ctx.font = options.font || "600 12px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "bottom";
-
-      meta.data.forEach((bar, index) => {
-        const value = Number(dataset.data[index]) || 0;
-        if (!value) return;
-        const label = formatHours(value, options.digits ?? 1);
-        const { x, y } = bar.getProps(["x", "y"], true);
-        ctx.fillText(label, x, y - 6);
-      });
-
-      ctx.restore();
-    }
-  };
-
   function horizontalBarOptions(options = {}) {
     const chartOptions = {
       indexAxis: "y",
@@ -9138,12 +9112,6 @@
         y: { beginAtZero: true, ticks: { color: "#9ca3af", callback: (value) => `${value}h` }, grid: { color: "#1f2937" } }
       }
     };
-  }
-
-  function verticalBarOptionsWithValueLabels() {
-    const chartOptions = verticalBarOptions();
-    chartOptions.plugins.verticalBarValueLabels = { color: "#f9fafb", digits: 1 };
-    return chartOptions;
   }
 
   function percentBarOptions() {
