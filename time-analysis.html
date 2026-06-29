@@ -281,6 +281,7 @@
 
   .chart-box.short { height: 214px; }
   .chart-box.tall { height: 330px; }
+  .chart-box.dynamic-bars { min-height: 330px; }
   .allocation-section { grid-column: 1 / -1; }
   .allocation-chart-box { height: 330px; }
 
@@ -3233,10 +3234,10 @@
         <div class="section-header">
           <div>
             <h2 id="personalTrendHeading">Personal Trend</h2>
-            <p class="section-note">Weekly hours from the Personal list only.</p>
+            <p class="section-note">Weekly hours from the Personal list only, shown in chronological order.</p>
           </div>
         </div>
-        <div class="chart-box tall">
+        <div class="chart-box dynamic-bars" id="personalTrendChartBox">
           <canvas id="personalTrendChart"></canvas>
         </div>
       </section>
@@ -8554,6 +8555,12 @@
       { label: "Top section", value: metrics.topPersonalSection, sub: `Top category: ${metrics.topPersonalCategory}`, className: "blue" }
     ]);
 
+    const personalTrendChartBox = document.getElementById("personalTrendChartBox");
+    if (personalTrendChartBox) {
+      const dynamicHeight = Math.max(330, metrics.weeks.length * 28 + 36);
+      personalTrendChartBox.style.height = `${dynamicHeight}px`;
+    }
+
     chart("personalTrendChart", {
       type: "bar",
       data: {
@@ -8564,13 +8571,11 @@
           backgroundColor: "#f97316",
           borderRadius: 8,
           borderSkipped: false,
-          maxBarThickness: 56,
-          categoryPercentage: 0.82,
-          barPercentage: 0.9
+          maxBarThickness: 24
         }]
       },
-      options: verticalBarOptions({ valueLabels: true, hideLegend: true, labelTopPadding: 14 }),
-      plugins: [verticalBarValueLabelsPlugin]
+      options: horizontalBarOptions({ endValueLabels: true }),
+      plugins: [barEndValueLabelsPlugin]
     });
 
     renderTaskPieChart("personalTopTaskPieChart", metrics.byPersonalTaskId, metrics, {
