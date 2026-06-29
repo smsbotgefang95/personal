@@ -8562,10 +8562,14 @@
           label: "Personal",
           data: metrics.weeks.map((week) => metrics.byWeekPersonal.get(week) || 0),
           backgroundColor: "#f97316",
-          borderRadius: 5
+          borderRadius: 8,
+          borderSkipped: false,
+          maxBarThickness: 56,
+          categoryPercentage: 0.82,
+          barPercentage: 0.9
         }]
       },
-      options: verticalBarOptions({ valueLabels: true }),
+      options: verticalBarOptions({ valueLabels: true, hideLegend: true, labelTopPadding: 14 }),
       plugins: [verticalBarValueLabelsPlugin]
     });
 
@@ -9148,9 +9152,10 @@
       ctx.font = options.font || "700 11px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      const textColor = options.color || "#f9fafb";
-      const backgroundColor = options.backgroundColor || "rgba(15, 23, 42, 0.88)";
-      const borderColor = options.borderColor || "rgba(251, 146, 60, 0.95)";
+      const textColor = options.color || "#fdba74";
+      const backgroundColor = options.backgroundColor || "rgba(2, 6, 23, 0.94)";
+      const borderColor = options.borderColor || "rgba(71, 85, 105, 0.95)";
+      const stemColor = options.stemColor || borderColor;
       const chartAreaTop = chart.chartArea?.top || 0;
       const topPadding = Number(options.topPadding) || 8;
       const pillHeight = Number(options.pillHeight) || 20;
@@ -9180,6 +9185,13 @@
         const pillWidth = textWidth + horizontalPadding * 2;
         const pillX = x - pillWidth / 2;
         const pillY = Math.max(chartAreaTop + topPadding, y - pillHeight - 8);
+
+        ctx.beginPath();
+        ctx.moveTo(x, pillY + pillHeight);
+        ctx.lineTo(x, y - 3);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = stemColor;
+        ctx.stroke();
 
         roundRectPath(pillX, pillY, pillWidth, pillHeight, pillHeight / 2);
         ctx.fillStyle = backgroundColor;
@@ -9221,9 +9233,9 @@
     const chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
-      layout: options.valueLabels ? { padding: { top: 34 } } : undefined,
+      layout: options.valueLabels ? { padding: { top: 46 } } : undefined,
       plugins: {
-        legend: options.valueLabels ? { display: false } : { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
+        legend: options.hideLegend ? { display: false } : { position: "bottom", labels: { boxWidth: 12, color: "#9ca3af" } },
         tooltip: tooltipOptions()
       },
       scales: {
@@ -9233,11 +9245,12 @@
     };
     if (options.valueLabels) {
       chartOptions.plugins.verticalBarValueLabels = {
-        color: "#f9fafb",
-        backgroundColor: "rgba(15, 23, 42, 0.92)",
-        borderColor: "rgba(253, 186, 116, 0.95)",
+        color: "#fdba74",
+        backgroundColor: "rgba(2, 6, 23, 0.94)",
+        borderColor: "rgba(71, 85, 105, 0.95)",
+        stemColor: "rgba(71, 85, 105, 0.95)",
         digits: 1,
-        topPadding: 8,
+        topPadding: Number(options.labelTopPadding) || 14,
         pillHeight: 20,
         horizontalPadding: 8
       };
