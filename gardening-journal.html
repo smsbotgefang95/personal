@@ -563,6 +563,11 @@
     color: #446475;
   }
 
+  .chip.days-count {
+    background: var(--gold-soft);
+    color: #8b5a0a;
+  }
+
   .chip.warm {
     background: rgba(255, 240, 213, 0.92);
     color: #8b5a0a;
@@ -2019,7 +2024,7 @@
               <h4>${escapeHtml(entry.title)}</h4>
               <div class="meta-line">
                 <span class="chip">${escapeHtml(formatDisplayDate(entry.date, true))}</span>
-                ${daysAfterFirstEntry ? `<span class="chip alt">${escapeHtml(daysAfterFirstEntry)}</span>` : ""}
+                ${daysAfterFirstEntry ? `<span class="chip days-count">${escapeHtml(daysAfterFirstEntry)}</span>` : ""}
                 <span class="chip alt">${escapeHtml(plantNameById(entry.plantId))}</span>
                 ${entry.weather ? `<span class="chip warm">${escapeHtml(entry.weather)}</span>` : ""}
               </div>
