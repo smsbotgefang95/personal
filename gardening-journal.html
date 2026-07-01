@@ -1562,6 +1562,24 @@
     return Number.isNaN(date.getTime()) ? value : (short ? shortDateFormatter : dateFormatter).format(date);
   }
 
+  function isoDateToDayNumber(value) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || "").trim());
+    if (!match) {
+      return Number.NaN;
+    }
+    return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])) / 86400000;
+  }
+
+  function formatDaysAfterReferenceDate(referenceDate, value) {
+    const referenceDay = isoDateToDayNumber(referenceDate);
+    const currentDay = isoDateToDayNumber(value);
+    if (!Number.isFinite(referenceDay) || !Number.isFinite(currentDay) || currentDay <= referenceDay) {
+      return "";
+    }
+    const dayCount = currentDay - referenceDay;
+    return `+${dayCount} day${dayCount === 1 ? "" : "s"}`;
+  }
+
   function dueBadge(task) {
     if (!task.dueDate) {
       return `<span class="badge">No due date</span>`;
@@ -1977,6 +1995,7 @@
     const container = document.getElementById("entryList");
     const entries = filteredEntries();
     const activePlantName = uiState.entryFilterPlantId ? plantNameById(uiState.entryFilterPlantId) : "";
+    const firstEntryDate = entries.reduce((earliest, entry) => (!earliest || entry.date < earliest ? entry.date : earliest), "");
     document.getElementById("entryTimelineCopy").textContent = activePlantName
       ? `Showing only ${activePlantName} entries. Photos stay attached to each note so you can compare progress over time.`
       : "Photos stay attached to each note so you can compare progress over time.";
@@ -1992,6 +2011,7 @@
     const photoLists = await Promise.all(entries.map((entry) => getPhotosByIds(entry.photoIds)));
     container.innerHTML = entries.map((entry, index) => {
       const photos = photoLists[index];
+      const daysAfterFirstEntry = formatDaysAfterReferenceDate(firstEntryDate, entry.date);
       return `
         <article class="record-card">
           <div class="record-header">
@@ -1999,6 +2019,7 @@
               <h4>${escapeHtml(entry.title)}</h4>
               <div class="meta-line">
                 <span class="chip">${escapeHtml(formatDisplayDate(entry.date, true))}</span>
+                ${daysAfterFirstEntry ? `<span class="chip alt">${escapeHtml(daysAfterFirstEntry)}</span>` : ""}
                 <span class="chip alt">${escapeHtml(plantNameById(entry.plantId))}</span>
                 ${entry.weather ? `<span class="chip warm">${escapeHtml(entry.weather)}</span>` : ""}
               </div>
