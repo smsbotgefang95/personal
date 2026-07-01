@@ -6565,7 +6565,7 @@
   }
 
   function manualTaskStatusPatch(entry, status) {
-    return taskStatusPatch(entry, status, { advanceRecurring: false });
+    return taskStatusPatch(entry, status);
   }
 
   function isDailyRecurringTask(entry) {
