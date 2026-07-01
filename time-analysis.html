@@ -5602,13 +5602,39 @@
     const recentStrip = recentList.closest(".recent-task-strip");
     const recentToggle = document.getElementById("recentTaskToggle");
     const tasks = recentTrackedTasks(entries);
+    const historyLoaded = csvEntriesLoaded;
+    const historyLoading = recentTaskHistoryLoading();
+    const shouldShowToggle = Boolean(tasks.length || !historyLoaded || historyLoading);
     if (recentStrip) {
-      recentStrip.hidden = tasks.length === 0;
-      if (!tasks.length) recentStrip.classList.remove("open");
+      recentStrip.hidden = !shouldShowToggle;
+      if (!shouldShowToggle) recentStrip.classList.remove("open");
     }
     if (recentToggle) {
-      recentToggle.hidden = tasks.length === 0;
-      recentToggle.onclick = () => setRecentTaskDropdownOpen(!recentStrip?.classList.contains("open"));
+      recentToggle.hidden = !shouldShowToggle;
+      recentToggle.disabled = historyLoading;
+      recentToggle.textContent = historyLoading ? "Loading recent tracked tasks..." : "Recent tracked tasks";
+      recentToggle.onclick = () => {
+        if (historyLoading) {
+          showRecentTaskHistoryLoadingState();
+          return;
+        }
+        if (!historyLoaded) {
+          if (tasks.length) {
+            setRecentTaskDropdownOpen(!recentStrip?.classList.contains("open"));
+            ensureRecentTaskHistoryLoaded().catch(() => {});
+            return;
+          }
+          showRecentTaskHistoryLoadingState();
+          ensureRecentTaskHistoryLoaded().catch(() => {});
+          return;
+        }
+        setRecentTaskDropdownOpen(!recentStrip?.classList.contains("open"));
+      };
+    }
+    if (historyLoading && recentStrip?.classList.contains("open")) {
+      recentList.hidden = false;
+      recentList.innerHTML = '<span class="recent-task-empty">Loading recent task history...</span>';
+      return;
     }
     recentList.hidden = !recentStrip?.classList.contains("open");
     recentList.innerHTML = tasks.length
@@ -9502,14 +9528,34 @@
     return csvEntriesLoadPromise;
   }
 
-  function loadRecentTaskHistory() {
-    ensureCsvEntriesLoaded()
+  function recentTaskHistoryLoading() {
+    return Boolean(csvEntriesLoadPromise && !csvEntriesLoaded);
+  }
+
+  function ensureRecentTaskHistoryLoaded() {
+    return ensureCsvEntriesLoaded()
       .then(() => {
         renderRecentTaskSwitcher();
       })
       .catch((error) => {
+        renderRecentTaskSwitcher();
         setTrackerStatus(error.message || "Recent task history could not be loaded.", "error");
+        throw error;
       });
+  }
+
+  function showRecentTaskHistoryLoadingState() {
+    const recentStrip = document.querySelector(".recent-task-strip");
+    const recentList = document.getElementById("recentTaskList");
+    const recentToggle = document.getElementById("recentTaskToggle");
+    if (!recentStrip || !recentList || !recentToggle) return;
+    recentStrip.hidden = false;
+    recentStrip.classList.add("open");
+    recentToggle.disabled = true;
+    recentToggle.textContent = "Loading recent tracked tasks...";
+    recentToggle.setAttribute("aria-expanded", "true");
+    recentList.hidden = false;
+    recentList.innerHTML = '<span class="recent-task-empty">Loading recent task history...</span>';
   }
 
   async function loadCsvDashboard() {
@@ -9617,7 +9663,6 @@
     document.getElementById("sourcePills").innerHTML = "";
     showPrivateTimeLoadButton(false);
     renderTracker();
-    loadRecentTaskHistory();
     scheduleAutoDoneTaskSync();
     armBusinessMustReminderSoundUnlock();
     startBusinessMustReminderMonitor();
