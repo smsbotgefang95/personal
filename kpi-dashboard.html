@@ -522,6 +522,10 @@ function hasWaterValue(value) {
   return value !== null && value !== undefined && value !== '';
 }
 
+function hasMetricValue(value) {
+  return value !== null && value !== undefined && String(value).trim() !== '';
+}
+
 function applyLocalHydrationForDate(dateStr) {
   const total = waterTotalForDate(dateStr);
   if (!total) return false;
@@ -941,16 +945,14 @@ function render(rows) {
   const sleepWeekMap={};
   const awakeWeekMap={};
   const dailyDates=[],dailyOnTime=[],dailyScores=[];
-  rows.forEach(r=>{
+  rows.filter(r=>hasMetricValue(r.sleepScore)).forEach(r=>{
     const wk=isoWeek(r.date);
 
-    if (r.sleepScore!==null&&r.sleepScore!==undefined) {
-      if (!sleepWeekMap[wk]) sleepWeekMap[wk]={scores:[]};
-      sleepWeekMap[wk].scores.push(r.sleepScore);
-      dailyDates.push(dispDate(r.date));
-      dailyOnTime.push(r.sleepOnTime==='Yes'?1:0);
-      dailyScores.push(r.sleepScore);
-    }
+    if (!sleepWeekMap[wk]) sleepWeekMap[wk]={scores:[]};
+    sleepWeekMap[wk].scores.push(r.sleepScore);
+    dailyDates.push(dispDate(r.date));
+    dailyOnTime.push(r.sleepOnTime==='Yes'?1:0);
+    dailyScores.push(r.sleepScore);
 
     if (r.minutesAwake!==null&&r.minutesAwake!==undefined&&r.minutesAwake!=='') {
       if (!awakeWeekMap[wk]) awakeWeekMap[wk]=[];
@@ -961,10 +963,13 @@ function render(rows) {
   const awakeWeeks=Object.keys(awakeWeekMap).sort();
   const sleepScores=weeks.map(w=>Math.round(avg(sleepWeekMap[w].scores)));
   const mawWeekly=awakeWeeks.map(w=>Math.round(avg(awakeWeekMap[w])));
-  const avgSleepVal=Math.round(avg(dailyScores));
+  const avgSleepRaw=avg(dailyScores);
+  const avgSleepVal=dailyScores.length ? avgSleepRaw.toFixed(2) : '—';
   const avgWakeVal=Math.round(avg(mawWeekly.filter(v=>v>0)));
-  const bestWk=weeks[sleepScores.indexOf(Math.max(...sleepScores))];
-  const worstWk=weeks[sleepScores.indexOf(Math.min(...sleepScores))];
+  const bestScore=sleepScores.length ? Math.max(...sleepScores) : null;
+  const worstScore=sleepScores.length ? Math.min(...sleepScores) : null;
+  const bestWk=bestScore!==null ? weeks[sleepScores.indexOf(bestScore)] : '—';
+  const worstWk=worstScore!==null ? weeks[sleepScores.indexOf(worstScore)] : '—';
   const avgOnTime=Math.round(avg(dailyScores.filter((_,i)=>dailyOnTime[i]===1)));
   const avgLate=Math.round(avg(dailyScores.filter((_,i)=>dailyOnTime[i]===0)));
 
@@ -1054,7 +1059,9 @@ function render(rows) {
     data:{labels:dailyDates,datasets:[{data:dailyScores,backgroundColor:dailyOnTime.map(v=>v===1?'rgba(236,72,153,0.72)':'rgba(239,68,68,0.78)'),borderRadius:3,borderSkipped:false}]},
     options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{title:ctx=>`${ctx[0].label} — ${dailyOnTime[ctx[0].dataIndex]?'✅ Slept on time':'❌ Late to bed'}`,label:ctx=>` Sleep score: ${ctx.parsed.y}`}},datalabels:{display:false}},scales:{y:{min:60,max:105,grid:{color:THEME.border},ticks:{stepSize:10,color:THEME.muted}},x:{grid:{display:false},ticks:{maxTicksLimit:20,font:{size:9},color:THEME.muted}}}}
   });
-  document.getElementById('sleepInsight').innerHTML=`<strong>Overall avg sleep score: ${avgSleepVal}/100.</strong> Best week: <strong>${bestWk}</strong> (${Math.max(...sleepScores)}) · Lowest: <strong>${worstWk}</strong> (${Math.min(...sleepScores)}).<br><br><strong>Pattern:</strong> <span style="color:${THEME.accent}">■</span> On-time avg <strong>${avgOnTime}</strong> &nbsp;|&nbsp; <span style="color:${THEME.danger}">■</span> Late avg <strong>${avgLate}</strong>. ${Math.abs(avgOnTime-avgLate)}-point gap.`;
+  document.getElementById('sleepInsight').innerHTML=dailyScores.length
+    ? `<strong>Overall avg sleep score: ${avgSleepVal}/100.</strong> Best week: <strong>${bestWk}</strong> (${bestScore}) · Lowest: <strong>${worstWk}</strong> (${worstScore}).<br><br><strong>Pattern:</strong> <span style="color:${THEME.accent}">■</span> On-time avg <strong>${avgOnTime}</strong> &nbsp;|&nbsp; <span style="color:${THEME.danger}">■</span> Late avg <strong>${avgLate}</strong>. ${Math.abs(avgOnTime-avgLate)}-point gap.`
+    : '<strong>No sleep scores tracked yet.</strong>';
 
   document.getElementById('lateReasonTitle').textContent=`Why Did You Sleep Late? (${lateNights.length} late nights)`;
   if (lateLabels.length) {
