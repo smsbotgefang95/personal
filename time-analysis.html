@@ -2225,10 +2225,8 @@
     padding-top: 7px;
   }
 
-  .custom-recurrence-monthly-select {
-    grid-column: 1 / -1;
-    width: 100%;
-    max-width: 120px;
+  .custom-recurrence-monthly-options--weekday {
+    grid-template-columns: 1fr;
   }
 
   .custom-recurrence-monthly-option {
@@ -2247,6 +2245,23 @@
     line-height: 1.05;
     text-align: center;
     white-space: nowrap;
+  }
+
+  .custom-recurrence-monthly-option--weekday {
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 6px 10px;
+  }
+
+  .custom-recurrence-monthly-weekday-prefix {
+    min-width: 2.5rem;
+    text-align: left;
+  }
+
+  .custom-recurrence-monthly-inline-select {
+    width: 92px;
+    margin-left: auto;
+    flex: 0 0 auto;
   }
 
   .custom-recurrence-monthly-option input {
@@ -4152,12 +4167,12 @@
     return CUSTOM_MONTHLY_WEEKDAY_INDEXES[normalized] != null ? normalized : CUSTOM_MONTHLY_WEEKDAY_DEFAULT;
   }
 
-  function selectedCustomMonthlyWeekday(settings) {
-    const monthlyDays = Array.isArray(settings?.monthlyDays) && settings.monthlyDays.length
-      ? settings.monthlyDays
-      : [settings?.monthlyDay || ""];
-    const matchedWeekday = monthlyDays.map((value) => monthlyWeekdayParts(value)?.weekday || "").find(Boolean);
-    return normalizeCustomMonthlyWeekday(matchedWeekday || settings?.monthlyWeekday || CUSTOM_MONTHLY_WEEKDAY_DEFAULT);
+  function selectedCustomMonthlyWeekdayForOrdinal(settings, ordinal, monthlyDays = null) {
+    const source = Array.isArray(monthlyDays) ? monthlyDays : normalizeCustomMonthlyDays(settings);
+    const matchedWeekday = source
+      .map((value) => monthlyWeekdayParts(value))
+      .find((parts) => parts?.ordinal === ordinal)?.weekday;
+    return normalizeCustomMonthlyWeekday(matchedWeekday || CUSTOM_MONTHLY_WEEKDAY_DEFAULT);
   }
 
   function monthlyWeekdayValueFromText(ordinalValue, weekdayValue) {
@@ -4284,7 +4299,6 @@
       settings.monthlyDays = [...new Set(monthlyDayMatches.sort((a, b) => a.index - b.index).map((match) => match.value))];
       settings.monthlyDay = settings.monthlyDays[0];
     }
-    settings.monthlyWeekday = selectedCustomMonthlyWeekday(settings);
     const statusMatch = text.match(/status change:\s*([^;]+)/i);
     settings.statusTrigger = statusMatch ? statusMatch[1].trim().toLowerCase() : (text.includes("status change") ? "done" : "done");
     settings.recurForever = !/do not recur forever|stop recurring/i.test(text);
@@ -4317,7 +4331,6 @@
   function customRecurrenceHtml(text = "") {
     const settings = parseCustomRecurrenceText(text);
     const monthlyDays = normalizeCustomMonthlyDays(settings);
-    const selectedMonthlyWeekday = selectedCustomMonthlyWeekday(settings);
     const dayButtons = CUSTOM_RECURRENCE_DAYS.map(([day, label]) => `
       <button class="custom-recurrence-day${settings.days.includes(day) ? " active" : ""}" type="button" data-custom-day="${escapeHtml(day)}" aria-pressed="${settings.days.includes(day) ? "true" : "false"}" title="${escapeHtml(label)}">${escapeHtml(day)}</button>
     `).join("");
@@ -4327,12 +4340,16 @@
         ${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[value] || label)}
       </label>
     `).join("");
-    const monthlyWeekdayOptions = CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS.map(([value]) => {
+    const monthlyWeekdayOptions = CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS.map(([value, , shortLabel]) => {
+      const selectedMonthlyWeekday = selectedCustomMonthlyWeekdayForOrdinal(settings, value, monthlyDays);
       const monthlyValue = monthlyWeekdayValue(value, selectedMonthlyWeekday);
       return `
-      <label class="custom-recurrence-monthly-option" title="${escapeHtml(CUSTOM_MONTHLY_DAY_LABELS[monthlyValue] || monthlyWeekdayLabel(monthlyValue))}">
+      <label class="custom-recurrence-monthly-option custom-recurrence-monthly-option--weekday">
         <input type="checkbox" value="${escapeHtml(value)}" data-custom-monthly-weekday-option${monthlyDays.includes(monthlyValue) ? " checked" : ""} />
-        <span data-custom-monthly-weekday-label>${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[monthlyValue] || monthlyWeekdayShortLabel(monthlyValue))}</span>
+        <span class="custom-recurrence-monthly-weekday-prefix">${escapeHtml(shortLabel)}</span>
+        <select class="custom-recurrence-select custom-recurrence-monthly-inline-select" data-custom-monthly-weekday-select="${escapeHtml(value)}" aria-label="${escapeHtml(`${CUSTOM_MONTHLY_WEEKDAY_ORDINAL_LABELS[value]?.label || shortLabel} weekday`)}">
+          ${CUSTOM_MONTHLY_WEEKDAY_CHOICES.map(([weekday]) => `<option value="${weekday}"${weekday === selectedMonthlyWeekday ? " selected" : ""}>${weekday}</option>`).join("")}
+        </select>
       </label>
     `;
     }).join("");
@@ -4356,10 +4373,7 @@
       </div>
       <div class="custom-recurrence-row custom-recurrence-monthly-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
         <span class="custom-recurrence-label">Weekday</span>
-        <div class="custom-recurrence-monthly-options" role="group" aria-label="Monthly recurrence weekdays">
-          <select class="custom-recurrence-select custom-recurrence-monthly-select" data-custom-part="monthlyWeekday" aria-label="Monthly recurrence weekday">
-            ${CUSTOM_MONTHLY_WEEKDAY_CHOICES.map(([value]) => `<option value="${value}"${value === selectedMonthlyWeekday ? " selected" : ""}>${value}</option>`).join("")}
-          </select>
+        <div class="custom-recurrence-monthly-options custom-recurrence-monthly-options--weekday" role="group" aria-label="Monthly recurrence weekdays">
           ${monthlyWeekdayOptions}
         </div>
       </div>
@@ -4380,11 +4394,10 @@
 
   function readCustomRecurrence(panel) {
     const activeDays = Array.from(panel.querySelectorAll("[data-custom-day].active")).map((button) => button.dataset.customDay);
-    const monthlyWeekday = normalizeCustomMonthlyWeekday(panel.querySelector('[data-custom-part="monthlyWeekday"]')?.value);
     const monthlyDays = [
       ...Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]:checked")).map((input) => input.value),
       ...Array.from(panel.querySelectorAll("[data-custom-monthly-weekday-option]:checked"))
-        .map((input) => monthlyWeekdayValue(input.value, monthlyWeekday))
+        .map((input) => monthlyWeekdayValue(input.value, panel.querySelector(`[data-custom-monthly-weekday-select="${input.value}"]`)?.value))
         .filter(Boolean)
     ];
     const normalizedMonthlyDays = normalizeCustomMonthlyDays({ monthlyDays });
@@ -4392,7 +4405,6 @@
       every: panel.querySelector('[data-custom-part="every"]')?.value || 1,
       unit: panel.querySelector('[data-custom-part="unit"]')?.value || "week",
       days: activeDays.length ? activeDays : ["Mo"],
-      monthlyWeekday,
       monthlyDay: normalizedMonthlyDays[0],
       monthlyDays: normalizedMonthlyDays,
       statusTrigger: panel.querySelector('[data-custom-part="statusTrigger"]')?.value || "done",
@@ -4407,18 +4419,6 @@
     const monthlyRows = Array.from(panel.querySelectorAll("[data-custom-monthly-day]"));
     if (days) days.hidden = unit !== "week";
     monthlyRows.forEach((row) => { row.hidden = unit !== "month"; });
-    refreshCustomMonthlyWeekdayOptions(panel);
-  }
-
-  function refreshCustomMonthlyWeekdayOptions(panel) {
-    const monthlyWeekday = normalizeCustomMonthlyWeekday(panel.querySelector('[data-custom-part="monthlyWeekday"]')?.value);
-    panel.querySelectorAll("[data-custom-monthly-weekday-option]").forEach((input) => {
-      const monthlyValue = monthlyWeekdayValue(input.value, monthlyWeekday);
-      const option = input.closest(".custom-recurrence-monthly-option");
-      const label = option?.querySelector("[data-custom-monthly-weekday-label]");
-      if (option) option.title = CUSTOM_MONTHLY_DAY_LABELS[monthlyValue] || monthlyWeekdayLabel(monthlyValue);
-      if (label) label.textContent = CUSTOM_MONTHLY_DAY_SHORT_LABELS[monthlyValue] || monthlyWeekdayShortLabel(monthlyValue);
-    });
   }
 
   function syncCustomMonthlyDayOptions(panel, changedOption = null) {
