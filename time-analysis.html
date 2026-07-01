@@ -4644,8 +4644,10 @@
   }
 
   function showPrivateTimeLoadButton(show) {
+    const label = timePayloadHasPrivateData(timePayload) ? "Refresh private data" : "Load private data";
     document.querySelectorAll("[data-load-private-time]").forEach((button) => {
       button.hidden = !show;
+      button.textContent = label;
     });
     document.querySelectorAll("[data-private-time-fallback-note]").forEach((note) => {
       note.hidden = !show;
@@ -5082,7 +5084,7 @@
       }
       throw error;
     }
-    showPrivateTimeLoadButton(false);
+    showPrivateTimeLoadButton(Boolean(key));
     renderTimePayloadState({ renderScope });
     setTrackerStatus("Saved", "saved");
   }
@@ -5177,7 +5179,7 @@
         timePayload = serverPayload;
         writeLocalTimePayload(timePayload);
       }
-      showPrivateTimeLoadButton(false);
+      showPrivateTimeLoadButton(Boolean(key));
       setTrackerStatus(successMessage, "saved");
     } catch (error) {
       if (error.status === 401) {
@@ -9594,7 +9596,7 @@
   }
 
   async function loadPrivateTimeData({ promptForKey = false } = {}) {
-    await resolveTimeAdminKey({ promptForKey, intent: "load" });
+    const key = await resolveTimeAdminKey({ promptForKey, intent: "load" });
     const response = await timeApi("GET");
     const localPayload = readLocalTimePayload();
     if (shouldUploadLocalTimePayload(localPayload, response)) {
@@ -9609,7 +9611,7 @@
     }
     timePayload = mergeTimePayloads(response, localPayload, { preferServer: timePayloadHasPrivateData(response) });
     writeLocalTimePayload(timePayload);
-    showPrivateTimeLoadButton(!timePayloadHasPrivateData(response));
+    showPrivateTimeLoadButton(Boolean(key));
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderTimePayloadState();
       if (!timePayloadHasPrivateData(response)) setTrackerStatus("Shared Time Analysis data is empty. Showing local data.");
@@ -9631,6 +9633,7 @@
     if (privateTimeRefreshTimer) window.clearTimeout(privateTimeRefreshTimer);
     privateTimeRefreshTimer = window.setTimeout(async () => {
       privateTimeRefreshTimer = null;
+      if (!force && timePayloadHasPrivateData(timePayload)) return;
       const now = Date.now();
       if (!force && now - lastPrivateTimeRefreshAt < 5000) return;
       if (privateTimeRefreshInFlight) return;
@@ -9652,6 +9655,7 @@
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
     timePayload = readLocalTimePayload();
+    const hasCachedPrivateTimeData = timePayloadHasPrivateData(timePayload);
     currentSourcePills = [];
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboardControls").hidden = false;
@@ -9673,7 +9677,9 @@
       taskCatalogEntries = [];
     });
     try {
-      if (await ensureTimeAdminKey()) {
+      const key = await ensureTimeAdminKey();
+      showPrivateTimeLoadButton(Boolean(key));
+      if (key && !hasCachedPrivateTimeData) {
         window.setTimeout(() => {
           loadPrivateTimeData().catch((error) => {
             setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
