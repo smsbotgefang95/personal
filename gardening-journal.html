@@ -498,12 +498,6 @@
     font-size: 0.9rem;
   }
 
-  .field-note {
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.4;
-  }
-
   .status-text.success {
     color: var(--green-deep);
   }
@@ -973,7 +967,6 @@
               <div class="field">
                 <label for="plantName">Plant name</label>
                 <input id="plantName" name="plantName" type="text" placeholder="Tomato, zinnia, basil" list="plantNameSuggestions" required />
-                <div class="field-note" id="plantExistingNames" aria-live="polite"></div>
                 <datalist id="plantNameSuggestions"></datalist>
               </div>
               <div class="field">
@@ -1645,7 +1638,6 @@
 
   async function renderAll() {
     syncPlantSelectors();
-    renderExistingPlantNames();
     renderSummaryCards();
     renderOverview();
     renderPlantList();
@@ -2143,17 +2135,6 @@
     `;
   }
 
-  function renderExistingPlantNames() {
-    const helper = document.getElementById("plantExistingNames");
-    const datalist = document.getElementById("plantNameSuggestions");
-    const names = Array.from(new Set(sortedPlants().map((plant) => plant.name).filter(Boolean)));
-
-    datalist.innerHTML = names.map((name) => `<option value="${escapeHtml(name)}"></option>`).join("");
-    helper.textContent = names.length
-      ? `Existing plant names: ${names.join(", ")}`
-      : "Saved plant names will appear here after you add them.";
-  }
-
   function syncPlantSelectors() {
     const taskSelect = document.getElementById("taskPlantId");
     const entrySelect = document.getElementById("entryPlantId");
@@ -2161,10 +2142,16 @@
     const taskValue = taskSelect.value;
     const entryValue = entrySelect.value;
     const filterValue = uiState.entryFilterPlantId;
+    const plantNameSuggestions = document.getElementById("plantNameSuggestions");
 
     setSelectOptions(taskSelect, buildPlantOptions("General garden"), taskValue);
     setSelectOptions(entrySelect, buildPlantOptions("General garden"), entryValue);
     setSelectOptions(filterSelect, buildPlantOptions("All plants"), filterValue);
+    plantNameSuggestions.innerHTML = sortedPlants()
+      .map((plant) => plant.name)
+      .filter((name, index, names) => name && names.indexOf(name) === index)
+      .map((name) => `<option value="${escapeHtml(name)}"></option>`)
+      .join("");
     uiState.entryFilterPlantId = filterSelect.value;
   }
 
