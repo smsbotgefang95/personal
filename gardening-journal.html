@@ -1859,6 +1859,17 @@
     return sortedEntries().filter((entry) => entry.plantId === plantId);
   }
 
+  function earliestEntryDatesByPlant(entries) {
+    return entries.reduce((earliestByPlant, entry) => {
+      const plantId = String(entry.plantId || "").trim();
+      const earliest = earliestByPlant.get(plantId) || "";
+      if (!earliest || entry.date < earliest) {
+        earliestByPlant.set(plantId, entry.date);
+      }
+      return earliestByPlant;
+    }, new Map());
+  }
+
   function truncateText(value, maxLength = 140) {
     const compact = String(value || "").replace(/\s+/g, " ").trim();
     if (!compact) {
@@ -2001,7 +2012,7 @@
     const container = document.getElementById("entryList");
     const entries = filteredEntries();
     const activePlantName = uiState.entryFilterPlantId ? plantNameById(uiState.entryFilterPlantId) : "";
-    const firstEntryDate = entries.reduce((earliest, entry) => (!earliest || entry.date < earliest ? entry.date : earliest), "");
+    const firstEntryDateByPlant = earliestEntryDatesByPlant(entries);
     document.getElementById("entryTimelineCopy").textContent = activePlantName
       ? `Showing only ${activePlantName} entries. Photos stay attached to each note so you can compare progress over time.`
       : "Photos stay attached to each note so you can compare progress over time.";
@@ -2017,7 +2028,8 @@
     const photoLists = await Promise.all(entries.map((entry) => getPhotosByIds(entry.photoIds)));
     container.innerHTML = entries.map((entry, index) => {
       const photos = photoLists[index];
-      const daysAfterFirstEntry = formatDaysAfterReferenceDate(firstEntryDate, entry.date);
+      const plantFirstEntryDate = firstEntryDateByPlant.get(String(entry.plantId || "").trim()) || "";
+      const daysAfterFirstEntry = formatDaysAfterReferenceDate(plantFirstEntryDate, entry.date);
       return `
         <article class="record-card">
           <div class="record-header">
