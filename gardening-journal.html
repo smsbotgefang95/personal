@@ -1,0 +1,2621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gardening Journal</title>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260630-gardening" />
+<script src="assets/site-nav.js?v=20260630-gardening" defer></script>
+<style>
+  :root {
+    --bg: #f6f2ea;
+    --surface: rgba(255, 251, 244, 0.92);
+    --surface-strong: #fffdf9;
+    --surface-soft: #f1eadb;
+    --surface-deep: #efe6d3;
+    --text: #23311f;
+    --muted: #6d7766;
+    --border: rgba(97, 109, 82, 0.18);
+    --shadow: 0 18px 34px rgba(71, 61, 34, 0.1);
+    --green: #2f6b3c;
+    --green-deep: #1f4b2a;
+    --green-soft: #e6f2df;
+    --gold: #d4993b;
+    --gold-soft: #fff0d5;
+    --rose: #bb6f66;
+    --rose-soft: #fde9e5;
+    --blue: #5a7e92;
+    --blue-soft: #e8f1f6;
+    --ink: #142013;
+    --danger: #a43d2b;
+    --danger-soft: #fde8e4;
+    --radius: 20px;
+    --radius-sm: 14px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    font-family: "Avenir Next", "Segoe UI", sans-serif;
+    line-height: 1.5;
+    background:
+      radial-gradient(circle at top left, rgba(212, 153, 59, 0.18), transparent 32%),
+      radial-gradient(circle at top right, rgba(47, 107, 60, 0.16), transparent 34%),
+      linear-gradient(180deg, #f4efe3 0 180px, #f9f5ee 180px 100%);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 26px 24px 60px;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+    gap: 22px;
+    align-items: stretch;
+    margin-bottom: 22px;
+  }
+
+  .hero-copy,
+  .hero-side {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: linear-gradient(145deg, rgba(255, 251, 244, 0.95), rgba(247, 241, 228, 0.9));
+    box-shadow: var(--shadow);
+  }
+
+  .hero-copy {
+    padding: 34px 34px 28px;
+  }
+
+  .hero-copy::after,
+  .hero-side::after {
+    content: "";
+    position: absolute;
+    inset: auto auto -48px -36px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(47, 107, 60, 0.08);
+    filter: blur(6px);
+    pointer-events: none;
+  }
+
+  .hero-side {
+    padding: 28px;
+    background:
+      linear-gradient(180deg, rgba(230, 242, 223, 0.92), rgba(255, 251, 244, 0.94)),
+      var(--surface);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--green);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #72ad55, #2f6b3c);
+    box-shadow: 0 0 0 6px rgba(114, 173, 85, 0.12);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    max-width: 12ch;
+    font-size: clamp(2.5rem, 5vw, 4.1rem);
+    line-height: 0.94;
+    color: var(--ink);
+  }
+
+  .hero-text {
+    max-width: 58ch;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 1.02rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  .storage-note {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    min-height: 46px;
+    padding: 11px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #3f814d, #2f6b3c);
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(47, 107, 60, 0.18);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.78);
+    color: var(--green-deep);
+    border: 1px solid rgba(47, 107, 60, 0.18);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(97, 109, 82, 0.18);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .micro-card {
+    position: relative;
+    overflow: hidden;
+    padding: 18px 18px 16px;
+    border: 1px solid rgba(47, 107, 60, 0.12);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .micro-card::after {
+    content: "";
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(212, 153, 59, 0.14);
+  }
+
+  .micro-card h3 {
+    position: relative;
+    z-index: 1;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+  }
+
+  .micro-card p,
+  .micro-card li {
+    position: relative;
+    z-index: 1;
+    color: var(--muted);
+  }
+
+  .micro-card ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .summary-card {
+    padding: 20px 20px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(255, 253, 249, 0.96), rgba(246, 239, 226, 0.92));
+    box-shadow: 0 12px 24px rgba(71, 61, 34, 0.06);
+  }
+
+  .summary-card .label {
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .summary-card .value {
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    line-height: 1;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .summary-card .subtext {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 22px 0;
+  }
+
+  .panel-head p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+
+  .panel-body {
+    padding: 20px 22px 22px;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 16px;
+  }
+
+  .focus-list,
+  .starter-list,
+  .stage-list,
+  .compact-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .compact-item,
+  .focus-item,
+  .stage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 14px;
+    border: 1px solid rgba(97, 109, 82, 0.16);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.68);
+  }
+
+  .focus-item strong,
+  .compact-item strong,
+  .stage-item strong {
+    display: block;
+    color: var(--ink);
+  }
+
+  .focus-item small,
+  .compact-item small,
+  .stage-item small {
+    color: var(--muted);
+  }
+
+  .tag,
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .tag {
+    background: var(--green-soft);
+    color: var(--green-deep);
+  }
+
+  .badge {
+    background: var(--gold-soft);
+    color: #8b5a0a;
+  }
+
+  .badge.overdue {
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+
+  .page-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 22px 0 16px;
+  }
+
+  .page-tab {
+    min-height: 44px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--muted);
+    border: 1px solid rgba(97, 109, 82, 0.16);
+    font-weight: 700;
+  }
+
+  .page-tab.active {
+    background: linear-gradient(180deg, #3f814d, #2f6b3c);
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(47, 107, 60, 0.18);
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+    gap: 16px;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+
+  .field.full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid rgba(97, 109, 82, 0.2);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text);
+    outline: none;
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: rgba(47, 107, 60, 0.48);
+    box-shadow: 0 0 0 4px rgba(47, 107, 60, 0.1);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .status-text {
+    min-height: 22px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .status-text.success {
+    color: var(--green-deep);
+  }
+
+  .status-text.error {
+    color: var(--danger);
+  }
+
+  .empty-state {
+    padding: 22px;
+    border: 1px dashed rgba(97, 109, 82, 0.24);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.56);
+    color: var(--muted);
+  }
+
+  .card-stack {
+    display: grid;
+    gap: 14px;
+  }
+
+  .record-card {
+    padding: 18px;
+    border: 1px solid rgba(97, 109, 82, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.78);
+  }
+
+  .record-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .record-header h4 {
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  .meta-line {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(230, 242, 223, 0.9);
+    color: var(--green-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .chip.alt {
+    background: rgba(232, 241, 246, 0.9);
+    color: #446475;
+  }
+
+  .chip.warm {
+    background: rgba(255, 240, 213, 0.92);
+    color: #8b5a0a;
+  }
+
+  .record-card p {
+    color: var(--muted);
+  }
+
+  .record-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .link-btn {
+    background: transparent;
+    color: var(--green-deep);
+    padding: 0;
+    font-weight: 700;
+  }
+
+  .link-btn.danger {
+    color: var(--danger);
+  }
+
+  .task-toggle {
+    min-height: 38px;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(97, 109, 82, 0.16);
+    color: var(--green-deep);
+    font-weight: 700;
+  }
+
+  .task-toggle.done {
+    background: var(--green-soft);
+  }
+
+  .checklist {
+    display: grid;
+    gap: 10px;
+  }
+
+  .check-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 13px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(97, 109, 82, 0.14);
+  }
+
+  .check-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--green);
+  }
+
+  .check-row strong {
+    display: block;
+  }
+
+  .photo-queue,
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .photo-tile {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    border: 1px solid rgba(97, 109, 82, 0.14);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .photo-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-caption {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    word-break: break-word;
+  }
+
+  .photo-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(20, 32, 19, 0.74);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .journal-copy {
+    display: grid;
+    gap: 10px;
+  }
+
+  .journal-copy section {
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .journal-copy h5 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .note-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .helper-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 16px;
+  }
+
+  .helper-card {
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(97, 109, 82, 0.14);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .helper-card ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+    color: var(--muted);
+  }
+
+  .toast {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    max-width: 320px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(20, 32, 19, 0.92);
+    color: #ffffff;
+    box-shadow: 0 18px 34px rgba(20, 32, 19, 0.22);
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 1080px) {
+    .hero,
+    .overview-grid,
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    main {
+      padding: 18px 16px 44px;
+    }
+
+    .hero-copy,
+    .hero-side {
+      padding: 24px 20px 22px;
+      border-radius: 24px;
+    }
+
+    .summary-grid,
+    .helper-grid,
+    .field-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .panel-head,
+    .panel-body {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .record-header {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="gardening"></site-nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Personal Garden</div>
+      <h1>Gardening Journal</h1>
+      <p class="hero-text">Track what you plant, what you learn, what needs attention next, and how the garden changes over time. Photos stay attached to journal entries so you can compare progress week by week.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="exportBackupBtn" type="button">Export backup</button>
+        <button class="btn btn-secondary" id="importBackupBtn" type="button">Import backup</button>
+        <input id="importBackupInput" type="file" accept="application/json" hidden />
+      </div>
+      <p class="storage-note">Everything is local-first. Notes live in this browser, and progress photos are compressed then stored in browser storage.</p>
+    </div>
+    <div class="hero-side">
+      <div class="hero-grid">
+        <div class="micro-card">
+          <h3>New gardener starter rhythm</h3>
+          <ul>
+            <li>Look at the garden every day before changing anything.</li>
+            <li>Track sun, watering, and pests before buying more plants.</li>
+            <li>Write down one lesson after each setback so it compounds.</li>
+          </ul>
+        </div>
+        <div class="micro-card">
+          <h3>Progress logging works best when it is small</h3>
+          <p>Use short journal entries with one photo, one win, one problem, and one next step. That is enough to build a real growing record.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="summary-grid" aria-label="Garden summary">
+    <article class="summary-card">
+      <div class="label">Active plants</div>
+      <div class="value" id="summaryPlantCount">0</div>
+      <div class="subtext" id="summaryPlantSubtext">No plants tracked yet.</div>
+    </article>
+    <article class="summary-card">
+      <div class="label">Open tasks</div>
+      <div class="value" id="summaryTaskCount">0</div>
+      <div class="subtext" id="summaryTaskSubtext">Nothing due right now.</div>
+    </article>
+    <article class="summary-card">
+      <div class="label">Journal entries</div>
+      <div class="value" id="summaryEntryCount">0</div>
+      <div class="subtext" id="summaryEntrySubtext">Start with one simple note.</div>
+    </article>
+    <article class="summary-card">
+      <div class="label">Knowledge notes</div>
+      <div class="value" id="summaryNoteCount">0</div>
+      <div class="subtext" id="summaryNoteSubtext">Capture tips before they disappear.</div>
+    </article>
+  </section>
+
+  <div class="page-tabs" role="tablist" aria-label="Gardening journal sections">
+    <button class="page-tab active" type="button" data-tab="overview" aria-selected="true">Overview</button>
+    <button class="page-tab" type="button" data-tab="plants" aria-selected="false">Plants</button>
+    <button class="page-tab" type="button" data-tab="tasks" aria-selected="false">Tasks</button>
+    <button class="page-tab" type="button" data-tab="journal" aria-selected="false">Journal</button>
+    <button class="page-tab" type="button" data-tab="knowledge" aria-selected="false">Knowledge</button>
+  </div>
+
+  <section class="tab-panel active" id="tab-overview" role="tabpanel" aria-label="Overview">
+    <div class="overview-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>This week</h2>
+            <p>Actionable focus pulled from the tasks and plant records below.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="focus-list" id="overviewFocusList"></div>
+          <div class="helper-grid">
+            <div class="helper-card">
+              <h3>Observation prompts</h3>
+              <ul>
+                <li>What changed since the last photo?</li>
+                <li>Which plant looks stressed first?</li>
+                <li>Is the soil still moist one inch down?</li>
+                <li>What will you check again in 48 hours?</li>
+              </ul>
+            </div>
+            <div class="helper-card">
+              <h3>Beginner reminders</h3>
+              <ul>
+                <li>Start with a few crops you actually want to eat or enjoy seeing.</li>
+                <li>Label varieties early. You will forget faster than you expect.</li>
+                <li>Plants in containers usually need water more often than in-ground beds.</li>
+                <li>One clear note beats a long note you never write.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="card-stack">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Starter checklist</h2>
+              <p>Good early systems prevent avoidable beginner mistakes.</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="checklist" id="starterChecklist"></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Growth stages</h2>
+              <p>A quick count of what stage your garden is in right now.</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="stage-list" id="overviewStageList"></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Latest notes</h2>
+              <p>Your most recent progress log and knowledge capture.</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="compact-list" id="overviewLatestList"></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-plants" role="tabpanel" aria-label="Plants">
+    <div class="content-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Plant tracker</h2>
+            <p>One record per crop or flower so you can follow each growing cycle.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <form id="plantForm">
+            <div class="field-grid">
+              <div class="field">
+                <label for="plantName">Plant name</label>
+                <input id="plantName" name="plantName" type="text" placeholder="Tomato, zinnia, basil" required />
+              </div>
+              <div class="field">
+                <label for="plantCategory">Type</label>
+                <select id="plantCategory" name="plantCategory">
+                  <option>Vegetable</option>
+                  <option>Flower</option>
+                  <option>Herb</option>
+                  <option>Fruit</option>
+                  <option>Houseplant</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="plantVariety">Variety</label>
+                <input id="plantVariety" name="plantVariety" type="text" placeholder="Sun Gold, Black Krim, Cosmos Mix" />
+              </div>
+              <div class="field">
+                <label for="plantLocation">Location</label>
+                <input id="plantLocation" name="plantLocation" type="text" placeholder="Raised bed A, balcony pot, front border" />
+              </div>
+              <div class="field">
+                <label for="plantStartDate">Started or planted</label>
+                <input id="plantStartDate" name="plantStartDate" type="date" />
+              </div>
+              <div class="field">
+                <label for="plantStage">Current stage</label>
+                <select id="plantStage" name="plantStage">
+                  <option value="Planning">Planning</option>
+                  <option value="Sown">Sown</option>
+                  <option value="Germinating">Germinating</option>
+                  <option value="Seedling">Seedling</option>
+                  <option value="Transplanted">Transplanted</option>
+                  <option value="Flowering">Flowering</option>
+                  <option value="Fruiting">Fruiting</option>
+                  <option value="Harvesting">Harvesting</option>
+                  <option value="Finished">Finished</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="plantSunlight">Sunlight</label>
+                <select id="plantSunlight" name="plantSunlight">
+                  <option value="">Select one</option>
+                  <option>Full sun</option>
+                  <option>Part sun</option>
+                  <option>Bright shade</option>
+                  <option>Shade</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="plantWatering">Watering rhythm</label>
+                <input id="plantWatering" name="plantWatering" type="text" placeholder="Check daily, deep water every 2-3 days" />
+              </div>
+              <div class="field full">
+                <label for="plantNotes">Notes</label>
+                <textarea id="plantNotes" name="plantNotes" placeholder="Seed source, spacing, fertilizer, problems to watch, companion plants"></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit" id="plantSaveBtn">Save plant</button>
+              <button class="btn btn-ghost" type="button" id="plantCancelBtn" hidden>Cancel edit</button>
+            </div>
+            <div class="status-text" id="plantStatusText" aria-live="polite"></div>
+          </form>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Tracked plants</h2>
+            <p>Use journal entries for day-by-day progress and keep the plant card as the long-term reference.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="card-stack" id="plantList"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-tasks" role="tabpanel" aria-label="Tasks">
+    <div class="content-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Task tracker</h2>
+            <p>Record the next important care step instead of trying to remember everything.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <form id="taskForm">
+            <div class="field-grid">
+              <div class="field full">
+                <label for="taskTitle">Task</label>
+                <input id="taskTitle" name="taskTitle" type="text" placeholder="Feed tomatoes, direct sow carrots, deadhead zinnias" required />
+              </div>
+              <div class="field">
+                <label for="taskPlantId">Linked plant</label>
+                <select id="taskPlantId" name="taskPlantId"></select>
+              </div>
+              <div class="field">
+                <label for="taskCategory">Category</label>
+                <select id="taskCategory" name="taskCategory">
+                  <option>Water</option>
+                  <option>Feed</option>
+                  <option>Prune</option>
+                  <option>Weed</option>
+                  <option>Pest check</option>
+                  <option>Harvest</option>
+                  <option>Buy supplies</option>
+                  <option>Research</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="taskDueDate">Due date</label>
+                <input id="taskDueDate" name="taskDueDate" type="date" />
+              </div>
+              <div class="field">
+                <label for="taskPriority">Priority</label>
+                <select id="taskPriority" name="taskPriority">
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="taskNotes">Notes</label>
+                <textarea id="taskNotes" name="taskNotes" placeholder="What exactly should happen, what to observe, or what to buy"></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit" id="taskSaveBtn">Save task</button>
+              <button class="btn btn-ghost" type="button" id="taskCancelBtn" hidden>Cancel edit</button>
+            </div>
+            <div class="status-text" id="taskStatusText" aria-live="polite"></div>
+          </form>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Open and completed tasks</h2>
+            <p>Incomplete items float to the top. Overdue work is highlighted.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="card-stack" id="taskList"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-journal" role="tabpanel" aria-label="Journal">
+    <div class="content-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Progress journal</h2>
+            <p>Keep entries short: what you saw, what changed, and what you will do next.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <form id="entryForm">
+            <div class="field-grid">
+              <div class="field">
+                <label for="entryDate">Date</label>
+                <input id="entryDate" name="entryDate" type="date" />
+              </div>
+              <div class="field">
+                <label for="entryPlantId">Plant focus</label>
+                <select id="entryPlantId" name="entryPlantId"></select>
+              </div>
+              <div class="field full">
+                <label for="entryTitle">Entry title</label>
+                <input id="entryTitle" name="entryTitle" type="text" placeholder="Tomatoes finally flowering, marigolds hit by slugs" required />
+              </div>
+              <div class="field full">
+                <label for="entryWeather">Weather or conditions</label>
+                <input id="entryWeather" name="entryWeather" type="text" placeholder="Hot afternoon, rainy morning, windy balcony" />
+              </div>
+              <div class="field full">
+                <label for="entryWins">What went well</label>
+                <textarea id="entryWins" name="entryWins" placeholder="Seeds germinated, first bloom opened, no pest damage this week"></textarea>
+              </div>
+              <div class="field full">
+                <label for="entryProblems">Problems or questions</label>
+                <textarea id="entryProblems" name="entryProblems" placeholder="Leaves curling, soil staying wet, not sure if spacing is enough"></textarea>
+              </div>
+              <div class="field full">
+                <label for="entryNextStep">Next step</label>
+                <textarea id="entryNextStep" name="entryNextStep" placeholder="Stake the tomatoes, thin seedlings, check for aphids again on Thursday"></textarea>
+              </div>
+              <div class="field full">
+                <label for="entryPhotos">Progress photos</label>
+                <input id="entryPhotos" name="entryPhotos" type="file" accept="image/*" capture="environment" multiple />
+                <div class="photo-queue" id="entryPhotoQueue"></div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit" id="entrySaveBtn">Save entry</button>
+              <button class="btn btn-ghost" type="button" id="entryCancelBtn" hidden>Cancel edit</button>
+            </div>
+            <div class="status-text" id="entryStatusText" aria-live="polite"></div>
+          </form>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Journal timeline</h2>
+            <p>Photos stay attached to each note so you can compare progress over time.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="card-stack" id="entryList"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-knowledge" role="tabpanel" aria-label="Knowledge">
+    <div class="content-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Knowledge vault</h2>
+            <p>Capture growing rules, links, spacing numbers, and lessons from mistakes in one place.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <form id="noteForm">
+            <div class="field-grid">
+              <div class="field full">
+                <label for="noteTopic">Topic</label>
+                <input id="noteTopic" name="noteTopic" type="text" placeholder="When to water containers, how to prune basil, slug control" required />
+              </div>
+              <div class="field">
+                <label for="noteTags">Tags</label>
+                <input id="noteTags" name="noteTags" type="text" placeholder="tomatoes, pests, watering" />
+              </div>
+              <div class="field">
+                <label for="noteSource">Source</label>
+                <input id="noteSource" name="noteSource" type="text" placeholder="Book title, nursery tip, article link" />
+              </div>
+              <div class="field full">
+                <label for="noteBody">Knowledge note</label>
+                <textarea id="noteBody" name="noteBody" placeholder="The exact rule or observation worth keeping"></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit" id="noteSaveBtn">Save note</button>
+              <button class="btn btn-ghost" type="button" id="noteCancelBtn" hidden>Cancel edit</button>
+            </div>
+            <div class="status-text" id="noteStatusText" aria-live="polite"></div>
+          </form>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Saved knowledge</h2>
+            <p>Short reusable notes beat re-searching the same problem next month.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="card-stack" id="noteList"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const STORAGE_KEY = "personal-gardening-journal-v1";
+  const PHOTO_DB_NAME = "personal-gardening-journal-photos";
+  const PHOTO_STORE_NAME = "photos";
+  const BEGINNER_CHECKLIST = [
+    {
+      id: "sun-map",
+      title: "Map your sunlight",
+      description: "Note which spots truly get 6+ hours of direct sun before you decide what goes there."
+    },
+    {
+      id: "label-everything",
+      title: "Label seeds and transplants",
+      description: "Variety names matter later when growth, flavor, and disease resistance differ."
+    },
+    {
+      id: "small-first",
+      title: "Start smaller than your ambition",
+      description: "It is easier to expand after a good season than to rescue too many stressed plants."
+    },
+    {
+      id: "soil-check",
+      title: "Check soil moisture before watering",
+      description: "Touch the soil first. Overwatering is a beginner mistake, not a sign of care."
+    }
+  ];
+
+  const DEFAULT_STATE = Object.freeze({
+    plants: [],
+    tasks: [],
+    entries: [],
+    notes: [],
+    checklist: Object.freeze(
+      BEGINNER_CHECKLIST.reduce((accumulator, item) => {
+        accumulator[item.id] = false;
+        return accumulator;
+      }, {})
+    )
+  });
+
+  const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
+  const uiState = {
+    activeTab: "overview",
+    editingPlantId: null,
+    editingTaskId: null,
+    editingEntryId: null,
+    editingNoteId: null,
+    pendingPhotos: []
+  };
+
+  let gardenState = loadState();
+  let photoDatabasePromise = null;
+  let toastTimer = null;
+
+  const dateFormatter = new Intl.DateTimeFormat(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+
+  const shortDateFormatter = new Intl.DateTimeFormat(undefined, {
+    month: "short",
+    day: "numeric"
+  });
+
+  const plantForm = document.getElementById("plantForm");
+  const taskForm = document.getElementById("taskForm");
+  const entryForm = document.getElementById("entryForm");
+  const noteForm = document.getElementById("noteForm");
+
+  document.querySelectorAll("[data-tab]").forEach((button) => {
+    button.addEventListener("click", () => setActiveTab(button.dataset.tab));
+  });
+
+  document.getElementById("plantCancelBtn").addEventListener("click", resetPlantForm);
+  document.getElementById("taskCancelBtn").addEventListener("click", resetTaskForm);
+  document.getElementById("entryCancelBtn").addEventListener("click", resetEntryForm);
+  document.getElementById("noteCancelBtn").addEventListener("click", resetNoteForm);
+  document.getElementById("entryPhotos").addEventListener("change", handlePendingPhotoQueue);
+  document.getElementById("exportBackupBtn").addEventListener("click", exportBackup);
+  document.getElementById("importBackupBtn").addEventListener("click", () => document.getElementById("importBackupInput").click());
+  document.getElementById("importBackupInput").addEventListener("change", importBackup);
+
+  plantForm.addEventListener("submit", handlePlantSubmit);
+  taskForm.addEventListener("submit", handleTaskSubmit);
+  entryForm.addEventListener("submit", handleEntrySubmit);
+  noteForm.addEventListener("submit", handleNoteSubmit);
+
+  initialize();
+
+  async function initialize() {
+    setDefaultDates();
+    hydrateTabFromHash();
+    syncPlantSelectors();
+    renderPendingPhotoQueue();
+    await renderAll();
+    window.addEventListener("hashchange", hydrateTabFromHash);
+  }
+
+  function loadState() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (!raw || typeof raw !== "object") {
+        return freshState();
+      }
+      return normalizeState(raw);
+    } catch (error) {
+      return freshState();
+    }
+  }
+
+  function freshState() {
+    return {
+      plants: [],
+      tasks: [],
+      entries: [],
+      notes: [],
+      checklist: { ...DEFAULT_STATE.checklist }
+    };
+  }
+
+  function normalizeState(raw) {
+    return {
+      plants: Array.isArray(raw.plants) ? raw.plants.map(normalizePlant).filter(Boolean) : [],
+      tasks: Array.isArray(raw.tasks) ? raw.tasks.map(normalizeTask).filter(Boolean) : [],
+      entries: Array.isArray(raw.entries) ? raw.entries.map(normalizeEntry).filter(Boolean) : [],
+      notes: Array.isArray(raw.notes) ? raw.notes.map(normalizeNote).filter(Boolean) : [],
+      checklist: normalizeChecklist(raw.checklist)
+    };
+  }
+
+  function normalizeChecklist(rawChecklist) {
+    const checklist = { ...DEFAULT_STATE.checklist };
+    if (!rawChecklist || typeof rawChecklist !== "object") {
+      return checklist;
+    }
+    for (const item of BEGINNER_CHECKLIST) {
+      checklist[item.id] = Boolean(rawChecklist[item.id]);
+    }
+    return checklist;
+  }
+
+  function normalizePlant(item) {
+    if (!item || typeof item !== "object" || !item.id || !item.name) {
+      return null;
+    }
+    return {
+      id: String(item.id),
+      name: String(item.name).trim(),
+      category: String(item.category || "Other").trim() || "Other",
+      variety: String(item.variety || "").trim(),
+      location: String(item.location || "").trim(),
+      startDate: normalizeDateValue(item.startDate),
+      stage: String(item.stage || "Planning").trim() || "Planning",
+      sunlight: String(item.sunlight || "").trim(),
+      watering: String(item.watering || "").trim(),
+      notes: String(item.notes || "").trim(),
+      createdAt: String(item.createdAt || new Date().toISOString()),
+      updatedAt: String(item.updatedAt || new Date().toISOString())
+    };
+  }
+
+  function normalizeTask(item) {
+    if (!item || typeof item !== "object" || !item.id || !item.title) {
+      return null;
+    }
+    return {
+      id: String(item.id),
+      title: String(item.title).trim(),
+      plantId: String(item.plantId || "").trim(),
+      category: String(item.category || "Other").trim() || "Other",
+      dueDate: normalizeDateValue(item.dueDate),
+      priority: String(item.priority || "Medium").trim() || "Medium",
+      notes: String(item.notes || "").trim(),
+      completed: Boolean(item.completed),
+      completedAt: item.completedAt ? String(item.completedAt) : "",
+      createdAt: String(item.createdAt || new Date().toISOString()),
+      updatedAt: String(item.updatedAt || new Date().toISOString())
+    };
+  }
+
+  function normalizeEntry(item) {
+    if (!item || typeof item !== "object" || !item.id || !item.title) {
+      return null;
+    }
+    return {
+      id: String(item.id),
+      title: String(item.title).trim(),
+      date: normalizeDateValue(item.date) || todayIsoDate(),
+      plantId: String(item.plantId || "").trim(),
+      weather: String(item.weather || "").trim(),
+      wins: String(item.wins || "").trim(),
+      problems: String(item.problems || "").trim(),
+      nextStep: String(item.nextStep || "").trim(),
+      photoIds: Array.isArray(item.photoIds) ? item.photoIds.map((photoId) => String(photoId)).filter(Boolean) : [],
+      createdAt: String(item.createdAt || new Date().toISOString()),
+      updatedAt: String(item.updatedAt || new Date().toISOString())
+    };
+  }
+
+  function normalizeNote(item) {
+    if (!item || typeof item !== "object" || !item.id || !item.topic) {
+      return null;
+    }
+    return {
+      id: String(item.id),
+      topic: String(item.topic).trim(),
+      tags: String(item.tags || "").trim(),
+      source: String(item.source || "").trim(),
+      body: String(item.body || "").trim(),
+      createdAt: String(item.createdAt || new Date().toISOString()),
+      updatedAt: String(item.updatedAt || new Date().toISOString())
+    };
+  }
+
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(gardenState));
+  }
+
+  function todayIsoDate() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function normalizeDateValue(value) {
+    if (!value) {
+      return "";
+    }
+    const trimmed = String(value).trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(trimmed) ? trimmed : "";
+  }
+
+  function setDefaultDates() {
+    document.getElementById("entryDate").value = todayIsoDate();
+  }
+
+  function hydrateTabFromHash() {
+    const nextTab = (location.hash || "").replace(/^#/, "");
+    if (nextTab && document.getElementById(`tab-${nextTab}`)) {
+      setActiveTab(nextTab, false);
+      return;
+    }
+    setActiveTab(uiState.activeTab || "overview", false);
+  }
+
+  function setActiveTab(tabName, pushHash = true) {
+    if (!document.getElementById(`tab-${tabName}`)) {
+      return;
+    }
+    uiState.activeTab = tabName;
+    document.querySelectorAll("[data-tab]").forEach((button) => {
+      const isActive = button.dataset.tab === tabName;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+    document.querySelectorAll(".tab-panel").forEach((panel) => {
+      panel.classList.toggle("active", panel.id === `tab-${tabName}`);
+    });
+    if (pushHash) {
+      history.replaceState(null, "", `#${tabName}`);
+    }
+  }
+
+  function generateId(prefix) {
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
+  function plantNameById(plantId) {
+    const plant = gardenState.plants.find((item) => item.id === plantId);
+    return plant ? plant.name : "General garden";
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function formatTextBlock(value) {
+    if (!value) {
+      return "<p>No notes yet.</p>";
+    }
+    return `<p>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
+  }
+
+  function formatDisplayDate(value, short = false) {
+    if (!value) {
+      return "No date";
+    }
+    const date = new Date(`${value}T12:00:00`);
+    return Number.isNaN(date.getTime()) ? value : (short ? shortDateFormatter : dateFormatter).format(date);
+  }
+
+  function dueBadge(task) {
+    if (!task.dueDate) {
+      return `<span class="badge">No due date</span>`;
+    }
+    if (task.completed) {
+      return `<span class="badge">Done ${escapeHtml(formatDisplayDate(task.completedAt ? task.completedAt.slice(0, 10) : task.dueDate, true))}</span>`;
+    }
+    const today = todayIsoDate();
+    if (task.dueDate < today) {
+      return `<span class="badge overdue">Overdue ${escapeHtml(formatDisplayDate(task.dueDate, true))}</span>`;
+    }
+    if (task.dueDate === today) {
+      return `<span class="badge">Due today</span>`;
+    }
+    return `<span class="badge">Due ${escapeHtml(formatDisplayDate(task.dueDate, true))}</span>`;
+  }
+
+  function summarizePlantSubtext(activePlants) {
+    if (!activePlants.length) {
+      return "No plants tracked yet.";
+    }
+    const locations = new Set(activePlants.map((plant) => plant.location).filter(Boolean));
+    if (!locations.size) {
+      return `${activePlants.length} plant record${activePlants.length === 1 ? "" : "s"} started.`;
+    }
+    return `${locations.size} growing spot${locations.size === 1 ? "" : "s"} in use.`;
+  }
+
+  function summarizeTaskSubtext(openTasks) {
+    if (!openTasks.length) {
+      return "Nothing due right now.";
+    }
+    const overdueCount = openTasks.filter((task) => task.dueDate && task.dueDate < todayIsoDate()).length;
+    return overdueCount ? `${overdueCount} overdue task${overdueCount === 1 ? "" : "s"} need attention.` : "Next actions are lined up.";
+  }
+
+  function summarizeEntrySubtext(entries) {
+    if (!entries.length) {
+      return "Start with one simple note.";
+    }
+    return `Latest: ${formatDisplayDate(entries[0].date, true)}.`;
+  }
+
+  function summarizeNoteSubtext(notes) {
+    if (!notes.length) {
+      return "Capture tips before they disappear.";
+    }
+    return `Most recent topic: ${notes[0].topic}.`;
+  }
+
+  async function renderAll() {
+    syncPlantSelectors();
+    renderSummaryCards();
+    renderOverview();
+    renderPlantList();
+    renderTaskList();
+    await renderEntryList();
+    renderNoteList();
+  }
+
+  function renderSummaryCards() {
+    const activePlants = sortedPlants().filter((plant) => plant.stage !== "Finished");
+    const openTasks = sortedTasks().filter((task) => !task.completed);
+    const entries = sortedEntries();
+    const notes = sortedNotes();
+
+    document.getElementById("summaryPlantCount").textContent = String(activePlants.length);
+    document.getElementById("summaryPlantSubtext").textContent = summarizePlantSubtext(activePlants);
+    document.getElementById("summaryTaskCount").textContent = String(openTasks.length);
+    document.getElementById("summaryTaskSubtext").textContent = summarizeTaskSubtext(openTasks);
+    document.getElementById("summaryEntryCount").textContent = String(entries.length);
+    document.getElementById("summaryEntrySubtext").textContent = summarizeEntrySubtext(entries);
+    document.getElementById("summaryNoteCount").textContent = String(notes.length);
+    document.getElementById("summaryNoteSubtext").textContent = summarizeNoteSubtext(notes);
+  }
+
+  function renderOverview() {
+    renderOverviewFocus();
+    renderChecklist();
+    renderStageSummary();
+    renderLatestSummary();
+  }
+
+  function renderOverviewFocus() {
+    const container = document.getElementById("overviewFocusList");
+    const openTasks = sortedTasks().filter((task) => !task.completed);
+    const activePlants = sortedPlants().filter((plant) => plant.stage !== "Finished");
+    const recentEntry = sortedEntries()[0];
+
+    const items = [];
+
+    if (openTasks.length) {
+      const firstTask = openTasks[0];
+      items.push(`
+        <div class="focus-item">
+          <div>
+            <strong>${escapeHtml(firstTask.title)}</strong>
+            <small>${escapeHtml(plantNameById(firstTask.plantId))} · ${escapeHtml(firstTask.priority)} priority</small>
+          </div>
+          ${dueBadge(firstTask)}
+        </div>
+      `);
+    }
+
+    if (activePlants.length) {
+      const newestPlant = activePlants[0];
+      items.push(`
+        <div class="focus-item">
+          <div>
+            <strong>${escapeHtml(newestPlant.name)}</strong>
+            <small>${escapeHtml(newestPlant.stage)}${newestPlant.location ? ` · ${escapeHtml(newestPlant.location)}` : ""}</small>
+          </div>
+          <span class="tag">${escapeHtml(newestPlant.category)}</span>
+        </div>
+      `);
+    }
+
+    if (recentEntry) {
+      items.push(`
+        <div class="focus-item">
+          <div>
+            <strong>${escapeHtml(recentEntry.title)}</strong>
+            <small>${escapeHtml(formatDisplayDate(recentEntry.date, true))} · ${escapeHtml(plantNameById(recentEntry.plantId))}</small>
+          </div>
+          <span class="tag">Recent log</span>
+        </div>
+      `);
+    }
+
+    if (!items.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          Add one plant, one task, or one journal note and this area will start surfacing what matters next.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = items.join("");
+  }
+
+  function renderChecklist() {
+    const container = document.getElementById("starterChecklist");
+    container.innerHTML = BEGINNER_CHECKLIST.map((item) => `
+      <label class="check-row">
+        <input type="checkbox" data-checklist-id="${escapeHtml(item.id)}" ${gardenState.checklist[item.id] ? "checked" : ""} />
+        <span>
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.description)}</span>
+        </span>
+      </label>
+    `).join("");
+
+    container.querySelectorAll("[data-checklist-id]").forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        gardenState.checklist[checkbox.dataset.checklistId] = checkbox.checked;
+        saveState();
+        showToast("Checklist updated.");
+      });
+    });
+  }
+
+  function renderStageSummary() {
+    const container = document.getElementById("overviewStageList");
+    const plants = sortedPlants();
+    if (!plants.length) {
+      container.innerHTML = `<div class="empty-state">No stages yet. Plant records will build this automatically.</div>`;
+      return;
+    }
+
+    const counts = plants.reduce((accumulator, plant) => {
+      accumulator[plant.stage] = (accumulator[plant.stage] || 0) + 1;
+      return accumulator;
+    }, {});
+
+    const stageEntries = Object.entries(counts).sort((left, right) => right[1] - left[1]);
+    container.innerHTML = stageEntries.map(([stage, count]) => `
+      <div class="stage-item">
+        <div>
+          <strong>${escapeHtml(stage)}</strong>
+          <small>${count} plant${count === 1 ? "" : "s"}</small>
+        </div>
+        <span class="tag">${count}</span>
+      </div>
+    `).join("");
+  }
+
+  function renderLatestSummary() {
+    const container = document.getElementById("overviewLatestList");
+    const latestEntry = sortedEntries()[0];
+    const latestNote = sortedNotes()[0];
+    const items = [];
+
+    if (latestEntry) {
+      items.push(`
+        <div class="compact-item">
+          <div>
+            <strong>${escapeHtml(latestEntry.title)}</strong>
+            <small>Journal · ${escapeHtml(formatDisplayDate(latestEntry.date, true))}</small>
+          </div>
+          <span class="chip alt">${escapeHtml(plantNameById(latestEntry.plantId))}</span>
+        </div>
+      `);
+    }
+
+    if (latestNote) {
+      items.push(`
+        <div class="compact-item">
+          <div>
+            <strong>${escapeHtml(latestNote.topic)}</strong>
+            <small>Knowledge · ${escapeHtml(formatDisplayDate(latestNote.updatedAt.slice(0, 10), true))}</small>
+          </div>
+          <span class="chip warm">Saved</span>
+        </div>
+      `);
+    }
+
+    if (!items.length) {
+      container.innerHTML = `<div class="empty-state">Your latest garden notes will show up here.</div>`;
+      return;
+    }
+
+    container.innerHTML = items.join("");
+  }
+
+  function sortedPlants() {
+    return [...gardenState.plants].sort((left, right) => {
+      const rightDate = right.startDate || right.createdAt;
+      const leftDate = left.startDate || left.createdAt;
+      return String(rightDate).localeCompare(String(leftDate));
+    });
+  }
+
+  function sortedTasks() {
+    return [...gardenState.tasks].sort((left, right) => {
+      if (left.completed !== right.completed) {
+        return Number(left.completed) - Number(right.completed);
+      }
+      const leftPriority = PRIORITY_ORDER[left.priority] ?? 3;
+      const rightPriority = PRIORITY_ORDER[right.priority] ?? 3;
+      if (leftPriority !== rightPriority) {
+        return leftPriority - rightPriority;
+      }
+      const leftDue = left.dueDate || "9999-12-31";
+      const rightDue = right.dueDate || "9999-12-31";
+      if (leftDue !== rightDue) {
+        return leftDue.localeCompare(rightDue);
+      }
+      return String(right.createdAt).localeCompare(String(left.createdAt));
+    });
+  }
+
+  function sortedEntries() {
+    return [...gardenState.entries].sort((left, right) => {
+      if (left.date !== right.date) {
+        return right.date.localeCompare(left.date);
+      }
+      return String(right.createdAt).localeCompare(String(left.createdAt));
+    });
+  }
+
+  function sortedNotes() {
+    return [...gardenState.notes].sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
+  }
+
+  function renderPlantList() {
+    const container = document.getElementById("plantList");
+    const plants = sortedPlants();
+    if (!plants.length) {
+      container.innerHTML = `<div class="empty-state">No plants yet. Start with the first vegetable or flower you care about tracking.</div>`;
+      return;
+    }
+
+    container.innerHTML = plants.map((plant) => `
+      <article class="record-card">
+        <div class="record-header">
+          <div>
+            <h4>${escapeHtml(plant.name)}</h4>
+            <div class="meta-line">
+              <span class="chip">${escapeHtml(plant.category)}</span>
+              <span class="chip alt">${escapeHtml(plant.stage)}</span>
+              ${plant.location ? `<span class="chip warm">${escapeHtml(plant.location)}</span>` : ""}
+            </div>
+          </div>
+          <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "No start date")}</span>
+        </div>
+        <p>${escapeHtml(plant.variety || "No variety recorded.")}</p>
+        <div class="journal-copy" style="margin-top: 12px;">
+          <section>
+            <h5>Sun and water</h5>
+            <p>${escapeHtml([plant.sunlight, plant.watering].filter(Boolean).join(" · ") || "Add sunlight and watering details when you know them.")}</p>
+          </section>
+          <section>
+            <h5>Notes</h5>
+            ${formatTextBlock(plant.notes)}
+          </section>
+        </div>
+        <div class="record-actions">
+          <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}">Edit</button>
+          <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">Delete</button>
+        </div>
+      </article>
+    `).join("");
+
+    container.querySelectorAll("[data-edit-plant]").forEach((button) => {
+      button.addEventListener("click", () => startPlantEdit(button.dataset.editPlant));
+    });
+    container.querySelectorAll("[data-delete-plant]").forEach((button) => {
+      button.addEventListener("click", () => deletePlant(button.dataset.deletePlant));
+    });
+  }
+
+  function renderTaskList() {
+    const container = document.getElementById("taskList");
+    const tasks = sortedTasks();
+    if (!tasks.length) {
+      container.innerHTML = `<div class="empty-state">No tasks yet. Add a next action so the garden stops living only in your head.</div>`;
+      return;
+    }
+
+    container.innerHTML = tasks.map((task) => `
+      <article class="record-card">
+        <div class="record-header">
+          <div>
+            <h4>${escapeHtml(task.title)}</h4>
+            <div class="meta-line">
+              <span class="chip">${escapeHtml(task.category)}</span>
+              <span class="chip alt">${escapeHtml(task.priority)}</span>
+              ${task.plantId ? `<span class="chip warm">${escapeHtml(plantNameById(task.plantId))}</span>` : ""}
+            </div>
+          </div>
+          ${dueBadge(task)}
+        </div>
+        ${formatTextBlock(task.notes || "No task notes yet.")}
+        <div class="record-actions">
+          <button class="task-toggle ${task.completed ? "done" : ""}" type="button" data-toggle-task="${escapeHtml(task.id)}">${task.completed ? "Mark open" : "Mark done"}</button>
+          <button class="link-btn" type="button" data-edit-task="${escapeHtml(task.id)}">Edit</button>
+          <button class="link-btn danger" type="button" data-delete-task="${escapeHtml(task.id)}">Delete</button>
+        </div>
+      </article>
+    `).join("");
+
+    container.querySelectorAll("[data-toggle-task]").forEach((button) => {
+      button.addEventListener("click", () => toggleTaskComplete(button.dataset.toggleTask));
+    });
+    container.querySelectorAll("[data-edit-task]").forEach((button) => {
+      button.addEventListener("click", () => startTaskEdit(button.dataset.editTask));
+    });
+    container.querySelectorAll("[data-delete-task]").forEach((button) => {
+      button.addEventListener("click", () => deleteTask(button.dataset.deleteTask));
+    });
+  }
+
+  async function renderEntryList() {
+    const container = document.getElementById("entryList");
+    const entries = sortedEntries();
+    if (!entries.length) {
+      container.innerHTML = `<div class="empty-state">No journal entries yet. Add one photo-backed note after the next watering, pruning, or bloom.</div>`;
+      return;
+    }
+
+    const photoLists = await Promise.all(entries.map((entry) => getPhotosByIds(entry.photoIds)));
+    container.innerHTML = entries.map((entry, index) => {
+      const photos = photoLists[index];
+      return `
+        <article class="record-card">
+          <div class="record-header">
+            <div>
+              <h4>${escapeHtml(entry.title)}</h4>
+              <div class="meta-line">
+                <span class="chip">${escapeHtml(formatDisplayDate(entry.date, true))}</span>
+                <span class="chip alt">${escapeHtml(plantNameById(entry.plantId))}</span>
+                ${entry.weather ? `<span class="chip warm">${escapeHtml(entry.weather)}</span>` : ""}
+              </div>
+            </div>
+          </div>
+          <div class="journal-copy">
+            <section>
+              <h5>What went well</h5>
+              ${formatTextBlock(entry.wins)}
+            </section>
+            <section>
+              <h5>Problems or questions</h5>
+              ${formatTextBlock(entry.problems)}
+            </section>
+            <section>
+              <h5>Next step</h5>
+              ${formatTextBlock(entry.nextStep)}
+            </section>
+          </div>
+          ${renderPhotoGrid(photos, entry.id)}
+          <div class="record-actions">
+            <button class="link-btn" type="button" data-edit-entry="${escapeHtml(entry.id)}">Edit</button>
+            <button class="link-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    container.querySelectorAll("[data-edit-entry]").forEach((button) => {
+      button.addEventListener("click", () => startEntryEdit(button.dataset.editEntry));
+    });
+    container.querySelectorAll("[data-delete-entry]").forEach((button) => {
+      button.addEventListener("click", () => deleteEntry(button.dataset.deleteEntry));
+    });
+    container.querySelectorAll("[data-remove-photo]").forEach((button) => {
+      button.addEventListener("click", () => removeEntryPhoto(button.dataset.entryId, button.dataset.removePhoto));
+    });
+  }
+
+  function renderPhotoGrid(photos, entryId) {
+    if (!photos.length) {
+      return "";
+    }
+    return `
+      <div class="photo-grid" style="margin-top: 14px;">
+        ${photos.map((photo) => `
+          <div>
+            <div class="photo-tile">
+              <img src="${photo.dataUrl}" alt="${escapeHtml(photo.name || "Garden progress photo")}" />
+              <button class="photo-remove" type="button" title="Remove photo" data-entry-id="${escapeHtml(entryId)}" data-remove-photo="${escapeHtml(photo.id)}">x</button>
+            </div>
+            <div class="photo-caption">${escapeHtml(photo.name || "Progress photo")}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function renderNoteList() {
+    const container = document.getElementById("noteList");
+    const notes = sortedNotes();
+    if (!notes.length) {
+      container.innerHTML = `<div class="empty-state">No knowledge saved yet. Record rules, links, or lessons you do not want to re-learn the hard way.</div>`;
+      return;
+    }
+
+    container.innerHTML = notes.map((note) => `
+      <article class="record-card">
+        <div class="record-header">
+          <div>
+            <h4>${escapeHtml(note.topic)}</h4>
+            <div class="meta-line">
+              ${note.source ? `<span class="chip">${escapeHtml(note.source)}</span>` : `<span class="chip">Personal note</span>`}
+              <span class="chip alt">${escapeHtml(formatDisplayDate(note.updatedAt.slice(0, 10), true))}</span>
+            </div>
+          </div>
+        </div>
+        ${formatTextBlock(note.body)}
+        ${renderTagRow(note.tags)}
+        <div class="record-actions">
+          <button class="link-btn" type="button" data-edit-note="${escapeHtml(note.id)}">Edit</button>
+          <button class="link-btn danger" type="button" data-delete-note="${escapeHtml(note.id)}">Delete</button>
+        </div>
+      </article>
+    `).join("");
+
+    container.querySelectorAll("[data-edit-note]").forEach((button) => {
+      button.addEventListener("click", () => startNoteEdit(button.dataset.editNote));
+    });
+    container.querySelectorAll("[data-delete-note]").forEach((button) => {
+      button.addEventListener("click", () => deleteNote(button.dataset.deleteNote));
+    });
+  }
+
+  function renderTagRow(rawTags) {
+    const tags = rawTags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+    if (!tags.length) {
+      return "";
+    }
+    return `
+      <div class="note-tags">
+        ${tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}
+      </div>
+    `;
+  }
+
+  function syncPlantSelectors() {
+    const options = [`<option value="">General garden</option>`].concat(
+      sortedPlants().map((plant) => `<option value="${escapeHtml(plant.id)}">${escapeHtml(plant.name)}</option>`)
+    ).join("");
+    document.getElementById("taskPlantId").innerHTML = options;
+    document.getElementById("entryPlantId").innerHTML = options;
+  }
+
+  function getFormData(form) {
+    return Object.fromEntries(new FormData(form).entries());
+  }
+
+  function setStatus(elementId, message, type = "") {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.className = `status-text${type ? ` ${type}` : ""}`;
+  }
+
+  function clearStatus(elementId) {
+    setStatus(elementId, "", "");
+  }
+
+  async function handlePlantSubmit(event) {
+    event.preventDefault();
+    const values = getFormData(plantForm);
+    const now = new Date().toISOString();
+    const existing = uiState.editingPlantId ? gardenState.plants.find((plant) => plant.id === uiState.editingPlantId) : null;
+    const plant = normalizePlant({
+      id: existing ? existing.id : generateId("plant"),
+      name: values.plantName,
+      category: values.plantCategory,
+      variety: values.plantVariety,
+      location: values.plantLocation,
+      startDate: values.plantStartDate,
+      stage: values.plantStage,
+      sunlight: values.plantSunlight,
+      watering: values.plantWatering,
+      notes: values.plantNotes,
+      createdAt: existing ? existing.createdAt : now,
+      updatedAt: now
+    });
+
+    if (!plant) {
+      setStatus("plantStatusText", "Plant name is required.", "error");
+      return;
+    }
+
+    if (existing) {
+      gardenState.plants = gardenState.plants.map((item) => item.id === existing.id ? plant : item);
+    } else {
+      gardenState.plants.push(plant);
+    }
+
+    saveState();
+    resetPlantForm();
+    syncPlantSelectors();
+    await renderAll();
+    setStatus("plantStatusText", existing ? "Plant updated." : "Plant saved.", "success");
+    showToast(existing ? "Plant updated." : "Plant saved.");
+  }
+
+  async function handleTaskSubmit(event) {
+    event.preventDefault();
+    const values = getFormData(taskForm);
+    const now = new Date().toISOString();
+    const existing = uiState.editingTaskId ? gardenState.tasks.find((task) => task.id === uiState.editingTaskId) : null;
+    const task = normalizeTask({
+      id: existing ? existing.id : generateId("task"),
+      title: values.taskTitle,
+      plantId: values.taskPlantId,
+      category: values.taskCategory,
+      dueDate: values.taskDueDate,
+      priority: values.taskPriority,
+      notes: values.taskNotes,
+      completed: existing ? existing.completed : false,
+      completedAt: existing ? existing.completedAt : "",
+      createdAt: existing ? existing.createdAt : now,
+      updatedAt: now
+    });
+
+    if (!task) {
+      setStatus("taskStatusText", "Task title is required.", "error");
+      return;
+    }
+
+    if (existing) {
+      gardenState.tasks = gardenState.tasks.map((item) => item.id === existing.id ? task : item);
+    } else {
+      gardenState.tasks.push(task);
+    }
+
+    saveState();
+    resetTaskForm();
+    await renderAll();
+    setStatus("taskStatusText", existing ? "Task updated." : "Task saved.", "success");
+    showToast(existing ? "Task updated." : "Task saved.");
+  }
+
+  async function handleEntrySubmit(event) {
+    event.preventDefault();
+    const values = getFormData(entryForm);
+    const now = new Date().toISOString();
+    const existing = uiState.editingEntryId ? gardenState.entries.find((entry) => entry.id === uiState.editingEntryId) : null;
+    const photoIds = existing ? [...existing.photoIds] : [];
+
+    if (uiState.pendingPhotos.length) {
+      setStatus("entryStatusText", "Saving photos...", "");
+      for (const file of uiState.pendingPhotos) {
+        const photoRecord = await createPhotoRecord(file, existing ? existing.id : null);
+        photoIds.push(photoRecord.id);
+      }
+    }
+
+    const entryId = existing ? existing.id : generateId("entry");
+    const entry = normalizeEntry({
+      id: entryId,
+      title: values.entryTitle,
+      date: values.entryDate || todayIsoDate(),
+      plantId: values.entryPlantId,
+      weather: values.entryWeather,
+      wins: values.entryWins,
+      problems: values.entryProblems,
+      nextStep: values.entryNextStep,
+      photoIds,
+      createdAt: existing ? existing.createdAt : now,
+      updatedAt: now
+    });
+
+    if (!entry) {
+      setStatus("entryStatusText", "Entry title is required.", "error");
+      return;
+    }
+
+    if (uiState.pendingPhotos.length) {
+      await reassignPendingPhotosToEntry(entry.id, photoIds);
+    }
+
+    if (existing) {
+      gardenState.entries = gardenState.entries.map((item) => item.id === existing.id ? entry : item);
+    } else {
+      gardenState.entries.push(entry);
+    }
+
+    saveState();
+    resetEntryForm();
+    await renderAll();
+    setStatus("entryStatusText", existing ? "Journal entry updated." : "Journal entry saved.", "success");
+    showToast(existing ? "Journal entry updated." : "Journal entry saved.");
+  }
+
+  async function handleNoteSubmit(event) {
+    event.preventDefault();
+    const values = getFormData(noteForm);
+    const now = new Date().toISOString();
+    const existing = uiState.editingNoteId ? gardenState.notes.find((note) => note.id === uiState.editingNoteId) : null;
+    const note = normalizeNote({
+      id: existing ? existing.id : generateId("note"),
+      topic: values.noteTopic,
+      tags: values.noteTags,
+      source: values.noteSource,
+      body: values.noteBody,
+      createdAt: existing ? existing.createdAt : now,
+      updatedAt: now
+    });
+
+    if (!note) {
+      setStatus("noteStatusText", "Topic is required.", "error");
+      return;
+    }
+
+    if (existing) {
+      gardenState.notes = gardenState.notes.map((item) => item.id === existing.id ? note : item);
+    } else {
+      gardenState.notes.push(note);
+    }
+
+    saveState();
+    resetNoteForm();
+    renderNoteList();
+    renderSummaryCards();
+    renderOverview();
+    setStatus("noteStatusText", existing ? "Knowledge note updated." : "Knowledge note saved.", "success");
+    showToast(existing ? "Knowledge note updated." : "Knowledge note saved.");
+  }
+
+  function startPlantEdit(plantId) {
+    const plant = gardenState.plants.find((item) => item.id === plantId);
+    if (!plant) {
+      return;
+    }
+    uiState.editingPlantId = plant.id;
+    plantForm.plantName.value = plant.name;
+    plantForm.plantCategory.value = plant.category;
+    plantForm.plantVariety.value = plant.variety;
+    plantForm.plantLocation.value = plant.location;
+    plantForm.plantStartDate.value = plant.startDate;
+    plantForm.plantStage.value = plant.stage;
+    plantForm.plantSunlight.value = plant.sunlight;
+    plantForm.plantWatering.value = plant.watering;
+    plantForm.plantNotes.value = plant.notes;
+    document.getElementById("plantSaveBtn").textContent = "Update plant";
+    document.getElementById("plantCancelBtn").hidden = false;
+    clearStatus("plantStatusText");
+    setActiveTab("plants");
+    plantForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function startTaskEdit(taskId) {
+    const task = gardenState.tasks.find((item) => item.id === taskId);
+    if (!task) {
+      return;
+    }
+    uiState.editingTaskId = task.id;
+    taskForm.taskTitle.value = task.title;
+    taskForm.taskPlantId.value = task.plantId;
+    taskForm.taskCategory.value = task.category;
+    taskForm.taskDueDate.value = task.dueDate;
+    taskForm.taskPriority.value = task.priority;
+    taskForm.taskNotes.value = task.notes;
+    document.getElementById("taskSaveBtn").textContent = "Update task";
+    document.getElementById("taskCancelBtn").hidden = false;
+    clearStatus("taskStatusText");
+    setActiveTab("tasks");
+    taskForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function startEntryEdit(entryId) {
+    const entry = gardenState.entries.find((item) => item.id === entryId);
+    if (!entry) {
+      return;
+    }
+    uiState.editingEntryId = entry.id;
+    entryForm.entryDate.value = entry.date;
+    entryForm.entryPlantId.value = entry.plantId;
+    entryForm.entryTitle.value = entry.title;
+    entryForm.entryWeather.value = entry.weather;
+    entryForm.entryWins.value = entry.wins;
+    entryForm.entryProblems.value = entry.problems;
+    entryForm.entryNextStep.value = entry.nextStep;
+    uiState.pendingPhotos = [];
+    document.getElementById("entryPhotos").value = "";
+    renderPendingPhotoQueue();
+    document.getElementById("entrySaveBtn").textContent = "Update entry";
+    document.getElementById("entryCancelBtn").hidden = false;
+    clearStatus("entryStatusText");
+    setStatus("entryStatusText", `Editing entry. Existing photos stay attached unless you remove them from the timeline.`, "");
+    setActiveTab("journal");
+    entryForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function startNoteEdit(noteId) {
+    const note = gardenState.notes.find((item) => item.id === noteId);
+    if (!note) {
+      return;
+    }
+    uiState.editingNoteId = note.id;
+    noteForm.noteTopic.value = note.topic;
+    noteForm.noteTags.value = note.tags;
+    noteForm.noteSource.value = note.source;
+    noteForm.noteBody.value = note.body;
+    document.getElementById("noteSaveBtn").textContent = "Update note";
+    document.getElementById("noteCancelBtn").hidden = false;
+    clearStatus("noteStatusText");
+    setActiveTab("knowledge");
+    noteForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function resetPlantForm() {
+    uiState.editingPlantId = null;
+    plantForm.reset();
+    plantForm.plantCategory.value = "Vegetable";
+    plantForm.plantStage.value = "Planning";
+    document.getElementById("plantSaveBtn").textContent = "Save plant";
+    document.getElementById("plantCancelBtn").hidden = true;
+    clearStatus("plantStatusText");
+  }
+
+  function resetTaskForm() {
+    uiState.editingTaskId = null;
+    taskForm.reset();
+    taskForm.taskCategory.value = "Water";
+    taskForm.taskPriority.value = "High";
+    taskForm.taskPlantId.value = "";
+    document.getElementById("taskSaveBtn").textContent = "Save task";
+    document.getElementById("taskCancelBtn").hidden = true;
+    clearStatus("taskStatusText");
+  }
+
+  function resetEntryForm() {
+    uiState.editingEntryId = null;
+    uiState.pendingPhotos = [];
+    entryForm.reset();
+    entryForm.entryDate.value = todayIsoDate();
+    entryForm.entryPlantId.value = "";
+    document.getElementById("entryPhotos").value = "";
+    document.getElementById("entrySaveBtn").textContent = "Save entry";
+    document.getElementById("entryCancelBtn").hidden = true;
+    renderPendingPhotoQueue();
+    clearStatus("entryStatusText");
+  }
+
+  function resetNoteForm() {
+    uiState.editingNoteId = null;
+    noteForm.reset();
+    document.getElementById("noteSaveBtn").textContent = "Save note";
+    document.getElementById("noteCancelBtn").hidden = true;
+    clearStatus("noteStatusText");
+  }
+
+  async function deletePlant(plantId) {
+    const relatedTasks = gardenState.tasks.filter((task) => task.plantId === plantId).length;
+    const relatedEntries = gardenState.entries.filter((entry) => entry.plantId === plantId).length;
+    const warning = relatedTasks || relatedEntries
+      ? `This plant is linked to ${relatedTasks} task(s) and ${relatedEntries} journal entry(s). Delete it anyway? Linked items will become general garden items.`
+      : "Delete this plant record?";
+    if (!window.confirm(warning)) {
+      return;
+    }
+    gardenState.plants = gardenState.plants.filter((plant) => plant.id !== plantId);
+    gardenState.tasks = gardenState.tasks.map((task) => task.plantId === plantId ? { ...task, plantId: "" } : task);
+    gardenState.entries = gardenState.entries.map((entry) => entry.plantId === plantId ? { ...entry, plantId: "" } : entry);
+    saveState();
+    if (uiState.editingPlantId === plantId) {
+      resetPlantForm();
+    }
+    await renderAll();
+    showToast("Plant deleted.");
+  }
+
+  async function toggleTaskComplete(taskId) {
+    gardenState.tasks = gardenState.tasks.map((task) => {
+      if (task.id !== taskId) {
+        return task;
+      }
+      const completed = !task.completed;
+      return {
+        ...task,
+        completed,
+        completedAt: completed ? new Date().toISOString() : "",
+        updatedAt: new Date().toISOString()
+      };
+    });
+    saveState();
+    await renderAll();
+    showToast("Task updated.");
+  }
+
+  async function deleteTask(taskId) {
+    if (!window.confirm("Delete this task?")) {
+      return;
+    }
+    gardenState.tasks = gardenState.tasks.filter((task) => task.id !== taskId);
+    saveState();
+    if (uiState.editingTaskId === taskId) {
+      resetTaskForm();
+    }
+    await renderAll();
+    showToast("Task deleted.");
+  }
+
+  async function deleteEntry(entryId) {
+    if (!window.confirm("Delete this journal entry and its saved photos?")) {
+      return;
+    }
+    const entry = gardenState.entries.find((item) => item.id === entryId);
+    if (!entry) {
+      return;
+    }
+    await Promise.all(entry.photoIds.map((photoId) => deletePhoto(photoId)));
+    gardenState.entries = gardenState.entries.filter((item) => item.id !== entryId);
+    saveState();
+    if (uiState.editingEntryId === entryId) {
+      resetEntryForm();
+    }
+    await renderAll();
+    showToast("Journal entry deleted.");
+  }
+
+  async function removeEntryPhoto(entryId, photoId) {
+    if (!window.confirm("Remove this photo from the journal entry?")) {
+      return;
+    }
+    const entry = gardenState.entries.find((item) => item.id === entryId);
+    if (!entry) {
+      return;
+    }
+    await deletePhoto(photoId);
+    gardenState.entries = gardenState.entries.map((item) => {
+      if (item.id !== entryId) {
+        return item;
+      }
+      return {
+        ...item,
+        photoIds: item.photoIds.filter((id) => id !== photoId),
+        updatedAt: new Date().toISOString()
+      };
+    });
+    saveState();
+    await renderAll();
+    showToast("Photo removed.");
+  }
+
+  function deleteNote(noteId) {
+    if (!window.confirm("Delete this knowledge note?")) {
+      return;
+    }
+    gardenState.notes = gardenState.notes.filter((note) => note.id !== noteId);
+    saveState();
+    if (uiState.editingNoteId === noteId) {
+      resetNoteForm();
+    }
+    renderNoteList();
+    renderSummaryCards();
+    renderOverview();
+    showToast("Knowledge note deleted.");
+  }
+
+  function handlePendingPhotoQueue(event) {
+    uiState.pendingPhotos = Array.from(event.target.files || []);
+    renderPendingPhotoQueue();
+  }
+
+  function renderPendingPhotoQueue() {
+    const container = document.getElementById("entryPhotoQueue");
+    if (!uiState.pendingPhotos.length) {
+      container.innerHTML = "";
+      return;
+    }
+    container.innerHTML = uiState.pendingPhotos.map((file) => `
+      <div class="photo-tile" style="aspect-ratio: auto; padding: 12px;">
+        <strong style="display: block; color: var(--ink); margin-bottom: 6px;">${escapeHtml(file.name)}</strong>
+        <div class="photo-caption">${Math.round(file.size / 1024)} KB · queued to save</div>
+      </div>
+    `).join("");
+  }
+
+  function openPhotoDatabase() {
+    if (photoDatabasePromise) {
+      return photoDatabasePromise;
+    }
+    photoDatabasePromise = new Promise((resolve, reject) => {
+      const request = indexedDB.open(PHOTO_DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains(PHOTO_STORE_NAME)) {
+          database.createObjectStore(PHOTO_STORE_NAME, { keyPath: "id" });
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error("Could not open photo database."));
+    });
+    return photoDatabasePromise;
+  }
+
+  async function runPhotoTransaction(mode, callback) {
+    const database = await openPhotoDatabase();
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(PHOTO_STORE_NAME, mode);
+      const store = transaction.objectStore(PHOTO_STORE_NAME);
+      const value = callback(store, resolve, reject);
+      void value;
+      transaction.onerror = () => reject(transaction.error || new Error("Photo transaction failed."));
+    });
+  }
+
+  async function putPhoto(record) {
+    await runPhotoTransaction("readwrite", (store, resolve, reject) => {
+      const request = store.put(record);
+      request.onsuccess = () => resolve(record);
+      request.onerror = () => reject(request.error || new Error("Could not save photo."));
+    });
+    return record;
+  }
+
+  async function getPhoto(photoId) {
+    return runPhotoTransaction("readonly", (store, resolve, reject) => {
+      const request = store.get(photoId);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error || new Error("Could not load photo."));
+    });
+  }
+
+  async function getPhotosByIds(photoIds) {
+    const photos = await Promise.all((photoIds || []).map((photoId) => getPhoto(photoId)));
+    return photos.filter(Boolean);
+  }
+
+  async function getAllPhotos() {
+    return runPhotoTransaction("readonly", (store, resolve, reject) => {
+      const request = store.getAll();
+      request.onsuccess = () => resolve(Array.isArray(request.result) ? request.result : []);
+      request.onerror = () => reject(request.error || new Error("Could not load saved photos."));
+    });
+  }
+
+  async function deletePhoto(photoId) {
+    return runPhotoTransaction("readwrite", (store, resolve, reject) => {
+      const request = store.delete(photoId);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error || new Error("Could not delete photo."));
+    });
+  }
+
+  async function clearPhotos() {
+    return runPhotoTransaction("readwrite", (store, resolve, reject) => {
+      const request = store.clear();
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error || new Error("Could not clear photo store."));
+    });
+  }
+
+  async function createPhotoRecord(file, temporaryEntryId) {
+    const dataUrl = await compressImage(file);
+    const record = {
+      id: generateId("photo"),
+      entryId: temporaryEntryId || "",
+      name: file.name || "Garden photo",
+      type: file.type || "image/jpeg",
+      createdAt: new Date().toISOString(),
+      dataUrl
+    };
+    await putPhoto(record);
+    return record;
+  }
+
+  async function reassignPendingPhotosToEntry(entryId, photoIds) {
+    const photos = await getPhotosByIds(photoIds);
+    await Promise.all(photos.map((photo) => putPhoto({ ...photo, entryId })));
+  }
+
+  async function compressImage(file) {
+    const rawDataUrl = await readFileAsDataUrl(file);
+    if (!file.type.startsWith("image/")) {
+      return rawDataUrl;
+    }
+
+    try {
+      const image = await loadImage(rawDataUrl);
+      const maxDimension = 1800;
+      const longestEdge = Math.max(image.width, image.height);
+      const scale = longestEdge > maxDimension ? maxDimension / longestEdge : 1;
+      const targetWidth = Math.max(1, Math.round(image.width * scale));
+      const targetHeight = Math.max(1, Math.round(image.height * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+      const context = canvas.getContext("2d");
+      if (!context) {
+        return rawDataUrl;
+      }
+      context.drawImage(image, 0, 0, targetWidth, targetHeight);
+      return canvas.toDataURL("image/jpeg", 0.84);
+    } catch (error) {
+      return rawDataUrl;
+    }
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.onerror = () => reject(reader.error || new Error("Could not read image."));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function loadImage(dataUrl) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error("Could not load image."));
+      image.src = dataUrl;
+    });
+  }
+
+  async function exportBackup() {
+    const backup = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      state: gardenState,
+      photos: await getAllPhotos()
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `gardening-journal-backup-${todayIsoDate()}.json`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+    showToast("Backup exported.");
+  }
+
+  async function importBackup(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+    try {
+      const rawText = await file.text();
+      const parsed = JSON.parse(rawText);
+      if (!parsed || typeof parsed !== "object" || !parsed.state) {
+        throw new Error("Backup format not recognized.");
+      }
+      if (!window.confirm("Importing will replace the current gardening journal in this browser. Continue?")) {
+        event.target.value = "";
+        return;
+      }
+      gardenState = normalizeState(parsed.state);
+      saveState();
+      await clearPhotos();
+      if (Array.isArray(parsed.photos)) {
+        for (const photo of parsed.photos) {
+          if (photo && photo.id && photo.dataUrl) {
+            await putPhoto({
+              id: String(photo.id),
+              entryId: String(photo.entryId || ""),
+              name: String(photo.name || "Garden photo"),
+              type: String(photo.type || "image/jpeg"),
+              createdAt: String(photo.createdAt || new Date().toISOString()),
+              dataUrl: String(photo.dataUrl)
+            });
+          }
+        }
+      }
+      resetPlantForm();
+      resetTaskForm();
+      resetEntryForm();
+      resetNoteForm();
+      syncPlantSelectors();
+      await renderAll();
+      showToast("Backup imported.");
+    } catch (error) {
+      showToast(error && error.message ? error.message : "Could not import backup.");
+    } finally {
+      event.target.value = "";
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+</script>
+</body>
+</html>
