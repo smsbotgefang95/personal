@@ -2225,6 +2225,12 @@
     padding-top: 7px;
   }
 
+  .custom-recurrence-monthly-select {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 120px;
+  }
+
   .custom-recurrence-monthly-option {
     display: flex;
     align-items: center;
@@ -3670,23 +3676,36 @@
     ["twentyFirst", "21st day", "21st"],
     ["last", "Last day", "Last"]
   ];
-  const CUSTOM_MONTHLY_WEEKDAY_OPTIONS = [
-    ["firstThursday", "First Thursday", "1st Thu"],
-    ["secondThursday", "Second Thursday", "2nd Thu"],
-    ["thirdThursday", "Third Thursday", "3rd Thu"],
-    ["fourthThursday", "Fourth Thursday", "4th Thu"],
-    ["fifthThursday", "Fifth Thursday", "5th Thu"]
+  const CUSTOM_MONTHLY_WEEKDAY_DEFAULT = "Thu";
+  const CUSTOM_MONTHLY_WEEKDAY_CHOICES = [
+    ["Mon", "Monday", 1],
+    ["Tue", "Tuesday", 2],
+    ["Wed", "Wednesday", 3],
+    ["Thu", "Thursday", 4],
+    ["Fri", "Friday", 5],
+    ["Sat", "Saturday", 6],
+    ["Sun", "Sunday", 0]
   ];
-  const CUSTOM_MONTHLY_OPTIONS = [...CUSTOM_MONTHLY_DAY_OPTIONS, ...CUSTOM_MONTHLY_WEEKDAY_OPTIONS];
+  const CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS = [
+    ["first", "First", "1st"],
+    ["second", "Second", "2nd"],
+    ["third", "Third", "3rd"],
+    ["fourth", "Fourth", "4th"],
+    ["fifth", "Fifth", "5th"]
+  ];
+  const CUSTOM_MONTHLY_WEEKDAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_WEEKDAY_CHOICES.map(([value, label]) => [value, label]));
+  const CUSTOM_MONTHLY_WEEKDAY_INDEXES = Object.fromEntries(CUSTOM_MONTHLY_WEEKDAY_CHOICES.map(([value, , index]) => [value, index]));
+  const CUSTOM_MONTHLY_WEEKDAY_ORDINAL_LABELS = Object.fromEntries(CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS.map(([value, label, shortLabel]) => [value, { label, shortLabel }]));
+  const CUSTOM_MONTHLY_WEEKDAY_ORDINALS = Object.fromEntries(CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS.map(([value], index) => [value, index + 1]));
+  const CUSTOM_MONTHLY_OPTIONS = [
+    ...CUSTOM_MONTHLY_DAY_OPTIONS,
+    ...CUSTOM_MONTHLY_WEEKDAY_CHOICES.flatMap(([weekday]) => CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS.map(([ordinal]) => {
+      const value = monthlyWeekdayValue(ordinal, weekday);
+      return [value, monthlyWeekdayLabel(value), monthlyWeekdayShortLabel(value)];
+    }))
+  ];
   const CUSTOM_MONTHLY_DAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_OPTIONS);
   const CUSTOM_MONTHLY_DAY_SHORT_LABELS = Object.fromEntries(CUSTOM_MONTHLY_OPTIONS.map(([value, , shortLabel]) => [value, shortLabel]));
-  const CUSTOM_MONTHLY_THURSDAY_ORDINALS = {
-    firstThursday: 1,
-    secondThursday: 2,
-    thirdThursday: 3,
-    fourthThursday: 4,
-    fifthThursday: 5
-  };
   const TRACK_GROUP_ORDER = ["📌 Must_Work", "📌 Must_Life", "🌱 Routine_Work", "🌱 Routine_Life", "☕️ Downtime", "Other"];
   const TASK_PRIORITY_CORRECTIONS = {
     "86a64xmy4": "📌 Must_Life",
@@ -4090,9 +4109,67 @@
     return monthlyDateCandidate(fallbackTarget.getFullYear(), fallbackTarget.getMonth(), monthlyDays.find((day) => day !== "same")) || addLocalMonths(baseDate, every);
   }
 
+  function monthlyWeekdayValue(ordinal, weekday) {
+    const normalizedWeekday = normalizeCustomMonthlyWeekday(weekday);
+    return CUSTOM_MONTHLY_WEEKDAY_ORDINALS[ordinal] && normalizedWeekday ? `${ordinal}${normalizedWeekday}` : "";
+  }
+
+  function monthlyWeekdayParts(value) {
+    const text = String(value || "");
+    const compactMatch = text.match(/^(first|second|third|fourth|fifth)(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$/);
+    if (compactMatch) return { ordinal: compactMatch[1], weekday: compactMatch[2] };
+    const legacyMatch = text.match(/^(first|second|third|fourth|fifth)Thursday$/);
+    if (legacyMatch) return { ordinal: legacyMatch[1], weekday: "Thu" };
+    return null;
+  }
+
+  function monthlyWeekdayLabel(value) {
+    const parts = monthlyWeekdayParts(value);
+    if (!parts) return "";
+    return `${CUSTOM_MONTHLY_WEEKDAY_ORDINAL_LABELS[parts.ordinal]?.label || ""} ${CUSTOM_MONTHLY_WEEKDAY_LABELS[parts.weekday] || ""}`.trim();
+  }
+
+  function monthlyWeekdayShortLabel(value) {
+    const parts = monthlyWeekdayParts(value);
+    if (!parts) return "";
+    return `${CUSTOM_MONTHLY_WEEKDAY_ORDINAL_LABELS[parts.ordinal]?.shortLabel || ""} ${parts.weekday}`.trim();
+  }
+
+  function monthlyWeekdayKey(value) {
+    const text = String(value || "").trim().toLowerCase();
+    if (text === "mon" || text === "monday") return "Mon";
+    if (text === "tue" || text === "tues" || text === "tuesday") return "Tue";
+    if (text === "wed" || text === "wednesday") return "Wed";
+    if (text === "thu" || text === "thur" || text === "thurs" || text === "thursday") return "Thu";
+    if (text === "fri" || text === "friday") return "Fri";
+    if (text === "sat" || text === "saturday") return "Sat";
+    if (text === "sun" || text === "sunday") return "Sun";
+    return "";
+  }
+
+  function normalizeCustomMonthlyWeekday(value) {
+    const normalized = monthlyWeekdayKey(value) || String(value || "");
+    return CUSTOM_MONTHLY_WEEKDAY_INDEXES[normalized] != null ? normalized : CUSTOM_MONTHLY_WEEKDAY_DEFAULT;
+  }
+
+  function selectedCustomMonthlyWeekday(settings) {
+    const monthlyDays = Array.isArray(settings?.monthlyDays) && settings.monthlyDays.length
+      ? settings.monthlyDays
+      : [settings?.monthlyDay || ""];
+    const matchedWeekday = monthlyDays.map((value) => monthlyWeekdayParts(value)?.weekday || "").find(Boolean);
+    return normalizeCustomMonthlyWeekday(matchedWeekday || settings?.monthlyWeekday || CUSTOM_MONTHLY_WEEKDAY_DEFAULT);
+  }
+
+  function monthlyWeekdayValueFromText(ordinalValue, weekdayValue) {
+    const ordinal = String(ordinalValue || "").trim().toLowerCase();
+    const weekday = monthlyWeekdayKey(weekdayValue);
+    return CUSTOM_MONTHLY_WEEKDAY_ORDINALS[ordinal] && weekday ? monthlyWeekdayValue(ordinal, weekday) : "";
+  }
+
   function monthlyDateCandidate(year, month, monthlyDay) {
-    if (CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]) {
-      return nthWeekdayOfMonth(year, month, 4, CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]);
+    const monthlyWeekday = monthlyWeekdayParts(monthlyDay);
+    if (monthlyWeekday) {
+      return nthWeekdayOfMonth(year, month, CUSTOM_MONTHLY_WEEKDAY_INDEXES[monthlyWeekday.weekday], CUSTOM_MONTHLY_WEEKDAY_ORDINALS[monthlyWeekday.ordinal]);
     }
     if (monthlyDay === "first") return new Date(year, month, 1);
     if (monthlyDay === "second") return new Date(year, month, 2);
@@ -4101,31 +4178,27 @@
     return new Date(year, month + 1, 0);
   }
 
+  function normalizeStoredCustomMonthlyDay(value) {
+    const monthlyWeekday = monthlyWeekdayParts(value);
+    if (monthlyWeekday) return monthlyWeekdayValue(monthlyWeekday.ordinal, monthlyWeekday.weekday);
+    return monthlyDayValue(value);
+  }
+
   function normalizeCustomMonthlyDays(settings) {
-    const valid = new Set(CUSTOM_MONTHLY_OPTIONS.map(([value]) => value));
     const source = Array.isArray(settings.monthlyDays) && settings.monthlyDays.length
       ? settings.monthlyDays
       : [settings.monthlyDay || "same"];
-    const selected = [...new Set(source.filter((value) => valid.has(value)))];
+    const selected = [...new Set(source.map((value) => normalizeStoredCustomMonthlyDay(value)).filter(Boolean))];
     const withoutSame = selected.filter((value) => value !== "same");
     return withoutSame.length ? withoutSame : ["same"];
   }
 
-  function monthlyThursdayValue(value) {
-    const text = String(value || "").toLowerCase();
-    if (text === "first" || text === "1st") return "firstThursday";
-    if (text === "second" || text === "2nd") return "secondThursday";
-    if (text === "third" || text === "3rd") return "thirdThursday";
-    if (text === "fourth" || text === "4th") return "fourthThursday";
-    if (text === "fifth" || text === "5th") return "fifthThursday";
-    return "";
-  }
-
   function monthlyDayValue(value) {
-    const text = String(value || "").toLowerCase();
+    const text = String(value || "").trim().toLowerCase();
+    if (text === "same" || text === "first" || text === "second" || text === "last") return text;
     if (text === "11th" || text === "11" || text === "eleventh") return "eleventh";
-    if (text === "21st" || text === "21" || text === "twenty-first" || text === "twenty first") return "twentyFirst";
-    return CUSTOM_MONTHLY_OPTIONS.some(([option]) => option === text) ? text : "";
+    if (text === "21st" || text === "21" || text === "twenty-first" || text === "twenty first" || text === "twentyfirst") return "twentyFirst";
+    return "";
   }
 
   function nthWeekdayOfMonth(year, month, weekday, ordinal) {
@@ -4199,9 +4272,9 @@
       if (days.length) settings.days = days;
     }
     const monthlyDayMatches = [];
-    for (const match of text.matchAll(/\bon\s+(first|1st|second|2nd|third|3rd|fourth|4th|fifth|5th)\s+thursday\b/gi)) {
-      const monthlyThursday = monthlyThursdayValue(match[1]);
-      if (monthlyThursday) monthlyDayMatches.push({ index: match.index, value: monthlyThursday });
+    for (const match of text.matchAll(/\bon\s+(first|1st|second|2nd|third|3rd|fourth|4th|fifth|5th)\s+([a-z]+)/gi)) {
+      const monthlyWeekday = monthlyWeekdayValueFromText(match[1], match[2]);
+      if (monthlyWeekday) monthlyDayMatches.push({ index: match.index, value: monthlyWeekday });
     }
     for (const match of text.matchAll(/\bon\s+(first|second|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/gi)) {
       const monthlyDay = monthlyDayValue(match[1]);
@@ -4211,6 +4284,7 @@
       settings.monthlyDays = [...new Set(monthlyDayMatches.sort((a, b) => a.index - b.index).map((match) => match.value))];
       settings.monthlyDay = settings.monthlyDays[0];
     }
+    settings.monthlyWeekday = selectedCustomMonthlyWeekday(settings);
     const statusMatch = text.match(/status change:\s*([^;]+)/i);
     settings.statusTrigger = statusMatch ? statusMatch[1].trim().toLowerCase() : (text.includes("status change") ? "done" : "done");
     settings.recurForever = !/do not recur forever|stop recurring/i.test(text);
@@ -4226,7 +4300,7 @@
     const parts = [`Every ${every} ${unit}${every === 1 ? "" : "s"}${dayText}`];
     if (unit === "month") {
       monthlyDays.filter((monthlyDay) => monthlyDay !== "same").forEach((monthlyDay) => {
-        const monthlyLabel = CUSTOM_MONTHLY_THURSDAY_ORDINALS[monthlyDay]
+        const monthlyLabel = monthlyWeekdayParts(monthlyDay)
           ? CUSTOM_MONTHLY_DAY_LABELS[monthlyDay]
           : CUSTOM_MONTHLY_DAY_LABELS[monthlyDay].toLowerCase();
         parts.push(`on ${monthlyLabel}`);
@@ -4243,6 +4317,7 @@
   function customRecurrenceHtml(text = "") {
     const settings = parseCustomRecurrenceText(text);
     const monthlyDays = normalizeCustomMonthlyDays(settings);
+    const selectedMonthlyWeekday = selectedCustomMonthlyWeekday(settings);
     const dayButtons = CUSTOM_RECURRENCE_DAYS.map(([day, label]) => `
       <button class="custom-recurrence-day${settings.days.includes(day) ? " active" : ""}" type="button" data-custom-day="${escapeHtml(day)}" aria-pressed="${settings.days.includes(day) ? "true" : "false"}" title="${escapeHtml(label)}">${escapeHtml(day)}</button>
     `).join("");
@@ -4252,12 +4327,15 @@
         ${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[value] || label)}
       </label>
     `).join("");
-    const monthlyWeekdayOptions = CUSTOM_MONTHLY_WEEKDAY_OPTIONS.map(([value, label]) => `
-      <label class="custom-recurrence-monthly-option" title="${escapeHtml(label)}">
-        <input type="checkbox" value="${escapeHtml(value)}" data-custom-monthly-day-option${monthlyDays.includes(value) ? " checked" : ""} />
-        ${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[value] || label)}
+    const monthlyWeekdayOptions = CUSTOM_MONTHLY_WEEKDAY_ORDINAL_OPTIONS.map(([value]) => {
+      const monthlyValue = monthlyWeekdayValue(value, selectedMonthlyWeekday);
+      return `
+      <label class="custom-recurrence-monthly-option" title="${escapeHtml(CUSTOM_MONTHLY_DAY_LABELS[monthlyValue] || monthlyWeekdayLabel(monthlyValue))}">
+        <input type="checkbox" value="${escapeHtml(value)}" data-custom-monthly-weekday-option${monthlyDays.includes(monthlyValue) ? " checked" : ""} />
+        <span data-custom-monthly-weekday-label>${escapeHtml(CUSTOM_MONTHLY_DAY_SHORT_LABELS[monthlyValue] || monthlyWeekdayShortLabel(monthlyValue))}</span>
       </label>
-    `).join("");
+    `;
+    }).join("");
     return `
       <div class="custom-recurrence-header">
         <button class="custom-recurrence-collapse" type="button" data-custom-collapse>Collapse</button>
@@ -4279,6 +4357,9 @@
       <div class="custom-recurrence-row custom-recurrence-monthly-row" data-custom-monthly-day${settings.unit === "month" ? "" : " hidden"}>
         <span class="custom-recurrence-label">Weekday</span>
         <div class="custom-recurrence-monthly-options" role="group" aria-label="Monthly recurrence weekdays">
+          <select class="custom-recurrence-select custom-recurrence-monthly-select" data-custom-part="monthlyWeekday" aria-label="Monthly recurrence weekday">
+            ${CUSTOM_MONTHLY_WEEKDAY_CHOICES.map(([value]) => `<option value="${value}"${value === selectedMonthlyWeekday ? " selected" : ""}>${value}</option>`).join("")}
+          </select>
           ${monthlyWeekdayOptions}
         </div>
       </div>
@@ -4299,12 +4380,19 @@
 
   function readCustomRecurrence(panel) {
     const activeDays = Array.from(panel.querySelectorAll("[data-custom-day].active")).map((button) => button.dataset.customDay);
-    const monthlyDays = Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]:checked")).map((input) => input.value);
+    const monthlyWeekday = normalizeCustomMonthlyWeekday(panel.querySelector('[data-custom-part="monthlyWeekday"]')?.value);
+    const monthlyDays = [
+      ...Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]:checked")).map((input) => input.value),
+      ...Array.from(panel.querySelectorAll("[data-custom-monthly-weekday-option]:checked"))
+        .map((input) => monthlyWeekdayValue(input.value, monthlyWeekday))
+        .filter(Boolean)
+    ];
     const normalizedMonthlyDays = normalizeCustomMonthlyDays({ monthlyDays });
     return {
       every: panel.querySelector('[data-custom-part="every"]')?.value || 1,
       unit: panel.querySelector('[data-custom-part="unit"]')?.value || "week",
       days: activeDays.length ? activeDays : ["Mo"],
+      monthlyWeekday,
       monthlyDay: normalizedMonthlyDays[0],
       monthlyDays: normalizedMonthlyDays,
       statusTrigger: panel.querySelector('[data-custom-part="statusTrigger"]')?.value || "done",
@@ -4316,15 +4404,29 @@
   function syncCustomRecurrencePanel(panel) {
     const unit = panel.querySelector('[data-custom-part="unit"]')?.value || "week";
     const days = panel.querySelector("[data-custom-days]");
-    const monthlyDay = panel.querySelector("[data-custom-monthly-day]");
+    const monthlyRows = Array.from(panel.querySelectorAll("[data-custom-monthly-day]"));
     if (days) days.hidden = unit !== "week";
-    if (monthlyDay) monthlyDay.hidden = unit !== "month";
+    monthlyRows.forEach((row) => { row.hidden = unit !== "month"; });
+    refreshCustomMonthlyWeekdayOptions(panel);
+  }
+
+  function refreshCustomMonthlyWeekdayOptions(panel) {
+    const monthlyWeekday = normalizeCustomMonthlyWeekday(panel.querySelector('[data-custom-part="monthlyWeekday"]')?.value);
+    panel.querySelectorAll("[data-custom-monthly-weekday-option]").forEach((input) => {
+      const monthlyValue = monthlyWeekdayValue(input.value, monthlyWeekday);
+      const option = input.closest(".custom-recurrence-monthly-option");
+      const label = option?.querySelector("[data-custom-monthly-weekday-label]");
+      if (option) option.title = CUSTOM_MONTHLY_DAY_LABELS[monthlyValue] || monthlyWeekdayLabel(monthlyValue);
+      if (label) label.textContent = CUSTOM_MONTHLY_DAY_SHORT_LABELS[monthlyValue] || monthlyWeekdayShortLabel(monthlyValue);
+    });
   }
 
   function syncCustomMonthlyDayOptions(panel, changedOption = null) {
-    const options = Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]"));
+    const dayOptions = Array.from(panel.querySelectorAll("[data-custom-monthly-day-option]"));
+    const weekdayOptions = Array.from(panel.querySelectorAll("[data-custom-monthly-weekday-option]"));
+    const options = [...dayOptions, ...weekdayOptions];
     if (!options.length) return;
-    const same = options.find((input) => input.value === "same");
+    const same = dayOptions.find((input) => input.value === "same");
     if (changedOption?.value === "same" && changedOption.checked) {
       options.filter((input) => input !== same).forEach((input) => { input.checked = false; });
     } else if (changedOption?.checked && changedOption.value !== "same" && same) {
@@ -7467,7 +7569,7 @@
       });
       panel.addEventListener("change", async (event) => {
         await flushPendingTaskNameInput(rows);
-        const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
+        const monthlyOption = event.target.closest("[data-custom-monthly-day-option], [data-custom-monthly-weekday-option]");
         if (monthlyOption) syncCustomMonthlyDayOptions(panel, monthlyOption);
         syncCustomRecurrencePanel(panel);
         const entry = rows.find((item) => taskOverrideKey(item) === panel.dataset.recurrenceCustomKey);
@@ -9776,7 +9878,7 @@
   });
 
   document.getElementById("trackerRecurrenceCustom").addEventListener("change", (event) => {
-    const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
+    const monthlyOption = event.target.closest("[data-custom-monthly-day-option], [data-custom-monthly-weekday-option]");
     if (monthlyOption) syncCustomMonthlyDayOptions(event.currentTarget, monthlyOption);
     syncCustomRecurrencePanel(event.currentTarget);
   });
@@ -9792,7 +9894,7 @@
   });
 
   document.getElementById("editRecurrenceCustom").addEventListener("change", (event) => {
-    const monthlyOption = event.target.closest("[data-custom-monthly-day-option]");
+    const monthlyOption = event.target.closest("[data-custom-monthly-day-option], [data-custom-monthly-weekday-option]");
     if (monthlyOption) syncCustomMonthlyDayOptions(event.currentTarget, monthlyOption);
     syncCustomRecurrencePanel(event.currentTarget);
   });
