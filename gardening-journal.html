@@ -1011,6 +1011,10 @@
                 </select>
               </div>
               <div class="field">
+                <label for="plantTemperature">Temperature</label>
+                <input id="plantTemperature" name="plantTemperature" type="text" placeholder="65-80 F, protect below 50 F" />
+              </div>
+              <div class="field">
                 <label for="plantWatering">Watering rhythm</label>
                 <input id="plantWatering" name="plantWatering" type="text" placeholder="Check daily, deep water every 2-3 days" />
               </div>
@@ -1403,6 +1407,7 @@
       startDate: normalizeDateValue(item.startDate),
       stage: String(item.stage || "Planning").trim() || "Planning",
       sunlight: String(item.sunlight || "").trim(),
+      temperature: String(item.temperature || "").trim(),
       watering: String(item.watering || "").trim(),
       notes: String(item.notes || "").trim(),
       createdAt: String(item.createdAt || new Date().toISOString()),
@@ -1899,8 +1904,8 @@
         <p>${escapeHtml(plant.variety || "No variety recorded.")}</p>
         <div class="journal-copy" style="margin-top: 12px;">
           <section>
-            <h5>Sun and water</h5>
-            <p>${escapeHtml([plant.sunlight, plant.watering].filter(Boolean).join(" · ") || "Add sunlight and watering details when you know them.")}</p>
+            <h5>Care</h5>
+            <p>${escapeHtml([plant.sunlight, plant.temperature, plant.watering].filter(Boolean).join(" · ") || "Add sunlight, temperature, and watering details when you know them.")}</p>
           </section>
           <section>
             <h5>Notes</h5>
@@ -2145,6 +2150,7 @@
       startDate: values.plantStartDate,
       stage: values.plantStage,
       sunlight: values.plantSunlight,
+      temperature: values.plantTemperature,
       watering: values.plantWatering,
       notes: values.plantNotes,
       createdAt: existing ? existing.createdAt : now,
@@ -2312,6 +2318,7 @@
     plantForm.plantStartDate.value = plant.startDate;
     plantForm.plantStage.value = plant.stage;
     plantForm.plantSunlight.value = plant.sunlight;
+    plantForm.plantTemperature.value = plant.temperature;
     plantForm.plantWatering.value = plant.watering;
     plantForm.plantNotes.value = plant.notes;
     document.getElementById("plantSaveBtn").textContent = "Update plant";
