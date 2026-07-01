@@ -312,6 +312,25 @@
     font-size: 0.94rem;
   }
 
+  .panel-head-actions {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .panel-filter {
+    min-width: min(260px, 100%);
+  }
+
+  .panel-filter label {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .panel-filter select {
+    min-width: 220px;
+  }
+
   .panel-body {
     padding: 20px 22px 22px;
   }
@@ -672,6 +691,28 @@
     text-transform: uppercase;
   }
 
+  .plant-journal-preview {
+    display: grid;
+    gap: 10px;
+  }
+
+  .plant-journal-item {
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(97, 109, 82, 0.14);
+    background: rgba(255, 255, 255, 0.74);
+  }
+
+  .plant-journal-item strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .plant-journal-item p {
+    margin: 0;
+  }
+
   .note-tags {
     display: flex;
     gap: 8px;
@@ -753,6 +794,12 @@
     .panel-body {
       padding-left: 18px;
       padding-right: 18px;
+    }
+
+    .panel-head-actions,
+    .panel-filter,
+    .panel-filter select {
+      width: 100%;
     }
 
     .record-header {
@@ -1086,7 +1133,7 @@
                 <input id="entryDate" name="entryDate" type="date" />
               </div>
               <div class="field">
-                <label for="entryPlantId">Plant focus</label>
+                <label for="entryPlantId">Plant name</label>
                 <select id="entryPlantId" name="entryPlantId"></select>
               </div>
               <div class="field full">
@@ -1128,7 +1175,13 @@
         <div class="panel-head">
           <div>
             <h2>Journal timeline</h2>
-            <p>Photos stay attached to each note so you can compare progress over time.</p>
+            <p id="entryTimelineCopy">Photos stay attached to each note so you can compare progress over time.</p>
+          </div>
+          <div class="panel-head-actions">
+            <div class="panel-filter">
+              <label for="entryFilterPlantId">Filter by plant</label>
+              <select id="entryFilterPlantId" name="entryFilterPlantId"></select>
+            </div>
           </div>
         </div>
         <div class="panel-body">
@@ -1240,7 +1293,8 @@
     editingTaskId: null,
     editingEntryId: null,
     editingNoteId: null,
-    pendingPhotos: []
+    pendingPhotos: [],
+    entryFilterPlantId: ""
   };
 
   let gardenState = loadState();
@@ -1272,6 +1326,7 @@
   document.getElementById("entryCancelBtn").addEventListener("click", resetEntryForm);
   document.getElementById("noteCancelBtn").addEventListener("click", resetNoteForm);
   document.getElementById("entryPhotos").addEventListener("change", handlePendingPhotoQueue);
+  document.getElementById("entryFilterPlantId").addEventListener("change", handleEntryFilterChange);
   document.getElementById("exportBackupBtn").addEventListener("click", exportBackup);
   document.getElementById("importBackupBtn").addEventListener("click", () => document.getElementById("importBackupInput").click());
   document.getElementById("importBackupInput").addEventListener("change", importBackup);
@@ -1462,6 +1517,20 @@
   function plantNameById(plantId) {
     const plant = gardenState.plants.find((item) => item.id === plantId);
     return plant ? plant.name : "General garden";
+  }
+
+  function buildPlantOptions(emptyLabel) {
+    return [`<option value="">${escapeHtml(emptyLabel)}</option>`].concat(
+      sortedPlants().map((plant) => `<option value="${escapeHtml(plant.id)}">${escapeHtml(plant.name)}</option>`)
+    ).join("");
+  }
+
+  function setSelectOptions(select, optionsHtml, selectedValue) {
+    select.innerHTML = optionsHtml;
+    select.value = selectedValue;
+    if (select.value !== selectedValue) {
+      select.value = "";
+    }
   }
 
   function escapeHtml(value) {
@@ -1749,6 +1818,59 @@
     });
   }
 
+  function filteredEntries() {
+    const entries = sortedEntries();
+    if (!uiState.entryFilterPlantId) {
+      return entries;
+    }
+    return entries.filter((entry) => entry.plantId === uiState.entryFilterPlantId);
+  }
+
+  function linkedEntriesForPlant(plantId) {
+    return sortedEntries().filter((entry) => entry.plantId === plantId);
+  }
+
+  function truncateText(value, maxLength = 140) {
+    const compact = String(value || "").replace(/\s+/g, " ").trim();
+    if (!compact) {
+      return "No notes yet.";
+    }
+    return compact.length > maxLength ? `${compact.slice(0, maxLength - 3).trimEnd()}...` : compact;
+  }
+
+  function renderPlantJournalPreview(plant) {
+    const entries = linkedEntriesForPlant(plant.id);
+    if (!entries.length) {
+      return `
+        <section>
+          <h5>Journal</h5>
+          <p>No journal entries for this plant yet.</p>
+        </section>
+      `;
+    }
+
+    const previewItems = entries.slice(0, 3).map((entry) => `
+      <div class="plant-journal-item">
+        <div class="meta-line">
+          <span class="chip">${escapeHtml(formatDisplayDate(entry.date, true))}</span>
+          ${entry.weather ? `<span class="chip warm">${escapeHtml(entry.weather)}</span>` : ""}
+        </div>
+        <strong>${escapeHtml(entry.title)}</strong>
+        <p>${escapeHtml(truncateText(entry.nextStep || entry.wins || entry.problems))}</p>
+      </div>
+    `).join("");
+
+    return `
+      <section>
+        <h5>Journal</h5>
+        <div class="plant-journal-preview">
+          ${previewItems}
+        </div>
+        ${entries.length > 3 ? `<div class="photo-caption">Showing the latest 3 of ${entries.length} entries.</div>` : ""}
+      </section>
+    `;
+  }
+
   function sortedNotes() {
     return [...gardenState.notes].sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
   }
@@ -1784,14 +1906,19 @@
             <h5>Notes</h5>
             ${formatTextBlock(plant.notes)}
           </section>
+          ${renderPlantJournalPreview(plant)}
         </div>
         <div class="record-actions">
+          <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">View journal</button>
           <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}">Edit</button>
           <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">Delete</button>
         </div>
       </article>
     `).join("");
 
+    container.querySelectorAll("[data-view-plant-journal]").forEach((button) => {
+      button.addEventListener("click", () => openPlantJournal(button.dataset.viewPlantJournal));
+    });
     container.querySelectorAll("[data-edit-plant]").forEach((button) => {
       button.addEventListener("click", () => startPlantEdit(button.dataset.editPlant));
     });
@@ -1843,9 +1970,17 @@
 
   async function renderEntryList() {
     const container = document.getElementById("entryList");
-    const entries = sortedEntries();
+    const entries = filteredEntries();
+    const activePlantName = uiState.entryFilterPlantId ? plantNameById(uiState.entryFilterPlantId) : "";
+    document.getElementById("entryTimelineCopy").textContent = activePlantName
+      ? `Showing only ${activePlantName} entries. Photos stay attached to each note so you can compare progress over time.`
+      : "Photos stay attached to each note so you can compare progress over time.";
     if (!entries.length) {
-      container.innerHTML = `<div class="empty-state">No journal entries yet. Add one photo-backed note after the next watering, pruning, or bloom.</div>`;
+      container.innerHTML = `<div class="empty-state">${
+        activePlantName
+          ? `No journal entries for ${escapeHtml(activePlantName)} yet. Add one after the next watering, pruning, or bloom.`
+          : "No journal entries yet. Add one photo-backed note after the next watering, pruning, or bloom."
+      }</div>`;
       return;
     }
 
@@ -1969,11 +2104,17 @@
   }
 
   function syncPlantSelectors() {
-    const options = [`<option value="">General garden</option>`].concat(
-      sortedPlants().map((plant) => `<option value="${escapeHtml(plant.id)}">${escapeHtml(plant.name)}</option>`)
-    ).join("");
-    document.getElementById("taskPlantId").innerHTML = options;
-    document.getElementById("entryPlantId").innerHTML = options;
+    const taskSelect = document.getElementById("taskPlantId");
+    const entrySelect = document.getElementById("entryPlantId");
+    const filterSelect = document.getElementById("entryFilterPlantId");
+    const taskValue = taskSelect.value;
+    const entryValue = entrySelect.value;
+    const filterValue = uiState.entryFilterPlantId;
+
+    setSelectOptions(taskSelect, buildPlantOptions("General garden"), taskValue);
+    setSelectOptions(entrySelect, buildPlantOptions("General garden"), entryValue);
+    setSelectOptions(filterSelect, buildPlantOptions("All plants"), filterValue);
+    uiState.entryFilterPlantId = filterSelect.value;
   }
 
   function getFormData(form) {
@@ -2118,6 +2259,11 @@
     showToast(existing ? "Journal entry updated." : "Journal entry saved.");
   }
 
+  async function handleEntryFilterChange(event) {
+    uiState.entryFilterPlantId = event.target.value;
+    await renderEntryList();
+  }
+
   async function handleNoteSubmit(event) {
     event.preventDefault();
     const values = getFormData(noteForm);
@@ -2218,6 +2364,14 @@
     entryForm.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  async function openPlantJournal(plantId) {
+    uiState.entryFilterPlantId = plantId;
+    syncPlantSelectors();
+    setActiveTab("journal");
+    await renderEntryList();
+    document.getElementById("entryList").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   function startNoteEdit(noteId) {
     const note = gardenState.notes.find((item) => item.id === noteId);
     if (!note) {
@@ -2292,6 +2446,9 @@
     saveState();
     if (uiState.editingPlantId === plantId) {
       resetPlantForm();
+    }
+    if (uiState.entryFilterPlantId === plantId) {
+      uiState.entryFilterPlantId = "";
     }
     await renderAll();
     showToast("Plant deleted.");
