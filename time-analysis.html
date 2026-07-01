@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Time Analysis</title>
 <link rel="icon" type="image/png" href="assets/time-analysis-favicon-transparent.png?v=20260527-transparent" />
-<link rel="stylesheet" href="assets/site-nav.css?v=20260522-color-home" />
-<script src="assets/site-nav.js?v=20260522-dad-me-tabs" defer></script>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260701-top-nav-buttons" />
+<script src="assets/site-nav.js?v=20260701-top-nav-buttons" defer></script>
 <style>
   :root {
     --bg: #030712;
@@ -123,130 +123,6 @@
 
   .source-row:empty {
     display: none;
-  }
-
-  .page-shortcuts {
-    display: grid;
-    gap: 10px;
-  }
-
-  .page-shortcuts-label {
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .page-shortcut-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
-  }
-
-  .page-shortcut {
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-height: 50px;
-    border: 1px solid var(--shortcut-border, var(--border));
-    border-radius: 10px;
-    padding: 12px 14px;
-    background:
-      linear-gradient(180deg, var(--shortcut-bg-top, rgba(17, 24, 39, 0.98)) 0%, var(--shortcut-bg-bottom, rgba(15, 23, 42, 0.98)) 100%),
-      var(--card);
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 0.92rem;
-    font-weight: 800;
-    line-height: 1.2;
-    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-    overflow: hidden;
-  }
-
-  .page-shortcut::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 4px;
-    background: var(--shortcut-accent, var(--indigo));
-  }
-
-  .page-shortcut::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto auto;
-    width: 64px;
-    height: 64px;
-    background: var(--shortcut-glow, rgba(255, 255, 255, 0.08));
-    clip-path: polygon(100% 0, 0 0, 100% 100%);
-    pointer-events: none;
-  }
-
-  .page-shortcut:hover,
-  .page-shortcut:focus-visible {
-    transform: translateY(-1px);
-    border-color: var(--shortcut-accent, var(--indigo));
-    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.34);
-  }
-
-  .page-shortcut:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.22);
-    outline-offset: 2px;
-  }
-
-  .page-shortcut[aria-current="page"] {
-    cursor: default;
-    border-color: var(--shortcut-accent, var(--indigo));
-    box-shadow: inset 0 0 0 1px var(--shortcut-accent, var(--indigo));
-  }
-
-  .page-shortcut[href="citizenship-interview-prep.html"] {
-    --shortcut-accent: #60a5fa;
-    --shortcut-border: #1d4ed8;
-    --shortcut-bg-top: #132341;
-    --shortcut-bg-bottom: #0f172a;
-    --shortcut-glow: rgba(96, 165, 250, 0.14);
-  }
-
-  .page-shortcut[href="learning-english.html"] {
-    --shortcut-accent: #34d399;
-    --shortcut-border: #047857;
-    --shortcut-bg-top: #0d2a24;
-    --shortcut-bg-bottom: #0f172a;
-    --shortcut-glow: rgba(52, 211, 153, 0.16);
-  }
-
-  .page-shortcut[href="time-analysis.html"] {
-    --shortcut-accent: #f472b6;
-    --shortcut-border: #be185d;
-    --shortcut-bg-top: #2e1026;
-    --shortcut-bg-bottom: #111827;
-    --shortcut-glow: rgba(244, 114, 182, 0.16);
-  }
-
-  .page-shortcut[href="kpi-dashboard.html"] {
-    --shortcut-accent: #f59e0b;
-    --shortcut-border: #b45309;
-    --shortcut-bg-top: #2a1903;
-    --shortcut-bg-bottom: #111827;
-    --shortcut-glow: rgba(245, 158, 11, 0.16);
-  }
-
-  .page-shortcut[href="life-events.html"] {
-    --shortcut-accent: #f97316;
-    --shortcut-border: #c2410c;
-    --shortcut-bg-top: #2f1408;
-    --shortcut-bg-bottom: #111827;
-    --shortcut-glow: rgba(249, 115, 22, 0.16);
-  }
-
-  .page-shortcut[href="gardening-journal.html"] {
-    --shortcut-accent: #4ade80;
-    --shortcut-border: #15803d;
-    --shortcut-bg-top: #102517;
-    --shortcut-bg-bottom: #111827;
-    --shortcut-glow: rgba(74, 222, 128, 0.16);
   }
 
   .source-pill {
@@ -2929,9 +2805,6 @@
       justify-self: start;
     }
     .tab-btn { flex: 1 1 140px; }
-    .page-shortcut-list {
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    }
     .tracker-card { padding: 16px; }
     .tracker-actions {
       margin: 0 -16px -16px;
@@ -2996,14 +2869,6 @@
   }
 
   @media (max-width: 640px) {
-    .page-shortcut-list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .page-shortcut {
-      min-height: 54px;
-    }
-
     .tabs-row {
       align-items: stretch;
     }
@@ -3056,17 +2921,6 @@
         <p class="subtitle" id="pageSubtitle">Loading time entries...</p>
       </div>
       <div class="source-row" id="sourcePills"></div>
-      <div class="page-shortcuts" aria-label="Quick access pages">
-        <div class="page-shortcuts-label">Quick Access</div>
-        <div class="page-shortcut-list">
-          <a class="page-shortcut" href="citizenship-interview-prep.html">US Citizenship Interview Prep</a>
-          <a class="page-shortcut" href="learning-english.html">Learning English</a>
-          <a class="page-shortcut" href="time-analysis.html" aria-current="page">Time Analysis</a>
-          <a class="page-shortcut" href="kpi-dashboard.html">KPI Life Tracker</a>
-          <a class="page-shortcut" href="life-events.html">Life Events</a>
-          <a class="page-shortcut" href="gardening-journal.html">Gardening Journal</a>
-        </div>
-      </div>
     </header>
 
     <div id="statusBox" class="status-box">Loading time data...</div>
