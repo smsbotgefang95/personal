@@ -3639,6 +3639,7 @@
   let trackerSearchRenderTimeout = null;
   let trackerActivityRowsRenderTimer = null;
   let trackerDeferredRowsRenderToken = 0;
+  let trackerSupplementalRenderToken = 0;
   let trackerDeferredRowsBusyTimer = null;
   let trackerNameAutosizeToken = 0;
   let pendingTaskNameAutosizeTimer = null;
@@ -5124,6 +5125,15 @@
       trackerDeferredRowsBusyTimer = null;
       renderActivityRows(options);
       setTrackerListRenderBusy(false);
+    });
+  }
+
+  function scheduleTrackerSupplementalRender(entries) {
+    const token = ++trackerSupplementalRenderToken;
+    scheduleAfterPaint(() => {
+      if (token !== trackerSupplementalRenderToken) return;
+      renderRecentTaskSwitcher();
+      renderQuickChips(entries);
     });
   }
 
@@ -7804,9 +7814,6 @@
     const entries = nativeCompletedEntries();
     renderTimerState();
     renderMetadataOptions();
-    renderRecentTaskSwitcher();
-    renderQuickChips(entries);
-    renderActivityRows();
     document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
       button.onclick = () => {
         const dueFilter = document.getElementById("dueStatusFilter");
@@ -7838,6 +7845,8 @@
     syncTaskSearchClearButton();
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
+    scheduleTrackerSupplementalRender(entries);
+    scheduleDeferredActivityRowsRender();
   }
 
   async function renderNativeDashboard() {
