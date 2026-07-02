@@ -2402,6 +2402,18 @@
     font-size: 0.9rem;
   }
 
+  .tracker-sync-state {
+    min-height: 1.4em;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .tracker-sync-state.good { color: #86efac; }
+  .tracker-sync-state.warning { color: #fcd34d; }
+  .tracker-sync-state.error { color: #fca5a5; }
   .tracker-status.error { color: #fca5a5; }
   .tracker-status.saved { color: var(--muted); }
 
@@ -2412,7 +2424,7 @@
     margin-bottom: 16px;
   }
 
-  .tracker-sync-row:has(> .tracker-status[hidden]):has(> .private-time-load-btn[hidden]) {
+  .tracker-sync-row:has(> .tracker-sync-state[hidden]):has(> .tracker-status[hidden]):has(> .private-time-load-btn[hidden]) {
     display: none;
     margin-bottom: 0;
   }
@@ -2975,6 +2987,7 @@
       <section class="tracker-shell" aria-label="Time tracker">
         <div class="tracker-card card">
           <div class="tracker-sync-row">
+            <p class="tracker-sync-state" id="trackerSyncState" hidden></p>
             <p class="tracker-status" id="trackerStatus" hidden></p>
             <button class="btn btn-indigo private-time-load-btn" id="loadPrivateTimeBtn" type="button" hidden data-load-private-time>Load private data</button>
           </div>
@@ -3529,6 +3542,7 @@
   ) ? "http://localhost:8016/api/time-entries" : "/api/time-entries";
   const TIME_ADMIN_KEY_STORAGE = "personal.timeTracking.adminKey.v1";
   const TIME_LOCAL_PAYLOAD_STORAGE = "personal.timeTracking.localPayload.v1";
+  const TIME_PRIVATE_SYNC_STATE_STORAGE = "personal.timeTracking.privateSyncState.v1";
   const BUSINESS_TIME_ZONE = "America/New_York";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
@@ -3611,6 +3625,7 @@
   let csvEntriesLoadPromise = null;
   let taskCatalogEntries = [];
   let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, taskMerges: {}, updatedAt: null };
+  let privateTimeSyncState = { mode: "idle", message: "", updatedAt: "", lastSuccessAt: "" };
   let timeAdminKey = "";
   let timeAdminKeyDialogResolve = null;
   let timeAdminKeyDialogPromise = null;
@@ -3723,6 +3738,7 @@
   const CUSTOM_MONTHLY_DAY_LABELS = Object.fromEntries(CUSTOM_MONTHLY_OPTIONS);
   const CUSTOM_MONTHLY_DAY_SHORT_LABELS = Object.fromEntries(CUSTOM_MONTHLY_OPTIONS.map(([value, , shortLabel]) => [value, shortLabel]));
   const TRACK_GROUP_ORDER = ["📌 Must_Work", "📌 Must_Life", "🌱 Routine_Work", "🌱 Routine_Life", "☕️ Downtime", "Other"];
+  const PRIVATE_TIME_SYNC_MODES = new Set(["idle", "checking", "loading", "synced", "local-only", "error"]);
   const TASK_PRIORITY_CORRECTIONS = {
     "86a64xmy4": "📌 Must_Life",
     "86a9tae9b": "🌱 Routine_Life",
@@ -4851,6 +4867,98 @@
     } catch (error) {}
   }
 
+  function cleanPrivateTimeSyncState(value) {
+    const mode = PRIVATE_TIME_SYNC_MODES.has(value?.mode) ? value.mode : "idle";
+    return {
+      mode,
+      message: cleanLabel(value?.message, ""),
+      updatedAt: cleanLabel(value?.updatedAt, ""),
+      lastSuccessAt: cleanLabel(value?.lastSuccessAt, "")
+    };
+  }
+
+  function readPrivateTimeSyncState() {
+    try {
+      const stored = localStorage.getItem(TIME_PRIVATE_SYNC_STATE_STORAGE);
+      return stored ? cleanPrivateTimeSyncState(JSON.parse(stored)) : cleanPrivateTimeSyncState(null);
+    } catch (error) {
+      return cleanPrivateTimeSyncState(null);
+    }
+  }
+
+  function writePrivateTimeSyncState(state = privateTimeSyncState) {
+    try {
+      localStorage.setItem(TIME_PRIVATE_SYNC_STATE_STORAGE, JSON.stringify(cleanPrivateTimeSyncState(state)));
+    } catch (error) {}
+  }
+
+  function formatPrivateTimeSyncTimestamp(value) {
+    const date = value ? new Date(value) : null;
+    if (!date || Number.isNaN(date.getTime())) return "";
+    return date.toLocaleString(undefined, {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    });
+  }
+
+  function privateTimeSyncStateMessage() {
+    const customMessage = cleanLabel(privateTimeSyncState.message, "");
+    if (customMessage) return customMessage;
+    const lastSuccessLabel = formatPrivateTimeSyncTimestamp(privateTimeSyncState.lastSuccessAt);
+    if (privateTimeSyncState.mode === "checking") {
+      return lastSuccessLabel
+        ? `Showing cached private data from this browser while checking for updates. Last sync ${lastSuccessLabel}.`
+        : "Showing cached private data from this browser while checking for updates.";
+    }
+    if (privateTimeSyncState.mode === "loading") return "Loading private data...";
+    if (privateTimeSyncState.mode === "synced") {
+      return lastSuccessLabel
+        ? `Private data synced on this browser. Last sync ${lastSuccessLabel}.`
+        : "Private data synced on this browser.";
+    }
+    if (privateTimeSyncState.mode === "local-only") {
+      return lastSuccessLabel
+        ? `Using locally saved private data on this browser until it syncs. Last good sync ${lastSuccessLabel}.`
+        : "Using locally saved private data on this browser until it syncs.";
+    }
+    if (privateTimeSyncState.mode === "error") {
+      return lastSuccessLabel
+        ? `Private sync failed. Showing cached browser data. Last good sync ${lastSuccessLabel}.`
+        : "Private sync failed. Showing cached browser data.";
+    }
+    return lastSuccessLabel ? `Private data available on this browser. Last sync ${lastSuccessLabel}.` : "";
+  }
+
+  function renderPrivateTimeSyncState() {
+    const state = document.getElementById("trackerSyncState");
+    if (!state) return;
+    const message = privateTimeSyncStateMessage();
+    const tone = privateTimeSyncState.mode === "synced"
+      ? "good"
+      : (privateTimeSyncState.mode === "error"
+        ? "error"
+        : ((privateTimeSyncState.mode === "checking" || privateTimeSyncState.mode === "local-only") ? "warning" : ""));
+    state.textContent = message;
+    state.className = `tracker-sync-state${tone ? ` ${tone}` : ""}`;
+    state.hidden = !message;
+  }
+
+  function setPrivateTimeSyncState(mode, { message = "", updatedAt = isoNow(), lastSuccessAt = null, persist = true } = {}) {
+    const nextState = cleanPrivateTimeSyncState({
+      ...privateTimeSyncState,
+      mode,
+      message,
+      updatedAt,
+      lastSuccessAt: lastSuccessAt == null ? privateTimeSyncState.lastSuccessAt : lastSuccessAt
+    });
+    if (nextState.mode === "synced" && !nextState.lastSuccessAt) nextState.lastSuccessAt = nextState.updatedAt || isoNow();
+    privateTimeSyncState = nextState;
+    if (persist) writePrivateTimeSyncState(privateTimeSyncState);
+    renderPrivateTimeSyncState();
+  }
+
   function mergeTimePayloads(serverPayload, localPayload, { preferServer = false } = {}) {
     const serverClean = cleanClientPayload(serverPayload);
     const localClean = cleanClientPayload(localPayload);
@@ -5113,6 +5221,7 @@
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(true);
     renderTimePayloadState({ renderScope });
+    setPrivateTimeSyncState("local-only");
     setTrackerStatus(message, "saved");
   }
 
@@ -5136,6 +5245,7 @@
     }
     showPrivateTimeLoadButton(Boolean(key));
     renderTimePayloadState({ renderScope });
+    setPrivateTimeSyncState("synced");
     setTrackerStatus("Saved", "saved");
   }
 
@@ -5228,6 +5338,7 @@
     const key = await resolveTimeAdminKey({ promptForKey: false, intent: "save" });
     if (!key) {
       showPrivateTimeLoadButton(true);
+      setPrivateTimeSyncState("local-only");
       return;
     }
     try {
@@ -5239,10 +5350,12 @@
         writeLocalTimePayload(timePayload);
       }
       showPrivateTimeLoadButton(Boolean(key));
+      setPrivateTimeSyncState("synced");
       setTrackerStatus(successMessage, "saved");
     } catch (error) {
       if (error.status === 401) {
         showPrivateTimeLoadButton(true);
+        setPrivateTimeSyncState("local-only");
         setTrackerStatus("Saved locally. Load private data to resume sync.", "saved");
         return;
       }
@@ -9654,6 +9767,10 @@
   }
 
   async function loadPrivateTimeData({ promptForKey = false } = {}) {
+    setPrivateTimeSyncState(
+      promptForKey ? "loading" : (timePayloadHasPrivateData(timePayload) ? "checking" : "loading"),
+      { persist: false }
+    );
     const key = await resolveTimeAdminKey({ promptForKey, intent: "load" });
     const response = await timeApi("GET");
     const localPayload = readLocalTimePayload();
@@ -9663,6 +9780,7 @@
         updatedAt: localPayload.updatedAt || isoNow()
       });
       await saveTimePayload(timePayload);
+      setPrivateTimeSyncState("synced");
       setTrackerStatus("Synced private tracker data from this device.", "saved");
       scheduleAutoDoneTaskSync();
       return true;
@@ -9670,6 +9788,7 @@
     timePayload = mergeTimePayloads(response, localPayload, { preferServer: timePayloadHasPrivateData(response) });
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(Boolean(key));
+    setPrivateTimeSyncState("synced");
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderTimePayloadState();
       if (!timePayloadHasPrivateData(response)) setTrackerStatus("Shared Time Analysis data is empty. Showing local data.");
@@ -9701,6 +9820,7 @@
           lastPrivateTimeRefreshAt = Date.now();
         }
       } catch (error) {
+        setPrivateTimeSyncState("error", { persist: false });
         showPrivateTimeLoadButton(true);
       } finally {
         privateTimeRefreshInFlight = false;
@@ -9712,6 +9832,8 @@
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
     timePayload = readLocalTimePayload();
+    const hasCachedPrivateTimeData = timePayloadHasPrivateData(timePayload);
+    privateTimeSyncState = readPrivateTimeSyncState();
     currentSourcePills = [];
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboardControls").hidden = false;
@@ -9734,16 +9856,31 @@
     });
     try {
       const key = await ensureTimeAdminKey();
-      showPrivateTimeLoadButton(Boolean(key));
+      showPrivateTimeLoadButton(Boolean(key) || hasCachedPrivateTimeData);
+      if (hasCachedPrivateTimeData) {
+        setPrivateTimeSyncState(
+          key ? "checking" : "local-only",
+          key ? { persist: false } : {
+            message: "Showing cached private data from this browser. Load private data to refresh.",
+            persist: false
+          }
+        );
+      } else if (key) {
+        setPrivateTimeSyncState("loading", { persist: false });
+      } else {
+        setPrivateTimeSyncState("idle", { message: "", lastSuccessAt: "", persist: false });
+      }
       if (key) {
         window.setTimeout(() => {
           loadPrivateTimeData().catch((error) => {
+            setPrivateTimeSyncState("error", { persist: false });
             setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
             showPrivateTimeLoadButton(true);
           });
         }, 0);
       }
     } catch (error) {
+      setPrivateTimeSyncState("error", { persist: false });
       showPrivateTimeLoadButton(true);
     }
   }
@@ -9964,6 +10101,7 @@
         setTrackerStatus("Loading private Time Analysis data...");
         await loadPrivateTimeData({ promptForKey: true });
       } catch (error) {
+        setPrivateTimeSyncState("error", { persist: false });
         setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
         showPrivateTimeLoadButton(true);
       }
