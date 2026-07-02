@@ -4855,33 +4855,82 @@
     const serverClean = cleanClientPayload(serverPayload);
     const localClean = cleanClientPayload(localPayload);
     const activeEntry = mergedActiveEntry(serverClean, localClean, { preferServer });
-    if (preferServer) {
-      return cleanClientPayload({
-        entries: serverClean.entries.length ? serverClean.entries : localClean.entries,
-        activeEntry,
-        taskOverrides: serverClean.taskOverrides || {},
-        taskMerges: serverClean.taskMerges || {},
-        updatedAt: serverClean.updatedAt || localClean.updatedAt
-      });
-    }
     return cleanClientPayload({
-      entries: localClean.entries.length ? localClean.entries : serverClean.entries,
+      entries: mergeTimePayloadEntries(serverClean.entries, localClean.entries, { preferServer }),
       activeEntry,
-      taskOverrides: {
-        ...(serverClean.taskOverrides || {}),
-        ...(localClean.taskOverrides || {})
-      },
-      taskMerges: {
-        ...(serverClean.taskMerges || {}),
-        ...(localClean.taskMerges || {})
-      },
-      updatedAt: localClean.updatedAt || serverClean.updatedAt
+      taskOverrides: mergePayloadRecordMaps(serverClean.taskOverrides || {}, localClean.taskOverrides || {}, { preferServer }),
+      taskMerges: mergePayloadRecordMaps(serverClean.taskMerges || {}, localClean.taskMerges || {}, { preferServer }),
+      updatedAt: mergedPayloadUpdatedAt(serverClean.updatedAt, localClean.updatedAt, { preferServer })
     });
   }
 
   function timestampMs(value) {
     const date = value ? new Date(value) : null;
     return date && !Number.isNaN(date.getTime()) ? date.getTime() : 0;
+  }
+
+  function choosePayloadRecord(serverRecord, localRecord, { preferServer = false } = {}) {
+    if (!serverRecord) return localRecord || null;
+    if (!localRecord) return serverRecord;
+    const serverTs = timestampMs(serverRecord?.updatedAt);
+    const localTs = timestampMs(localRecord?.updatedAt);
+    if (serverTs === localTs) return preferServer ? serverRecord : localRecord;
+    return serverTs > localTs ? serverRecord : localRecord;
+  }
+
+  function mergePayloadRecordMaps(serverMap, localMap, { preferServer = false } = {}) {
+    const keys = new Set([
+      ...Object.keys(serverMap || {}),
+      ...Object.keys(localMap || {})
+    ]);
+    return Object.fromEntries(Array.from(keys).flatMap((key) => {
+      const value = choosePayloadRecord(serverMap?.[key], localMap?.[key], { preferServer });
+      return value ? [[key, value]] : [];
+    }));
+  }
+
+  function timePayloadEntryTimestamp(entry) {
+    return Math.max(
+      timestampMs(entry?.updatedAt),
+      timestampMs(entry?.stop),
+      timestampMs(entry?.start),
+      timestampMs(entry?.createdAt)
+    );
+  }
+
+  function mergeTimePayloadEntries(serverEntries, localEntries, { preferServer = false } = {}) {
+    const byId = new Map();
+    const applyEntries = (entries, source) => {
+      (entries || []).forEach((entry, index) => {
+        const key = cleanLabel(entry?.id, "");
+        if (!key) return;
+        const existing = byId.get(key);
+        if (!existing) {
+          byId.set(key, { entry, source, index });
+          return;
+        }
+        const existingTs = timePayloadEntryTimestamp(existing.entry);
+        const nextTs = timePayloadEntryTimestamp(entry);
+        const sourceWinsTie = source !== existing.source && (preferServer ? source === "server" : source === "local");
+        if (nextTs > existingTs || (nextTs === existingTs && (sourceWinsTie || index < existing.index))) {
+          byId.set(key, { entry, source, index });
+        }
+      });
+    };
+    applyEntries(serverEntries, "server");
+    applyEntries(localEntries, "local");
+    return Array.from(byId.values())
+      .map((item) => item.entry)
+      .sort((a, b) => timePayloadEntryTimestamp(b) - timePayloadEntryTimestamp(a));
+  }
+
+  function mergedPayloadUpdatedAt(serverUpdatedAt, localUpdatedAt, { preferServer = false } = {}) {
+    const serverTs = timestampMs(serverUpdatedAt);
+    const localTs = timestampMs(localUpdatedAt);
+    if (!serverTs) return localUpdatedAt || null;
+    if (!localTs) return serverUpdatedAt || null;
+    if (serverTs === localTs) return preferServer ? serverUpdatedAt : localUpdatedAt;
+    return serverTs > localTs ? serverUpdatedAt : localUpdatedAt;
   }
 
   function activeEntryDateValues(entry) {
@@ -9614,7 +9663,7 @@
         updatedAt: localPayload.updatedAt || isoNow()
       });
       await saveTimePayload(timePayload);
-      setTrackerStatus("Synced due dates from this device.", "saved");
+      setTrackerStatus("Synced private tracker data from this device.", "saved");
       scheduleAutoDoneTaskSync();
       return true;
     }
@@ -9642,7 +9691,6 @@
     if (privateTimeRefreshTimer) window.clearTimeout(privateTimeRefreshTimer);
     privateTimeRefreshTimer = window.setTimeout(async () => {
       privateTimeRefreshTimer = null;
-      if (!force && timePayloadHasPrivateData(timePayload)) return;
       const now = Date.now();
       if (!force && now - lastPrivateTimeRefreshAt < 5000) return;
       if (privateTimeRefreshInFlight) return;
@@ -9664,7 +9712,6 @@
     populateListSelect(document.getElementById("trackerList"), "901301650324");
     populateListSelect(document.getElementById("editList"));
     timePayload = readLocalTimePayload();
-    const hasCachedPrivateTimeData = timePayloadHasPrivateData(timePayload);
     currentSourcePills = [];
     document.getElementById("statusBox").hidden = true;
     document.getElementById("dashboardControls").hidden = false;
@@ -9688,7 +9735,7 @@
     try {
       const key = await ensureTimeAdminKey();
       showPrivateTimeLoadButton(Boolean(key));
-      if (key && !hasCachedPrivateTimeData) {
+      if (key) {
         window.setTimeout(() => {
           loadPrivateTimeData().catch((error) => {
             setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
