@@ -478,7 +478,8 @@
     box-shadow: 0 10px 24px rgba(71, 61, 34, 0.08);
   }
 
-  #plantCreateBtn {
+  #plantCreateBtn,
+  #entryCreateBtn {
     flex: 0 0 auto;
     align-self: flex-end;
     min-width: 128px;
@@ -1066,7 +1067,8 @@
       max-width: none;
     }
 
-    #plantCreateBtn {
+    #plantCreateBtn,
+    #entryCreateBtn {
       align-self: stretch;
     }
   }
@@ -1107,7 +1109,8 @@
       justify-content: flex-start;
     }
 
-    #plantCreateBtn {
+    #plantCreateBtn,
+    #entryCreateBtn {
       width: 100%;
       min-width: 0;
     }
@@ -1472,11 +1475,11 @@
 
   <section class="tab-panel" id="tab-journal" role="tabpanel" aria-label="Journal">
     <div class="content-grid">
-      <article class="panel">
+      <article class="panel" id="entryComposerPanel" hidden>
         <div class="panel-head">
           <div>
-            <h2>Progress journal</h2>
-            <p>Keep entries short: what you saw, what changed, and what you will do next.</p>
+            <h2 id="entryComposerTitle">Add journal entry</h2>
+            <p id="entryComposerDescription">Open this form only when you are ready to record a new update so the timeline stays easier to scan.</p>
           </div>
         </div>
         <div class="panel-body">
@@ -1518,7 +1521,7 @@
             </div>
             <div class="form-actions">
               <button class="btn btn-primary" type="submit" id="entrySaveBtn">Save entry</button>
-              <button class="btn btn-ghost" type="button" id="entryCancelBtn" hidden>Cancel edit</button>
+              <button class="btn btn-ghost" type="button" id="entryCancelBtn">Cancel</button>
             </div>
             <div class="status-text" id="entryStatusText" aria-live="polite"></div>
           </form>
@@ -1526,7 +1529,7 @@
       </article>
 
       <article class="panel">
-        <div class="panel-head">
+        <div class="panel-head plant-list-head">
           <div>
             <h2>Journal timeline</h2>
             <p id="entryTimelineCopy">Photos stay attached to each note so you can compare progress over time.</p>
@@ -1536,6 +1539,7 @@
               <label for="entryFilterPlantId">Filter by plant</label>
               <select id="entryFilterPlantId" name="entryFilterPlantId"></select>
             </div>
+            <button class="btn btn-secondary" id="entryCreateBtn" type="button" aria-controls="entryComposerPanel" aria-expanded="false">新增日志</button>
           </div>
         </div>
         <div class="panel-body">
@@ -1763,6 +1767,10 @@
   const plantComposerTitle = document.getElementById("plantComposerTitle");
   const plantComposerDescription = document.getElementById("plantComposerDescription");
   const plantCreateBtn = document.getElementById("plantCreateBtn");
+  const entryComposerPanel = document.getElementById("entryComposerPanel");
+  const entryComposerTitle = document.getElementById("entryComposerTitle");
+  const entryComposerDescription = document.getElementById("entryComposerDescription");
+  const entryCreateBtn = document.getElementById("entryCreateBtn");
   const TAB_BUTTONS = Array.from(document.querySelectorAll(".page-tab[data-tab]"));
   const NAVIGABLE_TABS = new Set(
     Array.from(document.querySelectorAll(".tab-panel[id^='tab-']"), (panel) => panel.id.replace(/^tab-/, "")).filter(Boolean)
@@ -1774,6 +1782,7 @@
 
   document.getElementById("plantCancelBtn").addEventListener("click", resetPlantForm);
   plantCreateBtn.addEventListener("click", startPlantCreate);
+  entryCreateBtn.addEventListener("click", startEntryCreate);
   document.getElementById("taskCancelBtn").addEventListener("click", resetTaskForm);
   document.getElementById("entryCancelBtn").addEventListener("click", resetEntryForm);
   document.getElementById("noteCancelBtn").addEventListener("click", resetNoteForm);
@@ -1797,6 +1806,7 @@
     setDefaultDates();
     document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
     updatePlantComposerUi();
+    updateEntryComposerUi();
     hydrateTabFromHash();
     syncPlantSelectors();
     restorePlantDraft();
@@ -1856,6 +1866,60 @@
     clearStatus("plantStatusText");
     updatePlantComposerUi();
     openPlantComposer({ focusField: true, scroll: true });
+  }
+
+  function isEntryComposerOpen() {
+    return !entryComposerPanel.hidden;
+  }
+
+  function applyEntryFormDefaults() {
+    entryForm.reset();
+    entryForm.entryDate.value = todayIsoDate();
+    entryForm.entryPlantId.value = "";
+    document.getElementById("entryPhotos").value = "";
+  }
+
+  function updateEntryComposerUi() {
+    const editing = Boolean(uiState.editingEntryId);
+    entryComposerTitle.textContent = editing ? "Edit journal entry" : "Add journal entry";
+    entryComposerDescription.textContent = editing
+      ? "Update the note, keep the important observations, and save it back into the timeline."
+      : "Open this form only when you are ready to record a new update so the timeline stays easier to scan.";
+    document.getElementById("entrySaveBtn").textContent = editing ? "Update entry" : "Save entry";
+    document.getElementById("entryCancelBtn").textContent = editing ? "Cancel edit" : "Cancel";
+  }
+
+  function openEntryComposer({ focusField = false, scroll = false } = {}) {
+    entryComposerPanel.hidden = false;
+    entryCreateBtn.setAttribute("aria-expanded", "true");
+    updateEntryComposerUi();
+    if (focusField || scroll) {
+      window.requestAnimationFrame(() => {
+        entryComposerPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (focusField) {
+          entryForm.entryTitle.focus();
+        }
+      });
+    }
+  }
+
+  function closeEntryComposer() {
+    entryComposerPanel.hidden = true;
+    entryCreateBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function startEntryCreate() {
+    if (isEntryComposerOpen()) {
+      openEntryComposer({ focusField: true, scroll: true });
+      return;
+    }
+    uiState.editingEntryId = null;
+    uiState.pendingPhotos = [];
+    applyEntryFormDefaults();
+    renderPendingPhotoQueue();
+    clearStatus("entryStatusText");
+    updateEntryComposerUi();
+    openEntryComposer({ focusField: true, scroll: true });
   }
 
   function clearPlantDraftSaveTimer() {
@@ -3321,12 +3385,11 @@
     uiState.pendingPhotos = [];
     document.getElementById("entryPhotos").value = "";
     renderPendingPhotoQueue();
-    document.getElementById("entrySaveBtn").textContent = "Update entry";
-    document.getElementById("entryCancelBtn").hidden = false;
+    updateEntryComposerUi();
     clearStatus("entryStatusText");
     setStatus("entryStatusText", `Editing entry. Existing photos stay attached unless you remove them from the timeline.`, "");
     setActiveTab("journal");
-    entryForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    openEntryComposer({ scroll: true });
   }
 
   async function openPlantJournal(plantId) {
@@ -3377,14 +3440,11 @@
   function resetEntryForm() {
     uiState.editingEntryId = null;
     uiState.pendingPhotos = [];
-    entryForm.reset();
-    entryForm.entryDate.value = todayIsoDate();
-    entryForm.entryPlantId.value = "";
-    document.getElementById("entryPhotos").value = "";
-    document.getElementById("entrySaveBtn").textContent = "Save entry";
-    document.getElementById("entryCancelBtn").hidden = true;
+    applyEntryFormDefaults();
     renderPendingPhotoQueue();
     clearStatus("entryStatusText");
+    updateEntryComposerUi();
+    closeEntryComposer();
   }
 
   function resetNoteForm() {
