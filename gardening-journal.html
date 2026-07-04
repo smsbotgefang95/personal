@@ -957,7 +957,6 @@
     <button class="page-tab" type="button" data-tab="plants" aria-selected="false">植物</button>
     <button class="page-tab" type="button" data-tab="tasks" aria-selected="false">任务</button>
     <button class="page-tab" type="button" data-tab="journal" aria-selected="false">日志</button>
-    <button class="page-tab" type="button" data-tab="knowledge" aria-selected="false">知识</button>
   </div>
 
   <section class="tab-panel active" id="tab-overview" role="tabpanel" aria-label="Overview">
@@ -1514,8 +1513,12 @@
   const taskForm = document.getElementById("taskForm");
   const entryForm = document.getElementById("entryForm");
   const noteForm = document.getElementById("noteForm");
+  const TAB_BUTTONS = Array.from(document.querySelectorAll(".page-tab[data-tab]"));
+  const NAVIGABLE_TABS = new Set(
+    TAB_BUTTONS.map((button) => button.dataset.tab).filter(Boolean)
+  );
 
-  document.querySelectorAll("[data-tab]").forEach((button) => {
+  TAB_BUTTONS.forEach((button) => {
     button.addEventListener("click", () => setActiveTab(button.dataset.tab));
   });
 
@@ -1922,19 +1925,20 @@
 
   function hydrateTabFromHash() {
     const nextTab = (location.hash || "").replace(/^#/, "");
-    if (nextTab && document.getElementById(`tab-${nextTab}`)) {
+    if (nextTab && NAVIGABLE_TABS.has(nextTab) && document.getElementById(`tab-${nextTab}`)) {
       setActiveTab(nextTab, false);
       return;
     }
-    setActiveTab(uiState.activeTab || "overview", false);
+    const fallbackTab = NAVIGABLE_TABS.has(uiState.activeTab) ? uiState.activeTab : "overview";
+    setActiveTab(fallbackTab, Boolean(nextTab) && nextTab !== fallbackTab);
   }
 
   function setActiveTab(tabName, pushHash = true) {
-    if (!document.getElementById(`tab-${tabName}`)) {
+    if (!NAVIGABLE_TABS.has(tabName) || !document.getElementById(`tab-${tabName}`)) {
       return;
     }
     uiState.activeTab = tabName;
-    document.querySelectorAll("[data-tab]").forEach((button) => {
+    TAB_BUTTONS.forEach((button) => {
       const isActive = button.dataset.tab === tabName;
       button.classList.toggle("active", isActive);
       button.setAttribute("aria-selected", isActive ? "true" : "false");
