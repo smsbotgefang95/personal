@@ -2417,6 +2417,25 @@
   .tracker-status.error { color: #fca5a5; }
   .tracker-status.saved { color: var(--muted); }
 
+  .tracker-toast {
+    position: fixed;
+    right: 18px;
+    bottom: 104px;
+    z-index: 42;
+    max-width: min(460px, calc(100vw - 36px));
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: rgba(3, 7, 18, 0.96);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34);
+    color: #f9fafb;
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .tracker-toast.saved { border-color: #065f46; }
+  .tracker-toast.error { border-color: #991b1b; }
+
   .tracker-sync-row {
     display: grid;
     gap: 10px;
@@ -2555,6 +2574,13 @@
     .bulk-task-action,
     .bulk-task-apply {
       width: 100%;
+    }
+
+    .tracker-toast {
+      right: 18px;
+      left: 18px;
+      bottom: 150px;
+      max-width: none;
     }
   }
 
@@ -3649,6 +3675,7 @@
   let lastTrackerVisibleRows = [];
   let lastTrackerSelectableRows = [];
   let bulkTaskStatusValue = "done";
+  let trackerToastTimer = null;
   let pendingTaskNameSave = null;
   let trackerSearchRenderTimer = null;
   let trackerSearchRenderTimeout = null;
@@ -4660,6 +4687,27 @@
     status.hidden = !message;
   }
 
+  function trackerToastElement() {
+    let toast = document.getElementById("trackerToast");
+    if (toast) return toast;
+    document.body.insertAdjacentHTML("beforeend", '<div class="tracker-toast" id="trackerToast" hidden role="status" aria-live="polite"></div>');
+    return document.getElementById("trackerToast");
+  }
+
+  function showTrackerToast(message, mode = "", { duration = 4200 } = {}) {
+    const toast = trackerToastElement();
+    if (!toast) return;
+    window.clearTimeout(trackerToastTimer);
+    toast.textContent = message || "";
+    toast.className = `tracker-toast${mode ? ` ${mode}` : ""}`;
+    toast.hidden = !message;
+    if (!message || duration <= 0) return;
+    trackerToastTimer = window.setTimeout(() => {
+      toast.hidden = true;
+      trackerToastTimer = null;
+    }, duration);
+  }
+
   function showPrivateTimeLoadButton(show) {
     const label = timePayloadHasPrivateData(timePayload) ? "Refresh private data" : "Load private data";
     document.querySelectorAll("[data-load-private-time]").forEach((button) => {
@@ -5170,7 +5218,11 @@
       error.status = 401;
       throw error;
     }
-    if (!response.ok) throw new Error(`Time API returned HTTP ${response.status}`);
+    if (!response.ok) {
+      const error = new Error(`Time API returned HTTP ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
     return response.json();
   }
 
@@ -5182,6 +5234,20 @@
 
   function postTimePayload(pendingPayload) {
     return enqueueTimePayloadSync(() => timeApi("POST", pendingPayload));
+  }
+
+  function shouldFallbackToLocalTimeSave(error) {
+    if (!error) return false;
+    if (error.status === 401) return true;
+    if (privateTimeSyncState.mode === "error" || privateTimeSyncState.mode === "local-only") return true;
+    if (Number.isFinite(error.status)) return error.status >= 500;
+    return true;
+  }
+
+  function localTimeSaveFallbackMessage(error) {
+    if (error?.status === 401) return "Saved locally. Load private data to resume sync.";
+    if (Number.isFinite(error?.status)) return `Saved locally. Private sync is temporarily unavailable (HTTP ${error.status}).`;
+    return "Saved locally. Private sync is temporarily unavailable.";
   }
 
   function renderTrackerFromCurrentData() {
@@ -5237,8 +5303,8 @@
       timePayload = cleanClientPayload(response.payload || pendingPayload);
       writeLocalTimePayload(timePayload);
     } catch (error) {
-      if (error.status === 401) {
-        saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to resume sync.", { renderScope });
+      if (shouldFallbackToLocalTimeSave(error)) {
+        saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope });
         return;
       }
       throw error;
@@ -5353,10 +5419,11 @@
       setPrivateTimeSyncState("synced");
       setTrackerStatus(successMessage, "saved");
     } catch (error) {
-      if (error.status === 401) {
+      if (shouldFallbackToLocalTimeSave(error)) {
+        writeLocalTimePayload(timePayload);
         showPrivateTimeLoadButton(true);
         setPrivateTimeSyncState("local-only");
-        setTrackerStatus("Saved locally. Load private data to resume sync.", "saved");
+        setTrackerStatus(localTimeSaveFallbackMessage(error), "saved");
         return;
       }
       throw error;
@@ -6768,6 +6835,29 @@
     return taskStatusPatch(entry, status);
   }
 
+  function movedRecurringTaskToNextDueDate(entry, requestedStatus, patch) {
+    if (requestedStatus !== "done" || patch?.status !== "todo") return false;
+    const currentDueDate = dateInputValue(entry?.dueDate || entry?.dueDateText);
+    const nextDueDate = dateInputValue(patch?.dueDate);
+    return Boolean(currentDueDate && nextDueDate && nextDueDate !== currentDueDate);
+  }
+
+  function bulkTaskStatusMessage({ changedCount, statusValue, recurringAdvancedCount, dueFilterValue }) {
+    const baseMessage = `Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}.`;
+    if (statusValue !== "done") return `${baseMessage} Marked the selected tasks as TO DO.`;
+    const finishedCount = Math.max(0, changedCount - recurringAdvancedCount);
+    const messageParts = [];
+    if (recurringAdvancedCount === changedCount && changedCount) {
+      messageParts.push(`All selected tasks are recurring, so they moved to their next due date.`);
+    } else if (recurringAdvancedCount > 0) {
+      messageParts.push(`${recurringAdvancedCount.toLocaleString()} recurring ${recurringAdvancedCount === 1 ? "task moved" : "tasks moved"} to ${recurringAdvancedCount === 1 ? "its" : "their"} next due date.`);
+    }
+    if (finishedCount > 0 && shouldHideDoneTasksForDueFilter(dueFilterValue)) {
+      messageParts.push(`Done tasks are hidden in ${dueFilterValue === "all" ? "Due all" : "this filter"}.`);
+    }
+    return messageParts.length ? `${baseMessage} ${messageParts.join(" ")}` : baseMessage;
+  }
+
   function isDailyRecurringTask(entry) {
     return isSleepTimerEntry(entry) || (entry?.recurrence || inferRecurrence(entry)) === "daily";
   }
@@ -7163,7 +7253,10 @@
       bulkTaskStatusValue = event.target.value === "todo" ? "todo" : "done";
     });
     document.querySelector("[data-apply-bulk-status]")?.addEventListener("click", () => {
-      applyBulkTaskStatus(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
+      applyBulkTaskStatus(visibleRows).catch((error) => {
+        setTrackerStatus(error.message, "error");
+        showTrackerToast(error.message, "error");
+      });
     });
     document.querySelector("[data-duplicate-selected-tasks]")?.addEventListener("click", () => {
       duplicateSelectedTasks(visibleRows).catch((error) => setTrackerStatus(error.message, "error"));
@@ -7177,13 +7270,17 @@
     const selectedRows = selectedVisibleTaskRows(visibleRows);
     if (!selectedRows.length) return;
     const dueFilterValue = document.getElementById("dueStatusFilter")?.value || "all";
+    const statusValue = bulkTaskStatusValue === "todo" ? "todo" : "done";
     const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    let recurringAdvancedCount = 0;
     selectedRows.forEach((entry) => {
+      const patch = manualTaskStatusPatch(entry, statusValue);
+      if (movedRecurringTaskToNextDueDate(entry, statusValue, patch)) recurringAdvancedCount += 1;
       taskOverrideKeysForEdit(entry).forEach((key) => {
         const current = currentTaskOverrideForKey(entry, key);
         const next = {
           ...current,
-          ...manualTaskStatusPatch(entry, bulkTaskStatusValue),
+          ...patch,
           updatedAt: isoNow()
         };
         if (next.recurrence !== "custom") next.recurringText = "";
@@ -7198,12 +7295,14 @@
     }, {
       renderScope: "activityRows"
     });
-    const baseMessage = `Updated ${changedCount.toLocaleString()} ${changedCount === 1 ? "task" : "tasks"}`;
-    const hidesDoneTasks = bulkTaskStatusValue === "done" && shouldHideDoneTasksForDueFilter(dueFilterValue);
-    const statusMessage = hidesDoneTasks
-      ? `${baseMessage}. Done tasks are hidden in ${dueFilterValue === "all" ? "Due all" : "this filter"}.`
-      : baseMessage;
+    const statusMessage = bulkTaskStatusMessage({
+      changedCount,
+      statusValue,
+      recurringAdvancedCount,
+      dueFilterValue
+    });
     setTrackerStatus(statusMessage, "saved");
+    showTrackerToast(statusMessage, "saved");
   }
 
   function uniqueDuplicateTaskName(baseName, usedNames) {
