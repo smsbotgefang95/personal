@@ -1669,35 +1669,35 @@
 
   function summarizePlantSubtext(activePlants) {
     if (!activePlants.length) {
-      return "No plants tracked yet.";
+      return "还没有记录任何植物。";
     }
     const locations = new Set(activePlants.map((plant) => plant.location).filter(Boolean));
     if (!locations.size) {
-      return `${activePlants.length} plant record${activePlants.length === 1 ? "" : "s"} started.`;
+      return `已建立 ${activePlants.length} 条植物记录。`;
     }
-    return `${locations.size} growing spot${locations.size === 1 ? "" : "s"} in use.`;
+    return `正在使用 ${locations.size} 处种植位置。`;
   }
 
   function summarizeTaskSubtext(openTasks) {
     if (!openTasks.length) {
-      return "Nothing due right now.";
+      return "目前没有到期事项。";
     }
     const overdueCount = openTasks.filter((task) => task.dueDate && task.dueDate < todayIsoDate()).length;
-    return overdueCount ? `${overdueCount} overdue task${overdueCount === 1 ? "" : "s"} need attention.` : "Next actions are lined up.";
+    return overdueCount ? `有 ${overdueCount} 条逾期任务需要处理。` : "接下来的事项已经排好。";
   }
 
   function summarizeEntrySubtext(entries) {
     if (!entries.length) {
-      return "Start with one simple note.";
+      return "先写下一条简单记录。";
     }
-    return `Latest: ${formatDisplayDate(entries[0].date, true)}.`;
+    return `最新记录：${formatDisplayDate(entries[0].date, true)}。`;
   }
 
   function summarizeNoteSubtext(notes) {
     if (!notes.length) {
-      return "Capture tips before they disappear.";
+      return "趁还记得先把经验记下来。";
     }
-    return `Most recent topic: ${notes[0].topic}.`;
+    return `最近主题：${notes[0].topic}。`;
   }
 
   async function renderAll() {
@@ -1937,7 +1937,7 @@
   function truncateText(value, maxLength = 140) {
     const compact = String(value || "").replace(/\s+/g, " ").trim();
     if (!compact) {
-      return "No notes yet.";
+      return "还没有备注。";
     }
     return compact.length > maxLength ? `${compact.slice(0, maxLength - 3).trimEnd()}...` : compact;
   }
@@ -1947,8 +1947,8 @@
     if (!entries.length) {
       return `
         <section>
-          <h5>Journal</h5>
-          <p>No journal entries for this plant yet.</p>
+          <h5>日志</h5>
+          <p>这个植物还没有日志条目。</p>
         </section>
       `;
     }
@@ -1966,11 +1966,11 @@
 
     return `
       <section>
-        <h5>Journal</h5>
+        <h5>日志</h5>
         <div class="plant-journal-preview">
           ${previewItems}
         </div>
-        ${entries.length > 3 ? `<div class="photo-caption">Showing the latest 3 of ${entries.length} entries.</div>` : ""}
+        ${entries.length > 3 ? `<div class="photo-caption">显示最近 3 条，共 ${entries.length} 条记录。</div>` : ""}
       </section>
     `;
   }
@@ -1983,7 +1983,7 @@
     const container = document.getElementById("plantList");
     const plants = sortedPlants();
     if (!plants.length) {
-      container.innerHTML = `<div class="empty-state">No plants yet. Start with the first vegetable or flower you care about tracking.</div>`;
+      container.innerHTML = `<div class="empty-state">还没有植物记录。先从你最想追踪的第一种蔬菜或花开始。</div>`;
       return;
     }
 
@@ -1993,39 +1993,39 @@
           <div>
             <h4>${escapeHtml(plant.name)}</h4>
             <div class="meta-line">
-              <span class="chip">${escapeHtml(plant.category)}</span>
-              <span class="chip alt">${escapeHtml(plant.stage)}</span>
+              <span class="chip">${escapeHtml(localizePlantCategory(plant.category))}</span>
+              <span class="chip alt">${escapeHtml(localizePlantStage(plant.stage))}</span>
               ${plant.location ? `<span class="chip warm">${escapeHtml(plant.location)}</span>` : ""}
             </div>
           </div>
-          <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "No start date")}</span>
+          <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
         </div>
-        <p>${escapeHtml(plant.variety || "No variety recorded.")}</p>
+        <p>${escapeHtml(plant.variety || "还没有记录品种。")}</p>
         <div class="journal-copy" style="margin-top: 12px;">
           <section>
-            <h5>Sunlight</h5>
-            <p class="fact-line">${escapeHtml(plant.sunlight || "Add a sunlight category.")}</p>
+            <h5>光照</h5>
+            <p class="fact-line">${escapeHtml(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "补充一个光照分类。")}</p>
             ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
           </section>
           <section>
-            <h5>Temperature</h5>
-            <p class="fact-line">${escapeHtml(plant.temperature || "Add an ideal temperature range.")}</p>
+            <h5>温度</h5>
+            <p class="fact-line">${escapeHtml(plant.temperature || "补充一个适宜温度范围。")}</p>
             ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
           </section>
           <section>
-            <h5>Watering notes</h5>
-            <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "Add watering notes when you know them."}</p>
+            <h5>浇水备注</h5>
+            <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
           </section>
           <section>
-            <h5>General notes</h5>
+            <h5>通用备注</h5>
             ${formatTextBlock(plant.notes)}
           </section>
           ${renderPlantJournalPreview(plant)}
         </div>
         <div class="record-actions">
-          <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">View journal</button>
-          <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}">Edit</button>
-          <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">Delete</button>
+          <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
+          <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}">编辑</button>
+          <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">删除</button>
         </div>
       </article>
     `).join("");
@@ -2230,9 +2230,9 @@
     const filterValue = uiState.entryFilterPlantId;
     const plantNameSuggestions = document.getElementById("plantNameSuggestions");
 
-    setSelectOptions(taskSelect, buildPlantOptions("General garden"), taskValue);
-    setSelectOptions(entrySelect, buildPlantOptions("General garden"), entryValue);
-    setSelectOptions(filterSelect, buildPlantOptions("All plants"), filterValue);
+    setSelectOptions(taskSelect, buildPlantOptions("通用花园"), taskValue);
+    setSelectOptions(entrySelect, buildPlantOptions("通用花园"), entryValue);
+    setSelectOptions(filterSelect, buildPlantOptions("所有植物"), filterValue);
     plantNameSuggestions.innerHTML = sortedPlants()
       .map((plant) => plant.name)
       .filter((name, index, names) => name && names.indexOf(name) === index)
@@ -2279,7 +2279,7 @@
     });
 
     if (!plant) {
-      setStatus("plantStatusText", "Plant name is required.", "error");
+      setStatus("plantStatusText", "植物名称不能为空。", "error");
       return;
     }
 
@@ -2293,8 +2293,8 @@
     resetPlantForm();
     syncPlantSelectors();
     await renderAll();
-    setStatus("plantStatusText", existing ? "Plant updated." : "Plant saved.", "success");
-    showToast(existing ? "Plant updated." : "Plant saved.");
+    setStatus("plantStatusText", existing ? "植物已更新。" : "植物已保存。", "success");
+    showToast(existing ? "植物已更新。" : "植物已保存。");
   }
 
   async function handleTaskSubmit(event) {
@@ -2444,7 +2444,7 @@
     plantForm.plantTemperatureNotes.value = plant.temperatureNotes;
     plantForm.plantWatering.value = plant.watering;
     plantForm.plantNotes.value = plant.notes;
-    document.getElementById("plantSaveBtn").textContent = "Update plant";
+    document.getElementById("plantSaveBtn").textContent = "更新植物";
     document.getElementById("plantCancelBtn").hidden = false;
     clearStatus("plantStatusText");
     setActiveTab("plants");
@@ -2524,7 +2524,7 @@
     plantForm.reset();
     plantForm.plantCategory.value = "Vegetable";
     plantForm.plantStage.value = "Planning";
-    document.getElementById("plantSaveBtn").textContent = "Save plant";
+    document.getElementById("plantSaveBtn").textContent = "保存植物";
     document.getElementById("plantCancelBtn").hidden = true;
     clearStatus("plantStatusText");
   }
@@ -2565,8 +2565,8 @@
     const relatedTasks = gardenState.tasks.filter((task) => task.plantId === plantId).length;
     const relatedEntries = gardenState.entries.filter((entry) => entry.plantId === plantId).length;
     const warning = relatedTasks || relatedEntries
-      ? `This plant is linked to ${relatedTasks} task(s) and ${relatedEntries} journal entry(s). Delete it anyway? Linked items will become general garden items.`
-      : "Delete this plant record?";
+      ? `这个植物关联了 ${relatedTasks} 条任务和 ${relatedEntries} 条日志。仍要删除吗？关联内容会改成通用花园条目。`
+      : "要删除这条植物记录吗？";
     if (!window.confirm(warning)) {
       return;
     }
@@ -2581,7 +2581,7 @@
       uiState.entryFilterPlantId = "";
     }
     await renderAll();
-    showToast("Plant deleted.");
+    showToast("植物已删除。");
   }
 
   async function toggleTaskComplete(taskId) {
@@ -2842,12 +2842,12 @@
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `gardening-journal-backup-${todayIsoDate()}.json`;
+    anchor.download = `园艺日志-备份-${todayIsoDate()}.json`;
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
     URL.revokeObjectURL(url);
-    showToast("Backup exported.");
+    showToast("备份已导出。");
   }
 
   async function importBackup(event) {
@@ -2859,9 +2859,9 @@
       const rawText = await file.text();
       const parsed = JSON.parse(rawText);
       if (!parsed || typeof parsed !== "object" || !parsed.state) {
-        throw new Error("Backup format not recognized.");
+        throw new Error("无法识别备份格式。");
       }
-      if (!window.confirm("Importing will replace the current gardening journal in this browser. Continue?")) {
+      if (!window.confirm("导入会替换当前浏览器里的园艺日志。要继续吗？")) {
         event.target.value = "";
         return;
       }
@@ -2874,7 +2874,7 @@
             await putPhoto({
               id: String(photo.id),
               entryId: String(photo.entryId || ""),
-              name: String(photo.name || "Garden photo"),
+              name: String(photo.name || "花园照片"),
               type: String(photo.type || "image/jpeg"),
               createdAt: String(photo.createdAt || new Date().toISOString()),
               dataUrl: String(photo.dataUrl)
@@ -2888,9 +2888,9 @@
       resetNoteForm();
       syncPlantSelectors();
       await renderAll();
-      showToast("Backup imported.");
+      showToast("备份已导入。");
     } catch (error) {
-      showToast(error && error.message ? error.message : "Could not import backup.");
+      showToast(error && error.message ? error.message : "无法导入备份。");
     } finally {
       event.target.value = "";
     }
