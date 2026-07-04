@@ -526,6 +526,12 @@
     background: rgba(255, 255, 255, 0.78);
   }
 
+  .plant-card {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(249, 245, 236, 0.94));
+    box-shadow: 0 16px 30px rgba(71, 61, 34, 0.06);
+  }
+
   .record-header {
     display: flex;
     align-items: flex-start;
@@ -575,6 +581,15 @@
 
   .record-card p {
     color: var(--muted);
+  }
+
+  .plant-variety {
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(241, 234, 219, 0.82);
+    color: var(--green-deep);
+    font-weight: 600;
   }
 
   .record-actions {
@@ -678,13 +693,66 @@
 
   .journal-copy {
     display: grid;
-    gap: 10px;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: stretch;
   }
 
   .journal-copy section {
-    padding: 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.62);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 8px;
+    min-height: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(97, 109, 82, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .journal-copy section::after {
+    content: "";
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.46);
+    pointer-events: none;
+  }
+
+  .journal-copy .plant-detail-wide {
+    grid-column: 1 / -1;
+  }
+
+  .journal-copy .plant-detail-card-sunlight {
+    background: linear-gradient(180deg, rgba(255, 244, 211, 0.92), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-temperature {
+    background: linear-gradient(180deg, rgba(253, 232, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-watering {
+    background: linear-gradient(180deg, rgba(232, 241, 246, 0.96), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-soil {
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-feeding {
+    background: linear-gradient(180deg, rgba(244, 236, 222, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-harvest {
+    background: linear-gradient(180deg, rgba(255, 241, 214, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-journal {
+    background: linear-gradient(180deg, rgba(247, 241, 228, 0.94), rgba(255, 255, 255, 0.94));
   }
 
   .journal-copy h5 {
@@ -699,6 +767,10 @@
   .journal-copy .fact-line {
     color: var(--ink);
     font-weight: 700;
+  }
+
+  .journal-copy p {
+    margin: 0;
   }
 
   .journal-copy .detail-note {
@@ -800,7 +872,8 @@
 
     .summary-grid,
     .helper-grid,
-    .field-grid {
+    .field-grid,
+    .journal-copy {
       grid-template-columns: 1fr;
     }
 
@@ -2255,7 +2328,7 @@
     const entries = linkedEntriesForPlant(plant.id);
     if (!entries.length) {
       return `
-        <section>
+        <section class="plant-detail-card-journal plant-detail-wide">
           <h5>日志</h5>
           <p>这个植物还没有日志条目。</p>
         </section>
@@ -2274,7 +2347,7 @@
     `).join("");
 
     return `
-      <section>
+      <section class="plant-detail-card-journal plant-detail-wide">
         <h5>日志</h5>
         <div class="plant-journal-preview">
           ${previewItems}
@@ -2297,7 +2370,7 @@
     }
 
     container.innerHTML = plants.map((plant) => `
-      <article class="record-card">
+      <article class="record-card plant-card">
         <div class="record-header">
           <div>
             <h4>${escapeHtml(plant.name)}</h4>
@@ -2310,33 +2383,33 @@
           </div>
           <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
         </div>
-        <p>${escapeHtml(plant.variety || "还没有记录品种。")}</p>
+        <p class="plant-variety">${escapeHtml(plant.variety || "还没有记录品种。")}</p>
         <div class="journal-copy" style="margin-top: 12px;">
-          <section>
+          <section class="plant-detail-card-sunlight">
             <h5>☀️ 光照</h5>
             <p class="fact-line">${escapeHtml(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "补充一个光照分类。")}</p>
             ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
           </section>
           ${plant.temperature || plant.temperatureNotes ? `
-          <section>
+          <section class="plant-detail-card-temperature">
             <h5>🌡️ 温度</h5>
             ${plant.temperature ? `<p class="fact-line">${escapeHtml(plant.temperature)}</p>` : ""}
             ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
           </section>
           ` : ""}
-          <section>
+          <section class="plant-detail-card-watering">
             <h5>💧 浇水</h5>
             <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
           </section>
-          <section>
+          <section class="plant-detail-card-soil">
             <h5>🌱 土壤</h5>
             <p class="fact-line">${plant.soil ? escapeHtml(plant.soil).replace(/\n/g, "<br />") : "摸清土壤情况后再补充说明。"}</p>
           </section>
-          <section>
+          <section class="plant-detail-card-feeding">
             <h5>🌿 施肥</h5>
             ${formatTextBlock(plant.notes)}
           </section>
-          <section>
+          <section class="plant-detail-card-harvest">
             <h5>🧺 收获</h5>
             <p class="fact-line">${plant.harvest ? escapeHtml(plant.harvest).replace(/\n/g, "<br />") : "开始采收后再补充记录。"}</p>
           </section>
