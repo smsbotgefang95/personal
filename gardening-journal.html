@@ -331,6 +331,17 @@
     min-width: 220px;
   }
 
+  .filter-inline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 96px;
+    gap: 10px;
+  }
+
+  .filter-inline input,
+  .filter-inline select {
+    min-width: 0;
+  }
+
   .panel-body {
     padding: 20px 22px 22px;
   }
@@ -568,6 +579,30 @@
     box-shadow: 0 10px 24px rgba(71, 61, 34, 0.08);
   }
 
+  .plant-list-head .panel-filter-temperature {
+    flex: 1 1 250px;
+    max-width: 320px;
+  }
+
+  .plant-list-head .panel-filter-temperature .filter-inline input,
+  .plant-list-head .panel-filter-temperature .filter-inline select {
+    min-height: 54px;
+    border-radius: 22px;
+    border-color: rgba(47, 107, 60, 0.24);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 236, 0.94));
+    box-shadow: 0 10px 24px rgba(71, 61, 34, 0.08);
+  }
+
+  .filter-note {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(47, 107, 60, 0.14);
+    border-radius: 16px;
+    background: rgba(230, 242, 223, 0.62);
+    color: var(--green-deep);
+    font-size: 0.92rem;
+  }
+
   #plantCreateBtn,
   #entryCreateBtn {
     display: inline-flex;
@@ -595,6 +630,20 @@
 
   .field.full {
     grid-column: 1 / -1;
+  }
+
+  .entry-edit-field.is-targeted label {
+    color: var(--green-deep);
+  }
+
+  .entry-edit-field.is-targeted textarea {
+    border-color: rgba(47, 107, 60, 0.4);
+    background: rgba(230, 242, 223, 0.34);
+    box-shadow: 0 0 0 4px rgba(47, 107, 60, 0.08);
+  }
+
+  .entry-edit-field.is-muted {
+    opacity: 0.68;
   }
 
   label {
@@ -1022,6 +1071,31 @@
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.46);
     pointer-events: none;
+  }
+
+  .journal-copy section > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .journal-section-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .journal-section-head h5 {
+    margin: 0;
+  }
+
+  .section-link-btn {
+    padding: 0;
+    background: transparent;
+    color: var(--green-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
 
   .journal-copy .plant-detail-wide {
@@ -1505,10 +1579,21 @@
               <label for="plantFilterPlantId">选择植物</label>
               <select id="plantFilterPlantId" name="plantFilterPlantId"></select>
             </div>
+            <div class="panel-filter panel-filter-temperature">
+              <label for="plantFilterTemperature">按温度筛选</label>
+              <div class="filter-inline">
+                <input id="plantFilterTemperature" name="plantFilterTemperature" type="number" inputmode="decimal" step="0.5" placeholder="例如 24" />
+                <select id="plantFilterTemperatureUnit" name="plantFilterTemperatureUnit" aria-label="温度单位">
+                  <option value="C">°C</option>
+                  <option value="F">°F</option>
+                </select>
+              </div>
+            </div>
             <button class="btn btn-secondary" id="plantCreateBtn" type="button" aria-controls="plantComposerPanel" aria-expanded="false">新增植物</button>
           </div>
         </div>
         <div class="panel-body">
+          <div class="filter-note" id="plantFilterSummary" hidden></div>
           <div class="card-stack" id="plantList"></div>
         </div>
       </article>
@@ -1617,15 +1702,15 @@
                 <label for="entryWeather">天气或环境情况</label>
                 <input id="entryWeather" name="entryWeather" type="text" placeholder="下午很热、早上下雨、阳台风大" />
               </div>
-              <div class="field full">
+              <div class="field full entry-edit-field" data-entry-edit-field="wins">
                 <label for="entryWins">顺利的地方</label>
                 <textarea id="entryWins" name="entryWins" placeholder="种子发芽了、第一朵花开了、本周没有虫害"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full entry-edit-field" data-entry-edit-field="problems">
                 <label for="entryProblems">问题或疑问</label>
                 <textarea id="entryProblems" name="entryProblems" placeholder="叶子卷曲、土壤一直偏湿、不确定株距是否足够"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full entry-edit-field" data-entry-edit-field="nextStep">
                 <label for="entryNextStep">下一步</label>
                 <textarea id="entryNextStep" name="entryNextStep" placeholder="给番茄搭支架、间苗、周四再检查一次蚜虫"></textarea>
               </div>
@@ -1864,6 +1949,11 @@
     { id: "journal", label: "📝 日志" }
   ]);
   const PLANT_DETAIL_TAB_IDS = new Set(PLANT_DETAIL_TABS.map((tab) => tab.id));
+  const ENTRY_EDIT_SECTIONS = Object.freeze({
+    wins: { label: "顺利的地方", fieldId: "entryWins" },
+    problems: { label: "问题或疑问", fieldId: "entryProblems" },
+    nextStep: { label: "下一步", fieldId: "entryNextStep" }
+  });
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -1882,9 +1972,12 @@
     editingPlantId: null,
     editingTaskId: null,
     editingEntryId: null,
+    editingEntrySection: "",
     editingNoteId: null,
     plantDetailTabs: {},
     plantFilterPlantId: "",
+    plantFilterTemperatureValue: "",
+    plantFilterTemperatureUnit: "C",
     pendingPhotos: [],
     entryFilterPlantId: ""
   };
@@ -1934,6 +2027,8 @@
   document.getElementById("noteCancelBtn").addEventListener("click", resetNoteForm);
   document.getElementById("entryPhotos").addEventListener("change", handlePendingPhotoQueue);
   document.getElementById("plantFilterPlantId").addEventListener("change", handlePlantFilterChange);
+  document.getElementById("plantFilterTemperature").addEventListener("input", handlePlantTemperatureFilterChange);
+  document.getElementById("plantFilterTemperatureUnit").addEventListener("change", handlePlantTemperatureFilterChange);
   document.getElementById("entryFilterPlantId").addEventListener("change", handleEntryFilterChange);
   document.getElementById("exportBackupBtn").addEventListener("click", exportBackup);
   document.getElementById("importBackupBtn").addEventListener("click", () => document.getElementById("importBackupInput").click());
@@ -2025,24 +2120,50 @@
     document.getElementById("entryPhotos").value = "";
   }
 
-  function updateEntryComposerUi() {
-    const editing = Boolean(uiState.editingEntryId);
-    entryComposerTitle.textContent = editing ? "编辑日志" : "新增日志";
-    entryComposerDescription.textContent = editing
-      ? "更新这条记录，保留重要观察，再保存回时间线。"
-      : "准备记录新进展时再打开此表单，这样时间线更清爽。";
-    document.getElementById("entrySaveBtn").textContent = editing ? "更新日志" : "保存日志";
-    document.getElementById("entryCancelBtn").textContent = editing ? "取消编辑" : "取消";
+  function normalizeEntryEditSection(value) {
+    const key = String(value || "").trim();
+    return Object.prototype.hasOwnProperty.call(ENTRY_EDIT_SECTIONS, key) ? key : "";
   }
 
-  function openEntryComposer({ focusField = false, scroll = false } = {}) {
+  function updateEntryComposerUi() {
+    const editing = Boolean(uiState.editingEntryId);
+    const editingSection = editing ? normalizeEntryEditSection(uiState.editingEntrySection) : "";
+    const sectionDetails = editingSection ? ENTRY_EDIT_SECTIONS[editingSection] : null;
+    entryComposerTitle.textContent = editing
+      ? (sectionDetails ? `编辑${sectionDetails.label}` : "编辑日志")
+      : "新增日志";
+    entryComposerDescription.textContent = editing
+      ? (sectionDetails
+        ? `只改“${sectionDetails.label}”这一栏就行。其他内容会保持原样，除非你主动修改。`
+        : "更新这条记录，保留重要观察，再保存回时间线。")
+      : "准备记录新进展时再打开此表单，这样时间线更清爽。";
+    document.getElementById("entrySaveBtn").textContent = editing
+      ? (sectionDetails ? "保存修改" : "更新日志")
+      : "保存日志";
+    document.getElementById("entryCancelBtn").textContent = editing ? "取消编辑" : "取消";
+    document.querySelectorAll(".entry-edit-field[data-entry-edit-field]").forEach((field) => {
+      const isTargeted = Boolean(sectionDetails) && field.dataset.entryEditField === editingSection;
+      field.classList.toggle("is-targeted", isTargeted);
+      field.classList.toggle("is-muted", Boolean(sectionDetails) && !isTargeted);
+    });
+  }
+
+  function openEntryComposer({ focusField = false, scroll = false, targetFieldId = "" } = {}) {
     entryComposerPanel.hidden = false;
     entryCreateBtn.setAttribute("aria-expanded", "true");
     updateEntryComposerUi();
     if (focusField || scroll) {
       window.requestAnimationFrame(() => {
         entryComposerPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-        if (focusField) {
+        if (targetFieldId) {
+          const targetField = document.getElementById(targetFieldId);
+          if (targetField) {
+            targetField.focus();
+            if (typeof targetField.selectionStart === "number" && typeof targetField.value === "string") {
+              targetField.setSelectionRange(targetField.value.length, targetField.value.length);
+            }
+          }
+        } else if (focusField) {
           entryForm.entryTitle.focus();
         }
       });
@@ -2060,6 +2181,7 @@
       return;
     }
     uiState.editingEntryId = null;
+    uiState.editingEntrySection = "";
     uiState.pendingPhotos = [];
     applyEntryFormDefaults();
     renderPendingPhotoQueue();
@@ -2354,6 +2476,61 @@
     }
     const normalizedValue = normalizePlantTemperatureValue(rawValue);
     return REMOVED_PLANT_TEMPERATURE_VALUES.some((item) => normalizePlantTemperatureValue(item) === normalizedValue) ? "" : rawValue;
+  }
+
+  function normalizeTemperatureUnit(value) {
+    return String(value || "").trim().toUpperCase() === "F" || String(value || "").trim() === "℉" ? "F" : "C";
+  }
+
+  function inferTemperatureUnit(value) {
+    return /(?:°\s*)?f\b|℉|fahrenheit|华氏/i.test(String(value || "")) ? "F" : "C";
+  }
+
+  function convertTemperatureToCelsius(value, unit) {
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue)) {
+      return null;
+    }
+    return normalizeTemperatureUnit(unit) === "F"
+      ? (numericValue - 32) * 5 / 9
+      : numericValue;
+  }
+
+  function parsePlantTemperatureRange(value) {
+    const text = String(value || "").trim();
+    if (!text) {
+      return null;
+    }
+    const rangeMatch = text.match(/(-?\d+(?:\.\d+)?)\s*(?:°)?\s*([cCfF℃℉])?\s*(?:-|–|—|~|〜|～|to|至|到)\s*(-?\d+(?:\.\d+)?)\s*(?:°)?\s*([cCfF℃℉])?/i);
+    if (rangeMatch) {
+      const startValue = Number(rangeMatch[1]);
+      const endValue = Number(rangeMatch[3]);
+      const unit = normalizeTemperatureUnit(rangeMatch[4] || rangeMatch[2] || inferTemperatureUnit(text));
+      const startCelsius = convertTemperatureToCelsius(startValue, unit);
+      const endCelsius = convertTemperatureToCelsius(endValue, unit);
+      if (startCelsius == null || endCelsius == null) {
+        return null;
+      }
+      return {
+        minCelsius: Math.min(startCelsius, endCelsius),
+        maxCelsius: Math.max(startCelsius, endCelsius)
+      };
+    }
+
+    const exactMatch = text.match(/(-?\d+(?:\.\d+)?)(?:\s*(?:°)?\s*([cCfF℃℉]))?/i);
+    if (!exactMatch) {
+      return null;
+    }
+    const numericValue = Number(exactMatch[1]);
+    const unit = normalizeTemperatureUnit(exactMatch[2] || inferTemperatureUnit(text));
+    const exactCelsius = convertTemperatureToCelsius(numericValue, unit);
+    if (exactCelsius == null) {
+      return null;
+    }
+    return {
+      minCelsius: exactCelsius,
+      maxCelsius: exactCelsius
+    };
   }
 
   function normalizeRemovedPlantValue(value) {
@@ -2865,6 +3042,65 @@
     return entries.filter((entry) => entry.plantId === uiState.entryFilterPlantId);
   }
 
+  function activePlantTemperatureFilterCelsius() {
+    const rawValue = String(uiState.plantFilterTemperatureValue || "").trim();
+    if (!rawValue) {
+      return null;
+    }
+    return convertTemperatureToCelsius(rawValue, uiState.plantFilterTemperatureUnit);
+  }
+
+  function formatPlantTemperatureFilterLabel() {
+    const rawValue = String(uiState.plantFilterTemperatureValue || "").trim();
+    if (!rawValue) {
+      return "";
+    }
+    const numericValue = Number(rawValue);
+    const displayValue = Number.isFinite(numericValue) ? String(numericValue) : rawValue;
+    return `${displayValue}°${normalizeTemperatureUnit(uiState.plantFilterTemperatureUnit)}`;
+  }
+
+  function plantMatchesTemperatureFilter(plant, filterTemperatureCelsius) {
+    if (filterTemperatureCelsius == null) {
+      return true;
+    }
+    const range = parsePlantTemperatureRange(plant.temperature);
+    return Boolean(range && filterTemperatureCelsius >= range.minCelsius && filterTemperatureCelsius <= range.maxCelsius);
+  }
+
+  function setPlantFilterSummary(message) {
+    const summary = document.getElementById("plantFilterSummary");
+    summary.textContent = message;
+    summary.hidden = !message;
+  }
+
+  function updatePlantFilterSummary(sourcePlants, visiblePlants, filterTemperatureCelsius) {
+    if (filterTemperatureCelsius == null) {
+      setPlantFilterSummary("");
+      return;
+    }
+    const temperatureLabel = formatPlantTemperatureFilterLabel();
+    const plantsWithRanges = sourcePlants.filter((plant) => Boolean(parsePlantTemperatureRange(plant.temperature)));
+    const missingRangeCount = Math.max(0, sourcePlants.length - plantsWithRanges.length);
+    let message = visiblePlants.length
+      ? `当前显示适合 ${temperatureLabel} 的 ${visiblePlants.length} 种植物。`
+      : `当前没有植物标注适合 ${temperatureLabel} 的温度范围。`;
+    if (missingRangeCount) {
+      message += ` 另外有 ${missingRangeCount} 种植物还没有可筛选的温度范围。`;
+    }
+    setPlantFilterSummary(message);
+  }
+
+  function plantListEmptyStateMessage(filterTemperatureCelsius) {
+    if (filterTemperatureCelsius != null) {
+      const temperatureLabel = formatPlantTemperatureFilterLabel();
+      return uiState.plantFilterPlantId
+        ? `这株植物没有标注适合 ${temperatureLabel} 的温度范围。可以修改它的“适宜温度”，或先清空这个筛选。`
+        : `还没有植物标注适合 ${temperatureLabel} 的温度范围。可以补充“适宜温度”，或先清空这个筛选。`;
+    }
+    return "这个植物还没有可显示的卡片。请改选其他植物，或把筛选切回“所有植物”。";
+  }
+
   function activeSummaryPlantId() {
     const activeTab = document.querySelector(".page-tab[aria-selected='true']")?.dataset.tab || uiState.activeTab;
     if (activeTab === "plants") {
@@ -3050,14 +3286,20 @@
     const container = document.getElementById("plantList");
     const allPlants = sortedPlants();
     if (!allPlants.length) {
+      setPlantFilterSummary("");
       container.innerHTML = `<div class="empty-state">还没有植物记录。先从你最想追踪的第一种蔬菜或花开始。</div>`;
       return;
     }
-    const plants = uiState.plantFilterPlantId
+    const plantsByName = uiState.plantFilterPlantId
       ? allPlants.filter((plant) => plant.id === uiState.plantFilterPlantId)
       : allPlants;
+    const filterTemperatureCelsius = activePlantTemperatureFilterCelsius();
+    const plants = filterTemperatureCelsius == null
+      ? plantsByName
+      : plantsByName.filter((plant) => plantMatchesTemperatureFilter(plant, filterTemperatureCelsius));
+    updatePlantFilterSummary(plantsByName, plants, filterTemperatureCelsius);
     if (!plants.length) {
-      container.innerHTML = `<div class="empty-state">这个植物还没有可显示的卡片。请改选其他植物，或把筛选切回“所有植物”。</div>`;
+      container.innerHTML = `<div class="empty-state">${plantListEmptyStateMessage(filterTemperatureCelsius)}</div>`;
       return;
     }
 
@@ -3268,27 +3510,42 @@
           </div>
           <div class="journal-copy">
             <section>
-              <h5>顺利的地方</h5>
+              <div class="journal-section-head">
+                <h5>顺利的地方</h5>
+                <button class="section-link-btn" type="button" data-edit-entry-section="${escapeHtml(entry.id)}" data-entry-section="wins">编辑</button>
+              </div>
               ${formatBulletTextBlock(entry.wins)}
             </section>
             <section>
-              <h5>问题或疑问</h5>
+              <div class="journal-section-head">
+                <h5>问题或疑问</h5>
+                <button class="section-link-btn" type="button" data-edit-entry-section="${escapeHtml(entry.id)}" data-entry-section="problems">编辑</button>
+              </div>
               ${formatBulletTextBlock(entry.problems)}
             </section>
             <section>
-              <h5>下一步</h5>
+              <div class="journal-section-head">
+                <h5>下一步</h5>
+                <button class="section-link-btn" type="button" data-edit-entry-section="${escapeHtml(entry.id)}" data-entry-section="nextStep">编辑</button>
+              </div>
               ${formatBulletTextBlock(entry.nextStep)}
             </section>
           </div>
           ${renderPhotoGrid(photos, entry.id)}
           <div class="record-actions">
-            <button class="link-btn" type="button" data-edit-entry="${escapeHtml(entry.id)}">编辑</button>
+            <button class="link-btn" type="button" data-edit-entry="${escapeHtml(entry.id)}">编辑整条日志</button>
             <button class="link-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">删除</button>
           </div>
         </article>
       `;
     }).join("");
 
+    container.querySelectorAll("[data-edit-entry-section]").forEach((button) => {
+      button.addEventListener("click", () => startEntryEdit(
+        button.dataset.editEntrySection,
+        { section: button.dataset.entrySection }
+      ));
+    });
     container.querySelectorAll("[data-edit-entry]").forEach((button) => {
       button.addEventListener("click", () => startEntryEdit(button.dataset.editEntry));
     });
@@ -3564,6 +3821,12 @@
     renderPlantList();
   }
 
+  function handlePlantTemperatureFilterChange() {
+    uiState.plantFilterTemperatureValue = document.getElementById("plantFilterTemperature").value.trim();
+    uiState.plantFilterTemperatureUnit = normalizeTemperatureUnit(document.getElementById("plantFilterTemperatureUnit").value);
+    renderPlantList();
+  }
+
   async function handleNoteSubmit(event) {
     event.preventDefault();
     const values = getFormData(noteForm);
@@ -3645,12 +3908,15 @@
     taskForm.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function startEntryEdit(entryId) {
+  function startEntryEdit(entryId, { section = "" } = {}) {
     const entry = gardenState.entries.find((item) => item.id === entryId);
     if (!entry) {
       return;
     }
+    const editingSection = normalizeEntryEditSection(section);
+    const sectionDetails = editingSection ? ENTRY_EDIT_SECTIONS[editingSection] : null;
     uiState.editingEntryId = entry.id;
+    uiState.editingEntrySection = editingSection;
     entryForm.entryDate.value = entry.date;
     entryForm.entryPlantId.value = entry.plantId;
     entryForm.entryTitle.value = entry.title;
@@ -3663,9 +3929,19 @@
     renderPendingPhotoQueue();
     updateEntryComposerUi();
     clearStatus("entryStatusText");
-    setStatus("entryStatusText", "正在编辑这条日志。除非你从时间线里手动移除，否则原有照片会保留。", "");
+    setStatus(
+      "entryStatusText",
+      sectionDetails
+        ? `正在编辑这条日志里的“${sectionDetails.label}”。其他内容会保留原样，除非你主动修改。`
+        : "正在编辑这条日志。除非你从时间线里手动移除，否则原有照片会保留。",
+      ""
+    );
     setActiveTab("journal");
-    openEntryComposer({ scroll: true });
+    openEntryComposer({
+      scroll: true,
+      focusField: !sectionDetails,
+      targetFieldId: sectionDetails ? sectionDetails.fieldId : ""
+    });
   }
 
   async function showJournalTimeline(plantId = "", { scroll = false } = {}) {
@@ -3721,6 +3997,7 @@
 
   function resetEntryForm() {
     uiState.editingEntryId = null;
+    uiState.editingEntrySection = "";
     uiState.pendingPhotos = [];
     applyEntryFormDefaults();
     renderPendingPhotoQueue();
