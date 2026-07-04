@@ -995,7 +995,20 @@
               </div>
               <div class="field">
                 <label for="plantLocation">位置</label>
-                <input id="plantLocation" name="plantLocation" type="text" placeholder="高畦 A、阳台花盆、前院花境" />
+                <input id="plantLocation" name="plantLocation" type="text" list="plantLocationSuggestions" />
+                <datalist id="plantLocationSuggestions">
+                  <option value="南向围栏"></option>
+                  <option value="北向围栏"></option>
+                  <option value="推拉门"></option>
+                </datalist>
+              </div>
+              <div class="field">
+                <label for="plantContainer">容器</label>
+                <select id="plantContainer" name="plantContainer">
+                  <option value="">请选择</option>
+                  <option value="种植袋3加仑">种植袋3加仑</option>
+                  <option value="种植袋10加仑">种植袋10加仑</option>
+                </select>
               </div>
               <div class="field">
                 <label for="plantStartDate">开始育苗或定植</label>
@@ -1016,6 +1029,10 @@
                 </select>
               </div>
               <div class="field">
+                <label for="plantTemperature">适宜温度</label>
+                <input id="plantTemperature" name="plantTemperature" type="text" />
+              </div>
+              <div class="field">
                 <label for="plantSunlight">光照</label>
                 <select id="plantSunlight" name="plantSunlight">
                   <option value="">请选择</option>
@@ -1025,25 +1042,25 @@
                   <option value="Shade">阴凉</option>
                 </select>
               </div>
-              <div class="field">
-                <label for="plantTemperature">适宜温度</label>
-                <input id="plantTemperature" name="plantTemperature" type="text" placeholder="18-27 C，30-35 C 可耐受，低于 10 C 需保护" />
+              <div class="field full">
+                <label for="plantTemperatureNotes">温度</label>
+                <textarea id="plantTemperatureNotes" name="plantTemperatureNotes"></textarea>
               </div>
               <div class="field full">
                 <label for="plantSunlightNotes">光照</label>
-                <textarea id="plantSunlightNotes" name="plantSunlightNotes" placeholder="至少 6 小时直射光，8 小时更理想，光照越多开花或结果越多"></textarea>
-              </div>
-              <div class="field full">
-                <label for="plantTemperatureNotes">温度</label>
-                <textarea id="plantTemperatureNotes" name="plantTemperatureNotes" placeholder="最佳生长区间、生长放缓区、低温伤害风险、短时耐热范围"></textarea>
+                <textarea id="plantSunlightNotes" name="plantSunlightNotes"></textarea>
               </div>
               <div class="field full">
                 <label for="plantWatering">浇水</label>
-                <textarea id="plantWatering" name="plantWatering" placeholder="每天检查，2-3 天深浇一次"></textarea>
+                <textarea id="plantWatering" name="plantWatering"></textarea>
+              </div>
+              <div class="field full">
+                <label for="plantHarvest">收获</label>
+                <textarea id="plantHarvest" name="plantHarvest"></textarea>
               </div>
               <div class="field full">
                 <label for="plantNotes">施肥</label>
-                <textarea id="plantNotes" name="plantNotes" placeholder="种子来源、间距、施肥、需观察的问题、伴生植物"></textarea>
+                <textarea id="plantNotes" name="plantNotes"></textarea>
               </div>
             </div>
             <div class="form-actions">
@@ -1339,6 +1356,11 @@
     "Bright shade": "明亮散射光",
     Shade: "阴凉"
   });
+  const DEFAULT_PLANT_LOCATIONS = Object.freeze([
+    "南向围栏",
+    "北向围栏",
+    "推拉门"
+  ]);
   const uiState = {
     activeTab: "overview",
     editingPlantId: null,
@@ -1452,6 +1474,7 @@
       category: String(item.category || "Other").trim() || "Other",
       variety: String(item.variety || "").trim(),
       location: String(item.location || "").trim(),
+      container: String(item.container || "").trim(),
       startDate: normalizeDateValue(item.startDate),
       stage: String(item.stage || "Planning").trim() || "Planning",
       sunlight: String(item.sunlight || "").trim(),
@@ -1459,6 +1482,7 @@
       temperature: String(item.temperature || "").trim(),
       temperatureNotes: String(item.temperatureNotes || "").trim(),
       watering: String(item.watering || "").trim(),
+      harvest: String(item.harvest || "").trim(),
       notes: String(item.notes || "").trim(),
       createdAt: String(item.createdAt || new Date().toISOString()),
       updatedAt: String(item.updatedAt || new Date().toISOString())
@@ -1996,6 +2020,7 @@
               <span class="chip">${escapeHtml(localizePlantCategory(plant.category))}</span>
               <span class="chip alt">${escapeHtml(localizePlantStage(plant.stage))}</span>
               ${plant.location ? `<span class="chip warm">${escapeHtml(plant.location)}</span>` : ""}
+              ${plant.container ? `<span class="chip">${escapeHtml(plant.container)}</span>` : ""}
             </div>
           </div>
           <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
@@ -2007,14 +2032,20 @@
             <p class="fact-line">${escapeHtml(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "补充一个光照分类。")}</p>
             ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
           </section>
+          ${plant.temperature || plant.temperatureNotes ? `
           <section>
             <h5>温度</h5>
-            <p class="fact-line">${escapeHtml(plant.temperature || "补充一个适宜温度范围。")}</p>
+            ${plant.temperature ? `<p class="fact-line">${escapeHtml(plant.temperature)}</p>` : ""}
             ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
           </section>
+          ` : ""}
           <section>
             <h5>浇水</h5>
             <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
+          </section>
+          <section>
+            <h5>收获</h5>
+            <p class="fact-line">${plant.harvest ? escapeHtml(plant.harvest).replace(/\n/g, "<br />") : "开始采收后再补充记录。"}</p>
           </section>
           <section>
             <h5>施肥</h5>
@@ -2229,6 +2260,7 @@
     const entryValue = entrySelect.value;
     const filterValue = uiState.entryFilterPlantId;
     const plantNameSuggestions = document.getElementById("plantNameSuggestions");
+    const plantLocationSuggestions = document.getElementById("plantLocationSuggestions");
 
     setSelectOptions(taskSelect, buildPlantOptions("通用花园"), taskValue);
     setSelectOptions(entrySelect, buildPlantOptions("通用花园"), entryValue);
@@ -2237,6 +2269,11 @@
       .map((plant) => plant.name)
       .filter((name, index, names) => name && names.indexOf(name) === index)
       .map((name) => `<option value="${escapeHtml(name)}"></option>`)
+      .join("");
+    plantLocationSuggestions.innerHTML = [...new Set(DEFAULT_PLANT_LOCATIONS.concat(
+      sortedPlants().map((plant) => plant.location).filter(Boolean)
+    ))]
+      .map((locationName) => `<option value="${escapeHtml(locationName)}"></option>`)
       .join("");
     uiState.entryFilterPlantId = filterSelect.value;
   }
@@ -2266,6 +2303,7 @@
       category: values.plantCategory,
       variety: values.plantVariety,
       location: values.plantLocation,
+      container: values.plantContainer,
       startDate: values.plantStartDate,
       stage: values.plantStage,
       sunlight: values.plantSunlight,
@@ -2273,6 +2311,7 @@
       temperature: values.plantTemperature,
       temperatureNotes: values.plantTemperatureNotes,
       watering: values.plantWatering,
+      harvest: values.plantHarvest,
       notes: values.plantNotes,
       createdAt: existing ? existing.createdAt : now,
       updatedAt: now
@@ -2436,6 +2475,7 @@
     plantForm.plantCategory.value = plant.category;
     plantForm.plantVariety.value = plant.variety;
     plantForm.plantLocation.value = plant.location;
+    plantForm.plantContainer.value = plant.container;
     plantForm.plantStartDate.value = plant.startDate;
     plantForm.plantStage.value = plant.stage;
     plantForm.plantSunlight.value = plant.sunlight;
@@ -2443,6 +2483,7 @@
     plantForm.plantTemperature.value = plant.temperature;
     plantForm.plantTemperatureNotes.value = plant.temperatureNotes;
     plantForm.plantWatering.value = plant.watering;
+    plantForm.plantHarvest.value = plant.harvest;
     plantForm.plantNotes.value = plant.notes;
     document.getElementById("plantSaveBtn").textContent = "更新植物";
     document.getElementById("plantCancelBtn").hidden = false;
