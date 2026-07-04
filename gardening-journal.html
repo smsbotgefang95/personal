@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gardening Journal</title>
+<title>园艺日志</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260702-nav-red-clock" />
 <script src="assets/site-nav.js?v=20260702-nav-red-clock" defer></script>
 <style>
@@ -828,63 +828,63 @@
 <main>
   <section class="hero">
     <div class="hero-copy">
-      <div class="eyebrow">Personal Garden</div>
-      <h1>Gardening Journal</h1>
-      <p class="hero-text">Track what you plant, what you learn, what needs attention next, and how the garden changes over time. Photos stay attached to journal entries so you can compare progress week by week.</p>
+      <div class="eyebrow">私人花园</div>
+      <h1>园艺日志</h1>
+      <p class="hero-text">记录你种了什么、学到了什么、接下来要关注什么，以及花园如何随着时间变化。照片会附在日志条目上，方便你逐周对比生长进展。</p>
       <div class="hero-actions">
-        <button class="btn btn-primary" id="exportBackupBtn" type="button">Export backup</button>
-        <button class="btn btn-secondary" id="importBackupBtn" type="button">Import backup</button>
+        <button class="btn btn-primary" id="exportBackupBtn" type="button">导出备份</button>
+        <button class="btn btn-secondary" id="importBackupBtn" type="button">导入备份</button>
         <input id="importBackupInput" type="file" accept="application/json" hidden />
       </div>
-      <p class="storage-note">Everything is local-first. Notes live in this browser, and progress photos are compressed then stored in browser storage.</p>
+      <p class="storage-note">所有内容都以本地优先方式保存。笔记保存在当前浏览器中，进度照片会先压缩，再写入浏览器存储。</p>
     </div>
     <div class="hero-side">
       <div class="hero-grid">
         <div class="micro-card">
-          <h3>New gardener starter rhythm</h3>
+          <h3>新手园丁的起步节奏</h3>
           <ul>
-            <li>Look at the garden every day before changing anything.</li>
-            <li>Track sun, watering, and pests before buying more plants.</li>
-            <li>Write down one lesson after each setback so it compounds.</li>
+            <li>每天先观察花园，再决定要不要动手调整。</li>
+            <li>先记录光照、浇水和虫害，再决定是否添置更多植物。</li>
+            <li>每次受挫后记下一条经验，时间久了就会积累成方法。</li>
           </ul>
         </div>
         <div class="micro-card">
-          <h3>Progress logging works best when it is small</h3>
-          <p>Use short journal entries with one photo, one win, one problem, and one next step. That is enough to build a real growing record.</p>
+          <h3>小而持续的记录最有效</h3>
+          <p>用简短日志记下一张照片、一个进展、一个问题和下一步就够了，这已经能形成真实的生长档案。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="summary-grid" aria-label="Garden summary">
+  <section class="summary-grid" aria-label="花园概览">
     <article class="summary-card">
-      <div class="label">Active plants</div>
+      <div class="label">生长中的植物</div>
       <div class="value" id="summaryPlantCount">0</div>
-      <div class="subtext" id="summaryPlantSubtext">No plants tracked yet.</div>
+      <div class="subtext" id="summaryPlantSubtext">还没有记录任何植物。</div>
     </article>
     <article class="summary-card">
-      <div class="label">Open tasks</div>
+      <div class="label">待办事项</div>
       <div class="value" id="summaryTaskCount">0</div>
-      <div class="subtext" id="summaryTaskSubtext">Nothing due right now.</div>
+      <div class="subtext" id="summaryTaskSubtext">目前没有到期事项。</div>
     </article>
     <article class="summary-card">
-      <div class="label">Journal entries</div>
+      <div class="label">日志条目</div>
       <div class="value" id="summaryEntryCount">0</div>
-      <div class="subtext" id="summaryEntrySubtext">Start with one simple note.</div>
+      <div class="subtext" id="summaryEntrySubtext">先写下一条简单记录。</div>
     </article>
     <article class="summary-card">
-      <div class="label">Knowledge notes</div>
+      <div class="label">知识笔记</div>
       <div class="value" id="summaryNoteCount">0</div>
-      <div class="subtext" id="summaryNoteSubtext">Capture tips before they disappear.</div>
+      <div class="subtext" id="summaryNoteSubtext">趁还记得先把经验记下来。</div>
     </article>
   </section>
 
-  <div class="page-tabs" role="tablist" aria-label="Gardening journal sections">
-    <button class="page-tab active" type="button" data-tab="overview" aria-selected="true">Overview</button>
-    <button class="page-tab" type="button" data-tab="plants" aria-selected="false">Plants</button>
-    <button class="page-tab" type="button" data-tab="tasks" aria-selected="false">Tasks</button>
-    <button class="page-tab" type="button" data-tab="journal" aria-selected="false">Journal</button>
-    <button class="page-tab" type="button" data-tab="knowledge" aria-selected="false">Knowledge</button>
+  <div class="page-tabs" role="tablist" aria-label="园艺日志分区">
+    <button class="page-tab active" type="button" data-tab="overview" aria-selected="true">概览</button>
+    <button class="page-tab" type="button" data-tab="plants" aria-selected="false">植物</button>
+    <button class="page-tab" type="button" data-tab="tasks" aria-selected="false">任务</button>
+    <button class="page-tab" type="button" data-tab="journal" aria-selected="false">日志</button>
+    <button class="page-tab" type="button" data-tab="knowledge" aria-selected="false">知识</button>
   </div>
 
   <section class="tab-panel active" id="tab-overview" role="tabpanel" aria-label="Overview">
@@ -961,94 +961,94 @@
     </div>
   </section>
 
-  <section class="tab-panel" id="tab-plants" role="tabpanel" aria-label="Plants">
+  <section class="tab-panel" id="tab-plants" role="tabpanel" aria-label="植物">
     <div class="content-grid">
       <article class="panel">
         <div class="panel-head">
           <div>
-            <h2>Plant tracker</h2>
-            <p>One record per crop or flower so you can follow each growing cycle.</p>
+            <h2>植物追踪</h2>
+            <p>每种作物或花卉保留一条记录，方便你跟踪每一轮生长周期。</p>
           </div>
         </div>
         <div class="panel-body">
           <form id="plantForm">
             <div class="field-grid">
               <div class="field">
-                <label for="plantName">Plant name</label>
-                <input id="plantName" name="plantName" type="text" placeholder="Tomato, zinnia, basil" list="plantNameSuggestions" required />
+                <label for="plantName">植物名称</label>
+                <input id="plantName" name="plantName" type="text" placeholder="番茄、百日草、罗勒" list="plantNameSuggestions" required />
                 <datalist id="plantNameSuggestions"></datalist>
               </div>
               <div class="field">
-                <label for="plantCategory">Type</label>
+                <label for="plantCategory">类型</label>
                 <select id="plantCategory" name="plantCategory">
-                  <option>Vegetable</option>
-                  <option>Flower</option>
-                  <option>Herb</option>
-                  <option>Fruit</option>
-                  <option>Houseplant</option>
-                  <option>Other</option>
+                  <option value="Vegetable">蔬菜</option>
+                  <option value="Flower">花卉</option>
+                  <option value="Herb">香草</option>
+                  <option value="Fruit">水果</option>
+                  <option value="Houseplant">室内植物</option>
+                  <option value="Other">其他</option>
                 </select>
               </div>
               <div class="field">
-                <label for="plantVariety">Variety</label>
-                <input id="plantVariety" name="plantVariety" type="text" placeholder="Sun Gold, Black Krim, Cosmos Mix" />
+                <label for="plantVariety">品种</label>
+                <input id="plantVariety" name="plantVariety" type="text" placeholder="Sun Gold、Black Krim、Cosmos Mix" />
               </div>
               <div class="field">
-                <label for="plantLocation">Location</label>
-                <input id="plantLocation" name="plantLocation" type="text" placeholder="Raised bed A, balcony pot, front border" />
+                <label for="plantLocation">位置</label>
+                <input id="plantLocation" name="plantLocation" type="text" placeholder="高畦 A、阳台花盆、前院花境" />
               </div>
               <div class="field">
-                <label for="plantStartDate">Started or planted</label>
+                <label for="plantStartDate">开始育苗或定植</label>
                 <input id="plantStartDate" name="plantStartDate" type="date" />
               </div>
               <div class="field">
-                <label for="plantStage">Current stage</label>
+                <label for="plantStage">当前阶段</label>
                 <select id="plantStage" name="plantStage">
-                  <option value="Planning">Planning</option>
-                  <option value="Sown">Sown</option>
-                  <option value="Germinating">Germinating</option>
-                  <option value="Seedling">Seedling</option>
-                  <option value="Transplanted">Transplanted</option>
-                  <option value="Flowering">Flowering</option>
-                  <option value="Fruiting">Fruiting</option>
-                  <option value="Harvesting">Harvesting</option>
-                  <option value="Finished">Finished</option>
+                  <option value="Planning">计划中</option>
+                  <option value="Sown">已播种</option>
+                  <option value="Germinating">发芽中</option>
+                  <option value="Seedling">幼苗期</option>
+                  <option value="Transplanted">已移栽</option>
+                  <option value="Flowering">开花中</option>
+                  <option value="Fruiting">结果中</option>
+                  <option value="Harvesting">采收中</option>
+                  <option value="Finished">已结束</option>
                 </select>
               </div>
               <div class="field">
-                <label for="plantSunlight">Sunlight</label>
+                <label for="plantSunlight">光照</label>
                 <select id="plantSunlight" name="plantSunlight">
-                  <option value="">Select one</option>
-                  <option>Full sun</option>
-                  <option>Part sun</option>
-                  <option>Bright shade</option>
-                  <option>Shade</option>
+                  <option value="">请选择</option>
+                  <option value="Full sun">全日照</option>
+                  <option value="Part sun">半日照</option>
+                  <option value="Bright shade">明亮散射光</option>
+                  <option value="Shade">阴凉</option>
                 </select>
               </div>
               <div class="field">
-                <label for="plantTemperature">Ideal temperature</label>
-                <input id="plantTemperature" name="plantTemperature" type="text" placeholder="65-80 F, 30-35 C, protect below 50 F" />
+                <label for="plantTemperature">适宜温度</label>
+                <input id="plantTemperature" name="plantTemperature" type="text" placeholder="18-27 C，30-35 C 可耐受，低于 10 C 需保护" />
               </div>
               <div class="field full">
-                <label for="plantSunlightNotes">Sunlight notes</label>
-                <textarea id="plantSunlightNotes" name="plantSunlightNotes" placeholder="At least 6 hours direct sun, 8 hours is better, more sun means more flowers or fruit"></textarea>
+                <label for="plantSunlightNotes">光照备注</label>
+                <textarea id="plantSunlightNotes" name="plantSunlightNotes" placeholder="至少 6 小时直射光，8 小时更理想，光照越多开花或结果越多"></textarea>
               </div>
               <div class="field full">
-                <label for="plantTemperatureNotes">Temperature notes</label>
-                <textarea id="plantTemperatureNotes" name="plantTemperatureNotes" placeholder="Best growth range, slower growth zone, cold damage risk, short-term heat tolerance"></textarea>
-              </div>
-              <div class="field">
-                <label for="plantWatering">Watering notes</label>
-                <input id="plantWatering" name="plantWatering" type="text" placeholder="Check daily, deep water every 2-3 days" />
+                <label for="plantTemperatureNotes">温度备注</label>
+                <textarea id="plantTemperatureNotes" name="plantTemperatureNotes" placeholder="最佳生长区间、生长放缓区、低温伤害风险、短时耐热范围"></textarea>
               </div>
               <div class="field full">
-                <label for="plantNotes">General notes</label>
-                <textarea id="plantNotes" name="plantNotes" placeholder="Seed source, spacing, fertilizer, problems to watch, companion plants"></textarea>
+                <label for="plantWatering">浇水备注</label>
+                <textarea id="plantWatering" name="plantWatering" placeholder="每天检查，2-3 天深浇一次"></textarea>
+              </div>
+              <div class="field full">
+                <label for="plantNotes">通用备注</label>
+                <textarea id="plantNotes" name="plantNotes" placeholder="种子来源、间距、施肥、需观察的问题、伴生植物"></textarea>
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn btn-primary" type="submit" id="plantSaveBtn">Save plant</button>
-              <button class="btn btn-ghost" type="button" id="plantCancelBtn" hidden>Cancel edit</button>
+              <button class="btn btn-primary" type="submit" id="plantSaveBtn">保存植物</button>
+              <button class="btn btn-ghost" type="button" id="plantCancelBtn" hidden>取消编辑</button>
             </div>
             <div class="status-text" id="plantStatusText" aria-live="polite"></div>
           </form>
@@ -1058,8 +1058,8 @@
       <article class="panel">
         <div class="panel-head">
           <div>
-            <h2>Tracked plants</h2>
-            <p>Use journal entries for day-by-day progress and keep the plant card as the long-term reference.</p>
+            <h2>已记录植物</h2>
+            <p>日常进展写进日志里，植物卡片则作为长期参考。</p>
           </div>
         </div>
         <div class="panel-body">
@@ -1314,6 +1314,31 @@
   });
 
   const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
+  const PLANT_CATEGORY_LABELS = Object.freeze({
+    Vegetable: "蔬菜",
+    Flower: "花卉",
+    Herb: "香草",
+    Fruit: "水果",
+    Houseplant: "室内植物",
+    Other: "其他"
+  });
+  const PLANT_STAGE_LABELS = Object.freeze({
+    Planning: "计划中",
+    Sown: "已播种",
+    Germinating: "发芽中",
+    Seedling: "幼苗期",
+    Transplanted: "已移栽",
+    Flowering: "开花中",
+    Fruiting: "结果中",
+    Harvesting: "采收中",
+    Finished: "已结束"
+  });
+  const PLANT_SUNLIGHT_LABELS = Object.freeze({
+    "Full sun": "全日照",
+    "Part sun": "半日照",
+    "Bright shade": "明亮散射光",
+    Shade: "阴凉"
+  });
   const uiState = {
     activeTab: "overview",
     editingPlantId: null,
@@ -1328,13 +1353,13 @@
   let photoDatabasePromise = null;
   let toastTimer = null;
 
-  const dateFormatter = new Intl.DateTimeFormat(undefined, {
+  const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
     year: "numeric",
     month: "short",
     day: "numeric"
   });
 
-  const shortDateFormatter = new Intl.DateTimeFormat(undefined, {
+  const shortDateFormatter = new Intl.DateTimeFormat("zh-CN", {
     month: "short",
     day: "numeric"
   });
@@ -1546,7 +1571,7 @@
 
   function plantNameById(plantId) {
     const plant = gardenState.plants.find((item) => item.id === plantId);
-    return plant ? plant.name : "General garden";
+    return plant ? plant.name : "通用花园";
   }
 
   function buildPlantOptions(emptyLabel) {
@@ -1563,6 +1588,18 @@
     }
   }
 
+  function localizePlantCategory(value) {
+    return PLANT_CATEGORY_LABELS[value] || value || "未分类";
+  }
+
+  function localizePlantStage(value) {
+    return PLANT_STAGE_LABELS[value] || value || "未设置";
+  }
+
+  function localizePlantSunlight(value) {
+    return PLANT_SUNLIGHT_LABELS[value] || value || "";
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -1574,7 +1611,7 @@
 
   function formatTextBlock(value) {
     if (!value) {
-      return "<p>No notes yet.</p>";
+      return "<p>还没有备注。</p>";
     }
     return `<p>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
   }
@@ -1589,7 +1626,7 @@
 
   function formatDisplayDate(value, short = false) {
     if (!value) {
-      return "No date";
+      return "暂无日期";
     }
     const date = new Date(`${value}T12:00:00`);
     return Number.isNaN(date.getTime()) ? value : (short ? shortDateFormatter : dateFormatter).format(date);
@@ -1610,7 +1647,7 @@
       return "";
     }
     const dayCount = currentDay - referenceDay;
-    return `+${dayCount} day${dayCount === 1 ? "" : "s"}`;
+    return `+${dayCount} 天`;
   }
 
   function dueBadge(task) {
@@ -1977,7 +2014,7 @@
           </section>
           <section>
             <h5>Watering notes</h5>
-            <p class="fact-line">${escapeHtml(plant.watering || "Add watering notes when you know them.")}</p>
+            <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "Add watering notes when you know them."}</p>
           </section>
           <section>
             <h5>General notes</h5>
