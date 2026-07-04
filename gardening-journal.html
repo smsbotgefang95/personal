@@ -991,7 +991,7 @@
               </div>
               <div class="field">
                 <label for="plantVariety">品种</label>
-                <input id="plantVariety" name="plantVariety" type="text" placeholder="Sun Gold、Black Krim、Cosmos Mix" />
+                <input id="plantVariety" name="plantVariety" type="text" />
               </div>
               <div class="field">
                 <label for="plantLocation">位置</label>
@@ -1029,11 +1029,11 @@
                 </select>
               </div>
               <div class="field">
-                <label for="plantTemperature">适宜温度</label>
+                <label for="plantTemperature">🌡️ 适宜温度</label>
                 <input id="plantTemperature" name="plantTemperatureValue" type="text" autocomplete="off" />
               </div>
               <div class="field">
-                <label for="plantSunlight">光照</label>
+                <label for="plantSunlight">☀️ 光照</label>
                 <select id="plantSunlight" name="plantSunlight">
                   <option value="">请选择</option>
                   <option value="Full sun">全日照</option>
@@ -1043,27 +1043,27 @@
                 </select>
               </div>
               <div class="field full">
-                <label for="plantTemperatureNotes">温度</label>
+                <label for="plantTemperatureNotes">🌡️ 温度</label>
                 <textarea id="plantTemperatureNotes" name="plantTemperatureNotes"></textarea>
               </div>
               <div class="field full">
-                <label for="plantSunlightNotes">光照</label>
+                <label for="plantSunlightNotes">☀️ 光照</label>
                 <textarea id="plantSunlightNotes" name="plantSunlightNotes"></textarea>
               </div>
               <div class="field full">
-                <label for="plantWatering">浇水</label>
+                <label for="plantWatering">💧 浇水</label>
                 <textarea id="plantWatering" name="plantWatering"></textarea>
               </div>
               <div class="field full">
-                <label for="plantSoil">土壤</label>
+                <label for="plantSoil">🌱 土壤</label>
                 <textarea id="plantSoil" name="plantSoil"></textarea>
               </div>
               <div class="field full">
-                <label for="plantNotes">施肥</label>
+                <label for="plantNotes">🌿 施肥</label>
                 <textarea id="plantNotes" name="plantNotes"></textarea>
               </div>
               <div class="field full">
-                <label for="plantHarvest">收获</label>
+                <label for="plantHarvest">🧺 收获</label>
                 <textarea id="plantHarvest" name="plantHarvest"></textarea>
               </div>
             </div>
@@ -1369,6 +1369,10 @@
     "18-27 C，30-35 C 可耐受，低于 10 C 需保护",
     "18-27 C, 30-35 C tolerated, protect below 10 C"
   ]);
+  const REMOVED_PLANT_VALUES = Object.freeze([
+    "patio",
+    "南向fence"
+  ]);
   const uiState = {
     activeTab: "overview",
     editingPlantId: null,
@@ -1436,7 +1440,12 @@
       if (!raw || typeof raw !== "object") {
         return freshState();
       }
-      return normalizeState(raw);
+      const normalizedState = normalizeState(raw);
+      const sanitizedState = stripRemovedPlantValues(normalizedState);
+      if (sanitizedState.changed) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitizedState.state));
+      }
+      return sanitizedState.state;
     } catch (error) {
       return freshState();
     }
@@ -1553,6 +1562,10 @@
   }
 
   function saveState() {
+    const sanitizedState = stripRemovedPlantValues(gardenState);
+    if (sanitizedState.changed) {
+      gardenState = sanitizedState.state;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(gardenState));
   }
 
@@ -1573,6 +1586,73 @@
     }
     const normalizedValue = normalizePlantTemperatureValue(rawValue);
     return REMOVED_PLANT_TEMPERATURE_VALUES.some((item) => normalizePlantTemperatureValue(item) === normalizedValue) ? "" : rawValue;
+  }
+
+  function normalizeRemovedPlantValue(value) {
+    return String(value || "").trim().replace(/\s+/g, " ").toLowerCase();
+  }
+
+  function matchesRemovedPlantValue(value) {
+    const normalizedValue = normalizeRemovedPlantValue(value);
+    return normalizedValue ? REMOVED_PLANT_VALUES.some((item) => normalizeRemovedPlantValue(item) === normalizedValue) : false;
+  }
+
+  // Clean up mistaken location placeholders without touching unrelated gardening data.
+  function stripRemovedPlantValues(state) {
+    let changed = false;
+    const removedPlantIds = new Set();
+    const plants = state.plants.reduce((accumulator, plant) => {
+      if (matchesRemovedPlantValue(plant.name)) {
+        removedPlantIds.add(plant.id);
+        changed = true;
+        return accumulator;
+      }
+      if (matchesRemovedPlantValue(plant.location)) {
+        accumulator.push({
+          ...plant,
+          location: ""
+        });
+        changed = true;
+        return accumulator;
+      }
+      accumulator.push(plant);
+      return accumulator;
+    }, []);
+
+    const tasks = removedPlantIds.size ? state.tasks.map((task) => {
+      if (!removedPlantIds.has(task.plantId)) {
+        return task;
+      }
+      changed = true;
+      return {
+        ...task,
+        plantId: ""
+      };
+    }) : state.tasks;
+
+    const entries = removedPlantIds.size ? state.entries.map((entry) => {
+      if (!removedPlantIds.has(entry.plantId)) {
+        return entry;
+      }
+      changed = true;
+      return {
+        ...entry,
+        plantId: ""
+      };
+    }) : state.entries;
+
+    return changed ? {
+      changed: true,
+      state: {
+        ...state,
+        plants,
+        tasks,
+        entries
+      }
+    } : {
+      changed: false,
+      state
+    };
   }
 
   function todayIsoDate() {
@@ -2057,31 +2137,31 @@
         <p>${escapeHtml(plant.variety || "还没有记录品种。")}</p>
         <div class="journal-copy" style="margin-top: 12px;">
           <section>
-            <h5>光照</h5>
+            <h5>☀️ 光照</h5>
             <p class="fact-line">${escapeHtml(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "补充一个光照分类。")}</p>
             ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
           </section>
           ${plant.temperature || plant.temperatureNotes ? `
           <section>
-            <h5>温度</h5>
+            <h5>🌡️ 温度</h5>
             ${plant.temperature ? `<p class="fact-line">${escapeHtml(plant.temperature)}</p>` : ""}
             ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
           </section>
           ` : ""}
           <section>
-            <h5>浇水</h5>
+            <h5>💧 浇水</h5>
             <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
           </section>
           <section>
-            <h5>土壤</h5>
+            <h5>🌱 土壤</h5>
             <p class="fact-line">${plant.soil ? escapeHtml(plant.soil).replace(/\n/g, "<br />") : "摸清土壤情况后再补充说明。"}</p>
           </section>
           <section>
-            <h5>施肥</h5>
+            <h5>🌿 施肥</h5>
             ${formatTextBlock(plant.notes)}
           </section>
           <section>
-            <h5>收获</h5>
+            <h5>🧺 收获</h5>
             <p class="fact-line">${plant.harvest ? escapeHtml(plant.harvest).replace(/\n/g, "<br />") : "开始采收后再补充记录。"}</p>
           </section>
           ${renderPlantJournalPreview(plant)}
@@ -2328,6 +2408,10 @@
   async function handlePlantSubmit(event) {
     event.preventDefault();
     const values = getFormData(plantForm);
+    if (matchesRemovedPlantValue(values.plantName)) {
+      setStatus("plantStatusText", "请填写具体植物名称，不要用 patio 或 南向fence 这种位置名。", "error");
+      return;
+    }
     const now = new Date().toISOString();
     const existing = uiState.editingPlantId ? gardenState.plants.find((plant) => plant.id === uiState.editingPlantId) : null;
     const plant = normalizePlant({
