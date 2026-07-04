@@ -846,6 +846,20 @@
     margin: 0;
   }
 
+  .plant-detail-panel .bullet-list,
+  .journal-copy .bullet-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 6px;
+    color: var(--muted);
+  }
+
+  .plant-detail-panel .bullet-list li::marker,
+  .journal-copy .bullet-list li::marker {
+    color: var(--green-deep);
+  }
+
   .plant-detail-panel .detail-note {
     margin-top: 8px;
   }
@@ -1058,18 +1072,6 @@
 
   .journal-copy p {
     margin: 0;
-  }
-
-  .journal-copy .bullet-list {
-    margin: 0;
-    padding-left: 1.2rem;
-    display: grid;
-    gap: 6px;
-    color: var(--muted);
-  }
-
-  .journal-copy .bullet-list li::marker {
-    color: var(--green-deep);
   }
 
   .journal-copy .detail-note {
@@ -2525,15 +2527,33 @@
     return `<p>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
   }
 
-  function formatBulletTextBlock(value) {
-    const items = String(value || "")
+  function bulletItemsFromText(value) {
+    return String(value || "")
       .split(/\n+/)
       .map((line) => line.trim().replace(/^[•*-]\s*/, ""))
       .filter(Boolean);
+  }
+
+  function formatBulletTextBlock(value, fallback = "还没有备注。", className = "") {
+    const items = bulletItemsFromText(value);
     if (!items.length) {
-      return "<p>还没有备注。</p>";
+      if (!fallback) {
+        return "";
+      }
+      const classAttribute = className ? ` class="${className}"` : "";
+      return `<p${classAttribute}>${escapeHtml(fallback)}</p>`;
     }
-    return `<ul class="bullet-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    const classAttribute = className ? ` class="bullet-list ${className}"` : ` class="bullet-list"`;
+    return `<ul${classAttribute}>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+  }
+
+  function formatOptionalBulletTextBlock(value, className = "") {
+    const items = bulletItemsFromText(value);
+    if (!items.length) {
+      return "";
+    }
+    const classAttribute = className ? ` class="bullet-list ${className}"` : ` class="bullet-list"`;
+    return `<ul${classAttribute}>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
   }
 
   function formatOptionalTextBlock(value, className = "") {
@@ -2948,7 +2968,7 @@
         <section class="plant-detail-panel plant-detail-card-sunlight" id="${panelId}" role="tabpanel">
           <h5>☀️ 光照</h5>
           ${formatPlantDetailLine(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "", "补充一个光照分类。")}
-          ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
+          ${formatOptionalBulletTextBlock(plant.sunlightNotes, "detail-note")}
         </section>
       `;
     }
@@ -2958,7 +2978,7 @@
         <section class="plant-detail-panel plant-detail-card-temperature" id="${panelId}" role="tabpanel">
           <h5>🌡️ 温度</h5>
           ${formatPlantDetailLine(plant.temperature, "补充一个适宜温度范围。")}
-          ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
+          ${formatOptionalBulletTextBlock(plant.temperatureNotes, "detail-note")}
         </section>
       `;
     }
@@ -2967,7 +2987,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-watering" id="${panelId}" role="tabpanel">
           <h5>💧 浇水</h5>
-          ${formatPlantDetailLine(plant.watering, "清楚后再补充浇水说明。")}
+          ${formatBulletTextBlock(plant.watering, "清楚后再补充浇水说明。")}
         </section>
       `;
     }
@@ -2976,7 +2996,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-soil" id="${panelId}" role="tabpanel">
           <h5>🌱 土壤</h5>
-          ${formatPlantDetailLine(plant.soil, "摸清土壤情况后再补充说明。")}
+          ${formatBulletTextBlock(plant.soil, "摸清土壤情况后再补充说明。")}
         </section>
       `;
     }
@@ -2985,7 +3005,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-feeding" id="${panelId}" role="tabpanel">
           <h5>🌿 施肥</h5>
-          ${formatTextBlock(plant.notes)}
+          ${formatBulletTextBlock(plant.notes)}
         </section>
       `;
     }
@@ -2994,7 +3014,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-harvest" id="${panelId}" role="tabpanel">
           <h5>🧺 收获</h5>
-          ${formatPlantDetailLine(plant.harvest, "开始采收后再补充记录。")}
+          ${formatBulletTextBlock(plant.harvest, "开始采收后再补充记录。")}
         </section>
       `;
     }
