@@ -1055,12 +1055,12 @@
                 <textarea id="plantWatering" name="plantWatering"></textarea>
               </div>
               <div class="field full">
-                <label for="plantHarvest">收获</label>
-                <textarea id="plantHarvest" name="plantHarvest"></textarea>
-              </div>
-              <div class="field full">
                 <label for="plantNotes">施肥</label>
                 <textarea id="plantNotes" name="plantNotes"></textarea>
+              </div>
+              <div class="field full">
+                <label for="plantHarvest">收获</label>
+                <textarea id="plantHarvest" name="plantHarvest"></textarea>
               </div>
             </div>
             <div class="form-actions">
@@ -2044,12 +2044,12 @@
             <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
           </section>
           <section>
-            <h5>收获</h5>
-            <p class="fact-line">${plant.harvest ? escapeHtml(plant.harvest).replace(/\n/g, "<br />") : "开始采收后再补充记录。"}</p>
-          </section>
-          <section>
             <h5>施肥</h5>
             ${formatTextBlock(plant.notes)}
+          </section>
+          <section>
+            <h5>收获</h5>
+            <p class="fact-line">${plant.harvest ? escapeHtml(plant.harvest).replace(/\n/g, "<br />") : "开始采收后再补充记录。"}</p>
           </section>
           ${renderPlantJournalPreview(plant)}
         </div>
