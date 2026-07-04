@@ -1055,6 +1055,10 @@
                 <textarea id="plantWatering" name="plantWatering"></textarea>
               </div>
               <div class="field full">
+                <label for="plantSoil">土壤</label>
+                <textarea id="plantSoil" name="plantSoil"></textarea>
+              </div>
+              <div class="field full">
                 <label for="plantNotes">施肥</label>
                 <textarea id="plantNotes" name="plantNotes"></textarea>
               </div>
@@ -1482,6 +1486,7 @@
       temperature: String(item.temperature || "").trim(),
       temperatureNotes: String(item.temperatureNotes || "").trim(),
       watering: String(item.watering || "").trim(),
+      soil: String(item.soil || "").trim(),
       harvest: String(item.harvest || "").trim(),
       notes: String(item.notes || "").trim(),
       createdAt: String(item.createdAt || new Date().toISOString()),
@@ -2044,6 +2049,10 @@
             <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
           </section>
           <section>
+            <h5>土壤</h5>
+            <p class="fact-line">${plant.soil ? escapeHtml(plant.soil).replace(/\n/g, "<br />") : "摸清土壤情况后再补充说明。"}</p>
+          </section>
+          <section>
             <h5>施肥</h5>
             ${formatTextBlock(plant.notes)}
           </section>
@@ -2311,6 +2320,7 @@
       temperature: values.plantTemperature,
       temperatureNotes: values.plantTemperatureNotes,
       watering: values.plantWatering,
+      soil: values.plantSoil,
       harvest: values.plantHarvest,
       notes: values.plantNotes,
       createdAt: existing ? existing.createdAt : now,
@@ -2483,6 +2493,7 @@
     plantForm.plantTemperature.value = plant.temperature;
     plantForm.plantTemperatureNotes.value = plant.temperatureNotes;
     plantForm.plantWatering.value = plant.watering;
+    plantForm.plantSoil.value = plant.soil;
     plantForm.plantHarvest.value = plant.harvest;
     plantForm.plantNotes.value = plant.notes;
     document.getElementById("plantSaveBtn").textContent = "更新植物";
