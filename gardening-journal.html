@@ -1071,6 +1071,7 @@
               <button class="btn btn-primary" type="submit" id="plantSaveBtn">保存植物</button>
               <button class="btn btn-ghost" type="button" id="plantCancelBtn" hidden>取消编辑</button>
             </div>
+            <p class="storage-note">表单内容会自动保存在这台设备里作为草稿。点击“保存植物”后才会写入正式记录。</p>
             <div class="status-text" id="plantStatusText" aria-live="polite"></div>
           </form>
         </div>
@@ -1296,8 +1297,45 @@
 
 <script>
   const STORAGE_KEY = "personal-gardening-journal-v1";
+  const PLANT_DRAFT_STORAGE_KEY = "personal-gardening-journal-plant-draft-v1";
+  const PLANT_DRAFT_AUTOSAVE_DELAY_MS = 600;
   const PHOTO_DB_NAME = "personal-gardening-journal-photos";
   const PHOTO_STORE_NAME = "photos";
+  const PLANT_DRAFT_FIELDS = Object.freeze([
+    "plantName",
+    "plantCategory",
+    "plantVariety",
+    "plantLocation",
+    "plantContainer",
+    "plantStartDate",
+    "plantStage",
+    "plantTemperatureValue",
+    "plantSunlight",
+    "plantTemperatureNotes",
+    "plantSunlightNotes",
+    "plantWatering",
+    "plantSoil",
+    "plantNotes",
+    "plantHarvest"
+  ]);
+  const DEFAULT_PLANT_DRAFT = Object.freeze({
+    editingPlantId: "",
+    plantName: "",
+    plantCategory: "Vegetable",
+    plantVariety: "",
+    plantLocation: "",
+    plantContainer: "",
+    plantStartDate: "",
+    plantStage: "Planning",
+    plantTemperatureValue: "",
+    plantSunlight: "",
+    plantTemperatureNotes: "",
+    plantSunlightNotes: "",
+    plantWatering: "",
+    plantSoil: "",
+    plantNotes: "",
+    plantHarvest: ""
+  });
   const BEGINNER_CHECKLIST = [
     {
       id: "sun-map",
@@ -1385,6 +1423,7 @@
 
   let gardenState = loadState();
   let photoDatabasePromise = null;
+  let plantDraftSaveTimer = null;
   let toastTimer = null;
 
   const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
@@ -1417,6 +1456,8 @@
   document.getElementById("importBackupBtn").addEventListener("click", () => document.getElementById("importBackupInput").click());
   document.getElementById("importBackupInput").addEventListener("change", importBackup);
 
+  plantForm.addEventListener("input", queuePlantDraftSave);
+  plantForm.addEventListener("change", queuePlantDraftSave);
   plantForm.addEventListener("submit", handlePlantSubmit);
   taskForm.addEventListener("submit", handleTaskSubmit);
   entryForm.addEventListener("submit", handleEntrySubmit);
@@ -1429,9 +1470,144 @@
     document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
     hydrateTabFromHash();
     syncPlantSelectors();
+    restorePlantDraft();
     renderPendingPhotoQueue();
     await renderAll();
     window.addEventListener("hashchange", hydrateTabFromHash);
+  }
+
+  function clearPlantDraftSaveTimer() {
+    if (plantDraftSaveTimer !== null) {
+      window.clearTimeout(plantDraftSaveTimer);
+      plantDraftSaveTimer = null;
+    }
+  }
+
+  function normalizePlantDraft(raw) {
+    if (!raw || typeof raw !== "object") {
+      return null;
+    }
+    return {
+      editingPlantId: String(raw.editingPlantId || ""),
+      plantName: String(raw.plantName || ""),
+      plantCategory: String(raw.plantCategory || DEFAULT_PLANT_DRAFT.plantCategory),
+      plantVariety: String(raw.plantVariety || ""),
+      plantLocation: String(raw.plantLocation || ""),
+      plantContainer: String(raw.plantContainer || ""),
+      plantStartDate: normalizeDateValue(raw.plantStartDate),
+      plantStage: String(raw.plantStage || DEFAULT_PLANT_DRAFT.plantStage),
+      plantTemperatureValue: sanitizePlantTemperature(String(raw.plantTemperatureValue || "")),
+      plantSunlight: String(raw.plantSunlight || ""),
+      plantTemperatureNotes: String(raw.plantTemperatureNotes || ""),
+      plantSunlightNotes: String(raw.plantSunlightNotes || ""),
+      plantWatering: String(raw.plantWatering || ""),
+      plantSoil: String(raw.plantSoil || ""),
+      plantNotes: String(raw.plantNotes || ""),
+      plantHarvest: String(raw.plantHarvest || "")
+    };
+  }
+
+  function capturePlantDraft() {
+    const values = getFormData(plantForm);
+    return normalizePlantDraft({
+      editingPlantId: uiState.editingPlantId || "",
+      ...DEFAULT_PLANT_DRAFT,
+      ...values
+    });
+  }
+
+  function hasMeaningfulPlantDraft(draft) {
+    if (!draft) {
+      return false;
+    }
+    if (draft.editingPlantId) {
+      return true;
+    }
+    if (draft.plantCategory !== DEFAULT_PLANT_DRAFT.plantCategory) {
+      return true;
+    }
+    if (draft.plantStage !== DEFAULT_PLANT_DRAFT.plantStage) {
+      return true;
+    }
+    return PLANT_DRAFT_FIELDS.some((fieldName) => {
+      if (fieldName === "plantCategory" || fieldName === "plantStage") {
+        return false;
+      }
+      return String(draft[fieldName] || "").trim() !== "";
+    });
+  }
+
+  function clearPlantDraft() {
+    clearPlantDraftSaveTimer();
+    localStorage.removeItem(PLANT_DRAFT_STORAGE_KEY);
+  }
+
+  function savePlantDraftNow() {
+    const draft = capturePlantDraft();
+    if (!hasMeaningfulPlantDraft(draft)) {
+      clearPlantDraft();
+      return;
+    }
+    localStorage.setItem(PLANT_DRAFT_STORAGE_KEY, JSON.stringify({
+      ...draft,
+      savedAt: new Date().toISOString()
+    }));
+  }
+
+  function queuePlantDraftSave() {
+    clearPlantDraftSaveTimer();
+    plantDraftSaveTimer = window.setTimeout(() => {
+      plantDraftSaveTimer = null;
+      savePlantDraftNow();
+    }, PLANT_DRAFT_AUTOSAVE_DELAY_MS);
+  }
+
+  function loadPlantDraft() {
+    try {
+      return normalizePlantDraft(JSON.parse(localStorage.getItem(PLANT_DRAFT_STORAGE_KEY) || "null"));
+    } catch (error) {
+      clearPlantDraft();
+      return null;
+    }
+  }
+
+  function restorePlantDraft() {
+    const draft = loadPlantDraft();
+    if (!hasMeaningfulPlantDraft(draft)) {
+      clearPlantDraft();
+      return;
+    }
+
+    const hasSavedPlant = draft.editingPlantId && gardenState.plants.some((plant) => plant.id === draft.editingPlantId);
+    uiState.editingPlantId = hasSavedPlant ? draft.editingPlantId : null;
+
+    plantForm.plantName.value = draft.plantName;
+    plantForm.plantCategory.value = draft.plantCategory;
+    if (plantForm.plantCategory.value !== draft.plantCategory) {
+      plantForm.plantCategory.value = DEFAULT_PLANT_DRAFT.plantCategory;
+    }
+    plantForm.plantVariety.value = draft.plantVariety;
+    plantForm.plantLocation.value = draft.plantLocation;
+    plantForm.plantContainer.value = draft.plantContainer;
+    plantForm.plantStartDate.value = draft.plantStartDate;
+    plantForm.plantStage.value = draft.plantStage;
+    if (plantForm.plantStage.value !== draft.plantStage) {
+      plantForm.plantStage.value = DEFAULT_PLANT_DRAFT.plantStage;
+    }
+    plantForm.plantTemperature.value = draft.plantTemperatureValue;
+    plantForm.plantSunlight.value = draft.plantSunlight;
+    if (draft.plantSunlight && plantForm.plantSunlight.value !== draft.plantSunlight) {
+      plantForm.plantSunlight.value = "";
+    }
+    plantForm.plantTemperatureNotes.value = draft.plantTemperatureNotes;
+    plantForm.plantSunlightNotes.value = draft.plantSunlightNotes;
+    plantForm.plantWatering.value = draft.plantWatering;
+    plantForm.plantSoil.value = draft.plantSoil;
+    plantForm.plantNotes.value = draft.plantNotes;
+    plantForm.plantHarvest.value = draft.plantHarvest;
+    document.getElementById("plantSaveBtn").textContent = uiState.editingPlantId ? "更新植物" : "保存植物";
+    document.getElementById("plantCancelBtn").hidden = !uiState.editingPlantId;
+    setStatus("plantStatusText", "已恢复上次未保存的植物草稿。点击“保存植物”后才会写入正式记录。", "");
   }
 
   function loadState() {
@@ -2446,6 +2622,7 @@
       gardenState.plants.push(plant);
     }
 
+    clearPlantDraft();
     saveState();
     resetPlantForm();
     syncPlantSelectors();
@@ -2680,6 +2857,7 @@
   }
 
   function resetPlantForm() {
+    clearPlantDraft();
     uiState.editingPlantId = null;
     plantForm.reset();
     plantForm.plantCategory.value = "Vegetable";
