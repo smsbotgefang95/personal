@@ -696,6 +696,15 @@
     text-transform: uppercase;
   }
 
+  .journal-copy .fact-line {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .journal-copy .detail-note {
+    margin-top: 8px;
+  }
+
   .plant-journal-preview {
     display: grid;
     gap: 10px;
@@ -1017,15 +1026,23 @@
                 </select>
               </div>
               <div class="field">
-                <label for="plantTemperature">Temperature</label>
-                <input id="plantTemperature" name="plantTemperature" type="text" placeholder="65-80 F, protect below 50 F" />
+                <label for="plantTemperature">Ideal temperature</label>
+                <input id="plantTemperature" name="plantTemperature" type="text" placeholder="65-80 F, 30-35 C, protect below 50 F" />
+              </div>
+              <div class="field full">
+                <label for="plantSunlightNotes">Sunlight notes</label>
+                <textarea id="plantSunlightNotes" name="plantSunlightNotes" placeholder="At least 6 hours direct sun, 8 hours is better, more sun means more flowers or fruit"></textarea>
+              </div>
+              <div class="field full">
+                <label for="plantTemperatureNotes">Temperature notes</label>
+                <textarea id="plantTemperatureNotes" name="plantTemperatureNotes" placeholder="Best growth range, slower growth zone, cold damage risk, short-term heat tolerance"></textarea>
               </div>
               <div class="field">
                 <label for="plantWatering">Watering rhythm</label>
                 <input id="plantWatering" name="plantWatering" type="text" placeholder="Check daily, deep water every 2-3 days" />
               </div>
               <div class="field full">
-                <label for="plantNotes">Notes</label>
+                <label for="plantNotes">General notes</label>
                 <textarea id="plantNotes" name="plantNotes" placeholder="Seed source, spacing, fertilizer, problems to watch, companion plants"></textarea>
               </div>
             </div>
@@ -1413,7 +1430,9 @@
       startDate: normalizeDateValue(item.startDate),
       stage: String(item.stage || "Planning").trim() || "Planning",
       sunlight: String(item.sunlight || "").trim(),
+      sunlightNotes: String(item.sunlightNotes || "").trim(),
       temperature: String(item.temperature || "").trim(),
+      temperatureNotes: String(item.temperatureNotes || "").trim(),
       watering: String(item.watering || "").trim(),
       notes: String(item.notes || "").trim(),
       createdAt: String(item.createdAt || new Date().toISOString()),
@@ -1558,6 +1577,14 @@
       return "<p>No notes yet.</p>";
     }
     return `<p>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
+  }
+
+  function formatOptionalTextBlock(value, className = "") {
+    if (!value) {
+      return "";
+    }
+    const classAttribute = className ? ` class="${className}"` : "";
+    return `<p${classAttribute}>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
   }
 
   function formatDisplayDate(value, short = false) {
@@ -1939,11 +1966,21 @@
         <p>${escapeHtml(plant.variety || "No variety recorded.")}</p>
         <div class="journal-copy" style="margin-top: 12px;">
           <section>
-            <h5>Care</h5>
-            <p>${escapeHtml([plant.sunlight, plant.temperature, plant.watering].filter(Boolean).join(" · ") || "Add sunlight, temperature, and watering details when you know them.")}</p>
+            <h5>Sunlight</h5>
+            <p class="fact-line">${escapeHtml(plant.sunlight || "Add a sunlight category.")}</p>
+            ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
           </section>
           <section>
-            <h5>Notes</h5>
+            <h5>Temperature</h5>
+            <p class="fact-line">${escapeHtml(plant.temperature || "Add an ideal temperature range.")}</p>
+            ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
+          </section>
+          <section>
+            <h5>Watering</h5>
+            <p class="fact-line">${escapeHtml(plant.watering || "Add a watering rhythm when you know it.")}</p>
+          </section>
+          <section>
+            <h5>General notes</h5>
             ${formatTextBlock(plant.notes)}
           </section>
           ${renderPlantJournalPreview(plant)}
@@ -2195,7 +2232,9 @@
       startDate: values.plantStartDate,
       stage: values.plantStage,
       sunlight: values.plantSunlight,
+      sunlightNotes: values.plantSunlightNotes,
       temperature: values.plantTemperature,
+      temperatureNotes: values.plantTemperatureNotes,
       watering: values.plantWatering,
       notes: values.plantNotes,
       createdAt: existing ? existing.createdAt : now,
@@ -2363,7 +2402,9 @@
     plantForm.plantStartDate.value = plant.startDate;
     plantForm.plantStage.value = plant.stage;
     plantForm.plantSunlight.value = plant.sunlight;
+    plantForm.plantSunlightNotes.value = plant.sunlightNotes;
     plantForm.plantTemperature.value = plant.temperature;
+    plantForm.plantTemperatureNotes.value = plant.temperatureNotes;
     plantForm.plantWatering.value = plant.watering;
     plantForm.plantNotes.value = plant.notes;
     document.getElementById("plantSaveBtn").textContent = "Update plant";
