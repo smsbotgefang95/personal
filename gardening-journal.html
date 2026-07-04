@@ -2316,6 +2316,7 @@
     document.querySelectorAll(".tab-panel").forEach((panel) => {
       panel.classList.toggle("active", panel.id === `tab-${tabName}`);
     });
+    renderSummaryCards();
     if (pushHash) {
       history.replaceState(null, "", `#${tabName}`);
     }
@@ -2442,11 +2443,13 @@
     return overdueCount ? `有 ${overdueCount} 条逾期任务需要处理。` : "接下来的事项已经排好。";
   }
 
-  function summarizeEntrySubtext(entries) {
+  function summarizeEntrySubtext(entries, plantName = "") {
     if (!entries.length) {
-      return "先写下一条简单记录。";
+      return plantName ? `${plantName}还没有日志条目。` : "先写下一条简单记录。";
     }
-    return `最新记录：${formatDisplayDate(entries[0].date, true)}。`;
+    return plantName
+      ? `${plantName}最新记录：${formatDisplayDate(entries[0].date, true)}。`
+      : `最新记录：${formatDisplayDate(entries[0].date, true)}。`;
   }
 
   function summarizeNoteSubtext(notes) {
@@ -2469,7 +2472,11 @@
   function renderSummaryCards() {
     const activePlants = sortedPlants().filter((plant) => plant.stage !== "Finished");
     const openTasks = sortedTasks().filter((task) => !task.completed);
-    const entries = sortedEntries();
+    const summaryPlantId = activeSummaryPlantId();
+    const summaryPlantName = summaryPlantId ? plantNameById(summaryPlantId) : "";
+    const entries = summaryPlantId
+      ? sortedEntries().filter((entry) => entry.plantId === summaryPlantId)
+      : sortedEntries();
     const notes = sortedNotes();
 
     document.getElementById("summaryPlantCount").textContent = String(activePlants.length);
@@ -2477,7 +2484,7 @@
     document.getElementById("summaryTaskCount").textContent = String(openTasks.length);
     document.getElementById("summaryTaskSubtext").textContent = summarizeTaskSubtext(openTasks);
     document.getElementById("summaryEntryCount").textContent = String(entries.length);
-    document.getElementById("summaryEntrySubtext").textContent = summarizeEntrySubtext(entries);
+    document.getElementById("summaryEntrySubtext").textContent = summarizeEntrySubtext(entries, summaryPlantName);
     document.getElementById("summaryNoteCount").textContent = String(notes.length);
     document.getElementById("summaryNoteSubtext").textContent = summarizeNoteSubtext(notes);
   }
@@ -2673,6 +2680,17 @@
       return entries;
     }
     return entries.filter((entry) => entry.plantId === uiState.entryFilterPlantId);
+  }
+
+  function activeSummaryPlantId() {
+    const activeTab = document.querySelector(".page-tab[aria-selected='true']")?.dataset.tab || uiState.activeTab;
+    if (activeTab === "plants") {
+      return document.getElementById("plantFilterPlantId")?.value || uiState.plantFilterPlantId;
+    }
+    if (activeTab === "journal") {
+      return document.getElementById("entryFilterPlantId")?.value || uiState.entryFilterPlantId;
+    }
+    return "";
   }
 
   function linkedEntriesForPlant(plantId) {
@@ -3280,11 +3298,13 @@
 
   async function handleEntryFilterChange(event) {
     uiState.entryFilterPlantId = event.target.value;
+    renderSummaryCards();
     await renderEntryList();
   }
 
   function handlePlantFilterChange(event) {
     uiState.plantFilterPlantId = event.target.value;
+    renderSummaryCards();
     renderPlantList();
   }
 
