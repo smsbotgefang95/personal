@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>园艺日志</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260702-nav-red-clock" />
-<script src="assets/site-nav.js?v=20260702-nav-red-clock" defer></script>
+<script src="assets/site-nav.js?v=20260704-nav-zh" defer></script>
+<script src="assets/site-zh.js?v=20260704-site-zh-pass2" defer></script>
 <style>
   :root {
     --bg: #f6f2ea;
@@ -314,11 +315,13 @@
 
   .panel-head-actions {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 12px;
+    flex-wrap: wrap;
   }
 
   .panel-filter {
+    flex: 1 1 280px;
     min-width: min(260px, 100%);
   }
 
@@ -454,13 +457,10 @@
 
   .plant-list-head .panel-head-actions {
     flex: 1 1 460px;
-    flex-wrap: wrap;
-    align-items: flex-end;
     justify-content: flex-end;
   }
 
   .plant-list-head .panel-filter {
-    flex: 1 1 280px;
     max-width: 460px;
   }
 
