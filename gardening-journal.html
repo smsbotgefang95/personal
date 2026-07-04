@@ -438,7 +438,93 @@
     gap: 16px;
   }
 
-  #tab-journal .content-grid > #entryComposerPanel[hidden] + .panel {
+  #tab-journal .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.72fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .journal-sidebar-panel {
+    position: sticky;
+    top: 18px;
+  }
+
+  .journal-quick-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .journal-quick-button {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(97, 109, 82, 0.14);
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--text);
+    text-align: left;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  }
+
+  .journal-quick-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(47, 107, 60, 0.24);
+    box-shadow: 0 14px 26px rgba(71, 61, 34, 0.08);
+  }
+
+  .journal-quick-button.active {
+    border-color: rgba(47, 107, 60, 0.28);
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.96), rgba(255, 251, 244, 0.94));
+    box-shadow: 0 16px 28px rgba(47, 107, 60, 0.12);
+  }
+
+  .journal-quick-copy {
+    display: grid;
+    gap: 4px;
+  }
+
+  .journal-quick-copy strong {
+    color: var(--ink);
+  }
+
+  .journal-quick-copy small {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .journal-quick-button.active .journal-quick-copy small {
+    color: rgba(31, 75, 42, 0.86);
+  }
+
+  .journal-quick-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(47, 107, 60, 0.1);
+    color: var(--green-deep);
+    font-size: 0.84rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .journal-quick-button.active .journal-quick-count {
+    background: rgba(47, 107, 60, 0.18);
+  }
+
+  .journal-quick-note {
     grid-column: 1 / -1;
   }
 
@@ -1055,6 +1141,14 @@
       grid-template-columns: 1fr;
     }
 
+    .journal-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .journal-sidebar-panel {
+      position: static;
+    }
+
     .summary-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1536,24 +1630,38 @@
         </div>
       </article>
 
-      <article class="panel">
-        <div class="panel-head plant-list-head">
-          <div>
-            <h2>Journal timeline</h2>
-            <p id="entryTimelineCopy">Photos stay attached to each note so you can compare progress over time.</p>
-          </div>
-          <div class="panel-head-actions">
-            <div class="panel-filter">
-              <label for="entryFilterPlantId">Filter by plant</label>
-              <select id="entryFilterPlantId" name="entryFilterPlantId"></select>
+      <div class="journal-layout">
+        <article class="panel">
+          <div class="panel-head plant-list-head">
+            <div>
+              <h2>Journal timeline</h2>
+              <p id="entryTimelineCopy">Photos stay attached to each note so you can compare progress over time.</p>
             </div>
-            <button class="btn btn-secondary" id="entryCreateBtn" type="button" aria-controls="entryComposerPanel" aria-expanded="false">新增日志</button>
+            <div class="panel-head-actions">
+              <div class="panel-filter">
+                <label for="entryFilterPlantId">Filter by plant</label>
+                <select id="entryFilterPlantId" name="entryFilterPlantId"></select>
+              </div>
+              <button class="btn btn-secondary" id="entryCreateBtn" type="button" aria-controls="entryComposerPanel" aria-expanded="false">新增日志</button>
+            </div>
           </div>
-        </div>
-        <div class="panel-body">
-          <div class="card-stack" id="entryList"></div>
-        </div>
-      </article>
+          <div class="panel-body">
+            <div class="card-stack" id="entryList"></div>
+          </div>
+        </article>
+
+        <aside class="panel journal-sidebar-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Quick access</h2>
+              <p>Jump straight to one plant's journal without leaving the timeline.</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="journal-quick-list" id="journalQuickAccessList"></div>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 
@@ -2983,11 +3091,84 @@
     });
   }
 
+  function renderJournalQuickAccess() {
+    const container = document.getElementById("journalQuickAccessList");
+    const plants = sortedPlants();
+    const allEntries = sortedEntries();
+    const entryStatsByPlant = allEntries.reduce((accumulator, entry) => {
+      if (!entry.plantId) {
+        return accumulator;
+      }
+      const current = accumulator.get(entry.plantId) || { count: 0, latestDate: "" };
+      current.count += 1;
+      if (!current.latestDate || entry.date > current.latestDate) {
+        current.latestDate = entry.date;
+      }
+      accumulator.set(entry.plantId, current);
+      return accumulator;
+    }, new Map());
+
+    const allEntriesLabel = allEntries.length ? `${allEntries.length} 条` : "0 条";
+    const allEntriesSummary = allEntries.length
+      ? `查看全部日志，最新一条写于 ${formatDisplayDate(allEntries[0].date, true)}。`
+      : "查看全部日志。第一条记录会从这里开始。";
+
+    const buttons = [`
+      <button
+        class="journal-quick-button ${uiState.entryFilterPlantId ? "" : "active"}"
+        type="button"
+        data-journal-filter=""
+        aria-pressed="${uiState.entryFilterPlantId ? "false" : "true"}"
+      >
+        <span class="journal-quick-copy">
+          <strong>所有日志</strong>
+          <small>${escapeHtml(allEntriesSummary)}</small>
+        </span>
+        <span class="journal-quick-count">${escapeHtml(allEntriesLabel)}</span>
+      </button>
+    `];
+
+    if (!plants.length) {
+      buttons.push(`<div class="empty-state journal-quick-note">先新增植物，这里就会出现每株植物的日志捷径。</div>`);
+      container.innerHTML = buttons.join("");
+    } else {
+      buttons.push(...plants.map((plant) => {
+        const stats = entryStatsByPlant.get(plant.id);
+        const entryCount = stats?.count || 0;
+        const summary = entryCount
+          ? `最近更新 ${formatDisplayDate(stats.latestDate, true)} · ${entryCount} 条日志`
+          : "还没有日志，先写第一条记录。";
+        return `
+          <button
+            class="journal-quick-button ${uiState.entryFilterPlantId === plant.id ? "active" : ""}"
+            type="button"
+            data-journal-filter="${escapeHtml(plant.id)}"
+            aria-pressed="${uiState.entryFilterPlantId === plant.id ? "true" : "false"}"
+          >
+            <span class="journal-quick-copy">
+              <strong>${escapeHtml(plant.name)}</strong>
+              <small>${escapeHtml(summary)}</small>
+            </span>
+            <span class="journal-quick-count">${escapeHtml(String(entryCount))}</span>
+          </button>
+        `;
+      }));
+      container.innerHTML = buttons.join("");
+    }
+
+    container.querySelectorAll("[data-journal-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        showJournalTimeline(button.dataset.journalFilter || "", { scroll: true });
+      });
+    });
+  }
+
   async function renderEntryList() {
     const container = document.getElementById("entryList");
     const entries = filteredEntries();
     const activePlantName = uiState.entryFilterPlantId ? plantNameById(uiState.entryFilterPlantId) : "";
     const firstEntryDateByPlant = earliestEntryDatesByPlant(entries);
+    renderJournalQuickAccess();
     document.getElementById("entryTimelineCopy").textContent = activePlantName
       ? `Showing only ${activePlantName} entries. Photos stay attached to each note so you can compare progress over time.`
       : "Photos stay attached to each note so you can compare progress over time.";
@@ -3420,12 +3601,18 @@
     openEntryComposer({ scroll: true });
   }
 
-  async function openPlantJournal(plantId) {
+  async function showJournalTimeline(plantId = "", { scroll = false } = {}) {
     uiState.entryFilterPlantId = plantId;
     syncPlantSelectors();
     setActiveTab("journal");
     await renderEntryList();
-    document.getElementById("entryList").scrollIntoView({ behavior: "smooth", block: "start" });
+    if (scroll) {
+      document.getElementById("entryList").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  async function openPlantJournal(plantId) {
+    await showJournalTimeline(plantId, { scroll: true });
   }
 
   function startNoteEdit(noteId) {
