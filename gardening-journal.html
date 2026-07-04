@@ -438,6 +438,15 @@
     gap: 16px;
   }
 
+  .plant-stack {
+    display: grid;
+    gap: 16px;
+  }
+
+  .plant-list-head {
+    align-items: center;
+  }
+
   .field-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -590,6 +599,149 @@
     background: rgba(241, 234, 219, 0.82);
     color: var(--green-deep);
     font-weight: 600;
+  }
+
+  .plant-detail-shell {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .plant-detail-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .plant-detail-tab {
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(97, 109, 82, 0.16);
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .plant-detail-tab.active {
+    border-color: rgba(47, 107, 60, 0.24);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 234, 219, 0.94));
+    color: var(--green-deep);
+    box-shadow: 0 10px 18px rgba(71, 61, 34, 0.08);
+  }
+
+  .plant-detail-panel {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 10px;
+    min-height: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(97, 109, 82, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .plant-detail-panel::after {
+    content: "";
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.46);
+    pointer-events: none;
+  }
+
+  .plant-detail-card-overview {
+    background: linear-gradient(180deg, rgba(244, 236, 222, 0.94), rgba(255, 255, 255, 0.94));
+  }
+
+  .plant-detail-card-sunlight {
+    background: linear-gradient(180deg, rgba(255, 244, 211, 0.92), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-temperature {
+    background: linear-gradient(180deg, rgba(253, 232, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-watering {
+    background: linear-gradient(180deg, rgba(232, 241, 246, 0.96), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-soil {
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-feeding {
+    background: linear-gradient(180deg, rgba(244, 236, 222, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-harvest {
+    background: linear-gradient(180deg, rgba(255, 241, 214, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-journal {
+    background: linear-gradient(180deg, rgba(247, 241, 228, 0.94), rgba(255, 255, 255, 0.94));
+  }
+
+  .plant-detail-panel h5 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .plant-detail-panel .fact-line {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .plant-detail-panel p {
+    margin: 0;
+  }
+
+  .plant-detail-panel .detail-note {
+    margin-top: 8px;
+  }
+
+  .plant-fact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .plant-fact {
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(97, 109, 82, 0.12);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .plant-fact-label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .plant-fact-value {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 700;
   }
 
   .record-actions {
@@ -873,7 +1025,8 @@
     .summary-grid,
     .helper-grid,
     .field-grid,
-    .journal-copy {
+    .journal-copy,
+    .plant-fact-grid {
       grid-template-columns: 1fr;
     }
 
@@ -891,6 +1044,10 @@
 
     .record-header {
       flex-direction: column;
+    }
+
+    .plant-detail-tabs {
+      padding-bottom: 4px;
     }
   }
 </style>
@@ -955,7 +1112,6 @@
   <div class="page-tabs" role="tablist" aria-label="园艺日志分区">
     <button class="page-tab active" type="button" data-tab="overview" aria-selected="true">概览</button>
     <button class="page-tab" type="button" data-tab="plants" aria-selected="false">植物</button>
-    <button class="page-tab" type="button" data-tab="tasks" aria-selected="false">任务</button>
     <button class="page-tab" type="button" data-tab="journal" aria-selected="false">日志</button>
   </div>
 
@@ -1034,12 +1190,12 @@
   </section>
 
   <section class="tab-panel" id="tab-plants" role="tabpanel" aria-label="植物">
-    <div class="content-grid">
-      <article class="panel">
+    <div class="plant-stack">
+      <article class="panel" id="plantComposerPanel" hidden>
         <div class="panel-head">
           <div>
-            <h2>植物追踪</h2>
-            <p>每种作物或花卉保留一条记录，方便你跟踪每一轮生长周期。</p>
+            <h2 id="plantComposerTitle">新增植物</h2>
+            <p id="plantComposerDescription">只在你要新增或编辑植物时打开这个表单，避免它长期占据植物列表的空间。</p>
           </div>
         </div>
         <div class="panel-body">
@@ -1141,7 +1297,7 @@
             </div>
             <div class="form-actions">
               <button class="btn btn-primary" type="submit" id="plantSaveBtn">保存植物</button>
-              <button class="btn btn-ghost" type="button" id="plantCancelBtn" hidden>取消编辑</button>
+              <button class="btn btn-ghost" type="button" id="plantCancelBtn">取消</button>
             </div>
             <p class="storage-note">表单内容会自动保存在这台设备里作为草稿。点击“保存植物”后才会写入正式记录。</p>
             <div class="status-text" id="plantStatusText" aria-live="polite"></div>
@@ -1150,10 +1306,13 @@
       </article>
 
       <article class="panel">
-        <div class="panel-head">
+        <div class="panel-head plant-list-head">
           <div>
             <h2>已记录植物</h2>
             <p>日常进展写进日志里，植物卡片则作为长期参考。</p>
+          </div>
+          <div class="panel-head-actions">
+            <button class="btn btn-secondary" id="plantCreateBtn" type="button" aria-controls="plantComposerPanel" aria-expanded="false">新增植物</button>
           </div>
         </div>
         <div class="panel-body">
@@ -1470,6 +1629,17 @@
     "Bright shade": "明亮散射光",
     Shade: "阴凉"
   });
+  const PLANT_DETAIL_TABS = Object.freeze([
+    { id: "overview", label: "概览" },
+    { id: "sunlight", label: "光照" },
+    { id: "temperature", label: "温度" },
+    { id: "watering", label: "浇水" },
+    { id: "soil", label: "土壤" },
+    { id: "feeding", label: "施肥" },
+    { id: "harvest", label: "收获" },
+    { id: "journal", label: "日志" }
+  ]);
+  const PLANT_DETAIL_TAB_IDS = new Set(PLANT_DETAIL_TABS.map((tab) => tab.id));
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -1489,6 +1659,7 @@
     editingTaskId: null,
     editingEntryId: null,
     editingNoteId: null,
+    plantDetailTabs: {},
     pendingPhotos: [],
     entryFilterPlantId: ""
   };
@@ -1513,9 +1684,13 @@
   const taskForm = document.getElementById("taskForm");
   const entryForm = document.getElementById("entryForm");
   const noteForm = document.getElementById("noteForm");
+  const plantComposerPanel = document.getElementById("plantComposerPanel");
+  const plantComposerTitle = document.getElementById("plantComposerTitle");
+  const plantComposerDescription = document.getElementById("plantComposerDescription");
+  const plantCreateBtn = document.getElementById("plantCreateBtn");
   const TAB_BUTTONS = Array.from(document.querySelectorAll(".page-tab[data-tab]"));
   const NAVIGABLE_TABS = new Set(
-    TAB_BUTTONS.map((button) => button.dataset.tab).filter(Boolean)
+    Array.from(document.querySelectorAll(".tab-panel[id^='tab-']"), (panel) => panel.id.replace(/^tab-/, "")).filter(Boolean)
   );
 
   TAB_BUTTONS.forEach((button) => {
@@ -1523,6 +1698,7 @@
   });
 
   document.getElementById("plantCancelBtn").addEventListener("click", resetPlantForm);
+  plantCreateBtn.addEventListener("click", startPlantCreate);
   document.getElementById("taskCancelBtn").addEventListener("click", resetTaskForm);
   document.getElementById("entryCancelBtn").addEventListener("click", resetEntryForm);
   document.getElementById("noteCancelBtn").addEventListener("click", resetNoteForm);
@@ -1544,12 +1720,66 @@
   async function initialize() {
     setDefaultDates();
     document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
+    updatePlantComposerUi();
     hydrateTabFromHash();
     syncPlantSelectors();
     restorePlantDraft();
     renderPendingPhotoQueue();
     await renderAll();
     window.addEventListener("hashchange", hydrateTabFromHash);
+  }
+
+  function isPlantComposerOpen() {
+    return !plantComposerPanel.hidden;
+  }
+
+  function applyPlantFormDefaults() {
+    plantForm.reset();
+    plantForm.plantCategory.value = "Vegetable";
+    plantForm.plantStage.value = "Planning";
+    document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
+  }
+
+  function updatePlantComposerUi() {
+    const editing = Boolean(uiState.editingPlantId);
+    plantComposerTitle.textContent = editing ? "编辑植物" : "新增植物";
+    plantComposerDescription.textContent = editing
+      ? "修改这株植物的长期参考信息，保存后植物卡片会立即更新。"
+      : "只在你要新增植物时打开这个表单，避免它长期占据植物列表的空间。";
+    document.getElementById("plantSaveBtn").textContent = editing ? "更新植物" : "保存植物";
+    document.getElementById("plantCancelBtn").textContent = editing ? "取消编辑" : "取消";
+  }
+
+  function openPlantComposer({ focusField = false, scroll = false } = {}) {
+    plantComposerPanel.hidden = false;
+    plantCreateBtn.setAttribute("aria-expanded", "true");
+    updatePlantComposerUi();
+    if (focusField || scroll) {
+      window.requestAnimationFrame(() => {
+        plantComposerPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (focusField) {
+          plantForm.plantName.focus();
+        }
+      });
+    }
+  }
+
+  function closePlantComposer() {
+    plantComposerPanel.hidden = true;
+    plantCreateBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function startPlantCreate() {
+    if (isPlantComposerOpen()) {
+      openPlantComposer({ focusField: true, scroll: true });
+      return;
+    }
+    clearPlantDraft();
+    uiState.editingPlantId = null;
+    applyPlantFormDefaults();
+    clearStatus("plantStatusText");
+    updatePlantComposerUi();
+    openPlantComposer({ focusField: true, scroll: true });
   }
 
   function clearPlantDraftSaveTimer() {
@@ -1681,8 +1911,8 @@
     plantForm.plantSoil.value = draft.plantSoil;
     plantForm.plantNotes.value = draft.plantNotes;
     plantForm.plantHarvest.value = draft.plantHarvest;
-    document.getElementById("plantSaveBtn").textContent = uiState.editingPlantId ? "更新植物" : "保存植物";
-    document.getElementById("plantCancelBtn").hidden = !uiState.editingPlantId;
+    updatePlantComposerUi();
+    openPlantComposer();
     setStatus("plantStatusText", "已恢复上次未保存的植物草稿。点击“保存植物”后才会写入正式记录。", "");
   }
 
@@ -2328,14 +2558,44 @@
     return compact.length > maxLength ? `${compact.slice(0, maxLength - 3).trimEnd()}...` : compact;
   }
 
+  function plantDetailPanelId(plantId, tabId) {
+    const safePlantId = String(plantId || "").replace(/[^a-zA-Z0-9_-]/g, "");
+    return `plant-detail-panel-${safePlantId}-${tabId}`;
+  }
+
+  function activePlantDetailTabId(plantId) {
+    const activeTab = uiState.plantDetailTabs[plantId];
+    return PLANT_DETAIL_TAB_IDS.has(activeTab) ? activeTab : "overview";
+  }
+
+  function setPlantDetailTab(plantId, tabId) {
+    if (!plantId || !PLANT_DETAIL_TAB_IDS.has(tabId) || activePlantDetailTabId(plantId) === tabId) {
+      return;
+    }
+    uiState.plantDetailTabs[plantId] = tabId;
+    renderPlantList();
+  }
+
+  function renderPlantFact(label, value) {
+    return `
+      <div class="plant-fact">
+        <span class="plant-fact-label">${escapeHtml(label)}</span>
+        <p class="plant-fact-value">${escapeHtml(value)}</p>
+      </div>
+    `;
+  }
+
+  function formatPlantDetailLine(value, fallback) {
+    const text = String(value || "").trim();
+    return `<p class="fact-line">${text ? escapeHtml(text).replace(/\n/g, "<br />") : escapeHtml(fallback)}</p>`;
+  }
+
   function renderPlantJournalPreview(plant) {
     const entries = linkedEntriesForPlant(plant.id);
     if (!entries.length) {
       return `
-        <section class="plant-detail-card-journal plant-detail-wide">
-          <h5>日志</h5>
-          <p>这个植物还没有日志条目。</p>
-        </section>
+        <h5>日志</h5>
+        <p>这个植物还没有日志条目。</p>
       `;
     }
 
@@ -2351,12 +2611,92 @@
     `).join("");
 
     return `
-      <section class="plant-detail-card-journal plant-detail-wide">
-        <h5>日志</h5>
-        <div class="plant-journal-preview">
-          ${previewItems}
+      <h5>日志</h5>
+      <div class="plant-journal-preview">
+        ${previewItems}
+      </div>
+      ${entries.length > 3 ? `<div class="photo-caption">显示最近 3 条，共 ${entries.length} 条记录。</div>` : ""}
+    `;
+  }
+
+  function renderPlantDetailPanel(plant, tabId) {
+    const panelId = plantDetailPanelId(plant.id, tabId);
+
+    if (tabId === "sunlight") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-sunlight" id="${panelId}" role="tabpanel">
+          <h5>☀️ 光照</h5>
+          ${formatPlantDetailLine(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "", "补充一个光照分类。")}
+          ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
+        </section>
+      `;
+    }
+
+    if (tabId === "temperature") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-temperature" id="${panelId}" role="tabpanel">
+          <h5>🌡️ 温度</h5>
+          ${formatPlantDetailLine(plant.temperature, "补充一个适宜温度范围。")}
+          ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
+        </section>
+      `;
+    }
+
+    if (tabId === "watering") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-watering" id="${panelId}" role="tabpanel">
+          <h5>💧 浇水</h5>
+          ${formatPlantDetailLine(plant.watering, "清楚后再补充浇水说明。")}
+        </section>
+      `;
+    }
+
+    if (tabId === "soil") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-soil" id="${panelId}" role="tabpanel">
+          <h5>🌱 土壤</h5>
+          ${formatPlantDetailLine(plant.soil, "摸清土壤情况后再补充说明。")}
+        </section>
+      `;
+    }
+
+    if (tabId === "feeding") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-feeding" id="${panelId}" role="tabpanel">
+          <h5>🌿 施肥</h5>
+          ${formatTextBlock(plant.notes)}
+        </section>
+      `;
+    }
+
+    if (tabId === "harvest") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-harvest" id="${panelId}" role="tabpanel">
+          <h5>🧺 收获</h5>
+          ${formatPlantDetailLine(plant.harvest, "开始采收后再补充记录。")}
+        </section>
+      `;
+    }
+
+    if (tabId === "journal") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-journal" id="${panelId}" role="tabpanel">
+          ${renderPlantJournalPreview(plant)}
+        </section>
+      `;
+    }
+
+    return `
+      <section class="plant-detail-panel plant-detail-card-overview" id="${panelId}" role="tabpanel">
+        <h5>概览</h5>
+        <div class="plant-fact-grid">
+          ${renderPlantFact("类型", localizePlantCategory(plant.category))}
+          ${renderPlantFact("阶段", localizePlantStage(plant.stage))}
+          ${renderPlantFact("开始", plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}
+          ${renderPlantFact("位置", plant.location || "还没有记录位置")}
+          ${renderPlantFact("容器", plant.container || "还没有记录容器")}
+          ${renderPlantFact("品种", plant.variety || "还没有记录品种")}
         </div>
-        ${entries.length > 3 ? `<div class="photo-caption">显示最近 3 条，共 ${entries.length} 条记录。</div>` : ""}
       </section>
     `;
   }
@@ -2388,36 +2728,24 @@
           <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
         </div>
         <p class="plant-variety">${escapeHtml(plant.variety || "还没有记录品种。")}</p>
-        <div class="journal-copy" style="margin-top: 12px;">
-          <section class="plant-detail-card-sunlight">
-            <h5>☀️ 光照</h5>
-            <p class="fact-line">${escapeHtml(plant.sunlight ? localizePlantSunlight(plant.sunlight) : "补充一个光照分类。")}</p>
-            ${formatOptionalTextBlock(plant.sunlightNotes, "detail-note")}
-          </section>
-          ${plant.temperature || plant.temperatureNotes ? `
-          <section class="plant-detail-card-temperature">
-            <h5>🌡️ 温度</h5>
-            ${plant.temperature ? `<p class="fact-line">${escapeHtml(plant.temperature)}</p>` : ""}
-            ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
-          </section>
-          ` : ""}
-          <section class="plant-detail-card-watering">
-            <h5>💧 浇水</h5>
-            <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
-          </section>
-          <section class="plant-detail-card-soil">
-            <h5>🌱 土壤</h5>
-            <p class="fact-line">${plant.soil ? escapeHtml(plant.soil).replace(/\n/g, "<br />") : "摸清土壤情况后再补充说明。"}</p>
-          </section>
-          <section class="plant-detail-card-feeding">
-            <h5>🌿 施肥</h5>
-            ${formatTextBlock(plant.notes)}
-          </section>
-          <section class="plant-detail-card-harvest">
-            <h5>🧺 收获</h5>
-            <p class="fact-line">${plant.harvest ? escapeHtml(plant.harvest).replace(/\n/g, "<br />") : "开始采收后再补充记录。"}</p>
-          </section>
-          ${renderPlantJournalPreview(plant)}
+        <div class="plant-detail-shell">
+          <div class="plant-detail-tabs" role="tablist" aria-label="${escapeHtml(`${plant.name} 的植物信息`)}}">
+            ${PLANT_DETAIL_TABS.map((tab) => {
+              const isActive = activePlantDetailTabId(plant.id) === tab.id;
+              return `
+                <button
+                  class="plant-detail-tab ${isActive ? "active" : ""}"
+                  type="button"
+                  role="tab"
+                  aria-selected="${isActive ? "true" : "false"}"
+                  aria-controls="${plantDetailPanelId(plant.id, tab.id)}"
+                  data-plant-id="${escapeHtml(plant.id)}"
+                  data-plant-detail-tab="${tab.id}"
+                >${escapeHtml(tab.label)}</button>
+              `;
+            }).join("")}
+          </div>
+          ${renderPlantDetailPanel(plant, activePlantDetailTabId(plant.id))}
         </div>
         <div class="record-actions">
           <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
@@ -2429,6 +2757,9 @@
 
     container.querySelectorAll("[data-view-plant-journal]").forEach((button) => {
       button.addEventListener("click", () => openPlantJournal(button.dataset.viewPlantJournal));
+    });
+    container.querySelectorAll("[data-plant-detail-tab]").forEach((button) => {
+      button.addEventListener("click", () => setPlantDetailTab(button.dataset.plantId, button.dataset.plantDetailTab));
     });
     container.querySelectorAll("[data-edit-plant]").forEach((button) => {
       button.addEventListener("click", () => startPlantEdit(button.dataset.editPlant));
@@ -2704,7 +3035,6 @@
     resetPlantForm();
     syncPlantSelectors();
     await renderAll();
-    setStatus("plantStatusText", existing ? "植物已更新。" : "植物已保存。", "success");
     showToast(existing ? "植物已更新。" : "植物已保存。");
   }
 
@@ -2858,11 +3188,10 @@
     plantForm.plantSoil.value = plant.soil;
     plantForm.plantHarvest.value = plant.harvest;
     plantForm.plantNotes.value = plant.notes;
-    document.getElementById("plantSaveBtn").textContent = "更新植物";
-    document.getElementById("plantCancelBtn").hidden = false;
+    updatePlantComposerUi();
     clearStatus("plantStatusText");
     setActiveTab("plants");
-    plantForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    openPlantComposer({ scroll: true });
   }
 
   function startTaskEdit(taskId) {
@@ -2936,13 +3265,10 @@
   function resetPlantForm() {
     clearPlantDraft();
     uiState.editingPlantId = null;
-    plantForm.reset();
-    plantForm.plantCategory.value = "Vegetable";
-    plantForm.plantStage.value = "Planning";
-    document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
-    document.getElementById("plantSaveBtn").textContent = "保存植物";
-    document.getElementById("plantCancelBtn").hidden = true;
+    applyPlantFormDefaults();
+    updatePlantComposerUi();
     clearStatus("plantStatusText");
+    closePlantComposer();
   }
 
   function resetTaskForm() {
@@ -2987,6 +3313,7 @@
       return;
     }
     gardenState.plants = gardenState.plants.filter((plant) => plant.id !== plantId);
+    delete uiState.plantDetailTabs[plantId];
     gardenState.tasks = gardenState.tasks.map((task) => task.plantId === plantId ? { ...task, plantId: "" } : task);
     gardenState.entries = gardenState.entries.map((entry) => entry.plantId === plantId ? { ...entry, plantId: "" } : entry);
     saveState();
