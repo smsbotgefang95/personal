@@ -1030,19 +1030,19 @@
                 <input id="plantTemperature" name="plantTemperature" type="text" placeholder="18-27 C，30-35 C 可耐受，低于 10 C 需保护" />
               </div>
               <div class="field full">
-                <label for="plantSunlightNotes">光照备注</label>
+                <label for="plantSunlightNotes">光照</label>
                 <textarea id="plantSunlightNotes" name="plantSunlightNotes" placeholder="至少 6 小时直射光，8 小时更理想，光照越多开花或结果越多"></textarea>
               </div>
               <div class="field full">
-                <label for="plantTemperatureNotes">温度备注</label>
+                <label for="plantTemperatureNotes">温度</label>
                 <textarea id="plantTemperatureNotes" name="plantTemperatureNotes" placeholder="最佳生长区间、生长放缓区、低温伤害风险、短时耐热范围"></textarea>
               </div>
               <div class="field full">
-                <label for="plantWatering">浇水备注</label>
+                <label for="plantWatering">浇水</label>
                 <textarea id="plantWatering" name="plantWatering" placeholder="每天检查，2-3 天深浇一次"></textarea>
               </div>
               <div class="field full">
-                <label for="plantNotes">通用备注</label>
+                <label for="plantNotes">施肥</label>
                 <textarea id="plantNotes" name="plantNotes" placeholder="种子来源、间距、施肥、需观察的问题、伴生植物"></textarea>
               </div>
             </div>
@@ -2013,11 +2013,11 @@
             ${formatOptionalTextBlock(plant.temperatureNotes, "detail-note")}
           </section>
           <section>
-            <h5>浇水备注</h5>
+            <h5>浇水</h5>
             <p class="fact-line">${plant.watering ? escapeHtml(plant.watering).replace(/\n/g, "<br />") : "清楚后再补充浇水说明。"}</p>
           </section>
           <section>
-            <h5>通用备注</h5>
+            <h5>施肥</h5>
             ${formatTextBlock(plant.notes)}
           </section>
           ${renderPlantJournalPreview(plant)}
