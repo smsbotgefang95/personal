@@ -1312,6 +1312,10 @@
             <p>日常进展写进日志里，植物卡片则作为长期参考。</p>
           </div>
           <div class="panel-head-actions">
+            <div class="panel-filter">
+              <label for="plantFilterPlantId">选择植物</label>
+              <select id="plantFilterPlantId" name="plantFilterPlantId"></select>
+            </div>
             <button class="btn btn-secondary" id="plantCreateBtn" type="button" aria-controls="plantComposerPanel" aria-expanded="false">新增植物</button>
           </div>
         </div>
@@ -1660,6 +1664,7 @@
     editingEntryId: null,
     editingNoteId: null,
     plantDetailTabs: {},
+    plantFilterPlantId: "",
     pendingPhotos: [],
     entryFilterPlantId: ""
   };
@@ -1703,6 +1708,7 @@
   document.getElementById("entryCancelBtn").addEventListener("click", resetEntryForm);
   document.getElementById("noteCancelBtn").addEventListener("click", resetNoteForm);
   document.getElementById("entryPhotos").addEventListener("change", handlePendingPhotoQueue);
+  document.getElementById("plantFilterPlantId").addEventListener("change", handlePlantFilterChange);
   document.getElementById("entryFilterPlantId").addEventListener("change", handleEntryFilterChange);
   document.getElementById("exportBackupBtn").addEventListener("click", exportBackup);
   document.getElementById("importBackupBtn").addEventListener("click", () => document.getElementById("importBackupInput").click());
@@ -2707,9 +2713,16 @@
 
   function renderPlantList() {
     const container = document.getElementById("plantList");
-    const plants = sortedPlants();
-    if (!plants.length) {
+    const allPlants = sortedPlants();
+    if (!allPlants.length) {
       container.innerHTML = `<div class="empty-state">还没有植物记录。先从你最想追踪的第一种蔬菜或花开始。</div>`;
+      return;
+    }
+    const plants = uiState.plantFilterPlantId
+      ? allPlants.filter((plant) => plant.id === uiState.plantFilterPlantId)
+      : allPlants;
+    if (!plants.length) {
+      container.innerHTML = `<div class="empty-state">这个植物还没有可显示的卡片。请改选其他植物，或把筛选切回“所有植物”。</div>`;
       return;
     }
 
@@ -2952,15 +2965,18 @@
   function syncPlantSelectors() {
     const taskSelect = document.getElementById("taskPlantId");
     const entrySelect = document.getElementById("entryPlantId");
+    const plantFilterSelect = document.getElementById("plantFilterPlantId");
     const filterSelect = document.getElementById("entryFilterPlantId");
     const taskValue = taskSelect.value;
     const entryValue = entrySelect.value;
+    const plantFilterValue = uiState.plantFilterPlantId;
     const filterValue = uiState.entryFilterPlantId;
     const plantNameSuggestions = document.getElementById("plantNameSuggestions");
     const plantLocationSuggestions = document.getElementById("plantLocationSuggestions");
 
     setSelectOptions(taskSelect, buildPlantOptions("通用花园"), taskValue);
     setSelectOptions(entrySelect, buildPlantOptions("通用花园"), entryValue);
+    setSelectOptions(plantFilterSelect, buildPlantOptions("所有植物"), plantFilterValue);
     setSelectOptions(filterSelect, buildPlantOptions("所有植物"), filterValue);
     plantNameSuggestions.innerHTML = sortedPlants()
       .map((plant) => plant.name)
@@ -2972,6 +2988,7 @@
     ))]
       .map((locationName) => `<option value="${escapeHtml(locationName)}"></option>`)
       .join("");
+    uiState.plantFilterPlantId = plantFilterSelect.value;
     uiState.entryFilterPlantId = filterSelect.value;
   }
 
@@ -3130,6 +3147,11 @@
   async function handleEntryFilterChange(event) {
     uiState.entryFilterPlantId = event.target.value;
     await renderEntryList();
+  }
+
+  function handlePlantFilterChange(event) {
+    uiState.plantFilterPlantId = event.target.value;
+    renderPlantList();
   }
 
   async function handleNoteSubmit(event) {
@@ -3322,6 +3344,9 @@
     }
     if (uiState.entryFilterPlantId === plantId) {
       uiState.entryFilterPlantId = "";
+    }
+    if (uiState.plantFilterPlantId === plantId) {
+      uiState.plantFilterPlantId = "";
     }
     await renderAll();
     showToast("植物已删除。");
