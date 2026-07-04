@@ -971,7 +971,7 @@
           </div>
         </div>
         <div class="panel-body">
-          <form id="plantForm">
+          <form id="plantForm" autocomplete="off">
             <div class="field-grid">
               <div class="field">
                 <label for="plantName">植物名称</label>
@@ -1030,7 +1030,7 @@
               </div>
               <div class="field">
                 <label for="plantTemperature">适宜温度</label>
-                <input id="plantTemperature" name="plantTemperature" type="text" />
+                <input id="plantTemperature" name="plantTemperatureValue" type="text" autocomplete="off" />
               </div>
               <div class="field">
                 <label for="plantSunlight">光照</label>
@@ -1365,6 +1365,10 @@
     "北向围栏",
     "推拉门"
   ]);
+  const REMOVED_PLANT_TEMPERATURE_VALUES = Object.freeze([
+    "18-27 C，30-35 C 可耐受，低于 10 C 需保护",
+    "18-27 C, 30-35 C tolerated, protect below 10 C"
+  ]);
   const uiState = {
     activeTab: "overview",
     editingPlantId: null,
@@ -1418,6 +1422,7 @@
 
   async function initialize() {
     setDefaultDates();
+    document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
     hydrateTabFromHash();
     syncPlantSelectors();
     renderPendingPhotoQueue();
@@ -1483,7 +1488,7 @@
       stage: String(item.stage || "Planning").trim() || "Planning",
       sunlight: String(item.sunlight || "").trim(),
       sunlightNotes: String(item.sunlightNotes || "").trim(),
-      temperature: String(item.temperature || "").trim(),
+      temperature: sanitizePlantTemperature(String(item.temperature || "").trim()),
       temperatureNotes: String(item.temperatureNotes || "").trim(),
       watering: String(item.watering || "").trim(),
       soil: String(item.soil || "").trim(),
@@ -1549,6 +1554,25 @@
 
   function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(gardenState));
+  }
+
+  function normalizePlantTemperatureValue(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[，,]/g, ",")
+      .replace(/[–—]/g, "-")
+      .replace(/°/g, "")
+      .replace(/\s+/g, " ");
+  }
+
+  function sanitizePlantTemperature(value) {
+    const rawValue = String(value || "").trim();
+    if (!rawValue) {
+      return "";
+    }
+    const normalizedValue = normalizePlantTemperatureValue(rawValue);
+    return REMOVED_PLANT_TEMPERATURE_VALUES.some((item) => normalizePlantTemperatureValue(item) === normalizedValue) ? "" : rawValue;
   }
 
   function todayIsoDate() {
@@ -2317,7 +2341,7 @@
       stage: values.plantStage,
       sunlight: values.plantSunlight,
       sunlightNotes: values.plantSunlightNotes,
-      temperature: values.plantTemperature,
+      temperature: sanitizePlantTemperature(values.plantTemperatureValue),
       temperatureNotes: values.plantTemperatureNotes,
       watering: values.plantWatering,
       soil: values.plantSoil,
@@ -2576,6 +2600,7 @@
     plantForm.reset();
     plantForm.plantCategory.value = "Vegetable";
     plantForm.plantStage.value = "Planning";
+    document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
     document.getElementById("plantSaveBtn").textContent = "保存植物";
     document.getElementById("plantCancelBtn").hidden = true;
     clearStatus("plantStatusText");
