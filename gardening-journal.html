@@ -2098,7 +2098,7 @@
     nextStep: { label: "下一步", fieldId: "entryNextStep" }
   });
   const BULLET_EDITOR_PREFIX = "• ";
-  const BULLET_PREFIX_PATTERN = /^[•●▪◦○·*＊﹡\-]+\s*/;
+  const BULLET_PREFIX_PATTERN = /^(?:[•●▪◦○·＊﹡]\s*|[*-]\s+)/;
   const PLANT_BULLET_FIELD_NAMES = Object.freeze([
     "plantTemperatureNotes",
     "plantSunlightNotes",
