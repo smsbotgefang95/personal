@@ -1982,6 +1982,10 @@
     "entryProblems",
     "entryNextStep"
   ]);
+  const BULLET_EDITOR_FIELD_NAMES = Object.freeze([
+    ...PLANT_BULLET_FIELD_NAMES,
+    ...ENTRY_BULLET_FIELD_NAMES
+  ]);
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -2043,6 +2047,8 @@
   const NAVIGABLE_TABS = new Set(
     Array.from(document.querySelectorAll(".tab-panel[id^='tab-']"), (panel) => panel.id.replace(/^tab-/, "")).filter(Boolean)
   );
+
+  setupBulletEditors();
 
   TAB_BUTTONS.forEach((button) => {
     button.addEventListener("click", () => setActiveTab(button.dataset.tab));
@@ -2364,12 +2370,12 @@
     if (draft.plantSunlight && plantForm.plantSunlight.value !== draft.plantSunlight) {
       plantForm.plantSunlight.value = "";
     }
-    plantForm.plantTemperatureNotes.value = draft.plantTemperatureNotes;
-    plantForm.plantSunlightNotes.value = draft.plantSunlightNotes;
-    plantForm.plantWatering.value = draft.plantWatering;
-    plantForm.plantSoil.value = draft.plantSoil;
-    plantForm.plantNotes.value = draft.plantNotes;
-    plantForm.plantHarvest.value = draft.plantHarvest;
+    plantForm.plantTemperatureNotes.value = formatBulletEditorText(draft.plantTemperatureNotes);
+    plantForm.plantSunlightNotes.value = formatBulletEditorText(draft.plantSunlightNotes);
+    plantForm.plantWatering.value = formatBulletEditorText(draft.plantWatering);
+    plantForm.plantSoil.value = formatBulletEditorText(draft.plantSoil);
+    plantForm.plantNotes.value = formatBulletEditorText(draft.plantNotes);
+    plantForm.plantHarvest.value = formatBulletEditorText(draft.plantHarvest);
     updatePlantComposerUi();
     openPlantComposer();
     setStatus("plantStatusText", "已恢复上次未保存的植物草稿。点击“保存植物”后才会写入正式记录。", "");
@@ -2781,6 +2787,68 @@
       }
     });
     return values;
+  }
+
+  function isBulletEditorTextarea(element) {
+    return element instanceof HTMLTextAreaElement && BULLET_EDITOR_FIELD_NAMES.includes(element.name || element.id);
+  }
+
+  function setTextareaCursor(textarea, position) {
+    if (typeof textarea.setSelectionRange === "function") {
+      textarea.setSelectionRange(position, position);
+    }
+  }
+
+  function seedBulletEditorPrefix(textarea) {
+    if (!isBulletEditorTextarea(textarea)) {
+      return;
+    }
+    if (String(textarea.value || "").trim()) {
+      return;
+    }
+    textarea.value = BULLET_EDITOR_PREFIX;
+    setTextareaCursor(textarea, textarea.value.length);
+  }
+
+  function handleBulletEditorFocusIn(event) {
+    const target = event.target;
+    if (!isBulletEditorTextarea(target)) {
+      return;
+    }
+    seedBulletEditorPrefix(target);
+  }
+
+  function handleBulletEditorKeydown(event) {
+    const target = event.target;
+    if (!isBulletEditorTextarea(target) || event.key !== "Enter" || event.isComposing) {
+      return;
+    }
+    if (typeof target.selectionStart !== "number" || typeof target.selectionEnd !== "number") {
+      return;
+    }
+    const selectionStart = target.selectionStart;
+    const selectionEnd = target.selectionEnd;
+    const lineStart = target.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
+    const nextLineBreak = target.value.indexOf("\n", selectionEnd);
+    const lineEnd = nextLineBreak === -1 ? target.value.length : nextLineBreak;
+    const currentLine = target.value.slice(lineStart, lineEnd);
+    if (!normalizeBulletLine(currentLine)) {
+      event.preventDefault();
+      return;
+    }
+    event.preventDefault();
+    const updatedValue = `${target.value.slice(0, selectionStart)}\n${BULLET_EDITOR_PREFIX}${target.value.slice(selectionEnd)}`;
+    const cursorPosition = selectionStart + 1 + BULLET_EDITOR_PREFIX.length;
+    target.value = updatedValue;
+    setTextareaCursor(target, cursorPosition);
+    target.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function setupBulletEditors() {
+    [plantForm, entryForm].forEach((form) => {
+      form.addEventListener("focusin", handleBulletEditorFocusIn);
+      form.addEventListener("keydown", handleBulletEditorKeydown);
+    });
   }
 
   function formatBulletTextBlock(value, fallback = "还没有备注。", className = "") {
