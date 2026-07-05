@@ -685,6 +685,25 @@
     pointer-events: none;
   }
 
+  .editor-rich-preview {
+    padding: 11px 13px;
+    border: 1px solid rgba(97, 109, 82, 0.16);
+    border-radius: 12px;
+    background: rgba(230, 242, 223, 0.28);
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .editor-rich-preview p,
+  .editor-rich-preview ul {
+    margin: 0;
+  }
+
+  .editor-rich-preview .bullet-list {
+    padding-left: 1.25rem;
+  }
+
   .rich-text-color-green {
     color: #2f6b3c;
   }
@@ -2105,6 +2124,7 @@
     { name: "purple", label: "紫色", value: "#6d4b8f" }
   ]);
   const TEXT_COLOR_NAMES = TEXT_COLOR_OPTIONS.map((option) => option.name);
+  const RICH_TEXT_MARKUP_PATTERN = /(?:\*\*[\s\S]+?\*\*|\{\{color:[a-z]+?\|[\s\S]+?\}\})/;
   const TEXT_COLOR_PATTERN = new RegExp(`\\{\\{color:(${TEXT_COLOR_NAMES.join("|")})\\|([^{}]+?)\\}\\}`, "g");
   const TEXT_BOLD_PATTERN = /\*\*([\s\S]+?)\*\*/g;
   const LEGACY_TRAILING_BOLD_PATTERN = /^([^*][\s\S]*?)\*\*$/;
@@ -2223,6 +2243,7 @@
     plantForm.plantCategory.value = "Vegetable";
     plantForm.plantStage.value = "Planning";
     document.getElementById("plantTemperature").value = sanitizePlantTemperature(document.getElementById("plantTemperature").value);
+    refreshTextEditorPreviews(plantForm);
   }
 
   function updatePlantComposerUi() {
@@ -2298,6 +2319,7 @@
     entryForm.entryDate.value = todayIsoDate();
     entryForm.entryPlantId.value = "";
     document.getElementById("entryPhotos").value = "";
+    refreshTextEditorPreviews(entryForm);
   }
 
   function normalizeEntryEditSection(value) {
@@ -2499,6 +2521,7 @@
     plantForm.plantSoil.value = formatBulletEditorText(draft.plantSoil);
     plantForm.plantNotes.value = formatBulletEditorText(draft.plantNotes);
     plantForm.plantHarvest.value = formatBulletEditorText(draft.plantHarvest);
+    refreshTextEditorPreviews(plantForm);
     updatePlantComposerUi();
     openPlantComposer();
     setStatus("plantStatusText", "已恢复上次未保存的植物草稿。点击“保存植物”后才会写入正式记录。", "");
@@ -3071,6 +3094,7 @@
     ["select", "keyup", "mouseup", "touchend", "input"].forEach((eventName) => {
       textarea.addEventListener(eventName, () => rememberTextareaSelection(textarea));
     });
+    textarea.addEventListener("input", () => updateTextareaRichPreview(textarea));
     const toolbar = document.createElement("div");
     toolbar.className = "editor-toolbar";
     toolbar.setAttribute("aria-label", "文本格式工具");
@@ -3088,6 +3112,36 @@
       ${colorButtons}
     `;
     textarea.insertAdjacentElement("beforebegin", toolbar);
+    const preview = document.createElement("div");
+    preview.className = "editor-rich-preview";
+    preview.hidden = true;
+    preview.setAttribute("aria-live", "polite");
+    textarea.insertAdjacentElement("afterend", preview);
+    updateTextareaRichPreview(textarea);
+  }
+
+  function richTextPreviewHtml(textarea) {
+    const value = String(textarea?.value || "");
+    if (!RICH_TEXT_MARKUP_PATTERN.test(value)) {
+      return "";
+    }
+    return isBulletEditorTextarea(textarea)
+      ? formatOptionalBulletTextBlock(value)
+      : formatOptionalTextBlock(value);
+  }
+
+  function updateTextareaRichPreview(textarea) {
+    const preview = textarea?.nextElementSibling;
+    if (!preview?.classList?.contains("editor-rich-preview")) {
+      return;
+    }
+    const previewHtml = richTextPreviewHtml(textarea);
+    preview.hidden = !previewHtml;
+    preview.innerHTML = previewHtml;
+  }
+
+  function refreshTextEditorPreviews(root = document) {
+    root.querySelectorAll("textarea").forEach(updateTextareaRichPreview);
   }
 
   function wrapTextareaSelection(textarea, beforeText, afterText, placeholder) {
@@ -4423,6 +4477,7 @@
     plantForm.plantSoil.value = formatBulletEditorText(plant.soil);
     plantForm.plantHarvest.value = formatBulletEditorText(plant.harvest);
     plantForm.plantNotes.value = formatBulletEditorText(plant.notes);
+    refreshTextEditorPreviews(plantForm);
     updatePlantComposerUi();
     clearStatus("plantStatusText");
     if (sectionDetails) {
@@ -4448,6 +4503,7 @@
     taskForm.taskDueDate.value = task.dueDate;
     taskForm.taskPriority.value = task.priority;
     taskForm.taskNotes.value = task.notes;
+    refreshTextEditorPreviews(taskForm);
     document.getElementById("taskSaveBtn").textContent = "更新任务";
     document.getElementById("taskCancelBtn").hidden = false;
     clearStatus("taskStatusText");
@@ -4471,6 +4527,7 @@
     entryForm.entryWins.value = formatBulletEditorText(entry.wins);
     entryForm.entryProblems.value = formatBulletEditorText(entry.problems);
     entryForm.entryNextStep.value = formatBulletEditorText(entry.nextStep);
+    refreshTextEditorPreviews(entryForm);
     uiState.pendingPhotos = [];
     document.getElementById("entryPhotos").value = "";
     renderPendingPhotoQueue();
@@ -4515,6 +4572,7 @@
     noteForm.noteTags.value = note.tags;
     noteForm.noteSource.value = note.source;
     noteForm.noteBody.value = note.body;
+    refreshTextEditorPreviews(noteForm);
     document.getElementById("noteSaveBtn").textContent = "更新笔记";
     document.getElementById("noteCancelBtn").hidden = false;
     clearStatus("noteStatusText");
@@ -4528,6 +4586,7 @@
     uiState.editingPlantSection = "";
     applyPlantFormDefaults();
     updatePlantComposerUi();
+    refreshTextEditorPreviews(plantForm);
     clearStatus("plantStatusText");
     closePlantComposer();
   }
@@ -4538,6 +4597,7 @@
     taskForm.taskCategory.value = "Water";
     taskForm.taskPriority.value = "High";
     taskForm.taskPlantId.value = "";
+    refreshTextEditorPreviews(taskForm);
     document.getElementById("taskSaveBtn").textContent = "保存任务";
     document.getElementById("taskCancelBtn").hidden = true;
     clearStatus("taskStatusText");
@@ -4549,6 +4609,7 @@
     uiState.pendingPhotos = [];
     applyEntryFormDefaults();
     renderPendingPhotoQueue();
+    refreshTextEditorPreviews(entryForm);
     clearStatus("entryStatusText");
     updateEntryComposerUi();
     closeEntryComposer();
@@ -4557,6 +4618,7 @@
   function resetNoteForm() {
     uiState.editingNoteId = null;
     noteForm.reset();
+    refreshTextEditorPreviews(noteForm);
     document.getElementById("noteSaveBtn").textContent = "保存笔记";
     document.getElementById("noteCancelBtn").hidden = true;
     clearStatus("noteStatusText");
