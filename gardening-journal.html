@@ -3094,7 +3094,6 @@
     ["select", "keyup", "mouseup", "touchend", "input"].forEach((eventName) => {
       textarea.addEventListener(eventName, () => rememberTextareaSelection(textarea));
     });
-    textarea.addEventListener("input", () => updateTextareaRichPreview(textarea));
     const toolbar = document.createElement("div");
     toolbar.className = "editor-toolbar";
     toolbar.setAttribute("aria-label", "文本格式工具");
@@ -3112,12 +3111,6 @@
       ${colorButtons}
     `;
     textarea.insertAdjacentElement("beforebegin", toolbar);
-    const preview = document.createElement("div");
-    preview.className = "editor-rich-preview";
-    preview.hidden = true;
-    preview.setAttribute("aria-live", "polite");
-    textarea.insertAdjacentElement("afterend", preview);
-    updateTextareaRichPreview(textarea);
   }
 
   function richTextPreviewHtml(textarea) {
