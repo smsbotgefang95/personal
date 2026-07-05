@@ -2102,6 +2102,7 @@
   ]);
   const TEXT_COLOR_NAMES = TEXT_COLOR_OPTIONS.map((option) => option.name);
   const TEXT_COLOR_PATTERN = new RegExp(`\\{\\{color:(${TEXT_COLOR_NAMES.join("|")})\\|([^{}]+?)\\}\\}`, "g");
+  const TEXT_BOLD_PATTERN = /\*\*([\s\S]+?)\*\*/g;
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -2873,7 +2874,7 @@
   function formatInlineRichText(value) {
     return escapeHtml(value)
       .replace(TEXT_COLOR_PATTERN, '<span class="rich-text-color-$1">$2</span>')
-      .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+      .replace(TEXT_BOLD_PATTERN, "<strong>$1</strong>");
   }
 
   function formatTextBlock(value) {
@@ -3020,13 +3021,16 @@
     target.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
-  function setupBulletEditorToolbar(textarea) {
-    if (!isBulletEditorTextarea(textarea) || textarea.previousElementSibling?.classList.contains("editor-toolbar")) {
+  function setupTextEditorToolbar(textarea) {
+    if (!textarea?.matches?.("textarea") || textarea.previousElementSibling?.classList.contains("editor-toolbar")) {
       return;
     }
     const toolbar = document.createElement("div");
     toolbar.className = "editor-toolbar";
     toolbar.setAttribute("aria-label", "文本格式工具");
+    const bulletButton = isBulletEditorTextarea(textarea)
+      ? '<button class="editor-tool-btn" type="button" data-editor-command="bullet" title="项目符号" aria-label="项目符号">•</button>'
+      : "";
     const colorButtons = TEXT_COLOR_OPTIONS.map((option) => `
       <button class="editor-tool-btn editor-color-btn" type="button" data-editor-command="color" data-editor-color="${option.name}" title="${option.label}" aria-label="${option.label}">
         <span class="editor-color-swatch" style="background: ${option.value};"></span>
@@ -3034,7 +3038,7 @@
     `).join("");
     toolbar.innerHTML = `
       <button class="editor-tool-btn" type="button" data-editor-command="bold" title="加粗" aria-label="加粗">B</button>
-      <button class="editor-tool-btn" type="button" data-editor-command="bullet" title="项目符号" aria-label="项目符号">•</button>
+      ${bulletButton}
       ${colorButtons}
     `;
     textarea.insertAdjacentElement("beforebegin", toolbar);
@@ -3074,6 +3078,45 @@
     textarea.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
+  function toggleBoldInLine(line) {
+    if (!line.trim()) {
+      return line;
+    }
+    const match = /^(\s*(?:[•*-]\s+)?)(.*?)(\s*)$/.exec(line);
+    if (!match) {
+      return line;
+    }
+    const [, prefix, content, suffix] = match;
+    if (!content.trim()) {
+      return line;
+    }
+    const contentMatch = /^(\s*)([\s\S]*?)(\s*)$/.exec(content);
+    const leading = contentMatch[1];
+    const text = contentMatch[2];
+    const trailing = contentMatch[3];
+    const nextText = /^\*\*[\s\S]+\*\*$/.test(text) ? text.slice(2, -2) : `**${text}**`;
+    return `${prefix}${leading}${nextText}${trailing}${suffix}`;
+  }
+
+  function toggleTextareaBold(textarea) {
+    const selectionStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
+    const selectionEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : selectionStart;
+    const selectedText = textarea.value.slice(selectionStart, selectionEnd);
+    if (!selectedText.includes("\n")) {
+      wrapTextareaSelection(textarea, "**", "**", "加粗文字");
+      return;
+    }
+    const lineStart = textarea.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
+    const nextLineBreak = textarea.value.indexOf("\n", selectionEnd);
+    const lineEnd = nextLineBreak === -1 ? textarea.value.length : nextLineBreak;
+    const selectedBlock = textarea.value.slice(lineStart, lineEnd);
+    const updatedBlock = selectedBlock.split("\n").map(toggleBoldInLine).join("\n");
+    textarea.value = `${textarea.value.slice(0, lineStart)}${updatedBlock}${textarea.value.slice(lineEnd)}`;
+    textarea.focus();
+    setTextareaSelection(textarea, lineStart, lineStart + updatedBlock.length);
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
   function applyTextareaColor(textarea, colorName) {
     if (!TEXT_COLOR_NAMES.includes(colorName)) {
       return;
@@ -3081,21 +3124,28 @@
     wrapTextareaSelection(textarea, `{{color:${colorName}|`, "}}", "彩色文字");
   }
 
-  function handleBulletEditorToolbarClick(event) {
+  function handleTextEditorToolbarMouseDown(event) {
+    if (event.target.closest("[data-editor-command]")) {
+      event.preventDefault();
+    }
+  }
+
+  function handleTextEditorToolbarClick(event) {
     const button = event.target.closest("[data-editor-command]");
     if (!button) {
       return;
     }
+    event.preventDefault();
     const toolbar = button.closest(".editor-toolbar");
     const textarea = toolbar?.nextElementSibling;
-    if (!isBulletEditorTextarea(textarea)) {
+    if (!textarea?.matches?.("textarea")) {
       return;
     }
     const command = button.dataset.editorCommand;
     if (command === "bold") {
-      wrapTextareaSelection(textarea, "**", "**", "加粗文字");
+      toggleTextareaBold(textarea);
     }
-    if (command === "bullet") {
+    if (command === "bullet" && isBulletEditorTextarea(textarea)) {
       toggleTextareaBullets(textarea);
     }
     if (command === "color") {
@@ -3104,12 +3154,13 @@
   }
 
   function setupBulletEditors() {
-    [plantForm, entryForm].forEach((form) => {
-      form.querySelectorAll("textarea").forEach(setupBulletEditorToolbar);
+    [plantForm, taskForm, entryForm, noteForm].forEach((form) => {
+      form.querySelectorAll("textarea").forEach(setupTextEditorToolbar);
       form.addEventListener("focusin", handleBulletEditorFocusIn);
       form.addEventListener("beforeinput", handleBulletEditorBeforeInput);
       form.addEventListener("keydown", handleBulletEditorKeydown);
-      form.addEventListener("click", handleBulletEditorToolbarClick);
+      form.addEventListener("mousedown", handleTextEditorToolbarMouseDown);
+      form.addEventListener("click", handleTextEditorToolbarClick);
     });
   }
 
