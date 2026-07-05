@@ -3385,7 +3385,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-watering" id="${panelId}" role="tabpanel">
           <h5>💧 浇水</h5>
-          ${formatBulletTextBlock(plant.watering, "清楚后再补充浇水说明。")}
+          ${formatBulletTextBlock(plant.watering, "还没有记录浇水说明。")}
         </section>
       `;
     }
@@ -3394,7 +3394,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-soil" id="${panelId}" role="tabpanel">
           <h5>🌱 土壤</h5>
-          ${formatBulletTextBlock(plant.soil, "摸清土壤情况后再补充说明。")}
+          ${formatBulletTextBlock(plant.soil, "还没有记录土壤说明。")}
         </section>
       `;
     }
@@ -3403,7 +3403,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-feeding" id="${panelId}" role="tabpanel">
           <h5>🌿 施肥</h5>
-          ${formatBulletTextBlock(plant.notes)}
+          ${formatBulletTextBlock(plant.notes, "还没有记录施肥说明。")}
         </section>
       `;
     }
@@ -3412,7 +3412,7 @@
       return `
         <section class="plant-detail-panel plant-detail-card-harvest" id="${panelId}" role="tabpanel">
           <h5>🧺 采收</h5>
-          ${formatBulletTextBlock(plant.harvest, "开始采收后再补充记录。")}
+          ${formatBulletTextBlock(plant.harvest, "还没有记录采收说明。")}
         </section>
       `;
     }
