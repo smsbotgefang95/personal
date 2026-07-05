@@ -632,11 +632,15 @@
     grid-column: 1 / -1;
   }
 
-  .entry-edit-field.is-targeted label {
+  .entry-edit-field.is-targeted label,
+  .plant-edit-field.is-targeted label {
     color: var(--green-deep);
   }
 
-  .entry-edit-field.is-targeted textarea {
+  .entry-edit-field.is-targeted textarea,
+  .plant-edit-field.is-targeted input,
+  .plant-edit-field.is-targeted select,
+  .plant-edit-field.is-targeted textarea {
     border-color: rgba(47, 107, 60, 0.4);
     background: rgba(230, 242, 223, 0.34);
     box-shadow: 0 0 0 4px rgba(47, 107, 60, 0.08);
@@ -899,12 +903,9 @@
   .journal-copy .bullet-list {
     margin: 0;
     padding-left: 1.2rem;
+    display: grid;
+    gap: 6px;
     color: var(--muted);
-  }
-
-  .plant-detail-panel .bullet-list li + li,
-  .journal-copy .bullet-list li + li {
-    margin-top: 6px;
   }
 
   .plant-detail-panel .bullet-list li::marker,
@@ -1467,12 +1468,12 @@
         <div class="panel-body">
           <form id="plantForm" autocomplete="off">
             <div class="field-grid">
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantName">植物名称</label>
                 <input id="plantName" name="plantName" type="text" list="plantNameSuggestions" required />
                 <datalist id="plantNameSuggestions"></datalist>
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantCategory">类型</label>
                 <select id="plantCategory" name="plantCategory">
                   <option value="Vegetable">蔬菜</option>
@@ -1483,11 +1484,11 @@
                   <option value="Other">其他</option>
                 </select>
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantVariety">品种</label>
                 <input id="plantVariety" name="plantVariety" type="text" />
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantLocation">位置</label>
                 <input id="plantLocation" name="plantLocation" type="text" list="plantLocationSuggestions" />
                 <datalist id="plantLocationSuggestions">
@@ -1496,7 +1497,7 @@
                   <option value="推拉门"></option>
                 </datalist>
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantContainer">容器</label>
                 <select id="plantContainer" name="plantContainer">
                   <option value="">请选择</option>
@@ -1504,11 +1505,11 @@
                   <option value="种植袋10加仑">种植袋10加仑</option>
                 </select>
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantStartDate">开始育苗或定植</label>
                 <input id="plantStartDate" name="plantStartDate" type="date" />
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="overview">
                 <label for="plantStage">当前阶段</label>
                 <select id="plantStage" name="plantStage">
                   <option value="Planning">计划中</option>
@@ -1522,11 +1523,11 @@
                   <option value="Finished">已结束</option>
                 </select>
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="temperature">
                 <label for="plantTemperature">🌡️ 适宜温度</label>
                 <input id="plantTemperature" name="plantTemperatureValue" type="text" autocomplete="off" />
               </div>
-              <div class="field">
+              <div class="field plant-edit-field" data-plant-edit-section="sunlight">
                 <label for="plantSunlight">☀️ 光照</label>
                 <select id="plantSunlight" name="plantSunlight">
                   <option value="">请选择</option>
@@ -1536,27 +1537,27 @@
                   <option value="Shade">阴凉</option>
                 </select>
               </div>
-              <div class="field full">
+              <div class="field full plant-edit-field" data-plant-edit-section="temperature">
                 <label for="plantTemperatureNotes">🌡️ 温度</label>
                 <textarea id="plantTemperatureNotes" name="plantTemperatureNotes"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full plant-edit-field" data-plant-edit-section="sunlight">
                 <label for="plantSunlightNotes">☀️ 光照</label>
                 <textarea id="plantSunlightNotes" name="plantSunlightNotes"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full plant-edit-field" data-plant-edit-section="watering">
                 <label for="plantWatering">💧 浇水</label>
                 <textarea id="plantWatering" name="plantWatering"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full plant-edit-field" data-plant-edit-section="soil">
                 <label for="plantSoil">🌱 土壤</label>
                 <textarea id="plantSoil" name="plantSoil"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full plant-edit-field" data-plant-edit-section="feeding">
                 <label for="plantNotes">🌿 施肥</label>
                 <textarea id="plantNotes" name="plantNotes"></textarea>
               </div>
-              <div class="field full">
+              <div class="field full plant-edit-field" data-plant-edit-section="harvest">
                 <label for="plantHarvest">🧺 采收</label>
                 <textarea id="plantHarvest" name="plantHarvest"></textarea>
               </div>
@@ -1952,6 +1953,15 @@
     { id: "journal", label: "📝 日志" }
   ]);
   const PLANT_DETAIL_TAB_IDS = new Set(PLANT_DETAIL_TABS.map((tab) => tab.id));
+  const PLANT_EDIT_SECTIONS = Object.freeze({
+    overview: { label: "概览", fieldId: "plantName" },
+    sunlight: { label: "光照", fieldId: "plantSunlight" },
+    temperature: { label: "温度", fieldId: "plantTemperature" },
+    watering: { label: "浇水", fieldId: "plantWatering" },
+    soil: { label: "土壤", fieldId: "plantSoil" },
+    feeding: { label: "施肥", fieldId: "plantNotes" },
+    harvest: { label: "采收", fieldId: "plantHarvest" }
+  });
   const ENTRY_EDIT_SECTIONS = Object.freeze({
     wins: { label: "顺利的地方", fieldId: "entryWins" },
     problems: { label: "问题或疑问", fieldId: "entryProblems" },
@@ -1973,6 +1983,7 @@
   const uiState = {
     activeTab: "overview",
     editingPlantId: null,
+    editingPlantSection: "",
     editingTaskId: null,
     editingEntryId: null,
     editingEntrySection: "",
@@ -2072,22 +2083,43 @@
 
   function updatePlantComposerUi() {
     const editing = Boolean(uiState.editingPlantId);
-    plantComposerTitle.textContent = editing ? "编辑植物" : "新增植物";
+    const editingSection = editing ? normalizePlantEditSection(uiState.editingPlantSection) : "";
+    const sectionDetails = editingSection ? PLANT_EDIT_SECTIONS[editingSection] : null;
+    plantComposerTitle.textContent = editing
+      ? (sectionDetails ? `编辑${sectionDetails.label}` : "编辑植物")
+      : "新增植物";
     plantComposerDescription.textContent = editing
-      ? "修改这株植物的长期参考信息，保存后植物卡片会立即更新。"
+      ? (sectionDetails
+        ? `只改“${sectionDetails.label}”这一组内容就行。其他植物资料会保持原样，除非你主动切回完整编辑。`
+        : "修改这株植物的长期参考信息，保存后植物卡片会立即更新。")
       : "只在你要新增植物时打开这个表单，避免它长期占据植物列表的空间。";
-    document.getElementById("plantSaveBtn").textContent = editing ? "更新植物" : "保存植物";
+    document.getElementById("plantSaveBtn").textContent = editing
+      ? (sectionDetails ? "保存修改" : "更新植物")
+      : "保存植物";
     document.getElementById("plantCancelBtn").textContent = editing ? "取消编辑" : "取消";
+    document.querySelectorAll(".plant-edit-field[data-plant-edit-section]").forEach((field) => {
+      const isTargeted = Boolean(sectionDetails) && field.dataset.plantEditSection === editingSection;
+      field.hidden = Boolean(sectionDetails) && !isTargeted;
+      field.classList.toggle("is-targeted", isTargeted);
+    });
   }
 
-  function openPlantComposer({ focusField = false, scroll = false } = {}) {
+  function openPlantComposer({ focusField = false, scroll = false, targetFieldId = "" } = {}) {
     plantComposerPanel.hidden = false;
     plantCreateBtn.setAttribute("aria-expanded", "true");
     updatePlantComposerUi();
     if (focusField || scroll) {
       window.requestAnimationFrame(() => {
         plantComposerPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-        if (focusField) {
+        if (targetFieldId) {
+          const targetField = document.getElementById(targetFieldId);
+          if (targetField) {
+            targetField.focus();
+            if (typeof targetField.selectionStart === "number" && typeof targetField.value === "string") {
+              targetField.setSelectionRange(targetField.value.length, targetField.value.length);
+            }
+          }
+        } else if (focusField) {
           plantForm.plantName.focus();
         }
       });
@@ -2106,6 +2138,7 @@
     }
     clearPlantDraft();
     uiState.editingPlantId = null;
+    uiState.editingPlantSection = "";
     applyPlantFormDefaults();
     clearStatus("plantStatusText");
     updatePlantComposerUi();
@@ -3148,6 +3181,16 @@
     return PLANT_DETAIL_TAB_IDS.has(activeTab) ? activeTab : "overview";
   }
 
+  function normalizePlantEditSection(value) {
+    const key = String(value || "").trim();
+    return Object.prototype.hasOwnProperty.call(PLANT_EDIT_SECTIONS, key) ? key : "";
+  }
+
+  function plantEditButtonLabel(tabId) {
+    const section = normalizePlantEditSection(tabId);
+    return section ? `编辑${PLANT_EDIT_SECTIONS[section].label}` : "编辑植物";
+  }
+
   function setPlantDetailTab(plantId, tabId) {
     if (!plantId || !PLANT_DETAIL_TAB_IDS.has(tabId) || activePlantDetailTabId(plantId) === tabId) {
       return;
@@ -3306,7 +3349,9 @@
       return;
     }
 
-    container.innerHTML = plants.map((plant) => `
+    container.innerHTML = plants.map((plant) => {
+      const activePlantTab = activePlantDetailTabId(plant.id);
+      return `
       <article class="record-card plant-card">
         <div class="record-header">
           <div>
@@ -3324,7 +3369,7 @@
         <div class="plant-detail-shell">
           <div class="plant-detail-tabs" role="tablist" aria-label="${escapeHtml(`${plant.name} 的植物信息`)}}">
             ${PLANT_DETAIL_TABS.map((tab) => {
-              const isActive = activePlantDetailTabId(plant.id) === tab.id;
+              const isActive = activePlantTab === tab.id;
               return `
                 <button
                   class="plant-detail-tab ${isActive ? "active" : ""}"
@@ -3338,15 +3383,16 @@
               `;
             }).join("")}
           </div>
-          ${renderPlantDetailPanel(plant, activePlantDetailTabId(plant.id))}
+          ${renderPlantDetailPanel(plant, activePlantTab)}
         </div>
         <div class="record-actions">
-          <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}">编辑</button>
+          <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}" data-plant-edit-section="${escapeHtml(normalizePlantEditSection(activePlantTab))}">${escapeHtml(plantEditButtonLabel(activePlantTab))}</button>
           <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
           <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">删除</button>
         </div>
       </article>
-    `).join("");
+    `;
+    }).join("");
 
     container.querySelectorAll("[data-view-plant-journal]").forEach((button) => {
       button.addEventListener("click", () => openPlantJournal(button.dataset.viewPlantJournal));
@@ -3355,7 +3401,10 @@
       button.addEventListener("click", () => setPlantDetailTab(button.dataset.plantId, button.dataset.plantDetailTab));
     });
     container.querySelectorAll("[data-edit-plant]").forEach((button) => {
-      button.addEventListener("click", () => startPlantEdit(button.dataset.editPlant));
+      button.addEventListener("click", () => startPlantEdit(
+        button.dataset.editPlant,
+        { section: button.dataset.plantEditSection }
+      ));
     });
     container.querySelectorAll("[data-delete-plant]").forEach((button) => {
       button.addEventListener("click", () => deletePlant(button.dataset.deletePlant));
@@ -3865,12 +3914,15 @@
     showToast(existing ? "知识笔记已更新。" : "知识笔记已保存。");
   }
 
-  function startPlantEdit(plantId) {
+  function startPlantEdit(plantId, { section = "" } = {}) {
     const plant = gardenState.plants.find((item) => item.id === plantId);
     if (!plant) {
       return;
     }
+    const editingSection = normalizePlantEditSection(section);
+    const sectionDetails = editingSection ? PLANT_EDIT_SECTIONS[editingSection] : null;
     uiState.editingPlantId = plant.id;
+    uiState.editingPlantSection = editingSection;
     plantForm.plantName.value = plant.name;
     plantForm.plantCategory.value = plant.category;
     plantForm.plantVariety.value = plant.variety;
@@ -3888,8 +3940,15 @@
     plantForm.plantNotes.value = plant.notes;
     updatePlantComposerUi();
     clearStatus("plantStatusText");
+    if (sectionDetails) {
+      setStatus("plantStatusText", `正在编辑这株植物里的“${sectionDetails.label}”。其他植物资料会保持原样。`, "");
+    }
     setActiveTab("plants");
-    openPlantComposer({ scroll: true });
+    openPlantComposer({
+      scroll: true,
+      focusField: !sectionDetails,
+      targetFieldId: sectionDetails ? sectionDetails.fieldId : ""
+    });
   }
 
   function startTaskEdit(taskId) {
@@ -3981,6 +4040,7 @@
   function resetPlantForm() {
     clearPlantDraft();
     uiState.editingPlantId = null;
+    uiState.editingPlantSection = "";
     applyPlantFormDefaults();
     updatePlantComposerUi();
     clearStatus("plantStatusText");
