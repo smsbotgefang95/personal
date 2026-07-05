@@ -2998,6 +2998,16 @@
     return { start, end };
   }
 
+  function textareaSelectedLineRange(textarea, selectionStart, selectionEnd) {
+    const lineStart = textarea.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
+    const effectiveSelectionEnd = selectionEnd > selectionStart && textarea.value[selectionEnd - 1] === "\n"
+      ? selectionEnd - 1
+      : selectionEnd;
+    const nextLineBreak = textarea.value.indexOf("\n", effectiveSelectionEnd);
+    const lineEnd = nextLineBreak === -1 ? textarea.value.length : nextLineBreak;
+    return { lineStart, lineEnd };
+  }
+
   function seedBulletEditorPrefix(textarea) {
     if (!isBulletEditorTextarea(textarea)) {
       return;
@@ -3094,9 +3104,7 @@
 
   function toggleTextareaBullets(textarea) {
     const { start: selectionStart, end: selectionEnd } = textareaSelection(textarea);
-    const lineStart = textarea.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
-    const nextLineBreak = textarea.value.indexOf("\n", selectionEnd);
-    const lineEnd = nextLineBreak === -1 ? textarea.value.length : nextLineBreak;
+    const { lineStart, lineEnd } = textareaSelectedLineRange(textarea, selectionStart, selectionEnd);
     const selectedBlock = textarea.value.slice(lineStart, lineEnd) || BULLET_EDITOR_PREFIX;
     const lines = selectedBlock.split("\n");
     const nonBlankLines = lines.filter((line) => line.trim());
@@ -3141,9 +3149,7 @@
       wrapTextareaSelection(textarea, "**", "**", "加粗文字");
       return;
     }
-    const lineStart = textarea.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
-    const nextLineBreak = textarea.value.indexOf("\n", selectionEnd);
-    const lineEnd = nextLineBreak === -1 ? textarea.value.length : nextLineBreak;
+    const { lineStart, lineEnd } = textareaSelectedLineRange(textarea, selectionStart, selectionEnd);
     const selectedBlock = textarea.value.slice(lineStart, lineEnd);
     const updatedBlock = selectedBlock.split("\n").map(toggleBoldInLine).join("\n");
     textarea.value = `${textarea.value.slice(0, lineStart)}${updatedBlock}${textarea.value.slice(lineEnd)}`;
