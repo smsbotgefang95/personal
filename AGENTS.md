@@ -17,6 +17,14 @@ Then test pages through the local server instead of opening files directly:
 
 If port `8015` is already in use, use the next available port and report the URL. Keep the server running after testing so the operator can continue using it locally. Do not stop the local static development server unless the operator explicitly asks you to stop it.
 
+Current local server note: port `8015` is already in use, so the active local server for this workspace is running at `http://localhost:8016/`. Use that server for local testing unless it stops or becomes unavailable.
+
+## Response Style
+
+When a code change has been made but is not committed or deployed yet, end the response with this sentence as its own final paragraph:
+
+Do you want to deploy the code change?
+
 ## Deploy
 
 When the operator says `deploy`, deploy this site to the production server.
