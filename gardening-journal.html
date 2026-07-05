@@ -1557,7 +1557,7 @@
                 <textarea id="plantNotes" name="plantNotes"></textarea>
               </div>
               <div class="field full">
-                <label for="plantHarvest">🧺 收获</label>
+                <label for="plantHarvest">🧺 采收</label>
                 <textarea id="plantHarvest" name="plantHarvest"></textarea>
               </div>
             </div>
@@ -1948,7 +1948,7 @@
     { id: "watering", label: "💧 浇水" },
     { id: "soil", label: "🌱 土壤" },
     { id: "feeding", label: "🌿 施肥" },
-    { id: "harvest", label: "🧺 收获" },
+    { id: "harvest", label: "🧺 采收" },
     { id: "journal", label: "📝 日志" }
   ]);
   const PLANT_DETAIL_TAB_IDS = new Set(PLANT_DETAIL_TABS.map((tab) => tab.id));
@@ -3252,7 +3252,7 @@
     if (tabId === "harvest") {
       return `
         <section class="plant-detail-panel plant-detail-card-harvest" id="${panelId}" role="tabpanel">
-          <h5>🧺 收获</h5>
+          <h5>🧺 采收</h5>
           ${formatBulletTextBlock(plant.harvest, "开始采收后再补充记录。")}
         </section>
       `;
