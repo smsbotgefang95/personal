@@ -1967,6 +1967,21 @@
     problems: { label: "问题或疑问", fieldId: "entryProblems" },
     nextStep: { label: "下一步", fieldId: "entryNextStep" }
   });
+  const BULLET_EDITOR_PREFIX = "• ";
+  const BULLET_PREFIX_PATTERN = /^[•●▪◦○·*＊﹡\-]+\s*/;
+  const PLANT_BULLET_FIELD_NAMES = Object.freeze([
+    "plantTemperatureNotes",
+    "plantSunlightNotes",
+    "plantWatering",
+    "plantSoil",
+    "plantNotes",
+    "plantHarvest"
+  ]);
+  const ENTRY_BULLET_FIELD_NAMES = Object.freeze([
+    "entryWins",
+    "entryProblems",
+    "entryNextStep"
+  ]);
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -2740,11 +2755,32 @@
     return `<p>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
   }
 
+  function normalizeBulletLine(line) {
+    return String(line || "").trim().replace(BULLET_PREFIX_PATTERN, "").trim();
+  }
+
   function bulletItemsFromText(value) {
     return String(value || "")
       .split(/\n+/)
-      .map((line) => line.trim().replace(/^[•*-]\s*/, ""))
+      .map(normalizeBulletLine)
       .filter(Boolean);
+  }
+
+  function formatBulletEditorText(value) {
+    return bulletItemsFromText(value).map((item) => `${BULLET_EDITOR_PREFIX}${item}`).join("\n");
+  }
+
+  function normalizeBulletEditorText(value) {
+    return bulletItemsFromText(value).join("\n");
+  }
+
+  function normalizeBulletEditorFields(values, fieldNames) {
+    fieldNames.forEach((fieldName) => {
+      if (fieldName in values) {
+        values[fieldName] = normalizeBulletEditorText(values[fieldName]);
+      }
+    });
+    return values;
   }
 
   function formatBulletTextBlock(value, fallback = "还没有备注。", className = "") {
@@ -3725,7 +3761,7 @@
 
   async function handlePlantSubmit(event) {
     event.preventDefault();
-    const values = getFormData(plantForm);
+    const values = normalizeBulletEditorFields(getFormData(plantForm), PLANT_BULLET_FIELD_NAMES);
     if (matchesRemovedPlantValue(values.plantName)) {
       setStatus("plantStatusText", "请填写具体植物名称，不要用“露台”或“南向围栏”这种位置名。", "error");
       return;
@@ -3811,7 +3847,7 @@
 
   async function handleEntrySubmit(event) {
     event.preventDefault();
-    const values = getFormData(entryForm);
+    const values = normalizeBulletEditorFields(getFormData(entryForm), ENTRY_BULLET_FIELD_NAMES);
     const now = new Date().toISOString();
     const existing = uiState.editingEntryId ? gardenState.entries.find((entry) => entry.id === uiState.editingEntryId) : null;
     const photoIds = existing ? [...existing.photoIds] : [];
@@ -3931,13 +3967,13 @@
     plantForm.plantStartDate.value = plant.startDate;
     plantForm.plantStage.value = plant.stage;
     plantForm.plantSunlight.value = plant.sunlight;
-    plantForm.plantSunlightNotes.value = plant.sunlightNotes;
+    plantForm.plantSunlightNotes.value = formatBulletEditorText(plant.sunlightNotes);
     plantForm.plantTemperature.value = plant.temperature;
-    plantForm.plantTemperatureNotes.value = plant.temperatureNotes;
-    plantForm.plantWatering.value = plant.watering;
-    plantForm.plantSoil.value = plant.soil;
-    plantForm.plantHarvest.value = plant.harvest;
-    plantForm.plantNotes.value = plant.notes;
+    plantForm.plantTemperatureNotes.value = formatBulletEditorText(plant.temperatureNotes);
+    plantForm.plantWatering.value = formatBulletEditorText(plant.watering);
+    plantForm.plantSoil.value = formatBulletEditorText(plant.soil);
+    plantForm.plantHarvest.value = formatBulletEditorText(plant.harvest);
+    plantForm.plantNotes.value = formatBulletEditorText(plant.notes);
     updatePlantComposerUi();
     clearStatus("plantStatusText");
     if (sectionDetails) {
@@ -3983,9 +4019,9 @@
     entryForm.entryPlantId.value = entry.plantId;
     entryForm.entryTitle.value = entry.title;
     entryForm.entryWeather.value = entry.weather;
-    entryForm.entryWins.value = entry.wins;
-    entryForm.entryProblems.value = entry.problems;
-    entryForm.entryNextStep.value = entry.nextStep;
+    entryForm.entryWins.value = formatBulletEditorText(entry.wins);
+    entryForm.entryProblems.value = formatBulletEditorText(entry.problems);
+    entryForm.entryNextStep.value = formatBulletEditorText(entry.nextStep);
     uiState.pendingPhotos = [];
     document.getElementById("entryPhotos").value = "";
     renderPendingPhotoQueue();
