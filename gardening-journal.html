@@ -635,6 +635,43 @@
     gap: 6px;
   }
 
+  .editor-toolbar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .editor-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(97, 109, 82, 0.22);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.84);
+    color: var(--green-deep);
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: 0 8px 16px rgba(71, 61, 34, 0.06);
+    transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+  }
+
+  .editor-tool-btn:hover {
+    border-color: rgba(47, 107, 60, 0.36);
+    background: var(--green-soft);
+    transform: translateY(-1px);
+  }
+
+  .editor-tool-btn:focus-visible {
+    outline: 3px solid rgba(47, 107, 60, 0.18);
+    outline-offset: 2px;
+  }
+
+  .editor-tool-btn[data-editor-command="bold"] {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
   .field.full {
     grid-column: 1 / -1;
   }
@@ -2783,11 +2820,15 @@
       .replace(/'/g, "&#39;");
   }
 
+  function formatInlineRichText(value) {
+    return escapeHtml(value).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+  }
+
   function formatTextBlock(value) {
     if (!value) {
       return "<p>还没有备注。</p>";
     }
-    return `<p>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
+    return `<p>${formatInlineRichText(value).replace(/\n/g, "<br />")}</p>`;
   }
 
   function normalizeBulletLine(line) {
@@ -2822,7 +2863,7 @@
       return `<p${classAttribute}>${escapeHtml(fallback)}</p>`;
     }
     const classAttribute = className ? ` class="${className}"` : "";
-    return `<p${classAttribute}>${escapeHtml(text).replace(/\n/g, "<br />")}</p>`;
+    return `<p${classAttribute}>${formatInlineRichText(text).replace(/\n/g, "<br />")}</p>`;
   }
 
   function formatBulletEditorText(value) {
@@ -2862,6 +2903,12 @@
   function setTextareaCursor(textarea, position) {
     if (typeof textarea.setSelectionRange === "function") {
       textarea.setSelectionRange(position, position);
+    }
+  }
+
+  function setTextareaSelection(textarea, start, end) {
+    if (typeof textarea.setSelectionRange === "function") {
+      textarea.setSelectionRange(start, end);
     }
   }
 
@@ -2921,11 +2968,80 @@
     target.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
+  function setupBulletEditorToolbar(textarea) {
+    if (!isBulletEditorTextarea(textarea) || textarea.previousElementSibling?.classList.contains("editor-toolbar")) {
+      return;
+    }
+    const toolbar = document.createElement("div");
+    toolbar.className = "editor-toolbar";
+    toolbar.setAttribute("aria-label", "文本格式工具");
+    toolbar.innerHTML = `
+      <button class="editor-tool-btn" type="button" data-editor-command="bold" title="加粗" aria-label="加粗">B</button>
+      <button class="editor-tool-btn" type="button" data-editor-command="bullet" title="项目符号" aria-label="项目符号">•</button>
+    `;
+    textarea.insertAdjacentElement("beforebegin", toolbar);
+  }
+
+  function wrapTextareaSelection(textarea, beforeText, afterText, placeholder) {
+    const selectionStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
+    const selectionEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : selectionStart;
+    const selectedText = textarea.value.slice(selectionStart, selectionEnd) || placeholder;
+    textarea.value = `${textarea.value.slice(0, selectionStart)}${beforeText}${selectedText}${afterText}${textarea.value.slice(selectionEnd)}`;
+    const contentStart = selectionStart + beforeText.length;
+    const contentEnd = contentStart + selectedText.length;
+    textarea.focus();
+    setTextareaSelection(textarea, contentStart, contentEnd);
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function toggleTextareaBullets(textarea) {
+    const selectionStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
+    const selectionEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : selectionStart;
+    const lineStart = textarea.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
+    const nextLineBreak = textarea.value.indexOf("\n", selectionEnd);
+    const lineEnd = nextLineBreak === -1 ? textarea.value.length : nextLineBreak;
+    const selectedBlock = textarea.value.slice(lineStart, lineEnd) || BULLET_EDITOR_PREFIX;
+    const lines = selectedBlock.split("\n");
+    const nonBlankLines = lines.filter((line) => line.trim());
+    const removeBullets = nonBlankLines.length > 0 && nonBlankLines.every((line) => BULLET_PREFIX_PATTERN.test(line.trim()));
+    const updatedBlock = lines.map((line) => {
+      if (!line.trim()) {
+        return line;
+      }
+      return removeBullets ? line.replace(BULLET_PREFIX_PATTERN, "") : `${BULLET_EDITOR_PREFIX}${line.replace(BULLET_PREFIX_PATTERN, "")}`;
+    }).join("\n");
+    textarea.value = `${textarea.value.slice(0, lineStart)}${updatedBlock}${textarea.value.slice(lineEnd)}`;
+    textarea.focus();
+    setTextareaSelection(textarea, lineStart, lineStart + updatedBlock.length);
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function handleBulletEditorToolbarClick(event) {
+    const button = event.target.closest("[data-editor-command]");
+    if (!button) {
+      return;
+    }
+    const toolbar = button.closest(".editor-toolbar");
+    const textarea = toolbar?.nextElementSibling;
+    if (!isBulletEditorTextarea(textarea)) {
+      return;
+    }
+    const command = button.dataset.editorCommand;
+    if (command === "bold") {
+      wrapTextareaSelection(textarea, "**", "**", "加粗文字");
+    }
+    if (command === "bullet") {
+      toggleTextareaBullets(textarea);
+    }
+  }
+
   function setupBulletEditors() {
     [plantForm, entryForm].forEach((form) => {
+      form.querySelectorAll("textarea").forEach(setupBulletEditorToolbar);
       form.addEventListener("focusin", handleBulletEditorFocusIn);
       form.addEventListener("beforeinput", handleBulletEditorBeforeInput);
       form.addEventListener("keydown", handleBulletEditorKeydown);
+      form.addEventListener("click", handleBulletEditorToolbarClick);
     });
   }
 
@@ -2943,10 +3059,10 @@
     }
     if (items.length === 1) {
       const classAttribute = className ? ` class="${className}"` : "";
-      return `<p${classAttribute}>${escapeHtml(items[0])}</p>`;
+      return `<p${classAttribute}>${formatInlineRichText(items[0])}</p>`;
     }
     const classAttribute = className ? ` class="bullet-list ${className}"` : ` class="bullet-list"`;
-    return `<ul${classAttribute}>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    return `<ul${classAttribute}>${items.map((item) => `<li>${formatInlineRichText(item)}</li>`).join("")}</ul>`;
   }
 
   function formatOptionalBulletTextBlock(value, className = "") {
@@ -2959,10 +3075,10 @@
     }
     if (items.length === 1) {
       const classAttribute = className ? ` class="${className}"` : "";
-      return `<p${classAttribute}>${escapeHtml(items[0])}</p>`;
+      return `<p${classAttribute}>${formatInlineRichText(items[0])}</p>`;
     }
     const classAttribute = className ? ` class="bullet-list ${className}"` : ` class="bullet-list"`;
-    return `<ul${classAttribute}>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    return `<ul${classAttribute}>${items.map((item) => `<li>${formatInlineRichText(item)}</li>`).join("")}</ul>`;
   }
 
   function formatOptionalTextBlock(value, className = "") {
@@ -2970,7 +3086,7 @@
       return "";
     }
     const classAttribute = className ? ` class="${className}"` : "";
-    return `<p${classAttribute}>${escapeHtml(value).replace(/\n/g, "<br />")}</p>`;
+    return `<p${classAttribute}>${formatInlineRichText(value).replace(/\n/g, "<br />")}</p>`;
   }
 
   function formatDisplayDate(value, short = false) {
