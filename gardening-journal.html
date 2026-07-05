@@ -2107,6 +2107,7 @@
   const TEXT_COLOR_NAMES = TEXT_COLOR_OPTIONS.map((option) => option.name);
   const TEXT_COLOR_PATTERN = new RegExp(`\\{\\{color:(${TEXT_COLOR_NAMES.join("|")})\\|([^{}]+?)\\}\\}`, "g");
   const TEXT_BOLD_PATTERN = /\*\*([\s\S]+?)\*\*/g;
+  const LEGACY_TRAILING_BOLD_PATTERN = /^([^*][\s\S]*?)\*\*$/;
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -2877,7 +2878,8 @@
   }
 
   function formatInlineRichText(value) {
-    return escapeHtml(value)
+    const normalizedValue = String(value || "").replace(LEGACY_TRAILING_BOLD_PATTERN, "**$1**");
+    return escapeHtml(normalizedValue)
       .replace(TEXT_COLOR_PATTERN, '<span class="rich-text-color-$1">$2</span>')
       .replace(TEXT_BOLD_PATTERN, "<strong>$1</strong>");
   }
