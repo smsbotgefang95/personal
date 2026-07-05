@@ -2786,7 +2786,11 @@
   }
 
   function formatBulletEditorText(value) {
-    return bulletItemsFromText(value).map((item) => `${BULLET_EDITOR_PREFIX}${item}`).join("\n");
+    const items = bulletItemsFromText(value);
+    if (items.length <= 1) {
+      return items[0] || "";
+    }
+    return items.map((item) => `${BULLET_EDITOR_PREFIX}${item}`).join("\n");
   }
 
   function normalizeBulletEditorText(value) {
@@ -2885,6 +2889,10 @@
       const classAttribute = className ? ` class="${className}"` : "";
       return `<p${classAttribute}>${escapeHtml(fallback)}</p>`;
     }
+    if (items.length === 1) {
+      const classAttribute = className ? ` class="${className}"` : "";
+      return `<p${classAttribute}>${escapeHtml(items[0])}</p>`;
+    }
     const classAttribute = className ? ` class="bullet-list ${className}"` : ` class="bullet-list"`;
     return `<ul${classAttribute}>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
   }
@@ -2893,6 +2901,10 @@
     const items = bulletItemsFromText(value);
     if (!items.length) {
       return "";
+    }
+    if (items.length === 1) {
+      const classAttribute = className ? ` class="${className}"` : "";
+      return `<p${classAttribute}>${escapeHtml(items[0])}</p>`;
     }
     const classAttribute = className ? ` class="bullet-list ${className}"` : ` class="bullet-list"`;
     return `<ul${classAttribute}>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
