@@ -672,6 +672,39 @@
     font-family: Georgia, "Times New Roman", serif;
   }
 
+  .editor-color-btn {
+    padding: 0;
+  }
+
+  .editor-color-swatch {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.92);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(42, 64, 43, 0.18);
+    pointer-events: none;
+  }
+
+  .rich-text-color-green {
+    color: #2f6b3c;
+  }
+
+  .rich-text-color-blue {
+    color: #2f6384;
+  }
+
+  .rich-text-color-amber {
+    color: #8b5a0a;
+  }
+
+  .rich-text-color-red {
+    color: #a33b32;
+  }
+
+  .rich-text-color-purple {
+    color: #6d4b8f;
+  }
+
   .field.full {
     grid-column: 1 / -1;
   }
@@ -907,6 +940,10 @@
 
   .plant-detail-card-watering {
     background: linear-gradient(180deg, rgba(232, 241, 246, 0.96), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-panel.plant-detail-card-watering .bullet-list {
+    color: #446475;
   }
 
   .plant-detail-card-soil {
@@ -2056,6 +2093,15 @@
     ...PLANT_BULLET_FIELD_NAMES,
     ...ENTRY_BULLET_FIELD_NAMES
   ]);
+  const TEXT_COLOR_OPTIONS = Object.freeze([
+    { name: "green", label: "绿色", value: "#2f6b3c" },
+    { name: "blue", label: "蓝色", value: "#2f6384" },
+    { name: "amber", label: "琥珀色", value: "#8b5a0a" },
+    { name: "red", label: "红色", value: "#a33b32" },
+    { name: "purple", label: "紫色", value: "#6d4b8f" }
+  ]);
+  const TEXT_COLOR_NAMES = TEXT_COLOR_OPTIONS.map((option) => option.name);
+  const TEXT_COLOR_PATTERN = new RegExp(`\\{\\{color:(${TEXT_COLOR_NAMES.join("|")})\\|([^{}]+?)\\}\\}`, "g");
   const DEFAULT_PLANT_LOCATIONS = Object.freeze([
     "南向围栏",
     "北向围栏",
@@ -2825,7 +2871,9 @@
   }
 
   function formatInlineRichText(value) {
-    return escapeHtml(value).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+    return escapeHtml(value)
+      .replace(TEXT_COLOR_PATTERN, '<span class="rich-text-color-$1">$2</span>')
+      .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
   }
 
   function formatTextBlock(value) {
@@ -2979,9 +3027,15 @@
     const toolbar = document.createElement("div");
     toolbar.className = "editor-toolbar";
     toolbar.setAttribute("aria-label", "文本格式工具");
+    const colorButtons = TEXT_COLOR_OPTIONS.map((option) => `
+      <button class="editor-tool-btn editor-color-btn" type="button" data-editor-command="color" data-editor-color="${option.name}" title="${option.label}" aria-label="${option.label}">
+        <span class="editor-color-swatch" style="background: ${option.value};"></span>
+      </button>
+    `).join("");
     toolbar.innerHTML = `
       <button class="editor-tool-btn" type="button" data-editor-command="bold" title="加粗" aria-label="加粗">B</button>
       <button class="editor-tool-btn" type="button" data-editor-command="bullet" title="项目符号" aria-label="项目符号">•</button>
+      ${colorButtons}
     `;
     textarea.insertAdjacentElement("beforebegin", toolbar);
   }
@@ -3020,6 +3074,13 @@
     textarea.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
+  function applyTextareaColor(textarea, colorName) {
+    if (!TEXT_COLOR_NAMES.includes(colorName)) {
+      return;
+    }
+    wrapTextareaSelection(textarea, `{{color:${colorName}|`, "}}", "彩色文字");
+  }
+
   function handleBulletEditorToolbarClick(event) {
     const button = event.target.closest("[data-editor-command]");
     if (!button) {
@@ -3036,6 +3097,9 @@
     }
     if (command === "bullet") {
       toggleTextareaBullets(textarea);
+    }
+    if (command === "color") {
+      applyTextareaColor(textarea, button.dataset.editorColor);
     }
   }
 
