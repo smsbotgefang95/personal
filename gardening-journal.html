@@ -2140,6 +2140,7 @@
   let photoDatabasePromise = null;
   let plantDraftSaveTimer = null;
   let toastTimer = null;
+  const TEXTAREA_SELECTIONS = new WeakMap();
 
   const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
     year: "numeric",
@@ -2969,6 +2970,32 @@
     }
   }
 
+  function rememberTextareaSelection(textarea) {
+    if (!textarea?.matches?.("textarea") || typeof textarea.selectionStart !== "number" || typeof textarea.selectionEnd !== "number") {
+      return;
+    }
+    TEXTAREA_SELECTIONS.set(textarea, {
+      start: textarea.selectionStart,
+      end: textarea.selectionEnd
+    });
+  }
+
+  function textareaSelection(textarea) {
+    const fallbackStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
+    const fallbackEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : fallbackStart;
+    if (document.activeElement === textarea) {
+      return { start: fallbackStart, end: fallbackEnd };
+    }
+    const savedSelection = TEXTAREA_SELECTIONS.get(textarea);
+    if (!savedSelection) {
+      return { start: fallbackStart, end: fallbackEnd };
+    }
+    const maxLength = textarea.value.length;
+    const start = Math.min(Math.max(savedSelection.start, 0), maxLength);
+    const end = Math.min(Math.max(savedSelection.end, start), maxLength);
+    return { start, end };
+  }
+
   function seedBulletEditorPrefix(textarea) {
     if (!isBulletEditorTextarea(textarea)) {
       return;
@@ -3029,6 +3056,9 @@
     if (!textarea?.matches?.("textarea") || textarea.previousElementSibling?.classList.contains("editor-toolbar")) {
       return;
     }
+    ["select", "keyup", "mouseup", "touchend", "input"].forEach((eventName) => {
+      textarea.addEventListener(eventName, () => rememberTextareaSelection(textarea));
+    });
     const toolbar = document.createElement("div");
     toolbar.className = "editor-toolbar";
     toolbar.setAttribute("aria-label", "文本格式工具");
@@ -3049,20 +3079,19 @@
   }
 
   function wrapTextareaSelection(textarea, beforeText, afterText, placeholder) {
-    const selectionStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
-    const selectionEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : selectionStart;
+    const { start: selectionStart, end: selectionEnd } = textareaSelection(textarea);
     const selectedText = textarea.value.slice(selectionStart, selectionEnd) || placeholder;
     textarea.value = `${textarea.value.slice(0, selectionStart)}${beforeText}${selectedText}${afterText}${textarea.value.slice(selectionEnd)}`;
     const contentStart = selectionStart + beforeText.length;
     const contentEnd = contentStart + selectedText.length;
     textarea.focus();
     setTextareaSelection(textarea, contentStart, contentEnd);
+    rememberTextareaSelection(textarea);
     textarea.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
   function toggleTextareaBullets(textarea) {
-    const selectionStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
-    const selectionEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : selectionStart;
+    const { start: selectionStart, end: selectionEnd } = textareaSelection(textarea);
     const lineStart = textarea.value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
     const nextLineBreak = textarea.value.indexOf("\n", selectionEnd);
     const lineEnd = nextLineBreak === -1 ? textarea.value.length : nextLineBreak;
@@ -3079,6 +3108,7 @@
     textarea.value = `${textarea.value.slice(0, lineStart)}${updatedBlock}${textarea.value.slice(lineEnd)}`;
     textarea.focus();
     setTextareaSelection(textarea, lineStart, lineStart + updatedBlock.length);
+    rememberTextareaSelection(textarea);
     textarea.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
@@ -3103,8 +3133,7 @@
   }
 
   function toggleTextareaBold(textarea) {
-    const selectionStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : textarea.value.length;
-    const selectionEnd = typeof textarea.selectionEnd === "number" ? textarea.selectionEnd : selectionStart;
+    const { start: selectionStart, end: selectionEnd } = textareaSelection(textarea);
     const selectedText = textarea.value.slice(selectionStart, selectionEnd);
     if (!selectedText.includes("\n")) {
       wrapTextareaSelection(textarea, "**", "**", "加粗文字");
@@ -3118,6 +3147,7 @@
     textarea.value = `${textarea.value.slice(0, lineStart)}${updatedBlock}${textarea.value.slice(lineEnd)}`;
     textarea.focus();
     setTextareaSelection(textarea, lineStart, lineStart + updatedBlock.length);
+    rememberTextareaSelection(textarea);
     textarea.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
@@ -3129,9 +3159,15 @@
   }
 
   function handleTextEditorToolbarMouseDown(event) {
-    if (event.target.closest("[data-editor-command]")) {
-      event.preventDefault();
+    const button = event.target.closest("[data-editor-command]");
+    if (!button) {
+      return;
     }
+    const textarea = button.closest(".editor-toolbar")?.nextElementSibling;
+    if (textarea?.matches?.("textarea")) {
+      rememberTextareaSelection(textarea);
+    }
+    event.preventDefault();
   }
 
   function handleTextEditorToolbarClick(event) {
@@ -3163,7 +3199,9 @@
       form.addEventListener("focusin", handleBulletEditorFocusIn);
       form.addEventListener("beforeinput", handleBulletEditorBeforeInput);
       form.addEventListener("keydown", handleBulletEditorKeydown);
+      form.addEventListener("pointerdown", handleTextEditorToolbarMouseDown);
       form.addEventListener("mousedown", handleTextEditorToolbarMouseDown);
+      form.addEventListener("touchstart", handleTextEditorToolbarMouseDown);
       form.addEventListener("click", handleTextEditorToolbarClick);
     });
   }
