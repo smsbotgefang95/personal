@@ -3760,14 +3760,14 @@
                 <h5>问题或疑问</h5>
                 <button class="section-link-btn" type="button" data-edit-entry-section="${escapeHtml(entry.id)}" data-entry-section="problems">编辑</button>
               </div>
-              ${formatBulletTextBlock(entry.problems)}
+              ${formatBulletTextBlock(entry.problems, "")}
             </section>
             <section>
               <div class="journal-section-head">
                 <h5>下一步</h5>
                 <button class="section-link-btn" type="button" data-edit-entry-section="${escapeHtml(entry.id)}" data-entry-section="nextStep">编辑</button>
               </div>
-              ${formatBulletTextBlock(entry.nextStep)}
+              ${formatBulletTextBlock(entry.nextStep, "")}
             </section>
           </div>
           ${renderPhotoGrid(photos, entry.id)}
