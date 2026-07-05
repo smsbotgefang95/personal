@@ -960,6 +960,11 @@
     margin-top: 14px;
   }
 
+  .plant-card .record-actions {
+    justify-content: flex-end;
+    margin-top: 4px;
+  }
+
   .link-btn {
     background: transparent;
     color: var(--green-deep);
@@ -3543,7 +3548,14 @@
               ${plant.container ? `<span class="chip">${escapeHtml(plant.container)}</span>` : ""}
             </div>
           </div>
-          <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
+          <div>
+            <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
+            <div class="record-actions">
+              <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}" data-plant-edit-section="${escapeHtml(normalizePlantEditSection(activePlantTab))}">${escapeHtml(plantEditButtonLabel(activePlantTab))}</button>
+              <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
+              <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">删除</button>
+            </div>
+          </div>
         </div>
         <p class="plant-variety">${escapeHtml(plant.variety || "还没有记录品种。")}</p>
         <div class="plant-detail-shell">
@@ -3564,11 +3576,6 @@
             }).join("")}
           </div>
           ${renderPlantDetailPanel(plant, activePlantTab)}
-        </div>
-        <div class="record-actions">
-          <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}" data-plant-edit-section="${escapeHtml(normalizePlantEditSection(activePlantTab))}">${escapeHtml(plantEditButtonLabel(activePlantTab))}</button>
-          <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
-          <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">删除</button>
         </div>
       </article>
     `;
