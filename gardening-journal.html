@@ -2814,7 +2814,20 @@
   }
 
   function normalizeBulletEditorText(value) {
-    return textLinesFromText(value).join("\n");
+    const lines = String(value || "")
+      .replace(/\r\n?/g, "\n")
+      .split("\n")
+      .map((line) => {
+        const trimmedLine = line.trim();
+        return BULLET_PREFIX_PATTERN.test(trimmedLine) && !normalizeBulletLine(trimmedLine) ? "" : trimmedLine;
+      });
+    while (lines.length && !lines[0]) {
+      lines.shift();
+    }
+    while (lines.length && !lines[lines.length - 1]) {
+      lines.pop();
+    }
+    return lines.join("\n");
   }
 
   function normalizeBulletEditorFields(values, fieldNames) {
