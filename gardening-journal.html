@@ -2724,8 +2724,8 @@
     return plant ? plant.name : "通用花园";
   }
 
-  function buildPlantOptions(emptyLabel) {
-    return [`<option value="">${escapeHtml(emptyLabel)}</option>`].concat(
+  function buildPlantOptions(emptyLabel, hideEmpty = false) {
+    return [`<option value=""${hideEmpty ? " hidden" : ""}>${escapeHtml(emptyLabel)}</option>`].concat(
       sortedPlants().map((plant) => `<option value="${escapeHtml(plant.id)}">${escapeHtml(plant.name)}</option>`)
     ).join("");
   }
@@ -3821,7 +3821,7 @@
     const plantLocationSuggestions = document.getElementById("plantLocationSuggestions");
 
     setSelectOptions(taskSelect, buildPlantOptions("通用花园"), taskValue);
-    setSelectOptions(entrySelect, buildPlantOptions("通用花园"), entryValue);
+    setSelectOptions(entrySelect, buildPlantOptions("通用花园", true), entryValue);
     setSelectOptions(plantFilterSelect, buildPlantOptions("所有植物"), plantFilterValue);
     setSelectOptions(filterSelect, buildPlantOptions("所有植物"), filterValue);
     plantNameSuggestions.innerHTML = sortedPlants()
