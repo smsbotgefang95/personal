@@ -3889,6 +3889,10 @@
     return text || fallback;
   }
 
+  function normalizeMarkdownEmphasisSpacing(value) {
+    return String(value ?? "").replace(/[^\S\r\n]+(\*\*|__)(?=\s*(?:\r?\n|$))/g, "$1");
+  }
+
   function correctedTaskPriority(entry, priority) {
     const taskId = cleanLabel(entry?.taskId, "");
     return TASK_PRIORITY_CORRECTIONS[taskId] || priority;
@@ -4752,7 +4756,7 @@
   }
 
   function trackerFormValues(startIso = isoNow()) {
-    const taskName = document.getElementById("trackerTask").value.trim();
+    const taskName = normalizeMarkdownEmphasisSpacing(document.getElementById("trackerTask").value.trim());
     const list = selectedList("trackerList");
     const recurrence = document.getElementById("trackerRecurrence").value || "none";
     const recurringText = recurrence === "custom"
@@ -4783,7 +4787,7 @@
       recurringText,
       recurrence,
       taskOrder: "",
-      notes: document.getElementById("trackerNotes").value.trim(),
+      notes: normalizeMarkdownEmphasisSpacing(document.getElementById("trackerNotes").value.trim()),
       createdAt: startIso,
       updatedAt: startIso
     };
@@ -7067,7 +7071,9 @@
     const entry = rows.find((item) => taskOverrideKey(item) === control.dataset.editKey);
     const field = control.dataset.editField;
     if (!entry || !field) return;
-    const value = field === "listId" ? control.value : (field === "taskCategory" ? normalizeTaskCategory(control.value) : control.value.trim());
+    const rawValue = field === "listId" ? control.value : control.value.trim();
+    const value = field === "taskCategory" ? normalizeTaskCategory(rawValue) : normalizeMarkdownEmphasisSpacing(rawValue);
+    if (control.value !== value && field !== "listId") control.value = value;
     if (field === "taskName" && !value) {
       control.value = entry.taskName;
       return;
@@ -7087,7 +7093,7 @@
     if (!control || control.dataset.nameSaving === "true") return null;
     const entry = rows.find((item) => taskOverrideKey(item) === control.dataset.editKey);
     if (!entry) return null;
-    const nextName = cleanLabel(control.value, "");
+    const nextName = cleanLabel(normalizeMarkdownEmphasisSpacing(control.value), "");
     const currentName = cleanLabel(control.dataset.originalName || entry.taskName, entry.taskName);
     if (!nextName) {
       control.value = currentName;
@@ -7101,6 +7107,7 @@
       autosizeTaskNameInput(control);
       return entry;
     }
+    control.value = nextName;
     const savePromise = (async () => {
       control.dataset.nameSaving = "true";
       await saveTaskOverride(entry, { taskName: nextName });
@@ -10260,14 +10267,16 @@
     const dueDateChanged = editDueDate !== existingDueDate;
     const currentOverride = currentTaskOverride(entry);
     const updatedAt = isoNow();
+    const taskName = normalizeMarkdownEmphasisSpacing(document.getElementById("editTask").value.trim());
+    const notes = normalizeMarkdownEmphasisSpacing(document.getElementById("editNotes").value.trim());
     Object.assign(entry, {
       start,
       stop,
       durationMs,
       listId: list.listId,
       listName: list.listName,
-      taskName: document.getElementById("editTask").value.trim(),
-      taskId: taskIdFor(document.getElementById("editTask").value.trim()),
+      taskName,
+      taskId: taskIdFor(taskName),
       department: document.getElementById("editDepartment").value.trim(),
       priority: document.getElementById("editPriority").value.trim(),
       section: document.getElementById("editSection").value.trim(),
@@ -10280,7 +10289,7 @@
       recurringText: document.getElementById("editRecurrence").value === "custom"
         ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom")))
         : (document.getElementById("editRecurrence").value === "none" ? "" : recurrenceLabel(document.getElementById("editRecurrence").value)),
-      notes: document.getElementById("editNotes").value.trim(),
+      notes,
       updatedAt
     });
     timePayload.taskOverrides = {
@@ -10295,7 +10304,7 @@
         recurrence: document.getElementById("editRecurrence").value,
         recurringText: document.getElementById("editRecurrence").value === "custom" ? customRecurrenceText(readCustomRecurrence(document.getElementById("editRecurrenceCustom"))) : "",
         taskOrder: currentOverride.taskOrder,
-        notes: document.getElementById("editNotes").value.trim(),
+        notes,
         updatedAt
       }
     };
