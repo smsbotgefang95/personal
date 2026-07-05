@@ -2778,23 +2778,43 @@
     return String(line || "").trim().replace(BULLET_PREFIX_PATTERN, "").trim();
   }
 
-  function bulletItemsFromText(value) {
+  function textLinesFromText(value) {
     return String(value || "")
       .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+  }
+
+  function bulletItemsFromText(value) {
+    return textLinesFromText(value)
       .map(normalizeBulletLine)
       .filter(Boolean);
   }
 
-  function formatBulletEditorText(value) {
-    const items = bulletItemsFromText(value);
-    if (items.length <= 1) {
-      return items[0] || "";
+  function hasExplicitBulletMarkers(value) {
+    const lines = textLinesFromText(value);
+    return Boolean(lines.length && lines.every((line) => BULLET_PREFIX_PATTERN.test(line)));
+  }
+
+  function formatPlainTextBlock(value, fallback = "还没有备注。", className = "") {
+    const text = String(value || "").trim();
+    if (!text) {
+      if (!fallback) {
+        return "";
+      }
+      const classAttribute = className ? ` class="${className}"` : "";
+      return `<p${classAttribute}>${escapeHtml(fallback)}</p>`;
     }
-    return items.map((item) => `${BULLET_EDITOR_PREFIX}${item}`).join("\n");
+    const classAttribute = className ? ` class="${className}"` : "";
+    return `<p${classAttribute}>${escapeHtml(text).replace(/\n/g, "<br />")}</p>`;
+  }
+
+  function formatBulletEditorText(value) {
+    return String(value || "").trim();
   }
 
   function normalizeBulletEditorText(value) {
-    return bulletItemsFromText(value).join("\n");
+    return textLinesFromText(value).join("\n");
   }
 
   function normalizeBulletEditorFields(values, fieldNames) {
@@ -2881,6 +2901,9 @@
   }
 
   function formatBulletTextBlock(value, fallback = "还没有备注。", className = "") {
+    if (!hasExplicitBulletMarkers(value)) {
+      return formatPlainTextBlock(value, fallback, className);
+    }
     const items = bulletItemsFromText(value);
     if (!items.length) {
       if (!fallback) {
@@ -2898,6 +2921,9 @@
   }
 
   function formatOptionalBulletTextBlock(value, className = "") {
+    if (!hasExplicitBulletMarkers(value)) {
+      return formatPlainTextBlock(value, "", className);
+    }
     const items = bulletItemsFromText(value);
     if (!items.length) {
       return "";
