@@ -2818,6 +2818,17 @@
     seedBulletEditorPrefix(target);
   }
 
+  function handleBulletEditorBeforeInput(event) {
+    const target = event.target;
+    if (!isBulletEditorTextarea(target)) {
+      return;
+    }
+    if (!String(event.inputType || "").startsWith("insert")) {
+      return;
+    }
+    seedBulletEditorPrefix(target);
+  }
+
   function handleBulletEditorKeydown(event) {
     const target = event.target;
     if (!isBulletEditorTextarea(target) || event.key !== "Enter" || event.isComposing) {
@@ -2847,6 +2858,7 @@
   function setupBulletEditors() {
     [plantForm, entryForm].forEach((form) => {
       form.addEventListener("focusin", handleBulletEditorFocusIn);
+      form.addEventListener("beforeinput", handleBulletEditorBeforeInput);
       form.addEventListener("keydown", handleBulletEditorKeydown);
     });
   }
