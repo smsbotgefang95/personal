@@ -961,8 +961,19 @@
   }
 
   .plant-card .record-actions {
-    justify-content: flex-end;
     margin-top: 4px;
+  }
+
+  .plant-card .record-header {
+    align-items: flex-start;
+  }
+
+  .plant-card .plant-header-meta {
+    text-align: right;
+  }
+
+  .plant-card .plant-header-meta .meta-line {
+    justify-content: flex-end;
   }
 
   .link-btn {
@@ -3539,21 +3550,21 @@
       return `
       <article class="record-card plant-card">
         <div class="record-header">
-          <div>
+          <div class="plant-header-actions">
+            <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
+            <div class="record-actions">
+              <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}" data-plant-edit-section="${escapeHtml(normalizePlantEditSection(activePlantTab))}">${escapeHtml(plantEditButtonLabel(activePlantTab))}</button>
+              <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
+              <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">删除</button>
+            </div>
+          </div>
+          <div class="plant-header-meta">
             <h4>${escapeHtml(plant.name)}</h4>
             <div class="meta-line">
               <span class="chip">${escapeHtml(localizePlantCategory(plant.category))}</span>
               <span class="chip alt">${escapeHtml(localizePlantStage(plant.stage))}</span>
               ${plant.location ? `<span class="chip warm">${escapeHtml(plant.location)}</span>` : ""}
               ${plant.container ? `<span class="chip">${escapeHtml(plant.container)}</span>` : ""}
-            </div>
-          </div>
-          <div>
-            <span class="badge">${escapeHtml(plant.startDate ? formatDisplayDate(plant.startDate, true) : "未填写开始日期")}</span>
-            <div class="record-actions">
-              <button class="link-btn" type="button" data-edit-plant="${escapeHtml(plant.id)}" data-plant-edit-section="${escapeHtml(normalizePlantEditSection(activePlantTab))}">${escapeHtml(plantEditButtonLabel(activePlantTab))}</button>
-              <button class="link-btn" type="button" data-view-plant-journal="${escapeHtml(plant.id)}">查看日志</button>
-              <button class="link-btn danger" type="button" data-delete-plant="${escapeHtml(plant.id)}">删除</button>
             </div>
           </div>
         </div>
