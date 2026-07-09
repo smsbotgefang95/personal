@@ -202,6 +202,15 @@ PY
     echo "Updated OpenAI vocabulary auto-fill key from deploy environment."
 fi
 
+echo "🧭 Ensuring vocabulary API restarts after server reboot..."
+API_REBOOT_MARKER="# personal-vocabulary-api-reboot"
+API_REBOOT_CMD="@reboot /bin/bash -lc 'DATA_DIR=\"$DATA_DIR\" BUILD_DIR=\"$BUILD_DIR\"; set -a; . \"\$DATA_DIR/vocabulary-api.env\"; set +a; nohup /usr/bin/python3 \"\$BUILD_DIR/server/vocabulary_api.py\" >> \"\$DATA_DIR/vocabulary-api.log\" 2>&1 & echo \$! > \"\$DATA_DIR/vocabulary-api.pid\"' $API_REBOOT_MARKER"
+CRON_TMP=$(mktemp)
+crontab -l 2>/dev/null | grep -vF "$API_REBOOT_MARKER" > "$CRON_TMP" || true
+printf '%s\n' "$API_REBOOT_CMD" >> "$CRON_TMP"
+crontab "$CRON_TMP"
+rm -f "$CRON_TMP"
+
 # 5. Apply standard directory permissions
 echo "🔒 Adjusting folder permissions..."
 sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
