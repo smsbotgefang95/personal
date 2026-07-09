@@ -27,6 +27,25 @@ class SiteNav extends HTMLElement {
         </div>
       </nav>
     `;
+    this.scrollActiveLinkIntoView();
+  }
+
+  scrollActiveLinkIntoView() {
+    const menu = this.querySelector(".site-nav-menu");
+    const activeLink = menu?.querySelector(".site-links a.active");
+    if (!menu || !activeLink || menu.scrollWidth <= menu.clientWidth) return;
+
+    const scrollActiveLink = () => {
+      const targetLeft = activeLink.offsetLeft - ((menu.clientWidth - activeLink.offsetWidth) / 2);
+      const maxScrollLeft = Math.max(0, menu.scrollWidth - menu.clientWidth);
+      menu.scrollLeft = Math.max(0, Math.min(targetLeft, maxScrollLeft));
+    };
+
+    if (typeof window.requestAnimationFrame === "function") {
+      window.requestAnimationFrame(scrollActiveLink);
+    } else {
+      window.setTimeout(scrollActiveLink, 0);
+    }
   }
 }
 

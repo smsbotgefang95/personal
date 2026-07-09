@@ -6,7 +6,7 @@
 <title>Time Analysis</title>
 <link rel="icon" type="image/png" href="assets/time-analysis-favicon-transparent.png?v=20260527-transparent" />
 <link rel="stylesheet" href="assets/site-nav.css?v=20260702-nav-red-clock" />
-<script src="assets/site-nav.js?v=20260702-nav-red-clock" defer></script>
+<script src="assets/site-nav.js?v=20260709-time-mobile-nav" defer></script>
 <style>
   :root {
     --bg: #030712;
@@ -2932,8 +2932,40 @@
       align-items: stretch;
     }
 
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .tab-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 9px 10px;
+    }
+
+    .recent-task-strip {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    .recent-task-toggle {
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+    }
+
+    .recent-task-list {
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+
     .timer-display {
+      grid-column: 1 / -1;
       flex-basis: 100%;
+      margin-left: 0;
       min-width: 0;
       width: 100%;
     }
