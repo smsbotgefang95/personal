@@ -36,7 +36,12 @@ class SiteNav extends HTMLElement {
     if (!menu || !activeLink || menu.scrollWidth <= menu.clientWidth) return;
 
     const scrollActiveLink = () => {
-      const targetLeft = activeLink.offsetLeft - ((menu.clientWidth - activeLink.offsetWidth) / 2);
+      const alignActiveToStart = window.matchMedia("(max-width: 640px)").matches;
+      const menuRect = menu.getBoundingClientRect();
+      const activeRect = activeLink.getBoundingClientRect();
+      const targetLeft = alignActiveToStart
+        ? menu.scrollLeft + activeRect.left - menuRect.left
+        : menu.scrollLeft + activeRect.left - menuRect.left - ((menu.clientWidth - activeRect.width) / 2);
       const maxScrollLeft = Math.max(0, menu.scrollWidth - menu.clientWidth);
       menu.scrollLeft = Math.max(0, Math.min(targetLeft, maxScrollLeft));
     };
