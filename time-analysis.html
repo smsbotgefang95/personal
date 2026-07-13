@@ -5440,7 +5440,7 @@
   }
 
   function trackerActivityRowsRendered() {
-    return Boolean(document.getElementById("trackerTaskList")?.querySelector(".track-row, .track-empty"));
+    return Boolean(document.getElementById("trackerTaskList")?.querySelector(".track-group, .track-row, .track-empty"));
   }
 
   function trackerTaskSearchFocused() {
@@ -6107,8 +6107,9 @@
         }
         if (!historyLoaded) {
           if (tasks.length) {
-            setRecentTaskDropdownOpen(!recentStrip?.classList.contains("open"));
-            queueRecentTaskHistoryLoad();
+            const willOpen = !recentStrip?.classList.contains("open");
+            setRecentTaskDropdownOpen(willOpen);
+            if (willOpen) ensureRecentTaskHistoryLoaded().catch(() => {});
             return;
           }
           showRecentTaskHistoryLoadingState();
@@ -10148,19 +10149,7 @@
   }
 
   function scheduleRecentTaskHistoryWarmup() {
-    if (recentTaskHistoryWarmupScheduled || recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
     recentTaskHistoryWarmupScheduled = true;
-    window.setTimeout(() => {
-      const loadRecentHistory = () => {
-        if (recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
-        loadRecentTaskHistoryWhenQuiet();
-      };
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(loadRecentHistory, { timeout: RECENT_TASK_HISTORY_IDLE_TIMEOUT_MS });
-        return;
-      }
-      scheduleAfterPaint(loadRecentHistory);
-    }, RECENT_TASK_HISTORY_WARMUP_DELAY_MS);
   }
 
   function showRecentTaskHistoryLoadingState() {
