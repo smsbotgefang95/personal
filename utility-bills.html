@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Utility Bills</title>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260713-utility-bills" />
+<script src="assets/site-nav.js?v=20260713-utility-bills" defer></script>
+<script src="assets/chart.umd.min.js?v=20260713-utility-bills"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --panel: #ffffff;
+    --panel-soft: #eef7fb;
+    --text: #182033;
+    --muted: #667085;
+    --border: #d8e0ea;
+    --blue: #0e7490;
+    --blue-dark: #155e75;
+    --blue-soft: #e6f6fb;
+    --green: #0f766e;
+    --green-soft: #e3f4ef;
+    --amber: #a85512;
+    --amber-soft: #fff3d7;
+    --rose: #b42362;
+    --rose-soft: #fde8f1;
+    --danger: #b42318;
+    --danger-soft: #fee4e2;
+    --shadow: 0 14px 30px rgba(24, 32, 51, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    background:
+      linear-gradient(180deg, #eaf7fb 0 160px, #f7fbf9 160px 340px, var(--bg) 340px),
+      var(--bg);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  main {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 22px 24px 56px;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .title-block h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 2.5vw, 2.35rem);
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  .title-block p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .header-actions,
+  .button-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .button,
+  button.button {
+    min-height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text);
+    font-weight: 750;
+    padding: 9px 13px;
+    text-decoration: none;
+    transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  }
+
+  .button:hover {
+    border-color: #9db5c7;
+    box-shadow: 0 8px 18px rgba(24, 32, 51, 0.08);
+  }
+
+  .button.primary {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: #ffffff;
+  }
+
+  .button.danger {
+    border-color: #f3bbb7;
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+
+  .button.small {
+    min-height: 32px;
+    padding: 5px 10px;
+    font-size: 0.82rem;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(340px, 0.86fr) minmax(0, 1.64fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(24, 32, 51, 0.05);
+  }
+
+  .panel.pad {
+    padding: 18px;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .panel-header h2,
+  .section-title {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  .panel-header .meta {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .upload-zone {
+    display: grid;
+    gap: 12px;
+  }
+
+  .file-shell {
+    position: relative;
+    min-height: 112px;
+    border: 1.5px dashed #93c5d9;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #f4fcff, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .file-shell.dragover {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+  }
+
+  .file-shell input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .file-copy strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+
+  .file-copy span,
+  .hint,
+  .status-line {
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+
+  .status-line {
+    min-height: 22px;
+  }
+
+  .status-line.ok {
+    color: var(--green);
+  }
+
+  .status-line.err {
+    color: var(--danger);
+  }
+
+  .review-card {
+    display: grid;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fbfdff;
+    padding: 12px;
+  }
+
+  .review-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .review-head strong {
+    display: block;
+  }
+
+  .confidence {
+    border-radius: 999px;
+    padding: 4px 9px;
+    background: var(--amber-soft);
+    color: var(--amber);
+    font-size: 0.78rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .confidence.high {
+    background: var(--green-soft);
+    color: var(--green);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .field {
+    display: grid;
+    gap: 4px;
+  }
+
+  .field.full {
+    grid-column: 1 / -1;
+  }
+
+  .field label {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    min-height: 38px;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text);
+    padding: 8px 10px;
+    outline: none;
+  }
+
+  .field textarea {
+    min-height: 76px;
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.12);
+  }
+
+  .line-item-editor {
+    display: grid;
+    gap: 8px;
+  }
+
+  .line-item-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 108px 34px;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .line-item-row input {
+    min-height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 9px;
+  }
+
+  .icon-button {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--muted);
+    font-weight: 900;
+  }
+
+  .icon-button:hover {
+    color: var(--danger);
+    border-color: #f3bbb7;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .metric-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: 15px;
+    min-height: 112px;
+    display: grid;
+    align-content: space-between;
+    gap: 10px;
+  }
+
+  .metric-card .label {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .metric-card .value {
+    font-size: clamp(1.45rem, 2.6vw, 2.05rem);
+    font-weight: 850;
+    line-height: 1.05;
+  }
+
+  .metric-card .sub {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .metric-card.water {
+    border-color: #b7ddec;
+    background: var(--blue-soft);
+  }
+
+  .metric-card.electric {
+    border-color: #f4d39a;
+    background: var(--amber-soft);
+  }
+
+  .metric-card.gas {
+    border-color: #bdede2;
+    background: var(--green-soft);
+  }
+
+  .metric-card.total {
+    border-color: #f3bfd6;
+    background: var(--rose-soft);
+  }
+
+  .main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    gap: 16px;
+  }
+
+  .chart-panel {
+    padding: 16px;
+    min-height: 312px;
+  }
+
+  .chart-wrap {
+    position: relative;
+    min-height: 250px;
+  }
+
+  .chart-wrap.short {
+    min-height: 220px;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .insights {
+    display: grid;
+    gap: 10px;
+  }
+
+  .insight {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 12px;
+  }
+
+  .insight strong {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .insight span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .filters select,
+  .filters input {
+    min-height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text);
+    padding: 7px 10px;
+  }
+
+  .table-wrap {
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+    background: #ffffff;
+  }
+
+  th,
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    font-size: 0.88rem;
+    vertical-align: top;
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #f8fbfd;
+    color: var(--muted);
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .provider-pill {
+    display: inline-flex;
+    min-height: 26px;
+    align-items: center;
+    border-radius: 999px;
+    padding: 3px 9px;
+    font-size: 0.78rem;
+    font-weight: 850;
+  }
+
+  .provider-pill.water {
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+  }
+
+  .provider-pill.electric {
+    background: var(--amber-soft);
+    color: var(--amber);
+  }
+
+  .provider-pill.gas {
+    background: var(--green-soft);
+    color: var(--green);
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .empty-state {
+    border: 1px dashed #b8c6d4;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--muted);
+    padding: 22px;
+    text-align: center;
+  }
+
+  @media (max-width: 1080px) {
+    .layout,
+    .main-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    main {
+      padding: 16px 14px 42px;
+    }
+
+    .page-header {
+      display: grid;
+    }
+
+    .header-actions {
+      width: 100%;
+    }
+
+    .summary-grid,
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .line-item-row {
+      grid-template-columns: minmax(0, 1fr) 96px 34px;
+    }
+
+    .button {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="utility-bills"></site-nav>
+
+<main>
+  <header class="page-header">
+    <div class="title-block">
+      <h1>Utility Bills</h1>
+      <p id="sourceSummary">Loading bill history...</p>
+    </div>
+    <div class="header-actions">
+      <button class="button" type="button" id="exportBtn">Export JSON</button>
+      <label class="button" for="importJsonInput">Import JSON</label>
+      <input id="importJsonInput" type="file" accept="application/json,.json" hidden />
+      <button class="button danger" type="button" id="resetBtn">Reset snapshot</button>
+    </div>
+  </header>
+
+  <section class="layout" aria-label="Utility bill workspace">
+    <aside class="panel pad">
+      <div class="panel-header">
+        <h2>PDF Import</h2>
+        <span class="meta" id="pdfEngineStatus">PDF.js</span>
+      </div>
+      <div class="upload-zone">
+        <div class="file-shell" id="dropZone">
+          <input id="pdfInput" type="file" accept="application/pdf" multiple />
+          <div class="file-copy">
+            <strong>Select PDF bills</strong>
+            <span>WSSC Water, FirstEnergy, or Washington Gas</span>
+          </div>
+        </div>
+        <div class="status-line" id="importStatus"></div>
+      </div>
+
+      <div id="reviewCard" class="review-card" hidden>
+        <div class="review-head">
+          <div>
+            <strong id="reviewFileName">Pending bill</strong>
+            <span class="hint" id="reviewProviderHint"></span>
+          </div>
+          <span class="confidence" id="reviewConfidence">Review</span>
+        </div>
+
+        <form id="billForm">
+          <input type="hidden" id="billId" />
+          <div class="form-grid">
+            <div class="field">
+              <label for="providerInput">Utility</label>
+              <select id="providerInput" required>
+                <option value="water">WSSC Water</option>
+                <option value="electric">FirstEnergy</option>
+                <option value="gas">Washington Gas</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="invoiceDateInput">Invoice date</label>
+              <input id="invoiceDateInput" type="date" required />
+            </div>
+            <div class="field">
+              <label for="startDateInput">Start date</label>
+              <input id="startDateInput" type="date" />
+            </div>
+            <div class="field">
+              <label for="endDateInput">End date</label>
+              <input id="endDateInput" type="date" />
+            </div>
+            <div class="field">
+              <label for="amountInput">Total amount</label>
+              <input id="amountInput" type="number" min="-99999" step="0.01" required />
+            </div>
+            <div class="field">
+              <label for="usageInput">Usage</label>
+              <input id="usageInput" type="number" min="0" step="0.01" />
+            </div>
+            <div class="field">
+              <label for="usageUnitInput">Usage unit</label>
+              <select id="usageUnitInput">
+                <option value="gal/day">gal/day</option>
+                <option value="gallons">gallons</option>
+                <option value="kWh">kWh</option>
+                <option value="therms">therms</option>
+                <option value="ccf">ccf</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sourceInput">Source</label>
+              <input id="sourceInput" type="text" />
+            </div>
+            <div class="field full">
+              <label for="notesInput">Notes</label>
+              <textarea id="notesInput"></textarea>
+            </div>
+          </div>
+
+          <div class="field full" style="margin-top:12px;">
+            <label>Line items</label>
+            <div class="line-item-editor" id="lineItemEditor"></div>
+            <button class="button small" type="button" id="addLineItemBtn">Add line item</button>
+          </div>
+
+          <div class="button-row" style="margin-top:14px;">
+            <button class="button primary" type="submit">Save bill</button>
+            <button class="button" type="button" id="clearFormBtn">New manual bill</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="manualCard" class="review-card">
+        <div class="review-head">
+          <div>
+            <strong>Manual entry</strong>
+            <span class="hint">For bills that need correction</span>
+          </div>
+        </div>
+        <button class="button primary" type="button" id="manualBillBtn">Open bill form</button>
+      </div>
+    </aside>
+
+    <section>
+      <div class="summary-grid" id="summaryGrid"></div>
+
+      <div class="main-grid">
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <h2>Monthly Cost</h2>
+            <span class="meta" id="monthRangeLabel"></span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="monthlyChart" aria-label="Monthly utility costs"></canvas>
+          </div>
+        </div>
+
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <h2>Usage Trend</h2>
+            <select id="usageProviderSelect" aria-label="Usage provider">
+              <option value="water">Water</option>
+              <option value="electric">Electric</option>
+              <option value="gas">Gas</option>
+            </select>
+          </div>
+          <div class="chart-wrap short">
+            <canvas id="usageChart" aria-label="Usage trend"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-grid" style="margin-top:16px;">
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <h2>Latest Bill Items</h2>
+            <span class="meta" id="latestBillLabel"></span>
+          </div>
+          <div class="chart-wrap short">
+            <canvas id="lineItemChart" aria-label="Latest bill line items"></canvas>
+          </div>
+        </div>
+
+        <div class="panel pad">
+          <div class="panel-header">
+            <h2>Signals</h2>
+            <span class="meta" id="signalCount"></span>
+          </div>
+          <div class="insights" id="insightsList"></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="panel pad" style="margin-top:18px;">
+    <div class="filters">
+      <h2 class="section-title">Bill History</h2>
+      <div class="button-row">
+        <select id="providerFilter" aria-label="Filter by utility">
+          <option value="all">All utilities</option>
+          <option value="water">WSSC Water</option>
+          <option value="electric">FirstEnergy</option>
+          <option value="gas">Washington Gas</option>
+        </select>
+        <input id="searchInput" type="search" placeholder="Search bills" aria-label="Search bills" />
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Invoice</th>
+            <th>Utility</th>
+            <th>Service period</th>
+            <th>Usage</th>
+            <th>Amount</th>
+            <th>Line items</th>
+            <th>Source</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="billTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+  const STORAGE_KEY = "personal.utilityBills.v1";
+
+  const PROVIDERS = {
+    water: {
+      label: "WSSC Water",
+      shortLabel: "Water",
+      color: "#0e7490",
+      soft: "#e6f6fb",
+      usageUnit: "gal/day",
+      keywords: ["wssc", "washington suburban sanitary", "water", "sewer"]
+    },
+    electric: {
+      label: "FirstEnergy",
+      shortLabel: "Electric",
+      color: "#a85512",
+      soft: "#fff3d7",
+      usageUnit: "kWh",
+      keywords: ["firstenergy", "potomac edison", "electric", "kwh"]
+    },
+    gas: {
+      label: "Washington Gas",
+      shortLabel: "Gas",
+      color: "#0f766e",
+      soft: "#e3f4ef",
+      usageUnit: "therms",
+      keywords: ["washington gas", "natural gas", "therm"]
+    }
+  };
+
+  const SEED_BILLS = [
+    { id: "seed-water-2025-03", provider: "water", invoiceDate: "2025-03-13", amount: 32.78, usage: 45, usageUnit: "gal/day", source: "Bills_Personal: WSSC Water", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-03", provider: "electric", invoiceDate: "2025-03-14", amount: 53.45, usage: 315, usageUnit: "kWh", source: "Bills_Personal: FirstEnergy", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-03", provider: "gas", invoiceDate: "2025-03-21", amount: 95.22, usage: 41.3, usageUnit: "therms", source: "Bills_Personal: Washington Gas", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-04", provider: "water", invoiceDate: "2025-04-14", amount: 70.59435, usage: 103, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-04", provider: "electric", invoiceDate: "2025-04-16", amount: 72.18, usage: 187, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-04", provider: "gas", invoiceDate: "2025-04-18", amount: 44.09250078, usage: 20.6, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-05", provider: "water", invoiceDate: "2025-05-09", amount: 69.33405, usage: 111, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-05", provider: "electric", invoiceDate: "2025-05-12", amount: 32.55, usage: 170, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-05", provider: "gas", invoiceDate: "2025-05-20", amount: 23.89241736, usage: 7.2, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-06", provider: "water", invoiceDate: "2025-06-10", amount: 54.6, usage: 66, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-06", provider: "electric", invoiceDate: "2025-06-16", amount: 39.16, usage: 210, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-06", provider: "gas", invoiceDate: "2025-06-20", amount: 18.67402354, usage: 4.1, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-07", provider: "water", invoiceDate: "2025-07-16", amount: 60.090328, usage: 57, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-07", provider: "electric", invoiceDate: "2025-07-11", amount: 52.62, usage: 288, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-07", provider: "gas", invoiceDate: "2025-07-21", amount: 18.67402354, usage: 4.1, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-08", provider: "water", invoiceDate: "2025-08-11", amount: 57.65, usage: 71, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-08", provider: "electric", invoiceDate: "2025-08-15", amount: 49.72, usage: 270, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-08", provider: "gas", invoiceDate: "2025-08-20", amount: 16.2, usage: 2.1, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-09", provider: "water", invoiceDate: "2025-09-04", amount: 55.97, usage: 76, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-09", provider: "electric", invoiceDate: "2025-09-11", amount: 4.2, usage: 258, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-09", provider: "gas", invoiceDate: "2025-09-19", amount: 17.25, usage: 3.1, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-10", provider: "water", invoiceDate: "2025-10-07", amount: 77.53, usage: 100, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-10", provider: "electric", invoiceDate: "2025-10-15", amount: 29.1, usage: 141, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-10", provider: "gas", invoiceDate: "2025-10-20", amount: 18.34, usage: 4.1, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-11", provider: "water", invoiceDate: "2025-11-05", amount: 61.01, usage: 62, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-11", provider: "electric", invoiceDate: "2025-11-13", amount: 47.64, usage: 253, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-11", provider: "gas", invoiceDate: "2025-11-20", amount: 42.4, usage: 24.7, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2025-12", provider: "water", invoiceDate: "2025-12-15", amount: 82.28, usage: 81, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2025-12", provider: "electric", invoiceDate: "2025-12-17", amount: 35.22, usage: 177, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2025-12", provider: "gas", invoiceDate: "2025-12-22", amount: 80.51, usage: 54, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2026-01", provider: "water", invoiceDate: "2026-01-15", amount: 80.23692, usage: 88, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2026-01", provider: "electric", invoiceDate: "2026-01-14", amount: 69.43, usage: 379, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2026-01", provider: "gas", invoiceDate: "2026-01-22", amount: 97.28937648, usage: 61.2, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-water-2026-02", provider: "water", invoiceDate: "2026-02-13", amount: 58.49, usage: 68, usageUnit: "gal/day", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-electric-2026-02", provider: "electric", invoiceDate: "2026-02-17", amount: 31.06, usage: 399, usageUnit: "kWh", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    { id: "seed-gas-2026-02", provider: "gas", invoiceDate: "2026-02-20", amount: 109.34800224, usage: 78.1, usageUnit: "therms", source: "Bills_Personal: Total", notes: "Seeded from Google Sheets." },
+    {
+      id: "seed-water-2026-03",
+      provider: "water",
+      invoiceDate: "2026-03-16",
+      startDate: "2026-02-12",
+      endDate: "2026-03-12",
+      amount: 57.65,
+      usage: 68,
+      usageUnit: "gal/day",
+      source: "Bills_Personal: WSSC Water",
+      notes: "March detail from WSSC Water tab.",
+      lineItems: [
+        { name: "Water charges", amount: 14.66 },
+        { name: "Sewer charges", amount: 19.44 },
+        { name: "State of Maryland Bay Restoration Fee", amount: 4.6 },
+        { name: "Account maintenance fee", amount: 10.11 },
+        { name: "Infrastructure investment fee", amount: 8.84 }
+      ]
+    },
+    {
+      id: "seed-water-2026-07",
+      provider: "water",
+      invoiceDate: "2026-07-10",
+      startDate: "2026-06-10",
+      endDate: "2026-07-09",
+      amount: 59.32,
+      usage: 68,
+      usageUnit: "gal/day",
+      source: "WSSC-WATER-BILL-1720177238-08102026.pdf",
+      notes: "WSSC Water bill 172929055471, due 2026-08-10. Total usage: 2,000 gallons.",
+      lineItems: [
+        { name: "Water charges (06/11/26 - 06/30/26)", amount: 10.11 },
+        { name: "Water charges (07/01/26 - 07/09/26)", amount: 4.77 },
+        { name: "Sewer charges (06/11/26 - 06/30/26)", amount: 13.41 },
+        { name: "Sewer charges (07/01/26 - 07/09/26)", amount: 6.34 },
+        { name: "State of Maryland Bay Restoration Fee", amount: 4.76 },
+        { name: "Account maintenance fee", amount: 10.63 },
+        { name: "Infrastructure investment fee", amount: 9.3 }
+      ]
+    },
+    {
+      id: "seed-electric-2026-03",
+      provider: "electric",
+      invoiceDate: "2026-03-13",
+      startDate: "2026-02-13",
+      endDate: "2026-03-11",
+      amount: 37.56,
+      usage: 182,
+      usageUnit: "kWh",
+      source: "Bills_Personal: FirstEnergy",
+      notes: "March detail from FirstEnergy tab.",
+      lineItems: [
+        { name: "Generation Charge", amount: 17.85 },
+        { name: "Transmission Charge", amount: 0.72 },
+        { name: "Customer Distribution Charge", amount: 6 },
+        { name: "Distribution Charge", amount: 4.16 },
+        { name: "Electric Universal Service Fee", amount: 0.32 },
+        { name: "Energy Cost Adjustment", amount: 2.69 },
+        { name: "Administrative Credit", amount: -0.35 },
+        { name: "CoGeneration PURPA Project Termination Agreement Surcharge", amount: 1.47 },
+        { name: "Franchise Tax", amount: 0.11 },
+        { name: "EmPower MD Surcharge", amount: 2.5 },
+        { name: "MD Environmental Surcharge", amount: 0.03 },
+        { name: "Montgomery County Tax", amount: 2.06 }
+      ]
+    },
+    {
+      id: "seed-gas-2026-03",
+      provider: "gas",
+      invoiceDate: "2026-03-20",
+      startDate: "2026-02-19",
+      endDate: "2026-03-18",
+      amount: 66.44,
+      usage: 40.2,
+      usageUnit: "therms",
+      source: "Bills_Personal: Washington Gas",
+      notes: "March detail from Washington Gas tab.",
+      lineItems: [
+        { name: "Distribution Charge", amount: 20.87 },
+        { name: "STRIDE Surcharge", amount: 1.9 },
+        { name: "EmPower MD Surcharge", amount: 2.97 },
+        { name: "System Charge", amount: 11.85 },
+        { name: "PGC", amount: 24.92 },
+        { name: "Montgomery County Tax", amount: 3.92 },
+        { name: "MD Gross Receipts Tax Surcharge", amount: 0.01 }
+      ]
+    }
+  ].map((bill) => ({
+    lineItems: [],
+    importedAt: "2026-07-13T00:00:00.000Z",
+    ...bill
+  }));
+
+  const LINE_ITEM_HINTS = {
+    water: [
+      "Water charges",
+      "Sewer charges",
+      "State of Maryland Bay Restoration Fee",
+      "Account maintenance fee",
+      "Infrastructure investment fee"
+    ],
+    electric: [
+      "Generation Charge",
+      "Transmission Charge",
+      "Customer Distribution Charge",
+      "Distribution Charge",
+      "Electric Universal Service Fee",
+      "Energy Cost Adjustment",
+      "Administrative Credit",
+      "CoGeneration PURPA Project Termination Agreement Surcharge",
+      "Legislative energy relief refund",
+      "Franchise Tax",
+      "EmPower MD Surcharge",
+      "MD Environmental Surcharge",
+      "Montgomery County Tax"
+    ],
+    gas: [
+      "Distribution Charge",
+      "STRIDE Surcharge",
+      "EmPower MD Surcharge",
+      "System Charge",
+      "PGC",
+      "Montgomery County Tax",
+      "MD Gross Receipts Tax Surcharge",
+      "Service initiation charge"
+    ]
+  };
+
+  const state = {
+    bills: [],
+    activeDraft: null,
+    charts: {}
+  };
+
+  const els = {
+    pdfEngineStatus: document.getElementById("pdfEngineStatus"),
+    dropZone: document.getElementById("dropZone"),
+    pdfInput: document.getElementById("pdfInput"),
+    importStatus: document.getElementById("importStatus"),
+    reviewCard: document.getElementById("reviewCard"),
+    manualCard: document.getElementById("manualCard"),
+    reviewFileName: document.getElementById("reviewFileName"),
+    reviewProviderHint: document.getElementById("reviewProviderHint"),
+    reviewConfidence: document.getElementById("reviewConfidence"),
+    billForm: document.getElementById("billForm"),
+    billId: document.getElementById("billId"),
+    providerInput: document.getElementById("providerInput"),
+    invoiceDateInput: document.getElementById("invoiceDateInput"),
+    startDateInput: document.getElementById("startDateInput"),
+    endDateInput: document.getElementById("endDateInput"),
+    amountInput: document.getElementById("amountInput"),
+    usageInput: document.getElementById("usageInput"),
+    usageUnitInput: document.getElementById("usageUnitInput"),
+    sourceInput: document.getElementById("sourceInput"),
+    notesInput: document.getElementById("notesInput"),
+    lineItemEditor: document.getElementById("lineItemEditor"),
+    addLineItemBtn: document.getElementById("addLineItemBtn"),
+    clearFormBtn: document.getElementById("clearFormBtn"),
+    manualBillBtn: document.getElementById("manualBillBtn"),
+    summaryGrid: document.getElementById("summaryGrid"),
+    sourceSummary: document.getElementById("sourceSummary"),
+    monthRangeLabel: document.getElementById("monthRangeLabel"),
+    latestBillLabel: document.getElementById("latestBillLabel"),
+    signalCount: document.getElementById("signalCount"),
+    insightsList: document.getElementById("insightsList"),
+    billTableBody: document.getElementById("billTableBody"),
+    usageProviderSelect: document.getElementById("usageProviderSelect"),
+    providerFilter: document.getElementById("providerFilter"),
+    searchInput: document.getElementById("searchInput"),
+    exportBtn: document.getElementById("exportBtn"),
+    importJsonInput: document.getElementById("importJsonInput"),
+    resetBtn: document.getElementById("resetBtn")
+  };
+
+  function cloneBills(bills) {
+    return JSON.parse(JSON.stringify(bills));
+  }
+
+  function mergeSeedBills(storedBills) {
+    const storedIds = new Set(storedBills.map((bill) => bill.id));
+    const missingSeeds = SEED_BILLS.filter((seedBill) => !storedIds.has(seedBill.id));
+    return [...storedBills, ...cloneBills(missingSeeds)];
+  }
+
+  function loadBills() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (stored?.version === 1 && Array.isArray(stored.bills)) {
+        state.bills = mergeSeedBills(stored.bills);
+        if (state.bills.length !== stored.bills.length) {
+          saveBills();
+        }
+        return;
+      }
+    } catch (error) {
+      console.warn("Unable to load stored utility bills", error);
+    }
+    state.bills = cloneBills(SEED_BILLS);
+    saveBills();
+  }
+
+  function saveBills() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      bills: state.bills
+    }));
+  }
+
+  function setStatus(message, type = "") {
+    els.importStatus.textContent = message;
+    els.importStatus.className = `status-line ${type}`.trim();
+  }
+
+  function formatMoney(value) {
+    const number = Number(value || 0);
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(number);
+  }
+
+  function formatNumber(value, digits = 0) {
+    if (value === null || value === undefined || value === "") return "-";
+    return new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(Number(value));
+  }
+
+  function formatDate(value) {
+    if (!value) return "-";
+    const date = new Date(`${value}T00:00:00`);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(date);
+  }
+
+  function getMonthKey(dateValue) {
+    return (dateValue || "").slice(0, 7);
+  }
+
+  function formatMonthKey(monthKey) {
+    if (!monthKey) return "-";
+    const [year, month] = monthKey.split("-");
+    return new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(new Date(Number(year), Number(month) - 1, 1));
+  }
+
+  function parseCurrency(value) {
+    if (value === null || value === undefined) return null;
+    let text = String(value).trim();
+    if (!text) return null;
+    const negative = /\(|-\s*\$?/.test(text);
+    text = text.replace(/[,$()\s]/g, "").replace(/^\$/, "");
+    const number = Number.parseFloat(text);
+    if (!Number.isFinite(number)) return null;
+    return negative ? -Math.abs(number) : number;
+  }
+
+  function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function normalizeWhitespace(value) {
+    return String(value || "").replace(/\s+/g, " ").trim();
+  }
+
+  function detectProvider(text) {
+    const lower = text.toLowerCase();
+    const scored = Object.entries(PROVIDERS).map(([id, provider]) => ({
+      id,
+      score: provider.keywords.reduce((sum, keyword) => sum + (lower.includes(keyword) ? 1 : 0), 0)
+    })).sort((a, b) => b.score - a.score);
+    return scored[0]?.score ? scored[0].id : "water";
+  }
+
+  function extractDateAfterLabel(text, labels) {
+    const datePattern = "([A-Z][a-z]+\\s+\\d{1,2},?\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})";
+    for (const label of labels) {
+      const re = new RegExp(`${escapeRegExp(label)}[^A-Za-z0-9]{0,24}${datePattern}`, "i");
+      const match = text.match(re);
+      if (match) return normalizeDate(match[1]);
+    }
+    return "";
+  }
+
+  function extractServicePeriod(text) {
+    const datePattern = "([A-Z][a-z]+\\s+\\d{1,2},?\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})";
+    const patterns = [
+      new RegExp(`(?:Service Period|Billing Period|Service From|For Service)[^A-Za-z0-9]{0,24}${datePattern}\\s*(?:to|through|thru|-|until)\\s*${datePattern}`, "i"),
+      new RegExp(`(?:From)[^A-Za-z0-9]{0,16}${datePattern}\\s*(?:To|through|thru|-)\\s*${datePattern}`, "i")
+    ];
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match) {
+        return { startDate: normalizeDate(match[1]), endDate: normalizeDate(match[2]) };
+      }
+    }
+    return { startDate: "", endDate: "" };
+  }
+
+  function normalizeDate(value) {
+    if (!value) return "";
+    const raw = value.replace(/,/g, "").trim();
+    let parsed = null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+      parsed = new Date(`${raw}T00:00:00`);
+    } else if (/^\d{1,2}[/-]\d{1,2}[/-]\d{2,4}$/.test(raw)) {
+      const [month, day, yearRaw] = raw.split(/[/-]/).map(Number);
+      const year = yearRaw < 100 ? 2000 + yearRaw : yearRaw;
+      parsed = new Date(year, month - 1, day);
+    } else {
+      parsed = new Date(raw);
+    }
+    if (!parsed || Number.isNaN(parsed.getTime())) return "";
+    return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, "0")}-${String(parsed.getDate()).padStart(2, "0")}`;
+  }
+
+  function extractAmountAfterLabels(text, labels) {
+    for (const label of labels) {
+      const re = new RegExp(`${escapeRegExp(label)}[\\s\\S]{0,80}?(\\(?-?\\$?\\s*[\\d,]+\\.\\d{2}\\)?)`, "i");
+      const match = text.match(re);
+      const amount = match ? parseCurrency(match[1]) : null;
+      if (amount !== null) return amount;
+    }
+    const moneyMatches = [...text.matchAll(/\(?-?\$?\s*[\d,]+\.\d{2}\)?/g)]
+      .map((match) => parseCurrency(match[0]))
+      .filter((amount) => amount !== null && amount > 0);
+    return moneyMatches.length ? moneyMatches[moneyMatches.length - 1] : 0;
+  }
+
+  function extractUsage(text, provider) {
+    const clean = normalizeWhitespace(text);
+    if (provider === "electric") {
+      const match = clean.match(/([\d,]+(?:\.\d+)?)\s*kWh/i);
+      return { usage: match ? Number(match[1].replace(/,/g, "")) : "", unit: "kWh" };
+    }
+    if (provider === "gas") {
+      const match = clean.match(/([\d,]+(?:\.\d+)?)\s*(therms?|ccf)\b/i);
+      return { usage: match ? Number(match[1].replace(/,/g, "")) : "", unit: match?.[2]?.toLowerCase().startsWith("ccf") ? "ccf" : "therms" };
+    }
+    const averageMatch = clean.match(/Average Daily Consumption[^0-9]{0,40}([\d,]+(?:\.\d+)?)/i);
+    if (averageMatch) return { usage: Number(averageMatch[1].replace(/,/g, "")), unit: "gal/day" };
+    const gallonMatch = clean.match(/([\d,]+(?:\.\d+)?)\s*(?:gallons?|gal)\b/i);
+    return { usage: gallonMatch ? Number(gallonMatch[1].replace(/,/g, "")) : "", unit: gallonMatch ? "gallons" : "gal/day" };
+  }
+
+  function extractWsscWaterDetails(text) {
+    const clean = normalizeWhitespace(text);
+    const billPeriodMatch = clean.match(/Bill Date\s+Bill Period\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\s*[-–]\s*(\d{1,2}\/\d{1,2}\/\d{2,4})/i);
+    const currentChargesMatch = clean.match(/CURRENT CHARGES\s*(\(?-?\$?\s*[\d,]+\.\d{2}\)?)/i);
+    const dailyUsageMatch = clean.match(/([\d,]+(?:\.\d+)?)\s+Gallons\s*(?:÷|\/)\s*\d+\s+Days\s*=\s*([\d,]+(?:\.\d+)?)\s+Average Daily Gallons/i);
+    const totalGallonsMatch = clean.match(/Water and Sewer Usage:\s*([\d,]+(?:\.\d+)?)\s*gallons/i);
+    const lineItems = [];
+    const chargePattern = /\b(WATER CHARGES|SEWER CHARGES)\s*\(([^)]*)\)\s*(\(?-?\$?\s*[\d,]+\.\d{2}\)?)/gi;
+    let chargeMatch = chargePattern.exec(clean);
+
+    while (chargeMatch) {
+      const title = chargeMatch[1].toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
+      const amount = parseCurrency(chargeMatch[3]);
+      if (amount !== null) {
+        lineItems.push({ name: `${title} (${chargeMatch[2]})`, amount });
+      }
+      chargeMatch = chargePattern.exec(clean);
+    }
+
+    const feesBlock = clean.match(/FEES AND OTHER CHARGES[\s\S]*?(?=TOTAL DUE\b)/i)?.[0] || clean;
+    [
+      "State of Maryland Bay Restoration Fee",
+      "Account Maintenance Fee",
+      "Infrastructure Investment Fee"
+    ].forEach((label) => {
+      const match = feesBlock.match(new RegExp(`${escapeRegExp(label)}\\s*(\\(?-?\\$?\\s*[\\d,]+\\.\\d{2}\\)?)`, "i"));
+      const amount = match ? parseCurrency(match[1]) : null;
+      if (amount !== null) {
+        lineItems.push({ name: label, amount });
+      }
+    });
+
+    return {
+      invoiceDate: normalizeDate(billPeriodMatch?.[1]),
+      startDate: normalizeDate(billPeriodMatch?.[2]),
+      endDate: normalizeDate(billPeriodMatch?.[3]),
+      amount: currentChargesMatch ? parseCurrency(currentChargesMatch[1]) : null,
+      usage: dailyUsageMatch ? Number(dailyUsageMatch[2].replace(/,/g, "")) : "",
+      usageUnit: dailyUsageMatch ? "gal/day" : "",
+      totalGallons: totalGallonsMatch ? Number(totalGallonsMatch[1].replace(/,/g, "")) : "",
+      lineItems
+    };
+  }
+
+  function extractLineItems(text, provider) {
+    const clean = normalizeWhitespace(text);
+    const lower = clean.toLowerCase();
+    const hits = LINE_ITEM_HINTS[provider].map((item) => ({
+      item,
+      index: lower.indexOf(item.toLowerCase())
+    })).filter((hit) => hit.index !== -1)
+      .sort((a, b) => a.index - b.index);
+
+    return hits.map((hit, index) => {
+      const nextIndex = hits[index + 1]?.index ?? hit.index + 220;
+      const windowText = clean.slice(hit.index, Math.min(nextIndex, hit.index + 220));
+      const matches = [...windowText.matchAll(/\(?-?\$?\s*[\d,]+\.\d{2}\)?/g)];
+      if (!matches.length) return null;
+      const amount = parseCurrency(matches[matches.length - 1][0]);
+      return amount === null ? null : { name: hit.item, amount };
+    }).filter(Boolean);
+  }
+
+  function parseBillText(text, fileName) {
+    const compact = normalizeWhitespace(text);
+    const provider = detectProvider(compact);
+    const waterDetails = provider === "water" ? extractWsscWaterDetails(compact) : {};
+    const invoiceDate = waterDetails.invoiceDate || extractDateAfterLabel(compact, ["Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"]) || "";
+    const period = extractServicePeriod(compact);
+    const amount = waterDetails.amount ?? extractAmountAfterLabels(compact, ["Total Amount Due", "Amount Due", "Total Due", "Total Current Charges", "Current Charges", "New Charges", "Total"]);
+    const usage = waterDetails.usage
+      ? { usage: waterDetails.usage, unit: waterDetails.usageUnit }
+      : extractUsage(compact, provider);
+    const lineItems = waterDetails.lineItems?.length ? waterDetails.lineItems : extractLineItems(compact, provider);
+    const confidenceScore = [provider, invoiceDate, amount].filter(Boolean).length + (usage.usage ? 1 : 0) + (lineItems.length ? 1 : 0);
+    return {
+      id: "",
+      provider,
+      invoiceDate,
+      startDate: waterDetails.startDate || period.startDate,
+      endDate: waterDetails.endDate || period.endDate,
+      amount,
+      usage: usage.usage,
+      usageUnit: usage.unit,
+      source: fileName,
+      notes: "Imported from PDF. Review before saving.",
+      lineItems,
+      confidenceScore,
+      rawSnippet: compact.slice(0, 1200)
+    };
+  }
+
+  async function extractPdfText(file) {
+    if (!window.pdfjsLib) {
+      throw new Error("PDF.js did not load.");
+    }
+    const data = await file.arrayBuffer();
+    const pdf = await window.pdfjsLib.getDocument({ data }).promise;
+    const pages = [];
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+      const page = await pdf.getPage(pageNumber);
+      const content = await page.getTextContent();
+      pages.push(content.items.map((item) => item.str).join(" "));
+    }
+    return pages.join("\n");
+  }
+
+  async function handleFiles(files) {
+    const pdfFiles = [...files].filter((file) => file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"));
+    if (!pdfFiles.length) {
+      setStatus("No PDF files selected.", "err");
+      return;
+    }
+    for (const file of pdfFiles) {
+      try {
+        setStatus(`Reading ${file.name}...`);
+        const text = await extractPdfText(file);
+        const draft = parseBillText(text, file.name);
+        openDraft(draft);
+        setStatus(`Parsed ${file.name}.`, "ok");
+      } catch (error) {
+        console.error(error);
+        setStatus(`Could not parse ${file.name}: ${error.message}`, "err");
+      }
+    }
+  }
+
+  function openDraft(draft) {
+    state.activeDraft = draft;
+    els.reviewCard.hidden = false;
+    els.manualCard.hidden = true;
+    els.reviewFileName.textContent = draft.source || "Pending bill";
+    els.reviewProviderHint.textContent = PROVIDERS[draft.provider]?.label || "";
+    els.reviewConfidence.textContent = draft.confidenceScore >= 4 ? "High confidence" : "Review";
+    els.reviewConfidence.classList.toggle("high", draft.confidenceScore >= 4);
+    fillForm(draft);
+  }
+
+  function fillForm(bill = {}) {
+    els.billId.value = bill.id || "";
+    els.providerInput.value = bill.provider || "water";
+    els.invoiceDateInput.value = bill.invoiceDate || "";
+    els.startDateInput.value = bill.startDate || "";
+    els.endDateInput.value = bill.endDate || "";
+    els.amountInput.value = bill.amount ?? "";
+    els.usageInput.value = bill.usage ?? "";
+    els.usageUnitInput.value = bill.usageUnit || PROVIDERS[bill.provider || "water"].usageUnit;
+    els.sourceInput.value = bill.source || "";
+    els.notesInput.value = bill.notes || "";
+    renderLineItemEditor(bill.lineItems || []);
+  }
+
+  function collectFormBill() {
+    return {
+      id: els.billId.value || `bill-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      provider: els.providerInput.value,
+      invoiceDate: els.invoiceDateInput.value,
+      startDate: els.startDateInput.value,
+      endDate: els.endDateInput.value,
+      amount: Number.parseFloat(els.amountInput.value || "0"),
+      usage: els.usageInput.value === "" ? "" : Number.parseFloat(els.usageInput.value),
+      usageUnit: els.usageUnitInput.value,
+      source: els.sourceInput.value.trim() || "Manual entry",
+      notes: els.notesInput.value.trim(),
+      lineItems: collectLineItems(),
+      importedAt: new Date().toISOString()
+    };
+  }
+
+  function renderLineItemEditor(items) {
+    const cleanItems = items.length ? items : [{ name: "", amount: "" }];
+    els.lineItemEditor.innerHTML = cleanItems.map((item) => `
+      <div class="line-item-row">
+        <input type="text" value="${escapeHtml(item.name || "")}" placeholder="Item" data-line-name>
+        <input type="number" step="0.01" value="${item.amount ?? ""}" placeholder="Amount" data-line-amount>
+        <button class="icon-button" type="button" title="Remove line item" data-remove-line>×</button>
+      </div>
+    `).join("");
+  }
+
+  function collectLineItems() {
+    return [...els.lineItemEditor.querySelectorAll(".line-item-row")].map((row) => {
+      const name = row.querySelector("[data-line-name]").value.trim();
+      const amountRaw = row.querySelector("[data-line-amount]").value;
+      return {
+        name,
+        amount: amountRaw === "" ? "" : Number.parseFloat(amountRaw)
+      };
+    }).filter((item) => item.name && item.amount !== "" && Number.isFinite(item.amount));
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[char]));
+  }
+
+  function saveFormBill(event) {
+    event.preventDefault();
+    const bill = collectFormBill();
+    const existingIndex = state.bills.findIndex((candidate) => candidate.id === bill.id);
+    if (existingIndex >= 0) {
+      state.bills.splice(existingIndex, 1, bill);
+    } else {
+      const duplicateIndex = state.bills.findIndex((candidate) =>
+        candidate.provider === bill.provider && candidate.invoiceDate === bill.invoiceDate
+      );
+      if (duplicateIndex >= 0) {
+        state.bills.splice(duplicateIndex, 1, { ...bill, id: state.bills[duplicateIndex].id });
+      } else {
+        state.bills.push(bill);
+      }
+    }
+    saveBills();
+    resetForm();
+    render();
+    setStatus("Bill saved.", "ok");
+  }
+
+  function resetForm() {
+    state.activeDraft = null;
+    els.reviewCard.hidden = true;
+    els.manualCard.hidden = false;
+    els.billForm.reset();
+    els.billId.value = "";
+    renderLineItemEditor([]);
+  }
+
+  function aggregateByMonth(bills) {
+    const monthMap = new Map();
+    bills.forEach((bill) => {
+      if (!bill.invoiceDate) return;
+      const month = getMonthKey(bill.invoiceDate);
+      if (!monthMap.has(month)) {
+        monthMap.set(month, { month, water: 0, electric: 0, gas: 0, total: 0 });
+      }
+      const record = monthMap.get(month);
+      record[bill.provider] += Number(bill.amount || 0);
+      record.total += Number(bill.amount || 0);
+    });
+    return [...monthMap.values()].sort((a, b) => a.month.localeCompare(b.month));
+  }
+
+  function getLatestMonth(months) {
+    return months[months.length - 1] || null;
+  }
+
+  function getFilteredBills() {
+    const provider = els.providerFilter.value;
+    const query = els.searchInput.value.trim().toLowerCase();
+    return [...state.bills]
+      .filter((bill) => provider === "all" || bill.provider === provider)
+      .filter((bill) => {
+        if (!query) return true;
+        return [
+          bill.invoiceDate,
+          PROVIDERS[bill.provider]?.label,
+          bill.source,
+          bill.notes,
+          ...(bill.lineItems || []).map((item) => item.name)
+        ].join(" ").toLowerCase().includes(query);
+      })
+      .sort((a, b) => (b.invoiceDate || "").localeCompare(a.invoiceDate || ""));
+  }
+
+  function render() {
+    const months = aggregateByMonth(state.bills);
+    renderSummary(months);
+    renderCharts(months);
+    renderInsights(months);
+    renderTable();
+    const first = months[0]?.month;
+    const last = months[months.length - 1]?.month;
+    els.sourceSummary.textContent = `${state.bills.length} bill records from Bills_Personal and local imports.`;
+    els.monthRangeLabel.textContent = first && last ? `${formatMonthKey(first)} - ${formatMonthKey(last)}` : "";
+  }
+
+  function renderSummary(months) {
+    const latest = getLatestMonth(months);
+    const ytdYear = latest?.month.slice(0, 4);
+    const ytdTotal = months.filter((month) => month.month.startsWith(ytdYear || "")).reduce((sum, month) => sum + month.total, 0);
+    const average = months.length ? months.reduce((sum, month) => sum + month.total, 0) / months.length : 0;
+    const highest = months.reduce((best, month) => !best || month.total > best.total ? month : best, null);
+    const latestDriver = latest ? ["water", "electric", "gas"].map((provider) => ({
+      provider,
+      amount: latest[provider]
+    })).sort((a, b) => b.amount - a.amount)[0] : null;
+
+    const cards = [
+      {
+        className: "total",
+        label: "Latest month",
+        value: latest ? formatMoney(latest.total) : "$0.00",
+        sub: latest ? formatMonthKey(latest.month) : "-"
+      },
+      {
+        className: latestDriver?.provider || "water",
+        label: "Largest driver",
+        value: latestDriver ? PROVIDERS[latestDriver.provider].shortLabel : "-",
+        sub: latestDriver ? formatMoney(latestDriver.amount) : "-"
+      },
+      {
+        className: "electric",
+        label: `${ytdYear || ""} total`.trim(),
+        value: formatMoney(ytdTotal),
+        sub: "Water, electric, and gas"
+      },
+      {
+        className: "gas",
+        label: "Monthly average",
+        value: formatMoney(average),
+        sub: highest ? `Peak: ${formatMonthKey(highest.month)}` : "-"
+      }
+    ];
+
+    els.summaryGrid.innerHTML = cards.map((card) => `
+      <article class="metric-card ${card.className}">
+        <div class="label">${card.label}</div>
+        <div class="value">${card.value}</div>
+        <div class="sub">${card.sub}</div>
+      </article>
+    `).join("");
+  }
+
+  function renderCharts(months) {
+    const labels = months.map((month) => formatMonthKey(month.month));
+    const monthlyCtx = document.getElementById("monthlyChart");
+    replaceChart("monthly", monthlyCtx, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: ["water", "electric", "gas"].map((provider) => ({
+          label: PROVIDERS[provider].shortLabel,
+          data: months.map((month) => Number(month[provider].toFixed(2))),
+          backgroundColor: PROVIDERS[provider].color,
+          borderRadius: 4
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom" },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatMoney(ctx.raw)}` } }
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, ticks: { callback: (value) => `$${value}` } }
+        }
+      }
+    });
+
+    renderUsageChart();
+    renderLineItemChart();
+  }
+
+  function renderUsageChart() {
+    const provider = els.usageProviderSelect.value;
+    const bills = state.bills
+      .filter((bill) => bill.provider === provider && bill.usage !== "" && bill.usage !== null && bill.usage !== undefined)
+      .sort((a, b) => (a.invoiceDate || "").localeCompare(b.invoiceDate || ""));
+    const ctx = document.getElementById("usageChart");
+    replaceChart("usage", ctx, {
+      type: "line",
+      data: {
+        labels: bills.map((bill) => formatDate(bill.invoiceDate)),
+        datasets: [{
+          label: `${PROVIDERS[provider].shortLabel} ${bills[0]?.usageUnit || PROVIDERS[provider].usageUnit}`,
+          data: bills.map((bill) => Number(bill.usage)),
+          borderColor: PROVIDERS[provider].color,
+          backgroundColor: PROVIDERS[provider].soft,
+          borderWidth: 3,
+          pointRadius: 3,
+          tension: 0.25,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 0 } },
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  function renderLineItemChart() {
+    const latest = [...state.bills]
+      .filter((bill) => (bill.lineItems || []).length)
+      .sort((a, b) => (b.invoiceDate || "").localeCompare(a.invoiceDate || ""))[0];
+    const ctx = document.getElementById("lineItemChart");
+    els.latestBillLabel.textContent = latest ? `${PROVIDERS[latest.provider].shortLabel} ${formatDate(latest.invoiceDate)}` : "";
+    const items = (latest?.lineItems || []).filter((item) => Number(item.amount) > 0);
+    replaceChart("lineItem", ctx, {
+      type: "doughnut",
+      data: {
+        labels: items.map((item) => item.name),
+        datasets: [{
+          data: items.map((item) => Number(item.amount)),
+          backgroundColor: ["#0e7490", "#a85512", "#0f766e", "#b42362", "#475467", "#2563eb", "#9333ea", "#dc2626"]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 12 } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${formatMoney(ctx.raw)}` } }
+        }
+      }
+    });
+  }
+
+  function replaceChart(key, canvas, config) {
+    if (state.charts[key]) {
+      state.charts[key].destroy();
+    }
+    state.charts[key] = new Chart(canvas, config);
+  }
+
+  function renderInsights(months) {
+    const insights = [];
+    const latest = months[months.length - 1];
+    const previous = months[months.length - 2];
+    if (latest && previous) {
+      const delta = latest.total - previous.total;
+      const direction = delta >= 0 ? "up" : "down";
+      insights.push({
+        title: `${formatMonthKey(latest.month)} is ${direction} ${formatMoney(Math.abs(delta))}`,
+        body: `Previous month: ${formatMoney(previous.total)}. Latest month: ${formatMoney(latest.total)}.`
+      });
+      ["water", "electric", "gas"].forEach((provider) => {
+        const providerDelta = latest[provider] - previous[provider];
+        if (Math.abs(providerDelta) >= 10) {
+          insights.push({
+            title: `${PROVIDERS[provider].shortLabel} changed ${formatMoney(providerDelta)}`,
+            body: `${formatMonthKey(previous.month)} to ${formatMonthKey(latest.month)}.`
+          });
+        }
+      });
+    }
+    const usageProvider = els.usageProviderSelect.value;
+    const usageBills = state.bills
+      .filter((bill) => bill.provider === usageProvider && bill.usage !== "" && bill.usage !== null && bill.usage !== undefined)
+      .sort((a, b) => (a.invoiceDate || "").localeCompare(b.invoiceDate || ""));
+    const usageLatest = usageBills[usageBills.length - 1];
+    const usagePrevious = usageBills[usageBills.length - 2];
+    if (usageLatest && usagePrevious) {
+      const usageDelta = Number(usageLatest.usage) - Number(usagePrevious.usage);
+      insights.push({
+        title: `${PROVIDERS[usageProvider].shortLabel} usage ${usageDelta >= 0 ? "increased" : "decreased"}`,
+        body: `${formatNumber(Math.abs(usageDelta), 1)} ${usageLatest.usageUnit} versus the previous bill.`
+      });
+    }
+    const highest = months.reduce((best, month) => !best || month.total > best.total ? month : best, null);
+    if (highest) {
+      insights.push({
+        title: `${formatMonthKey(highest.month)} is the highest month`,
+        body: `${formatMoney(highest.total)} across water, electric, and gas.`
+      });
+    }
+
+    els.signalCount.textContent = `${insights.length} signals`;
+    els.insightsList.innerHTML = insights.length ? insights.map((insight) => `
+      <div class="insight">
+        <strong>${insight.title}</strong>
+        <span>${insight.body}</span>
+      </div>
+    `).join("") : `<div class="empty-state">No signals yet.</div>`;
+  }
+
+  function renderTable() {
+    const bills = getFilteredBills();
+    els.billTableBody.innerHTML = bills.map((bill) => {
+      const provider = PROVIDERS[bill.provider];
+      const usageText = bill.usage === "" || bill.usage === null || bill.usage === undefined
+        ? "-"
+        : `${formatNumber(bill.usage, 1)} ${bill.usageUnit || provider.usageUnit}`;
+      const lineText = (bill.lineItems || []).length
+        ? `${bill.lineItems.length} items`
+        : "-";
+      const servicePeriod = bill.startDate || bill.endDate
+        ? `${formatDate(bill.startDate)} - ${formatDate(bill.endDate)}`
+        : "-";
+      return `
+        <tr>
+          <td>${formatDate(bill.invoiceDate)}</td>
+          <td><span class="provider-pill ${bill.provider}">${provider.label}</span></td>
+          <td>${servicePeriod}</td>
+          <td>${usageText}</td>
+          <td><strong>${formatMoney(bill.amount)}</strong></td>
+          <td>${lineText}</td>
+          <td><span class="muted">${escapeHtml(bill.source || "-")}</span></td>
+          <td>
+            <button class="button small" type="button" data-edit-bill="${bill.id}">Edit</button>
+            <button class="button small" type="button" data-delete-bill="${bill.id}">Delete</button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function editBill(id) {
+    const bill = state.bills.find((candidate) => candidate.id === id);
+    if (!bill) return;
+    openDraft({ ...bill, confidenceScore: 5 });
+    els.reviewFileName.textContent = "Edit bill";
+    setStatus(`Editing ${PROVIDERS[bill.provider].label} ${formatDate(bill.invoiceDate)}.`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function deleteBill(id) {
+    const bill = state.bills.find((candidate) => candidate.id === id);
+    if (!bill) return;
+    const confirmed = window.confirm(`Delete ${PROVIDERS[bill.provider].label} ${formatDate(bill.invoiceDate)}?`);
+    if (!confirmed) return;
+    state.bills = state.bills.filter((candidate) => candidate.id !== id);
+    saveBills();
+    render();
+    setStatus("Bill deleted.", "ok");
+  }
+
+  function exportJson() {
+    const blob = new Blob([JSON.stringify({
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      bills: state.bills
+    }, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `utility-bills-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function importJson(file) {
+    try {
+      const data = JSON.parse(await file.text());
+      if (!Array.isArray(data.bills)) throw new Error("JSON does not contain bills.");
+      state.bills = data.bills;
+      saveBills();
+      render();
+      setStatus(`Imported ${data.bills.length} bills.`, "ok");
+    } catch (error) {
+      setStatus(`Import failed: ${error.message}`, "err");
+    }
+  }
+
+  function bindEvents() {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      els.pdfEngineStatus.textContent = "Ready";
+    } else {
+      els.pdfEngineStatus.textContent = "Unavailable";
+    }
+
+    els.pdfInput.addEventListener("change", (event) => handleFiles(event.target.files));
+    ["dragenter", "dragover"].forEach((eventName) => {
+      els.dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        els.dropZone.classList.add("dragover");
+      });
+    });
+    ["dragleave", "drop"].forEach((eventName) => {
+      els.dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        els.dropZone.classList.remove("dragover");
+      });
+    });
+    els.dropZone.addEventListener("drop", (event) => handleFiles(event.dataTransfer.files));
+    els.billForm.addEventListener("submit", saveFormBill);
+    els.clearFormBtn.addEventListener("click", resetForm);
+    els.manualBillBtn.addEventListener("click", () => {
+      els.reviewCard.hidden = false;
+      els.manualCard.hidden = true;
+      els.reviewFileName.textContent = "Manual bill";
+      els.reviewProviderHint.textContent = "";
+      els.reviewConfidence.textContent = "Manual";
+      els.reviewConfidence.classList.remove("high");
+      fillForm({ provider: "water", usageUnit: "gal/day", source: "Manual entry", lineItems: [] });
+    });
+    els.providerInput.addEventListener("change", () => {
+      els.usageUnitInput.value = PROVIDERS[els.providerInput.value].usageUnit;
+    });
+    els.addLineItemBtn.addEventListener("click", () => {
+      const items = collectLineItems();
+      items.push({ name: "", amount: "" });
+      renderLineItemEditor(items);
+    });
+    els.lineItemEditor.addEventListener("click", (event) => {
+      if (!event.target.matches("[data-remove-line]")) return;
+      const row = event.target.closest(".line-item-row");
+      row.remove();
+      if (!els.lineItemEditor.querySelector(".line-item-row")) {
+        renderLineItemEditor([]);
+      }
+    });
+    els.usageProviderSelect.addEventListener("change", () => {
+      renderUsageChart();
+      renderInsights(aggregateByMonth(state.bills));
+    });
+    els.providerFilter.addEventListener("change", renderTable);
+    els.searchInput.addEventListener("input", renderTable);
+    els.billTableBody.addEventListener("click", (event) => {
+      const editId = event.target.getAttribute("data-edit-bill");
+      const deleteId = event.target.getAttribute("data-delete-bill");
+      if (editId) editBill(editId);
+      if (deleteId) deleteBill(deleteId);
+    });
+    els.exportBtn.addEventListener("click", exportJson);
+    els.importJsonInput.addEventListener("change", (event) => {
+      const file = event.target.files?.[0];
+      if (file) importJson(file);
+    });
+    els.resetBtn.addEventListener("click", () => {
+      const confirmed = window.confirm("Reset utility bills to the spreadsheet snapshot?");
+      if (!confirmed) return;
+      state.bills = cloneBills(SEED_BILLS);
+      saveBills();
+      resetForm();
+      render();
+      setStatus("Snapshot reset.", "ok");
+    });
+  }
+
+  loadBills();
+  bindEvents();
+  renderLineItemEditor([]);
+  render();
+</script>
+</body>
+</html>
