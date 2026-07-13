@@ -3623,6 +3623,7 @@
   ]);
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
+  const RECENT_TASK_RENDER_LIMIT = 48;
   const TRACKER_SEARCH_RENDER_DELAY_MS = 900;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
   const TASK_SEARCH_ALIASES = [
@@ -3681,6 +3682,7 @@
   let csvRawRowCount = 0;
   let csvEntriesLoaded = false;
   let csvEntriesLoadPromise = null;
+  let recentTaskHistoryWarmupScheduled = false;
   let taskCatalogEntries = [];
   let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, taskMerges: {}, updatedAt: null };
   let privateTimeSyncState = { mode: "idle", message: "", updatedAt: "", lastSuccessAt: "" };
@@ -3715,6 +3717,7 @@
   let trackerDeferredRowsRenderToken = 0;
   let trackerSupplementalRenderToken = 0;
   let trackerDeferredRowsBusyTimer = null;
+  let trackerRowsStartupDeferUntil = 0;
   let trackerNameAutosizeToken = 0;
   let pendingTaskNameAutosizeTimer = null;
   const pendingTaskNameAutosizeControls = new Set();
@@ -5375,18 +5378,34 @@
   }
 
   function scheduleDeferredActivityRowsRender(options = {}) {
+    const { delayMs = 0, ...renderOptions } = options;
     const token = ++trackerDeferredRowsRenderToken;
     window.clearTimeout(trackerDeferredRowsBusyTimer);
-    trackerDeferredRowsBusyTimer = window.setTimeout(() => {
-      if (token === trackerDeferredRowsRenderToken) setTrackerListRenderBusy(true);
-    }, 120);
-    scheduleAfterPaint(() => {
+    const renderRows = () => {
       if (token !== trackerDeferredRowsRenderToken) return;
-      window.clearTimeout(trackerDeferredRowsBusyTimer);
-      trackerDeferredRowsBusyTimer = null;
-      renderActivityRows(options);
-      setTrackerListRenderBusy(false);
-    });
+      trackerDeferredRowsBusyTimer = window.setTimeout(() => {
+        if (token === trackerDeferredRowsRenderToken) setTrackerListRenderBusy(true);
+      }, 120);
+      scheduleAfterPaint(() => {
+        if (token !== trackerDeferredRowsRenderToken) return;
+        window.clearTimeout(trackerDeferredRowsBusyTimer);
+        trackerDeferredRowsBusyTimer = null;
+        renderActivityRows(renderOptions);
+        setTrackerListRenderBusy(false);
+      });
+    };
+    if (delayMs > 0) {
+      window.setTimeout(renderRows, delayMs);
+      return;
+    }
+    renderRows();
+  }
+
+  function cancelDeferredActivityRowsRender() {
+    trackerDeferredRowsRenderToken += 1;
+    window.clearTimeout(trackerDeferredRowsBusyTimer);
+    trackerDeferredRowsBusyTimer = null;
+    setTrackerListRenderBusy(false);
   }
 
   function scheduleTrackerSupplementalRender(entries) {
@@ -5748,8 +5767,18 @@
   }
 
   function compareRecentTasksByRecency(a, b) {
-    const completedDiff = recentTaskCompletedMs(b) - recentTaskCompletedMs(a);
+    const completedA = recentTaskCompletedMs(a);
+    const completedB = recentTaskCompletedMs(b);
+    const completedDiff = completedB - completedA;
     if (completedDiff) return completedDiff;
+    if (!completedA && !completedB) {
+      const sourceIndexA = Number(a?.sourceIndex);
+      const sourceIndexB = Number(b?.sourceIndex);
+      const catalogOrderA = Number.isFinite(sourceIndexA) ? sourceIndexA : Number.POSITIVE_INFINITY;
+      const catalogOrderB = Number.isFinite(sourceIndexB) ? sourceIndexB : Number.POSITIVE_INFINITY;
+      const catalogOrderDiff = catalogOrderA - catalogOrderB;
+      if (catalogOrderDiff) return catalogOrderDiff;
+    }
     const nameDiff = cleanLabel(a?.taskName, "").localeCompare(cleanLabel(b?.taskName, ""));
     if (nameDiff) return nameDiff;
     return recentTaskKey(a).localeCompare(recentTaskKey(b));
@@ -5816,13 +5845,20 @@
     } catch (error) {}
   }
 
+  function catalogRecentTaskSource() {
+    if (taskCatalogEntries.length) return entriesWithTaskOverrides(taskCatalogEntries);
+    return entriesWithTaskOverrides(fallbackActivities);
+  }
+
   function recentTrackedTaskSource() {
     const active = timePayload.activeEntry
       ? entriesWithTaskOverrides([normalizeNativeEntry(timePayload.activeEntry, -1)])
         .map((entry) => ({ ...entry, isActiveRecentTask: true }))
       : [];
-    const importedLoggedEntries = csvImportedEntries.filter((entry) => entry?.start && entry?.stop);
-    return [...active, ...nativeCompletedEntries(), ...entriesWithTaskOverrides(importedLoggedEntries)];
+    const loggedSourceEntries = csvEntriesLoaded
+      ? entriesWithTaskOverrides(csvImportedEntries.filter((entry) => entry?.start && entry?.stop))
+      : catalogRecentTaskSource();
+    return [...active, ...nativeCompletedEntries(), ...loggedSourceEntries];
   }
 
   function recentTrackedTasks(entries = recentTrackedTaskSource()) {
@@ -5898,7 +5934,7 @@
         if (!historyLoaded) {
           if (tasks.length) {
             setRecentTaskDropdownOpen(!recentStrip?.classList.contains("open"));
-            ensureRecentTaskHistoryLoaded().catch(() => {});
+            queueRecentTaskHistoryLoad();
             return;
           }
           showRecentTaskHistoryLoadingState();
@@ -5914,15 +5950,16 @@
       return;
     }
     recentList.hidden = !recentStrip?.classList.contains("open");
-    recentList.innerHTML = tasks.length
-      ? tasks.map((entry) => {
+    const renderedTasks = tasks.slice(0, RECENT_TASK_RENDER_LIMIT);
+    recentList.innerHTML = renderedTasks.length
+      ? renderedTasks.map((entry) => {
         const key = recentTaskKey(entry);
         return `<span class="recent-task-item"><button class="recent-task-btn" type="button" data-recent-task-key="${escapeHtml(key)}" title="${escapeHtml(`${entry.taskName} · ${entry.listName}`)}" aria-pressed="false"><span class="recent-task-name">${escapeHtml(entry.taskName)}</span></button><button class="recent-task-remove" type="button" data-hide-recent-task="${escapeHtml(key)}" aria-label="Hide ${escapeHtml(entry.taskName)} from recent tasks" title="Hide from Recent">&times;</button></span>`;
       }).join("")
       : "";
     document.querySelectorAll("[data-recent-task-key]").forEach((button) => {
       button.addEventListener("click", () => {
-        const entry = tasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
+        const entry = renderedTasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
         if (!entry) return;
         if (timePayload.activeEntry && recentTaskKey(timePayload.activeEntry) === button.dataset.recentTaskKey) return;
         const startIso = isoNow();
@@ -7976,6 +8013,7 @@
   }
 
   function scheduleTrackerSearchRender({ delayMs = TRACKER_SEARCH_RENDER_DELAY_MS } = {}) {
+    cancelDeferredActivityRowsRender();
     cancelTrackerSearchRender();
     const render = () => {
       trackerSearchRenderTimeout = null;
@@ -7992,6 +8030,7 @@
   }
 
   function schedulePostPaintTrackerSearchRender() {
+    cancelDeferredActivityRowsRender();
     cancelTrackerSearchRender();
     trackerSearchRenderTimer = window.requestAnimationFrame(() => {
       trackerSearchRenderTimer = null;
@@ -8146,7 +8185,8 @@
     const trackerList = document.getElementById("trackerList");
     if (trackerList) trackerList.onchange = renderMetadataOptions;
     scheduleTrackerSupplementalRender(entries);
-    scheduleDeferredActivityRowsRender();
+    const startupRowsDelayMs = Math.max(0, Math.ceil(trackerRowsStartupDeferUntil - performance.now()));
+    scheduleDeferredActivityRowsRender(startupRowsDelayMs ? { delayMs: startupRowsDelayMs } : {});
   }
 
   async function renderNativeDashboard() {
@@ -9855,6 +9895,32 @@
       });
   }
 
+  function queueRecentTaskHistoryLoad(delayMs = 900) {
+    if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+    window.setTimeout(() => {
+      scheduleAfterPaint(() => {
+        if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+        ensureRecentTaskHistoryLoaded().catch(() => {});
+      });
+    }, delayMs);
+  }
+
+  function scheduleRecentTaskHistoryWarmup() {
+    if (recentTaskHistoryWarmupScheduled || csvEntriesLoaded || csvEntriesLoadPromise) return;
+    recentTaskHistoryWarmupScheduled = true;
+    window.setTimeout(() => {
+      const loadRecentHistory = () => {
+        if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+        ensureRecentTaskHistoryLoaded().catch(() => {});
+      };
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(loadRecentHistory, { timeout: 5000 });
+        return;
+      }
+      scheduleAfterPaint(loadRecentHistory);
+    }, 2000);
+  }
+
   function showRecentTaskHistoryLoadingState() {
     const recentStrip = document.querySelector(".recent-task-strip");
     const recentList = document.getElementById("recentTaskList");
@@ -9982,13 +10048,16 @@
     pageSubtitle.hidden = true;
     document.getElementById("sourcePills").innerHTML = "";
     showPrivateTimeLoadButton(false);
+    trackerRowsStartupDeferUntil = performance.now() + 1200;
     renderTracker();
     scheduleAutoDoneTaskSync();
+    scheduleRecentTaskHistoryWarmup();
     armBusinessMustReminderSoundUnlock();
     startBusinessMustReminderMonitor();
     loadTaskCatalogEntries().then((entries) => {
       taskCatalogEntries = entries;
-      renderTimePayloadState();
+      renderRecentTaskSwitcher(catalogRecentTaskSource());
+      scheduleAfterPaint(renderTimePayloadState);
     }).catch(() => {
       taskCatalogEntries = [];
     });

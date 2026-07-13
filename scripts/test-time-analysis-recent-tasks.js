@@ -105,6 +105,16 @@ assert.deepStrictEqual(
   "recent task order should be deterministic when timestamps tie"
 );
 
+const catalogOrderFallback = sandbox.recentTrackedTasks([
+  entry("Later catalog item", "", { sourceIndex: 3 }),
+  entry("Earlier catalog item", "", { sourceIndex: 1 })
+]);
+assert.deepStrictEqual(
+  Array.from(catalogOrderFallback, (item) => item.taskName),
+  ["Earlier catalog item", "Later catalog item"],
+  "catalog-backed recent tasks should preserve catalog order when timestamps are missing"
+);
+
 console.log("Recent task ordering checks passed.");
 
 const analyticsSandbox = {
