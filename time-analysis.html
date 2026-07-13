@@ -3606,6 +3606,7 @@
     "data/⏰ Time Analysis_2026 - Entries.csv"
   ];
   const TIME_TASK_CATALOG_FILE = "data/time-task-catalog.json";
+  const TIME_RECENT_TASKS_FILE = "data/time-recent-tasks.json";
   const CHART_SCRIPT_URL = "assets/chart.umd.min.js?v=20260524-top-task-pies";
   const TIME_ENTRIES_API = (
     ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016"
@@ -3638,8 +3639,8 @@
   const RECENT_TASK_RENDER_LIMIT = 48;
   const RECENT_TASK_INITIAL_RENDER_LIMIT = 18;
   const RECENT_TASK_OVERFLOW_RENDER_DELAY_MS = 160;
-  const RECENT_TASK_HISTORY_OPEN_LOAD_DELAY_MS = 3600;
-  const RECENT_TASK_HISTORY_WARMUP_DELAY_MS = 12000;
+  const RECENT_TASK_HISTORY_OPEN_LOAD_DELAY_MS = 400;
+  const RECENT_TASK_HISTORY_WARMUP_DELAY_MS = 100;
   const RECENT_TASK_HISTORY_IDLE_TIMEOUT_MS = 15000;
   const RECENT_TASK_HISTORY_INTERACTION_QUIET_MS = 2200;
   const TRACKER_SEARCH_RENDER_DELAY_MS = 320;
@@ -3701,6 +3702,9 @@
   let csvRawRowCount = 0;
   let csvEntriesLoaded = false;
   let csvEntriesLoadPromise = null;
+  let recentTaskSnapshotEntries = [];
+  let recentTaskSnapshotLoaded = false;
+  let recentTaskSnapshotLoadPromise = null;
   let recentTaskHistoryWarmupScheduled = false;
   let taskCatalogEntries = [];
   let timePayload = { entries: [], activeEntry: null, taskOverrides: {}, taskMerges: {}, updatedAt: null };
@@ -5439,7 +5443,19 @@
     return Boolean(document.getElementById("trackerTaskList")?.querySelector(".track-row, .track-empty"));
   }
 
+  function trackerTaskSearchFocused() {
+    return document.activeElement === document.getElementById("taskSearchInput");
+  }
+
+  function noteTrackerSearchInteraction() {
+    noteRecentTaskInteraction();
+    if (!recentTaskSnapshotLoaded && !recentTaskSnapshotLoadPromise && recentTaskHistoryLoadTimer) {
+      queueRecentTaskHistoryLoad(RECENT_TASK_HISTORY_INTERACTION_QUIET_MS);
+    }
+  }
+
   function deferStartupRowsForTaskSearchInput() {
+    noteTrackerSearchInteraction();
     if (trackerActivityRowsRendered()) return;
     trackerRowsStartupDeferUntil = Math.max(trackerRowsStartupDeferUntil, performance.now() + TRACKER_SEARCH_FOCUS_DEFER_MS);
     scheduleDeferredActivityRowsRender({ delayMs: TRACKER_SEARCH_FOCUS_DEFER_MS });
@@ -5904,7 +5920,7 @@
       : [];
     const loggedSourceEntries = csvEntriesLoaded
       ? entriesWithTaskOverrides(csvImportedEntries.filter((entry) => entry?.start && entry?.stop))
-      : catalogRecentTaskSource();
+      : (recentTaskSnapshotEntries.length ? entriesWithTaskOverrides(recentTaskSnapshotEntries) : catalogRecentTaskSource());
     return [...active, ...nativeCompletedEntries(), ...loggedSourceEntries];
   }
 
@@ -5955,6 +5971,7 @@
   }
 
   function recentTaskHistoryInteractionQuiet() {
+    if (!lastRecentTaskInteractionAt) return true;
     return performance.now() - lastRecentTaskInteractionAt >= RECENT_TASK_HISTORY_INTERACTION_QUIET_MS;
   }
 
@@ -6063,7 +6080,7 @@
     const recentStrip = recentList.closest(".recent-task-strip");
     const recentToggle = document.getElementById("recentTaskToggle");
     const tasks = recentTrackedTasks(entries);
-    const historyLoaded = csvEntriesLoaded;
+    const historyLoaded = csvEntriesLoaded || recentTaskSnapshotLoaded;
     const historyLoading = recentTaskHistoryLoading();
     const shouldShowToggle = Boolean(tasks.length || !historyLoaded || historyLoading);
     if (recentStrip) {
@@ -8187,6 +8204,7 @@
   }
 
   function handleTrackerTaskSearchInput() {
+    noteTrackerSearchInteraction();
     const taskSearch = document.getElementById("taskSearchInput");
     const hasQuery = !!taskSearch?.value.trim();
     syncTaskSearchClearButton();
@@ -8200,6 +8218,7 @@
   }
 
   function clearTrackerTaskSearch() {
+    noteTrackerSearchInteraction();
     const taskSearch = document.getElementById("taskSearchInput");
     if (!taskSearch) return;
     taskSearch.value = "";
@@ -9994,6 +10013,84 @@
     return entries.map(normalizeCatalogEntry);
   }
 
+  function normalizeRecentTaskSnapshotEntry(entry, index) {
+    const start = entry?.start ? new Date(entry.start) : null;
+    const stop = entry?.stop ? new Date(entry.stop) : null;
+    const durationMs = Number(entry?.durationMs) || (start && stop ? Math.max(0, stop.getTime() - start.getTime()) : 0);
+    const taskName = cleanLabel(entry?.taskName, "Untitled task");
+    const taskId = effectiveTaskId(entry?.taskId, taskName);
+    const listId = cleanLabel(entry?.listId, "901301650324");
+    const listName = LIST_NAME_MAP[listId] || cleanLabel(entry?.listName, listNameForId(listId));
+    const taskType = normalizeTaskType(entry?.taskType);
+    const taskCategory = normalizeTaskCategory(entry?.taskCategory);
+    return {
+      id: cleanLabel(entry?.id, `recent:${listId}:${taskId}:${index}`),
+      sourceFile: cleanLabel(entry?.sourceFile, TIME_RECENT_TASKS_FILE),
+      sourceIndex: Number.isFinite(Number(entry?.sourceIndex)) ? Number(entry.sourceIndex) : index,
+      sourceType: cleanLabel(entry?.sourceType, "recent-snapshot"),
+      start,
+      stop,
+      updatedAt: cleanLabel(entry?.updatedAt, ""),
+      date: start ? dateKey(start) : "",
+      displayDate: start ? shortDate(start) : "",
+      week: start ? weekLabel(start) : "Recent",
+      durationMs,
+      hours: durationMs / 3600000,
+      listId,
+      listName,
+      taskId,
+      taskName,
+      department: cleanLabel(entry?.department, ""),
+      priority: cleanLabel(entry?.priority, ""),
+      section: cleanLabel(entry?.section, ""),
+      taskCategory,
+      taskType,
+      dueDate: dateInputValue(entry?.dueDate),
+      dueDateText: cleanLabel(entry?.dueDateText, ""),
+      dueTime: timeInputValue(entry?.dueTime),
+      startDate: dateInputValue(entry?.startDate),
+      startDateText: cleanLabel(entry?.startDateText, ""),
+      recurring: Boolean(entry?.recurring),
+      recurringText: cleanLabel(entry?.recurringText, ""),
+      taskOrder: cleanLabel(entry?.taskOrder, ""),
+      notes: cleanLabel(entry?.notes, ""),
+      status: normalizedTaskStatus(entry?.status),
+      searchText: [
+        listName,
+        taskName,
+        entry?.department,
+        entry?.priority,
+        entry?.section,
+        taskCategory,
+        taskType,
+        entry?.notes,
+        taskSearchAliases({ taskId, taskName })
+      ].filter(Boolean).join(" ").toLowerCase()
+    };
+  }
+
+  async function loadRecentTaskSnapshotEntries() {
+    const response = await fetch(TIME_RECENT_TASKS_FILE, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${TIME_RECENT_TASKS_FILE} returned HTTP ${response.status}`);
+    const payload = await response.json();
+    const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+    return entries.map(normalizeRecentTaskSnapshotEntry);
+  }
+
+  async function ensureRecentTaskSnapshotLoaded() {
+    if (recentTaskSnapshotLoaded) return recentTaskSnapshotEntries;
+    if (!recentTaskSnapshotLoadPromise) {
+      recentTaskSnapshotLoadPromise = loadRecentTaskSnapshotEntries().then((entries) => {
+        recentTaskSnapshotEntries = entries;
+        recentTaskSnapshotLoaded = true;
+        return entries;
+      }).finally(() => {
+        recentTaskSnapshotLoadPromise = null;
+      });
+    }
+    return recentTaskSnapshotLoadPromise;
+  }
+
   async function ensureCsvEntriesLoaded() {
     if (csvEntriesLoaded) {
       return { entries: csvImportedEntries, rawRowCount: csvRawRowCount };
@@ -10012,12 +10109,14 @@
   }
 
   function recentTaskHistoryLoading() {
-    return Boolean(csvEntriesLoadPromise && !csvEntriesLoaded);
+    return Boolean(
+      recentTaskSnapshotLoadPromise && !recentTaskSnapshotLoaded && !recentTaskSnapshotEntries.length
+    );
   }
 
   function loadRecentTaskHistoryWhenQuiet() {
-    if (csvEntriesLoaded || csvEntriesLoadPromise) return;
-    if (recentTaskDropdownOpen() || !recentTaskHistoryInteractionQuiet()) {
+    if (recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
+    if (trackerTaskSearchFocused() || recentTaskDropdownOpen() || !recentTaskHistoryInteractionQuiet()) {
       queueRecentTaskHistoryLoad(RECENT_TASK_HISTORY_INTERACTION_QUIET_MS);
       return;
     }
@@ -10025,7 +10124,7 @@
   }
 
   function ensureRecentTaskHistoryLoaded() {
-    return ensureCsvEntriesLoaded()
+    return ensureRecentTaskSnapshotLoaded()
       .then(() => {
         renderRecentTaskSwitcher();
       })
@@ -10037,23 +10136,23 @@
   }
 
   function queueRecentTaskHistoryLoad(delayMs = RECENT_TASK_HISTORY_OPEN_LOAD_DELAY_MS) {
-    if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+    if (recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
     window.clearTimeout(recentTaskHistoryLoadTimer);
     recentTaskHistoryLoadTimer = window.setTimeout(() => {
       recentTaskHistoryLoadTimer = null;
       scheduleAfterPaint(() => {
-        if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+        if (recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
         loadRecentTaskHistoryWhenQuiet();
       });
     }, delayMs);
   }
 
   function scheduleRecentTaskHistoryWarmup() {
-    if (recentTaskHistoryWarmupScheduled || csvEntriesLoaded || csvEntriesLoadPromise) return;
+    if (recentTaskHistoryWarmupScheduled || recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
     recentTaskHistoryWarmupScheduled = true;
     window.setTimeout(() => {
       const loadRecentHistory = () => {
-        if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+        if (recentTaskSnapshotLoaded || recentTaskSnapshotLoadPromise) return;
         loadRecentTaskHistoryWhenQuiet();
       };
       if (window.requestIdleCallback) {
@@ -10197,6 +10296,7 @@
     if (timePayload.activeEntry) renderTimerState();
     renderTracker();
     scheduleAutoDoneTaskSync();
+    scheduleRecentTaskHistoryWarmup();
     armBusinessMustReminderSoundUnlock();
     startBusinessMustReminderMonitor();
     loadTaskCatalogEntries().then((entries) => {
