@@ -3624,7 +3624,8 @@
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
   const RECENT_TASK_RENDER_LIMIT = 48;
-  const TRACKER_SEARCH_RENDER_DELAY_MS = 900;
+  const TRACKER_SEARCH_RENDER_DELAY_MS = 320;
+  const TRACKER_SEARCH_FOCUS_DEFER_MS = 800;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
   const TASK_SEARCH_ALIASES = [
     {
@@ -3716,6 +3717,7 @@
   let trackerActivityRowsRenderTimer = null;
   let trackerDeferredRowsRenderToken = 0;
   let trackerSupplementalRenderToken = 0;
+  let trackerSupplementalRenderTimer = null;
   let trackerDeferredRowsBusyTimer = null;
   let trackerRowsStartupDeferUntil = 0;
   let trackerNameAutosizeToken = 0;
@@ -5296,6 +5298,7 @@
   }
 
   function renderTimePayloadState({ syncState = "", renderScope = "full" } = {}) {
+    if (timePayload.activeEntry) renderTimerState();
     if (renderScope === "activityRows") {
       scheduleDeferredActivityRowsRender();
       if (syncState) setTrackerStatus(syncState, "saved");
@@ -5408,13 +5411,33 @@
     setTrackerListRenderBusy(false);
   }
 
-  function scheduleTrackerSupplementalRender(entries) {
+  function trackerActivityRowsRendered() {
+    return Boolean(document.getElementById("trackerTaskList")?.querySelector(".track-row, .track-empty"));
+  }
+
+  function deferStartupRowsForTaskSearchInput() {
+    if (trackerActivityRowsRendered()) return;
+    trackerRowsStartupDeferUntil = Math.max(trackerRowsStartupDeferUntil, performance.now() + TRACKER_SEARCH_FOCUS_DEFER_MS);
+    scheduleDeferredActivityRowsRender({ delayMs: TRACKER_SEARCH_FOCUS_DEFER_MS });
+    scheduleTrackerSupplementalRender(nativeCompletedEntries(), { delayMs: TRACKER_SEARCH_FOCUS_DEFER_MS });
+  }
+
+  function scheduleTrackerSupplementalRender(entries, { delayMs = 0 } = {}) {
+    const taskSearch = document.getElementById("taskSearchInput");
+    const effectiveDelayMs = delayMs || (document.activeElement === taskSearch && !trackerActivityRowsRendered() ? TRACKER_SEARCH_FOCUS_DEFER_MS : 0);
     const token = ++trackerSupplementalRenderToken;
-    scheduleAfterPaint(() => {
+    window.clearTimeout(trackerSupplementalRenderTimer);
+    const renderSupplemental = () => scheduleAfterPaint(() => {
+      trackerSupplementalRenderTimer = null;
       if (token !== trackerSupplementalRenderToken) return;
       renderRecentTaskSwitcher();
       renderQuickChips(entries);
     });
+    if (effectiveDelayMs > 0) {
+      trackerSupplementalRenderTimer = window.setTimeout(renderSupplemental, effectiveDelayMs);
+      return;
+    }
+    renderSupplemental();
   }
 
   function markRecentTaskStarting(button, entry) {
@@ -8172,6 +8195,8 @@
     });
     const taskSearch = document.getElementById("taskSearchInput");
     if (taskSearch) {
+      taskSearch.onpointerdown = deferStartupRowsForTaskSearchInput;
+      taskSearch.onfocus = deferStartupRowsForTaskSearchInput;
       taskSearch.oninput = handleTrackerTaskSearchInput;
       taskSearch.onsearch = handleTrackerTaskSearchInput;
     }
@@ -9990,6 +10015,7 @@
     timePayload = mergeTimePayloads(response, localPayload, { preferServer: timePayloadHasPrivateData(response) });
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(Boolean(key));
+    if (timePayload.activeEntry) renderTimerState();
     setPrivateTimeSyncState("synced");
     if ((timePayload.entries || []).length || timePayload.activeEntry) {
       renderTimePayloadState();
@@ -10047,14 +10073,14 @@
     document.getElementById("sourcePills").innerHTML = "";
     showPrivateTimeLoadButton(false);
     trackerRowsStartupDeferUntil = performance.now() + 1200;
+    if (timePayload.activeEntry) renderTimerState();
     renderTracker();
     scheduleAutoDoneTaskSync();
-    scheduleRecentTaskHistoryWarmup();
     armBusinessMustReminderSoundUnlock();
     startBusinessMustReminderMonitor();
     loadTaskCatalogEntries().then((entries) => {
       taskCatalogEntries = entries;
-      renderRecentTaskSwitcher(catalogRecentTaskSource());
+      scheduleTrackerSupplementalRender(catalogRecentTaskSource());
       scheduleAfterPaint(renderTimePayloadState);
     }).catch(() => {
       taskCatalogEntries = [];
@@ -10081,12 +10107,15 @@
             setPrivateTimeSyncState("error", { persist: false });
             setTrackerStatus(error.message || "Private Time Analysis data could not be loaded.", "error");
             showPrivateTimeLoadButton(true);
-          });
+          }).finally(scheduleRecentTaskHistoryWarmup);
         }, 0);
+      } else {
+        scheduleRecentTaskHistoryWarmup();
       }
     } catch (error) {
       setPrivateTimeSyncState("error", { persist: false });
       showPrivateTimeLoadButton(true);
+      scheduleRecentTaskHistoryWarmup();
     }
   }
 
