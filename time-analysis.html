@@ -5965,9 +5965,7 @@
         const startIso = isoNow();
         markRecentTaskStarting(button, entry);
         setRecentTaskDropdownOpen(false);
-        scheduleAfterPaint(() => {
-          startTimer(entry, { startIso }).catch((error) => setTrackerStatus(error.message, "error"));
-        });
+        startTimer(entry, { startIso }).catch((error) => setTrackerStatus(error.message, "error"));
       });
     });
     document.querySelectorAll("[data-hide-recent-task]").forEach((control) => {
@@ -10150,8 +10148,8 @@
       });
       if (optimistic) {
         timePayload = nextPayload;
-        renderRecentTaskSwitcher();
         renderOptimisticTimerState();
+        renderRecentTaskSwitcher();
         setTrackerStatus("Saved", "saved");
         syncOptimisticTimePayload(nextPayload, "Saved")
           .then(() => autoMarkTimeLoggedTasksDone({ sourceEntries: completed }))
@@ -10171,8 +10169,8 @@
     });
     if (optimistic) {
       timePayload = nextPayload;
-      renderRecentTaskSwitcher();
       renderOptimisticTimerState();
+      renderRecentTaskSwitcher();
       setTrackerStatus(`Started ${entry.taskName}`, "saved");
       syncOptimisticTimePayload(nextPayload, `Started ${entry.taskName}`).catch((error) => setTrackerStatus(error.message, "error"));
       return;
@@ -10233,7 +10231,7 @@
 
   document.getElementById("trackerForm").addEventListener("submit", (event) => {
     event.preventDefault();
-    startTimer().catch((error) => setTrackerStatus(error.message, "error"));
+    startTimer(null, { optimistic: true }).catch((error) => setTrackerStatus(error.message, "error"));
   });
 
   document.getElementById("stopTimerBtn").addEventListener("click", () => {
