@@ -1047,10 +1047,22 @@
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-width: thin;
+    contain: layout style paint;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    visibility: hidden;
   }
 
   .recent-task-list[hidden] {
     display: none;
+  }
+
+  .recent-task-strip.open .recent-task-list {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
   }
 
   .recent-task-item {
@@ -3624,6 +3636,12 @@
   const DUE_ALL_INITIAL_ROW_LIMIT = 80;
   const DUE_ALL_ROW_INCREMENT = 80;
   const RECENT_TASK_RENDER_LIMIT = 48;
+  const RECENT_TASK_INITIAL_RENDER_LIMIT = 18;
+  const RECENT_TASK_OVERFLOW_RENDER_DELAY_MS = 160;
+  const RECENT_TASK_HISTORY_OPEN_LOAD_DELAY_MS = 3600;
+  const RECENT_TASK_HISTORY_WARMUP_DELAY_MS = 12000;
+  const RECENT_TASK_HISTORY_IDLE_TIMEOUT_MS = 15000;
+  const RECENT_TASK_HISTORY_INTERACTION_QUIET_MS = 2200;
   const TRACKER_SEARCH_RENDER_DELAY_MS = 320;
   const TRACKER_SEARCH_FOCUS_DEFER_MS = 800;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
@@ -3720,6 +3738,12 @@
   let trackerSupplementalRenderTimer = null;
   let trackerDeferredRowsBusyTimer = null;
   let trackerRowsStartupDeferUntil = 0;
+  let recentTaskRenderedTasks = [];
+  let recentTaskRenderedFull = false;
+  let recentTaskOverflowRenderTimer = null;
+  let recentTaskOverflowRenderToken = 0;
+  let recentTaskHistoryLoadTimer = null;
+  let lastRecentTaskInteractionAt = 0;
   let trackerNameAutosizeToken = 0;
   let pendingTaskNameAutosizeTimer = null;
   const pendingTaskNameAutosizeControls = new Set();
@@ -5922,19 +5946,120 @@
     items.forEach((item) => { item.hidden = false; });
   }
 
+  function noteRecentTaskInteraction() {
+    lastRecentTaskInteractionAt = performance.now();
+  }
+
+  function recentTaskDropdownOpen() {
+    return Boolean(document.querySelector(".recent-task-strip")?.classList.contains("open"));
+  }
+
+  function recentTaskHistoryInteractionQuiet() {
+    return performance.now() - lastRecentTaskInteractionAt >= RECENT_TASK_HISTORY_INTERACTION_QUIET_MS;
+  }
+
+  function recentTaskItemHtml(entry) {
+    const key = recentTaskKey(entry);
+    return `<span class="recent-task-item"><button class="recent-task-btn" type="button" data-recent-task-key="${escapeHtml(key)}" title="${escapeHtml(`${entry.taskName} · ${entry.listName}`)}" aria-pressed="false"><span class="recent-task-name">${escapeHtml(entry.taskName)}</span></button><button class="recent-task-remove" type="button" data-hide-recent-task="${escapeHtml(key)}" aria-label="Hide ${escapeHtml(entry.taskName)} from recent tasks" title="Hide from Recent">&times;</button></span>`;
+  }
+
+  function cancelRecentTaskOverflowRender() {
+    recentTaskOverflowRenderToken += 1;
+    window.clearTimeout(recentTaskOverflowRenderTimer);
+    recentTaskOverflowRenderTimer = null;
+  }
+
+  function renderRecentTaskOverflow(recentList) {
+    if (!recentList || recentTaskRenderedFull) return;
+    const remainingTasks = recentTaskRenderedTasks.slice(RECENT_TASK_INITIAL_RENDER_LIMIT);
+    if (remainingTasks.length) {
+      recentList.insertAdjacentHTML("beforeend", remainingTasks.map(recentTaskItemHtml).join(""));
+    }
+    recentTaskRenderedFull = true;
+    scheduleAfterPaint(() => fitRecentTasksToSingleRow(recentList));
+    syncRecentTaskActiveState();
+  }
+
+  function scheduleRecentTaskOverflowRender(recentList) {
+    if (!recentList || !recentTaskDropdownOpen() || recentTaskRenderedFull || recentTaskOverflowRenderTimer) return;
+    const token = recentTaskOverflowRenderToken;
+    recentTaskOverflowRenderTimer = window.setTimeout(() => {
+      recentTaskOverflowRenderTimer = null;
+      scheduleAfterPaint(() => {
+        if (token !== recentTaskOverflowRenderToken || !recentTaskDropdownOpen()) return;
+        renderRecentTaskOverflow(recentList);
+      });
+    }, RECENT_TASK_OVERFLOW_RENDER_DELAY_MS);
+  }
+
+  function renderRecentTaskItems(recentList, tasks) {
+    cancelRecentTaskOverflowRender();
+    recentTaskRenderedTasks = tasks;
+    recentTaskRenderedFull = tasks.length <= RECENT_TASK_INITIAL_RENDER_LIMIT;
+    const initialTasks = recentTaskRenderedFull ? tasks : tasks.slice(0, RECENT_TASK_INITIAL_RENDER_LIMIT);
+    recentList.innerHTML = initialTasks.length
+      ? initialTasks.map(recentTaskItemHtml).join("")
+      : "";
+    scheduleRecentTaskOverflowRender(recentList);
+  }
+
+  function handleRecentTaskListClick(event) {
+    const recentList = document.getElementById("recentTaskList");
+    const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+    if (!recentList || !target || !recentList.contains(target)) return;
+    noteRecentTaskInteraction();
+    const hideControl = target.closest("[data-hide-recent-task]");
+    if (hideControl) {
+      event.preventDefault();
+      event.stopPropagation();
+      hideRecentTaskKey(hideControl.dataset.hideRecentTask);
+      renderRecentTaskSwitcher();
+      return;
+    }
+    const button = target.closest("[data-recent-task-key]");
+    if (!button || !recentList.contains(button)) return;
+    const entry = recentTaskRenderedTasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
+    if (!entry) return;
+    if (timePayload.activeEntry && recentTaskKey(timePayload.activeEntry) === button.dataset.recentTaskKey) return;
+    const startIso = isoNow();
+    markRecentTaskStarting(button, entry);
+    setRecentTaskDropdownOpen(false);
+    startTimer(entry, { startIso }).catch((error) => setTrackerStatus(error.message, "error"));
+  }
+
+  function handleRecentTaskListKeydown(event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+    const control = target?.closest("[data-hide-recent-task]");
+    if (!control) return;
+    handleRecentTaskListClick(event);
+  }
+
+  function bindRecentTaskListEvents(recentList) {
+    if (!recentList || recentList.dataset.eventsBound === "true") return;
+    recentList.addEventListener("click", handleRecentTaskListClick);
+    recentList.addEventListener("keydown", handleRecentTaskListKeydown);
+    recentList.dataset.eventsBound = "true";
+  }
+
   function setRecentTaskDropdownOpen(open) {
     const recentStrip = document.querySelector(".recent-task-strip");
     const recentList = document.getElementById("recentTaskList");
     const toggle = document.getElementById("recentTaskToggle");
     if (!recentStrip || !recentList || !toggle || recentStrip.hidden) return;
+    noteRecentTaskInteraction();
     recentStrip.classList.toggle("open", open);
-    recentList.hidden = !open;
+    recentList.hidden = false;
+    recentList.setAttribute("aria-hidden", String(!open));
     toggle.setAttribute("aria-expanded", String(open));
+    if (open) scheduleRecentTaskOverflowRender(recentList);
+    else cancelRecentTaskOverflowRender();
   }
 
   function renderRecentTaskSwitcher(entries = recentTrackedTaskSource()) {
     const recentList = document.getElementById("recentTaskList");
     if (!recentList) return;
+    bindRecentTaskListEvents(recentList);
     const recentStrip = recentList.closest(".recent-task-strip");
     const recentToggle = document.getElementById("recentTaskToggle");
     const tasks = recentTrackedTasks(entries);
@@ -5945,11 +6070,20 @@
       recentStrip.hidden = !shouldShowToggle;
       if (!shouldShowToggle) recentStrip.classList.remove("open");
     }
+    if (!shouldShowToggle) {
+      recentList.hidden = true;
+      recentList.setAttribute("aria-hidden", "true");
+    } else {
+      recentList.hidden = false;
+      recentList.setAttribute("aria-hidden", String(!recentStrip?.classList.contains("open")));
+    }
     if (recentToggle) {
       recentToggle.hidden = !shouldShowToggle;
       recentToggle.disabled = historyLoading;
       recentToggle.textContent = historyLoading ? "Loading recent tracked tasks..." : "Recent tracked tasks";
+      recentToggle.onpointerdown = noteRecentTaskInteraction;
       recentToggle.onclick = () => {
+        noteRecentTaskInteraction();
         if (historyLoading) {
           showRecentTaskHistoryLoadingState();
           return;
@@ -5969,40 +6103,15 @@
     }
     if (historyLoading && recentStrip?.classList.contains("open")) {
       recentList.hidden = false;
+      recentList.setAttribute("aria-hidden", "false");
+      recentTaskRenderedTasks = [];
+      recentTaskRenderedFull = true;
+      cancelRecentTaskOverflowRender();
       recentList.innerHTML = '<span class="recent-task-empty">Loading recent task history...</span>';
       return;
     }
-    recentList.hidden = !recentStrip?.classList.contains("open");
     const renderedTasks = tasks.slice(0, RECENT_TASK_RENDER_LIMIT);
-    recentList.innerHTML = renderedTasks.length
-      ? renderedTasks.map((entry) => {
-        const key = recentTaskKey(entry);
-        return `<span class="recent-task-item"><button class="recent-task-btn" type="button" data-recent-task-key="${escapeHtml(key)}" title="${escapeHtml(`${entry.taskName} · ${entry.listName}`)}" aria-pressed="false"><span class="recent-task-name">${escapeHtml(entry.taskName)}</span></button><button class="recent-task-remove" type="button" data-hide-recent-task="${escapeHtml(key)}" aria-label="Hide ${escapeHtml(entry.taskName)} from recent tasks" title="Hide from Recent">&times;</button></span>`;
-      }).join("")
-      : "";
-    document.querySelectorAll("[data-recent-task-key]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const entry = renderedTasks.find((item) => recentTaskKey(item) === button.dataset.recentTaskKey);
-        if (!entry) return;
-        if (timePayload.activeEntry && recentTaskKey(timePayload.activeEntry) === button.dataset.recentTaskKey) return;
-        const startIso = isoNow();
-        markRecentTaskStarting(button, entry);
-        setRecentTaskDropdownOpen(false);
-        startTimer(entry, { startIso }).catch((error) => setTrackerStatus(error.message, "error"));
-      });
-    });
-    document.querySelectorAll("[data-hide-recent-task]").forEach((control) => {
-      const hideTask = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        hideRecentTaskKey(control.dataset.hideRecentTask);
-        renderRecentTaskSwitcher();
-      };
-      control.addEventListener("click", hideTask);
-      control.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") hideTask(event);
-      });
-    });
+    renderRecentTaskItems(recentList, renderedTasks);
     scheduleAfterPaint(() => fitRecentTasksToSingleRow(recentList));
     syncRecentTaskActiveState();
   }
@@ -9906,6 +10015,15 @@
     return Boolean(csvEntriesLoadPromise && !csvEntriesLoaded);
   }
 
+  function loadRecentTaskHistoryWhenQuiet() {
+    if (csvEntriesLoaded || csvEntriesLoadPromise) return;
+    if (recentTaskDropdownOpen() || !recentTaskHistoryInteractionQuiet()) {
+      queueRecentTaskHistoryLoad(RECENT_TASK_HISTORY_INTERACTION_QUIET_MS);
+      return;
+    }
+    ensureRecentTaskHistoryLoaded().catch(() => {});
+  }
+
   function ensureRecentTaskHistoryLoaded() {
     return ensureCsvEntriesLoaded()
       .then(() => {
@@ -9918,12 +10036,14 @@
       });
   }
 
-  function queueRecentTaskHistoryLoad(delayMs = 900) {
+  function queueRecentTaskHistoryLoad(delayMs = RECENT_TASK_HISTORY_OPEN_LOAD_DELAY_MS) {
     if (csvEntriesLoaded || csvEntriesLoadPromise) return;
-    window.setTimeout(() => {
+    window.clearTimeout(recentTaskHistoryLoadTimer);
+    recentTaskHistoryLoadTimer = window.setTimeout(() => {
+      recentTaskHistoryLoadTimer = null;
       scheduleAfterPaint(() => {
         if (csvEntriesLoaded || csvEntriesLoadPromise) return;
-        ensureRecentTaskHistoryLoaded().catch(() => {});
+        loadRecentTaskHistoryWhenQuiet();
       });
     }, delayMs);
   }
@@ -9934,14 +10054,14 @@
     window.setTimeout(() => {
       const loadRecentHistory = () => {
         if (csvEntriesLoaded || csvEntriesLoadPromise) return;
-        ensureRecentTaskHistoryLoaded().catch(() => {});
+        loadRecentTaskHistoryWhenQuiet();
       };
       if (window.requestIdleCallback) {
-        window.requestIdleCallback(loadRecentHistory, { timeout: 5000 });
+        window.requestIdleCallback(loadRecentHistory, { timeout: RECENT_TASK_HISTORY_IDLE_TIMEOUT_MS });
         return;
       }
       scheduleAfterPaint(loadRecentHistory);
-    }, 2000);
+    }, RECENT_TASK_HISTORY_WARMUP_DELAY_MS);
   }
 
   function showRecentTaskHistoryLoadingState() {
@@ -9955,6 +10075,7 @@
     recentToggle.textContent = "Loading recent tracked tasks...";
     recentToggle.setAttribute("aria-expanded", "true");
     recentList.hidden = false;
+    recentList.setAttribute("aria-hidden", "false");
     recentList.innerHTML = '<span class="recent-task-empty">Loading recent task history...</span>';
   }
 
