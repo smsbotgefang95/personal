@@ -11,7 +11,18 @@ const html = fs.readFileSync(path.join(repoRoot, "time-analysis.html"), "utf8");
 function extractFunction(source, name) {
   const start = source.indexOf(`function ${name}(`);
   if (start === -1) throw new Error(`Could not find function ${name}`);
-  const bodyStart = source.indexOf("{", start);
+  const paramsStart = source.indexOf("(", start);
+  let paramsDepth = 0;
+  let bodySearchStart = -1;
+  for (let index = paramsStart; index < source.length; index += 1) {
+    if (source[index] === "(") paramsDepth += 1;
+    if (source[index] === ")") paramsDepth -= 1;
+    if (paramsDepth === 0) {
+      bodySearchStart = index + 1;
+      break;
+    }
+  }
+  const bodyStart = source.indexOf("{", bodySearchStart);
   let depth = 0;
   for (let index = bodyStart; index < source.length; index += 1) {
     if (source[index] === "{") depth += 1;
@@ -287,3 +298,70 @@ assert.strictEqual(
 );
 
 console.log("Auto-done recovery guard checks passed.");
+
+const sleepStatusSandbox = {
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  },
+  dateInputValue(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(String(value || "")) ? String(value) : "";
+  },
+  parseDateInput(value) {
+    const text = sleepStatusSandbox.dateInputValue(value);
+    if (!text) return null;
+    const [year, month, day] = text.split("-").map((part) => Number(part));
+    const date = new Date(year, month - 1, day);
+    return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+  },
+  formatDateInput(date) {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
+  },
+  addLocalDays(date, days) {
+    const next = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    next.setDate(next.getDate() + days);
+    return next;
+  },
+  addLocalMonths(date, months) {
+    const targetMonth = date.getMonth() + months;
+    const firstOfTarget = new Date(date.getFullYear(), targetMonth, 1);
+    const lastDayOfTarget = new Date(firstOfTarget.getFullYear(), firstOfTarget.getMonth() + 1, 0).getDate();
+    return new Date(firstOfTarget.getFullYear(), firstOfTarget.getMonth(), Math.min(date.getDate(), lastDayOfTarget));
+  },
+  isoNow() {
+    return "2026-07-14T12:00:00.000Z";
+  }
+};
+
+vm.createContext(sleepStatusSandbox);
+vm.runInContext([
+  extractFunction(html, "inferRecurrence"),
+  extractFunction(html, "isSleepTimerEntry"),
+  extractFunction(html, "nextRecurringDueDate"),
+  extractFunction(html, "taskStatusPatch")
+].join("\n\n"), sleepStatusSandbox);
+
+assert.deepStrictEqual(
+  { ...sleepStatusSandbox.taskStatusPatch(
+    { taskName: "Sleep", dueDate: "2026-07-14", recurrence: "none" },
+    "done"
+  ) },
+  { dueDate: "2026-07-15", dueDateManaged: true, dueDateManualHold: "", status: "todo" },
+  "marking Sleep done should advance the due date and keep it TO DO even without explicit daily recurrence"
+);
+
+assert.deepStrictEqual(
+  { ...sleepStatusSandbox.taskStatusPatch(
+    { taskName: "One-off task", dueDate: "2026-07-14", recurrence: "none" },
+    "done"
+  ) },
+  { dueDateManualHold: "", status: "done" },
+  "nonrecurring non-sleep tasks should still stay DONE"
+);
+
+console.log("Sleep status recurrence checks passed.");

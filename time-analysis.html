@@ -4340,7 +4340,7 @@
   }
 
   function nextRecurringDueDate(entry) {
-    const recurrence = entry.recurrence || inferRecurrence(entry);
+    const recurrence = isSleepTimerEntry(entry) ? "daily" : (entry.recurrence || inferRecurrence(entry));
     if (recurrence === "none") return "";
     const baseDate = parseDateInput(entry.dueDate || entry.dueDateText);
     if (!baseDate) return "";
