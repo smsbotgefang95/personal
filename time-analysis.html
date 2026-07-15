@@ -8304,7 +8304,9 @@
     renderTimerState();
     renderMetadataOptions();
     document.querySelectorAll("[data-due-filter-value]").forEach((button) => {
-      button.onclick = () => {
+      button.onclick = (event) => {
+        event.stopPropagation();
+        setRecentTaskDropdownOpen(false);
         const dueFilter = document.getElementById("dueStatusFilter");
         const nextFilter = button.dataset.dueFilterValue || "all";
         if ((dueFilter?.value || "all") === nextFilter) {
