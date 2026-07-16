@@ -1941,7 +1941,6 @@
   }
 
   .track-name-input {
-    flex: 1 1 auto;
     min-width: 0;
     width: 100%;
     max-width: 100%;
@@ -7936,12 +7935,12 @@
           </div>
           <div class="track-task-cell">
             <div class="track-name" title="${escapeHtml(entry.taskName)}">
-              <textarea class="track-name-input" rows="1" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name">${escapeHtml(entry.taskName)}</textarea>
-              ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
               <button class="track-button${isRunning ? " running" : ""}${trackMode === "past" ? " past-mode" : ""}" type="button" data-track-key="${escapeHtml(`${entry.listId}|||${entry.taskId}`)}" aria-label="${trackMode === "past" ? "Add past time for" : (isRunning ? "Stop" : "Start")} ${escapeHtml(entry.taskName)}">
                 <span aria-hidden="true">${trackMode === "past" ? "+" : (isRunning ? "■" : "▶")}</span>
                 <span class="track-button-label">${trackMode === "past" ? "Add" : (isRunning ? "Stop" : "Track")}</span>
               </button>
+              <textarea class="track-name-input" rows="1" data-edit-key="${escapeHtml(key)}" data-edit-field="taskName" aria-label="Task name">${escapeHtml(entry.taskName)}</textarea>
+              ${entry.recurring ? `<span class="recurring-mark" title="${escapeHtml(entry.recurringText || recurrenceLabel(recurrence, customText))}">↻</span>` : ""}
             </div>
           </div>
           <textarea class="track-notes-cell" rows="1" data-edit-key="${escapeHtml(key)}" data-edit-field="notes" aria-label="Notes for ${escapeHtml(entry.taskName)}" title="${escapeHtml(notes)}">${escapeHtml(notes)}</textarea>
