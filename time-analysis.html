@@ -717,8 +717,122 @@
     white-space: nowrap;
   }
 
+  .details-day-total.issue {
+    border-color: var(--warm);
+    background: rgba(245, 158, 11, 0.14);
+    color: #fde68a;
+  }
+
   .details-day-total[hidden] {
     display: none;
+  }
+
+  .day-total-audit {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 12px;
+    border: 1px solid var(--warm);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(245, 158, 11, 0.08);
+  }
+
+  .day-total-audit[hidden] {
+    display: none;
+  }
+
+  .day-total-audit-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .day-total-audit-title {
+    margin: 0;
+    color: #fde68a;
+    font-size: 0.92rem;
+    font-weight: 900;
+  }
+
+  .day-total-audit-summary {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+
+  .day-total-audit-list {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .day-total-audit-entry {
+    display: grid;
+    grid-template-columns: minmax(92px, 120px) minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    border: 1px solid rgba(245, 158, 11, 0.32);
+    border-radius: 7px;
+    padding: 8px 9px;
+    background: rgba(17, 24, 39, 0.72);
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .day-total-audit-entry:hover,
+  .day-total-audit-entry:focus-visible {
+    border-color: var(--warm);
+    outline: none;
+  }
+
+  .day-total-audit-entry.hidden-by-filter {
+    opacity: 0.65;
+  }
+
+  .day-total-audit-time {
+    color: #fde68a;
+    font-size: 0.78rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .day-total-audit-task,
+  .day-total-audit-reason {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .day-total-audit-task {
+    font-size: 0.84rem;
+    font-weight: 850;
+  }
+
+  .day-total-audit-reason {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .day-total-audit-empty {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+
+  @media (max-width: 720px) {
+    .day-total-audit-entry {
+      grid-template-columns: 1fr;
+      gap: 3px;
+    }
   }
 
   .details-table th:nth-child(-n + 3),
@@ -825,6 +939,20 @@
 
   .details-table tbody tr:hover td:nth-child(-n + 3) {
     background: #172033;
+  }
+
+  .details-table tbody tr.day-audit-row td {
+    background: rgba(245, 158, 11, 0.08);
+  }
+
+  .details-table tbody tr.day-audit-row td:nth-child(-n + 3),
+  .details-table tbody tr.day-audit-row:hover td:nth-child(-n + 3) {
+    background: #2a2115;
+  }
+
+  .details-table tbody tr.day-audit-row:focus-visible td {
+    outline: 2px solid var(--warm);
+    outline-offset: -2px;
   }
 
   .business-task-table th:first-child,
@@ -3459,6 +3587,7 @@
           <button class="btn btn-indigo private-time-load-btn" type="button" hidden data-load-private-time>Load private data</button>
           <div class="details-day-total" id="detailsDayTotal" hidden></div>
         </div>
+        <div class="day-total-audit" id="dayTotalAudit" hidden></div>
         <div class="table-wrap">
           <table class="details-table">
             <thead id="entriesHead"></thead>
@@ -3647,6 +3776,9 @@
   const TRACKER_SEARCH_RENDER_DELAY_MS = 320;
   const TRACKER_SEARCH_FOCUS_DEFER_MS = 800;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
+  const DAY_TOTAL_TARGET_MS = 24 * 60 * 60 * 1000;
+  const DAY_TOTAL_AUDIT_TOLERANCE_MS = 60 * 1000;
+  const DAY_TOTAL_AUDIT_ENTRY_LIMIT = 12;
   const TASK_SEARCH_ALIASES = [
     {
       taskIds: ["86adxpw95"],
@@ -9473,6 +9605,200 @@
     return [...baseEntries, ...importedEntries];
   }
 
+  function dayAuditTimeLabel(ms) {
+    const date = new Date(ms);
+    if (Number.isNaN(date.getTime())) return "-";
+    return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  }
+
+  function dayAuditRangeLabel(startMs, endMs) {
+    return `${dayAuditTimeLabel(startMs)}-${dayAuditTimeLabel(endMs)}`;
+  }
+
+  function dayAuditSourceLabel(entry) {
+    if (entry?.sourceType === "native") return "Editable";
+    return cleanLabel(entry?.sourceFile || entry?.sourceType || "", "");
+  }
+
+  function dayAuditEntryTitle(entry) {
+    return [
+      cleanLabel(entry?.taskName, "Untitled task"),
+      cleanLabel(entry?.listName, ""),
+      dayAuditSourceLabel(entry)
+    ].filter(Boolean).join(" - ");
+  }
+
+  function dayAuditWindow(entry, bounds) {
+    const start = entry?.start instanceof Date ? entry.start : null;
+    const stop = entry?.stop instanceof Date ? entry.stop : null;
+    if (!bounds || !start || !stop || Number.isNaN(start.getTime()) || Number.isNaN(stop.getTime())) return null;
+    const dayStartMs = bounds.start.getTime();
+    const dayEndMs = bounds.end.getTime();
+    const startMs = Math.max(start.getTime(), dayStartMs);
+    const endMs = Math.min(stop.getTime(), dayEndMs);
+    if (endMs <= startMs) return null;
+    return {
+      entry,
+      key: detailEntryKey(entry),
+      startMs,
+      endMs,
+      durationMs: endMs - startMs,
+      fullStartMs: start.getTime(),
+      fullEndMs: stop.getTime()
+    };
+  }
+
+  function addDayAuditIssue(issueByKey, windowEntry, reason, type, ms = 0) {
+    if (!windowEntry?.key || !windowEntry.entry) return;
+    const existing = issueByKey.get(windowEntry.key) || {
+      key: windowEntry.key,
+      entry: windowEntry.entry,
+      startMs: windowEntry.startMs,
+      endMs: windowEntry.endMs,
+      sortMs: 0,
+      reasons: []
+    };
+    existing.startMs = Math.min(existing.startMs, windowEntry.startMs);
+    existing.endMs = Math.max(existing.endMs, windowEntry.endMs);
+    existing.sortMs += Math.max(0, Number(ms) || 0);
+    if (!existing.reasons.some((item) => item.reason === reason)) {
+      existing.reasons.push({ reason, type, ms: Math.max(0, Number(ms) || 0) });
+    }
+    issueByKey.set(windowEntry.key, existing);
+  }
+
+  function countLabel(count, singular, plural = `${singular}s`) {
+    return `${count.toLocaleString()} ${count === 1 ? singular : plural}`;
+  }
+
+  function buildDayTotalAudit(entries, dateValue) {
+    const bounds = dateKeyBounds(dateValue);
+    if (!bounds) return null;
+    const dayEntries = entries.filter((entry) => entryMatchesDate(entry, dateValue));
+    const windows = dayEntries
+      .map((entry) => dayAuditWindow(entry, bounds))
+      .filter(Boolean)
+      .sort((a, b) => (a.startMs - b.startMs) || (a.endMs - b.endMs));
+    const totalMs = dayEntries.reduce((total, entry) => total + entryDateFilterMs(entry, dateValue), 0);
+    const deltaMs = totalMs - DAY_TOTAL_TARGET_MS;
+    const issueByKey = new Map();
+    const overlaps = [];
+    const gaps = [];
+
+    for (let i = 0; i < windows.length; i += 1) {
+      const current = windows[i];
+      for (let j = i + 1; j < windows.length; j += 1) {
+        const next = windows[j];
+        if (next.startMs >= current.endMs) break;
+        const overlapStart = Math.max(current.startMs, next.startMs);
+        const overlapEnd = Math.min(current.endMs, next.endMs);
+        const overlapMs = overlapEnd - overlapStart;
+        if (overlapMs < DAY_TOTAL_AUDIT_TOLERANCE_MS) continue;
+        const rangeLabel = dayAuditRangeLabel(overlapStart, overlapEnd);
+        overlaps.push({ startMs: overlapStart, endMs: overlapEnd, durationMs: overlapMs, entries: [current, next] });
+        addDayAuditIssue(issueByKey, current, `Overlaps ${rangeLabel} with ${cleanLabel(next.entry.taskName, "another entry")}`, "overlap", overlapMs);
+        addDayAuditIssue(issueByKey, next, `Overlaps ${rangeLabel} with ${cleanLabel(current.entry.taskName, "another entry")}`, "overlap", overlapMs);
+      }
+    }
+
+    let cursorMs = bounds.start.getTime();
+    let beforeWindow = null;
+    windows.forEach((windowEntry) => {
+      const gapMs = windowEntry.startMs - cursorMs;
+      if (gapMs >= DAY_TOTAL_AUDIT_TOLERANCE_MS) {
+        const rangeLabel = dayAuditRangeLabel(cursorMs, windowEntry.startMs);
+        gaps.push({ startMs: cursorMs, endMs: windowEntry.startMs, durationMs: gapMs, before: beforeWindow, after: windowEntry });
+        if (beforeWindow) addDayAuditIssue(issueByKey, beforeWindow, `Stops before ${rangeLabel} gap`, "gap", gapMs);
+        addDayAuditIssue(issueByKey, windowEntry, `Starts after ${rangeLabel} gap`, "gap", gapMs);
+      }
+      if (windowEntry.endMs > cursorMs) {
+        cursorMs = windowEntry.endMs;
+        beforeWindow = windowEntry;
+      }
+    });
+
+    const endGapMs = bounds.end.getTime() - cursorMs;
+    if (endGapMs >= DAY_TOTAL_AUDIT_TOLERANCE_MS) {
+      const rangeLabel = dayAuditRangeLabel(cursorMs, bounds.end.getTime());
+      gaps.push({ startMs: cursorMs, endMs: bounds.end.getTime(), durationMs: endGapMs, before: beforeWindow, after: null });
+      if (beforeWindow) addDayAuditIssue(issueByKey, beforeWindow, `Stops before ${rangeLabel} gap`, "gap", endGapMs);
+    }
+
+    const windowKeys = new Set(windows.map((item) => item.key));
+    dayEntries.forEach((entry) => {
+      const key = detailEntryKey(entry);
+      const durationMs = entryDateFilterMs(entry, dateValue);
+      if (windowKeys.has(key) || durationMs < DAY_TOTAL_AUDIT_TOLERANCE_MS) return;
+      addDayAuditIssue(issueByKey, {
+        key,
+        entry,
+        startMs: bounds.start.getTime(),
+        endMs: bounds.end.getTime()
+      }, "Missing usable start/end time for this date", "invalid", durationMs);
+    });
+
+    const issueEntries = Array.from(issueByKey.values())
+      .sort((a, b) => (b.sortMs - a.sortMs) || (a.startMs - b.startMs) || dayAuditEntryTitle(a.entry).localeCompare(dayAuditEntryTitle(b.entry)));
+
+    return {
+      totalMs,
+      deltaMs,
+      isComplete: Math.abs(deltaMs) < DAY_TOTAL_AUDIT_TOLERANCE_MS,
+      dayEntries,
+      windows,
+      overlaps,
+      gaps,
+      issueByKey,
+      issueEntries
+    };
+  }
+
+  function dayTotalAuditHtml(audit, visibleKeys = new Set()) {
+    if (!audit || audit.isComplete) return "";
+    const hasVisibleKeys = visibleKeys instanceof Set;
+    const hiddenIssueCount = hasVisibleKeys
+      ? audit.issueEntries.filter((item) => !visibleKeys.has(item.key)).length
+      : 0;
+    const facts = [];
+    if (audit.overlaps.length) facts.push(countLabel(audit.overlaps.length, "overlap"));
+    if (audit.gaps.length) facts.push(countLabel(audit.gaps.length, "gap"));
+    const direction = audit.deltaMs > 0 ? "over" : "under";
+    const hiddenText = hiddenIssueCount
+      ? ` ${hiddenIssueCount.toLocaleString()} flagged ${hiddenIssueCount === 1 ? "entry is" : "entries are"} hidden by current filters.`
+      : "";
+    const summary = facts.length
+      ? `${facts.join(" and ")} found. Highlighted rows are likely start/stop updates.${hiddenText}`
+      : `No direct gaps or overlaps found. Check duplicate imports or entries with missing start/end times.${hiddenText}`;
+    const issueRows = audit.issueEntries.slice(0, DAY_TOTAL_AUDIT_ENTRY_LIMIT).map((item) => {
+      const reason = item.reasons[0]?.reason || "Check start and stop times";
+      const hiddenByFilter = hasVisibleKeys && !visibleKeys.has(item.key);
+      return `
+        <li>
+          <button class="day-total-audit-entry${hiddenByFilter ? " hidden-by-filter" : ""}" type="button" data-audit-entry-key="${escapeHtml(item.key)}">
+            <span class="day-total-audit-time">${escapeHtml(dayAuditRangeLabel(item.startMs, item.endMs))}</span>
+            <span class="day-total-audit-task">${escapeHtml(dayAuditEntryTitle(item.entry))}</span>
+            <span class="day-total-audit-reason">${escapeHtml(reason)}</span>
+          </button>
+        </li>
+      `;
+    }).join("");
+    const extraCount = audit.issueEntries.length - DAY_TOTAL_AUDIT_ENTRY_LIMIT;
+    const extraText = extraCount > 0
+      ? `<p class="day-total-audit-empty">${escapeHtml(countLabel(extraCount, "more flagged entry", "more flagged entries"))} not shown.</p>`
+      : "";
+    const emptyText = issueRows
+      ? ""
+      : `<p class="day-total-audit-empty">No entries cover this day. Add a missing entry or check adjacent day timers.</p>`;
+    return `
+      <div class="day-total-audit-header">
+        <p class="day-total-audit-title">Day is ${direction} 24h by ${escapeHtml(formatDuration(Math.abs(audit.deltaMs)))}</p>
+        <p class="day-total-audit-summary">${escapeHtml(summary)}</p>
+      </div>
+      ${issueRows ? `<ul class="day-total-audit-list">${issueRows}</ul>` : emptyText}
+      ${extraText}
+    `;
+  }
+
   function renderDetails(entries, metrics) {
     const listFilter = document.getElementById("listFilter");
     const departmentFilter = document.getElementById("departmentFilter");
@@ -9483,6 +9809,7 @@
     const dateFilter = document.getElementById("dateFilter");
     const searchInput = document.getElementById("searchInput");
     const detailsDayTotal = document.getElementById("detailsDayTotal");
+    const dayTotalAudit = document.getElementById("dayTotalAudit");
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
     departmentFilter.innerHTML = metadataFilterOptionsHtml(entries, "department", "All departments", departmentFilter.value || "");
@@ -9522,20 +9849,29 @@
           if (newestWeek) return newestWeek;
           return b.sourceIndex - a.sourceIndex;
         });
+      const dayAudit = date ? buildDayTotalAudit(entries, date) : null;
+      const visibleKeys = new Set(filtered.map(detailEntryKey));
       const detailsNote = document.getElementById("detailsNote");
-      const dateContext = date ? " Entries include timers that start on or overlap the selected date." : "";
+      const dateContext = date ? " Day total uses all entries that start on or overlap the selected date." : "";
       detailsNote.textContent = query
         ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`
         : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`;
-      if (date) {
-        const dayTotalMs = filtered.reduce((total, entry) => total + entryDateFilterMs(entry, date), 0);
-        detailsDayTotal.textContent = `Total: ${formatDuration(dayTotalMs)}`;
+      if (dayAudit) {
+        detailsDayTotal.textContent = `Total: ${formatDuration(dayAudit.totalMs)}`;
+        detailsDayTotal.classList.toggle("issue", !dayAudit.isComplete);
         detailsDayTotal.hidden = false;
+        dayTotalAudit.innerHTML = dayAudit.isComplete ? "" : dayTotalAuditHtml(dayAudit, visibleKeys);
+        dayTotalAudit.hidden = dayAudit.isComplete;
       } else {
         detailsDayTotal.hidden = true;
+        detailsDayTotal.classList.remove("issue");
         detailsDayTotal.textContent = "";
+        dayTotalAudit.hidden = true;
+        dayTotalAudit.innerHTML = "";
       }
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
+        const entryKey = detailEntryKey(entry);
+        const auditIssue = dayAudit?.issueByKey.get(entryKey);
         const entryStartDate = entry.start instanceof Date && !Number.isNaN(entry.start.getTime()) ? dateKey(entry.start) : "";
         const entryStopDate = entry.stop instanceof Date && !Number.isNaN(entry.stop.getTime()) ? dateKey(entry.stop) : "";
         const spansMultipleDates = Boolean(entryStartDate && entryStopDate && entryStartDate !== entryStopDate);
@@ -9559,8 +9895,24 @@
         const nativeActions = entry.sourceType === "native"
           ? `<td class="actions-column"><div class="row-actions"><button class="row-btn" type="button" data-edit-entry="${escapeHtml(entry.id)}">Edit</button><button class="row-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button></div></td>`
           : `<td class="actions-column empty-cell">-</td>`;
-        return `<tr>${values.map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`).join("")}${nativeActions}</tr>`;
+        const rowClass = auditIssue ? ' class="day-audit-row"' : "";
+        const rowTitle = auditIssue ? ` title="${escapeHtml(auditIssue.reasons.map((item) => item.reason).join("; "))}"` : "";
+        const rowFocus = auditIssue ? ' tabindex="-1"' : "";
+        return `<tr${rowClass}${rowTitle}${rowFocus} data-detail-entry-key="${escapeHtml(entryKey)}">${values.map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`).join("")}${nativeActions}</tr>`;
       }).join("");
+      document.querySelectorAll("[data-audit-entry-key]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetKey = button.dataset.auditEntryKey || "";
+          const row = Array.from(document.querySelectorAll("[data-detail-entry-key]"))
+            .find((item) => item.dataset.detailEntryKey === targetKey);
+          if (!row) {
+            detailsNote.textContent = "That flagged entry is hidden by the current filters. Clear filters or search to show it.";
+            return;
+          }
+          row.scrollIntoView({ block: "center", inline: "nearest" });
+          row.focus({ preventScroll: true });
+        });
+      });
       document.querySelectorAll("[data-edit-entry]").forEach((button) => {
         button.addEventListener("click", () => openEditEntry(button.dataset.editEntry));
       });
