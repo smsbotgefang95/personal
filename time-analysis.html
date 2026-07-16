@@ -3802,7 +3802,7 @@
   const RECENT_TASK_HISTORY_WARMUP_DELAY_MS = 100;
   const RECENT_TASK_HISTORY_IDLE_TIMEOUT_MS = 15000;
   const RECENT_TASK_HISTORY_INTERACTION_QUIET_MS = 2200;
-  const TRACKER_SEARCH_RENDER_DELAY_MS = 320;
+  const TRACKER_SEARCH_RENDER_DELAY_MS = 720;
   const TRACKER_SEARCH_FOCUS_DEFER_MS = 800;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
   const DAY_TOTAL_TARGET_MS = 24 * 60 * 60 * 1000;
@@ -5617,10 +5617,14 @@
     }
   }
 
+  function deferTrackerRowsForTaskSearch(delayMs = TRACKER_SEARCH_FOCUS_DEFER_MS) {
+    trackerRowsStartupDeferUntil = Math.max(trackerRowsStartupDeferUntil, performance.now() + delayMs);
+  }
+
   function deferStartupRowsForTaskSearchInput() {
     noteTrackerSearchInteraction();
     if (trackerActivityRowsRendered()) return;
-    trackerRowsStartupDeferUntil = Math.max(trackerRowsStartupDeferUntil, performance.now() + TRACKER_SEARCH_FOCUS_DEFER_MS);
+    deferTrackerRowsForTaskSearch();
     scheduleDeferredActivityRowsRender({ delayMs: TRACKER_SEARCH_FOCUS_DEFER_MS });
     scheduleTrackerSupplementalRender(nativeCompletedEntries(), { delayMs: TRACKER_SEARCH_FOCUS_DEFER_MS });
   }
@@ -8370,16 +8374,13 @@
 
   function handleTrackerTaskSearchInput() {
     noteTrackerSearchInteraction();
+    deferTrackerRowsForTaskSearch(TRACKER_SEARCH_RENDER_DELAY_MS);
     const taskSearch = document.getElementById("taskSearchInput");
     const hasQuery = !!taskSearch?.value.trim();
     syncTaskSearchClearButton();
     resetDueAllVisibleRowLimit();
     if (hasQuery) clearTrackerFiltersForTaskSearch();
-    if (hasQuery) {
-      scheduleTrackerSearchRender();
-    } else {
-      schedulePostPaintTrackerSearchRender();
-    }
+    scheduleTrackerSearchRender();
   }
 
   function clearTrackerTaskSearch() {
