@@ -669,6 +669,7 @@
     --details-end-width: 138px;
     --details-list-width: 130px;
     --details-task-width: 300px;
+    --details-actions-width: 128px;
     --details-department-width: 170px;
     --details-section-width: 210px;
     --details-priority-width: 120px;
@@ -874,64 +875,64 @@
     box-shadow: 1px 0 0 var(--border);
   }
 
-  .details-table th:nth-child(4),
-  .details-table td:nth-child(4) {
+  .details-table th:nth-child(5),
+  .details-table td:nth-child(5) {
     width: var(--details-department-width);
     min-width: var(--details-department-width);
     max-width: var(--details-department-width);
   }
 
-  .details-table th:nth-child(5),
-  .details-table td:nth-child(5) {
+  .details-table th:nth-child(6),
+  .details-table td:nth-child(6) {
     width: var(--details-section-width);
     min-width: var(--details-section-width);
     max-width: var(--details-section-width);
   }
 
-  .details-table th:nth-child(6),
-  .details-table td:nth-child(6) {
+  .details-table th:nth-child(7),
+  .details-table td:nth-child(7) {
     width: var(--details-duration-width);
     min-width: var(--details-duration-width);
     max-width: var(--details-duration-width);
   }
 
-  .details-table th:nth-child(7),
-  .details-table td:nth-child(7) {
+  .details-table th:nth-child(8),
+  .details-table td:nth-child(8) {
     width: var(--details-start-width);
     min-width: var(--details-start-width);
     max-width: var(--details-start-width);
   }
 
-  .details-table th:nth-child(8),
-  .details-table td:nth-child(8) {
+  .details-table th:nth-child(9),
+  .details-table td:nth-child(9) {
     width: var(--details-end-width);
     min-width: var(--details-end-width);
     max-width: var(--details-end-width);
   }
 
-  .details-table th:nth-child(9),
-  .details-table td:nth-child(9) {
+  .details-table th:nth-child(10),
+  .details-table td:nth-child(10) {
     width: var(--details-list-width);
     min-width: var(--details-list-width);
     max-width: var(--details-list-width);
   }
 
-  .details-table th:nth-child(10),
-  .details-table td:nth-child(10) {
+  .details-table th:nth-child(11),
+  .details-table td:nth-child(11) {
     width: var(--details-priority-width);
     min-width: var(--details-priority-width);
     max-width: var(--details-priority-width);
   }
 
-  .details-table th:nth-child(11),
-  .details-table td:nth-child(11) {
+  .details-table th:nth-child(12),
+  .details-table td:nth-child(12) {
     width: var(--details-category-width);
     min-width: var(--details-category-width);
     max-width: var(--details-category-width);
   }
 
-  .details-table th:nth-child(12),
-  .details-table td:nth-child(12) {
+  .details-table th:nth-child(13),
+  .details-table td:nth-child(13) {
     width: var(--details-type-width);
     min-width: var(--details-type-width);
     max-width: var(--details-type-width);
@@ -2845,9 +2846,24 @@
 
   .details-table th.actions-column,
   .details-table td.actions-column {
-    min-width: 128px;
+    position: sticky;
+    left: calc(var(--details-date-width) + var(--details-week-width) + var(--details-task-width));
+    z-index: 3;
+    width: var(--details-actions-width);
+    min-width: var(--details-actions-width);
+    max-width: var(--details-actions-width);
     vertical-align: middle;
     background: var(--card);
+    box-shadow: 1px 0 0 var(--border);
+  }
+
+  .details-table th.actions-column {
+    z-index: 5;
+    background: #1f2937;
+  }
+
+  .details-table tbody tr:hover td.actions-column {
+    background: #172033;
   }
 
   .details-table tbody td {
@@ -3850,6 +3866,7 @@
   let mergeTaskDialogRows = [];
   let mergeTaskPreviousFocus = null;
   let editingEntryId = "";
+  let editingDraftEntryId = "";
   let timerTick = null;
   let currentSourcePills = [];
   let fullDashboardLoaded = false;
@@ -5794,8 +5811,9 @@
       ...entriesWithTaskOverrides(Array.isArray(importedEntries) ? importedEntries : []),
       ...nativeCompletedEntries()
     ].forEach((entry) => {
-      const key = detailEntryKey(entry);
-      if (!byKey.has(key)) byKey.set(key, entry);
+      const key = detailEntryDedupKey(entry);
+      const existing = byKey.get(key);
+      if (!existing || detailEntrySourceRank(entry) > detailEntrySourceRank(existing)) byKey.set(key, entry);
     });
     return Array.from(byKey.values()).sort((a, b) => (a.start?.getTime() || 0) - (b.start?.getTime() || 0) || a.sourceIndex - b.sourceIndex);
   }
@@ -9550,7 +9568,11 @@
     renderMetadataOptions();
   }
 
-  function closeEditEntry() {
+  function closeEditEntry({ discardDraft = true } = {}) {
+    if (discardDraft && editingDraftEntryId) {
+      timePayload.entries = (timePayload.entries || []).filter((item) => item.id !== editingDraftEntryId);
+    }
+    editingDraftEntryId = "";
     editingEntryId = "";
     document.getElementById("editEntryDialog").hidden = true;
   }
@@ -9565,6 +9587,111 @@
 
   function detailEntryKey(entry) {
     return `${entry.sourceType || "entry"}:${entry.id || entry.sourceIndex || ""}`;
+  }
+
+  function detailEntryDedupKey(entry) {
+    const id = cleanLabel(entry?.id, "");
+    if (id) return `id:${id}`;
+    const startMs = entry?.start instanceof Date && !Number.isNaN(entry.start.getTime()) ? entry.start.getTime() : "";
+    const stopMs = entry?.stop instanceof Date && !Number.isNaN(entry.stop.getTime()) ? entry.stop.getTime() : "";
+    return [
+      cleanLabel(entry?.listId, "unknown-list"),
+      effectiveTaskId(entry?.taskId, entry?.taskName),
+      startMs,
+      stopMs,
+      Math.round(Number(entry?.durationMs) || 0)
+    ].join("|");
+  }
+
+  function detailEntrySourceRank(entry) {
+    if (entry?.sourceType === "native") return 3;
+    if (isPrivateTrackerManaged(entry)) return 2;
+    return 1;
+  }
+
+  function editableDetailEntry(entry) {
+    const start = entry?.start instanceof Date ? entry.start : null;
+    const stop = entry?.stop instanceof Date ? entry.stop : null;
+    return Boolean(
+      entry?.sourceType === "native" ||
+      (start && stop && !Number.isNaN(start.getTime()) && !Number.isNaN(stop.getTime()) && stop > start)
+    );
+  }
+
+  function detailEntryDateIso(value) {
+    if (value instanceof Date && !Number.isNaN(value.getTime())) return value.toISOString();
+    const parsed = value ? new Date(value) : null;
+    return parsed && !Number.isNaN(parsed.getTime()) ? parsed.toISOString() : "";
+  }
+
+  function nativeEntryFromDetailEntry(entry) {
+    const start = detailEntryDateIso(entry?.start);
+    const stop = detailEntryDateIso(entry?.stop);
+    const startDate = start ? new Date(start) : null;
+    const stopDate = stop ? new Date(stop) : null;
+    const taskName = cleanLabel(entry?.taskName, "Untitled task");
+    const listId = cleanLabel(entry?.listId, "901301650324");
+    const listName = LIST_NAME_MAP[listId] || cleanLabel(entry?.listName, listNameForId(listId));
+    const durationMs = Number(entry?.durationMs) || (
+      startDate && stopDate ? Math.max(0, stopDate.getTime() - startDate.getTime()) : 0
+    );
+    const updatedAt = isoNow();
+    return {
+      id: cleanLabel(entry?.id, nativeId("imported")),
+      sourceType: "native",
+      importedSourceType: cleanLabel(entry?.sourceType, ""),
+      importedSourceFile: cleanLabel(entry?.sourceFile, ""),
+      start,
+      stop,
+      durationMs,
+      listId,
+      listName,
+      taskId: cleanLabel(entry?.taskId, taskIdFor(taskName)),
+      taskName,
+      department: cleanLabel(entry?.department, ""),
+      priority: cleanLabel(entry?.priority, ""),
+      section: cleanLabel(entry?.section, ""),
+      taskCategory: normalizeTaskCategory(entry?.taskCategory),
+      taskType: entry?.taskType === "Other" ? "" : cleanLabel(entry?.taskType, ""),
+      dueDate: dateInputValue(entry?.dueDate),
+      dueDateText: cleanLabel(entry?.dueDateText, ""),
+      dueTime: timeInputValue(entry?.dueTime),
+      startDate: dateInputValue(entry?.startDate),
+      startDateText: cleanLabel(entry?.startDateText, ""),
+      recurring: Boolean(entry?.recurring),
+      recurringText: cleanLabel(entry?.recurringText, ""),
+      recurrence: inferRecurrence(entry || {}),
+      taskOrder: orderOptionValue(entry?.taskOrder),
+      notes: cleanLabel(entry?.notes, ""),
+      status: normalizedTaskStatus(entry?.status),
+      createdAt: updatedAt,
+      updatedAt
+    };
+  }
+
+  function nativeEntryMatchingDetailEntry(entry) {
+    const id = cleanLabel(entry?.id, "");
+    if (!id) return null;
+    return (timePayload.entries || []).find((item) => cleanLabel(item?.id, "") === id) || null;
+  }
+
+  function openDetailEntryEdit(entry) {
+    if (!editableDetailEntry(entry)) return;
+    if (entry.sourceType === "native") {
+      editingDraftEntryId = "";
+      openEditEntry(entry.id);
+      return;
+    }
+    const existing = nativeEntryMatchingDetailEntry(entry);
+    if (existing) {
+      editingDraftEntryId = "";
+      openEditEntry(existing.id);
+      return;
+    }
+    const draft = nativeEntryFromDetailEntry(entry);
+    editingDraftEntryId = draft.id;
+    timePayload.entries = [draft, ...(timePayload.entries || []).filter((item) => item.id !== draft.id)];
+    openEditEntry(draft.id);
   }
 
   function entryDateOverlapMs(entry, dateValue) {
@@ -9599,9 +9726,9 @@
     if (!baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
       return baseEntries;
     }
-    const seen = new Set(baseEntries.map(detailEntryKey));
+    const seen = new Set(baseEntries.map(detailEntryDedupKey));
     const importedEntries = entriesWithTaskOverrides(taskCatalogEntries)
-      .filter((entry) => !seen.has(detailEntryKey(entry)));
+      .filter((entry) => !seen.has(detailEntryDedupKey(entry)));
     return [...baseEntries, ...importedEntries];
   }
 
@@ -9819,7 +9946,12 @@
     weekFilter.innerHTML = `<option value="">All weeks</option>${metrics.weeks.map((week) => `<option value="${escapeHtml(week)}">${escapeHtml(week)}</option>`).join("")}`;
     dateFilter.removeAttribute("min");
     dateFilter.removeAttribute("max");
-    document.getElementById("entriesHead").innerHTML = `<tr>${tableHeaders.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}<th class="actions-column">Actions</th></tr>`;
+    const detailsHeaders = [
+      ...tableHeaders.slice(0, 3),
+      "Actions",
+      ...tableHeaders.slice(3)
+    ];
+    document.getElementById("entriesHead").innerHTML = `<tr>${detailsHeaders.map((header) => `<th${header === "Actions" ? ' class="actions-column"' : ""}>${escapeHtml(header)}</th>`).join("")}</tr>`;
 
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
@@ -9892,13 +10024,27 @@
           entry.taskCategory,
           entry.taskType === "Other" ? "" : entry.taskType
         ];
-        const nativeActions = entry.sourceType === "native"
-          ? `<td class="actions-column"><div class="row-actions"><button class="row-btn" type="button" data-edit-entry="${escapeHtml(entry.id)}">Edit</button><button class="row-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button></div></td>`
+        const editAction = editableDetailEntry(entry)
+          ? `<button class="row-btn" type="button" data-edit-detail-entry="${escapeHtml(entryKey)}">Edit</button>`
+          : "";
+        const deleteAction = entry.sourceType === "native"
+          ? `<button class="row-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button>`
+          : "";
+        const nativeActions = editAction || deleteAction
+          ? `<td class="actions-column"><div class="row-actions">${editAction}${deleteAction}</div></td>`
           : `<td class="actions-column empty-cell">-</td>`;
+        const rowCells = values
+          .slice(0, 3)
+          .map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`)
+          .join("");
+        const trailingCells = values
+          .slice(3)
+          .map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`)
+          .join("");
         const rowClass = auditIssue ? ' class="day-audit-row"' : "";
         const rowTitle = auditIssue ? ` title="${escapeHtml(auditIssue.reasons.map((item) => item.reason).join("; "))}"` : "";
         const rowFocus = auditIssue ? ' tabindex="-1"' : "";
-        return `<tr${rowClass}${rowTitle}${rowFocus} data-detail-entry-key="${escapeHtml(entryKey)}">${values.map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`).join("")}${nativeActions}</tr>`;
+        return `<tr${rowClass}${rowTitle}${rowFocus} data-detail-entry-key="${escapeHtml(entryKey)}">${rowCells}${nativeActions}${trailingCells}</tr>`;
       }).join("");
       document.querySelectorAll("[data-audit-entry-key]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -9913,8 +10059,11 @@
           row.focus({ preventScroll: true });
         });
       });
-      document.querySelectorAll("[data-edit-entry]").forEach((button) => {
-        button.addEventListener("click", () => openEditEntry(button.dataset.editEntry));
+      document.querySelectorAll("[data-edit-detail-entry]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const entry = filtered.find((item) => detailEntryKey(item) === button.dataset.editDetailEntry);
+          if (entry) openDetailEntryEdit(entry);
+        });
       });
       document.querySelectorAll("[data-delete-entry]").forEach((button) => {
         button.addEventListener("click", () => deleteEntry(button.dataset.deleteEntry));
@@ -11001,7 +11150,7 @@
         updatedAt
       }
     };
-    closeEditEntry();
+    closeEditEntry({ discardDraft: false });
     await saveTimePayload(timePayload);
   });
 
