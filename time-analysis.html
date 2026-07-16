@@ -2502,6 +2502,16 @@
     flex-wrap: wrap;
   }
 
+  .dialog-panel .edit-actions {
+    position: sticky;
+    bottom: -18px;
+    z-index: 2;
+    margin: 4px -18px -18px;
+    border-top: 1px solid var(--border);
+    padding: 12px 18px 18px;
+    background: var(--card);
+  }
+
   .btn {
     min-height: 44px;
     border: 1px solid transparent;
@@ -3666,6 +3676,10 @@
         <label id="editRecurrenceCustomLabel">Custom recurrence</label>
         <div id="editRecurrenceCustom" class="custom-recurrence" aria-labelledby="editRecurrenceCustomLabel"></div>
       </div>
+      <div class="custom-recurrence-summary" id="editRecurrenceCustomSummary" hidden>
+        <span class="custom-recurrence-text" id="editRecurrenceCustomSummaryText"></span>
+        <button class="custom-recurrence-edit" id="editRecurrenceCustomEditBtn" type="button">Edit</button>
+      </div>
       <div class="advanced-fields">
         <div class="tracker-field">
           <label for="editDepartment">Department</label>
@@ -3693,7 +3707,7 @@
         </div>
       </div>
       <div class="edit-actions">
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" id="editSaveBtn" type="submit">Save</button>
         <button class="btn btn-ghost" id="editCancelBtn" type="button">Cancel</button>
       </div>
     </div>
@@ -9544,6 +9558,21 @@
     return value ? new Date(value).toISOString() : "";
   }
 
+  function setEditCustomRecurrenceExpanded(expanded) {
+    const recurrence = document.getElementById("editRecurrence");
+    const wrap = document.getElementById("editRecurrenceCustomWrap");
+    const panel = document.getElementById("editRecurrenceCustom");
+    const summary = document.getElementById("editRecurrenceCustomSummary");
+    const summaryText = document.getElementById("editRecurrenceCustomSummaryText");
+    const isCustom = recurrence?.value === "custom";
+    if (!wrap || !summary) return;
+    wrap.hidden = !isCustom || !expanded;
+    summary.hidden = !isCustom || expanded;
+    if (isCustom && !expanded && panel && summaryText) {
+      summaryText.textContent = customRecurrenceText(readCustomRecurrence(panel));
+    }
+  }
+
   function openEditEntry(entryId) {
     const entry = (timePayload.entries || []).find((item) => item.id === entryId);
     if (!entry) return;
@@ -9557,7 +9586,8 @@
     document.getElementById("editDueTime").value = timeInputValue(effectiveEntry.dueTime);
     document.getElementById("editRecurrence").innerHTML = recurrenceOptionsHtml(effectiveEntry.recurrence || inferRecurrence(effectiveEntry));
     document.getElementById("editRecurrenceCustom").innerHTML = customRecurrenceHtml(effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "");
-    document.getElementById("editRecurrenceCustomWrap").hidden = (effectiveEntry.recurrence || "none") !== "custom";
+    syncCustomRecurrencePanel(document.getElementById("editRecurrenceCustom"));
+    setEditCustomRecurrenceExpanded((effectiveEntry.recurrence || "none") === "custom");
     document.getElementById("editDepartment").value = entry.department || "";
     document.getElementById("editPriority").value = trackGroupName(effectiveEntry);
     document.getElementById("editSection").value = entry.section || "";
@@ -11077,10 +11107,16 @@
   });
 
   document.getElementById("editRecurrence").addEventListener("change", () => {
-    document.getElementById("editRecurrenceCustomWrap").hidden = document.getElementById("editRecurrence").value !== "custom";
+    setEditCustomRecurrenceExpanded(document.getElementById("editRecurrence").value === "custom");
   });
 
   document.getElementById("editRecurrenceCustom").addEventListener("click", (event) => {
+    const collapse = event.target.closest("[data-custom-collapse]");
+    if (collapse) {
+      event.stopPropagation();
+      setEditCustomRecurrenceExpanded(false);
+      return;
+    }
     const day = event.target.closest("[data-custom-day]");
     if (!day) return;
     toggleCustomRecurrenceDay(day);
@@ -11090,6 +11126,10 @@
     const monthlyOption = event.target.closest("[data-custom-monthly-day-option], [data-custom-monthly-weekday-option]");
     if (monthlyOption) syncCustomMonthlyDayOptions(event.currentTarget, monthlyOption);
     syncCustomRecurrencePanel(event.currentTarget);
+  });
+
+  document.getElementById("editRecurrenceCustomEditBtn").addEventListener("click", () => {
+    setEditCustomRecurrenceExpanded(true);
   });
 
   document.getElementById("editEntryForm").addEventListener("submit", async (event) => {
@@ -11150,8 +11190,19 @@
         updatedAt
       }
     };
-    closeEditEntry({ discardDraft: false });
-    await saveTimePayload(timePayload);
+    const editSaveBtn = document.getElementById("editSaveBtn");
+    const originalSaveLabel = editSaveBtn.textContent;
+    editSaveBtn.disabled = true;
+    editSaveBtn.textContent = "Saving...";
+    try {
+      await saveTimePayload(timePayload);
+      closeEditEntry({ discardDraft: false });
+    } catch (error) {
+      setTrackerStatus(error.message || "Time entry could not be saved.", "error");
+    } finally {
+      editSaveBtn.disabled = false;
+      editSaveBtn.textContent = originalSaveLabel;
+    }
   });
 
   window.addEventListener("load", scheduleStickyLayoutMetricsUpdate);
