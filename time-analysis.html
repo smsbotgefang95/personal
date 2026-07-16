@@ -9586,7 +9586,7 @@
     document.getElementById("editRecurrence").innerHTML = recurrenceOptionsHtml(effectiveEntry.recurrence || inferRecurrence(effectiveEntry));
     document.getElementById("editRecurrenceCustom").innerHTML = customRecurrenceHtml(effectiveEntry.recurrence === "custom" ? effectiveEntry.recurringText || "" : "");
     syncCustomRecurrencePanel(document.getElementById("editRecurrenceCustom"));
-    setEditCustomRecurrenceExpanded((effectiveEntry.recurrence || "none") === "custom");
+    setEditCustomRecurrenceExpanded(false);
     document.getElementById("editDepartment").value = entry.department || "";
     document.getElementById("editPriority").value = trackGroupName(effectiveEntry);
     document.getElementById("editSection").value = entry.section || "";
