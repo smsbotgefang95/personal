@@ -2634,11 +2634,27 @@
   }
 
   .tracker-actions,
-  .edit-actions {
+  .edit-action-buttons {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
   }
+
+  .edit-actions {
+    display: grid;
+    gap: 10px;
+  }
+
+  .edit-form-status {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+
+  .edit-form-status.error { color: #fca5a5; }
+  .edit-form-status.saved { color: #86efac; }
 
   .dialog-panel .edit-actions {
     position: sticky;
@@ -3846,8 +3862,11 @@
         </div>
       </div>
       <div class="edit-actions">
-        <button class="btn btn-primary" id="editSaveBtn" type="submit">Save</button>
-        <button class="btn btn-ghost" id="editCancelBtn" type="button">Cancel</button>
+        <p class="edit-form-status" id="editEntryStatus" hidden role="alert" aria-live="assertive"></p>
+        <div class="edit-action-buttons">
+          <button class="btn btn-primary" id="editSaveBtn" type="submit">Save</button>
+          <button class="btn btn-ghost" id="editCancelBtn" type="button">Cancel</button>
+        </div>
       </div>
     </div>
   </form>
@@ -9694,8 +9713,64 @@
     return local.toISOString().slice(0, 16);
   }
 
-  function fromDatetimeLocal(value) {
-    return value ? new Date(value).toISOString() : "";
+  function dateFromEditDateTimeInput(value, originalValue = "") {
+    if (!value) return null;
+    if (originalValue && toDatetimeLocal(originalValue) === value) {
+      const originalDate = new Date(originalValue);
+      if (!Number.isNaN(originalDate.getTime())) return originalDate;
+    }
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function isoFromEditDateTimeInput(value, originalValue = "") {
+    const date = dateFromEditDateTimeInput(value, originalValue);
+    return date ? date.toISOString() : "";
+  }
+
+  function setEditEntryStatus(message = "", mode = "") {
+    const status = document.getElementById("editEntryStatus");
+    if (!status) return;
+    status.textContent = message || "";
+    status.className = `edit-form-status${mode ? ` ${mode}` : ""}`;
+    status.hidden = !message;
+  }
+
+  function setEditTimeInputsValidity(message = "") {
+    const startInput = document.getElementById("editStart");
+    const stopInput = document.getElementById("editStop");
+    [startInput, stopInput].forEach((input) => {
+      input?.setCustomValidity("");
+      input?.removeAttribute("aria-invalid");
+    });
+    if (!message) return;
+    stopInput?.setCustomValidity(message);
+    stopInput?.setAttribute("aria-invalid", "true");
+  }
+
+  function validateEditEntryTimes({ showMessage = false } = {}) {
+    const startInput = document.getElementById("editStart");
+    const stopInput = document.getElementById("editStop");
+    const entry = (timePayload.entries || []).find((item) => item.id === editingEntryId) || null;
+    setEditTimeInputsValidity("");
+    if (!startInput?.value || !stopInput?.value) {
+      if (showMessage) setEditEntryStatus("Enter both start and stop times.", "error");
+      return false;
+    }
+    const startDate = dateFromEditDateTimeInput(startInput.value, entry?.start);
+    const stopDate = dateFromEditDateTimeInput(stopInput.value, entry?.stop);
+    if (!startDate || !stopDate) {
+      if (showMessage) setEditEntryStatus("Enter valid start and stop times.", "error");
+      return false;
+    }
+    if (stopDate <= startDate) {
+      const message = "Stop time must be after start time.";
+      setEditTimeInputsValidity(message);
+      if (showMessage) setEditEntryStatus(message, "error");
+      return false;
+    }
+    if (showMessage) setEditEntryStatus("");
+    return true;
   }
 
   function setEditCustomRecurrenceExpanded(expanded) {
@@ -9734,6 +9809,8 @@
     document.getElementById("editCategory").value = effectiveEntry.taskCategory || "";
     document.getElementById("editType").value = entry.taskType || "";
     document.getElementById("editNotes").value = entry.notes || "";
+    setEditEntryStatus("");
+    setEditTimeInputsValidity("");
     document.getElementById("editEntryDialog").hidden = false;
     renderMetadataOptions();
   }
@@ -9744,6 +9821,8 @@
     }
     editingDraftEntryId = "";
     editingEntryId = "";
+    setEditEntryStatus("");
+    setEditTimeInputsValidity("");
     document.getElementById("editEntryDialog").hidden = true;
   }
 
@@ -11301,6 +11380,18 @@
 
   document.getElementById("editList").addEventListener("change", renderMetadataOptions);
 
+  ["editStart", "editStop"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", () => {
+      if (validateEditEntryTimes()) setEditEntryStatus("");
+    });
+  });
+
+  document.getElementById("editEntryForm").addEventListener("invalid", (event) => {
+    const target = event.target;
+    const message = target?.validationMessage || "Fill out the required edit fields.";
+    setEditEntryStatus(message, "error");
+  }, true);
+
   document.getElementById("mergeTaskForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const keepKey = document.querySelector('input[name="mergeTaskKeep"]:checked')?.value || mergeTaskDialogRows[0]?.key || "";
@@ -11386,12 +11477,17 @@
     event.preventDefault();
     const entry = (timePayload.entries || []).find((item) => item.id === editingEntryId);
     if (!entry) return;
+    if (!validateEditEntryTimes({ showMessage: true })) {
+      document.getElementById("editStop")?.focus();
+      document.getElementById("editStop")?.reportValidity();
+      return;
+    }
     const list = selectedList("editList");
-    const start = fromDatetimeLocal(document.getElementById("editStart").value);
-    const stop = fromDatetimeLocal(document.getElementById("editStop").value);
+    const start = isoFromEditDateTimeInput(document.getElementById("editStart").value, entry.start);
+    const stop = isoFromEditDateTimeInput(document.getElementById("editStop").value, entry.stop);
     const durationMs = Math.max(0, new Date(stop).getTime() - new Date(start).getTime());
     if (!durationMs) {
-      setTrackerStatus("Stop time must be after start time.", "error");
+      setEditEntryStatus("Stop time must be after start time.", "error");
       return;
     }
     const editDueDate = document.getElementById("editDueDate").value;
@@ -11401,7 +11497,8 @@
     const updatedAt = isoNow();
     const taskName = normalizeMarkdownEmphasisSpacing(document.getElementById("editTask").value.trim());
     const notes = normalizeMarkdownEmphasisSpacing(document.getElementById("editNotes").value.trim());
-    Object.assign(entry, {
+    const nextEntry = {
+      ...entry,
       start,
       stop,
       durationMs,
@@ -11423,10 +11520,10 @@
         : (document.getElementById("editRecurrence").value === "none" ? "" : recurrenceLabel(document.getElementById("editRecurrence").value)),
       notes,
       updatedAt
-    });
-    timePayload.taskOverrides = {
+    };
+    const nextOverrides = {
       ...(timePayload.taskOverrides || {}),
-      [taskOverrideKey(entry)]: {
+      [taskOverrideKey(nextEntry)]: {
         dueDate: editDueDate,
         dueDateManaged: dueDateChanged || currentOverride.dueDateManaged === true,
         dueTime: timeInputValue(document.getElementById("editDueTime").value),
@@ -11440,15 +11537,24 @@
         updatedAt
       }
     };
+    const nextPayload = {
+      ...timePayload,
+      entries: (timePayload.entries || []).map((item) => item.id === entry.id ? nextEntry : item),
+      taskOverrides: nextOverrides
+    };
     const editSaveBtn = document.getElementById("editSaveBtn");
     const originalSaveLabel = editSaveBtn.textContent;
     editSaveBtn.disabled = true;
     editSaveBtn.textContent = "Saving...";
+    setEditEntryStatus("Saving...");
     try {
-      await saveTimePayload(timePayload);
+      await saveTimePayload(nextPayload);
       closeEditEntry({ discardDraft: false });
     } catch (error) {
-      setTrackerStatus(error.message || "Time entry could not be saved.", "error");
+      const message = error.message || "Time entry could not be saved.";
+      setEditEntryStatus(message, "error");
+      setTrackerStatus(message, "error");
+      showTrackerToast(message, "error");
     } finally {
       editSaveBtn.disabled = false;
       editSaveBtn.textContent = originalSaveLabel;
