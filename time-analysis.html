@@ -742,6 +742,125 @@
     display: none;
   }
 
+  .day-total-issues {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 12px;
+    border: 1px solid rgba(245, 158, 11, 0.38);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(245, 158, 11, 0.07);
+  }
+
+  .day-total-issues[hidden] {
+    display: none;
+  }
+
+  .day-total-issues-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .day-total-issues-title {
+    margin: 0;
+    color: #fde68a;
+    font-size: 0.92rem;
+    font-weight: 900;
+  }
+
+  .day-total-issues-summary {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+
+  .day-total-issues-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 260px;
+    overflow: auto;
+    margin: 0;
+    padding: 0 2px 0 0;
+    list-style: none;
+  }
+
+  .day-total-issue-btn {
+    display: grid;
+    gap: 3px;
+    min-width: 142px;
+    border: 1px solid rgba(245, 158, 11, 0.36);
+    border-radius: 7px;
+    padding: 8px 10px;
+    background: rgba(17, 24, 39, 0.72);
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .day-total-issue-btn.over {
+    border-color: rgba(248, 113, 113, 0.46);
+  }
+
+  .day-total-issue-btn.active,
+  .day-total-issue-btn:hover,
+  .day-total-issue-btn:focus-visible {
+    border-color: var(--warm);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.16);
+  }
+
+  .day-total-issue-btn.over.active,
+  .day-total-issue-btn.over:hover,
+  .day-total-issue-btn.over:focus-visible {
+    border-color: #f87171;
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.16);
+  }
+
+  .day-total-issue-date {
+    color: #f8fafc;
+    font-size: 0.84rem;
+    font-weight: 900;
+  }
+
+  .day-total-issue-meta {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 750;
+  }
+
+  .day-total-date-mark {
+    display: grid;
+    gap: 3px;
+    align-items: start;
+  }
+
+  .day-total-date-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    border: 1px solid rgba(245, 158, 11, 0.42);
+    border-radius: 999px;
+    padding: 2px 6px;
+    background: rgba(245, 158, 11, 0.12);
+    color: #fde68a;
+    font-size: 0.66rem;
+    font-weight: 900;
+    line-height: 1.1;
+    white-space: normal;
+  }
+
+  .day-total-date-badge.over {
+    border-color: rgba(248, 113, 113, 0.48);
+    background: rgba(248, 113, 113, 0.14);
+    color: #fecaca;
+  }
+
   .day-total-audit-header {
     display: flex;
     align-items: baseline;
@@ -830,6 +949,10 @@
   }
 
   @media (max-width: 720px) {
+    .day-total-issue-btn {
+      flex: 1 1 150px;
+    }
+
     .day-total-audit-entry {
       grid-template-columns: 1fr;
       gap: 3px;
@@ -954,6 +1077,22 @@
   .details-table tbody tr.day-audit-row:focus-visible td {
     outline: 2px solid var(--warm);
     outline-offset: -2px;
+  }
+
+  .details-table tbody tr.day-total-issue-under td:first-child {
+    background: #2a2115;
+  }
+
+  .details-table tbody tr.day-total-issue-over td:first-child {
+    background: #321c1f;
+  }
+
+  .details-table tbody tr.day-total-issue-under:hover td:first-child {
+    background: #322719;
+  }
+
+  .details-table tbody tr.day-total-issue-over:hover td:first-child {
+    background: #3a2024;
   }
 
   .business-task-table th:first-child,
@@ -3612,6 +3751,7 @@
           <button class="btn btn-indigo private-time-load-btn" type="button" hidden data-load-private-time>Load private data</button>
           <div class="details-day-total" id="detailsDayTotal" hidden></div>
         </div>
+        <div class="day-total-issues" id="dayTotalIssueList" hidden></div>
         <div class="day-total-audit" id="dayTotalAudit" hidden></div>
         <div class="table-wrap">
           <table class="details-table">
@@ -9956,6 +10096,99 @@
     `;
   }
 
+  function entryCoverageDateKeys(entry) {
+    const keys = [];
+    const start = entry?.start instanceof Date ? entry.start : null;
+    const stop = entry?.stop instanceof Date ? entry.stop : null;
+    if (start && stop && !Number.isNaN(start.getTime()) && !Number.isNaN(stop.getTime()) && stop > start) {
+      const firstDay = parseDateInput(dateKey(start));
+      const lastDay = parseDateInput(dateKey(new Date(stop.getTime() - 1)));
+      if (firstDay && lastDay) {
+        let cursor = firstDay;
+        while (cursor <= lastDay) {
+          const key = formatDateInput(cursor);
+          if (entryDateOverlapMs(entry, key) >= DAY_TOTAL_AUDIT_TOLERANCE_MS) keys.push(key);
+          cursor = addLocalDays(cursor, 1);
+        }
+      }
+    } else {
+      const dateValue = dateInputValue(entry?.date);
+      if (dateValue && (Number(entry?.durationMs) || 0) >= DAY_TOTAL_AUDIT_TOLERANCE_MS) keys.push(dateValue);
+    }
+    return keys;
+  }
+
+  function dayTotalIssueDateKeys(entries) {
+    const dates = new Set();
+    entries.forEach((entry) => {
+      entryCoverageDateKeys(entry).forEach((dateValue) => dates.add(dateValue));
+    });
+    return Array.from(dates).sort().reverse();
+  }
+
+  function dayTotalIssueDirection(audit) {
+    return audit?.deltaMs > 0 ? "over" : "under";
+  }
+
+  function dayTotalIssueText(audit) {
+    const direction = dayTotalIssueDirection(audit);
+    return `${direction === "over" ? "Over" : "Under"} by ${formatDuration(Math.abs(audit?.deltaMs || 0))}`;
+  }
+
+  function buildDayTotalIssues(entries) {
+    return dayTotalIssueDateKeys(entries)
+      .map((dateValue) => ({ date: dateValue, audit: buildDayTotalAudit(entries, dateValue) }))
+      .filter((item) => item.audit && !item.audit.isComplete);
+  }
+
+  function dayTotalIssuesHtml(issues, selectedDate = "") {
+    if (!issues.length) return "";
+    const overCount = issues.filter((item) => item.audit.deltaMs > 0).length;
+    const underCount = issues.length - overCount;
+    const summary = [
+      countLabel(issues.length, "day"),
+      `${countLabel(overCount, "over-total day")}`,
+      `${countLabel(underCount, "under-total day")}`
+    ].join(" - ");
+    const issueButtons = issues.map(({ date, audit }) => {
+      const direction = dayTotalIssueDirection(audit);
+      const active = selectedDate === date;
+      const totalText = `Total ${formatDuration(audit.totalMs)}`;
+      const title = `${shortDate(parseDateInput(date))}: ${dayTotalIssueText(audit)}. ${totalText}.`;
+      return `
+        <li>
+          <button class="day-total-issue-btn ${direction}${active ? " active" : ""}" type="button" data-day-total-issue-date="${escapeHtml(date)}" title="${escapeHtml(title)}">
+            <span class="day-total-issue-date">${escapeHtml(shortDate(parseDateInput(date)))}</span>
+            <span class="day-total-issue-meta">${escapeHtml(dayTotalIssueText(audit))} - ${escapeHtml(totalText)}</span>
+          </button>
+        </li>
+      `;
+    }).join("");
+    return `
+      <div class="day-total-issues-header">
+        <p class="day-total-issues-title">Days to check</p>
+        <p class="day-total-issues-summary">${escapeHtml(summary)}</p>
+      </div>
+      <ul class="day-total-issues-list">${issueButtons}</ul>
+    `;
+  }
+
+  function detailDateCellHtml(dateValue, dayIssueMap) {
+    if (!dateValue) return `<td class="empty-cell">-</td>`;
+    const audit = dayIssueMap.get(dateValue);
+    if (!audit) return `<td>${escapeHtml(dateValue)}</td>`;
+    const direction = dayTotalIssueDirection(audit);
+    const badgeText = dayTotalIssueText(audit);
+    return `
+      <td title="${escapeHtml(`Day is ${direction} 24h by ${formatDuration(Math.abs(audit.deltaMs))}`)}">
+        <span class="day-total-date-mark">
+          <span>${escapeHtml(dateValue)}</span>
+          <span class="day-total-date-badge ${direction}">${escapeHtml(badgeText)}</span>
+        </span>
+      </td>
+    `;
+  }
+
   function renderDetails(entries, metrics) {
     const listFilter = document.getElementById("listFilter");
     const departmentFilter = document.getElementById("departmentFilter");
@@ -9966,7 +10199,10 @@
     const dateFilter = document.getElementById("dateFilter");
     const searchInput = document.getElementById("searchInput");
     const detailsDayTotal = document.getElementById("detailsDayTotal");
+    const dayTotalIssueList = document.getElementById("dayTotalIssueList");
     const dayTotalAudit = document.getElementById("dayTotalAudit");
+    const dayTotalIssues = buildDayTotalIssues(entries);
+    const dayIssueMap = new Map(dayTotalIssues.map((item) => [item.date, item.audit]));
 
     listFilter.innerHTML = `<option value="">All lists</option>${Array.from(metrics.listNames.entries()).map(([id, name]) => `<option value="${escapeHtml(id)}">${escapeHtml(name)}</option>`).join("")}`;
     departmentFilter.innerHTML = metadataFilterOptionsHtml(entries, "department", "All departments", departmentFilter.value || "");
@@ -10031,9 +10267,12 @@
         dayTotalAudit.hidden = true;
         dayTotalAudit.innerHTML = "";
       }
+      dayTotalIssueList.innerHTML = dayTotalIssuesHtml(dayTotalIssues, date);
+      dayTotalIssueList.hidden = !dayTotalIssues.length;
       document.getElementById("entriesBody").innerHTML = filtered.map((entry) => {
         const entryKey = detailEntryKey(entry);
         const auditIssue = dayAudit?.issueByKey.get(entryKey);
+        const dayIssue = dayIssueMap.get(entry.date);
         const entryStartDate = entry.start instanceof Date && !Number.isNaN(entry.start.getTime()) ? dateKey(entry.start) : "";
         const entryStopDate = entry.stop instanceof Date && !Number.isNaN(entry.stop.getTime()) ? dateKey(entry.stop) : "";
         const spansMultipleDates = Boolean(entryStartDate && entryStopDate && entryStartDate !== entryStopDate);
@@ -10063,19 +10302,30 @@
         const nativeActions = editAction || deleteAction
           ? `<td class="actions-column"><div class="row-actions">${editAction}${deleteAction}</div></td>`
           : `<td class="actions-column empty-cell">-</td>`;
-        const rowCells = values
-          .slice(0, 3)
-          .map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`)
-          .join("");
+        const rowCells = [
+          detailDateCellHtml(values[0], dayIssueMap),
+          ...values.slice(1, 3)
+            .map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`)
+        ].join("");
         const trailingCells = values
           .slice(3)
           .map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`)
           .join("");
-        const rowClass = auditIssue ? ' class="day-audit-row"' : "";
+        const rowClasses = [
+          auditIssue ? "day-audit-row" : "",
+          dayIssue ? `day-total-issue-row day-total-issue-${dayTotalIssueDirection(dayIssue)}` : ""
+        ].filter(Boolean).join(" ");
+        const rowClass = rowClasses ? ` class="${escapeHtml(rowClasses)}"` : "";
         const rowTitle = auditIssue ? ` title="${escapeHtml(auditIssue.reasons.map((item) => item.reason).join("; "))}"` : "";
         const rowFocus = auditIssue ? ' tabindex="-1"' : "";
         return `<tr${rowClass}${rowTitle}${rowFocus} data-detail-entry-key="${escapeHtml(entryKey)}">${rowCells}${nativeActions}${trailingCells}</tr>`;
       }).join("");
+      document.querySelectorAll("[data-day-total-issue-date]").forEach((button) => {
+        button.addEventListener("click", () => {
+          dateFilter.value = button.dataset.dayTotalIssueDate || "";
+          updateTable();
+        });
+      });
       document.querySelectorAll("[data-audit-entry-key]").forEach((button) => {
         button.addEventListener("click", () => {
           const targetKey = button.dataset.auditEntryKey || "";
