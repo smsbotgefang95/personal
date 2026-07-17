@@ -180,6 +180,47 @@ assert.ok(
 
 console.log("Analytics task merge checks passed.");
 
+const breakAlarmSandbox = {
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  }
+};
+
+vm.createContext(breakAlarmSandbox);
+vm.runInContext([
+  extractFunction(html, "normalizedBreakAlarmTaskName"),
+  extractConst(html, "AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_NAMES"),
+  extractFunction(html, "isAiAgentBreakAlarmTask")
+].join("\n\n"), breakAlarmSandbox);
+
+[
+  "Run AI Agent_Work",
+  "🤖 Run AI Agent_Work",
+  "Run Ai Agent_work",
+  "Run AI Agent Work",
+  "Run AI Agent-Work"
+].forEach((taskName) => {
+  assert.strictEqual(
+    breakAlarmSandbox.isAiAgentBreakAlarmTask({ taskName }),
+    false,
+    `${taskName} should not trigger the 30-minute AI-agent break alarm`
+  );
+});
+
+[
+  "Run AI Agent",
+  "Run AI Agent Life"
+].forEach((taskName) => {
+  assert.strictEqual(
+    breakAlarmSandbox.isAiAgentBreakAlarmTask({ taskName }),
+    true,
+    `${taskName} should keep the 30-minute AI-agent break alarm`
+  );
+});
+
+console.log("AI-agent break alarm checks passed.");
+
 const autoDoneSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();
