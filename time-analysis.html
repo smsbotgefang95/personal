@@ -3944,6 +3944,7 @@
   const AI_AGENT_BREAK_ALARM_THRESHOLD_MS = 30 * 60 * 1000;
   const AI_AGENT_BREAK_ALARM_REPEAT_MS = 5 * 1000;
   const AI_AGENT_BREAK_ALARM_SOUND_VOLUME = 0.42;
+  const AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_IDS = new Set(["86agzhyhy"]);
   const AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_NAMES = new Set(["run ai agent work"]);
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
@@ -6018,9 +6019,20 @@
       .replace(/\s+/g, " ");
   }
 
+  function isAiAgentBreakAlarmExcludedTask(entry, taskName = normalizedBreakAlarmTaskName(entry?.taskName)) {
+    const taskId = cleanLabel(entry?.taskId, "");
+    if (AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_IDS.has(taskId)) return true;
+    if (AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_NAMES.has(taskName)) return true;
+    const listId = cleanLabel(entry?.listId, "");
+    const taskCategory = normalizedBreakAlarmTaskName(entry?.taskCategory);
+    return taskName === "run ai agent" &&
+      taskCategory === "work" &&
+      (listId === "900601952633" || isBusinessEntry(entry));
+  }
+
   function isAiAgentBreakAlarmTask(entry) {
     const taskName = normalizedBreakAlarmTaskName(entry?.taskName);
-    if (AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_NAMES.has(taskName)) return false;
+    if (isAiAgentBreakAlarmExcludedTask(entry, taskName)) return false;
     return taskName === "run ai agent" || taskName.startsWith("run ai agent ");
   }
 
