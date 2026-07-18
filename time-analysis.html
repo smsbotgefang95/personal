@@ -9722,8 +9722,44 @@
     return Number.isNaN(date.getTime()) ? null : date;
   }
 
+  function sameLocalDate(first, second) {
+    return (
+      first instanceof Date &&
+      second instanceof Date &&
+      !Number.isNaN(first.getTime()) &&
+      !Number.isNaN(second.getTime()) &&
+      first.getFullYear() === second.getFullYear() &&
+      first.getMonth() === second.getMonth() &&
+      first.getDate() === second.getDate()
+    );
+  }
+
+  function editStopDateFromInput(value, originalValue = "", startDate = null, entry = null) {
+    const stopDate = dateFromEditDateTimeInput(value, originalValue);
+    if (
+      !stopDate ||
+      !(startDate instanceof Date) ||
+      Number.isNaN(startDate.getTime()) ||
+      stopDate > startDate ||
+      !sameLocalDate(stopDate, startDate) ||
+      !isSleepTimerEntry(entry) ||
+      startDate.getHours() < 12 ||
+      stopDate.getHours() >= 12
+    ) {
+      return stopDate;
+    }
+    const rolledStop = new Date(stopDate);
+    rolledStop.setDate(rolledStop.getDate() + 1);
+    return rolledStop > startDate ? rolledStop : stopDate;
+  }
+
   function isoFromEditDateTimeInput(value, originalValue = "") {
     const date = dateFromEditDateTimeInput(value, originalValue);
+    return date ? date.toISOString() : "";
+  }
+
+  function isoFromEditStopDateTimeInput(value, originalValue = "", startDate = null, entry = null) {
+    const date = editStopDateFromInput(value, originalValue, startDate, entry);
     return date ? date.toISOString() : "";
   }
 
@@ -9757,7 +9793,7 @@
       return false;
     }
     const startDate = dateFromEditDateTimeInput(startInput.value, entry?.start);
-    const stopDate = dateFromEditDateTimeInput(stopInput.value, entry?.stop);
+    const stopDate = editStopDateFromInput(stopInput.value, entry?.stop, startDate, entry);
     if (!startDate || !stopDate) {
       if (showMessage) setEditEntryStatus("Enter valid start and stop times.", "error");
       return false;
@@ -11482,8 +11518,9 @@
       return;
     }
     const list = selectedList("editList");
-    const start = isoFromEditDateTimeInput(document.getElementById("editStart").value, entry.start);
-    const stop = isoFromEditDateTimeInput(document.getElementById("editStop").value, entry.stop);
+    const startDate = dateFromEditDateTimeInput(document.getElementById("editStart").value, entry.start);
+    const start = startDate ? startDate.toISOString() : "";
+    const stop = isoFromEditStopDateTimeInput(document.getElementById("editStop").value, entry.stop, startDate, entry);
     const durationMs = Math.max(0, new Date(stop).getTime() - new Date(start).getTime());
     if (!durationMs) {
       setEditEntryStatus("Stop time must be after start time.", "error");

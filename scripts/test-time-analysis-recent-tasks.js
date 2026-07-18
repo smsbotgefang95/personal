@@ -410,3 +410,49 @@ assert.deepStrictEqual(
 );
 
 console.log("Sleep status recurrence checks passed.");
+
+const editStopSandbox = {
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  }
+};
+
+vm.createContext(editStopSandbox);
+vm.runInContext([
+  extractFunction(html, "toDatetimeLocal"),
+  extractFunction(html, "dateFromEditDateTimeInput"),
+  extractFunction(html, "sameLocalDate"),
+  extractFunction(html, "isSleepTimerEntry"),
+  extractFunction(html, "editStopDateFromInput"),
+  extractFunction(html, "isoFromEditStopDateTimeInput")
+].join("\n\n"), editStopSandbox);
+
+const sleepStartDate = editStopSandbox.dateFromEditDateTimeInput("2026-05-14T21:04");
+const sleepMidnightStopIso = editStopSandbox.isoFromEditStopDateTimeInput(
+  "2026-05-14T00:00",
+  "",
+  sleepStartDate,
+  { taskName: "🛏️ Sleep" }
+);
+
+assert.strictEqual(
+  editStopSandbox.toDatetimeLocal(sleepMidnightStopIso),
+  "2026-05-15T00:00",
+  "midnight stop edits on evening Sleep entries should save as next-day midnight"
+);
+
+const nonSleepMidnightStop = editStopSandbox.editStopDateFromInput(
+  "2026-05-14T00:00",
+  "",
+  sleepStartDate,
+  { taskName: "Read" }
+);
+
+assert.strictEqual(
+  editStopSandbox.toDatetimeLocal(nonSleepMidnightStop.toISOString()),
+  "2026-05-14T00:00",
+  "non-sleep stop edits should keep normal same-day validation semantics"
+);
+
+console.log("Edit stop midnight rollover checks passed.");
