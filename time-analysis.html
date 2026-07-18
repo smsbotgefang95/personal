@@ -3887,7 +3887,7 @@
 <div class="admin-key-dialog" id="timeAdminKeyDialog" role="dialog" aria-modal="true" aria-labelledby="timeAdminKeyTitle" hidden>
   <form class="admin-key-panel" id="timeAdminKeyForm" method="post" action="/api/time-entries" autocomplete="on">
     <h2 id="timeAdminKeyTitle">Save Time Analysis changes</h2>
-    <p id="timeAdminKeyDescription">Enter the Time Analysis admin key to save due dates and recurrence changes to the server.</p>
+    <p id="timeAdminKeyDescription">Enter the Time Analysis admin key to save Time Analysis changes to the server.</p>
     <input
       class="admin-key-credential-context"
       id="timeAdminKeyUsername"
@@ -5287,8 +5287,20 @@
       activeEntry: payload?.activeEntry && payload.activeEntry.id ? payload.activeEntry : null,
       taskOverrides: cleanTaskOverrides(payload?.taskOverrides),
       taskMerges: cleanTaskMerges(payload?.taskMerges),
+      deletedEntryKeys: cleanDeletedEntryKeys(payload?.deletedEntryKeys),
       updatedAt: repaired ? isoNow() : (payload?.updatedAt || null)
     };
+  }
+
+  function cleanDeletedEntryKeys(value) {
+    if (!Array.isArray(value)) return [];
+    const seen = new Set();
+    return value.flatMap((item) => {
+      const key = cleanLabel(item, "").slice(0, 320);
+      if (!key || seen.has(key)) return [];
+      seen.add(key);
+      return [key];
+    }).slice(0, 10000);
   }
 
   function readLocalTimePayload() {
@@ -5407,8 +5419,16 @@
       activeEntry,
       taskOverrides: mergePayloadRecordMaps(serverClean.taskOverrides || {}, localClean.taskOverrides || {}, { preferServer }),
       taskMerges: mergePayloadRecordMaps(serverClean.taskMerges || {}, localClean.taskMerges || {}, { preferServer }),
+      deletedEntryKeys: mergeDeletedEntryKeys(serverClean.deletedEntryKeys, localClean.deletedEntryKeys),
       updatedAt: mergedPayloadUpdatedAt(serverClean.updatedAt, localClean.updatedAt, { preferServer })
     });
+  }
+
+  function mergeDeletedEntryKeys(serverKeys, localKeys) {
+    return cleanDeletedEntryKeys([
+      ...(Array.isArray(serverKeys) ? serverKeys : []),
+      ...(Array.isArray(localKeys) ? localKeys : [])
+    ]);
   }
 
   function timestampMs(value) {
@@ -5502,7 +5522,8 @@
       clean.entries.length ||
       clean.activeEntry ||
       Object.keys(clean.taskOverrides || {}).length ||
-      Object.keys(clean.taskMerges || {}).length
+      Object.keys(clean.taskMerges || {}).length ||
+      clean.deletedEntryKeys.length
     );
   }
 
@@ -5655,7 +5676,7 @@
       scheduleAutoDoneTaskSync();
       return;
     }
-    if ((timePayload.entries || []).length || timePayload.activeEntry) {
+    if (timePayloadHasPrivateData(timePayload)) {
       if (fullDashboardLoaded) {
         renderNativeDashboard().catch((error) => {
           setTrackerStatus(error.message || "Time Analysis dashboard could not be rendered.", "error");
@@ -5984,7 +6005,7 @@
   function composedAnalysisEntries(importedEntries = csvImportedEntries) {
     const byKey = new Map();
     [
-      ...entriesWithTaskOverrides(Array.isArray(importedEntries) ? importedEntries : []),
+      ...entriesWithTaskOverrides(filterDeletedDetailEntries(Array.isArray(importedEntries) ? importedEntries : [])),
       ...nativeCompletedEntries()
     ].forEach((entry) => {
       const key = detailEntryDedupKey(entry);
@@ -6245,8 +6266,8 @@
         .map((entry) => ({ ...entry, isActiveRecentTask: true }))
       : [];
     const loggedSourceEntries = csvEntriesLoaded
-      ? entriesWithTaskOverrides(csvImportedEntries.filter((entry) => entry?.start && entry?.stop))
-      : (recentTaskSnapshotEntries.length ? entriesWithTaskOverrides(recentTaskSnapshotEntries) : catalogRecentTaskSource());
+      ? entriesWithTaskOverrides(filterDeletedDetailEntries(csvImportedEntries.filter((entry) => entry?.start && entry?.stop)))
+      : (recentTaskSnapshotEntries.length ? entriesWithTaskOverrides(filterDeletedDetailEntries(recentTaskSnapshotEntries)) : catalogRecentTaskSource());
     return [...active, ...nativeCompletedEntries(), ...loggedSourceEntries];
   }
 
@@ -9722,44 +9743,8 @@
     return Number.isNaN(date.getTime()) ? null : date;
   }
 
-  function sameLocalDate(first, second) {
-    return (
-      first instanceof Date &&
-      second instanceof Date &&
-      !Number.isNaN(first.getTime()) &&
-      !Number.isNaN(second.getTime()) &&
-      first.getFullYear() === second.getFullYear() &&
-      first.getMonth() === second.getMonth() &&
-      first.getDate() === second.getDate()
-    );
-  }
-
-  function editStopDateFromInput(value, originalValue = "", startDate = null, entry = null) {
-    const stopDate = dateFromEditDateTimeInput(value, originalValue);
-    if (
-      !stopDate ||
-      !(startDate instanceof Date) ||
-      Number.isNaN(startDate.getTime()) ||
-      stopDate > startDate ||
-      !sameLocalDate(stopDate, startDate) ||
-      !isSleepTimerEntry(entry) ||
-      startDate.getHours() < 12 ||
-      stopDate.getHours() >= 12
-    ) {
-      return stopDate;
-    }
-    const rolledStop = new Date(stopDate);
-    rolledStop.setDate(rolledStop.getDate() + 1);
-    return rolledStop > startDate ? rolledStop : stopDate;
-  }
-
   function isoFromEditDateTimeInput(value, originalValue = "") {
     const date = dateFromEditDateTimeInput(value, originalValue);
-    return date ? date.toISOString() : "";
-  }
-
-  function isoFromEditStopDateTimeInput(value, originalValue = "", startDate = null, entry = null) {
-    const date = editStopDateFromInput(value, originalValue, startDate, entry);
     return date ? date.toISOString() : "";
   }
 
@@ -9793,7 +9778,7 @@
       return false;
     }
     const startDate = dateFromEditDateTimeInput(startInput.value, entry?.start);
-    const stopDate = editStopDateFromInput(stopInput.value, entry?.stop, startDate, entry);
+    const stopDate = dateFromEditDateTimeInput(stopInput.value, entry?.stop);
     if (!startDate || !stopDate) {
       if (showMessage) setEditEntryStatus("Enter valid start and stop times.", "error");
       return false;
@@ -9861,11 +9846,21 @@
     document.getElementById("editEntryDialog").hidden = true;
   }
 
-  async function deleteEntry(entryId) {
-    const entry = (timePayload.entries || []).find((item) => item.id === entryId);
-    if (!entry) return;
-    if (!window.confirm(`Delete "${entry.taskName}"?`)) return;
-    timePayload.entries = timePayload.entries.filter((item) => item.id !== entryId);
+  async function deleteDetailEntry(entry) {
+    if (!editableDetailEntry(entry)) return;
+    const entryId = cleanLabel(entry?.id, "");
+    if (!entryId) return;
+    if (!window.confirm(`Delete "${cleanLabel(entry.taskName, "this entry")}"?`)) return;
+    const deletedEntryKeys = cleanDeletedEntryKeys([
+      ...(timePayload.deletedEntryKeys || []),
+      detailEntryDedupKey(entry)
+    ]);
+    timePayload = cleanClientPayload({
+      ...timePayload,
+      entries: (timePayload.entries || []).filter((item) => cleanLabel(item?.id, "") !== entryId),
+      deletedEntryKeys,
+      updatedAt: isoNow()
+    });
     await saveTimePayload(timePayload);
   }
 
@@ -9885,6 +9880,16 @@
       stopMs,
       Math.round(Number(entry?.durationMs) || 0)
     ].join("|");
+  }
+
+  function deletedEntryKeySet() {
+    return new Set(cleanDeletedEntryKeys(timePayload.deletedEntryKeys || []));
+  }
+
+  function filterDeletedDetailEntries(entries) {
+    const deletedKeys = deletedEntryKeySet();
+    if (!deletedKeys.size) return entries;
+    return entries.filter((entry) => !deletedKeys.has(detailEntryDedupKey(entry)));
   }
 
   function detailEntrySourceRank(entry) {
@@ -10410,10 +10415,10 @@
         const editAction = editableDetailEntry(entry)
           ? `<button class="row-btn" type="button" data-edit-detail-entry="${escapeHtml(entryKey)}">Edit</button>`
           : "";
-        const deleteAction = entry.sourceType === "native"
-          ? `<button class="row-btn danger" type="button" data-delete-entry="${escapeHtml(entry.id)}">Delete</button>`
+        const deleteAction = editableDetailEntry(entry)
+          ? `<button class="row-btn danger" type="button" data-delete-detail-entry="${escapeHtml(entryKey)}">Delete</button>`
           : "";
-        const nativeActions = editAction || deleteAction
+        const detailActions = editAction || deleteAction
           ? `<td class="actions-column"><div class="row-actions">${editAction}${deleteAction}</div></td>`
           : `<td class="actions-column empty-cell">-</td>`;
         const rowCells = [
@@ -10432,7 +10437,7 @@
         const rowClass = rowClasses ? ` class="${escapeHtml(rowClasses)}"` : "";
         const rowTitle = auditIssue ? ` title="${escapeHtml(auditIssue.reasons.map((item) => item.reason).join("; "))}"` : "";
         const rowFocus = auditIssue ? ' tabindex="-1"' : "";
-        return `<tr${rowClass}${rowTitle}${rowFocus} data-detail-entry-key="${escapeHtml(entryKey)}">${rowCells}${nativeActions}${trailingCells}</tr>`;
+        return `<tr${rowClass}${rowTitle}${rowFocus} data-detail-entry-key="${escapeHtml(entryKey)}">${rowCells}${detailActions}${trailingCells}</tr>`;
       }).join("");
       document.querySelectorAll("[data-day-total-issue-date]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -10459,8 +10464,11 @@
           if (entry) openDetailEntryEdit(entry);
         });
       });
-      document.querySelectorAll("[data-delete-entry]").forEach((button) => {
-        button.addEventListener("click", () => deleteEntry(button.dataset.deleteEntry));
+      document.querySelectorAll("[data-delete-detail-entry]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const entry = filtered.find((item) => detailEntryKey(item) === button.dataset.deleteDetailEntry);
+          if (entry) deleteDetailEntry(entry);
+        });
       });
     };
 
@@ -11124,7 +11132,7 @@
     showPrivateTimeLoadButton(Boolean(key));
     if (timePayload.activeEntry) renderTimerState();
     setPrivateTimeSyncState("synced");
-    if ((timePayload.entries || []).length || timePayload.activeEntry) {
+    if (timePayloadHasPrivateData(timePayload)) {
       renderTimePayloadState();
       if (!timePayloadHasPrivateData(response)) setTrackerStatus("Shared Time Analysis data is empty. Showing local data.");
       scheduleAutoDoneTaskSync();
@@ -11518,9 +11526,8 @@
       return;
     }
     const list = selectedList("editList");
-    const startDate = dateFromEditDateTimeInput(document.getElementById("editStart").value, entry.start);
-    const start = startDate ? startDate.toISOString() : "";
-    const stop = isoFromEditStopDateTimeInput(document.getElementById("editStop").value, entry.stop, startDate, entry);
+    const start = isoFromEditDateTimeInput(document.getElementById("editStart").value, entry.start);
+    const stop = isoFromEditDateTimeInput(document.getElementById("editStop").value, entry.stop);
     const durationMs = Math.max(0, new Date(stop).getTime() - new Date(start).getTime());
     if (!durationMs) {
       setEditEntryStatus("Stop time must be after start time.", "error");

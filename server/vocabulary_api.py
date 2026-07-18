@@ -14,7 +14,7 @@ from pathlib import Path
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
-DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "updatedAt": None}
+DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "deletedEntryKeys": [], "updatedAt": None}
 DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
 TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
 DEFAULT_QUESTION_PROGRESS = {
@@ -729,6 +729,20 @@ def clean_task_merges(value):
     return merges
 
 
+def clean_deleted_time_entry_keys(value):
+    if not isinstance(value, list):
+        return []
+    cleaned = []
+    seen = set()
+    for item in value[:10000]:
+        item = str(item).strip()[:320]
+        if not item or item in seen:
+            continue
+        seen.add(item)
+        cleaned.append(item)
+    return cleaned
+
+
 def clean_time_entry(value, require_stop=False):
     if not isinstance(value, dict):
         return None
@@ -793,6 +807,7 @@ def clean_time_entries_payload(value):
         "activeEntry": active_entry,
         "taskOverrides": clean_task_overrides(value.get("taskOverrides")),
         "taskMerges": clean_task_merges(value.get("taskMerges")),
+        "deletedEntryKeys": clean_deleted_time_entry_keys(value.get("deletedEntryKeys")),
         "updatedAt": value.get("updatedAt"),
     }
 

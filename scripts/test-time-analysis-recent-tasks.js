@@ -411,48 +411,88 @@ assert.deepStrictEqual(
 
 console.log("Sleep status recurrence checks passed.");
 
-const editStopSandbox = {
+const deletionSandbox = {
+  timePayload: {
+    deletedEntryKeys: ["id:deleted-import"]
+  },
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();
     return text || fallback;
+  },
+  effectiveTaskId(taskId, taskName) {
+    return deletionSandbox.cleanLabel(taskId, "") || deletionSandbox.cleanLabel(taskName, "").toLowerCase().replace(/\s+/g, "-");
+  },
+  entriesWithTaskOverrides(entries) {
+    return entries;
+  },
+  nativeCompletedEntries() {
+    return [
+      {
+        id: "native-entry",
+        sourceType: "native",
+        sourceIndex: 3,
+        start: new Date("2026-01-04T13:00:00.000Z"),
+        stop: new Date("2026-01-04T13:30:00.000Z"),
+        listId: "list",
+        taskId: "native",
+        taskName: "Native",
+        durationMs: 1800000
+      }
+    ];
   }
 };
 
-vm.createContext(editStopSandbox);
+vm.createContext(deletionSandbox);
 vm.runInContext([
-  extractFunction(html, "toDatetimeLocal"),
-  extractFunction(html, "dateFromEditDateTimeInput"),
-  extractFunction(html, "sameLocalDate"),
-  extractFunction(html, "isSleepTimerEntry"),
-  extractFunction(html, "editStopDateFromInput"),
-  extractFunction(html, "isoFromEditStopDateTimeInput")
-].join("\n\n"), editStopSandbox);
+  extractFunction(html, "cleanDeletedEntryKeys"),
+  extractFunction(html, "mergeDeletedEntryKeys"),
+  extractFunction(html, "detailEntryDedupKey"),
+  extractFunction(html, "deletedEntryKeySet"),
+  extractFunction(html, "filterDeletedDetailEntries"),
+  extractFunction(html, "detailEntrySourceRank"),
+  extractFunction(html, "composedAnalysisEntries")
+].join("\n\n"), deletionSandbox);
 
-const sleepStartDate = editStopSandbox.dateFromEditDateTimeInput("2026-05-14T21:04");
-const sleepMidnightStopIso = editStopSandbox.isoFromEditStopDateTimeInput(
-  "2026-05-14T00:00",
-  "",
-  sleepStartDate,
-  { taskName: "🛏️ Sleep" }
+assert.deepStrictEqual(
+  Array.from(deletionSandbox.mergeDeletedEntryKeys(["id:server", "id:shared"], ["id:local", "id:shared"])),
+  ["id:server", "id:shared", "id:local"],
+  "deleted entry keys should merge without losing local-only deletions"
 );
 
-assert.strictEqual(
-  editStopSandbox.toDatetimeLocal(sleepMidnightStopIso),
-  "2026-05-15T00:00",
-  "midnight stop edits on evening Sleep entries should save as next-day midnight"
+const composedEntries = deletionSandbox.composedAnalysisEntries([
+  {
+    id: "visible-import",
+    sourceType: "clickup",
+    sourceIndex: 1,
+    start: new Date("2026-01-04T12:00:00.000Z"),
+    stop: new Date("2026-01-04T12:30:00.000Z"),
+    listId: "list",
+    taskId: "visible",
+    taskName: "Visible",
+    durationMs: 1800000
+  },
+  {
+    id: "deleted-import",
+    sourceType: "clickup",
+    sourceIndex: 2,
+    start: new Date("2026-01-04T12:30:00.000Z"),
+    stop: new Date("2026-01-04T13:00:00.000Z"),
+    listId: "list",
+    taskId: "deleted",
+    taskName: "Deleted",
+    durationMs: 1800000
+  }
+]);
+
+assert.deepStrictEqual(
+  Array.from(composedEntries, (entryItem) => entryItem.id),
+  ["visible-import", "native-entry"],
+  "deleted imported entries should be filtered before dashboard composition"
 );
 
-const nonSleepMidnightStop = editStopSandbox.editStopDateFromInput(
-  "2026-05-14T00:00",
-  "",
-  sleepStartDate,
-  { taskName: "Read" }
+assert.ok(
+  html.includes("data-delete-detail-entry"),
+  "detail table should render delete controls for editable detail entries"
 );
 
-assert.strictEqual(
-  editStopSandbox.toDatetimeLocal(nonSleepMidnightStop.toISOString()),
-  "2026-05-14T00:00",
-  "non-sleep stop edits should keep normal same-day validation semantics"
-);
-
-console.log("Edit stop midnight rollover checks passed.");
+console.log("Detail entry deletion checks passed.");
