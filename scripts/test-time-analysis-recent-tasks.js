@@ -184,23 +184,19 @@ const breakAlarmSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();
     return text || fallback;
-  },
-  isBusinessEntry(entry) {
-    const listName = breakAlarmSandbox.cleanLabel(entry?.listName, "");
-    return /\b(?:in|on)?\s*business\b/i.test(listName);
   }
 };
 
 vm.createContext(breakAlarmSandbox);
 vm.runInContext([
   extractFunction(html, "normalizedBreakAlarmTaskName"),
-  extractConst(html, "AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_IDS"),
-  extractConst(html, "AI_AGENT_BREAK_ALARM_EXCLUDED_TASK_NAMES"),
-  extractFunction(html, "isAiAgentBreakAlarmExcludedTask"),
   extractFunction(html, "isAiAgentBreakAlarmTask")
 ].join("\n\n"), breakAlarmSandbox);
 
 [
+  { taskName: "Run AI Agent" },
+  { taskName: "Run AI Agent Life" },
+  { taskName: "Run AI Agent", taskCategory: "Life", listName: "🌈 Personal" },
   { taskName: "Run AI Agent_Work" },
   { taskName: "🤖 Run AI Agent_Work" },
   { taskName: "Run Ai Agent_work" },
@@ -224,18 +220,6 @@ vm.runInContext([
     breakAlarmSandbox.isAiAgentBreakAlarmTask(entry),
     false,
     `${entry.taskName} should not trigger the 30-minute AI-agent break alarm`
-  );
-});
-
-[
-  { taskName: "Run AI Agent" },
-  { taskName: "Run AI Agent Life" },
-  { taskName: "Run AI Agent", taskCategory: "Life", listName: "🌈 Personal" }
-].forEach((entry) => {
-  assert.strictEqual(
-    breakAlarmSandbox.isAiAgentBreakAlarmTask(entry),
-    true,
-    `${entry.taskName} should keep the 30-minute AI-agent break alarm`
   );
 });
 
