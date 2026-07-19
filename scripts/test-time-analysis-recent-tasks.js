@@ -496,3 +496,96 @@ assert.ok(
 );
 
 console.log("Detail entry deletion checks passed.");
+
+const dateAuditSandbox = {
+  dateInputValue(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(String(value || "")) ? String(value) : "";
+  }
+};
+
+vm.createContext(dateAuditSandbox);
+vm.runInContext([
+  extractConst(html, "DAY_TOTAL_AUDIT_TOLERANCE_MS"),
+  extractFunction(html, "dateKey"),
+  extractFunction(html, "parseDateInput"),
+  extractFunction(html, "formatDateInput"),
+  extractFunction(html, "addLocalDays"),
+  extractFunction(html, "dateKeyBounds"),
+  extractFunction(html, "detailEntryKey"),
+  extractFunction(html, "entryHasExactDate"),
+  extractFunction(html, "editableDetailEntry"),
+  extractFunction(html, "entryDateOverlapMs"),
+  extractFunction(html, "entryMatchesDate"),
+  extractFunction(html, "dayAuditWindow"),
+  extractFunction(html, "entryCoverageDateKeys")
+].join("\n\n"), dateAuditSandbox);
+
+const weeklyImportEntry = vm.runInContext(`({
+  id: "legacy-week-row",
+  sourceType: "legacy-dashboard",
+  hasExactDate: false,
+  start: new Date(2026, 0, 4, 0, 0, 0),
+  stop: new Date(2026, 0, 4, 6, 0, 0),
+  date: "",
+  durationMs: 6 * 60 * 60 * 1000
+})`, dateAuditSandbox);
+
+assert.strictEqual(
+  dateAuditSandbox.entryMatchesDate(weeklyImportEntry, "2026-01-04"),
+  false,
+  "week-only legacy imports should not match a synthetic Sunday date"
+);
+
+assert.strictEqual(
+  dateAuditSandbox.entryDateOverlapMs(weeklyImportEntry, "2026-01-04"),
+  0,
+  "week-only legacy imports should not contribute to dated day totals"
+);
+
+assert.deepStrictEqual(
+  Array.from(dateAuditSandbox.entryCoverageDateKeys(weeklyImportEntry)),
+  [],
+  "week-only legacy imports should not create day-total issue cards"
+);
+
+assert.strictEqual(
+  dateAuditSandbox.editableDetailEntry(weeklyImportEntry),
+  false,
+  "week-only legacy imports should not be editable as exact dated transactions"
+);
+
+assert.strictEqual(
+  dateAuditSandbox.dayAuditWindow(weeklyImportEntry, dateAuditSandbox.dateKeyBounds("2026-01-04")),
+  null,
+  "week-only legacy imports should not produce audit windows"
+);
+
+const datedImportEntry = vm.runInContext(`({
+  id: "clickup-row",
+  sourceType: "clickup",
+  hasExactDate: true,
+  start: new Date(2026, 0, 4, 0, 0, 0),
+  stop: new Date(2026, 0, 4, 6, 0, 0),
+  date: "2026-01-04",
+  durationMs: 6 * 60 * 60 * 1000
+})`, dateAuditSandbox);
+
+assert.strictEqual(
+  dateAuditSandbox.entryMatchesDate(datedImportEntry, "2026-01-04"),
+  true,
+  "exact dated imports should still match date filters"
+);
+
+assert.deepStrictEqual(
+  Array.from(dateAuditSandbox.entryCoverageDateKeys(datedImportEntry)),
+  ["2026-01-04"],
+  "exact dated imports should still create day-total coverage dates"
+);
+
+assert.strictEqual(
+  dateAuditSandbox.editableDetailEntry(datedImportEntry),
+  true,
+  "exact dated imports should remain editable"
+);
+
+console.log("Legacy week-only date audit checks passed.");

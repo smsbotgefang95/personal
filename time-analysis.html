@@ -5911,6 +5911,7 @@
       sourceFile: "Native time tracking",
       sourceIndex: index,
       sourceType: "native",
+      hasExactDate: true,
       start,
       stop,
       date: start ? dateKey(start) : "",
@@ -8835,6 +8836,7 @@
       sourceFile,
       sourceIndex: index,
       sourceType: "clickup",
+      hasExactDate: true,
       start,
       stop,
       date: start ? dateKey(start) : "",
@@ -8899,9 +8901,10 @@
       sourceFile,
       sourceIndex: index,
       sourceType: "legacy-dashboard",
+      hasExactDate: false,
       start,
       stop,
-      date: start ? dateKey(start) : "",
+      date: "",
       displayDate: "",
       week: legacyWeek,
       durationMs,
@@ -9899,12 +9902,16 @@
     return 1;
   }
 
+  function entryHasExactDate(entry) {
+    return entry?.hasExactDate !== false;
+  }
+
   function editableDetailEntry(entry) {
     const start = entry?.start instanceof Date ? entry.start : null;
     const stop = entry?.stop instanceof Date ? entry.stop : null;
     return Boolean(
       entry?.sourceType === "native" ||
-      (start && stop && !Number.isNaN(start.getTime()) && !Number.isNaN(stop.getTime()) && stop > start)
+      (entryHasExactDate(entry) && start && stop && !Number.isNaN(start.getTime()) && !Number.isNaN(stop.getTime()) && stop > start)
     );
   }
 
@@ -9931,6 +9938,7 @@
       sourceType: "native",
       importedSourceType: cleanLabel(entry?.sourceType, ""),
       importedSourceFile: cleanLabel(entry?.sourceFile, ""),
+      hasExactDate: true,
       start,
       stop,
       durationMs,
@@ -9986,6 +9994,7 @@
 
   function entryDateOverlapMs(entry, dateValue) {
     if (!dateValue) return Number(entry?.durationMs) || 0;
+    if (!entryHasExactDate(entry)) return 0;
     const bounds = dateKeyBounds(dateValue);
     const start = entry?.start instanceof Date ? entry.start : null;
     const stop = entry?.stop instanceof Date ? entry.stop : null;
@@ -10004,6 +10013,7 @@
 
   function entryMatchesDate(entry, dateValue) {
     if (!dateValue) return true;
+    if (!entryHasExactDate(entry)) return false;
     return entry.date === dateValue || entryDateOverlapMs(entry, dateValue) > 0;
   }
 
@@ -10046,6 +10056,7 @@
   }
 
   function dayAuditWindow(entry, bounds) {
+    if (!entryHasExactDate(entry)) return null;
     const start = entry?.start instanceof Date ? entry.start : null;
     const stop = entry?.stop instanceof Date ? entry.stop : null;
     if (!bounds || !start || !stop || Number.isNaN(start.getTime()) || Number.isNaN(stop.getTime())) return null;
@@ -10218,6 +10229,7 @@
 
   function entryCoverageDateKeys(entry) {
     const keys = [];
+    if (!entryHasExactDate(entry)) return keys;
     const start = entry?.start instanceof Date ? entry.start : null;
     const stop = entry?.stop instanceof Date ? entry.stop : null;
     if (start && stop && !Number.isNaN(start.getTime()) && !Number.isNaN(stop.getTime()) && stop > start) {
@@ -10936,6 +10948,7 @@
       sourceFile: cleanLabel(entry?.sourceFile, TIME_RECENT_TASKS_FILE),
       sourceIndex: Number.isFinite(Number(entry?.sourceIndex)) ? Number(entry.sourceIndex) : index,
       sourceType: cleanLabel(entry?.sourceType, "recent-snapshot"),
+      hasExactDate: true,
       start,
       stop,
       updatedAt: cleanLabel(entry?.updatedAt, ""),
