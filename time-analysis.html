@@ -4044,6 +4044,7 @@
   let currentSourcePills = [];
   let fullDashboardLoaded = false;
   let fullDashboardLoadPromise = null;
+  let renderDetailsPanel = null;
   let trackMode = "now";
   let pastEntryTaskKey = "";
   let collapsedTrackGroups = (() => {
@@ -9366,8 +9367,23 @@
     renderBusiness(metrics);
     renderPersonal(metrics);
     renderActions(metrics);
-    const detailsEntries = detailEntriesFor(entries);
-    renderDetails(detailsEntries, buildMetrics(detailsEntries, detailsEntries.length));
+    let detailsEntries = null;
+    let detailsMetrics = null;
+    renderDetailsPanel = () => {
+      if (!detailsEntries) {
+        detailsEntries = detailEntriesFor(entries);
+        detailsMetrics = buildMetrics(detailsEntries, detailsEntries.length);
+      }
+      renderDetails(detailsEntries, detailsMetrics);
+    };
+    if (document.getElementById("panel-details")?.classList.contains("active")) {
+      renderDetailsPanel();
+    } else {
+      document.getElementById("entriesBody").innerHTML = "";
+      document.getElementById("detailsNote").textContent = "Open Entries to load the detailed table.";
+      document.getElementById("dayTotalIssueList").innerHTML = "";
+      document.getElementById("dayTotalAudit").innerHTML = "";
+    }
   }
 
   function renderOverview(entries, metrics) {
@@ -11368,6 +11384,7 @@
       if (!["track", "add-task"].includes(button.dataset.tab)) {
         ensureFullDashboardLoaded().catch((error) => setTrackerStatus(error.message, "error"));
       }
+      if (button.dataset.tab === "details" && fullDashboardLoaded) renderDetailsPanel?.();
       if (button.dataset.tab === "add-task") {
         window.requestAnimationFrame(() => document.getElementById("trackerTask")?.focus());
       }
