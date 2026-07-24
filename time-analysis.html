@@ -8467,8 +8467,13 @@
       }
       const isRunning = timePayload.activeEntry && timePayload.activeEntry.taskId === entry.taskId && timePayload.activeEntry.listId === entry.listId;
       if (!isRunning) markTrackRowStarting(button, entry);
-      const action = isRunning ? stopTimer(tappedAt) : startTimer(entry, { startIso: tappedAt });
-      await action;
+      if (isRunning) {
+        await stopTimer(tappedAt);
+        return;
+      }
+      scheduleAfterPaint(() => {
+        startTimer(entry, { startIso: tappedAt }).catch((error) => setTrackerStatus(error.message, "error"));
+      });
     }
     document.querySelectorAll("[data-track-key]").forEach((button) => {
       let lastActivationAt = 0;
