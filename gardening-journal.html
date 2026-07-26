@@ -2250,6 +2250,7 @@
     { name: "purple", label: "紫色", value: "#6d4b8f" }
   ]);
   const TEXT_COLOR_NAMES = TEXT_COLOR_OPTIONS.map((option) => option.name);
+  const EMPTY_COLOR_MARKUP_PATTERN = new RegExp(`\\{\\{color:(${TEXT_COLOR_NAMES.join("|")})\\|\\}\\}`, "g");
   const RICH_TEXT_MARKUP_PATTERN = /(?:\*\*[\s\S]+?\*\*|\{\{color:[a-z]+?\|[\s\S]+?\}\})/;
   const TEXT_COLOR_PATTERN = new RegExp(`\\{\\{color:(${TEXT_COLOR_NAMES.join("|")})\\|([^{}]+?)\\}\\}`, "g");
   const TEXT_BOLD_PATTERN = /\*\*([\s\S]+?)\*\*/g;
@@ -3048,7 +3049,9 @@
   }
 
   function formatInlineRichText(value) {
-    const normalizedValue = String(value || "").replace(LEGACY_TRAILING_BOLD_PATTERN, "**$1**");
+    const normalizedValue = String(value || "")
+      .replace(EMPTY_COLOR_MARKUP_PATTERN, "")
+      .replace(LEGACY_TRAILING_BOLD_PATTERN, "**$1**");
     return escapeHtml(normalizedValue)
       .replace(TEXT_COLOR_PATTERN, '<span class="rich-text-color-$1">$2</span>')
       .replace(TEXT_BOLD_PATTERN, "<strong>$1</strong>");
