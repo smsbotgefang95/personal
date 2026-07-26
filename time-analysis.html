@@ -4065,6 +4065,7 @@
   let trackerSupplementalRenderToken = 0;
   let trackerSupplementalRenderTimer = null;
   let trackerDeferredRowsBusyTimer = null;
+  let timePayloadFullRenderTimer = null;
   let trackerRowsStartupDeferUntil = 0;
   let recentTaskRenderedTasks = [];
   let recentTaskRenderedFull = false;
@@ -5736,9 +5737,17 @@
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(true);
     setTrackerStatus("Saved locally. Syncing private data...", "saved");
-    scheduleAfterPaint(() => renderTimePayloadState({ renderScope }));
+    scheduleDeferredTimePayloadRender(renderScope);
     syncOptimisticTimePayload(pendingPayload, successMessage)
       .catch((error) => setTrackerStatus(error.message || "Private Time Analysis sync could not be completed.", "error"));
+  }
+
+  function scheduleDeferredTimePayloadRender(renderScope = "full") {
+    window.clearTimeout(timePayloadFullRenderTimer);
+    timePayloadFullRenderTimer = window.setTimeout(() => {
+      timePayloadFullRenderTimer = null;
+      renderTimePayloadState({ renderScope });
+    }, 750);
   }
 
   function renderOptimisticTimerState() {
