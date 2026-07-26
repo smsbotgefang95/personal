@@ -5730,6 +5730,17 @@
     setTrackerStatus("Saved", "saved");
   }
 
+  function saveTimePayloadOptimistically(nextPayload, { renderScope = "full", successMessage = "Saved" } = {}) {
+    const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
+    timePayload = pendingPayload;
+    writeLocalTimePayload(timePayload);
+    showPrivateTimeLoadButton(true);
+    setTrackerStatus("Saved locally. Syncing private data...", "saved");
+    scheduleAfterPaint(() => renderTimePayloadState({ renderScope }));
+    syncOptimisticTimePayload(pendingPayload, successMessage)
+      .catch((error) => setTrackerStatus(error.message || "Private Time Analysis sync could not be completed.", "error"));
+  }
+
   function renderOptimisticTimerState() {
     writeLocalTimePayload(timePayload);
     renderTimerState();
@@ -11627,7 +11638,7 @@
     editSaveBtn.textContent = "Saving...";
     setEditEntryStatus("Saving...");
     try {
-      await saveTimePayload(nextPayload);
+      saveTimePayloadOptimistically(nextPayload);
       closeEditEntry({ discardDraft: false });
     } catch (error) {
       const message = error.message || "Time entry could not be saved.";
