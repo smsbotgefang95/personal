@@ -5708,10 +5708,13 @@
     setTrackerStatus(message, "saved");
   }
 
-  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false } = {}) {
+  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false, requireServer = false } = {}) {
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
     const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
     if (!key) {
+      if (requireServer) {
+        throw new Error("Server sync is required to save this edit. Enter the Time Analysis admin key and try again.");
+      }
       saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope, deferRender });
       return;
     }
@@ -5720,6 +5723,7 @@
       timePayload = cleanClientPayload(response.payload || pendingPayload);
       writeLocalTimePayload(timePayload);
     } catch (error) {
+      if (requireServer) throw error;
       if (shouldFallbackToLocalTimeSave(error)) {
         saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope, deferRender });
         return;
@@ -11639,7 +11643,7 @@
     editSaveBtn.textContent = "Saving...";
     setEditEntryStatus("Saving...");
     try {
-      await saveTimePayload(nextPayload, { deferRender: true });
+      await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true, deferRender: true });
       closeEditEntry({ discardDraft: false });
     } catch (error) {
       const message = error.message || "Time entry could not be saved.";
