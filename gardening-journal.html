@@ -949,6 +949,10 @@
     background: linear-gradient(180deg, rgba(244, 236, 222, 0.94), rgba(255, 255, 255, 0.94));
   }
 
+  .plant-detail-card-size {
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
   .plant-detail-card-sunlight {
     background: linear-gradient(180deg, rgba(255, 244, 211, 0.92), rgba(255, 255, 255, 0.92));
   }
@@ -973,8 +977,32 @@
     background: linear-gradient(180deg, rgba(244, 236, 222, 0.94), rgba(255, 255, 255, 0.92));
   }
 
+  .plant-detail-card-pruning {
+    background: linear-gradient(180deg, rgba(244, 232, 239, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-flower-color {
+    background: linear-gradient(180deg, rgba(255, 244, 211, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
   .plant-detail-card-harvest {
     background: linear-gradient(180deg, rgba(255, 241, 214, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-common-questions {
+    background: linear-gradient(180deg, rgba(232, 241, 246, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-diseases {
+    background: linear-gradient(180deg, rgba(253, 232, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-pests {
+    background: linear-gradient(180deg, rgba(255, 241, 214, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .plant-detail-card-other-animals {
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.94), rgba(255, 255, 255, 0.92));
   }
 
   .plant-detail-card-journal {
@@ -1234,6 +1262,10 @@
     background: linear-gradient(180deg, rgba(255, 244, 211, 0.92), rgba(255, 255, 255, 0.92));
   }
 
+  .journal-copy .plant-detail-card-size {
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
   .journal-copy .plant-detail-card-temperature {
     background: linear-gradient(180deg, rgba(253, 232, 223, 0.94), rgba(255, 255, 255, 0.92));
   }
@@ -1250,8 +1282,32 @@
     background: linear-gradient(180deg, rgba(244, 236, 222, 0.94), rgba(255, 255, 255, 0.92));
   }
 
+  .journal-copy .plant-detail-card-pruning {
+    background: linear-gradient(180deg, rgba(244, 232, 239, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-flower-color {
+    background: linear-gradient(180deg, rgba(255, 244, 211, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
   .journal-copy .plant-detail-card-harvest {
     background: linear-gradient(180deg, rgba(255, 241, 214, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-common-questions {
+    background: linear-gradient(180deg, rgba(232, 241, 246, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-diseases {
+    background: linear-gradient(180deg, rgba(253, 232, 223, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-pests {
+    background: linear-gradient(180deg, rgba(255, 241, 214, 0.94), rgba(255, 255, 255, 0.92));
+  }
+
+  .journal-copy .plant-detail-card-other-animals {
+    background: linear-gradient(180deg, rgba(230, 242, 223, 0.94), rgba(255, 255, 255, 0.92));
   }
 
   .journal-copy .plant-detail-card-journal {
@@ -1647,6 +1703,11 @@
                   <option value="Finished">已结束</option>
                 </select>
               </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="size">
+                <label for="plantSize">📏 植株大小</label>
+                <textarea id="plantSize" name="plantSize" placeholder="高度、株幅、叶片大小或当前生长空间"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
               <div class="field plant-edit-field" data-plant-edit-section="temperature">
                 <label for="plantTemperature">🌡️ 适宜温度</label>
                 <input id="plantTemperature" name="plantTemperatureValue" type="text" autocomplete="off" />
@@ -1686,9 +1747,39 @@
                 <textarea id="plantNotes" name="plantNotes"></textarea>
                 <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
               </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="flowerColor">
+                <label for="plantFlowerColor">🎨 花色</label>
+                <textarea id="plantFlowerColor" name="plantFlowerColor"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="pruning">
+                <label for="plantPruning">✂️ 修剪</label>
+                <textarea id="plantPruning" name="plantPruning"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
               <div class="field full plant-edit-field" data-plant-edit-section="harvest">
                 <label for="plantHarvest">🧺 采收</label>
                 <textarea id="plantHarvest" name="plantHarvest"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="commonQuestions">
+                <label for="plantCommonQuestions">❓ 常见问题</label>
+                <textarea id="plantCommonQuestions" name="plantCommonQuestions"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="diseases">
+                <label for="plantDiseases">🦠 病害</label>
+                <textarea id="plantDiseases" name="plantDiseases"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="pests">
+                <label for="plantPests">🐛 虫害</label>
+                <textarea id="plantPests" name="plantPests"></textarea>
+                <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
+              </div>
+              <div class="field full plant-edit-field" data-plant-edit-section="otherAnimals">
+                <label for="plantOtherAnimals">🦌 其他动物</label>
+                <textarea id="plantOtherAnimals" name="plantOtherAnimals"></textarea>
                 <p class="field-hint">点击后会自动插入 • ，按 Enter 新增下一条；也可以每行写一条。</p>
               </div>
             </div>
@@ -1967,6 +2058,7 @@
     "plantContainer",
     "plantStartDate",
     "plantStage",
+    "plantSize",
     "plantTemperatureValue",
     "plantSunlight",
     "plantTemperatureNotes",
@@ -1974,7 +2066,13 @@
     "plantWatering",
     "plantSoil",
     "plantNotes",
-    "plantHarvest"
+    "plantFlowerColor",
+    "plantPruning",
+    "plantHarvest",
+    "plantCommonQuestions",
+    "plantDiseases",
+    "plantPests",
+    "plantOtherAnimals"
   ]);
   const DEFAULT_PLANT_DRAFT = Object.freeze({
     editingPlantId: "",
@@ -1985,6 +2083,7 @@
     plantContainer: "",
     plantStartDate: "",
     plantStage: "Planning",
+    plantSize: "",
     plantTemperatureValue: "",
     plantSunlight: "",
     plantTemperatureNotes: "",
@@ -1992,7 +2091,13 @@
     plantWatering: "",
     plantSoil: "",
     plantNotes: "",
-    plantHarvest: ""
+    plantFlowerColor: "",
+    plantPruning: "",
+    plantHarvest: "",
+    plantCommonQuestions: "",
+    plantDiseases: "",
+    plantPests: "",
+    plantOtherAnimals: ""
   });
   const BEGINNER_CHECKLIST = [
     {
@@ -2074,23 +2179,37 @@
   });
   const PLANT_DETAIL_TABS = Object.freeze([
     { id: "overview", label: "🪴 概览" },
+    { id: "size", label: "📏 植株大小" },
     { id: "sunlight", label: "☀️ 光照" },
     { id: "temperature", label: "🌡️ 温度" },
     { id: "watering", label: "💧 浇水" },
     { id: "soil", label: "🌱 土壤" },
     { id: "feeding", label: "🌿 施肥" },
+    { id: "flowerColor", label: "🎨 花色" },
+    { id: "pruning", label: "✂️ 修剪" },
     { id: "harvest", label: "🧺 采收" },
+    { id: "commonQuestions", label: "❓ 常见问题" },
+    { id: "diseases", label: "🦠 病害" },
+    { id: "pests", label: "🐛 虫害" },
+    { id: "otherAnimals", label: "🦌 其他动物" },
     { id: "journal", label: "📝 日志" }
   ]);
   const PLANT_DETAIL_TAB_IDS = new Set(PLANT_DETAIL_TABS.map((tab) => tab.id));
   const PLANT_EDIT_SECTIONS = Object.freeze({
     overview: { label: "概览", fieldId: "plantName" },
+    size: { label: "植株大小", fieldId: "plantSize" },
     sunlight: { label: "光照", fieldId: "plantSunlight" },
     temperature: { label: "温度", fieldId: "plantTemperature" },
     watering: { label: "浇水", fieldId: "plantWatering" },
     soil: { label: "土壤", fieldId: "plantSoil" },
     feeding: { label: "施肥", fieldId: "plantNotes" },
-    harvest: { label: "采收", fieldId: "plantHarvest" }
+    flowerColor: { label: "花色", fieldId: "plantFlowerColor" },
+    pruning: { label: "修剪", fieldId: "plantPruning" },
+    harvest: { label: "采收", fieldId: "plantHarvest" },
+    commonQuestions: { label: "常见问题", fieldId: "plantCommonQuestions" },
+    diseases: { label: "病害", fieldId: "plantDiseases" },
+    pests: { label: "虫害", fieldId: "plantPests" },
+    otherAnimals: { label: "其他动物", fieldId: "plantOtherAnimals" }
   });
   const ENTRY_EDIT_SECTIONS = Object.freeze({
     wins: { label: "顺利的地方", fieldId: "entryWins" },
@@ -2102,10 +2221,17 @@
   const PLANT_BULLET_FIELD_NAMES = Object.freeze([
     "plantTemperatureNotes",
     "plantSunlightNotes",
+    "plantSize",
     "plantWatering",
     "plantSoil",
     "plantNotes",
-    "plantHarvest"
+    "plantFlowerColor",
+    "plantPruning",
+    "plantHarvest",
+    "plantCommonQuestions",
+    "plantDiseases",
+    "plantPests",
+    "plantOtherAnimals"
   ]);
   const ENTRY_BULLET_FIELD_NAMES = Object.freeze([
     "entryWins",
@@ -2412,6 +2538,7 @@
       plantContainer: String(raw.plantContainer || ""),
       plantStartDate: normalizeDateValue(raw.plantStartDate),
       plantStage: String(raw.plantStage || DEFAULT_PLANT_DRAFT.plantStage),
+      plantSize: String(raw.plantSize || ""),
       plantTemperatureValue: sanitizePlantTemperature(String(raw.plantTemperatureValue || "")),
       plantSunlight: String(raw.plantSunlight || ""),
       plantTemperatureNotes: String(raw.plantTemperatureNotes || ""),
@@ -2419,7 +2546,13 @@
       plantWatering: String(raw.plantWatering || ""),
       plantSoil: String(raw.plantSoil || ""),
       plantNotes: String(raw.plantNotes || ""),
-      plantHarvest: String(raw.plantHarvest || "")
+      plantFlowerColor: String(raw.plantFlowerColor || ""),
+      plantPruning: String(raw.plantPruning || ""),
+      plantHarvest: String(raw.plantHarvest || ""),
+      plantCommonQuestions: String(raw.plantCommonQuestions || ""),
+      plantDiseases: String(raw.plantDiseases || ""),
+      plantPests: String(raw.plantPests || ""),
+      plantOtherAnimals: String(raw.plantOtherAnimals || "")
     };
   }
 
@@ -2510,6 +2643,7 @@
     if (plantForm.plantStage.value !== draft.plantStage) {
       plantForm.plantStage.value = DEFAULT_PLANT_DRAFT.plantStage;
     }
+    plantForm.plantSize.value = formatBulletEditorText(draft.plantSize);
     plantForm.plantTemperature.value = draft.plantTemperatureValue;
     plantForm.plantSunlight.value = draft.plantSunlight;
     if (draft.plantSunlight && plantForm.plantSunlight.value !== draft.plantSunlight) {
@@ -2520,7 +2654,13 @@
     plantForm.plantWatering.value = formatBulletEditorText(draft.plantWatering);
     plantForm.plantSoil.value = formatBulletEditorText(draft.plantSoil);
     plantForm.plantNotes.value = formatBulletEditorText(draft.plantNotes);
+    plantForm.plantFlowerColor.value = formatBulletEditorText(draft.plantFlowerColor);
+    plantForm.plantPruning.value = formatBulletEditorText(draft.plantPruning);
     plantForm.plantHarvest.value = formatBulletEditorText(draft.plantHarvest);
+    plantForm.plantCommonQuestions.value = formatBulletEditorText(draft.plantCommonQuestions);
+    plantForm.plantDiseases.value = formatBulletEditorText(draft.plantDiseases);
+    plantForm.plantPests.value = formatBulletEditorText(draft.plantPests);
+    plantForm.plantOtherAnimals.value = formatBulletEditorText(draft.plantOtherAnimals);
     refreshTextEditorPreviews(plantForm);
     updatePlantComposerUi();
     openPlantComposer();
@@ -2588,6 +2728,7 @@
       container: String(item.container || "").trim(),
       startDate: normalizeDateValue(item.startDate),
       stage: String(item.stage || "Planning").trim() || "Planning",
+      size: String(item.size || "").trim(),
       sunlight: String(item.sunlight || "").trim(),
       sunlightNotes: String(item.sunlightNotes || "").trim(),
       temperature: sanitizePlantTemperature(String(item.temperature || "").trim()),
@@ -2595,6 +2736,12 @@
       watering: String(item.watering || "").trim(),
       soil: String(item.soil || "").trim(),
       harvest: String(item.harvest || "").trim(),
+      flowerColor: String(item.flowerColor || "").trim(),
+      pruning: String(item.pruning || "").trim(),
+      commonQuestions: String(item.commonQuestions || "").trim(),
+      diseases: String(item.diseases || "").trim(),
+      pests: String(item.pests || "").trim(),
+      otherAnimals: String(item.otherAnimals || "").trim(),
       notes: String(item.notes || "").trim(),
       createdAt: String(item.createdAt || new Date().toISOString()),
       updatedAt: String(item.updatedAt || new Date().toISOString())
@@ -3775,6 +3922,15 @@
   function renderPlantDetailPanel(plant, tabId) {
     const panelId = plantDetailPanelId(plant.id, tabId);
 
+    if (tabId === "size") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-size" id="${panelId}" role="tabpanel">
+          <h5>📏 植株大小</h5>
+          ${formatBulletTextBlock(plant.size, "")}
+        </section>
+      `;
+    }
+
     if (tabId === "sunlight") {
       return `
         <section class="plant-detail-panel plant-detail-card-sunlight" id="${panelId}" role="tabpanel">
@@ -3822,11 +3978,65 @@
       `;
     }
 
+    if (tabId === "flowerColor") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-flower-color" id="${panelId}" role="tabpanel">
+          <h5>🎨 花色</h5>
+          ${formatBulletTextBlock(plant.flowerColor, "")}
+        </section>
+      `;
+    }
+
+    if (tabId === "pruning") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-pruning" id="${panelId}" role="tabpanel">
+          <h5>✂️ 修剪</h5>
+          ${formatBulletTextBlock(plant.pruning, "")}
+        </section>
+      `;
+    }
+
     if (tabId === "harvest") {
       return `
         <section class="plant-detail-panel plant-detail-card-harvest" id="${panelId}" role="tabpanel">
           <h5>🧺 采收</h5>
           ${formatBulletTextBlock(plant.harvest, "")}
+        </section>
+      `;
+    }
+
+    if (tabId === "commonQuestions") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-common-questions" id="${panelId}" role="tabpanel">
+          <h5>❓ 常见问题</h5>
+          ${formatBulletTextBlock(plant.commonQuestions, "")}
+        </section>
+      `;
+    }
+
+    if (tabId === "diseases") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-diseases" id="${panelId}" role="tabpanel">
+          <h5>🦠 病害</h5>
+          ${formatBulletTextBlock(plant.diseases, "")}
+        </section>
+      `;
+    }
+
+    if (tabId === "pests") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-pests" id="${panelId}" role="tabpanel">
+          <h5>🐛 虫害</h5>
+          ${formatBulletTextBlock(plant.pests, "")}
+        </section>
+      `;
+    }
+
+    if (tabId === "otherAnimals") {
+      return `
+        <section class="plant-detail-panel plant-detail-card-other-animals" id="${panelId}" role="tabpanel">
+          <h5>🦌 其他动物</h5>
+          ${formatBulletTextBlock(plant.otherAnimals, "")}
         </section>
       `;
     }
@@ -4273,13 +4483,20 @@
       container: values.plantContainer,
       startDate: values.plantStartDate,
       stage: values.plantStage,
+      size: values.plantSize,
       sunlight: values.plantSunlight,
       sunlightNotes: values.plantSunlightNotes,
       temperature: sanitizePlantTemperature(values.plantTemperatureValue),
       temperatureNotes: values.plantTemperatureNotes,
       watering: values.plantWatering,
       soil: values.plantSoil,
+      flowerColor: values.plantFlowerColor,
+      pruning: values.plantPruning,
       harvest: values.plantHarvest,
+      commonQuestions: values.plantCommonQuestions,
+      diseases: values.plantDiseases,
+      pests: values.plantPests,
+      otherAnimals: values.plantOtherAnimals,
       notes: values.plantNotes,
       createdAt: existing ? existing.createdAt : now,
       updatedAt: now
@@ -4462,13 +4679,20 @@
     plantForm.plantContainer.value = plant.container;
     plantForm.plantStartDate.value = plant.startDate;
     plantForm.plantStage.value = plant.stage;
+    plantForm.plantSize.value = formatBulletEditorText(plant.size);
     plantForm.plantSunlight.value = plant.sunlight;
     plantForm.plantSunlightNotes.value = formatBulletEditorText(plant.sunlightNotes);
     plantForm.plantTemperature.value = plant.temperature;
     plantForm.plantTemperatureNotes.value = formatBulletEditorText(plant.temperatureNotes);
     plantForm.plantWatering.value = formatBulletEditorText(plant.watering);
     plantForm.plantSoil.value = formatBulletEditorText(plant.soil);
+    plantForm.plantFlowerColor.value = formatBulletEditorText(plant.flowerColor);
+    plantForm.plantPruning.value = formatBulletEditorText(plant.pruning);
     plantForm.plantHarvest.value = formatBulletEditorText(plant.harvest);
+    plantForm.plantCommonQuestions.value = formatBulletEditorText(plant.commonQuestions);
+    plantForm.plantDiseases.value = formatBulletEditorText(plant.diseases);
+    plantForm.plantPests.value = formatBulletEditorText(plant.pests);
+    plantForm.plantOtherAnimals.value = formatBulletEditorText(plant.otherAnimals);
     plantForm.plantNotes.value = formatBulletEditorText(plant.notes);
     refreshTextEditorPreviews(plantForm);
     updatePlantComposerUi();
