@@ -5698,20 +5698,21 @@
     scheduleAutoDoneTaskSync();
   }
 
-  function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.", { renderScope = "full" } = {}) {
+  function saveTimePayloadLocally(pendingPayload, message = "Saved locally. Load private data to sync.", { renderScope = "full", deferRender = false } = {}) {
     timePayload = cleanClientPayload(pendingPayload);
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(true);
-    renderTimePayloadState({ renderScope });
+    if (deferRender) scheduleDeferredTimePayloadRender(renderScope);
+    else renderTimePayloadState({ renderScope });
     setPrivateTimeSyncState("local-only");
     setTrackerStatus(message, "saved");
   }
 
-  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full" } = {}) {
+  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false } = {}) {
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
     const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
     if (!key) {
-      saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope });
+      saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope, deferRender });
       return;
     }
     try {
@@ -5720,26 +5721,16 @@
       writeLocalTimePayload(timePayload);
     } catch (error) {
       if (shouldFallbackToLocalTimeSave(error)) {
-        saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope });
+        saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope, deferRender });
         return;
       }
       throw error;
     }
     showPrivateTimeLoadButton(Boolean(key));
-    renderTimePayloadState({ renderScope });
+    if (deferRender) scheduleDeferredTimePayloadRender(renderScope);
+    else renderTimePayloadState({ renderScope });
     setPrivateTimeSyncState("synced");
     setTrackerStatus("Saved", "saved");
-  }
-
-  function saveTimePayloadOptimistically(nextPayload, { renderScope = "full", successMessage = "Saved" } = {}) {
-    const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
-    timePayload = pendingPayload;
-    writeLocalTimePayload(timePayload);
-    showPrivateTimeLoadButton(true);
-    setTrackerStatus("Saved locally. Syncing private data...", "saved");
-    scheduleDeferredTimePayloadRender(renderScope);
-    syncOptimisticTimePayload(pendingPayload, successMessage)
-      .catch((error) => setTrackerStatus(error.message || "Private Time Analysis sync could not be completed.", "error"));
   }
 
   function scheduleDeferredTimePayloadRender(renderScope = "full") {
@@ -11647,7 +11638,7 @@
     editSaveBtn.textContent = "Saving...";
     setEditEntryStatus("Saving...");
     try {
-      saveTimePayloadOptimistically(nextPayload);
+      await saveTimePayload(nextPayload, { deferRender: true });
       closeEditEntry({ discardDraft: false });
     } catch (error) {
       const message = error.message || "Time entry could not be saved.";
