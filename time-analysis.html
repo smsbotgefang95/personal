@@ -10376,13 +10376,6 @@
     weekFilter.innerHTML = `<option value="">All weeks</option>${metrics.weeks.map((week) => `<option value="${escapeHtml(week)}">${escapeHtml(week)}</option>`).join("")}`;
     dateFilter.removeAttribute("min");
     dateFilter.removeAttribute("max");
-    const detailsHeaders = [
-      ...tableHeaders.slice(0, 3),
-      "Actions",
-      ...tableHeaders.slice(3)
-    ];
-    document.getElementById("entriesHead").innerHTML = `<tr>${detailsHeaders.map((header) => `<th${header === "Actions" ? ' class="actions-column"' : ""}>${escapeHtml(header)}</th>`).join("")}</tr>`;
-
     const updateTable = () => {
       const query = searchInput.value.trim().toLowerCase();
       const listId = listFilter.value;
@@ -10392,6 +10385,12 @@
       const type = typeFilter.value;
       const week = weekFilter.value;
       const date = dateFilter.value;
+      const detailsHeaders = [
+        ...tableHeaders.slice(0, 3),
+        "Actions",
+        ...tableHeaders.slice(3).map((header) => header === "Duration" && date ? "Day duration" : header)
+      ];
+      document.getElementById("entriesHead").innerHTML = `<tr>${detailsHeaders.map((header) => `<th${header === "Actions" ? ' class="actions-column"' : ""}>${escapeHtml(header)}</th>`).join("")}</tr>`;
       const filtered = entries
         .filter((entry) => {
           if (listId && entry.listId !== listId) return false;
@@ -10414,7 +10413,9 @@
       const dayAudit = date ? buildDayTotalAudit(entries, date) : null;
       const visibleKeys = new Set(filtered.map(detailEntryKey));
       const detailsNote = document.getElementById("detailsNote");
-      const dateContext = date ? " Day total uses all entries that start on or overlap the selected date." : "";
+      const dateContext = date
+        ? ` Selected date: ${date}. Day duration shows only the portion within that date; Start/End show the full entry span.`
+        : "";
       detailsNote.textContent = query
         ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`
         : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`;
