@@ -5718,18 +5718,24 @@
       saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope, deferRender });
       return;
     }
+    let response;
     try {
-      const response = await postTimePayload(pendingPayload);
-      timePayload = cleanClientPayload(response.payload || pendingPayload);
-      writeLocalTimePayload(timePayload);
+      response = await postTimePayload(pendingPayload);
     } catch (error) {
-      if (requireServer) throw error;
-      if (shouldFallbackToLocalTimeSave(error)) {
-        saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope, deferRender });
-        return;
+      if (requireServer) {
+        if (error?.status !== 401 || !promptForKey) throw error;
+        await resolveTimeAdminKey({ promptForKey: true, intent: "save" });
+        response = await postTimePayload(pendingPayload);
+      } else {
+        if (shouldFallbackToLocalTimeSave(error)) {
+          saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope, deferRender });
+          return;
+        }
+        throw error;
       }
-      throw error;
     }
+    timePayload = cleanClientPayload(response.payload || pendingPayload);
+    writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(Boolean(key));
     if (deferRender) scheduleDeferredTimePayloadRender(renderScope);
     else renderTimePayloadState({ renderScope });
