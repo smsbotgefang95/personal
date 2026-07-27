@@ -7400,15 +7400,12 @@
       if (next.recurrence !== "custom") next.recurringText = "";
       nextOverrides[key] = next;
     });
-    timePayload = cleanClientPayload({
+    const nextPayload = cleanClientPayload({
       ...timePayload,
       taskOverrides: nextOverrides,
       updatedAt: isoNow()
     });
-    await saveTimePayload({
-      ...timePayload,
-      taskOverrides: nextOverrides
-    });
+    await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true });
   }
 
   function taskStatusPatch(entry, status, { advanceRecurring = true } = {}) {
