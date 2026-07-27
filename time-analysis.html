@@ -6660,6 +6660,35 @@
     ].join("|||");
   }
 
+  function visibleTrackerTaskConfigurationKey(entry) {
+    const recurrence = entry.recurrence || inferRecurrence(entry);
+    return [
+      cleanLabel(entry.listId, ""),
+      normalizedTaskAliasName(entry.taskName),
+      trackGroupName(entry),
+      dateInputValue(entry.dueDate || entry.dueDateText),
+      entry.status === "done" ? "done" : "todo",
+      recurrence,
+      recurrence === "custom" ? cleanLabel(entry.recurringText, "").toLowerCase().replace(/\s+/g, " ") : "",
+      normalizeTaskCategory(entry.taskCategory),
+      cleanLabel(entry.taskType, "").toLowerCase().replace(/\s+/g, " "),
+      cleanLabel(entry.taskOrder, ""),
+      cleanLabel(entry.department, "").toLowerCase().replace(/\s+/g, " "),
+      cleanLabel(entry.section, "").toLowerCase().replace(/\s+/g, " "),
+      cleanLabel(entry.notes, "").toLowerCase().replace(/\s+/g, " ")
+    ].join("|||");
+  }
+
+  function isNativeTaskIdentity(entry) {
+    return /^native-task:/.test(effectiveTaskId(entry.taskId, entry.taskName));
+  }
+
+  function shouldMergeVisibleTaskAliases(primary, duplicate) {
+    if (!primary || !duplicate || taskOverrideKey(primary) === taskOverrideKey(duplicate)) return false;
+    if (isNativeTaskIdentity(primary) === isNativeTaskIdentity(duplicate)) return false;
+    return visibleTrackerTaskConfigurationKey(primary) === visibleTrackerTaskConfigurationKey(duplicate);
+  }
+
   function mergeVisibleTrackerRows(primary, duplicate) {
     const merged = {
       ...primary,
@@ -6692,7 +6721,21 @@
       const existing = byVisibleTask.get(key);
       byVisibleTask.set(key, existing ? mergeVisibleTrackerRows(existing, entry) : entry);
     });
-    return Array.from(byVisibleTask.values());
+    const resolvedRows = [];
+    const byConfiguration = new Map();
+    Array.from(byVisibleTask.values()).forEach((entry) => {
+      const configurationKey = visibleTrackerTaskConfigurationKey(entry);
+      const candidates = byConfiguration.get(configurationKey) || [];
+      const mergeIndex = candidates.find((index) => shouldMergeVisibleTaskAliases(resolvedRows[index], entry));
+      if (mergeIndex === undefined) {
+        candidates.push(resolvedRows.length);
+        resolvedRows.push(entry);
+        byConfiguration.set(configurationKey, candidates);
+      } else {
+        resolvedRows[mergeIndex] = mergeVisibleTrackerRows(resolvedRows[mergeIndex], entry);
+      }
+    });
+    return resolvedRows;
   }
 
   function taskOrderNumber(entry) {
