@@ -4080,7 +4080,7 @@
   let privateTimeRefreshInFlight = false;
   let lastPrivateTimeRefreshAt = 0;
   let dueAllVisibleRowLimit = DUE_ALL_INITIAL_ROW_LIMIT;
-  let shouldCollapseDueAllGroupsOnRender = true;
+  let shouldExpandDueAllGroupsOnRender = true;
   let trackerActivitiesCache = { signature: "", rows: null };
   let lastTrackerRowsForDueCounts = null;
   let businessMustReminderTimer = null;
@@ -6865,16 +6865,6 @@
     if (changed) saveCollapsedTrackGroups();
   }
 
-  function collapseDueDateTrackGroups(groups) {
-    let changed = false;
-    groups.forEach(([, , collapseKey]) => {
-      if (!collapseKey || !collapseKey.startsWith("due:") || collapsedTrackGroups.has(collapseKey)) return;
-      collapsedTrackGroups.add(collapseKey);
-      changed = true;
-    });
-    if (changed) saveCollapsedTrackGroups();
-  }
-
   function activityMeta(entry) {
     return [
       entry.listName || listNameForId(entry.listId),
@@ -8267,9 +8257,9 @@
     const groupedByDueDate = shouldGroupActivitiesByDueDate(dueFilterValue);
     const allGroups = groupedByDueDate ? groupedActivitiesByDueDate(rowsForDisplay) : groupedActivities(rowsForDisplay);
     if (expandDueDateGroups && groupedByDueDate && !query.text) expandDueDateTrackGroups(allGroups);
-    if (shouldCollapseDueAllGroupsOnRender && groupedByDueDate && !query.text) {
-      collapseDueDateTrackGroups(allGroups);
-      shouldCollapseDueAllGroupsOnRender = false;
+    if (shouldExpandDueAllGroupsOnRender && groupedByDueDate && !query.text && allGroups.length) {
+      expandDueDateTrackGroups(allGroups);
+      shouldExpandDueAllGroupsOnRender = false;
     }
     if (dueFilterValue !== "all" && !query.text) resetDueAllVisibleRowLimit();
     const groupLimit = (dueFilterValue === "all" || query.text) ? dueAllVisibleRowLimit : Number.POSITIVE_INFINITY;
@@ -8724,7 +8714,7 @@
         const nextFilter = button.dataset.dueFilterValue || "all";
         if ((dueFilter?.value || "all") === nextFilter) {
           if (nextFilter === "all") {
-            shouldCollapseDueAllGroupsOnRender = true;
+            shouldExpandDueAllGroupsOnRender = true;
             scheduleDeferredActivityRowsRender();
           }
           syncDueFilterButtonState(nextFilter);
@@ -8732,7 +8722,7 @@
         }
         resetDueAllVisibleRowLimit();
         if (dueFilter) dueFilter.value = nextFilter;
-        shouldCollapseDueAllGroupsOnRender = nextFilter === "all";
+        shouldExpandDueAllGroupsOnRender = nextFilter === "all";
         syncDueFilterButtonState(nextFilter);
         scheduleDeferredActivityRowsRender();
       };
@@ -11284,7 +11274,6 @@
     pageSubtitle.hidden = true;
     document.getElementById("sourcePills").innerHTML = "";
     showPrivateTimeLoadButton(false);
-    trackerRowsStartupDeferUntil = performance.now() + 1200;
     if (timePayload.activeEntry) renderTimerState();
     renderTracker();
     scheduleAutoDoneTaskSync();
