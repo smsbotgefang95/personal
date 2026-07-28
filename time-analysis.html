@@ -3962,7 +3962,7 @@
   const RECENT_TASK_HISTORY_WARMUP_DELAY_MS = 100;
   const RECENT_TASK_HISTORY_IDLE_TIMEOUT_MS = 15000;
   const RECENT_TASK_HISTORY_INTERACTION_QUIET_MS = 2200;
-  const TRACKER_SEARCH_RENDER_DELAY_MS = 720;
+  const TRACKER_SEARCH_RENDER_DELAY_MS = 1000;
   const TRACKER_SEARCH_FOCUS_DEFER_MS = 800;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
   const DAY_TOTAL_TARGET_MS = 24 * 60 * 60 * 1000;
@@ -4065,6 +4065,7 @@
   let trackerSupplementalRenderToken = 0;
   let trackerSupplementalRenderTimer = null;
   let trackerDeferredRowsBusyTimer = null;
+  let trackerSearchDeferredRenderPending = false;
   let timePayloadFullRenderTimer = null;
   let trackerRowsStartupDeferUntil = 0;
   let recentTaskRenderedTasks = [];
@@ -5672,6 +5673,11 @@
   }
 
   function renderTimePayloadState({ syncState = "", renderScope = "full" } = {}) {
+    if (renderScope !== "activityRows" && trackerTaskSearchFocused()) {
+      trackerSearchDeferredRenderPending = true;
+      if (syncState) setTrackerStatus(syncState, "saved");
+      return;
+    }
     if (timePayload.activeEntry) renderTimerState();
     if (renderScope === "activityRows") {
       scheduleDeferredActivityRowsRender();
@@ -5803,6 +5809,39 @@
     window.clearTimeout(trackerDeferredRowsBusyTimer);
     trackerDeferredRowsBusyTimer = null;
     setTrackerListRenderBusy(false);
+  }
+
+  function applyTrackerSearchPreview() {
+    const taskSearch = document.getElementById("taskSearchInput");
+    const query = trackerSearchQuery(taskSearch?.value || "");
+    const trackerRows = Array.from(document.querySelectorAll("#trackerTaskList .track-row[data-tracker-search-text]"));
+    if (!trackerRows.length) return false;
+    if (!query.text) {
+      trackerRows.forEach((row) => { row.hidden = false; });
+      document.querySelectorAll("#trackerTaskList .track-group").forEach((group) => { group.hidden = false; });
+      return true;
+    }
+    const groupMatches = new Map();
+    trackerRows.forEach((row) => {
+      const directText = row.dataset.trackerSearchText || "";
+      const normalizedText = row.dataset.trackerSearchNormalizedText || "";
+      const matches = directText.includes(query.text)
+        || (query.normalized && normalizedText.includes(query.normalized));
+      row.hidden = !matches;
+      const group = row.closest(".track-group");
+      if (!group) return;
+      const state = groupMatches.get(group) || { matches: 0, total: 0 };
+      state.total += 1;
+      if (matches) state.matches += 1;
+      groupMatches.set(group, state);
+    });
+    document.querySelectorAll("#trackerTaskList .track-group").forEach((group) => {
+      const state = groupMatches.get(group) || { matches: 0, total: 0 };
+      group.hidden = state.matches === 0;
+      const count = group.querySelector(".track-group-count");
+      if (count) count.textContent = `${state.matches}/${state.total}`;
+    });
+    return true;
   }
 
   function trackerActivityRowsRendered() {
@@ -8164,8 +8203,10 @@
     const order = orderOptionValue(entry.taskOrder);
     const dueDateValue = dateInputValue(entry.dueDate);
     const dueTimeValue = effectiveDueTime(entry);
+    const trackerSearchTextValue = entry._trackerSearchText || trackerSearchText(entry);
+    const trackerSearchNormalizedTextValue = entry._trackerNormalizedSearchText || normalizedTrackerSearchText(trackerSearchTextValue);
     return `
-      <div class="track-row">
+      <div class="track-row" data-tracker-search-text="${escapeHtml(trackerSearchTextValue)}" data-tracker-search-normalized-text="${escapeHtml(trackerSearchNormalizedTextValue)}">
         <div class="track-row-inner">
           <div class="track-select-cell">
             <input class="track-select-checkbox" type="checkbox" data-select-task-key="${escapeHtml(key)}" aria-label="Select ${escapeHtml(entry.taskName)}" />
@@ -8618,6 +8659,7 @@
     syncTaskSearchClearButton();
     resetDueAllVisibleRowLimit();
     if (hasQuery) clearTrackerFiltersForTaskSearch();
+    applyTrackerSearchPreview();
     scheduleTrackerSearchRender();
   }
 
@@ -8733,6 +8775,11 @@
       taskSearch.onfocus = deferStartupRowsForTaskSearchInput;
       taskSearch.oninput = handleTrackerTaskSearchInput;
       taskSearch.onsearch = handleTrackerTaskSearchInput;
+      taskSearch.onblur = () => {
+        if (!trackerSearchDeferredRenderPending) return;
+        trackerSearchDeferredRenderPending = false;
+        scheduleAfterPaint(() => renderTimePayloadState());
+      };
     }
     const taskSearchClear = document.getElementById("taskSearchClearBtn");
     if (taskSearchClear) taskSearchClear.onclick = clearTrackerTaskSearch;
