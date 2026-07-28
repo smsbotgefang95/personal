@@ -3953,8 +3953,8 @@
     "talk to matt",
     "sleep"
   ]);
-  const DUE_ALL_INITIAL_ROW_LIMIT = 80;
-  const DUE_ALL_ROW_INCREMENT = 80;
+  const DUE_ALL_INITIAL_ROW_LIMIT = window.innerWidth <= 940 ? 24 : 80;
+  const DUE_ALL_ROW_INCREMENT = window.innerWidth <= 940 ? 24 : 80;
   const RECENT_TASK_RENDER_LIMIT = 48;
   const RECENT_TASK_INITIAL_RENDER_LIMIT = 18;
   const RECENT_TASK_OVERFLOW_RENDER_DELAY_MS = 160;
@@ -4084,6 +4084,7 @@
   let shouldExpandDueAllGroupsOnRender = true;
   let trackerActivitiesCache = { signature: "", rows: null };
   let lastTrackerRowsForDueCounts = null;
+  let nativeCompletedEntriesCache = { sourceEntries: null, taskOverrides: null, taskMerges: null, rows: [] };
   let businessMustReminderTimer = null;
   let businessMustReminderFiredKeys = null;
   let businessMustReminderAudioContext = null;
@@ -6017,7 +6018,19 @@
   }
 
   function nativeCompletedEntries() {
-    return entriesWithTaskOverrides((timePayload.entries || []).map(normalizeNativeEntry));
+    const sourceEntries = timePayload.entries || [];
+    const taskOverrides = timePayload.taskOverrides || {};
+    const taskMerges = timePayload.taskMerges || {};
+    if (
+      nativeCompletedEntriesCache.sourceEntries === sourceEntries &&
+      nativeCompletedEntriesCache.taskOverrides === taskOverrides &&
+      nativeCompletedEntriesCache.taskMerges === taskMerges
+    ) {
+      return nativeCompletedEntriesCache.rows;
+    }
+    const rows = entriesWithTaskOverrides(sourceEntries.map(normalizeNativeEntry));
+    nativeCompletedEntriesCache = { sourceEntries, taskOverrides, taskMerges, rows };
+    return rows;
   }
 
   function privateTaskOverrideEntries() {
@@ -6296,9 +6309,9 @@
     return new Set(rawHiddenRecentTaskKeys().map(hiddenRecentTaskRecordKey).filter(Boolean));
   }
 
-  function isRecentTaskHidden(entry, key, activeKey) {
+  function isRecentTaskHidden(entry, key, activeKey, hiddenRecords = rawHiddenRecentTaskKeys()) {
     if (key === activeKey) return false;
-    const matchingHiddenItem = rawHiddenRecentTaskKeys().find((item) => hiddenRecentTaskRecordKey(item) === key);
+    const matchingHiddenItem = hiddenRecords.find((item) => hiddenRecentTaskRecordKey(item) === key);
     if (!matchingHiddenItem) return false;
     const completedAt = recentTaskCompletedMs(entry);
     const hiddenAt = hiddenRecentTaskRecordHiddenAt(matchingHiddenItem);
@@ -6338,20 +6351,24 @@
     const byTask = new Map();
     const activeEntry = entries.find((entry) => entry?.isActiveRecentTask);
     const activeKey = activeEntry ? recentTaskKey(activeEntry) : "";
-    Array.from(entries)
-      .sort(compareRecentTasksByRecency)
-      .forEach((entry) => {
-        if (!entry?.taskName) return;
-        if (isDefaultRecentTaskExcluded(entry)) return;
-        const key = recentTaskKey(entry);
-        if (isRecentTaskHidden(entry, key, activeKey)) return;
-        const current = byTask.get(key);
-        if (current?.isActiveRecentTask && !entry.isActiveRecentTask) {
-          byTask.set(key, entry);
-          return;
-        }
-        if (!byTask.has(key)) byTask.set(key, entry);
-      });
+    const hiddenRecords = rawHiddenRecentTaskKeys();
+    Array.from(entries).forEach((entry) => {
+      if (!entry?.taskName) return;
+      if (isDefaultRecentTaskExcluded(entry)) return;
+      const key = recentTaskKey(entry);
+      if (isRecentTaskHidden(entry, key, activeKey, hiddenRecords)) return;
+      const current = byTask.get(key);
+      if (!current) {
+        byTask.set(key, entry);
+        return;
+      }
+      if (current.isActiveRecentTask && !entry.isActiveRecentTask) {
+        byTask.set(key, entry);
+        return;
+      }
+      if (!current.isActiveRecentTask && entry.isActiveRecentTask) return;
+      if (compareRecentTasksByRecency(entry, current) < 0) byTask.set(key, entry);
+    });
     return Array.from(byTask.values()).sort(compareRecentTasksByRecency);
   }
 
@@ -6548,15 +6565,17 @@
     const quickChips = document.getElementById("quickChips");
     if (!quickChips) return;
     const byTask = new Map();
-    entries
-      .slice()
-      .sort((a, b) => (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
-      .forEach((entry) => {
-        if (!byTask.has(entry.taskId)) {
-          byTask.set(entry.taskId, { ...entry, count: 0 });
-        }
-        byTask.get(entry.taskId).count += 1;
-      });
+    entries.forEach((entry) => {
+      const current = byTask.get(entry.taskId);
+      if (!current) {
+        byTask.set(entry.taskId, { ...entry, count: 1 });
+        return;
+      }
+      current.count += 1;
+      if ((entry.start?.getTime() || 0) > (current.start?.getTime() || 0)) {
+        byTask.set(entry.taskId, { ...entry, count: current.count });
+      }
+    });
     const chips = Array.from(byTask.values())
       .sort((a, b) => b.count - a.count || (b.start?.getTime() || 0) - (a.start?.getTime() || 0))
       .slice(0, 12);
