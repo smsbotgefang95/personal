@@ -128,6 +128,43 @@ assert.deepStrictEqual(
 
 console.log("Recent task ordering checks passed.");
 
+const saveVerificationSandbox = {
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  }
+};
+
+vm.createContext(saveVerificationSandbox);
+vm.runInContext([
+  extractFunction(html, "timestampMs"),
+  extractFunction(html, "timeEntrySaveMatches")
+].join("\n\n"), saveVerificationSandbox);
+
+const expectedSavedEntry = {
+  id: "native-entry",
+  start: "2026-08-01T17:40:00.000Z",
+  stop: "2026-08-01T17:49:00.000Z",
+  durationMs: 540000
+};
+assert.strictEqual(
+  saveVerificationSandbox.timeEntrySaveMatches({ ...expectedSavedEntry }, expectedSavedEntry),
+  true,
+  "manual edit verification should accept the server echo of the requested stop time"
+);
+assert.strictEqual(
+  saveVerificationSandbox.timeEntrySaveMatches({ ...expectedSavedEntry, stop: "2026-08-01T17:47:00.000Z", durationMs: 420000 }, expectedSavedEntry),
+  false,
+  "manual edit verification should reject a stale server stop time"
+);
+assert.strictEqual(
+  saveVerificationSandbox.timeEntrySaveMatches(null, expectedSavedEntry),
+  false,
+  "manual edit verification should reject a missing server entry"
+);
+
+console.log("Manual time-entry save verification checks passed.");
+
 const analyticsSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();

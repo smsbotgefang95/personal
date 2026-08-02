@@ -1510,6 +1510,13 @@
     text-transform: uppercase;
   }
 
+  .tracker-field-hint {
+    margin: -1px 0 0;
+    color: var(--dim);
+    font-size: 0.76rem;
+    line-height: 1.25;
+  }
+
   .tracker-input,
   .tracker-select,
   .tracker-textarea {
@@ -3801,13 +3808,14 @@
           <input class="tracker-input" id="editStart" type="datetime-local" required />
         </div>
         <div class="tracker-field">
-          <label for="editStop">Stop</label>
-          <input class="tracker-input" id="editStop" type="datetime-local" required />
+          <label for="editStop">End (tracked time)</label>
+          <input class="tracker-input" id="editStop" type="datetime-local" aria-describedby="editStopHint" required />
+          <p class="tracker-field-hint" id="editStopHint">Controls the table's End time and duration.</p>
         </div>
       </div>
       <div class="tracker-grid">
         <div class="tracker-field">
-          <label for="editDueDate">Due date</label>
+          <label for="editDueDate">Task due date / time</label>
           <div class="edit-due-controls">
             <div class="date-picker-control">
               <input class="tracker-input" id="editDueDate" type="date" />
@@ -3820,8 +3828,9 @@
                 </svg>
               </button>
             </div>
-            <input class="tracker-input" id="editDueTime" type="time" aria-label="Due time" />
+            <input class="tracker-input" id="editDueTime" type="time" aria-label="Task due time" aria-describedby="editDueTimeHint" />
           </div>
+          <p class="tracker-field-hint" id="editDueTimeHint">Task metadata only; it does not change tracked time.</p>
         </div>
         <div class="tracker-field">
           <label for="editRecurrence">Recurrence</label>
@@ -5715,7 +5724,15 @@
     setTrackerStatus(message, "saved");
   }
 
-  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false, requireServer = false } = {}) {
+  function timeEntrySaveMatches(actualEntry, expectedEntry) {
+    if (!actualEntry || !expectedEntry) return false;
+    return cleanLabel(actualEntry.id, "") === cleanLabel(expectedEntry.id, "")
+      && timestampMs(actualEntry.start) === timestampMs(expectedEntry.start)
+      && timestampMs(actualEntry.stop) === timestampMs(expectedEntry.stop)
+      && Math.round(Number(actualEntry.durationMs) || 0) === Math.round(Number(expectedEntry.durationMs) || 0);
+  }
+
+  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false, requireServer = false, verifyEntry = null } = {}) {
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
     const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
     if (!key) {
@@ -5741,7 +5758,17 @@
         throw error;
       }
     }
-    timePayload = cleanClientPayload(response.payload || pendingPayload);
+    if (requireServer && (!response?.payload || typeof response.payload !== "object")) {
+      throw new Error("The server did not return the saved Time Analysis entry. Try again.");
+    }
+    const savedPayload = cleanClientPayload(response.payload || pendingPayload);
+    if (requireServer && verifyEntry) {
+      const savedEntry = savedPayload.entries.find((entry) => entry.id === verifyEntry.id);
+      if (!timeEntrySaveMatches(savedEntry, verifyEntry)) {
+        throw new Error("The server did not confirm the new end time. Refresh the page and try again.");
+      }
+    }
+    timePayload = savedPayload;
     writeLocalTimePayload(timePayload);
     showPrivateTimeLoadButton(Boolean(key));
     if (deferRender) scheduleDeferredTimePayloadRender(renderScope);
@@ -11744,7 +11771,12 @@
     editSaveBtn.textContent = "Saving...";
     setEditEntryStatus("Saving...");
     try {
-      await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true, deferRender: true });
+      await saveTimePayload(nextPayload, {
+        promptForKey: true,
+        requireServer: true,
+        deferRender: true,
+        verifyEntry: nextEntry
+      });
       closeEditEntry({ discardDraft: false });
     } catch (error) {
       const message = error.message || "Time entry could not be saved.";
