@@ -5,6 +5,7 @@ import json
 import os
 import subprocess
 import tempfile
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -32,6 +33,7 @@ DEFAULT_QUESTION_PROGRESS = {
 }
 DEFAULT_QUESTION_PROGRESS_PAYLOAD = {"progress": DEFAULT_QUESTION_PROGRESS, "updatedAt": None}
 QUESTION_STATUSES = {"tolearn", "learning", "review", "learned"}
+QUESTION_PROGRESS_LOCK = threading.Lock()
 
 
 def env_path(name, default):
@@ -1074,10 +1076,11 @@ class Handler(BaseHTTPRequestHandler):
         if status not in QUESTION_STATUSES:
             self.send_json(400, {"ok": False, "error": "invalid_status"})
             return
-        payload = load_question_progress_payload()
-        payload["progress"][idx] = status
-        payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        write_result = write_question_progress(payload)
+        with QUESTION_PROGRESS_LOCK:
+            payload = load_question_progress_payload()
+            payload["progress"][idx] = status
+            payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            write_result = write_question_progress(payload)
         self.send_json(200, {"ok": True, "payload": payload, "result": write_result})
 
     def do_DELETE(self):
@@ -1090,10 +1093,11 @@ class Handler(BaseHTTPRequestHandler):
         if idx is None:
             self.send_json(400, {"ok": False, "error": "invalid_question_index"})
             return
-        payload = load_question_progress_payload()
-        payload["progress"].pop(idx, None)
-        payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        write_result = write_question_progress(payload)
+        with QUESTION_PROGRESS_LOCK:
+            payload = load_question_progress_payload()
+            payload["progress"].pop(idx, None)
+            payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            write_result = write_question_progress(payload)
         self.send_json(200, {"ok": True, "payload": payload, "result": write_result})
 
     def do_POST(self):

@@ -2657,6 +2657,12 @@
     saveProgress(progress);
     if (options.render !== false) render();
   }
+  function applyQuestionProgressUpdate(idx, status) {
+    if (status === "auto") delete progress[idx];
+    else progress[idx] = status;
+    saveProgress(progress);
+    questionProgressSyncAvailable = true;
+  }
   async function saveQuestionStatusToServer(idx, status) {
     const url = `${QUESTION_PROGRESS_API}/${encodeURIComponent(idx)}`;
     const options = status === "auto"
@@ -2670,7 +2676,9 @@
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const result = await res.json();
     if (!result || result.ok !== true) throw new Error("Save failed");
-    applyQuestionProgressPayload(result.payload);
+    // Keep this response scoped to the question the user changed. A stale or
+    // partial server snapshot must never make the other cards change locally.
+    applyQuestionProgressUpdate(idx, status);
     return result;
   }
   function setActiveQuestionFilter(filter) {
