@@ -1179,7 +1179,9 @@
       const processed = categories.filter((item) => isProcessedFoodCategory(getCategory(item)));
       const produceFirst = moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory);
       const animalCategories = ["牛", "猪", "羊", "虾", "蛋", "鱼", "鸡", "鸭"];
-      return [...moveCategoriesAfter(produceFirst, animalCategories, "水果", getCategory), ...processed, ...homemade];
+      const animalsAfterFruit = moveCategoriesAfter(produceFirst, animalCategories, "水果", getCategory);
+      const pantryCategories = ["坚果（坚果酱/粉）和种子", "奶制品", "杂豆和豆制品"];
+      return [...moveCategoriesAfter(animalsAfterFruit, pantryCategories, "鸭", getCategory), ...processed, ...homemade];
     }
     function itemOrganicStatus(item) {
       if (typeof item?.organic === "boolean") return item.organic ? "organic" : "not-organic";
