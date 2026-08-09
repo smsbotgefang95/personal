@@ -179,12 +179,13 @@
   .imported-heading-controls { display: flex; gap: 8px; align-items: center; }
   .imported-heading-controls .search-wrap { width: min(290px, 26vw); min-width: 180px; }
   .imported-list { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0 24px 22px; padding: 0; overflow: visible; }
-  .category-group { display: grid; gap: 10px; }
+  .category-group { --category-bg: hsl(var(--category-hue) 76% 96%); --category-border: hsl(var(--category-hue) 48% 82%); --category-heading-bg: hsl(var(--category-hue) 76% 91%); --category-ink: hsl(var(--category-hue) 42% 30%); display: grid; gap: 10px; padding: 0 8px 8px; border: 1px solid var(--category-border); border-radius: 14px; background: var(--category-bg); }
   .category-group + .category-group { margin-top: 8px; }
-  .category-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 13px; border: 1px solid #dbe8de; border-radius: 12px; background: linear-gradient(105deg, #eff8f1, #fbfdfb); }
-  .category-heading h4 { margin: 0; color: #245b45; font-size: 0.82rem; letter-spacing: -0.01em; }
+  .category-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 13px; border: 1px solid var(--category-border); border-radius: 12px; background: var(--category-heading-bg); }
+  .category-heading h4 { margin: 0; color: var(--category-ink); font-size: 0.82rem; letter-spacing: -0.01em; }
   .category-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; white-space: nowrap; }
   .category-items { display: grid; gap: 12px; }
+  .category-group .imported-card { border-color: var(--category-border); }
   .imported-card { display: grid; grid-template: "photo badges" auto "photo body" auto / minmax(122px, 154px) minmax(0, 1fr); column-gap: 22px; row-gap: 11px; min-height: 100%; padding: 22px 24px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
@@ -1085,9 +1086,10 @@
       return [...groups.entries()];
     }
 
-    function importedCategoryGroup(category, items) {
+    function importedCategoryGroup(category, items, colorIndex) {
       const itemLabel = items.length === 1 ? "item" : "items";
-      return `<section class="category-group" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
+      const hue = (colorIndex * 67 + 28) % 360;
+      return `<section class="category-group" style="--category-hue: ${hue}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
 
     function renderImported() {
@@ -1105,7 +1107,7 @@
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${selectedStoreLabel}` : "", state.brand !== "all" ? `brand: ${state.brand}` : "", state.category !== "all" ? `category: ${state.category}` : "", organicFilterLabel(), detailFilterLabel()].filter(Boolean).join(" · ");
       const scopeLabel = isGlobalDetailFilter() || isAllList() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
-      els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems]) => importedCategoryGroup(category, categoryItems)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
+      els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems], index) => importedCategoryGroup(category, categoryItems, index)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
     }
