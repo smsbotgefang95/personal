@@ -164,6 +164,9 @@
   .product-fact-label { display: block; min-height: 1.18em; overflow: hidden; color: var(--muted); font-size: 0.52rem; font-weight: 850; letter-spacing: 0.03em; line-height: 1.18; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
   .product-fact-value { display: block; min-width: 0; margin-top: auto; overflow: hidden; color: var(--ink); font-size: 0.74rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
   .product-fact-value.is-missing { color: #927c70; font-weight: 700; }
+  .product-fact.is-sale-unit-price { border-color: #b9dfca; background: #eaf7ef; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.06); }
+  .product-fact.is-sale-unit-price .product-fact-label { min-height: 2.1em; overflow: visible; color: #247050; line-height: 1.05; text-overflow: clip; white-space: normal; }
+  .product-fact.is-sale-unit-price .product-fact-value { color: #176b4b; font-size: 0.8rem; font-weight: 900; }
   .nutrition-facts { margin-top: 12px; padding: 10px 11px; border: 1px solid #dcebe1; border-radius: 12px; background: #f7fbf8; }
   .nutrition-facts.is-label-needed { border-color: #f0dfc8; background: #fffaf3; }
   .nutrition-facts-heading { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
@@ -228,7 +231,7 @@
   .imported-card .card-title { min-width: 0; }
   .imported-card .card-title h4 { max-width: none; margin: 0 0 5px; font-size: 0.94rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
   .imported-card .card-title .card-detail { min-height: 0; }
-  .imported-card .card-badges { grid-area: badges; align-self: start; }
+  .imported-card .card-badges { grid-area: badges; align-self: start; min-width: 120px; }
   .imported-card .card-body { margin-top: 0; }
   .imported-card .product-facts { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .imported-facts-row { margin-top: 0; }
@@ -1030,7 +1033,7 @@
     function productFactsMarkup(facts, extraClass = "") {
       const fields = [["Price", facts.price], ["Discount", facts.discount], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]].filter(([, value]) => value !== "Not listed");
       if (!fields.length) return "";
-      return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
+      return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; const saleUnitClass = label === "Sale unit price" ? " is-sale-unit-price" : ""; return `<span class="product-fact${saleUnitClass}"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
     }
     const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
     function nutritionRecord(item) { return nutritionByName.get(normalizeFoodName(item?.name)) || null; }
