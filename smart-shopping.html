@@ -1014,9 +1014,13 @@
     function itemHasPhoto(item) {
       return Boolean(item && ((typeof item.photo === "string" && item.photo.startsWith("data:image/")) || foodPhoto(item)));
     }
+    function isListedUnitPrice(value) {
+      const normalized = String(value || "").trim();
+      return Boolean(normalized) && normalized !== "Not listed" && !/^Compare by\b/i.test(normalized);
+    }
     function itemHasUnitPrice(item, signal = null) {
       const facts = signal ? signalProductFacts(signal) : productFacts(item);
-      return [facts.unitPrice, facts.saleUnitPrice].some((value) => value !== "Not listed" && !/^Compare by\b/i.test(value));
+      return [facts.unitPrice, facts.saleUnitPrice].some(isListedUnitPrice);
     }
     function matchesDetailFilter(item, signal = null) {
       if (state.detailFilter === "all") return true;
@@ -1399,7 +1403,7 @@
       return `<section class="category-group" style="--category-hue: ${hue}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
 
-    function renderImported() {
+    function filteredImportedItems() {
       let items = getViewItems();
       items = items.filter(matchesStore);
       if (state.brand !== "all") items = items.filter((item) => matchesBrand(item));
@@ -1409,6 +1413,11 @@
       items = items.filter((item) => matchesDetailFilter(item));
       if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || itemCategory(item).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+      return items;
+    }
+
+    function renderImported() {
+      let items = filteredImportedItems();
       const total = items.length;
       if (!state.showAll) items = items.slice(0, 12);
       const selectedStoreLabel = state.store === noStoreFilterValue ? "Without store" : state.store;
@@ -1687,7 +1696,7 @@
     }
 
     function render() {
-      const viewItems = getViewItems();
+      const viewItems = filteredImportedItems();
       const allActive = isAllList();
       els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : allActive ? "All items" : displayListName(state.activeList);
       els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : allActive ? `${viewItems.length} items across all collections · now sorted for better decisions` : `${viewItems.length} items in this list · now sorted for better decisions`;
