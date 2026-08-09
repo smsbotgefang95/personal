@@ -583,11 +583,13 @@
     function productFacts(item) {
       const importedFacts = { price: metadataValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️") };
       const overrides = item && item.facts && typeof item.facts === "object" ? item.facts : {};
-      return {
+      const facts = {
         price: Object.prototype.hasOwnProperty.call(overrides, "price") ? normalizedFactValue(overrides.price) : importedFacts.price,
         weight: Object.prototype.hasOwnProperty.call(overrides, "weight") ? normalizedFactValue(overrides.weight) : importedFacts.weight,
         unitPrice: Object.prototype.hasOwnProperty.call(overrides, "unitPrice") ? normalizedFactValue(overrides.unitPrice) : importedFacts.unitPrice
       };
+      const calculatedUnitPrice = calculateUnitPrice(facts.price, facts.weight);
+      return { ...facts, unitPrice: calculatedUnitPrice || facts.unitPrice };
     }
     function editableFactValue(value) {
       return value === "Not listed" ? "" : value;
@@ -613,6 +615,8 @@
     function parseWeightQuantity(value) {
       const raw = String(value || "").replace(/,/g, "").trim();
       if (!raw) return null;
+      const numberOnlyMatch = raw.match(/^\d+(?:\.\d+)?$/);
+      if (numberOnlyMatch) return { amount: Number(numberOnlyMatch[0]), unit: "unit" };
       const countMatch = raw.match(/(\d+(?:\.\d+)?)\s*(?:eggs?|each(?:\s+egg)?|items?|pieces?|pcs?|count|ct|bags?|boxes?|bottles?|cans?|packs?|bunches?|bundles?|个|根|枚|只|颗|条|袋|盒|瓶|包|把|罐|片|卷|顿|块|箱)/iu);
       if (countMatch) {
         return { amount: Number(countMatch[1]), unit: "each" };
@@ -630,7 +634,7 @@
       if (!price || !quantity || !Number.isFinite(quantity.amount) || quantity.amount <= 0) return "";
       const unitPrice = price / quantity.amount;
       const displayPrice = unitPrice < 0.01 ? unitPrice.toFixed(3) : unitPrice.toFixed(2);
-      return `$${displayPrice} / ${quantity.unit}`;
+      return quantity.unit === "unit" ? `$${displayPrice}` : `$${displayPrice} / ${quantity.unit}`;
     }
     function refreshUnitPrice() {
       const calculated = calculateUnitPrice(els.editPrice.value, els.editWeight.value);
