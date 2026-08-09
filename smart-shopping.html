@@ -101,6 +101,7 @@
   .list-button.drag-over { border-color: var(--green); background: #e7f5ed; box-shadow: inset 3px 0 0 var(--green), 0 0 0 3px rgba(37, 138, 107, 0.12); }
   .list-button.drag-over::after { position: absolute; right: 34px; bottom: 4px; color: var(--green); font-size: 0.59rem; font-weight: 800; content: "Drop to move"; }
   .list-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: #f1f4f1; font-size: 1.35rem; }
+  .list-icon svg { display: block; width: 25px; height: 25px; }
   .list-button.active .list-icon { background: #ffffff; }
   .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
   .list-meta { display: block; margin-top: 2px; color: var(--muted); font-size: 0.71rem; font-weight: 600; }
@@ -172,6 +173,15 @@
   .glycemic-index-heading strong { display: block; color: #245b45; font-size: 0.72rem; letter-spacing: 0.02em; }
   .glycemic-index-heading span { display: block; margin-top: 2px; color: var(--muted); font-size: 0.61rem; }
   .glycemic-index-value { flex: 0 0 auto; color: var(--ink); font-size: 0.72rem; font-weight: 850; text-align: right; }
+  .shopping-details { margin-top: 10px; border: 1px solid #dcebe1; border-radius: 12px; background: #f7fbf8; }
+  .shopping-details summary { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 10px 11px; color: #245b45; font-size: 0.72rem; font-weight: 800; cursor: pointer; list-style: none; }
+  .shopping-details summary::-webkit-details-marker { display: none; }
+  .shopping-details summary::after { color: var(--muted); content: "＋"; font-size: 1rem; line-height: 1; }
+  .shopping-details[open] summary::after { content: "−"; }
+  .shopping-details-summary { margin-left: auto; color: var(--muted); font-size: 0.62rem; font-weight: 750; text-align: right; }
+  .shopping-details-content { padding: 0 11px 10px; }
+  .shopping-details-content .nutrition-facts, .shopping-details-content .glycemic-index-facts { margin-top: 0; }
+  .shopping-details-content .nutrition-facts + .glycemic-index-facts { margin-top: 9px; }
   .price-line { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin: 13px 0 8px; }
   .price-line strong { font-size: 1.05rem; letter-spacing: -0.03em; }
   .price-line span { color: var(--green); font-size: 0.71rem; font-weight: 800; text-align: right; }
@@ -295,6 +305,17 @@
     .edit-facts { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .nutrition-facts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .imported-card { grid-template: "photo badges" auto "body body" auto / 78px minmax(0, 1fr); column-gap: 11px; row-gap: 9px; padding: 14px 12px; }
+    .imported-card .item-photo { width: 72px; height: 72px; border-radius: 12px; }
+    .imported-card .card-badges { justify-content: start; gap: 4px; }
+    .imported-card .card-body { margin-top: 0; }
+    .imported-card .card-body h4 { font-size: 0.94rem; }
+    .imported-card .card-detail { font-size: 0.7rem; }
+    .imported-facts-row { margin-top: 10px; gap: 9px; }
+    .product-fact { padding: 6px 7px; }
+    .imported-actions .mini-button { padding: 6px 9px; }
+    .shopping-details { margin-top: 9px; }
+    .shopping-details summary { padding: 9px 10px; }
   }
 </style>
 </head>
@@ -447,8 +468,19 @@
     });
     const logicalListName = (name) => mergeTargetBySource.get(name) || name;
     const listNames = [...new Set(sourceListNames.map(logicalListName))];
+    const listDisplayNames = new Map([
+      ["冰柜_肉和其他🥩", "冰柜"],
+      ["橱柜_食物🍫", "橱柜"]
+    ]);
+    const displayListName = (name) => listDisplayNames.get(name) || name;
     const ALL_LIST = "__all__";
     const getListMeta = (name) => listMeta[name] || { icon: "🛒", count: 0, accent: "neutral" };
+    function listIconMarkup(icon, listName = "") {
+      if (listName === "冰箱") {
+        return `<svg viewBox="0 0 32 32" role="img" aria-label="Fridge" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="7" y="3.5" width="18" height="25" rx="2.5" fill="#E8F7FB" stroke="#4A899B" stroke-width="1.8"/><path d="M7.8 14.5H24.2" stroke="#4A899B" stroke-width="1.4"/><path d="M20.5 7.5V11.2M20.5 18V23" stroke="#2F6F82" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+      }
+      return escapeHtml(icon || "🛒");
+    }
     document.getElementById("rail-count").textContent = listNames.length;
     document.getElementById("collection-import-note").textContent = `${listNames.length} collections imported from the signed-in AnyList session you approved.`;
     const categoryNames = new Set([
@@ -931,7 +963,8 @@
       return { photo: "photos ready", "missing-photo": "needs photo", unit: "unit price ready", "missing-unit": "needs unit price" }[state.detailFilter] || "";
     }
     function productFactsMarkup(facts, extraClass = "") {
-      const fields = [["Price", facts.price], ["Discount", facts.discount], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]];
+      const fields = [["Price", facts.price], ["Discount", facts.discount], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]].filter(([, value]) => value !== "Not listed");
+      if (!fields.length) return "";
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
     }
     const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
@@ -964,6 +997,15 @@
       const value = record.value === null ? record.label : `${record.value} · ${record.label}`;
       const source = record.value === null ? record.source : `${record.source} · values vary by variety and preparation`;
       return `<div class="glycemic-index-facts is-${escapeHtml(record.status)}" aria-label="Glycemic Index"><div class="glycemic-index-heading"><strong>Glycemic Index</strong><span>${escapeHtml(source)}</span></div><span class="glycemic-index-value">${escapeHtml(value)}</span></div>`;
+    }
+    function shoppingDetailsMarkup(item) {
+      const nutrition = nutritionFactsMarkup(item);
+      const glycemic = glycemicIndexMarkup(item);
+      if (!nutrition && !glycemic) return "";
+      const record = glycemicIndexRecord(item);
+      const summary = record.value === null ? record.label : `${record.value} · ${record.label}`;
+      const openOnDesktop = window.matchMedia("(min-width: 741px)").matches ? " open" : "";
+      return `<details class="shopping-details"${openOnDesktop}><summary><span>Nutrition &amp; health details</span><span class="shopping-details-summary">${escapeHtml(summary)}</span></summary><div class="shopping-details-content">${nutrition}${glycemic}</div></details>`;
     }
     function matchesGlycemicIndex(item) {
       return state.glycemicIndex === "all" || glycemicIndexRecord(item).status === state.glycemicIndex;
@@ -1095,9 +1137,10 @@
       return result;
     }
     function orderCategories(categories, getCategory = (category) => category) {
-      const nonProcessed = categories.filter((item) => !isProcessedFoodCategory(getCategory(item)));
+      const homemade = categories.filter((item) => getCategory(item) === "自制食品");
+      const nonProcessed = categories.filter((item) => !isProcessedFoodCategory(getCategory(item)) && getCategory(item) !== "自制食品");
       const processed = categories.filter((item) => isProcessedFoodCategory(getCategory(item)));
-      return [...moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory), ...processed];
+      return [...moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory), ...processed, ...homemade];
     }
     function itemOrganicStatus(item) {
       if (typeof item?.organic === "boolean") return item.organic ? "organic" : "not-organic";
@@ -1158,7 +1201,8 @@
       const collectionButtons = listNames.map((name) => {
         const meta = getListMeta(name);
         const active = name === state.activeList;
-        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(name)}; drop items here to move them"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+        const displayName = displayListName(name);
+        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(displayName)}; drop items here to move them"><span class="list-icon" aria-hidden="true">${listIconMarkup(meta.icon, name)}</span><span><span class="list-name">${escapeHtml(displayName)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
       els.rail.innerHTML = allButton + collectionButtons;
       els.rail.querySelectorAll("[data-list]").forEach((button) => {
@@ -1224,7 +1268,7 @@
       const categoryText = itemCategory(item);
       const detailBar = facts.saleUnitPrice !== "Not listed" ? "92%" : facts.unitPrice !== "Not listed" ? "82%" : facts.salePrice !== "Not listed" || facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div>${nutritionFactsMarkup(item)}${glycemicIndexMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -1381,7 +1425,7 @@
       editSession.key = item.key;
       editSession.mode = "edit";
       document.getElementById("edit-item-title").textContent = "Edit item";
-      els.editSubtitle.textContent = `${itemTargetList(item.sourceList, item.key)} · changes are saved in this browser`;
+      els.editSubtitle.textContent = `${displayListName(itemTargetList(item.sourceList, item.key))} · changes are saved in this browser`;
       document.getElementById("edit-item-note").textContent = "Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.";
       document.getElementById("save-item-button").textContent = "Save changes";
       els.moveField.hidden = true;
@@ -1433,7 +1477,7 @@
       setStoreOptionsOpen(false);
       els.editName.required = false;
       els.moveField.hidden = false;
-      els.moveList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("");
+      els.moveList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(displayListName(name))}</option>`).join("");
       els.moveList.value = itemTargetList(item.sourceList, item.key);
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.moveList.focus());
@@ -1444,7 +1488,7 @@
       editSession.key = "";
       editSession.mode = "add";
       document.getElementById("edit-item-title").textContent = "Add an item";
-      els.editSubtitle.textContent = `${state.activeList} · add a new item to this shopping list`;
+      els.editSubtitle.textContent = `${displayListName(state.activeList)} · add a new item to this shopping list`;
       document.getElementById("edit-item-note").textContent = "The item, price details, and photo are saved in this browser.";
       document.getElementById("save-item-button").textContent = "Add item";
       els.moveField.hidden = true;
@@ -1522,7 +1566,7 @@
         itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo, photoLookupName: sourceItem?.photoLookupName || sourceItem?.name || name };
         saveItemEdits();
       }
-      const savedMessage = editSession.mode === "add" ? `${name} added to ${editSession.list}.` : `${name} saved in this browser.`;
+      const savedMessage = editSession.mode === "add" ? `${name} added to ${displayListName(editSession.list)}.` : `${name} saved in this browser.`;
       closeItemEditor();
       render();
       showToast(savedMessage);
@@ -1531,7 +1575,7 @@
     function render() {
       const viewItems = getViewItems();
       const allActive = isAllList();
-      els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : allActive ? "All items" : state.activeList;
+      els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : allActive ? "All items" : displayListName(state.activeList);
       els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : allActive ? `${viewItems.length} items across all collections · now sorted for better decisions` : `${viewItems.length} items in this list · now sorted for better decisions`;
       els.addItem.disabled = allActive;
       els.addItem.title = allActive ? "Select a collection before adding an item" : "Add an item to this collection";
