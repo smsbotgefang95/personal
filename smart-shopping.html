@@ -646,24 +646,17 @@
     }
     function normalizedWeightQuantity(amount, unit) {
       const normalizedUnit = String(unit || "").toLowerCase().replace(/\s+/g, " ").trim();
-      if (/^(?:lb|lbs|pound|pounds)$/.test(normalizedUnit)) return { amount, unit: "lb" };
-      if (/^(?:oz|ounce|ounces)$/.test(normalizedUnit)) return { amount: amount / 16, unit: "lb" };
-      if (/^(?:kg|kilogram|kilograms)$/.test(normalizedUnit)) return { amount: amount * 2.20462, unit: "lb" };
-      if (/^(?:g|gram|grams)$/.test(normalizedUnit)) return { amount: amount * 0.00220462, unit: "lb" };
-      if (/^(?:fl\s*oz|fluid ounce|fluid ounces)$/.test(normalizedUnit)) return { amount, unit: "fl oz" };
-      if (/^(?:gal|gallon|gallons)$/.test(normalizedUnit)) return { amount, unit: "gallon" };
-      if (/^(?:l|liter|liters|litre|litres)$/.test(normalizedUnit)) return { amount, unit: "L" };
-      if (/^(?:ml|milliliter|milliliters|millilitre|millilitres)$/.test(normalizedUnit)) return { amount, unit: "ml" };
-      return null;
+      const canonicalUnit = canonicalWeightUnit(normalizedUnit);
+      return canonicalUnit ? { amount, unit: canonicalUnit } : null;
     }
     function parseWeightQuantity(value) {
       const raw = String(value || "").replace(/,/g, "").trim();
       if (!raw) return null;
       const numberOnlyMatch = raw.match(/^\d+(?:\.\d+)?$/);
       if (numberOnlyMatch) return { amount: Number(numberOnlyMatch[0]), unit: "unit" };
-      const countMatch = raw.match(/(\d+(?:\.\d+)?)\s*(?:eggs?|each(?:\s+egg)?|items?|pieces?|pcs?|count|ct|bag(?:s)?|box(?:es)?|bottle(?:s)?|can(?:s)?|pack(?:s)?|bunch(?:es)?|bundle(?:s)?|个|根|枚|只|颗|条|袋|盒|瓶|包|把|罐|片|卷|顿|块|箱)/iu);
+      const countMatch = raw.match(/(\d+(?:\.\d+)?)\s*(eggs?|each(?:\s+egg)?|items?|pieces?|pcs?|count|ct|bag(?:s)?|box(?:es)?|bottle(?:s)?|can(?:s)?|pack(?:s)?|bunch(?:es)?|bundle(?:s)?|个|根|枚|只|颗|条|袋|盒|瓶|包|把|罐|片|卷|顿|块|箱)/iu);
       if (countMatch) {
-        return { amount: Number(countMatch[1]), unit: "each" };
+        return { amount: Number(countMatch[1]), unit: canonicalWeightUnit(countMatch[2]) || "each" };
       }
       const multiplierMatch = raw.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|gallons?|gal|grams?|g|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
       if (multiplierMatch) {
