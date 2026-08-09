@@ -526,10 +526,6 @@
     function saveItemRemovals() {
       try { window.localStorage.setItem(itemRemovalsStorageKey, JSON.stringify(itemRemovals)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
-    if (new URLSearchParams(window.location.search).has("restore-test")) {
-      delete itemRemovals["蔬菜::Navy Beans by Goya 白芸豆 (16 oz)"];
-      saveItemRemovals();
-    }
     const itemMovesStorageKey = "smart-shopping-item-moves-v1";
     const itemMoves = (() => {
       try {
