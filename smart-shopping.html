@@ -335,8 +335,8 @@
       <label class="edit-field"><span>Category</span><select id="edit-item-category"></select></label>
       <label class="edit-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /></label>
     </div>
-    <p class="modal-note">Your changes are saved in this browser and stay separate from the original AnyList import.</p>
-    <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" type="submit">Save changes</button></div>
+    <p class="modal-note" id="edit-item-note">Your changes are saved in this browser and stay separate from the original AnyList import.</p>
+    <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="submit">Save changes</button></div>
   </form>
 </div>
 
@@ -436,6 +436,7 @@
 
     const parsedByList = Object.fromEntries(listNames.map((name) => [name, parseImportedList(listSource[name])]));
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
+    const itemAddsStorageKey = "smart-shopping-item-adds-v1";
     const itemEdits = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemEditsStorageKey) || "{}");
@@ -447,12 +448,28 @@
     function saveItemEdits() {
       try { window.localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
+    const itemAdds = (() => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(itemAddsStorageKey) || "{}");
+        return saved && typeof saved === "object" ? saved : {};
+      } catch (error) {
+        return {};
+      }
+    })();
+    function saveItemAdds() {
+      try { window.localStorage.setItem(itemAddsStorageKey, JSON.stringify(itemAdds)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+    }
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function getImportedItems(listName) {
-      return (parsedByList[listName] || []).map((item) => {
+      const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
         return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, edited: true } : item;
       });
+      const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
+        const edit = itemEdits[editStorageKey(listName, item.key)];
+        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, edited: true } : item;
+      }) : [];
+      return [...importedItems, ...addedItems];
     }
     function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
     function normalizeFoodName(value) { return String(value || "").replace(/\s+/g, " ").trim().replace(/\s*\([^()]*\)\s*$/, "").toLowerCase(); }
@@ -525,14 +542,18 @@
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
     }
 
-    const editSession = { list: "", key: "" };
+    const editSession = { list: "", key: "", mode: "edit" };
     function canonicalStoresFromInput(value) {
       return [...new Set(String(value || "").split(",").map((store) => store.trim()).filter(Boolean).map((store) => storeAliases.get(store.toLowerCase()) || store))];
     }
     function openItemEditor(item) {
       editSession.list = state.activeList;
       editSession.key = item.key;
+      editSession.mode = "edit";
+      document.getElementById("edit-item-title").textContent = "Edit item";
       els.editSubtitle.textContent = `${state.activeList} · changes are saved in this browser`;
+      document.getElementById("edit-item-note").textContent = "Your changes are saved in this browser and stay separate from the original AnyList import.";
+      document.getElementById("save-item-button").textContent = "Save changes";
       els.editName.value = item.name;
       const categories = [...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
@@ -541,20 +562,54 @@
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
     }
+    function openItemCreator() {
+      editSession.list = state.activeList;
+      editSession.key = "";
+      editSession.mode = "add";
+      document.getElementById("edit-item-title").textContent = "Add an item";
+      els.editSubtitle.textContent = `${state.activeList} · add a new item to this shopping list`;
+      document.getElementById("edit-item-note").textContent = "The item is saved in this browser. Photo and price matching can be added when available.";
+      document.getElementById("save-item-button").textContent = "Add item";
+      els.editName.value = "";
+      const categories = [...categoryNames].sort((a, b) => a.localeCompare(b));
+      els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
+      els.editCategory.value = "Uncategorized";
+      els.editStores.value = "";
+      els.editModal.classList.add("open");
+      window.requestAnimationFrame(() => els.editName.focus());
+    }
     function closeItemEditor() {
       els.editModal.classList.remove("open");
       editSession.list = "";
       editSession.key = "";
+      editSession.mode = "edit";
     }
     function saveItemEdit(event) {
       event.preventDefault();
       const name = els.editName.value.trim();
       if (!name) { els.editName.focus(); return; }
-      itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category: els.editCategory.value, stores: canonicalStoresFromInput(els.editStores.value) };
-      saveItemEdits();
+      const category = els.editCategory.value || "Uncategorized";
+      const stores = canonicalStoresFromInput(els.editStores.value);
+      if (editSession.mode === "add") {
+        const duplicate = getImportedItems(editSession.list).some((item) => item.name.trim().toLowerCase() === name.toLowerCase());
+        if (duplicate) {
+          els.editName.setCustomValidity("This item is already in the selected list.");
+          els.editName.reportValidity();
+          return;
+        }
+        els.editName.setCustomValidity("");
+        const key = `added::${Date.now()}`;
+        if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
+        itemAdds[editSession.list].push({ key, name, category, meta: [], stores, added: true });
+        saveItemAdds();
+      } else {
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category, stores };
+        saveItemEdits();
+      }
+      const savedMessage = editSession.mode === "add" ? `${name} added to ${editSession.list}.` : `${name} saved in this browser.`;
       closeItemEditor();
       render();
-      showToast(`${name} saved in this browser.`);
+      showToast(savedMessage);
     }
 
     function render() {
@@ -593,7 +648,7 @@
     document.getElementById("cancel-edit-button").addEventListener("click", closeItemEditor);
     els.editModal.addEventListener("click", (event) => { if (event.target === els.editModal) closeItemEditor(); });
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") { els.compareModal.classList.remove("open"); closeItemEditor(); } });
-    document.getElementById("add-item-button").addEventListener("click", () => { els.search.focus(); showToast("Type an item name below to add it with automatic photo and price matching."); });
+    document.getElementById("add-item-button").addEventListener("click", openItemCreator);
     document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderSmart(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderSmart(); renderImported(); });
