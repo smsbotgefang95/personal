@@ -1071,6 +1071,22 @@
       const normalized = String(value || "").trim();
       return Boolean(normalized) && normalized !== "Not listed" && !/^Compare by\b/i.test(normalized);
     }
+    function lowestComparableUnitPrice(item) {
+      const facts = productFacts(item);
+      const prices = [facts.unitPrice, facts.saleUnitPrice]
+        .filter(isListedUnitPrice)
+        .map(parsePriceAmount)
+        .filter((amount) => amount !== null);
+      return prices.length ? Math.min(...prices) : null;
+    }
+    function compareByUnitPrice(a, b) {
+      const aPrice = lowestComparableUnitPrice(a);
+      const bPrice = lowestComparableUnitPrice(b);
+      if (aPrice === null && bPrice === null) return a.name.localeCompare(b.name);
+      if (aPrice === null) return 1;
+      if (bPrice === null) return -1;
+      return aPrice - bPrice || a.name.localeCompare(b.name);
+    }
     function itemHasUnitPrice(item, signal = null) {
       const facts = signal ? signalProductFacts(signal) : productFacts(item);
       return [facts.unitPrice, facts.saleUnitPrice].some(isListedUnitPrice);
@@ -1465,6 +1481,7 @@
       items = items.filter(matchesOrganic);
       items = items.filter((item) => matchesDetailFilter(item));
       if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || itemCategory(item).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
+      if (state.sort === "price") items = [...items].sort(compareByUnitPrice);
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
       return items;
     }
@@ -1478,7 +1495,8 @@
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${selectedStoreLabel}` : "", state.brand !== "all" ? `brand: ${selectedBrandLabel}` : "", state.category !== "all" ? `category: ${state.category}` : "", organicFilterLabel(), glycemicIndexFilterLabel(), detailFilterLabel()].filter(Boolean).join(" · ");
       const scopeLabel = isGlobalDetailFilter() || isAllList() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
-      els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems], index) => importedCategoryGroup(category, categoryItems, index)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
+      const groups = state.sort === "price" ? [["Lowest unit price", items]] : categoryGroups(items);
+      els.importedList.innerHTML = items.length ? groups.map(([category, categoryItems], index) => importedCategoryGroup(category, categoryItems, index)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
     }
