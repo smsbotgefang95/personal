@@ -1036,7 +1036,7 @@ window.SMART_LIST_PHOTOS = [
     "source": "https://photos.anylist.com/dce11ace5884401daba9c7105248f92c.jpg"
   },
   {
-    "name": "Avocado Oil by Choosen Foods 牛油果油 (1 × 1瓶)",
+    "name": "Avocado Oil by Chosen Foods 牛油果油 (1 × 1瓶)",
     "file": "03611e4e87c643388086cf14fba1c86a.jpg",
     "source": "https://photos.anylist.com/03611e4e87c643388086cf14fba1c86a.jpg"
   },
