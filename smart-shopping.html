@@ -325,9 +325,14 @@
       "自制食品", "爆香料", "Uncategorized Items"
     ]);
     const storeAliases = new Map([
-      ["costco", "Costco"], ["大中华", "大中华"], ["great wall 大中华", "Great Wall 大中华"], ["whole foods", "Whole Foods"],
-      ["amazon", "Amazon"], ["walmart", "Walmart"], ["giant", "Giant"], ["h mart", "H Mart"], ["日本店", "日本店"]
+      ["costco", "Costco"], ["dollartree", "DollarTree"], ["ebisu japanese life store", "Ebisu Japanese Life Store"],
+      ["大中华", "Great Wall"], ["great wall", "Great Wall"], ["great wall 大中华", "Great Wall"], ["giant", "Giant"],
+      ["homedepot", "HomeDepot"], ["home depot", "HomeDepot"], ["japan store", "Ebisu Japanese Life Store"], ["日本店", "Ebisu Japanese Life Store"],
+      ["whole foods", "Whole Foods"], ["amazon", "Amazon"], ["walmart", "Walmart"], ["h mart", "H Mart"]
     ]);
+    const anyListStoreOptions = {
+      "买菜": ["Costco", "DollarTree", "Ebisu Japanese Life Store", "Giant", "Great Wall", "HomeDepot"]
+    };
     const noise = new Set([
       "Add Item", "costco Items", "isle 310", "aisle 310", "Share, Email & Print List",
       "Edit Item", "Add to Favorites", "Change Category", "Edit Price", "Assign Stores", "Add Photo", "Move / Copy Item", "Delete Items", "Done"
@@ -402,7 +407,11 @@
 
     const parsedByList = Object.fromEntries(listNames.map((name) => [name, parseImportedList(listSource[name])]));
     function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
-    function availableStores() { return [...new Set(Object.values(parsedByList).flatMap((items) => items.flatMap((item) => item.stores)))].sort((a, b) => a.localeCompare(b)); }
+    function availableStores() {
+      const configured = anyListStoreOptions[state.activeList];
+      if (configured) return [...configured];
+      return [...new Set((parsedByList[state.activeList] || []).flatMap((item) => item.stores))].sort((a, b) => a.localeCompare(b));
+    }
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function matchesStore(item) { return state.store === "all" || (item.stores || signalStores(item)).includes(state.store); }
     function getSignals() {
