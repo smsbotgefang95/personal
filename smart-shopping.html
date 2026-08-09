@@ -417,6 +417,7 @@
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
       <div class="edit-facts" id="edit-facts-fields">
         <label class="edit-field"><span>Price</span><input id="edit-item-price" type="text" placeholder="$6.99 / bag" autocomplete="off" /></label>
+        <label class="edit-field"><span>Discount</span><input id="edit-item-discount" type="text" placeholder="$2 off" title="Sale price is calculated from price minus discount" autocomplete="off" /></label>
         <label class="edit-field"><span>Sale price</span><input id="edit-item-sale-price" type="text" placeholder="$4.99 / bag" autocomplete="off" /></label>
         <label class="edit-field"><span>Weight / quantity</span><div class="weight-input-group"><input id="edit-item-weight" type="text" placeholder="3" autocomplete="off" aria-label="Weight or quantity amount" /><select id="edit-item-weight-unit" aria-label="Weight or quantity unit"><option value="">Unit</option><option value="lb">lb</option><option value="oz">oz</option><option value="kg">kg</option><option value="g">g</option><option value="fl oz">fl oz</option><option value="gal">gal</option><option value="L">L</option><option value="ml">ml</option><option value="each">each</option><option value="bag">bag</option><option value="box">box</option><option value="bottle">bottle</option><option value="can">can</option><option value="pack">pack</option><option value="bunch">bunch</option><option value="个">个</option><option value="根">根</option><option value="枚">枚</option><option value="只">只</option><option value="颗">颗</option><option value="条">条</option><option value="袋">袋</option><option value="盒">盒</option><option value="瓶">瓶</option><option value="包">包</option><option value="把">把</option><option value="罐">罐</option><option value="片">片</option><option value="卷">卷</option><option value="顿">顿</option><option value="块">块</option><option value="箱">箱</option></select></div></label>
         <label class="edit-field"><span>Unit price</span><input id="edit-item-unit-price" type="text" placeholder="$4.99 / lb" title="Automatically calculated from price and weight when both are valid" autocomplete="off" /></label>
@@ -489,7 +490,7 @@
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       addItem: document.getElementById("add-item-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -710,6 +711,14 @@
       const value = raw.replace(/^(?:💵|⚖️|🏷️)\s*/u, "").replace(/\s*\[[^\]]*\]\s*/g, " ").replace(/\s+/g, " ").trim();
       return metadataPriceParts(value)[1] || "Not listed";
     }
+    function metadataDiscountValue(item, icon) {
+      const raw = (item.meta || []).find((line) => line.startsWith(icon));
+      if (!raw) return "Not listed";
+      const bracketValues = [...raw.matchAll(/\[([^\]]+)\]/gu)].flatMap((match) => match[1].split(";").map((value) => value.trim()));
+      const unbracketedValue = raw.replace(/^(?:💵|⚖️|🏷️)\s*/u, "").replace(/\s*\[[^\]]*\]\s*/g, " ").replace(/\s+/g, " ").trim();
+      const discount = [...bracketValues, unbracketedValue].find((value) => /\boff\b/i.test(value) && parseDiscountAmount(value));
+      return discount ? defaultDiscountValue(discount) : "Not listed";
+    }
     function normalizedFactValue(value) {
       const normalized = String(value ?? "").replace(/\s+/g, " ").trim();
       return normalized || "Not listed";
@@ -754,10 +763,11 @@
       els.editWeightUnit.value = parsed.unit;
     }
     function productFacts(item) {
-      const importedFacts = { price: metadataValue(item, "💵"), salePrice: metadataSaleValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️"), saleUnitPrice: metadataSaleValue(item, "🏷️") };
+      const importedFacts = { price: metadataValue(item, "💵"), discount: metadataDiscountValue(item, "💵"), salePrice: metadataSaleValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️"), saleUnitPrice: metadataSaleValue(item, "🏷️") };
       const overrides = item && item.facts && typeof item.facts === "object" ? item.facts : {};
       const facts = {
         price: Object.prototype.hasOwnProperty.call(overrides, "price") ? normalizedFactValue(overrides.price) : importedFacts.price,
+        discount: Object.prototype.hasOwnProperty.call(overrides, "discount") ? normalizedFactValue(overrides.discount) : importedFacts.discount,
         salePrice: Object.prototype.hasOwnProperty.call(overrides, "salePrice") ? normalizedFactValue(overrides.salePrice) : importedFacts.salePrice,
         weight: Object.prototype.hasOwnProperty.call(overrides, "weight") ? normalizedFactValue(overrides.weight) : importedFacts.weight,
         unitPrice: Object.prototype.hasOwnProperty.call(overrides, "unitPrice") ? normalizedFactValue(overrides.unitPrice) : importedFacts.unitPrice,
@@ -765,8 +775,11 @@
       };
       const quantity = parseWeightQuantity(facts.weight);
       const calculatedUnitPrice = calculateUnitPrice(facts.price, facts.weight);
+      const calculatedSalePrice = calculateSalePrice(facts.price, facts.discount);
       const calculatedSaleUnitPrice = calculateUnitPrice(facts.salePrice, facts.weight);
-      return { ...facts, unit: quantity?.unit || "Not listed", unitPrice: calculatedUnitPrice || facts.unitPrice, saleUnitPrice: facts.saleUnitPrice !== "Not listed" ? facts.saleUnitPrice : calculatedSaleUnitPrice };
+      const salePrice = calculatedSalePrice || facts.salePrice;
+      const saleUnitPrice = calculateUnitPrice(salePrice, facts.weight);
+      return { ...facts, salePrice, unit: quantity?.unit || "Not listed", unitPrice: calculatedUnitPrice || facts.unitPrice, saleUnitPrice: facts.saleUnitPrice !== "Not listed" ? facts.saleUnitPrice : saleUnitPrice || calculatedSaleUnitPrice };
     }
     function editableFactValue(value) {
       return value === "Not listed" ? "" : value;
@@ -776,9 +789,37 @@
       if (!normalized || normalized.startsWith("$") || /^[€£]/u.test(normalized)) return normalized;
       return /^\d/u.test(normalized) ? `$${normalized}` : normalized;
     }
-    function applyDefaultCurrency(input) {
+    function parseDiscountAmount(value) {
+      const match = String(value || "").replace(/,/g, "").match(/(?:[$€£]\s*)?(\d+(?:\.\d+)?)\s*(?:off|discount)?/i);
+      if (!match) return null;
+      const amount = Number(match[1]);
+      return Number.isFinite(amount) && amount > 0 ? amount : null;
+    }
+    function formatMoneyAmount(amount, currency = "$") {
+      const rounded = Math.round(amount * 100) / 100;
+      const formatted = rounded.toFixed(2).replace(/\.?0+$/u, "");
+      return `${currency}${formatted}`;
+    }
+    function defaultDiscountValue(value) {
+      const normalized = String(value ?? "").trim();
+      const amount = parseDiscountAmount(normalized);
+      if (!amount) return normalized;
+      const currency = normalized.match(/^\s*([$€£])/u)?.[1] || "$";
+      return `${formatMoneyAmount(amount, currency)} off`;
+    }
+    function calculateSalePrice(priceValue, discountValue) {
+      const price = parsePriceAmount(priceValue);
+      const discount = parseDiscountAmount(discountValue);
+      if (!price || !discount || discount >= price) return "";
+      const rawPrice = String(priceValue || "").replace(/,/g, "");
+      const suffix = rawPrice.match(/^(?:[$€£]\s*)?\d+(?:\.\d+)?\s*(.*)$/)?.[1]?.trim() || "";
+      const currency = rawPrice.match(/^\s*([$€£])/u)?.[1] || "$";
+      const salePrice = formatMoneyAmount(price - discount, currency);
+      return suffix ? `${salePrice} ${suffix}` : salePrice;
+    }
+    function applyDefaultCurrency(input, formatter = defaultPriceCurrency) {
       const value = input.value;
-      const formatted = defaultPriceCurrency(value);
+      const formatted = formatter(value);
       if (formatted === value) return;
       const cursor = input.selectionStart;
       input.value = formatted;
@@ -788,6 +829,7 @@
       }
     }
     function applyDefaultPriceCurrency() { applyDefaultCurrency(els.editPrice); }
+    function applyDefaultDiscountCurrency() { applyDefaultCurrency(els.editDiscount); }
     function applyDefaultSalePriceCurrency() { applyDefaultCurrency(els.editSalePrice); }
     function parsePriceAmount(value) {
       const match = String(value || "").replace(/,/g, "").match(/(?:[$€£]\s*)?(\d+(?:\.\d+)?)/);
@@ -835,10 +877,21 @@
         delete unitPriceInput.dataset.autoCalculated;
       }
     }
+    function refreshSalePrice() {
+      const calculated = calculateSalePrice(els.editPrice.value, els.editDiscount.value);
+      if (calculated) {
+        els.editSalePrice.value = calculated;
+        els.editSalePrice.dataset.autoCalculated = "true";
+      } else if (els.editSalePrice.dataset.autoCalculated === "true") {
+        els.editSalePrice.value = "";
+        delete els.editSalePrice.dataset.autoCalculated;
+      }
+    }
     function refreshUnitPrice() {
       const weightValue = editableWeightValue();
+      refreshSalePrice();
       refreshCalculatedUnitPrice(els.editPrice, els.editUnitPrice, weightValue);
-      refreshCalculatedUnitPrice(els.editSalePrice, els.editSaleUnitPrice, weightValue, true);
+      refreshCalculatedUnitPrice(els.editSalePrice, els.editSaleUnitPrice, weightValue, els.editSalePrice.dataset.autoCalculated !== "true");
     }
     function importedMatchForSignal(signal) {
       const target = normalizeFoodName(signal.name);
@@ -846,7 +899,7 @@
     }
     function signalProductFacts(signal) {
       const imported = importedMatchForSignal(signal);
-      return imported ? productFacts(imported) : { price: signal.price || "Not listed", salePrice: "Not listed", weight: "Not listed", unitPrice: signal.unit || "Not listed", saleUnitPrice: "Not listed" };
+      return imported ? productFacts(imported) : { price: signal.price || "Not listed", discount: "Not listed", salePrice: "Not listed", weight: "Not listed", unitPrice: signal.unit || "Not listed", saleUnitPrice: "Not listed" };
     }
     function itemHasPhoto(item) {
       return Boolean(item && ((typeof item.photo === "string" && item.photo.startsWith("data:image/")) || foodPhoto(item)));
@@ -868,7 +921,7 @@
       return { photo: "photos ready", "missing-photo": "needs photo", unit: "unit price ready", "missing-unit": "needs unit price" }[state.detailFilter] || "";
     }
     function productFactsMarkup(facts, extraClass = "") {
-      const fields = [["Price", facts.price], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]];
+      const fields = [["Price", facts.price], ["Discount", facts.discount], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit", facts.unit], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]];
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
     }
     const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
@@ -1320,6 +1373,7 @@
       els.editCategory.value = item.category;
       const facts = productFacts(item);
       els.editPrice.value = defaultPriceCurrency(editableFactValue(facts.price));
+      els.editDiscount.value = defaultDiscountValue(editableFactValue(facts.discount));
       els.editSalePrice.value = defaultPriceCurrency(editableFactValue(facts.salePrice));
       setEditableWeight(facts.weight);
       els.editUnitPrice.value = editableFactValue(facts.unitPrice);
@@ -1381,6 +1435,7 @@
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
       els.editPrice.value = "";
+      els.editDiscount.value = "";
       els.editSalePrice.value = "";
       els.editWeight.value = "";
       els.editWeightUnit.value = "";
@@ -1421,7 +1476,7 @@
       if (!name) { els.editName.focus(); return; }
       const brand = els.editBrand.value;
       const category = els.editCategory.value || "Uncategorized";
-      const facts = { price: defaultPriceCurrency(els.editPrice.value), salePrice: defaultPriceCurrency(els.editSalePrice.value), weight: editableWeightValue(), unitPrice: els.editUnitPrice.value.trim(), saleUnitPrice: els.editSaleUnitPrice.value.trim() };
+      const facts = { price: defaultPriceCurrency(els.editPrice.value), discount: defaultDiscountValue(els.editDiscount.value), salePrice: defaultPriceCurrency(els.editSalePrice.value), weight: editableWeightValue(), unitPrice: els.editUnitPrice.value.trim(), saleUnitPrice: els.editSaleUnitPrice.value.trim() };
       const stores = canonicalStoresFromInput(els.editStores.value);
       const photo = editSession.photo || "";
       if (editSession.mode === "add") {
@@ -1499,7 +1554,8 @@
     });
     els.editForm.addEventListener("submit", saveItemEdit);
     els.editPrice.addEventListener("input", () => { applyDefaultPriceCurrency(); refreshUnitPrice(); });
-    els.editSalePrice.addEventListener("input", () => { applyDefaultSalePriceCurrency(); refreshUnitPrice(); });
+    els.editDiscount.addEventListener("input", () => { applyDefaultDiscountCurrency(); refreshUnitPrice(); });
+    els.editSalePrice.addEventListener("input", () => { if (els.editDiscount.value.trim()) els.editDiscount.value = ""; applyDefaultSalePriceCurrency(); delete els.editSalePrice.dataset.autoCalculated; refreshUnitPrice(); });
     els.editWeight.addEventListener("input", refreshUnitPrice);
     els.editWeightUnit.addEventListener("change", refreshUnitPrice);
     els.editUnitPrice.addEventListener("input", () => { delete els.editUnitPrice.dataset.autoCalculated; });
