@@ -120,7 +120,7 @@
   .preference-label { margin-right: 4px; color: var(--muted); font-size: 0.73rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
   .preference-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #dce6de; border-radius: 999px; color: #365247; background: #ffffff; font-size: 0.75rem; font-weight: 750; }
   .preference-toggle input { accent-color: var(--green); }
-  .store-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .store-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
   .price-sort { margin-left: auto; }
   .smart-section { padding: 20px 24px 24px; }
   .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 13px; }
@@ -182,7 +182,10 @@
   .row-photo { display: grid; place-items: center; width: 36px; height: 36px; overflow: hidden; border-radius: 10px; color: #5d866f; background: linear-gradient(145deg, #eef7f0, #d8ebdf); font-size: 1.1rem; }
   .row-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .row-photo .photo-fallback { line-height: 1; }
-  .row-name { min-width: 0; overflow: hidden; color: var(--ink); font-size: 0.78rem; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
+  .row-name { display: grid; min-width: 0; gap: 2px; align-content: center; overflow: hidden; }
+  .row-name-primary, .row-name-secondary { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row-name-primary { color: var(--ink); font-size: 0.78rem; font-weight: 760; }
+  .row-name-secondary { color: var(--muted); font-size: 0.67rem; font-weight: 650; }
   .row-facts { margin-top: 0; }
   .row-facts .product-fact { padding: 5px 6px; border-radius: 8px; }
   .row-facts .product-fact-label { font-size: 0.55rem; }
@@ -211,13 +214,19 @@
   .modal-note { margin: 17px 0 0; padding: 10px 12px; border-radius: 10px; color: #72602e; background: #fff9e9; font-size: 0.73rem; }
   .edit-fields { display: grid; gap: 13px; margin-top: 19px; }
   .edit-fields [hidden] { display: none; }
+  .edit-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
   .edit-field { display: grid; gap: 5px; color: var(--muted); font-size: 0.74rem; font-weight: 750; }
   .edit-field input, .edit-field select { width: 100%; padding: 10px 11px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.82rem; font-weight: 500; }
   .edit-field input:focus, .edit-field select:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
-  .store-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
-  .store-option { padding: 6px 9px; border: 1px solid #dce6de; border-radius: 999px; color: var(--muted); background: #ffffff; font-size: 0.68rem; font-weight: 750; }
-  .store-option:hover, .store-option[aria-pressed="true"] { border-color: #78b99b; color: #176b4c; background: #effaf3; }
-  .store-option[aria-pressed="true"]::before { content: "✓ "; }
+  .store-picker { position: relative; }
+  .store-picker input { padding-right: 40px; }
+  .store-picker-toggle { position: absolute; top: 50%; right: 9px; width: 26px; height: 26px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 1rem; line-height: 1; transform: translateY(-50%); cursor: pointer; }
+  .store-picker-toggle:hover, .store-picker-toggle:focus-visible { color: var(--green); background: #effaf3; }
+  .store-options { position: absolute; top: calc(100% + 5px); right: 0; left: 0; z-index: 5; display: grid; gap: 2px; max-height: 220px; padding: 6px; overflow: auto; border: 1px solid #dce6de; border-radius: 10px; background: #ffffff; box-shadow: 0 12px 26px rgba(22, 31, 43, 0.14); }
+  .store-options[hidden] { display: none; }
+  .store-option { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 9px 10px; border: 0; border-radius: 7px; color: var(--ink); background: #ffffff; font-size: 0.74rem; font-weight: 700; text-align: left; cursor: pointer; }
+  .store-option:hover, .store-option[aria-selected="true"] { color: #176b4c; background: #effaf3; }
+  .store-option[aria-selected="true"]::after { content: "✓"; color: var(--green); font-weight: 850; }
   .photo-picker { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 9px 10px; align-items: center; padding: 10px; border: 1px dashed #d4e2d8; border-radius: 12px; background: #fbfdfb; }
   .photo-picker input[type="file"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; clip-path: inset(50%); }
   .photo-upload-button { display: inline-flex; justify-content: center; align-items: center; min-height: 38px; padding: 8px 11px; border: 1px solid #d6dfda; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.74rem; font-weight: 800; cursor: pointer; }
@@ -323,6 +332,12 @@
         <select class="store-filter" id="store-filter" aria-label="Filter by store">
           <option value="all">All stores</option>
         </select>
+        <select class="detail-filter" id="detail-filter" aria-label="Filter by item details">
+          <option value="all">All item details</option>
+          <option value="photo">Photos ready</option>
+          <option value="unit">Unit price ready</option>
+          <option value="missing-unit">Needs unit price</option>
+        </select>
         <select class="price-sort" id="sort-select" aria-label="Sort items">
           <option value="smart">Smart order</option>
           <option value="price">Lowest unit price</option>
@@ -371,11 +386,16 @@
     <div class="edit-fields">
       <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
-      <label class="edit-field" id="edit-stores-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /><span class="store-options" id="edit-store-options" aria-label="Store options"></span></label>
+      <div class="edit-facts" id="edit-facts-fields">
+        <label class="edit-field"><span>Price</span><input id="edit-item-price" type="text" placeholder="$6.99 / bag" autocomplete="off" /></label>
+        <label class="edit-field"><span>Weight</span><input id="edit-item-weight" type="text" placeholder="1 lb" autocomplete="off" /></label>
+        <label class="edit-field"><span>Unit price</span><input id="edit-item-unit-price" type="text" placeholder="$4.99 / lb" title="Automatically calculated from price and weight when both are valid" autocomplete="off" /></label>
+      </div>
+      <div class="edit-field" id="edit-stores-field"><span id="edit-stores-label">Stores</span><div class="store-picker"><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" aria-labelledby="edit-stores-label" aria-controls="edit-store-options" aria-expanded="false" /><button class="store-picker-toggle" id="edit-store-toggle" type="button" aria-label="Open store options" aria-controls="edit-store-options" aria-expanded="false">⌄</button><div class="store-options" id="edit-store-options" role="listbox" aria-labelledby="edit-stores-label" hidden></div></div></div>
       <div class="edit-field" id="edit-photo-field"><span>Photo</span><div class="photo-picker"><label class="photo-upload-button" for="edit-item-photo">Choose a photo</label><input id="edit-item-photo" type="file" accept="image/*" /><div class="photo-preview" id="edit-photo-preview" hidden><img id="edit-photo-preview-image" alt="Selected item photo" /><span id="edit-photo-name"></span><button class="photo-remove-button" id="remove-item-photo" type="button">Remove</button></div><p class="photo-help">The photo is resized and saved only in this browser.</p></div></div>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
-    <p class="modal-note" id="edit-item-note">Your changes and photo are saved in this browser and stay separate from the original AnyList import.</p>
+    <p class="modal-note" id="edit-item-note">Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.</p>
     <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="submit">Save changes</button></div>
   </form>
 </div>
@@ -427,11 +447,11 @@
       { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
     ];
 
-    const state = { activeList: "买菜", query: "", store: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true, draggedRef: null };
+    const state = { activeList: "买菜", query: "", store: "all", detailFilter: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true, draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editWeight: document.getElementById("edit-item-weight"), editUnitPrice: document.getElementById("edit-item-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -516,11 +536,11 @@
     function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, edited: true } : item;
+        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, edited: true } : item;
+        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       }) : [];
       return [...importedItems, ...addedItems];
     }
@@ -555,8 +575,70 @@
       const value = raw.replace(/^(?:💵|⚖️|🏷️)\s*/u, "").replace(/\s*\[[^\]]*\]\s*/g, " ").replace(/\s+/g, " ").trim();
       return !value || (!/\d/.test(value) && /^[\$—–-]/.test(value)) ? "Not listed" : value;
     }
+    function normalizedFactValue(value) {
+      const normalized = String(value ?? "").replace(/\s+/g, " ").trim();
+      return normalized || "Not listed";
+    }
     function productFacts(item) {
-      return { price: metadataValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️") };
+      const importedFacts = { price: metadataValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️") };
+      const overrides = item && item.facts && typeof item.facts === "object" ? item.facts : {};
+      return {
+        price: Object.prototype.hasOwnProperty.call(overrides, "price") ? normalizedFactValue(overrides.price) : importedFacts.price,
+        weight: Object.prototype.hasOwnProperty.call(overrides, "weight") ? normalizedFactValue(overrides.weight) : importedFacts.weight,
+        unitPrice: Object.prototype.hasOwnProperty.call(overrides, "unitPrice") ? normalizedFactValue(overrides.unitPrice) : importedFacts.unitPrice
+      };
+    }
+    function editableFactValue(value) {
+      return value === "Not listed" ? "" : value;
+    }
+    function parsePriceAmount(value) {
+      const match = String(value || "").replace(/,/g, "").match(/(?:[$€£]\s*)?(\d+(?:\.\d+)?)/);
+      if (!match) return null;
+      const amount = Number(match[1]);
+      return Number.isFinite(amount) && amount > 0 ? amount : null;
+    }
+    function normalizedWeightQuantity(amount, unit) {
+      const normalizedUnit = String(unit || "").toLowerCase().replace(/\s+/g, " ").trim();
+      if (/^(?:lb|lbs|pound|pounds)$/.test(normalizedUnit)) return { amount, unit: "lb" };
+      if (/^(?:oz|ounce|ounces)$/.test(normalizedUnit)) return { amount: amount / 16, unit: "lb" };
+      if (/^(?:kg|kilogram|kilograms)$/.test(normalizedUnit)) return { amount: amount * 2.20462, unit: "lb" };
+      if (/^(?:g|gram|grams)$/.test(normalizedUnit)) return { amount: amount * 0.00220462, unit: "lb" };
+      if (/^(?:gal|gallon|gallons)$/.test(normalizedUnit)) return { amount, unit: "gallon" };
+      if (/^(?:l|liter|liters|litre|litres)$/.test(normalizedUnit)) return { amount, unit: "L" };
+      if (/^(?:ml|milliliter|milliliters|millilitre|millilitres)$/.test(normalizedUnit)) return { amount, unit: "ml" };
+      return null;
+    }
+    function parseWeightQuantity(value) {
+      const raw = String(value || "").replace(/,/g, "").trim();
+      if (!raw) return null;
+      const countMatch = raw.match(/(\d+(?:\.\d+)?)\s*(?:eggs?|each(?:\s+egg)?|items?|pieces?|pcs?|count|ct|bags?|boxes?|bottles?|cans?|packs?|bunches?|bundles?|个|根|枚|只|颗|条|袋|盒|瓶|包|把|罐|片|卷|顿|块|箱)/iu);
+      if (countMatch) {
+        return { amount: Number(countMatch[1]), unit: "each" };
+      }
+      const multiplierMatch = raw.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|grams?|g|gallons?|gal|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
+      if (multiplierMatch) {
+        return normalizedWeightQuantity(Number(multiplierMatch[1]) * Number(multiplierMatch[2]), multiplierMatch[3]);
+      }
+      const match = raw.match(/(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|grams?|g|gallons?|gal|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
+      return match ? normalizedWeightQuantity(Number(match[1]), match[2]) : null;
+    }
+    function calculateUnitPrice(priceValue, weightValue) {
+      const price = parsePriceAmount(priceValue);
+      const quantity = parseWeightQuantity(weightValue);
+      if (!price || !quantity || !Number.isFinite(quantity.amount) || quantity.amount <= 0) return "";
+      const unitPrice = price / quantity.amount;
+      const displayPrice = unitPrice < 0.01 ? unitPrice.toFixed(3) : unitPrice.toFixed(2);
+      return `$${displayPrice} / ${quantity.unit}`;
+    }
+    function refreshUnitPrice() {
+      const calculated = calculateUnitPrice(els.editPrice.value, els.editWeight.value);
+      if (calculated) {
+        els.editUnitPrice.value = calculated;
+        els.editUnitPrice.dataset.autoCalculated = "true";
+      } else if (els.editUnitPrice.dataset.autoCalculated === "true") {
+        els.editUnitPrice.value = "";
+        delete els.editUnitPrice.dataset.autoCalculated;
+      }
     }
     function importedMatchForSignal(signal) {
       const target = normalizeFoodName(signal.name);
@@ -566,9 +648,35 @@
       const imported = importedMatchForSignal(signal);
       return imported ? productFacts(imported) : { price: signal.price || "Not listed", weight: "Not listed", unitPrice: signal.unit || "Not listed" };
     }
+    function itemHasPhoto(item) {
+      return Boolean(item && ((typeof item.photo === "string" && item.photo.startsWith("data:image/")) || foodPhoto(item.name)));
+    }
+    function itemHasUnitPrice(item, signal = null) {
+      const facts = signal ? signalProductFacts(signal) : productFacts(item);
+      return facts.unitPrice !== "Not listed" && !/^Compare by\b/i.test(facts.unitPrice);
+    }
+    function matchesDetailFilter(item, signal = null) {
+      if (state.detailFilter === "all") return true;
+      const source = item || importedMatchForSignal(signal);
+      if (state.detailFilter === "photo") return itemHasPhoto(source || signal);
+      if (state.detailFilter === "unit") return itemHasUnitPrice(source, signal);
+      if (state.detailFilter === "missing-unit") return !itemHasUnitPrice(source, signal);
+      return true;
+    }
+    function detailFilterLabel() {
+      return { photo: "photos ready", unit: "unit price ready", "missing-unit": "needs unit price" }[state.detailFilter] || "";
+    }
     function productFactsMarkup(facts, extraClass = "") {
       const fields = [["Price", facts.price], ["Weight", facts.weight], ["Unit price", facts.unitPrice]];
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
+    }
+    function importedNameMarkup(name) {
+      const fullName = String(name || "").trim();
+      const firstCjkIndex = fullName.search(/[\u3400-\u9fff]/u);
+      if (firstCjkIndex <= 0) return `<span class="row-name-primary">${escapeHtml(fullName)}</span>`;
+      const primaryName = fullName.slice(0, firstCjkIndex).trim();
+      const secondaryName = fullName.slice(firstCjkIndex).trim();
+      return `<span class="row-name-primary">${escapeHtml(primaryName)}</span><span class="row-name-secondary">${escapeHtml(secondaryName)}</span>`;
     }
     function photoMarkup(itemName, fallback = "🍽️", customPhoto = "") {
       if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo added in this browser" />`;
@@ -659,6 +767,7 @@
     function getSignals() {
       const activeItems = getImportedItems(state.activeList);
       let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name)) && matchesStore(item));
+      signals = signals.filter((item) => matchesDetailFilter(null, item));
       if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.organicFirst) signals.sort((a, b) => Number(b.organic) - Number(a.organic));
       if (state.lowSugar) signals.sort((a, b) => Number(a.sugar === "No added sugar" || a.sugar === "0g added") * -1 - Number(b.sugar === "No added sugar" || b.sugar === "0g added") * -1);
@@ -712,7 +821,8 @@
 
     function renderSmart() {
       const signals = getSignals();
-      els.smartHeadingNote.textContent = signals.length ? `${signals.length} preference-aware matches · unit prices shown where available` : "No smart match yet · imported items are still searchable below";
+      const detailNote = detailFilterLabel();
+      els.smartHeadingNote.textContent = signals.length ? `${signals.length} preference-aware matches${detailNote ? ` · ${detailNote}` : ""} · unit prices shown where available` : "No smart match yet · imported items are still searchable below";
       els.smartGrid.innerHTML = signals.length ? signals.map(smartCard).join("") : `<div class="empty-smart">This collection is imported and ready. Search below to find an item, then use <strong>Enrich now</strong> when you want a nutrition, price, or photo match.</div>`;
       els.smartGrid.querySelectorAll("[data-enrich]").forEach((button) => button.addEventListener("click", () => enrich(button)));
       schedulePhotoBackgroundRemoval(els.smartGrid);
@@ -721,17 +831,18 @@
     function renderImported() {
       let items = getImportedItems(state.activeList);
       if (state.store !== "all") items = items.filter((item) => item.stores.includes(state.store));
+      items = items.filter((item) => matchesDetailFilter(item));
       if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.category.toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
       const total = items.length;
       if (!state.showAll) items = items.slice(0, 12);
-      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : ""].filter(Boolean).join(" · ");
+      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
       els.importedCount.textContent = `${total} imported item names in this list${filterNote ? ` · ${filterNote}` : ""}`;
       els.importedList.innerHTML = items.length ? items.map((item) => {
         const ref = escapeHtml(itemReference(item));
         const photoTitle = item.photo ? "Photo added in this browser" : foodPhoto(item.name) ? "Photo migrated from AnyList" : "No item photo";
         const photoClass = item.photo || foodPhoto(item.name) ? " has-photo" : "";
-        return `<div class="import-row" draggable="true" data-item-ref="${ref}" aria-label="Drag ${escapeHtml(item.name)} to another list"><span class="row-drag-handle" aria-hidden="true" title="Drag to move">⠿</span><span class="row-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><span class="row-actions"><button class="button-secondary move-row-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="button-secondary edit-row-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button></span></div>`;
+        return `<div class="import-row" draggable="true" data-item-ref="${ref}" aria-label="Drag ${escapeHtml(item.name)} to another list"><span class="row-drag-handle" aria-hidden="true" title="Drag to move">⠿</span><span class="row-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</span><span class="row-name" title="${escapeHtml(item.name)}">${importedNameMarkup(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><span class="row-actions"><button class="button-secondary move-row-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="button-secondary edit-row-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button></span></div>`;
       }).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
@@ -808,15 +919,21 @@
     function canonicalStoresFromInput(value) {
       return [...new Set(String(value || "").split(",").map((store) => store.trim()).filter(Boolean).map((store) => storeAliases.get(store.toLowerCase()) || store))];
     }
+    function setStoreOptionsOpen(open) {
+      els.storeOptions.hidden = !open;
+      els.editStores.setAttribute("aria-expanded", String(open));
+      els.storeOptionsToggle.setAttribute("aria-expanded", String(open));
+    }
     function renderStoreOptions() {
       const selectedStores = canonicalStoresFromInput(els.editStores.value);
-      els.storeOptions.innerHTML = availableStores().map((store) => `<button class="store-option" type="button" data-store-option="${escapeHtml(store)}" aria-pressed="${selectedStores.includes(store)}">${escapeHtml(store)}</button>`).join("");
+      els.storeOptions.innerHTML = availableStores().map((store) => `<button class="store-option" type="button" role="option" data-store-option="${escapeHtml(store)}" aria-selected="${selectedStores.includes(store)}">${escapeHtml(store)}</button>`).join("");
     }
     function toggleStoreOption(store) {
       const selectedStores = canonicalStoresFromInput(els.editStores.value);
       const nextStores = selectedStores.includes(store) ? selectedStores.filter((selected) => selected !== store) : [...selectedStores, store];
       els.editStores.value = nextStores.join(", ");
       renderStoreOptions();
+      setStoreOptionsOpen(true);
       els.editStores.focus();
     }
     function openItemEditor(item) {
@@ -825,11 +942,12 @@
       editSession.mode = "edit";
       document.getElementById("edit-item-title").textContent = "Edit item";
       els.editSubtitle.textContent = `${itemTargetList(item.sourceList, item.key)} · changes are saved in this browser`;
-      document.getElementById("edit-item-note").textContent = "Your changes and photo are saved in this browser and stay separate from the original AnyList import.";
+      document.getElementById("edit-item-note").textContent = "Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.";
       document.getElementById("save-item-button").textContent = "Save changes";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editCategoryField.hidden = false;
+      els.editFactsFields.hidden = false;
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
       els.editName.required = true;
@@ -837,11 +955,18 @@
       const categories = [...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
+      const facts = productFacts(item);
+      els.editPrice.value = editableFactValue(facts.price);
+      els.editWeight.value = editableFactValue(facts.weight);
+      els.editUnitPrice.value = editableFactValue(facts.unitPrice);
+      delete els.editUnitPrice.dataset.autoCalculated;
+      refreshUnitPrice();
       els.editStores.value = item.stores.join(", ");
       editSession.photo = item.photo || "";
       els.photoInput.value = "";
       setPhotoPreview(editSession.photo);
       renderStoreOptions();
+      setStoreOptionsOpen(false);
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
     }
@@ -855,8 +980,10 @@
       document.getElementById("save-item-button").textContent = "Move item";
       els.editNameField.hidden = true;
       els.editCategoryField.hidden = true;
+      els.editFactsFields.hidden = true;
       els.editStoresField.hidden = true;
       els.photoField.hidden = true;
+      setStoreOptionsOpen(false);
       els.editName.required = false;
       els.moveField.hidden = false;
       els.moveList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("");
@@ -870,11 +997,12 @@
       editSession.mode = "add";
       document.getElementById("edit-item-title").textContent = "Add an item";
       els.editSubtitle.textContent = `${state.activeList} · add a new item to this shopping list`;
-      document.getElementById("edit-item-note").textContent = "The item and its photo are saved in this browser. Price matching can be added when available.";
+      document.getElementById("edit-item-note").textContent = "The item, price details, and photo are saved in this browser.";
       document.getElementById("save-item-button").textContent = "Add item";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editCategoryField.hidden = false;
+      els.editFactsFields.hidden = false;
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
       els.editName.required = true;
@@ -882,11 +1010,16 @@
       const categories = [...categoryNames].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
+      els.editPrice.value = "";
+      els.editWeight.value = "";
+      els.editUnitPrice.value = "";
+      delete els.editUnitPrice.dataset.autoCalculated;
       els.editStores.value = "";
       editSession.photo = "";
       els.photoInput.value = "";
       setPhotoPreview("");
       renderStoreOptions();
+      setStoreOptionsOpen(false);
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
     }
@@ -896,6 +1029,7 @@
       editSession.key = "";
       editSession.mode = "edit";
       editSession.photo = "";
+      setStoreOptionsOpen(false);
       els.photoInput.value = "";
       setPhotoPreview("");
     }
@@ -912,6 +1046,7 @@
       const name = els.editName.value.trim();
       if (!name) { els.editName.focus(); return; }
       const category = els.editCategory.value || "Uncategorized";
+      const facts = { price: els.editPrice.value.trim(), weight: els.editWeight.value.trim(), unitPrice: els.editUnitPrice.value.trim() };
       const stores = canonicalStoresFromInput(els.editStores.value);
       const photo = editSession.photo || "";
       if (editSession.mode === "add") {
@@ -924,10 +1059,10 @@
         els.editName.setCustomValidity("");
         const key = `added::${Date.now()}`;
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
-        itemAdds[editSession.list].push({ key, name, category, meta: [], stores, photo, added: true });
+        itemAdds[editSession.list].push({ key, name, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category, stores, photo };
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category, facts, stores, photo };
         saveItemEdits();
       }
       const savedMessage = editSession.mode === "add" ? `${name} added to ${editSession.list}.` : `${name} saved in this browser.`;
@@ -987,7 +1122,11 @@
       clearDropTargets();
     });
     els.editForm.addEventListener("submit", saveItemEdit);
-    els.editStores.addEventListener("input", renderStoreOptions);
+    els.editPrice.addEventListener("input", refreshUnitPrice);
+    els.editWeight.addEventListener("input", refreshUnitPrice);
+    els.editUnitPrice.addEventListener("input", () => { delete els.editUnitPrice.dataset.autoCalculated; });
+    els.editStores.addEventListener("focus", () => setStoreOptionsOpen(true));
+    els.editStores.addEventListener("input", () => { renderStoreOptions(); setStoreOptionsOpen(true); });
     els.photoInput.addEventListener("change", async (event) => {
       const file = event.target.files?.[0];
       if (!file) return;
@@ -1006,17 +1145,27 @@
       setPhotoPreview("");
     });
     els.storeOptions.addEventListener("click", (event) => {
+      event.stopPropagation();
       const button = event.target.closest("[data-store-option]");
       if (button) toggleStoreOption(button.dataset.storeOption);
+    });
+    els.storeOptionsToggle.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const open = els.storeOptions.hidden;
+      setStoreOptionsOpen(open);
+      if (open) els.editStores.focus();
     });
     document.getElementById("close-edit-modal").addEventListener("click", closeItemEditor);
     document.getElementById("cancel-edit-button").addEventListener("click", closeItemEditor);
     els.editModal.addEventListener("click", (event) => { if (event.target === els.editModal) closeItemEditor(); });
-    document.addEventListener("keydown", (event) => { if (event.key === "Escape") { els.compareModal.classList.remove("open"); closeItemEditor(); } });
+    document.addEventListener("click", (event) => { if (!event.target.closest("#edit-stores-field")) setStoreOptionsOpen(false); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") { if (!els.storeOptions.hidden) { setStoreOptionsOpen(false); els.editStores.focus(); return; } els.compareModal.classList.remove("open"); closeItemEditor(); } });
     document.getElementById("add-item-button").addEventListener("click", openItemCreator);
     document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderSmart(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderSmart(); renderImported(); });
+    els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = false; renderSmart(); renderImported(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderSmart(); renderImported(); });
     document.getElementById("organic-toggle").addEventListener("change", (event) => { state.organicFirst = event.target.checked; renderSmart(); });
     document.getElementById("sugar-toggle").addEventListener("change", (event) => { state.lowSugar = event.target.checked; renderSmart(); });
