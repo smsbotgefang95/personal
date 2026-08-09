@@ -402,7 +402,7 @@
 
     const parsedByList = Object.fromEntries(listNames.map((name) => [name, parseImportedList(listSource[name])]));
     function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
-    function availableStores() { return [...new Set((parsedByList[state.activeList] || []).flatMap((item) => item.stores))].sort((a, b) => a.localeCompare(b)); }
+    function availableStores() { return [...new Set(Object.values(parsedByList).flatMap((items) => items.flatMap((item) => item.stores)))].sort((a, b) => a.localeCompare(b)); }
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function matchesStore(item) { return state.store === "all" || (item.stores || signalStores(item)).includes(state.store); }
     function getSignals() {
@@ -420,7 +420,7 @@
         const active = name === state.activeList;
         return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${meta.count} items imported</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
-      els.rail.querySelectorAll("[data-list]").forEach((button) => button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; state.store = "all"; els.search.value = ""; state.showAll = false; render(); }));
+      els.rail.querySelectorAll("[data-list]").forEach((button) => button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); }));
     }
 
     function renderStoreFilter() {
