@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
 <script src="smart-shopping-data.js"></script>
 <script src="smart-shopping-photos.js"></script>
+<script src="smart-shopping-nutrition.js?v=20260809-nutrition"></script>
 <script src="assets/site-nav.js?v=20260809-smart-shopping" defer></script>
 <style>
   :root {
@@ -151,6 +152,16 @@
   .product-fact-label { display: block; color: var(--muted); font-size: 0.58rem; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; }
   .product-fact-value { display: block; min-width: 0; margin-top: 2px; overflow: hidden; color: var(--ink); font-size: 0.74rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
   .product-fact-value.is-missing { color: #927c70; font-weight: 700; }
+  .nutrition-facts { margin-top: 12px; padding: 10px 11px; border: 1px solid #dcebe1; border-radius: 12px; background: #f7fbf8; }
+  .nutrition-facts.is-label-needed { border-color: #f0dfc8; background: #fffaf3; }
+  .nutrition-facts-heading { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .nutrition-facts-heading strong { color: #245b45; font-size: 0.72rem; letter-spacing: 0.02em; }
+  .nutrition-facts-heading span { color: var(--muted); font-size: 0.62rem; font-weight: 750; text-align: right; }
+  .nutrition-facts-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; margin-top: 8px; }
+  .nutrition-fact { min-width: 0; padding: 5px 6px; border-radius: 8px; background: rgba(255, 255, 255, 0.75); }
+  .nutrition-fact-label { display: block; color: var(--muted); font-size: 0.55rem; font-weight: 850; letter-spacing: 0.03em; text-transform: uppercase; }
+  .nutrition-fact-value { display: block; margin-top: 1px; color: var(--ink); font-size: 0.7rem; font-weight: 850; white-space: nowrap; }
+  .nutrition-facts-note { margin: 7px 0 0; color: #7b684f; font-size: 0.64rem; line-height: 1.35; }
   .price-line { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin: 13px 0 8px; }
   .price-line strong { font-size: 1.05rem; letter-spacing: -0.03em; }
   .price-line span { color: var(--green); font-size: 0.71rem; font-weight: 800; text-align: right; }
@@ -273,6 +284,7 @@
   @media (max-width: 520px) {
     .edit-facts { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nutrition-facts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
 </style>
 </head>
@@ -593,7 +605,16 @@
     }
     const importedBrandByName = new Map([
       [normalizeFoodName("Japanese Style Gyoza Pork & Chicken 鸡肉和猪肉饺子"), "Ajinomoto"],
-      [normalizeFoodName("虾饺"), "Royal Asia"]
+      [normalizeFoodName("Ajinomoto Seafood Gyoza Dumplings 海鲜饺子 (4 × 1个)"), "Ajinomoto"],
+      [normalizeFoodName("虾饺"), "Royal Asia"],
+      [normalizeFoodName("Day-lee Pride Pork Gyoza (1袋)"), "Gyoza"],
+      [normalizeFoodName("Finlandia Variety Pack 奶酪"), "Finlandia"],
+      [normalizeFoodName("Fresh Gourmet Organic Croutons 面包干"), "Fresh Gourmet"],
+      [normalizeFoodName("Kokuho Rose Us #1 Extra Fancy Rice 红国宝大米 (1 × 1袋)"), "Kokuho Rose"],
+      [normalizeFoodName("Korean Gompyo All Purpose Wheat Flour 面粉 (1 × 1袋)"), "Gompyo"],
+      [normalizeFoodName("P.A.N. Pre-Cooked White Corn Meal 预煮白玉米粉 (1 × 1袋)"), "P.A.N."],
+      [normalizeFoodName("Season Brand® Skinless & Boneless Sardines in 100% Olive Oil 沙丁鱼（去骨去皮，橄榄油浸泡） (4 × 1盒)"), "Season Brand"],
+      [normalizeFoodName("Tyson Frozen Crispy Chicken Strips 炸鸡块 (4 × 1块)"), "Tyson"]
     ]);
     function itemBrand(item) {
       if (item && Object.prototype.hasOwnProperty.call(item, "brand")) return String(item.brand || "").trim();
@@ -767,6 +788,27 @@
     function productFactsMarkup(facts, extraClass = "") {
       const fields = [["Price", facts.price], ["Weight", facts.weight], ["Unit", facts.unit], ["Unit price", facts.unitPrice]];
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
+    }
++    const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
+    function nutritionRecord(item) { return nutritionByName.get(normalizeFoodName(item?.name)) || null; }
+    function nutritionValue(value, suffix = "") {
+      if (value === "" || value === null || typeof value === "undefined") return "—";
+      const amount = Number(value);
+      if (!Number.isFinite(amount)) return `${value}${suffix}`;
+      const formatted = Number.isInteger(amount) ? String(amount) : amount.toFixed(1).replace(/\\.0$/, "");
+      return `${formatted}${suffix}`;
+    }
+    function nutritionFactsMarkup(item) {
+      const record = nutritionRecord(item);
+      if (!record) return "";
+      const labelNeeded = record.confidence === "manual label needed";
+      const basis = labelNeeded ? "Package label needed" : record.basis === "per 100 g" ? "USDA estimate · per 100 g" : "Package label · per serving";
+      if (labelNeeded) {
+        return `<div class="nutrition-facts is-label-needed" aria-label="Nutrition facts"><div class="nutrition-facts-heading"><strong>Nutrition facts</strong><span>${escapeHtml(basis)}</span></div><p class="nutrition-facts-note">Use the current package label for this product or variant.</p></div>`;
+      }
+      const fields = [["Calories", nutritionValue(record.calories, " kcal")], ["Protein", nutritionValue(record.protein_g, " g")], ["Carbs", nutritionValue(record.carbs_g, " g")], ["Fat", nutritionValue(record.fat_g, " g")], ["Sodium", nutritionValue(record.sodium_mg, " mg")]];
+      const secondary = [["Fiber", record.fiber_g], ["Sugar", record.sugars_g], ["Added sugar", record.added_sugars_g]].filter(([, value]) => value !== "" && value !== null && typeof value !== "undefined").map(([label, value]) => `${label} ${nutritionValue(value, " g")}`).join(" · ");
+      return `<div class="nutrition-facts" aria-label="Nutrition facts"><div class="nutrition-facts-heading"><strong>Nutrition facts</strong><span>${escapeHtml(basis)}</span></div><div class="nutrition-facts-grid">${fields.map(([label, value]) => `<span class="nutrition-fact"><span class="nutrition-fact-label">${label}</span><span class="nutrition-fact-value">${escapeHtml(value)}</span></span>`).join("")}</div>${secondary ? `<p class="nutrition-facts-note">${escapeHtml(secondary)}</p>` : ""}</div>`;
     }
     function importedNameMarkup(name, brand = "") {
       const fullName = productNameWithoutBrand(name, brand);
@@ -950,7 +992,7 @@
       const categoryText = item.category || "Imported item";
       const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div>${nutritionFactsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
     }
 
     function categoryGroups(items) {
