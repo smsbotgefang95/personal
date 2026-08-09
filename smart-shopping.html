@@ -207,19 +207,20 @@
   .category-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; white-space: nowrap; }
   .category-items { display: grid; gap: 12px; }
   .category-group .imported-card { border-color: var(--category-border); }
-  .imported-card { display: grid; grid-template: "photo title badges" auto "photo body body" auto / minmax(96px, 118px) minmax(0, 1fr) auto; column-gap: 16px; row-gap: 8px; min-height: 100%; padding: 14px 16px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+  .imported-card { display: grid; grid-template: "photo title badges" auto "actions body body" auto / 159px minmax(0, 1fr) auto; column-gap: 16px; row-gap: 8px; min-height: 100%; padding: 14px 16px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
   .imported-card.dragging { opacity: 0.45; background: #eef7f1; }
   .imported-card .card-top { display: contents; }
   .imported-card .item-photo { grid-area: photo; align-self: start; width: 118px; height: 118px; }
+  .imported-card .imported-actions { grid-area: actions; justify-content: start; align-self: start; }
   .imported-card .card-title { grid-area: title; min-width: 0; }
   .imported-card .card-title h4 { max-width: none; margin: 0 0 5px; font-size: 0.94rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
   .imported-card .card-title .card-detail { min-height: 0; }
   .imported-card .card-badges { grid-area: badges; align-self: start; }
   .imported-card .card-body { grid-area: body; margin-top: 0; }
   .imported-card .product-facts { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-  .imported-facts-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; margin-top: 8px; }
+  .imported-facts-row { margin-top: 0; }
   .imported-facts-row .product-facts { margin-top: 0; }
   .imported-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; align-items: center; }
   .imported-actions .mini-button { padding: 6px 9px; font-size: 0.67rem; }
@@ -308,7 +309,7 @@
     .imported-list { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .imported-card .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .imported-card { grid-template: "photo title badges" auto "photo body body" auto / minmax(96px, 118px) minmax(0, 1fr) auto; padding: 18px 16px; }
+    .imported-card { grid-template: "photo title badges" auto "actions body body" auto / 159px minmax(0, 1fr) auto; padding: 18px 16px; }
     .imported-card .item-photo { width: 118px; height: 118px; }
     .imported-card .card-badges { justify-content: end; }
     .imported-facts-row { grid-template-columns: 1fr; align-items: stretch; }
@@ -319,12 +320,14 @@
     .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .imported-card .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .nutrition-facts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .imported-card { grid-template: "photo title" auto "photo badges" auto "body body" auto / 72px minmax(0, 1fr); column-gap: 11px; row-gap: 9px; padding: 14px 12px; }
+    .imported-card { grid-template: "photo title" auto "photo badges" auto "actions body" auto / 72px minmax(0, 1fr); column-gap: 11px; row-gap: 9px; padding: 14px 12px; }
     .imported-card .item-photo { width: 72px; height: 72px; border-radius: 12px; }
     .imported-card .card-badges { justify-content: start; gap: 4px; }
     .imported-card .card-body { margin-top: 0; }
     .imported-card .card-title h4 { font-size: 0.94rem; }
     .imported-card .card-title .card-detail { font-size: 0.7rem; }
+    .imported-card .imported-actions { display: grid; gap: 4px; justify-content: stretch; }
+    .imported-card .imported-actions .mini-button { width: 100%; }
     .imported-facts-row { margin-top: 10px; gap: 9px; }
     .product-fact { padding: 6px 7px; }
     .imported-actions .mini-button { padding: 6px 9px; }
@@ -1310,7 +1313,7 @@
       const categoryText = itemCategory(item);
       const detailBar = facts.saleUnitPrice !== "Not listed" ? "92%" : facts.unitPrice !== "Not listed" ? "82%" : facts.salePrice !== "Not listed" || facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-title"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div><div class="card-title"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
     }
 
     function categoryGroups(items) {
