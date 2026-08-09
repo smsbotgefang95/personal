@@ -161,7 +161,7 @@
   .card-detail { min-height: 35px; margin: 0; color: var(--muted); font-size: 0.76rem; }
   .product-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 12px; }
   .product-fact { display: flex; min-width: 0; flex-direction: column; padding: 7px 8px; border: 1px solid #edf0ed; border-radius: 9px; background: #fbfcfa; }
-  .product-fact-label { display: block; min-height: 2.35em; color: var(--muted); font-size: 0.58rem; font-weight: 850; letter-spacing: 0.04em; line-height: 1.18; text-transform: uppercase; }
+  .product-fact-label { display: block; min-height: 1.18em; overflow: hidden; color: var(--muted); font-size: 0.52rem; font-weight: 850; letter-spacing: 0.03em; line-height: 1.18; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
   .product-fact-value { display: block; min-width: 0; margin-top: auto; overflow: hidden; color: var(--ink); font-size: 0.74rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
   .product-fact-value.is-missing { color: #927c70; font-weight: 700; }
   .nutrition-facts { margin-top: 12px; padding: 10px 11px; border: 1px solid #dcebe1; border-radius: 12px; background: #f7fbf8; }
@@ -267,6 +267,10 @@
   .edit-field { display: grid; gap: 5px; color: var(--muted); font-size: 0.74rem; font-weight: 750; }
   .edit-field input, .edit-field select { width: 100%; padding: 10px 11px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.82rem; font-weight: 500; }
   .edit-field input:focus, .edit-field select:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
+  .brand-editor { display: grid; gap: 7px; }
+  .brand-add-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
+  .brand-add-button { padding: 8px 10px; font-size: 0.72rem; white-space: nowrap; }
+  .field-help { margin: 0; color: var(--muted); font-size: 0.66rem; font-weight: 500; }
   .weight-input-group { display: grid; grid-template-columns: minmax(0, 1fr) 106px; gap: 6px; }
   .weight-input-group select { min-width: 0; }
   .store-picker { position: relative; }
@@ -463,7 +467,17 @@
     </div>
     <div class="edit-fields">
       <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
-      <label class="edit-field" id="edit-brand-field"><span>Brand</span><select id="edit-item-brand"></select></label>
+      <div class="edit-field" id="edit-brand-field">
+        <span>Brand</span>
+        <div class="brand-editor">
+          <select id="edit-item-brand" aria-label="Select a brand"></select>
+          <div class="brand-add-row">
+            <input id="new-brand-name" type="text" placeholder="Add a new brand" autocomplete="off" aria-label="New brand name" />
+            <button class="button-secondary brand-add-button" id="add-brand-button" type="button">Add brand</button>
+          </div>
+          <p class="field-help">Added brands stay available in this browser.</p>
+        </div>
+      </div>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
       <div class="edit-facts" id="edit-facts-fields">
         <label class="edit-field"><span>Price</span><input id="edit-item-price" type="text" autocomplete="off" /></label>
@@ -568,6 +582,7 @@
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       addItem: document.getElementById("add-item-button"),
+      newBrand: document.getElementById("new-brand-name"), addBrand: document.getElementById("add-brand-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
       search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
@@ -615,6 +630,7 @@
     const parsedByList = Object.fromEntries(sourceListNames.map((name) => [name, parseImportedList(listSource[name])]));
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
     const itemAddsStorageKey = "smart-shopping-item-adds-v1";
+    const customBrandOptionsStorageKey = "smart-shopping-brand-options-v1";
     const itemEdits = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemEditsStorageKey) || "{}");
@@ -636,6 +652,17 @@
     })();
     function saveItemAdds() {
       try { window.localStorage.setItem(itemAddsStorageKey, JSON.stringify(itemAdds)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+    }
+    const customBrandOptions = (() => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(customBrandOptionsStorageKey) || "[]");
+        return Array.isArray(saved) ? [...new Set(saved.map((brand) => String(brand || "").replace(/\s+/g, " ").trim()).filter(Boolean))] : [];
+      } catch (error) {
+        return [];
+      }
+    })();
+    function saveCustomBrandOptions() {
+      try { window.localStorage.setItem(customBrandOptionsStorageKey, JSON.stringify(customBrandOptions)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
     const itemRemovalsStorageKey = "smart-shopping-item-removals-v1";
     const itemRemovals = (() => {
@@ -1217,6 +1244,7 @@
     }
     function allBrands(selectedBrand = "") {
       const brands = new Map();
+      customBrandOptions.forEach((brand) => brands.set(brand.toLowerCase(), brand));
       sourceListNames.flatMap((name) => getSourceItems(name)).forEach((item) => {
         const brand = itemBrand(item);
         if (brand && !brands.has(brand.toLowerCase())) brands.set(brand.toLowerCase(), brand);
@@ -1229,6 +1257,29 @@
       els.editBrand.innerHTML = `<option value="">No brand</option>${allBrands(selectedBrand).map((brand) => `<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join("")}`;
       const selected = [...els.editBrand.options].find((option) => option.value.toLowerCase() === String(selectedBrand || "").trim().toLowerCase());
       els.editBrand.value = selected ? selected.value : "";
+    }
+    function addBrandOption() {
+      const brand = String(els.newBrand.value || "").replace(/\s+/g, " ").trim();
+      if (!brand) {
+        els.newBrand.focus();
+        showToast("Enter a brand name first.");
+        return;
+      }
+      const existing = allBrands().find((candidate) => candidate.toLowerCase() === brand.toLowerCase());
+      if (existing) {
+        renderBrandOptions(existing);
+        els.newBrand.value = "";
+        els.newBrand.focus();
+        showToast(`${existing} is already available.`);
+        return;
+      }
+      customBrandOptions.push(brand);
+      saveCustomBrandOptions();
+      renderBrandOptions(brand);
+      renderBrandFilter();
+      els.newBrand.value = "";
+      els.newBrand.focus();
+      showToast(`${brand} added as a brand option.`);
     }
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function itemStores(item) { return Array.isArray(item?.stores) ? item.stores : signalStores(item); }
@@ -1497,6 +1548,7 @@
       els.editName.required = true;
       els.editName.value = item.name;
       renderBrandOptions(itemBrand(item));
+      els.newBrand.value = "";
       const categories = orderCategories([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
@@ -1560,6 +1612,7 @@
       els.editName.required = true;
       els.editName.value = "";
       renderBrandOptions();
+      els.newBrand.value = "";
       const categories = orderCategories([...categoryNames].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
@@ -1682,6 +1735,13 @@
       clearDropTargets();
     });
     els.editForm.addEventListener("submit", saveItemEdit);
+    els.addBrand.addEventListener("click", addBrandOption);
+    els.newBrand.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addBrandOption();
+      }
+    });
     els.editPrice.addEventListener("input", () => { applyDefaultPriceCurrency(); refreshUnitPrice(); });
     els.editDiscount.addEventListener("input", () => { applyDefaultDiscountCurrency(); refreshUnitPrice(); });
     els.editSalePrice.addEventListener("input", () => { if (els.editDiscount.value.trim()) els.editDiscount.value = ""; applyDefaultSalePriceCurrency(); delete els.editSalePrice.dataset.autoCalculated; refreshUnitPrice(); });
