@@ -679,7 +679,7 @@
       return `<span class="row-name-primary">${escapeHtml(primaryName)}</span><span class="row-name-secondary">${escapeHtml(secondaryName)}</span>`;
     }
     function photoMarkup(itemName, fallback = "🍽️", customPhoto = "") {
-      if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo added in this browser" />`;
+      if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo added in this browser · background removed automatically" />`;
       const photo = foodPhoto(itemName);
       return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
     }
