@@ -178,7 +178,6 @@
   .imported-heading p { margin: 0; color: var(--muted); font-size: 0.76rem; }
   .imported-heading-controls { display: flex; gap: 8px; align-items: center; }
   .imported-heading-controls .search-wrap { width: min(290px, 26vw); min-width: 180px; }
-  .drag-tip { display: inline-flex; align-items: center; padding: 6px 9px; border: 1px solid #d8e8dc; border-radius: 999px; color: var(--green); background: #f2faf4; font-size: 0.67rem; font-weight: 800; white-space: nowrap; }
   .imported-list { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0 24px 22px; padding: 0; overflow: visible; }
   .category-group { display: grid; gap: 10px; }
   .category-group + .category-group { margin-top: 8px; }
@@ -274,7 +273,6 @@
     .imported-heading { display: block; align-items: start; padding-left: 16px; padding-right: 16px; }
     .imported-heading-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; margin-top: 11px; }
     .imported-heading-controls .search-wrap { grid-column: 1 / -1; width: 100%; min-width: 0; }
-    .drag-tip { display: none; }
     .imported-list { grid-template-columns: 1fr; }
     .imported-card { grid-template: "badges" auto "photo" auto "body" auto / minmax(0, 1fr); padding: 18px 16px; }
     .imported-card .item-photo { width: 118px; height: 118px; }
@@ -359,7 +357,6 @@
           <div><h3 id="imported-heading">Imported items by category</h3><p id="imported-count">Names and categories from your selected AnyList list</p></div>
           <div class="imported-heading-controls">
             <div class="search-wrap"><span aria-hidden="true">⌕</span><input class="search-input" id="search-input" type="search" placeholder="Search imported items" autocomplete="off" /></div>
-            <span class="drag-tip">Drag to move</span>
             <button class="button-secondary" id="show-all-button" type="button">Show all</button>
           </div>
         </div>
