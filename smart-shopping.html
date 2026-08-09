@@ -587,9 +587,13 @@
       const firstCjkIndex = tail.search(/[\u3400-\u9fff]/u);
       return firstCjkIndex > 0 ? tail.slice(0, firstCjkIndex).trim() : tail;
     }
+    const importedBrandByName = new Map([
+      [normalizeFoodName("Japanese Style Gyoza Pork & Chicken 鸡肉和猪肉饺子"), "Ajinomoto"],
+      [normalizeFoodName("虾饺"), "Royal Asia"]
+    ]);
     function itemBrand(item) {
       if (item && Object.prototype.hasOwnProperty.call(item, "brand")) return String(item.brand || "").trim();
-      return productBrand(item?.name);
+      return importedBrandByName.get(normalizeFoodName(item?.name)) || productBrand(item?.name);
     }
     function productNameWithoutBrand(value, brand = "") {
       const fullName = String(value || "").replace(/\s+/g, " ").trim();
