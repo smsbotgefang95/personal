@@ -399,6 +399,7 @@
     const listSource = window.SMART_LIST_IMPORT || {};
     const photoRecords = window.SMART_LIST_PHOTOS || [];
     const listNames = [...new Set([...Object.keys(listMeta), ...Object.keys(listSource)])];
+    const ALL_LIST = "__all__";
     const getListMeta = (name) => listMeta[name] || { icon: "🛒", count: 0, accent: "neutral" };
     document.getElementById("rail-count").textContent = listNames.length;
     document.getElementById("collection-import-note").textContent = `${listNames.length} collections imported from the signed-in AnyList session you approved.`;
@@ -446,6 +447,7 @@
     const state = { activeList: "买菜", query: "", store: "all", brand: "all", detailFilter: "all", showAll: false, sort: "smart", draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
+      addItem: document.getElementById("add-item-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
       search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
@@ -561,8 +563,10 @@
         .filter((item) => itemTargetList(sourceList, item.key) === listName)
         .map((item) => ({ ...item, sourceList, originalList: sourceList })));
     }
+    function isAllList() { return state.activeList === ALL_LIST; }
+    function getAllCollectionItems() { return listNames.flatMap((listName) => getImportedItems(listName)); }
     function isGlobalDetailFilter() { return state.detailFilter === "missing-photo"; }
-    function getViewItems() { return isGlobalDetailFilter() ? listNames.flatMap((listName) => getImportedItems(listName)) : getImportedItems(state.activeList); }
+    function getViewItems() { return isGlobalDetailFilter() || isAllList() ? getAllCollectionItems() : getImportedItems(state.activeList); }
     function itemReference(item) { return JSON.stringify({ sourceList: item.sourceList, key: item.key }); }
     function parseItemReference(value) {
       try {
@@ -853,7 +857,7 @@
       window.requestAnimationFrame(() => root.querySelectorAll("img[data-auto-remove-bg]").forEach(removePhotoBackground));
     }
     function availableStores() {
-      const configured = isGlobalDetailFilter() ? [] : anyListStoreOptions[state.activeList];
+      const configured = isGlobalDetailFilter() || isAllList() ? [] : anyListStoreOptions[state.activeList];
       const importedStores = getViewItems().flatMap((item) => item.stores);
       return [...new Set([...(configured || []), ...importedStores])].sort((a, b) => a.localeCompare(b));
     }
@@ -888,13 +892,18 @@
     }
 
     function renderRail() {
-      els.rail.innerHTML = listNames.map((name) => {
+      const allItems = getAllCollectionItems();
+      const allActive = isAllList();
+      const allButton = `<button class="list-button all-list-button${allActive ? " active" : ""}" type="button" data-list="${ALL_LIST}" aria-pressed="${allActive}" aria-label="Open All; view every item across all collections"><span class="list-icon" aria-hidden="true">🧺</span><span><span class="list-name">All</span><span class="list-meta">${allItems.length} items across all lists</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+      const collectionButtons = listNames.map((name) => {
         const meta = getListMeta(name);
         const active = name === state.activeList;
         return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(name)}; drop items here to move them"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
+      els.rail.innerHTML = allButton + collectionButtons;
       els.rail.querySelectorAll("[data-list]").forEach((button) => {
         button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); });
+        if (button.dataset.list === ALL_LIST) return;
         button.addEventListener("dragover", (event) => {
           const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item")) || state.draggedRef;
           if (!itemRef || itemTargetList(itemRef.sourceList, itemRef.key) === button.dataset.list) return;
@@ -969,7 +978,7 @@
       const total = items.length;
       if (!state.showAll) items = items.slice(0, 12);
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", state.brand !== "all" ? `brand: ${state.brand}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
-      const scopeLabel = isGlobalDetailFilter() ? "across all collections" : "in this list";
+      const scopeLabel = isGlobalDetailFilter() || isAllList() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
       els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems]) => importedCategoryGroup(category, categoryItems)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
@@ -1145,6 +1154,7 @@
       window.requestAnimationFrame(() => els.moveList.focus());
     }
     function openItemCreator() {
+      if (isAllList()) { showToast("Select a collection before adding an item."); return; }
       editSession.list = state.activeList;
       editSession.key = "";
       editSession.mode = "add";
@@ -1230,8 +1240,11 @@
 
     function render() {
       const viewItems = getViewItems();
-      els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : state.activeList;
-      els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : `${viewItems.length} items in this list · now sorted for better decisions`;
+      const allActive = isAllList();
+      els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : allActive ? "All items" : state.activeList;
+      els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : allActive ? `${viewItems.length} items across all collections · now sorted for better decisions` : `${viewItems.length} items in this list · now sorted for better decisions`;
+      els.addItem.disabled = allActive;
+      els.addItem.title = allActive ? "Select a collection before adding an item" : "Add an item to this collection";
       renderRail(); renderStoreFilter(); renderBrandFilter(); renderImported();
     }
 
