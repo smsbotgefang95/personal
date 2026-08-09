@@ -1085,8 +1085,19 @@
     }
     function itemCategory(item) { return String(item?.category || "Uncategorized").trim() || "Uncategorized"; }
     function isProcessedFoodCategory(category) { return /^加工食品(?:_|$)/u.test(String(category || "")); }
-    function moveProcessedFoodCategoriesToEnd(categories) {
-      return [...categories].sort((a, b) => Number(isProcessedFoodCategory(a)) - Number(isProcessedFoodCategory(b)));
+    function moveCategoryBefore(categories, categoryToMove, beforeCategory, getCategory = (category) => category) {
+      const result = [...categories];
+      const moveIndex = result.findIndex((item) => getCategory(item) === categoryToMove);
+      const beforeIndex = result.findIndex((item) => getCategory(item) === beforeCategory);
+      if (moveIndex < 0 || beforeIndex < 0 || moveIndex < beforeIndex) return result;
+      const [moved] = result.splice(moveIndex, 1);
+      result.splice(result.findIndex((item) => getCategory(item) === beforeCategory), 0, moved);
+      return result;
+    }
+    function orderCategories(categories, getCategory = (category) => category) {
+      const nonProcessed = categories.filter((item) => !isProcessedFoodCategory(getCategory(item)));
+      const processed = categories.filter((item) => isProcessedFoodCategory(getCategory(item)));
+      return [...moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory), ...processed];
     }
     function itemOrganicStatus(item) {
       if (typeof item?.organic === "boolean") return item.organic ? "organic" : "not-organic";
@@ -1099,7 +1110,7 @@
     function organicFilterLabel() { return state.organic === "organic" ? "organic only" : ""; }
     function availableCategories() {
       const categories = [...new Set(getViewItems().map(itemCategory))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-      return moveProcessedFoodCategoriesToEnd(categories);
+      return orderCategories(categories);
     }
     function availableBrands() {
       return allBrands();
@@ -1223,7 +1234,7 @@
         if (!groups.has(category)) groups.set(category, []);
         groups.get(category).push(item);
       });
-      return [...groups.entries()].sort(([a], [b]) => Number(isProcessedFoodCategory(a)) - Number(isProcessedFoodCategory(b)));
+      return orderCategories([...groups.entries()], ([category]) => category);
     }
 
     function importedCategoryGroup(category, items, colorIndex) {
@@ -1383,7 +1394,7 @@
       els.editName.required = true;
       els.editName.value = item.name;
       renderBrandOptions(itemBrand(item));
-      const categories = moveProcessedFoodCategoriesToEnd([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
+      const categories = orderCategories([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
       const facts = productFacts(item);
@@ -1446,7 +1457,7 @@
       els.editName.required = true;
       els.editName.value = "";
       renderBrandOptions();
-      const categories = moveProcessedFoodCategoriesToEnd([...categoryNames].sort((a, b) => a.localeCompare(b)));
+      const categories = orderCategories([...categoryNames].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
       els.editPrice.value = "";
