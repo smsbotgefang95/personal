@@ -555,11 +555,11 @@
     function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, photoLookupName: item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...item, photoLookupName: edit.photoLookupName || item.photoLookupName || item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, photoLookupName: item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...item, photoLookupName: edit.photoLookupName || item.photoLookupName || item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       }) : [];
       return [...importedItems, ...addedItems].filter((item) => !itemRemovals[editStorageKey(listName, item.key)]);
     }
@@ -626,9 +626,35 @@
     }
     function displayItemName(item) { return productNameWithoutBrand(item?.name, itemBrand(item)); }
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
+    function photoLookupCandidates(item) {
+      const isObject = item && typeof item === "object";
+      const names = isObject ? [item.photoLookupName, item.name] : [item];
+      const candidates = new Set(names.map(normalizeFoodName).filter(Boolean));
+      if (isObject) {
+        const name = normalizeFoodName(item.name);
+        const brand = normalizeFoodName(item.brand || itemBrand(item));
+        if (name && brand) {
+          candidates.add(`${name} by ${brand}`);
+          candidates.add(`${name} ${brand}`);
+        }
+      }
+      return [...candidates];
+    }
     function foodPhoto(item) {
-      const itemName = item && typeof item === "object" ? item.photoLookupName || item.name : item;
-      return photoByName.get(normalizeFoodName(itemName)) || null;
+      const candidates = photoLookupCandidates(item);
+      for (const candidate of candidates) {
+        const exact = photoByName.get(candidate);
+        if (exact) return exact;
+      }
+      if (item && typeof item === "object") {
+        const name = normalizeFoodName(item.name);
+        const brand = normalizeFoodName(item.brand || itemBrand(item));
+        if (name && brand) return photoRecords.find((photo) => {
+          const photoName = normalizeFoodName(photo.name);
+          return photoName.includes(name) && photoName.includes(brand);
+        }) || null;
+      }
+      return null;
     }
     function metadataValue(item, icon) {
       const raw = (item.meta || []).find((line) => line.startsWith(icon));
@@ -819,7 +845,7 @@
       const itemName = item && typeof item === "object" ? item.name : item;
       if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo added in this browser · background removed automatically" />`;
       const photo = foodPhoto(item);
-      return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
+      return photo ? `<img src="./assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" data-photo-source="${escapeHtml(photo.source || "")}" data-photo-fallback="${escapeHtml(fallback)}" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
     }
     document.getElementById("photo-count").textContent = photoRecords.length;
     document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally · auto-cutout enabled`;
@@ -893,7 +919,26 @@
       else image.addEventListener("load", process, { once: true });
     }
     function schedulePhotoBackgroundRemoval(root) {
-      window.requestAnimationFrame(() => root.querySelectorAll("img[data-auto-remove-bg]").forEach(removePhotoBackground));
+      root.querySelectorAll("img[data-auto-remove-bg]").forEach((image) => {
+        if (image.dataset.photoErrorBound !== "true") {
+          image.addEventListener("error", () => {
+            const remoteSource = image.dataset.photoSource;
+            if (remoteSource && image.dataset.photoRemoteFallback !== "true") {
+              image.dataset.photoRemoteFallback = "true";
+              image.removeAttribute("data-auto-remove-bg");
+              image.src = remoteSource;
+              return;
+            }
+            const fallback = document.createElement("span");
+            fallback.className = "photo-fallback";
+            fallback.setAttribute("aria-hidden", "true");
+            fallback.textContent = image.dataset.photoFallback || "🍽️";
+            image.replaceWith(fallback);
+          });
+          image.dataset.photoErrorBound = "true";
+        }
+        removePhotoBackground(image);
+      });
     }
     function availableStores() {
       const configured = isGlobalDetailFilter() || isAllList() ? [] : anyListStoreOptions[state.activeList];
@@ -1268,7 +1313,8 @@
         itemAdds[editSession.list].push({ key, name, brand, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo };
+        const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo, photoLookupName: sourceItem?.photoLookupName || sourceItem?.name || name };
         saveItemEdits();
       }
       const savedMessage = editSession.mode === "add" ? `${name} added to ${editSession.list}.` : `${name} saved in this browser.`;
