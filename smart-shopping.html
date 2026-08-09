@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Smart Shopping</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
-<script src="smart-shopping-data.js"></script>
+<script src="smart-shopping-data.js?v=20260809-merges"></script>
 <script src="smart-shopping-photos.js"></script>
 <script src="smart-shopping-nutrition.js?v=20260809-nutrition"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
@@ -437,7 +437,16 @@
     const listMeta = window.SMART_LIST_META || {};
     const listSource = window.SMART_LIST_IMPORT || {};
     const photoRecords = window.SMART_LIST_PHOTOS || [];
-    const listNames = [...new Set([...Object.keys(listMeta), ...Object.keys(listSource)])];
+    const sourceListNames = [...new Set([...Object.keys(listMeta), ...Object.keys(listSource)])];
+    const mergeTargetBySource = new Map();
+    (Array.isArray(window.SMART_LIST_MERGES) ? window.SMART_LIST_MERGES : []).forEach((merge) => {
+      const target = String(merge?.target || "");
+      const sources = Array.isArray(merge?.sources) ? merge.sources : [];
+      if (!sourceListNames.includes(target)) return;
+      [...new Set([target, ...sources])].filter((source) => sourceListNames.includes(source)).forEach((source) => mergeTargetBySource.set(source, target));
+    });
+    const logicalListName = (name) => mergeTargetBySource.get(name) || name;
+    const listNames = [...new Set(sourceListNames.map(logicalListName))];
     const ALL_LIST = "__all__";
     const getListMeta = (name) => listMeta[name] || { icon: "🛒", count: 0, accent: "neutral" };
     document.getElementById("rail-count").textContent = listNames.length;
@@ -533,7 +542,7 @@
       return [...merged.values()].map((item) => ({ ...item, key: `${item.category}::${item.name}`, meta: [...new Set(item.meta)], stores: [...new Set(item.stores)] }));
     }
 
-    const parsedByList = Object.fromEntries(listNames.map((name) => [name, parseImportedList(listSource[name])]));
+    const parsedByList = Object.fromEntries(sourceListNames.map((name) => [name, parseImportedList(listSource[name])]));
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
     const itemAddsStorageKey = "smart-shopping-item-adds-v1";
     const itemEdits = (() => {
@@ -597,10 +606,11 @@
     }
     function itemTargetList(sourceList, itemKey) {
       const targetList = itemMoves[moveStorageKey(sourceList, itemKey)];
-      return listNames.includes(targetList) ? targetList : sourceList;
+      const resolvedTarget = logicalListName(targetList);
+      return listNames.includes(resolvedTarget) ? resolvedTarget : logicalListName(sourceList);
     }
     function getImportedItems(listName) {
-      return listNames.flatMap((sourceList) => getSourceItems(sourceList)
+      return sourceListNames.filter((sourceList) => logicalListName(sourceList) === listName).flatMap((sourceList) => getSourceItems(sourceList)
         .filter((item) => itemTargetList(sourceList, item.key) === listName)
         .map((item) => ({ ...item, sourceList, originalList: sourceList })));
     }
@@ -1074,6 +1084,10 @@
       return [...new Set([...(configured || []), ...importedStores])].sort((a, b) => a.localeCompare(b));
     }
     function itemCategory(item) { return String(item?.category || "Uncategorized").trim() || "Uncategorized"; }
+    function isProcessedFoodCategory(category) { return /^加工食品(?:_|$)/u.test(String(category || "")); }
+    function moveProcessedFoodCategoriesToEnd(categories) {
+      return [...categories].sort((a, b) => Number(isProcessedFoodCategory(a)) - Number(isProcessedFoodCategory(b)));
+    }
     function itemOrganicStatus(item) {
       if (typeof item?.organic === "boolean") return item.organic ? "organic" : "not-organic";
       const organicValue = String(item?.organic || "").trim().toLowerCase();
@@ -1084,14 +1098,15 @@
     function matchesOrganic(item) { return state.organic === "all" || (state.organic === "organic" && itemOrganicStatus(item) === "organic"); }
     function organicFilterLabel() { return state.organic === "organic" ? "organic only" : ""; }
     function availableCategories() {
-      return [...new Set(getViewItems().map(itemCategory))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+      const categories = [...new Set(getViewItems().map(itemCategory))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+      return moveProcessedFoodCategoriesToEnd(categories);
     }
     function availableBrands() {
       return allBrands();
     }
     function allBrands(selectedBrand = "") {
       const brands = new Map();
-      listNames.flatMap((name) => getSourceItems(name)).forEach((item) => {
+      sourceListNames.flatMap((name) => getSourceItems(name)).forEach((item) => {
         const brand = itemBrand(item);
         if (brand && !brands.has(brand.toLowerCase())) brands.set(brand.toLowerCase(), brand);
       });
@@ -1208,7 +1223,7 @@
         if (!groups.has(category)) groups.set(category, []);
         groups.get(category).push(item);
       });
-      return [...groups.entries()];
+      return [...groups.entries()].sort(([a], [b]) => Number(isProcessedFoodCategory(a)) - Number(isProcessedFoodCategory(b)));
     }
 
     function importedCategoryGroup(category, items, colorIndex) {
@@ -1368,7 +1383,7 @@
       els.editName.required = true;
       els.editName.value = item.name;
       renderBrandOptions(itemBrand(item));
-      const categories = [...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b));
+      const categories = moveProcessedFoodCategoriesToEnd([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
       const facts = productFacts(item);
@@ -1431,7 +1446,7 @@
       els.editName.required = true;
       els.editName.value = "";
       renderBrandOptions();
-      const categories = [...categoryNames].sort((a, b) => a.localeCompare(b));
+      const categories = moveProcessedFoodCategoriesToEnd([...categoryNames].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
       els.editPrice.value = "";
