@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Smart Shopping</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
-<script src="smart-shopping-data.js?v=20260809-alternative-star"></script>
-<script src="smart-shopping-photos.js"></script>
-<script src="smart-shopping-nutrition.js?v=20260809-nutrition"></script>
+<script src="smart-shopping-data.js?v=20260809-chosen-foods"></script>
+<script src="smart-shopping-photos.js?v=20260809-chosen-foods"></script>
+<script src="smart-shopping-nutrition.js?v=20260809-chosen-foods"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
 <script src="assets/site-nav.js?v=20260809-smart-shopping" defer></script>
 <style>
@@ -559,6 +559,9 @@
       "Edit Item", "Add to Favorites", "Change Category", "Edit Price", "Assign Stores", "Add Photo", "Move / Copy Item", "Delete Items", "Done"
     ]);
     const metadataPattern = /^(?:[💵⚖️🏷️⬇️⬆️🗃️]|\+\s?\d|\d[\d./-]*\s?(?:lb|oz|kg|g|qt|L|瓶|袋|盒|个|根|顿|块|包|把|罐|片|卷|fl oz|pt)|WT\s|\$|\d+(?:\.\d+)?\s*\/)/i;
+    function canonicalizeShoppingText(value) {
+      return String(value || "").replace(/Choosen Foods/giu, "Chosen Foods");
+    }
     const signalItems = [
       { list: "买菜", name: "Organic Cucumber 有机黄瓜", icon: "🥒", fit: "Great fit", fitClass: "good", detail: "Fresh vegetable · no added sugar", sugar: "0g added", organic: true, price: "$6.99 / bag", unit: "$4.99 saved low", bar: "58%", source: "Costco · imported price", prices: [["Costco", "$6.99 / bag", "$2.33 / each", "AnyList"], ["Saved low", "$4.99 / bag", "$1.66 / each", "AnyList history"]] },
       { list: "买菜", name: "Blueberry by Fruitist 蓝莓", icon: "🫐", fit: "Good fit", fitClass: "good", detail: "Fruit · naturally sweet, no added sugar", sugar: "No added sugar", organic: false, price: "$6.49 / box", unit: "$4.32 / lb", bar: "64%", source: "Costco · imported price", prices: [["Costco", "$6.49 / box", "$4.32 / lb", "AnyList"], ["Saved deal", "$1.50 off", "—", "AnyList history"]] },
@@ -602,7 +605,7 @@
       let current = null;
       const commit = () => { if (current && current.name) parsed.push(current); current = null; };
       for (const rawLine of String(source || "").split("\n")) {
-        const line = rawLine.trim();
+        const line = canonicalizeShoppingText(rawLine.trim());
         if (!line) continue;
         if (categoryNames.has(line)) { commit(); category = line; continue; }
         const stores = storesFromLine(line);
@@ -659,7 +662,7 @@
     const customBrandOptions = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(customBrandOptionsStorageKey) || "[]");
-        return Array.isArray(saved) ? [...new Set(saved.map((brand) => String(brand || "").replace(/\s+/g, " ").trim()).filter(Boolean))] : [];
+        return Array.isArray(saved) ? [...new Set(saved.map((brand) => canonicalizeShoppingText(String(brand || "").replace(/\s+/g, " ").trim())).filter(Boolean))] : [];
       } catch (error) {
         return [];
       }
@@ -693,14 +696,21 @@
     }
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
+    function normalizeStoredItem(item) {
+      const normalized = { ...item, name: canonicalizeShoppingText(item?.name) };
+      if (Object.prototype.hasOwnProperty.call(item || {}, "brand")) normalized.brand = canonicalizeShoppingText(item.brand).trim();
+      return normalized;
+    }
     function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
+        const normalizedItem = normalizeStoredItem(item);
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, photoLookupName: edit.photoLookupName || item.photoLookupName || item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
+        const normalizedItem = normalizeStoredItem(item);
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, photoLookupName: edit.photoLookupName || item.photoLookupName || item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
       }) : [];
       return [...importedItems, ...addedItems].filter((item) => !itemRemovals[editStorageKey(listName, item.key)]);
     }
@@ -1265,7 +1275,7 @@
       els.editBrand.value = selected ? selected.value : "";
     }
     function addBrandOption() {
-      const brand = String(els.newBrand.value || "").replace(/\s+/g, " ").trim();
+      const brand = canonicalizeShoppingText(String(els.newBrand.value || "").replace(/\s+/g, " ").trim());
       if (!brand) {
         els.newBrand.focus();
         showToast("Enter a brand name first.");
