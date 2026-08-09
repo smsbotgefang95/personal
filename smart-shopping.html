@@ -765,6 +765,41 @@
       [normalizeFoodName("Season Brand® Skinless & Boneless Sardines in 100% Olive Oil 沙丁鱼（去骨去皮，橄榄油浸泡） (4 × 1盒)"), "Season Brand"],
       [normalizeFoodName("Tyson Frozen Crispy Chicken Strips 炸鸡块 (4 × 1块)"), "Tyson"]
     ]);
+    const productNameCaseExceptions = new Map([
+      ["us", "US"], ["usa", "USA"], ["uk", "UK"], ["p.a.n.", "P.A.N."],
+      ["california", "California"], ["gilroy", "Gilroy"], ["taiwan", "Taiwan"],
+      ["korean", "Korean"], ["italian", "Italian"], ["japanese", "Japanese"],
+      ["cai-organic", "Cai-Organic"], ["vivatierra", "VivaTierra"],
+      ["kokuho", "Kokuho"], ["rose", "Rose"], ["finlandia", "Finlandia"],
+      ["kirkland", "Kirkland"], ["signature", "Signature"], ["gompyo", "Gompyo"],
+      ["mila", "Mila"], ["ajinomoto", "Ajinomoto"], ["4earth", "4Earth"]
+    ]);
+    const productNameCasePhrases = new Map([
+      ["fresh gourmet", "Fresh Gourmet"], ["original gourmet", "Original Gourmet"],
+      ["season brand", "Season Brand"], ["day-lee", "Day-lee"]
+    ]);
+    function formatProductName(value, protectedValue = "") {
+      const normalized = String(value || "").replace(/\s+/g, " ").trim();
+      if (!normalized) return normalized;
+      const exceptions = new Map(productNameCaseExceptions);
+      String(protectedValue || "").match(/[A-Za-z](?:[A-Za-z'’.-]*[A-Za-z])?\.?/gu)?.forEach((word) => {
+        const key = word.toLowerCase();
+        if (!exceptions.has(key)) exceptions.set(key, word);
+      });
+      let firstLatinLetter = true;
+      const formatted = normalized.replace(/[A-Za-z0-9](?:[A-Za-z0-9'’.-]*[A-Za-z])?\.?/gu, (word) => {
+        if (!/[A-Za-z]/u.test(word)) return word;
+        const key = word.toLowerCase();
+        const exception = exceptions.get(key);
+        const isFirstLatinWord = firstLatinLetter;
+        firstLatinLetter = false;
+        if (exception) return exception;
+        const lower = word.toLowerCase();
+        if (!isFirstLatinWord) return lower;
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
+      });
+      return formatted.replace(/\b(?:fresh gourmet|original gourmet|season brand|day-lee)\b/giu, (phrase) => productNameCasePhrases.get(phrase.toLowerCase()) || phrase);
+    }
     function itemBrand(item) {
       if (item && Object.prototype.hasOwnProperty.call(item, "brand")) return String(item.brand || "").trim();
       return importedBrandByName.get(normalizeFoodName(item?.name)) || productBrand(item?.name);
@@ -776,7 +811,12 @@
       const brandPattern = new RegExp(`\\s+by\\s+${escapeRegExp(normalizedBrand)}(?=\\s|$)`, "iu");
       return fullName.replace(brandPattern, "").replace(/\s{2,}/g, " ").trim();
     }
-    function displayItemName(item) { return productNameWithoutBrand(item?.name, itemBrand(item)); }
+    function displayProductName(value, brand = "") {
+      const fullName = productNameWithoutBrand(value, brand);
+      const leadingBrand = brand && new RegExp(`^${escapeRegExp(brand)}(?:\\s|$)`, "iu").test(fullName) ? brand : "";
+      return formatProductName(fullName, leadingBrand);
+    }
+    function displayItemName(item) { return displayProductName(item?.name, itemBrand(item)); }
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
     function photoLookupCandidates(item) {
       const isObject = item && typeof item === "object";
@@ -1094,7 +1134,7 @@
       return { low: "Glycemic Index: Low", medium: "Glycemic Index: Medium", high: "Glycemic Index: High", "not-applicable": "Glycemic Index: Not applicable", "package-label": "Glycemic Index: Package label needed" }[state.glycemicIndex] || "";
     }
     function importedNameMarkup(name, brand = "") {
-      const fullName = productNameWithoutBrand(name, brand);
+      const fullName = displayProductName(name, brand);
       const firstCjkIndex = fullName.search(/[\u3400-\u9fff]/u);
       if (firstCjkIndex <= 0) return `<span class="row-name-primary">${escapeHtml(fullName)}</span>`;
       const primaryName = fullName.slice(0, firstCjkIndex).trim();
@@ -1102,7 +1142,7 @@
       return `<span class="row-name-primary">${escapeHtml(primaryName)}</span><span class="row-name-secondary">${escapeHtml(secondaryName)}</span>`;
     }
     function photoMarkup(item, fallback = "🍽️", customPhoto = "") {
-      const itemName = item && typeof item === "object" ? item.name : item;
+      const itemName = item && typeof item === "object" ? displayItemName(item) : formatProductName(item);
       if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo added in this browser · background removed automatically" />`;
       const photo = foodPhoto(item);
       return photo ? `<img src="./assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" data-photo-source="${escapeHtml(photo.source || "")}" data-photo-fallback="${escapeHtml(fallback)}" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
@@ -1452,7 +1492,7 @@
       if (duplicate) {
         state.draggedRef = null;
         clearDropTargets();
-        showToast(`${item.name} is already in ${targetList}.`);
+        showToast(`${displayItemName(item)} is already in ${targetList}.`);
         return;
       }
       itemMoves[moveStorageKey(sourceList, itemKey)] = targetList;
@@ -1467,12 +1507,12 @@
       els.search.value = "";
       clearDropTargets();
       render();
-      showToast(`${item.name} moved to ${targetList}.`);
+      showToast(`${displayItemName(item)} moved to ${targetList}.`);
     }
 
     function deleteItem(item) {
       const targetList = itemTargetList(item.sourceList, item.key);
-      const confirmed = window.confirm(`Delete “${item.name}” from ${targetList}? This only changes this browser’s shopping view.`);
+      const confirmed = window.confirm(`Delete “${displayItemName(item)}” from ${targetList}? This only changes this browser’s shopping view.`);
       if (!confirmed) return;
       const storageKey = editStorageKey(item.sourceList, item.key);
       if (item.added) {
@@ -1488,7 +1528,7 @@
       saveItemEdits();
       saveItemMoves();
       render();
-      showToast(`${item.name} deleted from ${targetList} in this browser.`);
+      showToast(`${displayItemName(item)} deleted from ${targetList} in this browser.`);
     }
 
     const editSession = { list: "", key: "", mode: "edit", photo: "" };
@@ -1567,7 +1607,7 @@
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
       els.editName.required = true;
-      els.editName.value = item.name;
+      els.editName.value = displayItemName(item);
       renderBrandOptions(itemBrand(item));
       els.newBrand.value = "";
       const categories = orderCategories([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
@@ -1597,7 +1637,7 @@
       editSession.key = item.key;
       editSession.mode = "move";
       document.getElementById("edit-item-title").textContent = "Move item";
-      els.editSubtitle.textContent = `${item.name} · choose a destination list`;
+      els.editSubtitle.textContent = `${displayItemName(item)} · choose a destination list`;
       document.getElementById("edit-item-note").textContent = "Moving is saved in this browser and leaves the original AnyList import unchanged.";
       document.getElementById("save-item-button").textContent = "Move item";
       els.editNameField.hidden = true;
@@ -1675,7 +1715,7 @@
         moveItemToList(sourceList, itemKey, targetList);
         return;
       }
-      const name = els.editName.value.trim();
+      const name = formatProductName(els.editName.value.trim());
       if (!name) { els.editName.focus(); return; }
       const brand = els.editBrand.value;
       const category = els.editCategory.value || "Uncategorized";
@@ -1718,7 +1758,7 @@
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
     function openCompare(item) {
       if (!item) return;
-      els.compareTitle.textContent = `${item.name} · compare unit price`;
+      els.compareTitle.textContent = `${displayProductName(item.name, itemBrand(item))} · compare unit price`;
       els.compareSubtitle.textContent = item.sugar === "Added sugar" ? "A lower price is not automatically a better food fit." : "The lowest comparable unit price is highlighted.";
       const bestIndex = item.prices.reduce((best, row, index) => row[2].includes("$") && !row[2].includes("—") ? index : best, 0);
       els.compareBody.innerHTML = item.prices.map((row, index) => `<tr class="${index === bestIndex ? "best" : ""}"><td>${escapeHtml(row[0])}</td><td>${escapeHtml(row[1])}</td><td>${escapeHtml(row[2])}</td><td>${escapeHtml(row[3])}</td></tr>`).join("");
