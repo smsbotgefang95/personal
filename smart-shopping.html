@@ -603,6 +603,7 @@
       if (/^(?:oz|ounce|ounces)$/.test(normalizedUnit)) return { amount: amount / 16, unit: "lb" };
       if (/^(?:kg|kilogram|kilograms)$/.test(normalizedUnit)) return { amount: amount * 2.20462, unit: "lb" };
       if (/^(?:g|gram|grams)$/.test(normalizedUnit)) return { amount: amount * 0.00220462, unit: "lb" };
+      if (/^(?:fl\s*oz|fluid ounce|fluid ounces)$/.test(normalizedUnit)) return { amount, unit: "fl oz" };
       if (/^(?:gal|gallon|gallons)$/.test(normalizedUnit)) return { amount, unit: "gallon" };
       if (/^(?:l|liter|liters|litre|litres)$/.test(normalizedUnit)) return { amount, unit: "L" };
       if (/^(?:ml|milliliter|milliliters|millilitre|millilitres)$/.test(normalizedUnit)) return { amount, unit: "ml" };
@@ -615,11 +616,11 @@
       if (countMatch) {
         return { amount: Number(countMatch[1]), unit: "each" };
       }
-      const multiplierMatch = raw.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|grams?|g|gallons?|gal|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
+      const multiplierMatch = raw.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|gallons?|gal|grams?|g|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
       if (multiplierMatch) {
         return normalizedWeightQuantity(Number(multiplierMatch[1]) * Number(multiplierMatch[2]), multiplierMatch[3]);
       }
-      const match = raw.match(/(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|grams?|g|gallons?|gal|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
+      const match = raw.match(/(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|gallons?|gal|grams?|g|liters?|litres?|l|milliliters?|millilitres?|ml)/i);
       return match ? normalizedWeightQuantity(Number(match[1]), match[2]) : null;
     }
     function calculateUnitPrice(priceValue, weightValue) {
