@@ -379,20 +379,20 @@
 
       <div class="filter-strip" aria-label="Shopping filters">
         <select class="store-filter" id="store-filter" aria-label="Filter by store">
-          <option value="all">All stores</option>
+          <option value="all">Stores</option>
         </select>
         <select class="brand-filter" id="brand-filter" aria-label="Filter by brand">
-          <option value="all">All brands</option>
+          <option value="all">Brands</option>
         </select>
         <select class="organic-filter" id="organic-filter" aria-label="Filter by organic status">
-          <option value="all">All organic status</option>
+          <option value="all">Organic status</option>
           <option value="organic">Organic only</option>
         </select>
         <select class="category-filter" id="category-filter" aria-label="Filter by category">
-          <option value="all">All categories</option>
+          <option value="all">Categories</option>
         </select>
         <select class="glycemic-index-filter" id="glycemic-index-filter" aria-label="Filter by Glycemic Index">
-          <option value="all">All Glycemic Index</option>
+          <option value="all">Glycemic Index</option>
           <option value="low">Low (≤55)</option>
           <option value="medium">Medium (56–69)</option>
           <option value="high">High (≥70)</option>
@@ -400,7 +400,7 @@
           <option value="package-label">Package label needed</option>
         </select>
         <select class="detail-filter" id="detail-filter" aria-label="Filter by item details">
-          <option value="all">All item details</option>
+          <option value="all">Item details</option>
           <option value="photo">Photos ready</option>
           <option value="missing-photo">Needs photo</option>
           <option value="unit">Unit price ready</option>
@@ -1253,21 +1253,21 @@
     function renderStoreFilter() {
       const stores = availableStores();
       if (state.store !== "all" && state.store !== noStoreFilterValue && !stores.includes(state.store)) state.store = "all";
-      els.store.innerHTML = `<option value="all">All stores</option><option value="${noStoreFilterValue}">Without store</option>${stores.map((store) => `<option value="${escapeHtml(store)}">${escapeHtml(store)}</option>`).join("")}`;
+      els.store.innerHTML = `<option value="all">Stores</option><option value="${noStoreFilterValue}">Without store</option>${stores.map((store) => `<option value="${escapeHtml(store)}">${escapeHtml(store)}</option>`).join("")}`;
       els.store.value = state.store;
     }
 
     function renderBrandFilter() {
       const brands = availableBrands();
       if (state.brand !== "all" && state.brand !== noBrandFilterValue && !brands.includes(state.brand)) state.brand = "all";
-      els.brand.innerHTML = `<option value="all">All brands</option><option value="${noBrandFilterValue}">No brand</option>${brands.map((brand) => `<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join("")}`;
+      els.brand.innerHTML = `<option value="all">Brands</option><option value="${noBrandFilterValue}">No brand</option>${brands.map((brand) => `<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join("")}`;
       els.brand.value = state.brand;
     }
 
     function renderCategoryFilter() {
       const categories = availableCategories();
       if (state.category !== "all" && !categories.includes(state.category)) state.category = "all";
-      els.category.innerHTML = `<option value="all">All categories</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
+      els.category.innerHTML = `<option value="all">Categories</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.category.value = state.category;
     }
 
