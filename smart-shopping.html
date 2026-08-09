@@ -104,7 +104,6 @@
   .list-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .list-icon svg { display: block; width: 25px; height: 25px; }
   .list-button.active .list-icon { background: #ffffff; }
-  .list-icon.list-icon-image, .list-button.active .list-icon.list-icon-image { background: transparent; }
   .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
   .list-meta { display: block; margin-top: 2px; color: var(--muted); font-size: 0.71rem; font-weight: 600; }
   .list-arrow { color: #9aa7a2; font-size: 1.1rem; }
@@ -1159,11 +1158,28 @@
       result.splice(result.findIndex((item) => getCategory(item) === beforeCategory), 0, moved);
       return result;
     }
+    function moveCategoriesAfter(categories, categoriesToMove, afterCategory, getCategory = (category) => category) {
+      const moving = new Set(categoriesToMove);
+      const moved = [];
+      const result = categories.filter((item) => {
+        if (moving.has(getCategory(item))) {
+          moved.push(item);
+          return false;
+        }
+        return true;
+      });
+      const afterIndex = result.findIndex((item) => getCategory(item) === afterCategory);
+      if (afterIndex < 0 || !moved.length) return categories;
+      result.splice(afterIndex + 1, 0, ...moved);
+      return result;
+    }
     function orderCategories(categories, getCategory = (category) => category) {
       const homemade = categories.filter((item) => getCategory(item) === "自制食品");
       const nonProcessed = categories.filter((item) => !isProcessedFoodCategory(getCategory(item)) && getCategory(item) !== "自制食品");
       const processed = categories.filter((item) => isProcessedFoodCategory(getCategory(item)));
-      return [...moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory), ...processed, ...homemade];
+      const produceFirst = moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory);
+      const animalCategories = ["牛", "猪", "羊", "虾", "蛋", "鱼", "鸡", "鸭"];
+      return [...moveCategoriesAfter(produceFirst, animalCategories, "水果", getCategory), ...processed, ...homemade];
     }
     function itemOrganicStatus(item) {
       if (typeof item?.organic === "boolean") return item.organic ? "organic" : "not-organic";
