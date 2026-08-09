@@ -218,6 +218,7 @@
   .imported-card .card-body { grid-area: body; margin-top: 0; }
   .imported-card .card-body h4 { max-width: none; font-size: 0.94rem; font-weight: 400; }
   .imported-card .card-detail { min-height: 0; }
+  .imported-card .product-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .imported-facts-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; margin-top: 8px; }
   .imported-facts-row .product-facts { margin-top: 0; }
   .imported-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; align-items: center; }
@@ -306,6 +307,7 @@
     .imported-heading-controls .search-wrap { grid-column: 1 / -1; width: 100%; min-width: 0; }
     .imported-list { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .imported-card .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .imported-card { grid-template: "badges" auto "photo" auto "body" auto / minmax(0, 1fr); padding: 18px 16px; }
     .imported-card .item-photo { width: 118px; height: 118px; }
     .imported-facts-row { grid-template-columns: 1fr; align-items: stretch; }
@@ -314,6 +316,7 @@
   @media (max-width: 520px) {
     .edit-facts { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .imported-card .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .nutrition-facts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .imported-card { grid-template: "photo badges" auto "body body" auto / 78px minmax(0, 1fr); column-gap: 11px; row-gap: 9px; padding: 14px 12px; }
     .imported-card .item-photo { width: 72px; height: 72px; border-radius: 12px; }
