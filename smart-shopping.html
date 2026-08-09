@@ -121,7 +121,7 @@
   .button-primary:hover { background: #1e795d; }
   .filter-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 13px 24px; border-bottom: 1px solid var(--line); background: #fbfcfa; }
   .store-filter, .brand-filter, .category-filter, .organic-filter, .glycemic-index-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
-  .price-sort { margin-left: auto; }
+  .price-sort { margin-left: 0; }
   .search-wrap { position: relative; width: min(290px, 100%); }
   .search-wrap span { position: absolute; top: 50%; left: 11px; color: #87948e; transform: translateY(-50%); }
   .search-input { width: 100%; padding: 9px 11px 9px 31px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.78rem; }
@@ -376,6 +376,11 @@
           <p id="active-list-subtitle">20 items imported · now sorted for better decisions</p>
         </div>
         <div class="header-actions">
+          <select class="price-sort" id="sort-select" aria-label="Sort items">
+            <option value="smart">Smart order</option>
+            <option value="price">Lowest unit price</option>
+            <option value="name">Name A–Z</option>
+          </select>
           <button class="button-secondary" id="compare-all-button" type="button">Compare prices</button>
           <button class="button-primary" id="add-item-button" type="button">＋ Add an item</button>
         </div>
@@ -409,11 +414,6 @@
           <option value="missing-photo">Needs photo</option>
           <option value="unit">Unit price ready</option>
           <option value="missing-unit">Needs unit price</option>
-        </select>
-        <select class="price-sort" id="sort-select" aria-label="Sort items">
-          <option value="smart">Smart order</option>
-          <option value="price">Lowest unit price</option>
-          <option value="name">Name A–Z</option>
         </select>
       </div>
 
