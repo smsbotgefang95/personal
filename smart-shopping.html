@@ -78,12 +78,11 @@
   .sync-card p { margin-bottom: 12px; color: var(--muted); font-size: 0.83rem; }
   .status-line { display: flex; align-items: center; gap: 8px; color: var(--green); font-size: 0.78rem; font-weight: 750; }
   .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #3cc391; box-shadow: 0 0 0 4px rgba(60, 195, 145, 0.15); }
-  .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
   .summary-card { min-height: 126px; padding: 17px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, 0.78); box-shadow: var(--shadow-small); }
-  .summary-card:nth-child(1) { background: linear-gradient(145deg, #edf8f2, #ffffff); border-color: #cceadb; }
-  .summary-card:nth-child(2) { background: linear-gradient(145deg, #fff5e8, #ffffff); border-color: #f5dbb7; }
-  .summary-card:nth-child(3) { background: linear-gradient(145deg, #edf6fd, #ffffff); border-color: #cfe4f3; }
-  .summary-card:nth-child(4) { background: linear-gradient(145deg, #f5effd, #ffffff); border-color: #e2d5f4; }
+  .summary-card:nth-child(1) { background: linear-gradient(145deg, #fff5e8, #ffffff); border-color: #f5dbb7; }
+  .summary-card:nth-child(2) { background: linear-gradient(145deg, #edf6fd, #ffffff); border-color: #cfe4f3; }
+  .summary-card:nth-child(3) { background: linear-gradient(145deg, #f5effd, #ffffff); border-color: #e2d5f4; }
   .summary-label { color: var(--muted); font-size: 0.8rem; font-weight: 750; }
   .summary-value { display: block; margin: 10px 0 5px; font-size: 1.7rem; letter-spacing: -0.04em; }
   .summary-note { color: var(--muted); font-size: 0.76rem; }
@@ -116,13 +115,10 @@
   .button-secondary:hover, .mini-button:hover { border-color: #8bc8ac; background: #f2fbf5; }
   .button-primary { padding: 10px 14px; border-color: var(--green); color: #ffffff; background: var(--green); box-shadow: 0 5px 13px rgba(37, 138, 107, 0.2); font-size: 0.8rem; }
   .button-primary:hover { background: #1e795d; }
-  .preference-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 13px 24px; border-bottom: 1px solid var(--line); background: #fbfcfa; }
-  .preference-label { margin-right: 4px; color: var(--muted); font-size: 0.73rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
-  .preference-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #dce6de; border-radius: 999px; color: #365247; background: #ffffff; font-size: 0.75rem; font-weight: 750; }
-  .preference-toggle input { accent-color: var(--green); }
+  .filter-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 13px 24px; border-bottom: 1px solid var(--line); background: #fbfcfa; }
   .store-filter, .brand-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
   .price-sort { margin-left: auto; }
-  .smart-section { padding: 20px 24px 24px; }
+  .smart-section { padding: 20px 24px 24px; border-bottom: 1px solid var(--line); background: #ffffff; }
   .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 13px; }
   .section-heading h3 { margin: 0 0 3px; font-size: 1rem; }
   .section-heading p { margin: 0; color: var(--muted); font-size: 0.79rem; }
@@ -130,9 +126,9 @@
   .search-wrap span { position: absolute; top: 50%; left: 11px; color: #87948e; transform: translateY(-50%); }
   .search-input { width: 100%; padding: 9px 11px 9px 31px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.78rem; }
   .search-input:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
-  .smart-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
   .smart-card { position: relative; min-width: 0; padding: 15px; border: 1px solid #e2e8e2; border-radius: 16px; background: #ffffff; box-shadow: 0 4px 12px rgba(28, 39, 61, 0.04); overflow: hidden; }
   .smart-card::after { display: none; }
+  .smart-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
   .card-top, .card-body, .card-footer { position: relative; z-index: 1; }
   .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
   .item-photo { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; overflow: hidden; border-radius: 15px; background: linear-gradient(145deg, #e4f5eb, #c8e7d5); font-size: 1.85rem; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.1); }
@@ -170,13 +166,21 @@
   .mini-button.loading { opacity: 0.65; pointer-events: none; }
   .mini-button.danger { border-color: #e4c4cc; color: #9d3f57; background: #fffafb; }
   .mini-button.danger:hover { border-color: #d98ca0; color: #8c2f49; background: #fff0f3; }
-  .empty-smart { grid-column: 1 / -1; padding: 25px; border: 1px dashed #cbd9cf; border-radius: 14px; color: var(--muted); background: #fbfdfb; text-align: center; }
+  .empty-state { grid-column: 1 / -1; padding: 25px; border: 1px dashed #cbd9cf; border-radius: 14px; color: var(--muted); background: #fbfdfb; text-align: center; }
   .imported-panel { margin-top: 0; border-top: 1px solid var(--line); background: #fbfcfa; }
   .imported-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 24px 12px; }
   .imported-heading h3 { margin: 0 0 3px; font-size: 0.98rem; }
   .imported-heading p { margin: 0; color: var(--muted); font-size: 0.76rem; }
+  .imported-heading-controls { display: flex; gap: 8px; align-items: center; }
+  .imported-heading-controls .search-wrap { width: min(290px, 26vw); min-width: 180px; }
   .drag-tip { display: inline-flex; align-items: center; padding: 6px 9px; border: 1px solid #d8e8dc; border-radius: 999px; color: var(--green); background: #f2faf4; font-size: 0.67rem; font-weight: 800; white-space: nowrap; }
   .imported-list { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0 24px 22px; padding: 0; overflow: visible; }
+  .category-group { display: grid; gap: 10px; }
+  .category-group + .category-group { margin-top: 8px; }
+  .category-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 13px; border: 1px solid #dbe8de; border-radius: 12px; background: linear-gradient(105deg, #eff8f1, #fbfdfb); }
+  .category-heading h4 { margin: 0; color: #245b45; font-size: 0.82rem; letter-spacing: -0.01em; }
+  .category-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; white-space: nowrap; }
+  .category-items { display: grid; gap: 12px; }
   .imported-card { display: grid; grid-template: "photo badges" auto "photo body" auto "photo footer" auto / minmax(122px, 154px) minmax(0, 1fr); column-gap: 22px; row-gap: 11px; min-height: 100%; padding: 22px 24px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
@@ -243,7 +247,6 @@
     .sync-card { max-width: 420px; }
     .workspace { grid-template-columns: 230px minmax(0, 1fr); }
     .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .smart-grid { grid-template-columns: 1fr; }
     .imported-list { grid-template-columns: 1fr; }
   }
   @media (max-width: 740px) {
@@ -261,13 +264,13 @@
     .source-note { display: none; }
     .content-header { display: block; padding: 18px 16px 15px; }
     .header-actions { justify-content: start; margin-top: 13px; }
-    .preference-strip, .smart-section { padding-left: 16px; padding-right: 16px; }
+    .filter-strip, .smart-section { padding-left: 16px; padding-right: 16px; }
     .price-sort { margin-left: 0; }
     .section-heading { display: block; }
-    .search-wrap { width: 100%; margin-top: 11px; }
-    .smart-grid { grid-template-columns: 1fr; }
     .imported-heading, .imported-list, .trust-note { margin-left: 16px; margin-right: 16px; }
-    .imported-heading { align-items: start; padding-left: 16px; padding-right: 16px; }
+    .imported-heading { display: block; align-items: start; padding-left: 16px; padding-right: 16px; }
+    .imported-heading-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; margin-top: 11px; }
+    .imported-heading-controls .search-wrap { grid-column: 1 / -1; width: 100%; min-width: 0; }
     .drag-tip { display: none; }
     .imported-list { grid-template-columns: 1fr; }
     .imported-card { grid-template: "badges" auto "photo" auto "body" auto "footer" auto / minmax(0, 1fr); padding: 18px 16px; }
@@ -289,7 +292,7 @@
     <div>
       <p class="eyebrow">Smart shopping · your lists, upgraded</p>
       <h1 id="page-title">Buy better without overthinking it.</h1>
-      <p class="hero-copy">Your AnyList collections are here. The new layer puts food fit, unit-price comparisons, and automatic product details beside the item you already know you need.</p>
+      <p class="hero-copy">Your AnyList collections are here. The new layer puts unit-price comparisons and automatic product details beside the item you already know you need.</p>
     </div>
     <aside class="sync-card" aria-label="AnyList import status">
       <strong>AnyList import complete</strong>
@@ -299,7 +302,6 @@
   </section>
 
   <section class="summary-grid" aria-label="Shopping overview">
-    <article class="summary-card"><span class="summary-label">Better-fit picks</span><strong class="summary-value">18</strong><span class="summary-note">Organic-first matches in your lists</span></article>
     <article class="summary-card"><span class="summary-label">Saved price signals</span><strong class="summary-value">$42.18</strong><span class="summary-note">Sale history found in AnyList</span></article>
     <article class="summary-card"><span class="summary-label">Unit prices ready</span><strong class="summary-value">61%</strong><span class="summary-note">Compare the same food by lb, oz, or each</span></article>
     <article class="summary-card"><span class="summary-label">Food photos migrated</span><strong class="summary-value" id="photo-count">217</strong><span class="summary-note">Backgrounds automatically removed</span></article>
@@ -312,7 +314,7 @@
         <span class="rail-count">8</span>
       </div>
       <div id="list-rail-buttons"></div>
-      <div class="source-note"><strong>Source stays visible</strong>Imported values are labeled separately from future lookups, so you can tell what came from AnyList and what the app recommends.</div>
+      <div class="source-note"><strong>Source stays visible</strong>Imported values are labeled separately from changes you make here, so you can tell what came from AnyList and what was added in this browser.</div>
     </aside>
 
     <section class="panel workspace-main" aria-live="polite">
@@ -327,10 +329,7 @@
         </div>
       </header>
 
-      <div class="preference-strip" aria-label="Shopping preferences">
-        <span class="preference-label">Your rules</span>
-        <label class="preference-toggle"><input id="organic-toggle" type="checkbox" checked /> Organic first</label>
-        <label class="preference-toggle"><input id="sugar-toggle" type="checkbox" checked /> Low or no added sugar</label>
+      <div class="filter-strip" aria-label="Shopping filters">
         <select class="store-filter" id="store-filter" aria-label="Filter by store">
           <option value="all">All stores</option>
         </select>
@@ -354,19 +353,21 @@
       <section class="smart-section" aria-labelledby="smart-heading">
         <div class="section-heading">
           <div><h3 id="smart-heading">Smart shortlist</h3><p id="smart-heading-note">A quick first pass for this collection</p></div>
-          <div class="search-wrap"><span aria-hidden="true">⌕</span><input class="search-input" id="search-input" type="search" placeholder="Search imported items" autocomplete="off" /></div>
         </div>
         <div class="smart-grid" id="smart-grid"></div>
       </section>
 
       <section class="imported-panel" aria-labelledby="imported-heading">
         <div class="imported-heading">
-          <div><h3 id="imported-heading">Imported items</h3><p id="imported-count">Names and categories from your selected AnyList list</p></div>
-          <span class="drag-tip">Drag to move</span>
-          <button class="button-secondary" id="show-all-button" type="button">Show all</button>
+          <div><h3 id="imported-heading">Imported items by category</h3><p id="imported-count">Names and categories from your selected AnyList list</p></div>
+          <div class="imported-heading-controls">
+            <div class="search-wrap"><span aria-hidden="true">⌕</span><input class="search-input" id="search-input" type="search" placeholder="Search imported items" autocomplete="off" /></div>
+            <span class="drag-tip">Drag to move</span>
+            <button class="button-secondary" id="show-all-button" type="button">Show all</button>
+          </div>
         </div>
         <div class="imported-list" id="imported-list"></div>
-        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How the smart layer works</strong>Food guidance uses preference nudges, price comparisons use unit price, and store assignments are preserved from AnyList. Edit and move changes are saved in this browser and stay separate from the original import.</div></div>
+        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How this view works</strong>Price comparisons use unit price, and store assignments are preserved from AnyList. Edit and move changes are saved in this browser and stay separate from the original import.</div></div>
       </section>
     </section>
   </section>
@@ -454,7 +455,7 @@
       { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
     ];
 
-    const state = { activeList: "买菜", query: "", store: "all", brand: "all", detailFilter: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true, draggedRef: null };
+    const state = { activeList: "买菜", query: "", store: "all", brand: "all", detailFilter: "all", showAll: false, sort: "smart", draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
@@ -877,8 +878,6 @@
       let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name)) && matchesStore(item) && matchesBrand(item));
       signals = signals.filter((item) => matchesDetailFilter(null, item));
       if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
-      if (state.organicFirst) signals.sort((a, b) => Number(b.organic) - Number(a.organic));
-      if (state.lowSugar) signals.sort((a, b) => Number(a.sugar === "No added sugar" || a.sugar === "0g added") * -1 - Number(b.sugar === "No added sugar" || b.sugar === "0g added") * -1);
       if (state.sort === "name") signals.sort((a, b) => a.name.localeCompare(b.name));
       return signals;
     }
@@ -926,12 +925,16 @@
     }
 
     function smartCard(item, index) {
+      const imported = importedMatchForSignal(item);
+      if (!imported) return "";
       const fitClass = item.fitClass === "watch" ? "card-watch" : item.fitClass === "avoid" ? "card-avoid" : "";
       const fitBadge = item.fitClass === "watch" ? "badge-review" : item.fitClass === "avoid" ? "badge-avoid" : "badge-good";
       const organicBadge = item.organic ? `<span class="badge badge-organic">🌿 Organic</span>` : "";
       const sugarBadge = item.sugar === "Added sugar" ? `<span class="badge badge-avoid">Sugar watch</span>` : `<span class="badge ${item.sugar === "Label check" ? "badge-review" : "badge-good"}">${escapeHtml(item.sugar)}</span>`;
-      const photo = foodPhoto(item.name);
-      return `<article class="smart-card ${fitClass}"><div class="card-top"><div class="item-photo${photo ? " has-photo" : ""}">${photoMarkup(item.name, item.icon)}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${importedNameMarkup(item.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p>${productFactsMarkup(signalProductFacts(item), "card-facts")}<div class="price-bar" aria-label="Price comparison indicator"><span style="--bar:${item.bar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${photo ? "AnyList photo · " : ""}${escapeHtml(item.source)}</span><button class="mini-button enrich-button" type="button" data-enrich="${index}">Enrich now</button></div></article>`;
+      const photo = foodPhoto(imported.name);
+      const facts = signalProductFacts(item);
+      const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
+      return `<article class="smart-card" data-item-ref="${escapeHtml(itemReference(imported))}"><div class="card-top"><div class="item-photo${photo ? " has-photo" : ""}" title="${photo ? "Photo migrated from AnyList" : "No item photo"}">${photoMarkup(imported.name, item.icon || "🍽️")}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${importedNameMarkup(imported.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p>${productFactsMarkup(facts, "card-facts")}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${photo ? "AnyList photo · " : ""}${escapeHtml(item.source)}</span><div class="imported-actions"><button class="mini-button" type="button" data-enrich="${index}">Enrich now</button><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(imported.name)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(imported.name)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(imported.name)}">Delete</button></div></div></article>`;
     }
 
     function importedCard(item) {
@@ -946,13 +949,19 @@
       return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(item.name)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges"><span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name)}</h4><p class="card-detail">${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(item.name)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state">✓ ${photo || hasCustomPhoto ? "AnyList photo · " : ""}${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</span></div></article>`;
     }
 
-    function renderSmart() {
-      const signals = getSignals();
-      const detailNote = detailFilterLabel();
-      els.smartHeadingNote.textContent = signals.length ? `${signals.length} preference-aware matches${detailNote ? ` · ${detailNote}` : ""} · unit prices shown where available` : "No smart match yet · imported items are still searchable below";
-      els.smartGrid.innerHTML = signals.length ? signals.map(smartCard).join("") : `<div class="empty-smart">This collection is imported and ready. Search below to find an item, then use <strong>Enrich now</strong> when you want a nutrition, price, or photo match.</div>`;
-      els.smartGrid.querySelectorAll("[data-enrich]").forEach((button) => button.addEventListener("click", () => enrich(button)));
-      schedulePhotoBackgroundRemoval(els.smartGrid);
+    function categoryGroups(items) {
+      const groups = new Map();
+      items.forEach((item) => {
+        const category = String(item.category || "Uncategorized").trim() || "Uncategorized";
+        if (!groups.has(category)) groups.set(category, []);
+        groups.get(category).push(item);
+      });
+      return [...groups.entries()];
+    }
+
+    function importedCategoryGroup(category, items) {
+      const itemLabel = items.length === 1 ? "item" : "items";
+      return `<section class="category-group" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
 
     function renderImported() {
@@ -967,9 +976,17 @@
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", state.brand !== "all" ? `brand: ${state.brand}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
       const scopeLabel = isGlobalDetailFilter() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
-      els.importedList.innerHTML = items.length ? items.map(importedCard).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
+      els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems]) => importedCategoryGroup(category, categoryItems)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
+    }
+
+    function renderSmart() {
+      const signals = getSignals();
+      const detailNote = detailFilterLabel();
+      els.smartHeadingNote.textContent = signals.length ? `${signals.length} preference-aware matches${detailNote ? ` · ${detailNote}` : ""} · unit prices shown where available` : "No smart match yet · imported items are still searchable below";
+      els.smartGrid.innerHTML = signals.length ? signals.map(smartCard).join("") : `<div class="empty-state">This collection is imported and ready. Search below to find an item, then use <strong>Edit</strong>, <strong>Move</strong>, or <strong>Delete</strong> on the item.</div>`;
+      schedulePhotoBackgroundRemoval(els.smartGrid);
     }
 
     function clearDropTargets() {
@@ -1234,9 +1251,18 @@
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
     function enrich(button) {
-      const index = Number(button.dataset.enrich); const item = getSignals()[index]; if (!item) return;
-      button.classList.add("loading"); button.textContent = "Matching…";
-      window.setTimeout(() => { button.classList.remove("loading"); button.textContent = "Updated"; const stateNode = document.querySelector(`[data-enrichment-state="${index}"]`); if (stateNode) stateNode.textContent = "✓ Photo + price match ready"; showToast(`${item.name} is ready for a live lookup connection.`); }, 650);
+      const index = Number(button.dataset.enrich);
+      const item = getSignals()[index];
+      if (!item) return;
+      button.classList.add("loading");
+      button.textContent = "Matching…";
+      window.setTimeout(() => {
+        button.classList.remove("loading");
+        button.textContent = "Updated";
+        const stateNode = document.querySelector(`[data-enrichment-state="${index}"]`);
+        if (stateNode) stateNode.textContent = "✓ Photo + price match ready";
+        showToast(`${item.name} is ready for a live lookup connection.`);
+      }, 650);
     }
     function openCompare(item) {
       if (!item) return;
@@ -1250,7 +1276,9 @@
     document.getElementById("compare-all-button").addEventListener("click", () => openCompare(getSignals()[0] || signalItems[0]));
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
-    els.importedList.addEventListener("click", (event) => {
+    function handleItemAction(event) {
+      const enrichButton = event.target.closest("[data-enrich]");
+      if (enrichButton) { enrich(enrichButton); return; }
       const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item]");
       if (!action) return;
       const row = action.closest("[data-item-ref]");
@@ -1260,7 +1288,9 @@
       if (action.hasAttribute("data-move-item")) openItemMover(item);
       else if (action.hasAttribute("data-delete-item")) deleteItem(item);
       else openItemEditor(item);
-    });
+    }
+    els.smartGrid.addEventListener("click", handleItemAction);
+    els.importedList.addEventListener("click", handleItemAction);
     els.importedList.addEventListener("dragstart", (event) => {
       const row = event.target.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
@@ -1324,8 +1354,6 @@
     els.brand.addEventListener("change", () => { state.brand = els.brand.value; state.showAll = false; renderSmart(); renderImported(); });
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = state.detailFilter === "missing-photo"; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderSmart(); renderImported(); });
-    document.getElementById("organic-toggle").addEventListener("change", (event) => { state.organicFirst = event.target.checked; renderSmart(); });
-    document.getElementById("sugar-toggle").addEventListener("change", (event) => { state.lowSugar = event.target.checked; renderSmart(); });
     render();
   })();
 </script>
