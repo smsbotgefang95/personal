@@ -1022,9 +1022,12 @@
       const price = parsePriceAmount(priceValue);
       const quantity = parseWeightQuantity(weightValue);
       if (!price || !quantity || !Number.isFinite(quantity.amount) || quantity.amount <= 0) return "";
-      const unitPrice = price / quantity.amount;
+      const comparisonQuantity = quantity.unit === "oz"
+        ? { amount: quantity.amount / 16, unit: "lb" }
+        : quantity;
+      const unitPrice = price / comparisonQuantity.amount;
       const displayPrice = unitPrice < 0.01 ? unitPrice.toFixed(3) : unitPrice.toFixed(2);
-      return quantity.unit === "unit" ? `$${displayPrice}` : `$${displayPrice} / ${quantity.unit}`;
+      return comparisonQuantity.unit === "unit" ? `$${displayPrice}` : `$${displayPrice} / ${comparisonQuantity.unit}`;
     }
     function refreshCalculatedUnitPrice(priceInput, unitPriceInput, weightValue, preserveManualValue = false) {
       if (preserveManualValue && unitPriceInput.value.trim() && unitPriceInput.dataset.autoCalculated !== "true") return;
