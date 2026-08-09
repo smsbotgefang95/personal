@@ -146,7 +146,7 @@
   .card-watch .item-photo { background: linear-gradient(145deg, #fff1d8, #f6d29c); }
   .card-avoid .item-photo { background: linear-gradient(145deg, #fde8ef, #f5c3d0); }
   .item-photo.has-photo, .row-photo.has-photo { background: transparent; box-shadow: none; }
-  .card-badges { display: flex; justify-content: end; flex-wrap: wrap; gap: 4px; }
+  .card-badges { display: flex; justify-content: end; flex-wrap: nowrap; gap: 4px; }
   .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 7px; border-radius: 999px; font-size: 0.65rem; font-weight: 850; white-space: nowrap; }
   .badge-brand { color: #5d478f; background: var(--purple-soft); }
   .badge-organic { color: #22704f; background: #e5f5ea; }
@@ -219,7 +219,7 @@
   .category-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; white-space: nowrap; }
   .category-items { display: grid; gap: 12px; }
   .category-group .imported-card { border-color: var(--category-border); }
-  .imported-card { display: grid; grid-template: "media main badges" auto / 159px minmax(0, 1fr) 120px; column-gap: 16px; row-gap: 8px; align-items: center; min-height: 100%; padding: 14px 16px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+  .imported-card { display: grid; grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; column-gap: 16px; row-gap: 8px; align-items: center; min-height: 100%; padding: 14px 16px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
   .imported-card.dragging { opacity: 0.45; background: #eef7f1; }
@@ -231,7 +231,7 @@
   .imported-card .card-title { min-width: 0; }
   .imported-card .card-title h4 { max-width: none; margin: 0 0 5px; font-size: 0.94rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
   .imported-card .card-title .card-detail { min-height: 0; }
-  .imported-card .card-badges { grid-area: badges; align-self: start; width: 120px; min-width: 0; }
+  .imported-card .card-badges { grid-area: badges; align-self: start; width: 150px; min-width: 0; }
   .imported-card .card-body { margin-top: 0; }
   .imported-card .product-facts { width: 100%; grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .imported-facts-row { margin-top: 0; }
@@ -327,7 +327,7 @@
     .imported-list { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .imported-card .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .imported-card { grid-template: "media main badges" auto / 159px minmax(0, 1fr) 120px; padding: 18px 16px; }
+    .imported-card { grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; padding: 18px 16px; }
     .imported-card .item-photo { width: 118px; height: 118px; }
     .imported-card .card-badges { justify-content: end; }
     .imported-facts-row { grid-template-columns: 1fr; align-items: stretch; }
