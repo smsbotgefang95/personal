@@ -335,6 +335,7 @@
         <select class="detail-filter" id="detail-filter" aria-label="Filter by item details">
           <option value="all">All item details</option>
           <option value="photo">Photos ready</option>
+          <option value="missing-photo">Needs photo</option>
           <option value="unit">Unit price ready</option>
           <option value="missing-unit">Needs unit price</option>
         </select>
@@ -660,12 +661,13 @@
       if (state.detailFilter === "all") return true;
       const source = item || importedMatchForSignal(signal);
       if (state.detailFilter === "photo") return itemHasPhoto(source || signal);
+      if (state.detailFilter === "missing-photo") return !itemHasPhoto(source || signal);
       if (state.detailFilter === "unit") return itemHasUnitPrice(source, signal);
       if (state.detailFilter === "missing-unit") return !itemHasUnitPrice(source, signal);
       return true;
     }
     function detailFilterLabel() {
-      return { photo: "photos ready", unit: "unit price ready", "missing-unit": "needs unit price" }[state.detailFilter] || "";
+      return { photo: "photos ready", "missing-photo": "needs photo", unit: "unit price ready", "missing-unit": "needs unit price" }[state.detailFilter] || "";
     }
     function productFactsMarkup(facts, extraClass = "") {
       const fields = [["Price", facts.price], ["Weight", facts.weight], ["Unit price", facts.unitPrice]];
