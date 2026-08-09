@@ -786,7 +786,7 @@
       const fields = [["Price", facts.price], ["Weight", facts.weight], ["Unit", facts.unit], ["Unit price", facts.unitPrice]];
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
     }
-+    const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
+    const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
     function nutritionRecord(item) { return nutritionByName.get(normalizeFoodName(item?.name)) || null; }
     function nutritionValue(value, suffix = "") {
       if (value === "" || value === null || typeof value === "undefined") return "—";
