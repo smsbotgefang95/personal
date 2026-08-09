@@ -104,6 +104,7 @@
   .list-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .list-icon svg { display: block; width: 25px; height: 25px; }
   .list-button.active .list-icon { background: #ffffff; }
+  .list-icon.list-icon-image, .list-button.active .list-icon.list-icon-image { background: transparent; }
   .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
   .list-meta { display: block; margin-top: 2px; color: var(--muted); font-size: 0.71rem; font-weight: 600; }
   .list-arrow { color: #9aa7a2; font-size: 1.1rem; }
@@ -486,13 +487,16 @@
     const getListMeta = (name) => listMeta[name] || { icon: "🛒", count: 0, accent: "neutral" };
     function listIconMarkup(icon, listName = "") {
       if (displayListName(listName) === "推车") {
-        return `<svg viewBox="0 0 32 32" role="img" aria-label="Storage cart" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#1D2925" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 4.5V27.2M25.5 4.5V27.2M6.5 4.5h4M25.5 4.5h-4"/><path d="M6.5 7.2h19M6.5 15.1h19M6.5 23h19"/></g><g fill="#1D2925"><path d="M6.5 7.2h19l-1.6 2H8.1z"/><path d="M6.5 15.1h19l-1.6 2H8.1z"/><path d="M6.5 23h19l-1.6 2H8.1z"/><circle cx="8" cy="29" r="2"/><circle cx="24" cy="29" r="2"/></g></svg>`;
+        return `<svg viewBox="0 0 36 36" role="img" aria-label="Storage cart" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="storage-cart-shelf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#526575"/><stop offset="1" stop-color="#263541"/></linearGradient><linearGradient id="storage-cart-wheel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C66A"/><stop offset="1" stop-color="#D8873C"/></linearGradient></defs><g fill="none" stroke="#25333B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 5.8V29.2M28.5 5.8V29.2M7.5 5.8V3.5h5M28.5 5.8V3.5h-5"/></g><g fill="url(#storage-cart-shelf)" stroke="#19252C" stroke-width="1.2" stroke-linejoin="round"><path d="M7.5 8.2h21l-1.7 3.7H7.5z"/><path d="M7.5 16.8h21l-1.7 3.7H7.5z"/><path d="M7.5 25.4h21l-1.7 3.7H7.5z"/></g><g fill="none" stroke="#AFC5CE" stroke-width="1" stroke-linecap="round" opacity=".7"><path d="M9.2 9.4h6.4"/><path d="M9.2 18h6.4"/><path d="M9.2 26.6h6.4"/></g><g fill="url(#storage-cart-wheel)" stroke="#25333B" stroke-width="1.2"><circle cx="10" cy="31.5" r="2.6"/><circle cx="26" cy="31.5" r="2.6"/></g><g fill="#FFF1C7"><circle cx="10" cy="31.5" r=".8"/><circle cx="26" cy="31.5" r=".8"/></g></svg>`;
       }
       if (listName === "冰箱") {
         return `<svg viewBox="0 0 32 32" role="img" aria-label="Fridge" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="7" y="3.5" width="18" height="25" rx="2.5" fill="#E8F7FB" stroke="#4A899B" stroke-width="1.8"/><path d="M7.8 14.5H24.2" stroke="#4A899B" stroke-width="1.4"/><path d="M20.5 7.5V11.2M20.5 18V23" stroke="#2F6F82" stroke-width="1.8" stroke-linecap="round"/></svg>`;
       }
       if (displayListName(listName) === "冰柜") {
-        return `<img src="assets/freezer-collection.png?v=20260809" alt="" />`;
+        return `<img src="assets/freezer-collection.png?v=20260809-emoji-transparent" alt="" />`;
+      }
+      if (displayListName(listName) === "橱柜") {
+        return `<img src="assets/cabinet-collection.png?v=20260809" alt="" />`;
       }
       return escapeHtml(icon || "🛒");
     }
@@ -1216,7 +1220,8 @@
         const meta = getListMeta(name);
         const active = name === state.activeList;
         const displayName = displayListName(name);
-        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(displayName)}; drop items here to move them"><span class="list-icon" aria-hidden="true">${listIconMarkup(meta.icon, name)}</span><span><span class="list-name">${escapeHtml(displayName)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+        const iconClass = displayName === "冰柜" ? " list-icon-image" : "";
+        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(displayName)}; drop items here to move them"><span class="list-icon${iconClass}" aria-hidden="true">${listIconMarkup(meta.icon, name)}</span><span><span class="list-name">${escapeHtml(displayName)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
       els.rail.innerHTML = allButton + collectionButtons;
       els.rail.querySelectorAll("[data-list]").forEach((button) => {
