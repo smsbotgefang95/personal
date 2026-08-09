@@ -921,7 +921,7 @@
       return { photo: "photos ready", "missing-photo": "needs photo", unit: "unit price ready", "missing-unit": "needs unit price" }[state.detailFilter] || "";
     }
     function productFactsMarkup(facts, extraClass = "") {
-      const fields = [["Price", facts.price], ["Discount", facts.discount], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit", facts.unit], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]];
+      const fields = [["Price", facts.price], ["Discount", facts.discount], ["Sale price", facts.salePrice], ["Weight", facts.weight], ["Unit price", facts.unitPrice], ["Sale unit price", facts.saleUnitPrice]];
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
     }
     const nutritionByName = new Map((window.SMART_SHOPPING_NUTRITION || []).map((record) => [normalizeFoodName(record.item), record]));
