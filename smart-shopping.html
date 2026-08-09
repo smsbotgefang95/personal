@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Shopping</title>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
+<script src="smart-shopping-data.js"></script>
+<script src="assets/site-nav.js?v=20260809-smart-shopping" defer></script>
+<style>
+  :root {
+    --ink: #152038;
+    --muted: #667085;
+    --soft: #f7f8f5;
+    --paper: #ffffff;
+    --line: #e3e7df;
+    --blue: #1769aa;
+    --blue-soft: #e8f3fb;
+    --green: #258a6b;
+    --green-soft: #e7f5ee;
+    --orange: #c56824;
+    --orange-soft: #fff1df;
+    --rose: #c44e68;
+    --rose-soft: #fdebf0;
+    --purple: #7756a7;
+    --purple-soft: #f1ecfa;
+    --shadow: 0 18px 48px rgba(28, 39, 61, 0.09);
+    --shadow-small: 0 6px 18px rgba(28, 39, 61, 0.07);
+  }
+  * { box-sizing: border-box; }
+  html { background: #eef2ee; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 85% 4%, rgba(255, 211, 160, 0.34), transparent 27rem),
+      linear-gradient(180deg, #eef7fb 0, #f5f8f3 24rem, #eef2ee 64rem);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.45;
+  }
+  button, input, select { font: inherit; }
+  button { cursor: pointer; }
+  .app-shell { max-width: 1400px; margin: 0 auto; padding: 34px 28px 70px; }
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: end;
+    margin-bottom: 22px;
+  }
+  .eyebrow {
+    margin: 0 0 9px;
+    color: var(--green);
+    font-size: 0.75rem;
+    font-weight: 850;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 {
+    max-width: 760px;
+    margin-bottom: 10px;
+    font-size: clamp(2.35rem, 5vw, 4.55rem);
+    line-height: 0.98;
+    letter-spacing: -0.065em;
+  }
+  .hero-copy { max-width: 690px; margin-bottom: 0; color: var(--muted); font-size: 1.07rem; }
+  .sync-card {
+    min-width: 260px;
+    padding: 18px 20px;
+    border: 1px solid rgba(37, 138, 107, 0.2);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: var(--shadow-small);
+  }
+  .sync-card strong { display: block; margin-bottom: 6px; font-size: 1rem; }
+  .sync-card p { margin-bottom: 12px; color: var(--muted); font-size: 0.83rem; }
+  .status-line { display: flex; align-items: center; gap: 8px; color: var(--green); font-size: 0.78rem; font-weight: 750; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #3cc391; box-shadow: 0 0 0 4px rgba(60, 195, 145, 0.15); }
+  .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .summary-card { min-height: 126px; padding: 17px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, 0.78); box-shadow: var(--shadow-small); }
+  .summary-card:nth-child(1) { background: linear-gradient(145deg, #edf8f2, #ffffff); border-color: #cceadb; }
+  .summary-card:nth-child(2) { background: linear-gradient(145deg, #fff5e8, #ffffff); border-color: #f5dbb7; }
+  .summary-card:nth-child(3) { background: linear-gradient(145deg, #edf6fd, #ffffff); border-color: #cfe4f3; }
+  .summary-card:nth-child(4) { background: linear-gradient(145deg, #f5effd, #ffffff); border-color: #e2d5f4; }
+  .summary-label { color: var(--muted); font-size: 0.8rem; font-weight: 750; }
+  .summary-value { display: block; margin: 10px 0 5px; font-size: 1.7rem; letter-spacing: -0.04em; }
+  .summary-note { color: var(--muted); font-size: 0.76rem; }
+  .workspace { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .panel { border: 1px solid var(--line); border-radius: 20px; background: rgba(255, 255, 255, 0.92); box-shadow: var(--shadow); }
+  .list-rail { padding: 18px 14px; position: sticky; top: 70px; }
+  .rail-heading { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding: 2px 6px 14px; }
+  .rail-heading h2 { margin-bottom: 4px; font-size: 1rem; }
+  .rail-heading p { margin: 0; color: var(--muted); font-size: 0.78rem; }
+  .rail-count { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 27px; border-radius: 999px; color: var(--green); background: var(--green-soft); font-size: 0.78rem; font-weight: 800; }
+  .list-button { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; width: 100%; gap: 10px; align-items: center; padding: 11px 9px; border: 1px solid transparent; border-radius: 13px; color: var(--ink); background: transparent; text-align: left; transition: background 150ms ease, border-color 150ms ease, transform 150ms ease; }
+  .list-button:hover { border-color: #d8e6df; background: #f5faf6; transform: translateX(2px); }
+  .list-button.active { border-color: #b8dfcd; background: linear-gradient(90deg, #e7f5ed, #f7fbf8); box-shadow: inset 3px 0 0 var(--green); }
+  .list-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: #f1f4f1; font-size: 1.35rem; }
+  .list-button.active .list-icon { background: #ffffff; }
+  .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
+  .list-meta { display: block; margin-top: 2px; color: var(--muted); font-size: 0.71rem; font-weight: 600; }
+  .list-arrow { color: #9aa7a2; font-size: 1.1rem; }
+  .source-note { margin: 17px 7px 2px; padding: 12px; border: 1px solid #e8ece7; border-radius: 13px; color: var(--muted); background: #fafcf9; font-size: 0.73rem; }
+  .source-note strong { display: block; margin-bottom: 3px; color: var(--ink); font-size: 0.75rem; }
+  .workspace-main { min-width: 0; }
+  .content-header { display: flex; justify-content: space-between; gap: 18px; align-items: start; padding: 23px 24px 17px; border-bottom: 1px solid var(--line); }
+  .content-header h2 { margin: 0 0 4px; font-size: clamp(1.35rem, 2.5vw, 1.85rem); letter-spacing: -0.04em; }
+  .content-header p { margin: 0; color: var(--muted); font-size: 0.82rem; }
+  .header-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 8px; }
+  .button-secondary, .button-primary, .mini-button { border: 1px solid #d6dfda; border-radius: 10px; background: #ffffff; color: var(--ink); font-weight: 750; }
+  .button-secondary { padding: 9px 12px; font-size: 0.78rem; }
+  .button-secondary:hover, .mini-button:hover { border-color: #8bc8ac; background: #f2fbf5; }
+  .button-primary { padding: 10px 14px; border-color: var(--green); color: #ffffff; background: var(--green); box-shadow: 0 5px 13px rgba(37, 138, 107, 0.2); font-size: 0.8rem; }
+  .button-primary:hover { background: #1e795d; }
+  .preference-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 13px 24px; border-bottom: 1px solid var(--line); background: #fbfcfa; }
+  .preference-label { margin-right: 4px; color: var(--muted); font-size: 0.73rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+  .preference-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #dce6de; border-radius: 999px; color: #365247; background: #ffffff; font-size: 0.75rem; font-weight: 750; }
+  .preference-toggle input { accent-color: var(--green); }
+  .price-sort { margin-left: auto; padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .smart-section { padding: 20px 24px 24px; }
+  .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 13px; }
+  .section-heading h3 { margin: 0 0 3px; font-size: 1rem; }
+  .section-heading p { margin: 0; color: var(--muted); font-size: 0.79rem; }
+  .search-wrap { position: relative; width: min(290px, 100%); }
+  .search-wrap span { position: absolute; top: 50%; left: 11px; color: #87948e; transform: translateY(-50%); }
+  .search-input { width: 100%; padding: 9px 11px 9px 31px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.78rem; }
+  .search-input:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
+  .smart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .smart-card { position: relative; min-width: 0; padding: 15px; border: 1px solid #e2e8e2; border-radius: 16px; background: #ffffff; box-shadow: 0 4px 12px rgba(28, 39, 61, 0.04); overflow: hidden; }
+  .smart-card::after { position: absolute; top: -42px; right: -28px; z-index: 0; width: 100px; height: 100px; border-radius: 50%; background: rgba(232, 245, 237, 0.8); content: ""; }
+  .smart-card.card-watch::after { background: rgba(255, 241, 223, 0.85); }
+  .smart-card.card-avoid::after { background: rgba(253, 235, 240, 0.8); }
+  .card-top, .card-body, .card-footer { position: relative; z-index: 1; }
+  .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+  .item-photo { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; border-radius: 15px; background: linear-gradient(145deg, #e4f5eb, #c8e7d5); font-size: 1.85rem; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.1); }
+  .card-watch .item-photo { background: linear-gradient(145deg, #fff1d8, #f6d29c); }
+  .card-avoid .item-photo { background: linear-gradient(145deg, #fde8ef, #f5c3d0); }
+  .card-badges { display: flex; justify-content: end; flex-wrap: wrap; gap: 4px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 7px; border-radius: 999px; font-size: 0.65rem; font-weight: 850; white-space: nowrap; }
+  .badge-organic { color: #22704f; background: #e5f5ea; }
+  .badge-price { color: #87520f; background: #fff2d8; }
+  .badge-review { color: #9c5c15; background: #fff1df; }
+  .badge-good { color: #247050; background: #e7f5ed; }
+  .badge-avoid { color: #a03c55; background: #fdebf0; }
+  .card-body { margin-top: 13px; }
+  .card-body h4 { max-width: 350px; margin: 0 0 5px; font-size: 0.98rem; line-height: 1.2; letter-spacing: -0.02em; }
+  .card-detail { min-height: 35px; margin: 0; color: var(--muted); font-size: 0.76rem; }
+  .price-line { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin: 13px 0 8px; }
+  .price-line strong { font-size: 1.05rem; letter-spacing: -0.03em; }
+  .price-line span { color: var(--green); font-size: 0.71rem; font-weight: 800; text-align: right; }
+  .price-bar { height: 5px; overflow: hidden; border-radius: 99px; background: #edf0ec; }
+  .price-bar span { display: block; width: var(--bar, 72%); height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5bc28f, #238b6b); }
+  .card-footer { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-top: 13px; }
+  .enrichment-state { color: var(--muted); font-size: 0.68rem; }
+  .mini-button { padding: 6px 8px; font-size: 0.68rem; }
+  .mini-button.loading { opacity: 0.65; pointer-events: none; }
+  .empty-smart { grid-column: 1 / -1; padding: 25px; border: 1px dashed #cbd9cf; border-radius: 14px; color: var(--muted); background: #fbfdfb; text-align: center; }
+  .imported-panel { margin-top: 0; border-top: 1px solid var(--line); background: #fbfcfa; }
+  .imported-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 24px 12px; }
+  .imported-heading h3 { margin: 0 0 3px; font-size: 0.98rem; }
+  .imported-heading p { margin: 0; color: var(--muted); font-size: 0.76rem; }
+  .imported-list { max-height: 410px; margin: 0 24px 22px; padding: 0; overflow: auto; border: 1px solid #e3e9e3; border-radius: 13px; background: #ffffff; }
+  .import-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 9px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #edf0ed; }
+  .import-row:last-child { border-bottom: 0; }
+  .import-row:hover { background: #f8fbf8; }
+  .row-check { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid #cbd8cf; border-radius: 7px; color: var(--green); background: #ffffff; font-size: 0.78rem; }
+  .row-name { min-width: 0; overflow: hidden; color: var(--ink); font-size: 0.78rem; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
+  .row-category { color: var(--muted); font-size: 0.68rem; white-space: nowrap; }
+  .trust-note { display: flex; gap: 10px; align-items: start; margin: 0 24px 20px; padding: 12px 13px; border: 1px solid #d8e5f2; border-radius: 12px; color: #496171; background: #f3f8fc; font-size: 0.73rem; }
+  .trust-note strong { display: block; margin-bottom: 2px; color: #264a61; }
+  .trust-icon { flex: 0 0 auto; font-size: 1rem; }
+  .toast { position: fixed; right: 20px; bottom: 20px; z-index: 50; max-width: 330px; padding: 13px 15px; border: 1px solid #b9dfca; border-radius: 12px; color: #1f5d47; background: #effaf3; box-shadow: var(--shadow); font-size: 0.78rem; font-weight: 700; opacity: 0; pointer-events: none; transform: translateY(12px); transition: opacity 180ms ease, transform 180ms ease; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 40; padding: 22px; background: rgba(22, 31, 43, 0.38); }
+  .modal-backdrop.open { display: grid; place-items: center; }
+  .modal { width: min(560px, 100%); max-height: min(650px, 90vh); overflow: auto; padding: 22px; border-radius: 18px; background: #ffffff; box-shadow: 0 28px 80px rgba(22, 31, 43, 0.25); }
+  .modal-heading { display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+  .modal-heading h2 { margin: 0 0 5px; font-size: 1.3rem; }
+  .modal-heading p { margin: 0; color: var(--muted); font-size: 0.78rem; }
+  .close-modal { width: 30px; height: 30px; border: 0; border-radius: 50%; color: var(--muted); background: #f1f4f1; font-size: 1rem; }
+  .compare-table { width: 100%; margin-top: 19px; border-collapse: collapse; font-size: 0.77rem; }
+  .compare-table th, .compare-table td { padding: 10px 8px; border-bottom: 1px solid #e9eeea; text-align: left; }
+  .compare-table th { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .compare-table tr.best td { color: #176b4c; background: #f0faf4; font-weight: 800; }
+  .modal-note { margin: 17px 0 0; padding: 10px 12px; border-radius: 10px; color: #72602e; background: #fff9e9; font-size: 0.73rem; }
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; }
+    .sync-card { max-width: 420px; }
+    .workspace { grid-template-columns: 230px minmax(0, 1fr); }
+    .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 740px) {
+    .app-shell { padding: 25px 14px 50px; }
+    h1 { font-size: clamp(2.35rem, 13vw, 3.6rem); }
+    .workspace { grid-template-columns: 1fr; }
+    .list-rail { position: static; padding: 13px; }
+    .rail-heading { padding-bottom: 8px; }
+    .list-button { display: inline-grid; width: auto; min-width: 150px; margin: 3px; grid-template-columns: 31px auto; padding: 8px; }
+    .list-rail .list-button { vertical-align: top; }
+    .list-rail { overflow-x: auto; white-space: nowrap; }
+    .list-icon { width: 30px; height: 30px; border-radius: 9px; font-size: 1.05rem; }
+    .list-arrow { display: none; }
+    .list-name { white-space: normal; }
+    .source-note { display: none; }
+    .content-header { display: block; padding: 18px 16px 15px; }
+    .header-actions { justify-content: start; margin-top: 13px; }
+    .preference-strip, .smart-section { padding-left: 16px; padding-right: 16px; }
+    .price-sort { margin-left: 0; }
+    .section-heading { display: block; }
+    .search-wrap { width: 100%; margin-top: 11px; }
+    .smart-grid { grid-template-columns: 1fr; }
+    .imported-heading, .imported-list, .trust-note { margin-left: 16px; margin-right: 16px; }
+    .imported-heading { padding-left: 16px; padding-right: 16px; }
+    .import-row { grid-template-columns: 28px minmax(0, 1fr); }
+    .row-category { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="smart-shopping"></site-nav>
+
+<main class="app-shell">
+  <section class="hero" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow">Smart shopping · your lists, upgraded</p>
+      <h1 id="page-title">Buy better without overthinking it.</h1>
+      <p class="hero-copy">Your AnyList collections are here. The new layer puts food fit, unit-price comparisons, and automatic product details beside the item you already know you need.</p>
+    </div>
+    <aside class="sync-card" aria-label="AnyList import status">
+      <strong>AnyList import complete</strong>
+      <p>Eight collections imported from the signed-in AnyList session you approved.</p>
+      <div class="status-line"><span class="status-dot" aria-hidden="true"></span><span id="sync-detail">Ready to improve the next shop</span></div>
+    </aside>
+  </section>
+
+  <section class="summary-grid" aria-label="Shopping overview">
+    <article class="summary-card"><span class="summary-label">Better-fit picks</span><strong class="summary-value">18</strong><span class="summary-note">Organic-first matches in your lists</span></article>
+    <article class="summary-card"><span class="summary-label">Saved price signals</span><strong class="summary-value">$42.18</strong><span class="summary-note">Sale history found in AnyList</span></article>
+    <article class="summary-card"><span class="summary-label">Unit prices ready</span><strong class="summary-value">61%</strong><span class="summary-note">Compare the same food by lb, oz, or each</span></article>
+    <article class="summary-card"><span class="summary-label">Photos to auto-match</span><strong class="summary-value">47</strong><span class="summary-note">Items that can get a picture when added</span></article>
+  </section>
+
+  <section class="workspace" aria-label="Smart shopping workspace">
+    <aside class="panel list-rail">
+      <div class="rail-heading">
+        <div><h2>Your collections</h2><p>Imported from AnyList</p></div>
+        <span class="rail-count">8</span>
+      </div>
+      <div id="list-rail-buttons"></div>
+      <div class="source-note"><strong>Source stays visible</strong>Imported values are labeled separately from future lookups, so you can tell what came from AnyList and what the app recommends.</div>
+    </aside>
+
+    <section class="panel workspace-main" aria-live="polite">
+      <header class="content-header">
+        <div>
+          <h2 id="active-list-title">买菜</h2>
+          <p id="active-list-subtitle">20 items imported · now sorted for better decisions</p>
+        </div>
+        <div class="header-actions">
+          <button class="button-secondary" id="compare-all-button" type="button">Compare prices</button>
+          <button class="button-primary" id="add-item-button" type="button">＋ Add an item</button>
+        </div>
+      </header>
+
+      <div class="preference-strip" aria-label="Shopping preferences">
+        <span class="preference-label">Your rules</span>
+        <label class="preference-toggle"><input id="organic-toggle" type="checkbox" checked /> Organic first</label>
+        <label class="preference-toggle"><input id="sugar-toggle" type="checkbox" checked /> Low or no added sugar</label>
+        <select class="price-sort" id="sort-select" aria-label="Sort items">
+          <option value="smart">Smart order</option>
+          <option value="price">Lowest unit price</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+
+      <section class="smart-section" aria-labelledby="smart-heading">
+        <div class="section-heading">
+          <div><h3 id="smart-heading">Smart shortlist</h3><p id="smart-heading-note">A quick first pass for this collection</p></div>
+          <div class="search-wrap"><span aria-hidden="true">⌕</span><input class="search-input" id="search-input" type="search" placeholder="Search imported items" autocomplete="off" /></div>
+        </div>
+        <div class="smart-grid" id="smart-grid"></div>
+      </section>
+
+      <section class="imported-panel" aria-labelledby="imported-heading">
+        <div class="imported-heading">
+          <div><h3 id="imported-heading">Imported items</h3><p id="imported-count">Names and categories from your selected AnyList list</p></div>
+          <button class="button-secondary" id="show-all-button" type="button">Show all</button>
+        </div>
+        <div class="imported-list" id="imported-list"></div>
+        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How the smart layer works</strong>Food guidance uses preference nudges, price comparisons use unit price, and photos are matched to the product name. Live store lookups will be connected before this replaces AnyList for real shopping.</div></div>
+      </section>
+    </section>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="compare-modal" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+  <div class="modal">
+    <div class="modal-heading">
+      <div><h2 id="compare-title">Price comparison</h2><p id="compare-subtitle">Unit price is the fair comparison.</p></div>
+      <button class="close-modal" id="close-modal" type="button" aria-label="Close price comparison">×</button>
+    </div>
+    <table class="compare-table"><thead><tr><th>Store</th><th>Package price</th><th>Unit price</th><th>Source</th></tr></thead><tbody id="compare-table-body"></tbody></table>
+    <p class="modal-note">The prototype can show saved AnyList prices now. A production version should refresh this table from store feeds and show the lookup time beside every result.</p>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const listMeta = window.SMART_LIST_META || {};
+    const listSource = window.SMART_LIST_IMPORT || {};
+    const listNames = Object.keys(listMeta);
+    const categoryNames = new Set([
+      "主食", "蔬菜", "水果", "蛋", "奶制品", "鱼", "虾", "鸡", "牛", "羊", "猪", "鸭",
+      "杂豆和豆制品", "坚果（坚果酱/粉）和种子", "加工食品_熟食", "加工食品_速冻食品_鱼", "加工食品_速冻食品_鸡",
+      "加工食品_速冻食品_包子", "加工食品_速冻食品_饺子", "加工食品_速冻食品_其他", "加工食品_罐头", "加工食品_干货",
+      "加工食品_零食", "烹饪_油", "烹饪_调味品_固体", "烹饪_调味品_酱料", "烹饪_调味品_液体", "烹饪_烘培",
+      "自制食品", "爆香料", "Uncategorized Items"
+    ]);
+    const noise = new Set([
+      "Add Item", "costco Items", "Costco", "costco", "大中华", "Great Wall 大中华", "Whole Foods", "Amazon", "Walmart",
+      "Giant", "H Mart", "日本店", "Costco, Giant", "isle 310", "aisle 310", "Share, Email & Print List",
+      "Edit Item", "Add to Favorites", "Change Category", "Edit Price", "Assign Stores", "Add Photo", "Move / Copy Item", "Delete Items", "Done"
+    ]);
+    const metadataPattern = /^(?:[💵⚖️🏷️⬇️⬆️🗃️]|\+\s?\d|\d[\d./-]*\s?(?:lb|oz|kg|g|qt|L|瓶|袋|盒|个|根|顿|块|包|把|罐|片|卷|fl oz|pt)|WT\s|\$|\d+(?:\.\d+)?\s*\/)/i;
+    const signalItems = [
+      { list: "买菜", name: "Organic Cucumber 有机黄瓜", icon: "🥒", fit: "Great fit", fitClass: "good", detail: "Fresh vegetable · no added sugar", sugar: "0g added", organic: true, price: "$6.99 / bag", unit: "$4.99 saved low", bar: "58%", source: "Costco · imported price", prices: [["Costco", "$6.99 / bag", "$2.33 / each", "AnyList"], ["Saved low", "$4.99 / bag", "$1.66 / each", "AnyList history"]] },
+      { list: "买菜", name: "Blueberry by Fruitist 蓝莓", icon: "🫐", fit: "Good fit", fitClass: "good", detail: "Fruit · naturally sweet, no added sugar", sugar: "No added sugar", organic: false, price: "$6.49 / box", unit: "$4.32 / lb", bar: "64%", source: "Costco · imported price", prices: [["Costco", "$6.49 / box", "$4.32 / lb", "AnyList"], ["Saved deal", "$1.50 off", "—", "AnyList history"]] },
+      { list: "买菜", name: "Free range organic grade A medium egg 有机鸡蛋", icon: "🥚", fit: "Strong fit", fitClass: "good", detail: "Protein staple · organic preference met", sugar: "0g added", organic: true, price: "$7.69 / box", unit: "$0.32 / egg", bar: "42%", source: "Costco · imported price", prices: [["Costco", "$7.69 / box", "$0.32 / egg", "AnyList"]] },
+      { list: "买菜", name: "Nonfat greek yogurt fruit on the bottom by Chobani 酸奶", icon: "🥣", fit: "Review sugar", fitClass: "watch", detail: "Good protein idea · check added sugar on label", sugar: "Label check", organic: false, price: "$17.29 / pack", unit: "$2.62 / lb", bar: "73%", source: "Costco · $6 off saved", prices: [["Costco", "$17.29 / pack", "$2.62 / lb", "AnyList"], ["Saved deal", "$11.29 / pack", "$1.70 / lb", "AnyList history"]] },
+      { list: "买菜", name: "Organic Cane Sugar 有机蔗糖", icon: "🍬", fit: "Limit", fitClass: "avoid", detail: "Organic does not make added sugar a daily staple", sugar: "Added sugar", organic: true, price: "No price saved", unit: "Compare by lb", bar: "88%", source: "Costco · imported item", prices: [["Costco", "No price saved", "—", "AnyList"]] },
+      { list: "推车", name: "Kokuho Rose Us #1 Extra Fancy Rice 红国宝大米", icon: "🍚", fit: "Good staple", fitClass: "good", detail: "25 lb package · compare unit price", sugar: "0g added", organic: false, price: "$27.99 / bag", unit: "$1.12 / lb", bar: "38%", source: "Costco · imported price", prices: [["Costco", "$27.99 / bag", "$1.12 / lb", "AnyList"], ["Saved low", "No lower saved", "—", "AnyList history"]] },
+      { list: "推车", name: "Avocado 牛油果", icon: "🥑", fit: "Good fit", fitClass: "good", detail: "Fresh produce · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.83 / each", bar: "51%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.83 / each", "AnyList"]] },
+      { list: "冰箱", name: "Carrot by Cai-Organic Farm 有机胡萝卜", icon: "🥕", fit: "Great fit", fitClass: "good", detail: "Vegetable · organic preference met", sugar: "0g added", organic: true, price: "$6.79 / pack", unit: "$1.13 / lb", bar: "44%", source: "Costco · imported price", prices: [["Costco", "$6.79 / pack", "$1.13 / lb", "AnyList"]] },
+      { list: "冰箱", name: "Organic Broccoli by 4Earth Farms 有机西兰花", icon: "🥦", fit: "Great fit", fitClass: "good", detail: "Vegetable · organic preference met", sugar: "0g added", organic: true, price: "$4.99 / bag", unit: "$2.50 / lb", bar: "57%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$2.50 / lb", "AnyList"]] },
+      { list: "冰柜_肉和其他🥩", name: "Organic Chicken Breasts by Kirkland 有机鸡胸", icon: "🍗", fit: "Strong fit", fitClass: "good", detail: "High-protein staple · organic preference met", sugar: "0g added", organic: true, price: "Saved price only", unit: "$5.99 / lb", bar: "46%", source: "Costco · imported price", prices: [["Costco", "Saved price only", "$5.99 / lb", "AnyList"]] },
+      { list: "冰柜_肉和其他🥩", name: "Organic Edamame by Imperial Garden 有机毛豆", icon: "🫛", fit: "Strong fit", fitClass: "good", detail: "Plant protein · organic preference met", sugar: "0g added", organic: true, price: "$14.99 / pack", unit: "$2.50 / lb", bar: "55%", source: "Costco · $3 off saved", prices: [["Costco", "$14.99 / pack", "$2.50 / lb", "AnyList"], ["Saved deal", "$11.99 / pack", "$2.00 / lb", "AnyList history"]] },
+      { list: "冰柜_加工食品🥟", name: "Mila Soup Dumplings 灌汤包", icon: "🥟", fit: "Review label", fitClass: "watch", detail: "Convenient freezer item · compare sodium and serving size", sugar: "Label check", organic: false, price: "$12.99 / bag", unit: "$7.64 / lb", bar: "76%", source: "Costco · $9.39 sale saved", prices: [["Costco", "$12.99 / bag", "$7.64 / lb", "AnyList"], ["Saved deal", "$3.60 / bag", "$5.52 / lb", "AnyList history"]] },
+      { list: "橱柜_食物🍫", name: "Kirkland Signature Organic Quinoa 有机藜麦", icon: "🌾", fit: "Strong fit", fitClass: "good", detail: "Whole grain · organic preference met", sugar: "0g added", organic: true, price: "$10.99 / bag", unit: "$2.44 / lb", bar: "48%", source: "Costco · imported price", prices: [["Costco", "$10.99 / bag", "$2.44 / lb", "AnyList"], ["Saved deal", "$7.49 / bag", "$1.66 / lb", "AnyList history"]] },
+      { list: "橱柜_食物🍫", name: "Organic Creamy Unsweetened and No Salt Peanut Butter by 365 有机顺滑无糖无盐花生酱", icon: "🥜", fit: "Strong fit", fitClass: "good", detail: "Unsweetened and no salt · verify current label", sugar: "No added sugar", organic: true, price: "No price saved", unit: "Compare by oz", bar: "34%", source: "Whole Foods · imported item", prices: [["Whole Foods", "No price saved", "—", "AnyList"]] },
+      { list: "橱柜_烹饪用品👩🏻‍🍳", name: "Avocado Oil Spray by Chosen Foods 牛油果油喷雾", icon: "🫒", fit: "Good fit", fitClass: "good", detail: "Cooking oil · compare the price per fl oz", sugar: "0g added", organic: false, price: "$14.99 / 2 bottles", unit: "$1.11 / fl oz", bar: "59%", source: "Costco · $4.50 off saved", prices: [["Costco", "$14.99 / 2 bottles", "$1.11 / fl oz", "AnyList"], ["Saved deal", "$10.49 / 2 bottles", "$0.78 / fl oz", "AnyList history"]] },
+      { list: "备选", name: "Organic Fresh Baby Spinach by Marketside 有机菠菜", icon: "🥬", fit: "Great fit", fitClass: "good", detail: "Vegetable · organic preference met", sugar: "0g added", organic: true, price: "$4.29 / box", unit: "$4.29 / lb", bar: "62%", source: "Costco · imported price", prices: [["Costco", "$4.29 / box", "$4.29 / lb", "AnyList"]] },
+      { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
+    ];
+
+    const state = { activeList: "买菜", query: "", showAll: false, sort: "smart", organicFirst: true, lowSugar: true };
+    const els = {
+      rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
+      smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
+      search: document.getElementById("search-input"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle")
+    };
+
+    function parseImportedList(source) {
+      const parsed = [];
+      let category = "Uncategorized";
+      let pendingMeta = [];
+      for (const rawLine of String(source || "").split("\n")) {
+        const line = rawLine.trim();
+        if (!line) continue;
+        if (categoryNames.has(line)) { category = line; continue; }
+        if (noise.has(line) || line === "Sample Lists" || line === "Tips") continue;
+        if (metadataPattern.test(line) || /^\+\s?\d/.test(line)) { pendingMeta.push(line); continue; }
+        if (/^(?:\d+(?:\.\d+)?|\$|\[|\]|\-|—|\+|×|\s)+$/.test(line)) continue;
+        if (/^(?:\d+(?:\.\d+)?\s*)?(?:lb|oz|kg|g|qt|L|fl oz|pt)$/i.test(line)) continue;
+        const previous = parsed[parsed.length - 1];
+        if (previous && previous.name === line) { previous.meta.push(...pendingMeta); pendingMeta = []; continue; }
+        parsed.push({ name: line, category, meta: pendingMeta });
+        pendingMeta = [];
+      }
+      const seen = new Set();
+      return parsed.filter((item) => {
+        if (!item.name || item.name === "Add Item") return false;
+        const key = `${item.category}::${item.name}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    const parsedByList = Object.fromEntries(listNames.map((name) => [name, parseImportedList(listSource[name])]));
+    function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
+    function getSignals() {
+      let signals = signalItems.filter((item) => item.list === state.activeList);
+      if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()));
+      if (state.organicFirst) signals.sort((a, b) => Number(b.organic) - Number(a.organic));
+      if (state.lowSugar) signals.sort((a, b) => Number(a.sugar === "No added sugar" || a.sugar === "0g added") * -1 - Number(b.sugar === "No added sugar" || b.sugar === "0g added") * -1);
+      if (state.sort === "name") signals.sort((a, b) => a.name.localeCompare(b.name));
+      return signals;
+    }
+
+    function renderRail() {
+      els.rail.innerHTML = listNames.map((name) => {
+        const meta = listMeta[name];
+        const active = name === state.activeList;
+        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${meta.count} items imported</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+      }).join("");
+      els.rail.querySelectorAll("[data-list]").forEach((button) => button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); }));
+    }
+
+    function smartCard(item, index) {
+      const fitClass = item.fitClass === "watch" ? "card-watch" : item.fitClass === "avoid" ? "card-avoid" : "";
+      const fitBadge = item.fitClass === "watch" ? "badge-review" : item.fitClass === "avoid" ? "badge-avoid" : "badge-good";
+      const organicBadge = item.organic ? `<span class="badge badge-organic">🌿 Organic</span>` : "";
+      const sugarBadge = item.sugar === "Added sugar" ? `<span class="badge badge-avoid">Sugar watch</span>` : `<span class="badge ${item.sugar === "Label check" ? "badge-review" : "badge-good"}">${escapeHtml(item.sugar)}</span>`;
+      return `<article class="smart-card ${fitClass}"><div class="card-top"><div class="item-photo" aria-hidden="true">${item.icon}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${escapeHtml(item.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p><div class="price-line"><strong>${escapeHtml(item.price)}</strong><span>${escapeHtml(item.unit)}</span></div><div class="price-bar" aria-label="Price comparison indicator"><span style="--bar:${item.bar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${escapeHtml(item.source)}</span><button class="mini-button enrich-button" type="button" data-enrich="${index}">Enrich now</button></div></article>`;
+    }
+
+    function renderSmart() {
+      const signals = getSignals();
+      els.smartHeadingNote.textContent = signals.length ? `${signals.length} preference-aware matches · unit prices shown where available` : "No smart match yet · imported items are still searchable below";
+      els.smartGrid.innerHTML = signals.length ? signals.map(smartCard).join("") : `<div class="empty-smart">This collection is imported and ready. Search below to find an item, then use <strong>Enrich now</strong> when you want a nutrition, price, or photo match.</div>`;
+      els.smartGrid.querySelectorAll("[data-enrich]").forEach((button) => button.addEventListener("click", () => enrich(button)));
+    }
+
+    function renderImported() {
+      let items = parsedByList[state.activeList] || [];
+      if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.category.toLowerCase().includes(state.query.toLowerCase()));
+      if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+      const total = items.length;
+      if (!state.showAll) items = items.slice(0, 12);
+      els.importedCount.textContent = `${total} imported item names in this list${state.query ? " · filtered" : ""}`;
+      els.importedList.innerHTML = items.length ? items.map((item) => `<div class="import-row"><span class="row-check" aria-hidden="true">＋</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span><span class="row-category">${escapeHtml(item.category)}</span></div>`).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query)}”.</div>`;
+      document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
+    }
+
+    function render() {
+      const meta = listMeta[state.activeList];
+      els.title.textContent = state.activeList;
+      els.subtitle.textContent = `${meta.count} items in AnyList · ${parsedByList[state.activeList].length} item names copied into the smart view`;
+      renderRail(); renderSmart(); renderImported();
+    }
+
+    function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
+    function enrich(button) {
+      const index = Number(button.dataset.enrich); const item = getSignals()[index]; if (!item) return;
+      button.classList.add("loading"); button.textContent = "Matching…";
+      window.setTimeout(() => { button.classList.remove("loading"); button.textContent = "Updated"; const stateNode = document.querySelector(`[data-enrichment-state="${index}"]`); if (stateNode) stateNode.textContent = "✓ Photo + price match ready"; showToast(`${item.name} is ready for a live lookup connection.`); }, 650);
+    }
+    function openCompare(item) {
+      if (!item) return;
+      els.compareTitle.textContent = `${item.name} · compare unit price`;
+      els.compareSubtitle.textContent = item.sugar === "Added sugar" ? "A lower price is not automatically a better food fit." : "The lowest comparable unit price is highlighted.";
+      const bestIndex = item.prices.reduce((best, row, index) => row[2].includes("$") && !row[2].includes("—") ? index : best, 0);
+      els.compareBody.innerHTML = item.prices.map((row, index) => `<tr class="${index === bestIndex ? "best" : ""}"><td>${escapeHtml(row[0])}</td><td>${escapeHtml(row[1])}</td><td>${escapeHtml(row[2])}</td><td>${escapeHtml(row[3])}</td></tr>`).join("");
+      els.compareModal.classList.add("open");
+    }
+
+    document.getElementById("compare-all-button").addEventListener("click", () => openCompare(getSignals()[0] || signalItems[0]));
+    document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
+    els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") els.compareModal.classList.remove("open"); });
+    document.getElementById("add-item-button").addEventListener("click", () => { els.search.focus(); showToast("Type an item name below to add it with automatic photo and price matching."); });
+    document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
+    els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderSmart(); renderImported(); });
+    els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderSmart(); renderImported(); });
+    document.getElementById("organic-toggle").addEventListener("change", (event) => { state.organicFirst = event.target.checked; renderSmart(); });
+    document.getElementById("sugar-toggle").addEventListener("change", (event) => { state.lowSugar = event.target.checked; renderSmart(); });
+    render();
+  })();
+</script>
+</body>
+</html>

@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Home</title>
-<link rel="stylesheet" href="assets/site-nav.css?v=20260702-nav-red-clock" />
-<script src="assets/site-nav.js?v=20260702-nav-red-clock" defer></script>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
+<script src="assets/site-nav.js?v=20260809-smart-shopping" defer></script>
 <style>
   :root {
     --bg: #f4f7fb;
@@ -205,6 +205,18 @@
   .page-card[href="utility-bills.html"]::after {
     background: rgba(14, 116, 144, 0.13);
   }
+  .page-card[href="smart-shopping.html"] {
+    background:
+      linear-gradient(180deg, #fff1e5 0%, #ffffff 58%),
+      var(--card);
+    border-color: #f2c7a9;
+  }
+  .page-card[href="smart-shopping.html"]::before {
+    background: #c56824;
+  }
+  .page-card[href="smart-shopping.html"]::after {
+    background: rgba(197, 104, 36, 0.13);
+  }
   .page-card h2 {
     margin: 0 0 7px;
     font-size: 1.05rem;
@@ -278,6 +290,10 @@
       <a class="page-card" href="utility-bills.html">
         <h2>Utility Bills</h2>
         <p>Track water, electric, and gas bills with PDF import, monthly totals, usage trends, and line-item review.</p>
+      </a>
+      <a class="page-card" href="smart-shopping.html">
+        <h2>Smart Shopping</h2>
+        <p>Use your AnyList collections with organic-first food guidance, low-sugar nudges, unit-price comparisons, and automatic product details.</p>
       </a>
     </div>
   </section>

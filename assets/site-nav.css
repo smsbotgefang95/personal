@@ -116,6 +116,11 @@
   background: rgba(21, 128, 61, 0.24);
 }
 
+.site-links a[href="smart-shopping.html"] {
+  border-color: rgba(253, 186, 116, 0.78);
+  background: rgba(194, 65, 12, 0.24);
+}
+
 @media (max-width: 640px) {
   .site-nav-inner {
     gap: 12px;

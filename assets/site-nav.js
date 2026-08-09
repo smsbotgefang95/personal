@@ -5,7 +5,8 @@ const SHARED_NAV_ITEMS = [
   { id: "kpi", href: "kpi-dashboard.html", label: "📊 KPI Life Tracker" },
   { id: "life", href: "life-events.html", label: "🗓️ Life Events" },
   { id: "gardening", href: "gardening-journal.html", label: "🌱 Gardening Journal" },
-  { id: "utility-bills", href: "utility-bills.html", label: "Utility Bills" }
+  { id: "utility-bills", href: "utility-bills.html", label: "Utility Bills" },
+  { id: "smart-shopping", href: "smart-shopping.html", label: "🛒 Smart Shopping" }
 ];
 
 class SiteNav extends HTMLElement {
