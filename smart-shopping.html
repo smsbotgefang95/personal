@@ -586,7 +586,7 @@
       for (const rawLine of String(source || "").split("\n")) {
         const line = rawLine.trim();
         if (!line) continue;
-        if (categoryNames.has(line)) { commit(); category = line === "爆香料" ? "蔬菜" : line; continue; }
+        if (categoryNames.has(line)) { commit(); category = line; continue; }
         const stores = storesFromLine(line);
         if (stores.length) { if (current) current.stores.push(...stores); continue; }
         if (noise.has(line) || line === "Sample Lists" || line === "Tips") continue;
@@ -1193,8 +1193,9 @@
       const nonProcessed = categories.filter((item) => !isProcessedFoodCategory(getCategory(item)) && getCategory(item) !== "自制食品");
       const processed = categories.filter((item) => isProcessedFoodCategory(getCategory(item)));
       const produceFirst = moveCategoryBefore(nonProcessed, "蔬菜", "水果", getCategory);
+      const seasoningAfterProduce = moveCategoriesAfter(produceFirst, ["爆香料"], "蔬菜", getCategory);
       const animalCategories = ["牛", "猪", "羊", "虾", "蛋", "鱼", "鸡", "鸭"];
-      const animalsAfterFruit = moveCategoriesAfter(produceFirst, animalCategories, "水果", getCategory);
+      const animalsAfterFruit = moveCategoriesAfter(seasoningAfterProduce, animalCategories, "水果", getCategory);
       const pantryCategories = ["坚果（坚果酱/粉）和种子", "奶制品", "杂豆和豆制品"];
       return [...moveCategoriesAfter(animalsAfterFruit, pantryCategories, "鸭", getCategory), ...processed, ...homemade];
     }
