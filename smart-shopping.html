@@ -124,7 +124,7 @@
   .search-input:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
   .smart-card { position: relative; min-width: 0; padding: 15px; border: 1px solid #e2e8e2; border-radius: 16px; background: #ffffff; box-shadow: 0 4px 12px rgba(28, 39, 61, 0.04); overflow: hidden; }
   .smart-card::after { display: none; }
-  .card-top, .card-body, .card-footer { position: relative; z-index: 1; }
+  .card-top, .card-body { position: relative; z-index: 1; }
   .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
   .item-photo { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; overflow: hidden; border-radius: 15px; background: linear-gradient(145deg, #e4f5eb, #c8e7d5); font-size: 1.85rem; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.1); }
   .item-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -156,8 +156,6 @@
   .price-line span { color: var(--green); font-size: 0.71rem; font-weight: 800; text-align: right; }
   .price-bar { height: 5px; overflow: hidden; border-radius: 99px; background: #edf0ec; }
   .price-bar span { display: block; width: var(--bar, 72%); height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5bc28f, #238b6b); }
-  .card-footer { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-top: 13px; }
-  .enrichment-state { color: var(--muted); font-size: 0.68rem; }
   .mini-button { padding: 6px 8px; font-size: 0.68rem; }
   .mini-button.loading { opacity: 0.65; pointer-events: none; }
   .mini-button.danger { border-color: #e4c4cc; color: #9d3f57; background: #fffafb; }
@@ -177,7 +175,7 @@
   .category-heading h4 { margin: 0; color: #245b45; font-size: 0.82rem; letter-spacing: -0.01em; }
   .category-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; white-space: nowrap; }
   .category-items { display: grid; gap: 12px; }
-  .imported-card { display: grid; grid-template: "photo badges" auto "photo body" auto "photo footer" auto / minmax(122px, 154px) minmax(0, 1fr); column-gap: 22px; row-gap: 11px; min-height: 100%; padding: 22px 24px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+  .imported-card { display: grid; grid-template: "photo badges" auto "photo body" auto / minmax(122px, 154px) minmax(0, 1fr); column-gap: 22px; row-gap: 11px; min-height: 100%; padding: 22px 24px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
   .imported-card.dragging { opacity: 0.45; background: #eef7f1; }
@@ -192,7 +190,6 @@
   .imported-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; align-items: center; }
   .imported-actions .mini-button { padding: 8px 11px; font-size: 0.7rem; }
   .imported-card .price-bar { margin-top: 12px; }
-  .imported-card .card-footer { grid-area: footer; margin-top: 0; }
   .trust-note { display: flex; gap: 10px; align-items: start; margin: 0 24px 20px; padding: 12px 13px; border: 1px solid #d8e5f2; border-radius: 12px; color: #496171; background: #f3f8fc; font-size: 0.73rem; }
   .trust-note strong { display: block; margin-bottom: 2px; color: #264a61; }
   .trust-icon { flex: 0 0 auto; font-size: 1rem; }
@@ -251,12 +248,12 @@
     .workspace { grid-template-columns: 1fr; }
     .list-rail { position: static; padding: 13px; }
     .rail-heading { padding-bottom: 8px; }
-    .list-button { display: inline-grid; width: auto; min-width: 150px; margin: 3px; grid-template-columns: 31px auto; padding: 8px; }
-    .list-rail .list-button { vertical-align: top; }
-    .list-rail { overflow-x: auto; white-space: nowrap; }
-    .list-icon { width: 30px; height: 30px; border-radius: 9px; font-size: 1.05rem; }
-    .list-arrow { display: none; }
-    .list-name { white-space: normal; }
+    .list-button { display: grid; width: 100%; min-width: 0; margin: 0 0 8px; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 14px; padding: 14px; border-radius: 18px; }
+    .list-icon { width: 56px; height: 56px; border-radius: 17px; font-size: 1.8rem; }
+    .list-arrow { display: block; padding-right: 3px; font-size: 1.8rem; }
+    .list-name { font-size: 1.08rem; line-height: 1.2; white-space: normal; }
+    .list-meta { margin-top: 5px; font-size: 0.85rem; }
+    .list-rail { overflow-x: visible; white-space: normal; }
     .source-note { display: none; }
     .content-header { display: block; padding: 18px 16px 15px; }
     .header-actions { justify-content: start; margin-top: 13px; }
@@ -268,7 +265,7 @@
     .imported-heading-controls .search-wrap { grid-column: 1 / -1; width: 100%; min-width: 0; }
     .drag-tip { display: none; }
     .imported-list { grid-template-columns: 1fr; }
-    .imported-card { grid-template: "badges" auto "photo" auto "body" auto "footer" auto / minmax(0, 1fr); padding: 18px 16px; }
+    .imported-card { grid-template: "badges" auto "photo" auto "body" auto / minmax(0, 1fr); padding: 18px 16px; }
     .imported-card .item-photo { width: 118px; height: 118px; }
     .imported-facts-row { grid-template-columns: 1fr; align-items: stretch; }
     .imported-actions { justify-content: start; }
@@ -291,7 +288,7 @@
     </div>
     <aside class="sync-card" aria-label="AnyList import status">
       <strong>AnyList import complete</strong>
-      <p>Eight collections imported from the signed-in AnyList session you approved.</p>
+      <p id="collection-import-note">Collections imported from the signed-in AnyList session you approved.</p>
       <div class="status-line"><span class="status-dot" aria-hidden="true"></span><span id="sync-detail">Ready to improve the next shop</span></div>
     </aside>
   </section>
@@ -306,7 +303,7 @@
     <aside class="panel list-rail">
       <div class="rail-heading">
         <div><h2>Your collections</h2><p>Imported from AnyList</p></div>
-        <span class="rail-count">8</span>
+        <span class="rail-count" id="rail-count">0</span>
       </div>
       <div id="list-rail-buttons"></div>
       <div class="source-note"><strong>Source stays visible</strong>Imported values are labeled separately from changes you make here, so you can tell what came from AnyList and what was added in this browser.</div>
@@ -401,7 +398,10 @@
     const listMeta = window.SMART_LIST_META || {};
     const listSource = window.SMART_LIST_IMPORT || {};
     const photoRecords = window.SMART_LIST_PHOTOS || [];
-    const listNames = Object.keys(listMeta);
+    const listNames = [...new Set([...Object.keys(listMeta), ...Object.keys(listSource)])];
+    const getListMeta = (name) => listMeta[name] || { icon: "🛒", count: 0, accent: "neutral" };
+    document.getElementById("rail-count").textContent = listNames.length;
+    document.getElementById("collection-import-note").textContent = `${listNames.length} collections imported from the signed-in AnyList session you approved.`;
     const categoryNames = new Set([
       "主食", "蔬菜", "水果", "蛋", "奶制品", "鱼", "虾", "鸡", "牛", "羊", "猪", "鸭",
       "杂豆和豆制品", "坚果（坚果酱/粉）和种子", "加工食品_熟食", "加工食品_速冻食品_鱼", "加工食品_速冻食品_鸡",
@@ -554,7 +554,7 @@
     }
     function itemTargetList(sourceList, itemKey) {
       const targetList = itemMoves[moveStorageKey(sourceList, itemKey)];
-      return listMeta[targetList] ? targetList : sourceList;
+      return listNames.includes(targetList) ? targetList : sourceList;
     }
     function getImportedItems(listName) {
       return listNames.flatMap((sourceList) => getSourceItems(sourceList)
@@ -881,7 +881,7 @@
 
     function renderRail() {
       els.rail.innerHTML = listNames.map((name) => {
-        const meta = listMeta[name];
+        const meta = getListMeta(name);
         const active = name === state.activeList;
         return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(name)}; drop items here to move them"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
@@ -933,7 +933,7 @@
       const categoryText = item.category || "Imported item";
       const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state">✓ ${photo || hasCustomPhoto ? "AnyList photo · " : ""}${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</span></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -973,7 +973,7 @@
     }
     function moveItemToList(sourceList, itemKey, targetList) {
       const item = findSourceItem(sourceList, itemKey);
-      if (!item || !listMeta[targetList]) return;
+      if (!item || !listNames.includes(targetList)) return;
       const currentList = itemTargetList(sourceList, itemKey);
       if (currentList === targetList) return;
       const duplicate = getImportedItems(targetList).some((candidate) => candidate.name.trim().toLowerCase() === item.name.trim().toLowerCase());
@@ -1221,10 +1221,9 @@
     }
 
     function render() {
-      const meta = listMeta[state.activeList];
       const viewItems = getViewItems();
       els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : state.activeList;
-      els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : `${viewItems.length} items in this list · ${meta.count} imported from AnyList`;
+      els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : `${viewItems.length} items in this list · now sorted for better decisions`;
       renderRail(); renderStoreFilter(); renderBrandFilter(); renderImported();
     }
 
