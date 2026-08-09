@@ -177,14 +177,22 @@
   .imported-heading p { margin: 0; color: var(--muted); font-size: 0.76rem; }
   .drag-tip { display: inline-flex; align-items: center; padding: 6px 9px; border: 1px solid #d8e8dc; border-radius: 999px; color: var(--green); background: #f2faf4; font-size: 0.67rem; font-weight: 800; white-space: nowrap; }
   .imported-list { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0 24px 22px; padding: 0; overflow: visible; }
-  .imported-card { display: flex; min-height: 100%; flex-direction: column; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+  .imported-card { display: grid; grid-template: "photo badges" auto "photo body" auto "photo footer" auto / minmax(122px, 154px) minmax(0, 1fr); column-gap: 22px; row-gap: 11px; min-height: 100%; padding: 22px 24px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
   .imported-card.dragging { opacity: 0.45; background: #eef7f1; }
-  .imported-card .card-body { flex: 1; }
-  .imported-card .card-detail { min-height: 35px; }
+  .imported-card .card-top { display: contents; }
+  .imported-card .item-photo { grid-area: photo; align-self: start; width: 154px; height: 154px; }
+  .imported-card .card-badges { grid-area: badges; align-self: start; }
+  .imported-card .card-body { grid-area: body; margin-top: 0; }
+  .imported-card .card-body h4 { max-width: none; }
+  .imported-card .card-detail { min-height: 0; }
+  .imported-facts-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; margin-top: 14px; }
+  .imported-facts-row .product-facts { margin-top: 0; }
   .imported-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; align-items: center; }
-  .imported-actions .mini-button { padding: 7px 10px; }
+  .imported-actions .mini-button { padding: 8px 11px; font-size: 0.7rem; }
+  .imported-card .price-bar { margin-top: 12px; }
+  .imported-card .card-footer { grid-area: footer; margin-top: 0; }
   .trust-note { display: flex; gap: 10px; align-items: start; margin: 0 24px 20px; padding: 12px 13px; border: 1px solid #d8e5f2; border-radius: 12px; color: #496171; background: #f3f8fc; font-size: 0.73rem; }
   .trust-note strong { display: block; margin-bottom: 2px; color: #264a61; }
   .trust-icon { flex: 0 0 auto; font-size: 1rem; }
@@ -262,6 +270,10 @@
     .imported-heading { align-items: start; padding-left: 16px; padding-right: 16px; }
     .drag-tip { display: none; }
     .imported-list { grid-template-columns: 1fr; }
+    .imported-card { grid-template: "badges" auto "photo" auto "body" auto "footer" auto / minmax(0, 1fr); padding: 18px 16px; }
+    .imported-card .item-photo { width: 118px; height: 118px; }
+    .imported-facts-row { grid-template-columns: 1fr; align-items: stretch; }
+    .imported-actions { justify-content: start; }
   }
   @media (max-width: 520px) {
     .edit-facts { grid-template-columns: 1fr; }
@@ -931,7 +943,7 @@
       const categoryText = item.category || "Imported item";
       const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(item.name)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges"><span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name)}</h4><p class="card-detail">${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</p>${productFactsMarkup(facts, "card-facts")}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state">✓ ${photo || hasCustomPhoto ? "AnyList photo · " : ""}${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</span><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(item.name)}">Delete</button></div></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(item.name)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges"><span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name)}</h4><p class="card-detail">${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(item.name)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state">✓ ${photo || hasCustomPhoto ? "AnyList photo · " : ""}${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</span></div></article>`;
     }
 
     function renderSmart() {
