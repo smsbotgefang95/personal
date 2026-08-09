@@ -117,7 +117,8 @@
   .preference-label { margin-right: 4px; color: var(--muted); font-size: 0.73rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
   .preference-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #dce6de; border-radius: 999px; color: #365247; background: #ffffff; font-size: 0.75rem; font-weight: 750; }
   .preference-toggle input { accent-color: var(--green); }
-  .price-sort { margin-left: auto; padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .store-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .price-sort { margin-left: auto; }
   .smart-section { padding: 20px 24px 24px; }
   .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 13px; }
   .section-heading h3 { margin: 0 0 3px; font-size: 1rem; }
@@ -161,12 +162,14 @@
   .imported-heading h3 { margin: 0 0 3px; font-size: 0.98rem; }
   .imported-heading p { margin: 0; color: var(--muted); font-size: 0.76rem; }
   .imported-list { max-height: 410px; margin: 0 24px 22px; padding: 0; overflow: auto; border: 1px solid #e3e9e3; border-radius: 13px; background: #ffffff; }
-  .import-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 9px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #edf0ed; }
+  .import-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) minmax(115px, auto); gap: 9px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #edf0ed; }
   .import-row:last-child { border-bottom: 0; }
   .import-row:hover { background: #f8fbf8; }
   .row-check { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid #cbd8cf; border-radius: 7px; color: var(--green); background: #ffffff; font-size: 0.78rem; }
   .row-name { min-width: 0; overflow: hidden; color: var(--ink); font-size: 0.78rem; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
-  .row-category { color: var(--muted); font-size: 0.68rem; white-space: nowrap; }
+  .row-details { display: grid; gap: 2px; justify-items: end; min-width: 0; }
+  .row-category, .row-store { color: var(--muted); font-size: 0.68rem; white-space: nowrap; }
+  .row-store { color: var(--green); font-weight: 750; }
   .trust-note { display: flex; gap: 10px; align-items: start; margin: 0 24px 20px; padding: 12px 13px; border: 1px solid #d8e5f2; border-radius: 12px; color: #496171; background: #f3f8fc; font-size: 0.73rem; }
   .trust-note strong { display: block; margin-bottom: 2px; color: #264a61; }
   .trust-icon { flex: 0 0 auto; font-size: 1rem; }
@@ -213,7 +216,7 @@
     .imported-heading, .imported-list, .trust-note { margin-left: 16px; margin-right: 16px; }
     .imported-heading { padding-left: 16px; padding-right: 16px; }
     .import-row { grid-template-columns: 28px minmax(0, 1fr); }
-    .row-category { grid-column: 2; }
+    .row-details { grid-column: 2; justify-items: start; }
   }
 </style>
 </head>
@@ -267,6 +270,9 @@
         <span class="preference-label">Your rules</span>
         <label class="preference-toggle"><input id="organic-toggle" type="checkbox" checked /> Organic first</label>
         <label class="preference-toggle"><input id="sugar-toggle" type="checkbox" checked /> Low or no added sugar</label>
+        <select class="store-filter" id="store-filter" aria-label="Filter by store">
+          <option value="all">All stores</option>
+        </select>
         <select class="price-sort" id="sort-select" aria-label="Sort items">
           <option value="smart">Smart order</option>
           <option value="price">Lowest unit price</option>
@@ -288,7 +294,7 @@
           <button class="button-secondary" id="show-all-button" type="button">Show all</button>
         </div>
         <div class="imported-list" id="imported-list"></div>
-        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How the smart layer works</strong>Food guidance uses preference nudges, price comparisons use unit price, and photos are matched to the product name. Live store lookups will be connected before this replaces AnyList for real shopping.</div></div>
+        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How the smart layer works</strong>Food guidance uses preference nudges, price comparisons use unit price, and store assignments are preserved from AnyList. Live store lookups will be connected before this replaces AnyList for real shopping.</div></div>
       </section>
     </section>
   </section>
@@ -318,9 +324,12 @@
       "加工食品_零食", "烹饪_油", "烹饪_调味品_固体", "烹饪_调味品_酱料", "烹饪_调味品_液体", "烹饪_烘培",
       "自制食品", "爆香料", "Uncategorized Items"
     ]);
+    const storeAliases = new Map([
+      ["costco", "Costco"], ["大中华", "大中华"], ["great wall 大中华", "Great Wall 大中华"], ["whole foods", "Whole Foods"],
+      ["amazon", "Amazon"], ["walmart", "Walmart"], ["giant", "Giant"], ["h mart", "H Mart"], ["日本店", "日本店"]
+    ]);
     const noise = new Set([
-      "Add Item", "costco Items", "Costco", "costco", "大中华", "Great Wall 大中华", "Whole Foods", "Amazon", "Walmart",
-      "Giant", "H Mart", "日本店", "Costco, Giant", "isle 310", "aisle 310", "Share, Email & Print List",
+      "Add Item", "costco Items", "isle 310", "aisle 310", "Share, Email & Print List",
       "Edit Item", "Add to Favorites", "Change Category", "Edit Price", "Assign Stores", "Add Photo", "Move / Copy Item", "Delete Items", "Done"
     ]);
     const metadataPattern = /^(?:[💵⚖️🏷️⬇️⬆️🗃️]|\+\s?\d|\d[\d./-]*\s?(?:lb|oz|kg|g|qt|L|瓶|袋|盒|个|根|顿|块|包|把|罐|片|卷|fl oz|pt)|WT\s|\$|\d+(?:\.\d+)?\s*\/)/i;
@@ -344,45 +353,61 @@
       { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
     ];
 
-    const state = { activeList: "买菜", query: "", showAll: false, sort: "smart", organicFirst: true, lowSugar: true };
+    const state = { activeList: "买菜", query: "", store: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle")
     };
+
+    function storesFromLine(line) {
+      const values = line.split(",").map((value) => value.trim()).filter(Boolean);
+      if (!values.length || values.some((value) => !storeAliases.has(value.toLowerCase()))) return [];
+      return [...new Set(values.map((value) => storeAliases.get(value.toLowerCase())))];
+    }
 
     function parseImportedList(source) {
       const parsed = [];
       let category = "Uncategorized";
-      let pendingMeta = [];
+      let current = null;
+      const commit = () => { if (current && current.name) parsed.push(current); current = null; };
       for (const rawLine of String(source || "").split("\n")) {
         const line = rawLine.trim();
         if (!line) continue;
-        if (categoryNames.has(line)) { category = line; continue; }
+        if (categoryNames.has(line)) { commit(); category = line; continue; }
+        const stores = storesFromLine(line);
+        if (stores.length) { if (current) current.stores.push(...stores); continue; }
         if (noise.has(line) || line === "Sample Lists" || line === "Tips") continue;
-        if (metadataPattern.test(line) || /^\+\s?\d/.test(line)) { pendingMeta.push(line); continue; }
+        if (metadataPattern.test(line) || /^\+\s?\d/.test(line)) { if (current) current.meta.push(line); continue; }
         if (/^(?:\d+(?:\.\d+)?|\$|\[|\]|\-|—|\+|×|\s)+$/.test(line)) continue;
         if (/^(?:\d+(?:\.\d+)?\s*)?(?:lb|oz|kg|g|qt|L|fl oz|pt)$/i.test(line)) continue;
-        const previous = parsed[parsed.length - 1];
-        if (previous && previous.name === line) { previous.meta.push(...pendingMeta); pendingMeta = []; continue; }
-        parsed.push({ name: line, category, meta: pendingMeta });
-        pendingMeta = [];
+        commit();
+        current = { name: line, category, meta: [], stores: [] };
       }
-      const seen = new Set();
-      return parsed.filter((item) => {
-        if (!item.name || item.name === "Add Item") return false;
+      commit();
+      const merged = new Map();
+      parsed.forEach((item) => {
+        if (!item.name || item.name === "Add Item") return;
         const key = `${item.category}::${item.name}`;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
+        const existing = merged.get(key);
+        if (existing) {
+          existing.meta.push(...item.meta);
+          existing.stores.push(...item.stores);
+        } else {
+          merged.set(key, { ...item });
+        }
       });
+      return [...merged.values()].map((item) => ({ ...item, meta: [...new Set(item.meta)], stores: [...new Set(item.stores)] }));
     }
 
     const parsedByList = Object.fromEntries(listNames.map((name) => [name, parseImportedList(listSource[name])]));
     function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
+    function availableStores() { return [...new Set((parsedByList[state.activeList] || []).flatMap((item) => item.stores))].sort((a, b) => a.localeCompare(b)); }
+    function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
+    function matchesStore(item) { return state.store === "all" || (item.stores || signalStores(item)).includes(state.store); }
     function getSignals() {
-      let signals = signalItems.filter((item) => item.list === state.activeList);
-      if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()));
+      let signals = signalItems.filter((item) => item.list === state.activeList && matchesStore(item));
+      if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.organicFirst) signals.sort((a, b) => Number(b.organic) - Number(a.organic));
       if (state.lowSugar) signals.sort((a, b) => Number(a.sugar === "No added sugar" || a.sugar === "0g added") * -1 - Number(b.sugar === "No added sugar" || b.sugar === "0g added") * -1);
       if (state.sort === "name") signals.sort((a, b) => a.name.localeCompare(b.name));
@@ -395,7 +420,14 @@
         const active = name === state.activeList;
         return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${meta.count} items imported</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
-      els.rail.querySelectorAll("[data-list]").forEach((button) => button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); }));
+      els.rail.querySelectorAll("[data-list]").forEach((button) => button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; state.store = "all"; els.search.value = ""; state.showAll = false; render(); }));
+    }
+
+    function renderStoreFilter() {
+      const stores = availableStores();
+      if (state.store !== "all" && !stores.includes(state.store)) state.store = "all";
+      els.store.innerHTML = `<option value="all">All stores</option>${stores.map((store) => `<option value="${escapeHtml(store)}">${escapeHtml(store)}</option>`).join("")}`;
+      els.store.value = state.store;
     }
 
     function smartCard(item, index) {
@@ -415,12 +447,14 @@
 
     function renderImported() {
       let items = parsedByList[state.activeList] || [];
-      if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.category.toLowerCase().includes(state.query.toLowerCase()));
+      if (state.store !== "all") items = items.filter((item) => item.stores.includes(state.store));
+      if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.category.toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
       const total = items.length;
       if (!state.showAll) items = items.slice(0, 12);
-      els.importedCount.textContent = `${total} imported item names in this list${state.query ? " · filtered" : ""}`;
-      els.importedList.innerHTML = items.length ? items.map((item) => `<div class="import-row"><span class="row-check" aria-hidden="true">＋</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span><span class="row-category">${escapeHtml(item.category)}</span></div>`).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query)}”.</div>`;
+      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : ""].filter(Boolean).join(" · ");
+      els.importedCount.textContent = `${total} imported item names in this list${filterNote ? ` · ${filterNote}` : ""}`;
+      els.importedList.innerHTML = items.length ? items.map((item) => `<div class="import-row"><span class="row-check" aria-hidden="true">＋</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span><span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span></div>`).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
     }
 
@@ -428,7 +462,7 @@
       const meta = listMeta[state.activeList];
       els.title.textContent = state.activeList;
       els.subtitle.textContent = `${meta.count} items in AnyList · ${parsedByList[state.activeList].length} item names copied into the smart view`;
-      renderRail(); renderSmart(); renderImported();
+      renderRail(); renderStoreFilter(); renderSmart(); renderImported();
     }
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
@@ -453,6 +487,7 @@
     document.getElementById("add-item-button").addEventListener("click", () => { els.search.focus(); showToast("Type an item name below to add it with automatic photo and price matching."); });
     document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderSmart(); renderImported(); });
+    els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderSmart(); renderImported(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderSmart(); renderImported(); });
     document.getElementById("organic-toggle").addEventListener("change", (event) => { state.organicFirst = event.target.checked; renderSmart(); });
     document.getElementById("sugar-toggle").addEventListener("change", (event) => { state.lowSugar = event.target.checked; renderSmart(); });
