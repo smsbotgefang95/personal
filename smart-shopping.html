@@ -94,9 +94,11 @@
   .rail-heading h2 { margin-bottom: 4px; font-size: 1rem; }
   .rail-heading p { margin: 0; color: var(--muted); font-size: 0.78rem; }
   .rail-count { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 27px; border-radius: 999px; color: var(--green); background: var(--green-soft); font-size: 0.78rem; font-weight: 800; }
-  .list-button { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; width: 100%; gap: 10px; align-items: center; padding: 11px 9px; border: 1px solid transparent; border-radius: 13px; color: var(--ink); background: transparent; text-align: left; transition: background 150ms ease, border-color 150ms ease, transform 150ms ease; }
+  .list-button { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; width: 100%; gap: 10px; align-items: center; padding: 11px 9px; border: 1px solid transparent; border-radius: 13px; color: var(--ink); background: transparent; text-align: left; transition: background 150ms ease, border-color 150ms ease, transform 150ms ease; }
   .list-button:hover { border-color: #d8e6df; background: #f5faf6; transform: translateX(2px); }
   .list-button.active { border-color: #b8dfcd; background: linear-gradient(90deg, #e7f5ed, #f7fbf8); box-shadow: inset 3px 0 0 var(--green); }
+  .list-button.drag-over { border-color: var(--green); background: #e7f5ed; box-shadow: inset 3px 0 0 var(--green), 0 0 0 3px rgba(37, 138, 107, 0.12); }
+  .list-button.drag-over::after { position: absolute; right: 34px; bottom: 4px; color: var(--green); font-size: 0.59rem; font-weight: 800; content: "Drop to move"; }
   .list-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: #f1f4f1; font-size: 1.35rem; }
   .list-button.active .list-icon { background: #ffffff; }
   .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
@@ -150,6 +152,11 @@
   .card-body { margin-top: 13px; }
   .card-body h4 { max-width: 350px; margin: 0 0 5px; font-size: 0.98rem; line-height: 1.2; letter-spacing: -0.02em; }
   .card-detail { min-height: 35px; margin: 0; color: var(--muted); font-size: 0.76rem; }
+  .product-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 12px; }
+  .product-fact { min-width: 0; padding: 7px 8px; border: 1px solid #edf0ed; border-radius: 9px; background: #fbfcfa; }
+  .product-fact-label { display: block; color: var(--muted); font-size: 0.58rem; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; }
+  .product-fact-value { display: block; min-width: 0; margin-top: 2px; overflow: hidden; color: var(--ink); font-size: 0.74rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+  .product-fact-value.is-missing { color: #927c70; font-weight: 700; }
   .price-line { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin: 13px 0 8px; }
   .price-line strong { font-size: 1.05rem; letter-spacing: -0.03em; }
   .price-line span { color: var(--green); font-size: 0.71rem; font-weight: 800; text-align: right; }
@@ -164,18 +171,26 @@
   .imported-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 24px 12px; }
   .imported-heading h3 { margin: 0 0 3px; font-size: 0.98rem; }
   .imported-heading p { margin: 0; color: var(--muted); font-size: 0.76rem; }
+  .drag-tip { display: inline-flex; align-items: center; padding: 6px 9px; border: 1px solid #d8e8dc; border-radius: 999px; color: var(--green); background: #f2faf4; font-size: 0.67rem; font-weight: 800; white-space: nowrap; }
   .imported-list { max-height: 410px; margin: 0 24px 22px; padding: 0; overflow: auto; border: 1px solid #e3e9e3; border-radius: 13px; background: #ffffff; }
-  .import-row { display: grid; grid-template-columns: 28px 40px minmax(0, 1fr) minmax(115px, auto) auto; gap: 9px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #edf0ed; }
+  .import-row { display: grid; grid-template-columns: 28px 40px minmax(180px, 1fr) minmax(250px, auto) minmax(115px, auto) auto; gap: 9px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #edf0ed; cursor: grab; transition: background 150ms ease, opacity 150ms ease; }
   .import-row:last-child { border-bottom: 0; }
   .import-row:hover { background: #f8fbf8; }
-  .row-check { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid #cbd8cf; border-radius: 7px; color: var(--green); background: #ffffff; font-size: 0.78rem; }
+  .import-row:active { cursor: grabbing; }
+  .import-row.dragging { opacity: 0.45; background: #eef7f1; }
+  .row-drag-handle { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid #cbd8cf; border-radius: 7px; color: var(--green); background: #ffffff; font-size: 1rem; line-height: 1; }
   .row-photo { display: grid; place-items: center; width: 36px; height: 36px; overflow: hidden; border-radius: 10px; color: #5d866f; background: linear-gradient(145deg, #eef7f0, #d8ebdf); font-size: 1.1rem; }
   .row-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .row-photo .photo-fallback { line-height: 1; }
   .row-name { min-width: 0; overflow: hidden; color: var(--ink); font-size: 0.78rem; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
+  .row-facts { margin-top: 0; }
+  .row-facts .product-fact { padding: 5px 6px; border-radius: 8px; }
+  .row-facts .product-fact-label { font-size: 0.55rem; }
+  .row-facts .product-fact-value { font-size: 0.66rem; }
   .row-details { display: grid; gap: 2px; justify-items: end; min-width: 0; }
   .row-category, .row-store { color: var(--muted); font-size: 0.68rem; white-space: nowrap; }
   .row-store { color: var(--green); font-weight: 750; }
+  .row-actions { display: flex; justify-content: end; gap: 6px; align-items: center; }
   .edit-row-button { padding: 6px 9px; font-size: 0.68rem; }
   .trust-note { display: flex; gap: 10px; align-items: start; margin: 0 24px 20px; padding: 12px 13px; border: 1px solid #d8e5f2; border-radius: 12px; color: #496171; background: #f3f8fc; font-size: 0.73rem; }
   .trust-note strong { display: block; margin-bottom: 2px; color: #264a61; }
@@ -195,6 +210,7 @@
   .compare-table tr.best td { color: #176b4c; background: #f0faf4; font-weight: 800; }
   .modal-note { margin: 17px 0 0; padding: 10px 12px; border-radius: 10px; color: #72602e; background: #fff9e9; font-size: 0.73rem; }
   .edit-fields { display: grid; gap: 13px; margin-top: 19px; }
+  .edit-fields [hidden] { display: none; }
   .edit-field { display: grid; gap: 5px; color: var(--muted); font-size: 0.74rem; font-weight: 750; }
   .edit-field input, .edit-field select { width: 100%; padding: 10px 11px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.82rem; font-weight: 500; }
   .edit-field input:focus, .edit-field select:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
@@ -204,6 +220,11 @@
     .sync-card { max-width: 420px; }
     .workspace { grid-template-columns: 230px minmax(0, 1fr); }
     .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .smart-grid { grid-template-columns: 1fr; }
+    .import-row { grid-template-columns: 28px 40px minmax(0, 1fr) auto; }
+    .row-facts { grid-column: 3; grid-row: 2; }
+    .row-details { grid-column: 3; grid-row: 3; justify-items: start; }
+    .row-actions { grid-column: 4; grid-row: 1 / span 3; flex-direction: column; }
   }
   @media (max-width: 740px) {
     .app-shell { padding: 25px 14px 50px; }
@@ -226,10 +247,12 @@
     .search-wrap { width: 100%; margin-top: 11px; }
     .smart-grid { grid-template-columns: 1fr; }
     .imported-heading, .imported-list, .trust-note { margin-left: 16px; margin-right: 16px; }
-    .imported-heading { padding-left: 16px; padding-right: 16px; }
+    .imported-heading { align-items: start; padding-left: 16px; padding-right: 16px; }
+    .drag-tip { display: none; }
     .import-row { grid-template-columns: 28px 36px minmax(0, 1fr) auto; }
+    .row-facts { grid-column: 3; grid-row: 2; }
     .row-details { grid-column: 3; justify-items: start; }
-    .edit-row-button { grid-column: 4; grid-row: 1 / span 2; }
+    .edit-row-button { grid-column: 4; grid-row: 1 / span 3; }
   }
 </style>
 </head>
@@ -304,10 +327,11 @@
       <section class="imported-panel" aria-labelledby="imported-heading">
         <div class="imported-heading">
           <div><h3 id="imported-heading">Imported items</h3><p id="imported-count">Names and categories from your selected AnyList list</p></div>
+          <span class="drag-tip">Drag to move</span>
           <button class="button-secondary" id="show-all-button" type="button">Show all</button>
         </div>
         <div class="imported-list" id="imported-list"></div>
-        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How the smart layer works</strong>Food guidance uses preference nudges, price comparisons use unit price, and store assignments are preserved from AnyList. Edit changes are saved in this browser and stay separate from the original import.</div></div>
+        <div class="trust-note"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>How the smart layer works</strong>Food guidance uses preference nudges, price comparisons use unit price, and store assignments are preserved from AnyList. Edit and move changes are saved in this browser and stay separate from the original import.</div></div>
       </section>
     </section>
   </section>
@@ -331,9 +355,10 @@
       <button class="close-modal" id="close-edit-modal" type="button" aria-label="Close item editor">×</button>
     </div>
     <div class="edit-fields">
-      <label class="edit-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
-      <label class="edit-field"><span>Category</span><select id="edit-item-category"></select></label>
-      <label class="edit-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /></label>
+      <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
+      <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
+      <label class="edit-field" id="edit-stores-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /></label>
+      <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
     <p class="modal-note" id="edit-item-note">Your changes are saved in this browser and stay separate from the original AnyList import.</p>
     <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="submit">Save changes</button></div>
@@ -387,11 +412,11 @@
       { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
     ];
 
-    const state = { activeList: "买菜", query: "", store: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true };
+    const state = { activeList: "买菜", query: "", store: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true, draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -459,8 +484,21 @@
     function saveItemAdds() {
       try { window.localStorage.setItem(itemAddsStorageKey, JSON.stringify(itemAdds)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
+    const itemMovesStorageKey = "smart-shopping-item-moves-v1";
+    const itemMoves = (() => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(itemMovesStorageKey) || "{}");
+        return saved && typeof saved === "object" ? saved : {};
+      } catch (error) {
+        return {};
+      }
+    })();
+    function saveItemMoves() {
+      try { window.localStorage.setItem(itemMovesStorageKey, JSON.stringify(itemMoves)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+    }
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
-    function getImportedItems(listName) {
+    function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
+    function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
         return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, edited: true } : item;
@@ -471,10 +509,52 @@
       }) : [];
       return [...importedItems, ...addedItems];
     }
+    function itemTargetList(sourceList, itemKey) {
+      const targetList = itemMoves[moveStorageKey(sourceList, itemKey)];
+      return listMeta[targetList] ? targetList : sourceList;
+    }
+    function getImportedItems(listName) {
+      return listNames.flatMap((sourceList) => getSourceItems(sourceList)
+        .filter((item) => itemTargetList(sourceList, item.key) === listName)
+        .map((item) => ({ ...item, sourceList, originalList: sourceList })));
+    }
+    function itemReference(item) { return JSON.stringify({ sourceList: item.sourceList, key: item.key }); }
+    function parseItemReference(value) {
+      try {
+        const parsed = JSON.parse(String(value || ""));
+        return parsed && typeof parsed.sourceList === "string" && typeof parsed.key === "string" ? parsed : null;
+      } catch (error) {
+        return null;
+      }
+    }
+    function findSourceItem(sourceList, itemKey) {
+      return getSourceItems(sourceList).find((item) => item.key === itemKey) || null;
+    }
     function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
     function normalizeFoodName(value) { return String(value || "").replace(/\s+/g, " ").trim().replace(/\s*\([^()]*\)\s*$/, "").toLowerCase(); }
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
     function foodPhoto(itemName) { return photoByName.get(normalizeFoodName(itemName)) || null; }
+    function metadataValue(item, icon) {
+      const raw = (item.meta || []).find((line) => line.startsWith(icon));
+      if (!raw) return "Not listed";
+      const value = raw.replace(/^(?:💵|⚖️|🏷️)\s*/u, "").replace(/\s*\[[^\]]*\]\s*/g, " ").replace(/\s+/g, " ").trim();
+      return !value || (!/\d/.test(value) && /^[\$—–-]/.test(value)) ? "Not listed" : value;
+    }
+    function productFacts(item) {
+      return { price: metadataValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️") };
+    }
+    function importedMatchForSignal(signal) {
+      const target = normalizeFoodName(signal.name);
+      return getImportedItems(signal.list).find((item) => normalizeFoodName(item.name) === target) || null;
+    }
+    function signalProductFacts(signal) {
+      const imported = importedMatchForSignal(signal);
+      return imported ? productFacts(imported) : { price: signal.price || "Not listed", weight: "Not listed", unitPrice: signal.unit || "Not listed" };
+    }
+    function productFactsMarkup(facts, extraClass = "") {
+      const fields = [["Price", facts.price], ["Weight", facts.weight], ["Unit price", facts.unitPrice]];
+      return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
+    }
     function photoMarkup(itemName, fallback = "🍽️") {
       const photo = foodPhoto(itemName);
       return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo migrated from AnyList" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
@@ -501,9 +581,28 @@
       els.rail.innerHTML = listNames.map((name) => {
         const meta = listMeta[name];
         const active = name === state.activeList;
-        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${meta.count} items imported</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(name)}; drop items here to move them"><span class="list-icon" aria-hidden="true">${meta.icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
-      els.rail.querySelectorAll("[data-list]").forEach((button) => button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); }));
+      els.rail.querySelectorAll("[data-list]").forEach((button) => {
+        button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); });
+        button.addEventListener("dragover", (event) => {
+          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item"));
+          if (!itemRef || itemTargetList(itemRef.sourceList, itemRef.key) === button.dataset.list) return;
+          event.preventDefault();
+          event.dataTransfer.dropEffect = "move";
+          button.classList.add("drag-over");
+        });
+        button.addEventListener("dragleave", (event) => {
+          if (!button.contains(event.relatedTarget)) button.classList.remove("drag-over");
+        });
+        button.addEventListener("drop", (event) => {
+          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item"));
+          if (!itemRef) return;
+          event.preventDefault();
+          button.classList.remove("drag-over");
+          moveItemToList(itemRef.sourceList, itemRef.key, button.dataset.list);
+        });
+      });
     }
 
     function renderStoreFilter() {
@@ -519,7 +618,7 @@
       const organicBadge = item.organic ? `<span class="badge badge-organic">🌿 Organic</span>` : "";
       const sugarBadge = item.sugar === "Added sugar" ? `<span class="badge badge-avoid">Sugar watch</span>` : `<span class="badge ${item.sugar === "Label check" ? "badge-review" : "badge-good"}">${escapeHtml(item.sugar)}</span>`;
       const photo = foodPhoto(item.name);
-      return `<article class="smart-card ${fitClass}"><div class="card-top"><div class="item-photo${photo ? " has-photo" : ""}">${photoMarkup(item.name, item.icon)}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${escapeHtml(item.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p><div class="price-line"><strong>${escapeHtml(item.price)}</strong><span>${escapeHtml(item.unit)}</span></div><div class="price-bar" aria-label="Price comparison indicator"><span style="--bar:${item.bar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${photo ? "AnyList photo · " : ""}${escapeHtml(item.source)}</span><button class="mini-button enrich-button" type="button" data-enrich="${index}">Enrich now</button></div></article>`;
+      return `<article class="smart-card ${fitClass}"><div class="card-top"><div class="item-photo${photo ? " has-photo" : ""}">${photoMarkup(item.name, item.icon)}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${escapeHtml(item.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p>${productFactsMarkup(signalProductFacts(item), "card-facts")}<div class="price-bar" aria-label="Price comparison indicator"><span style="--bar:${item.bar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${photo ? "AnyList photo · " : ""}${escapeHtml(item.source)}</span><button class="mini-button enrich-button" type="button" data-enrich="${index}">Enrich now</button></div></article>`;
     }
 
     function renderSmart() {
@@ -538,7 +637,7 @@
       if (!state.showAll) items = items.slice(0, 12);
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : ""].filter(Boolean).join(" · ");
       els.importedCount.textContent = `${total} imported item names in this list${filterNote ? ` · ${filterNote}` : ""}`;
-      els.importedList.innerHTML = items.length ? items.map((item) => `<div class="import-row"><span class="row-check" aria-hidden="true">＋</span><span class="row-photo" title="${foodPhoto(item.name) ? "Photo migrated from AnyList" : "No AnyList photo"}">${photoMarkup(item.name)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span><span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><button class="button-secondary edit-row-button" type="button" data-edit-key="${escapeHtml(item.key)}" aria-label="Edit ${escapeHtml(item.name)}">Edit</button></div>`).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
+      els.importedList.innerHTML = items.length ? items.map((item) => `<div class="import-row"><span class="row-check" aria-hidden="true">＋</span><span class="row-photo" title="${foodPhoto(item.name) ? "Photo migrated from AnyList" : "No AnyList photo"}">${photoMarkup(item.name)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><button class="button-secondary edit-row-button" type="button" data-edit-key="${escapeHtml(item.key)}" aria-label="Edit ${escapeHtml(item.name)}">Edit</button></div>`).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
     }
 
