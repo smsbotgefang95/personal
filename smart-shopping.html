@@ -120,7 +120,7 @@
   .preference-label { margin-right: 4px; color: var(--muted); font-size: 0.73rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
   .preference-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #dce6de; border-radius: 999px; color: #365247; background: #ffffff; font-size: 0.75rem; font-weight: 750; }
   .preference-toggle input { accent-color: var(--green); }
-  .store-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .store-filter, .brand-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
   .price-sort { margin-left: auto; }
   .smart-section { padding: 20px 24px 24px; }
   .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 13px; }
@@ -151,6 +151,8 @@
   .badge-avoid { color: #a03c55; background: #fdebf0; }
   .card-body { margin-top: 13px; }
   .card-body h4 { max-width: 350px; margin: 0 0 5px; font-size: 0.98rem; line-height: 1.2; letter-spacing: -0.02em; }
+  .row-name-primary, .row-name-secondary { display: block; }
+  .row-name-secondary { margin-top: 3px; color: #50665f; font-size: 0.86em; font-weight: 750; letter-spacing: 0; line-height: 1.3; }
   .card-detail { min-height: 35px; margin: 0; color: var(--muted); font-size: 0.76rem; }
   .product-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 12px; }
   .product-fact { min-width: 0; padding: 7px 8px; border: 1px solid #edf0ed; border-radius: 9px; background: #fbfcfa; }
@@ -166,6 +168,8 @@
   .enrichment-state { color: var(--muted); font-size: 0.68rem; }
   .mini-button { padding: 6px 8px; font-size: 0.68rem; }
   .mini-button.loading { opacity: 0.65; pointer-events: none; }
+  .mini-button.danger { border-color: #e4c4cc; color: #9d3f57; background: #fffafb; }
+  .mini-button.danger:hover { border-color: #d98ca0; color: #8c2f49; background: #fff0f3; }
   .empty-smart { grid-column: 1 / -1; padding: 25px; border: 1px dashed #cbd9cf; border-radius: 14px; color: var(--muted); background: #fbfdfb; text-align: center; }
   .imported-panel { margin-top: 0; border-top: 1px solid var(--line); background: #fbfcfa; }
   .imported-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 24px 12px; }
@@ -318,6 +322,9 @@
         <select class="store-filter" id="store-filter" aria-label="Filter by store">
           <option value="all">All stores</option>
         </select>
+        <select class="brand-filter" id="brand-filter" aria-label="Filter by brand">
+          <option value="all">All brands</option>
+        </select>
         <select class="detail-filter" id="detail-filter" aria-label="Filter by item details">
           <option value="all">All item details</option>
           <option value="photo">Photos ready</option>
@@ -372,6 +379,7 @@
     </div>
     <div class="edit-fields">
       <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
+      <label class="edit-field" id="edit-brand-field"><span>Brand</span><select id="edit-item-brand"></select></label>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
       <div class="edit-facts" id="edit-facts-fields">
         <label class="edit-field"><span>Price</span><input id="edit-item-price" type="text" placeholder="$6.99 / bag" autocomplete="off" /></label>
@@ -434,11 +442,11 @@
       { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
     ];
 
-    const state = { activeList: "买菜", query: "", store: "all", detailFilter: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true, draggedRef: null };
+    const state = { activeList: "买菜", query: "", store: "all", brand: "all", detailFilter: "all", showAll: false, sort: "smart", organicFirst: true, lowSugar: true, draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -506,6 +514,22 @@
     function saveItemAdds() {
       try { window.localStorage.setItem(itemAddsStorageKey, JSON.stringify(itemAdds)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
+    const itemRemovalsStorageKey = "smart-shopping-item-removals-v1";
+    const itemRemovals = (() => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(itemRemovalsStorageKey) || "{}");
+        return saved && typeof saved === "object" ? saved : {};
+      } catch (error) {
+        return {};
+      }
+    })();
+    function saveItemRemovals() {
+      try { window.localStorage.setItem(itemRemovalsStorageKey, JSON.stringify(itemRemovals)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+    }
+    if (new URLSearchParams(window.location.search).has("restore-test")) {
+      delete itemRemovals["蔬菜::Navy Beans by Goya 白芸豆 (16 oz)"];
+      saveItemRemovals();
+    }
     const itemMovesStorageKey = "smart-shopping-item-moves-v1";
     const itemMoves = (() => {
       try {
@@ -523,13 +547,13 @@
     function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...item, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...item, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       }) : [];
-      return [...importedItems, ...addedItems];
+      return [...importedItems, ...addedItems].filter((item) => !itemRemovals[editStorageKey(listName, item.key)]);
     }
     function itemTargetList(sourceList, itemKey) {
       const targetList = itemMoves[moveStorageKey(sourceList, itemKey)];
@@ -556,6 +580,19 @@
     }
     function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char])); }
     function normalizeFoodName(value) { return String(value || "").replace(/\s+/g, " ").trim().replace(/\s*\([^()]*\)\s*$/, "").toLowerCase(); }
+    function productBrand(value) {
+      const name = String(value || "").replace(/\s+/g, " ").trim().replace(/\s*\([^()]*\)\s*$/, "");
+      const match = name.match(/\bby\s+(.+)$/iu);
+      if (!match) return "";
+      const tail = match[1].replace(/[®™]+/gu, "").trim();
+      if (!tail) return "";
+      const firstCjkIndex = tail.search(/[\u3400-\u9fff]/u);
+      return firstCjkIndex > 0 ? tail.slice(0, firstCjkIndex).trim() : tail;
+    }
+    function itemBrand(item) {
+      if (item && Object.prototype.hasOwnProperty.call(item, "brand")) return String(item.brand || "").trim();
+      return productBrand(item?.name);
+    }
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
     function foodPhoto(itemName) { return photoByName.get(normalizeFoodName(itemName)) || null; }
     function metadataValue(item, icon) {
@@ -806,11 +843,30 @@
       const importedStores = getViewItems().flatMap((item) => item.stores);
       return [...new Set([...(configured || []), ...importedStores])].sort((a, b) => a.localeCompare(b));
     }
+    function availableBrands() {
+      return [...new Set(getViewItems().map(itemBrand).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+    }
+    function allBrands(selectedBrand = "") {
+      const brands = new Map();
+      listNames.flatMap((name) => getSourceItems(name)).forEach((item) => {
+        const brand = itemBrand(item);
+        if (brand && !brands.has(brand.toLowerCase())) brands.set(brand.toLowerCase(), brand);
+      });
+      const selected = String(selectedBrand || "").trim();
+      if (selected && !brands.has(selected.toLowerCase())) brands.set(selected.toLowerCase(), selected);
+      return [...brands.values()].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+    }
+    function renderBrandOptions(selectedBrand = "") {
+      els.editBrand.innerHTML = `<option value="">No brand</option>${allBrands(selectedBrand).map((brand) => `<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join("")}`;
+      const selected = [...els.editBrand.options].find((option) => option.value.toLowerCase() === String(selectedBrand || "").trim().toLowerCase());
+      els.editBrand.value = selected ? selected.value : "";
+    }
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function matchesStore(item) { return state.store === "all" || (item.stores || signalStores(item)).includes(state.store); }
+    function matchesBrand(item) { return state.brand === "all" || itemBrand(item) === state.brand; }
     function getSignals() {
       const activeItems = getViewItems();
-      let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name)) && matchesStore(item));
+      let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name)) && matchesStore(item) && matchesBrand(item));
       signals = signals.filter((item) => matchesDetailFilter(null, item));
       if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.organicFirst) signals.sort((a, b) => Number(b.organic) - Number(a.organic));
@@ -854,13 +910,20 @@
       els.store.value = state.store;
     }
 
+    function renderBrandFilter() {
+      const brands = availableBrands();
+      if (state.brand !== "all" && !brands.includes(state.brand)) state.brand = "all";
+      els.brand.innerHTML = `<option value="all">All brands</option>${brands.map((brand) => `<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join("")}`;
+      els.brand.value = state.brand;
+    }
+
     function smartCard(item, index) {
       const fitClass = item.fitClass === "watch" ? "card-watch" : item.fitClass === "avoid" ? "card-avoid" : "";
       const fitBadge = item.fitClass === "watch" ? "badge-review" : item.fitClass === "avoid" ? "badge-avoid" : "badge-good";
       const organicBadge = item.organic ? `<span class="badge badge-organic">🌿 Organic</span>` : "";
       const sugarBadge = item.sugar === "Added sugar" ? `<span class="badge badge-avoid">Sugar watch</span>` : `<span class="badge ${item.sugar === "Label check" ? "badge-review" : "badge-good"}">${escapeHtml(item.sugar)}</span>`;
       const photo = foodPhoto(item.name);
-      return `<article class="smart-card ${fitClass}"><div class="card-top"><div class="item-photo${photo ? " has-photo" : ""}">${photoMarkup(item.name, item.icon)}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${escapeHtml(item.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p>${productFactsMarkup(signalProductFacts(item), "card-facts")}<div class="price-bar" aria-label="Price comparison indicator"><span style="--bar:${item.bar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${photo ? "AnyList photo · " : ""}${escapeHtml(item.source)}</span><button class="mini-button enrich-button" type="button" data-enrich="${index}">Enrich now</button></div></article>`;
+      return `<article class="smart-card ${fitClass}"><div class="card-top"><div class="item-photo${photo ? " has-photo" : ""}">${photoMarkup(item.name, item.icon)}</div><div class="card-badges"><span class="badge ${fitBadge}">${escapeHtml(item.fit)}</span>${organicBadge}${sugarBadge}</div></div><div class="card-body"><h4>${importedNameMarkup(item.name)}</h4><p class="card-detail">${escapeHtml(item.detail)}</p>${productFactsMarkup(signalProductFacts(item), "card-facts")}<div class="price-bar" aria-label="Price comparison indicator"><span style="--bar:${item.bar}"></span></div></div><div class="card-footer"><span class="enrichment-state" data-enrichment-state="${index}">✓ ${photo ? "AnyList photo · " : ""}${escapeHtml(item.source)}</span><button class="mini-button enrich-button" type="button" data-enrich="${index}">Enrich now</button></div></article>`;
     }
 
     function importedCard(item) {
@@ -872,7 +935,7 @@
       const categoryText = item.category || "Imported item";
       const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(item.name)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges"><span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${escapeHtml(item.name)}</h4><p class="card-detail">${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</p>${productFactsMarkup(facts, "card-facts")}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state">✓ ${photo || hasCustomPhoto ? "AnyList photo · " : ""}${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</span><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button></div></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(item.name)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges"><span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name)}</h4><p class="card-detail">${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</p>${productFactsMarkup(facts, "card-facts")}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div><div class="card-footer"><span class="enrichment-state">✓ ${photo || hasCustomPhoto ? "AnyList photo · " : ""}${escapeHtml(categoryText)} · ${escapeHtml(storeText)}</span><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(item.name)}">Delete</button></div></div></article>`;
     }
 
     function renderSmart() {
@@ -887,12 +950,13 @@
     function renderImported() {
       let items = getViewItems();
       if (state.store !== "all") items = items.filter((item) => item.stores.includes(state.store));
+      if (state.brand !== "all") items = items.filter((item) => matchesBrand(item));
       items = items.filter((item) => matchesDetailFilter(item));
       if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.category.toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
       const total = items.length;
       if (!state.showAll) items = items.slice(0, 12);
-      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
+      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", state.brand !== "all" ? `brand: ${state.brand}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
       const scopeLabel = isGlobalDetailFilter() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
       els.importedList.innerHTML = items.length ? items.map(importedCard).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
@@ -921,11 +985,33 @@
       state.activeList = targetList;
       state.query = "";
       state.store = "all";
+      state.brand = "all";
       state.showAll = true;
       els.search.value = "";
       clearDropTargets();
       render();
       showToast(`${item.name} moved to ${targetList}.`);
+    }
+
+    function deleteItem(item) {
+      const targetList = itemTargetList(item.sourceList, item.key);
+      const confirmed = window.confirm(`Delete “${item.name}” from ${targetList}? This only changes this browser’s shopping view.`);
+      if (!confirmed) return;
+      const storageKey = editStorageKey(item.sourceList, item.key);
+      if (item.added) {
+        itemAdds[item.sourceList] = (itemAdds[item.sourceList] || []).filter((candidate) => candidate.key !== item.key);
+        if (!itemAdds[item.sourceList].length) delete itemAdds[item.sourceList];
+        saveItemAdds();
+      } else {
+        itemRemovals[storageKey] = true;
+        saveItemRemovals();
+      }
+      delete itemEdits[storageKey];
+      delete itemMoves[moveStorageKey(item.sourceList, item.key)];
+      saveItemEdits();
+      saveItemMoves();
+      render();
+      showToast(`${item.name} deleted from ${targetList} in this browser.`);
     }
 
     const editSession = { list: "", key: "", mode: "edit", photo: "" };
@@ -998,12 +1084,14 @@
       document.getElementById("save-item-button").textContent = "Save changes";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
+      els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
       els.editFactsFields.hidden = false;
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
       els.editName.required = true;
       els.editName.value = item.name;
+      renderBrandOptions(itemBrand(item));
       const categories = [...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
@@ -1031,6 +1119,7 @@
       document.getElementById("edit-item-note").textContent = "Moving is saved in this browser and leaves the original AnyList import unchanged.";
       document.getElementById("save-item-button").textContent = "Move item";
       els.editNameField.hidden = true;
+      els.editBrandField.hidden = true;
       els.editCategoryField.hidden = true;
       els.editFactsFields.hidden = true;
       els.editStoresField.hidden = true;
@@ -1053,12 +1142,14 @@
       document.getElementById("save-item-button").textContent = "Add item";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
+      els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
       els.editFactsFields.hidden = false;
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
       els.editName.required = true;
       els.editName.value = "";
+      renderBrandOptions();
       const categories = [...categoryNames].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
@@ -1098,6 +1189,7 @@
       }
       const name = els.editName.value.trim();
       if (!name) { els.editName.focus(); return; }
+      const brand = els.editBrand.value;
       const category = els.editCategory.value || "Uncategorized";
       const facts = { price: defaultPriceCurrency(els.editPrice.value), weight: editableWeightValue(), unitPrice: els.editUnitPrice.value.trim() };
       const stores = canonicalStoresFromInput(els.editStores.value);
@@ -1112,10 +1204,10 @@
         els.editName.setCustomValidity("");
         const key = `added::${Date.now()}`;
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
-        itemAdds[editSession.list].push({ key, name, category, meta: [], facts, stores, photo, added: true });
+        itemAdds[editSession.list].push({ key, name, brand, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category, facts, stores, photo };
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo };
         saveItemEdits();
       }
       const savedMessage = editSession.mode === "add" ? `${name} added to ${editSession.list}.` : `${name} saved in this browser.`;
@@ -1129,7 +1221,7 @@
       const viewItems = getViewItems();
       els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : state.activeList;
       els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : `${viewItems.length} items in this list · ${meta.count} imported from AnyList`;
-      renderRail(); renderStoreFilter(); renderSmart(); renderImported();
+      renderRail(); renderStoreFilter(); renderBrandFilter(); renderSmart(); renderImported();
     }
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
@@ -1151,13 +1243,14 @@
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
     els.importedList.addEventListener("click", (event) => {
-      const action = event.target.closest("[data-edit-item], [data-move-item]");
+      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item]");
       if (!action) return;
       const row = action.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
       const item = itemRef ? getViewItems().find((candidate) => candidate.sourceList === itemRef.sourceList && candidate.key === itemRef.key) : null;
       if (!item) return;
       if (action.hasAttribute("data-move-item")) openItemMover(item);
+      else if (action.hasAttribute("data-delete-item")) deleteItem(item);
       else openItemEditor(item);
     });
     els.importedList.addEventListener("dragstart", (event) => {
@@ -1220,6 +1313,7 @@
     document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderSmart(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderSmart(); renderImported(); });
+    els.brand.addEventListener("change", () => { state.brand = els.brand.value; state.showAll = false; renderSmart(); renderImported(); });
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = state.detailFilter === "missing-photo"; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderSmart(); renderImported(); });
     document.getElementById("organic-toggle").addEventListener("change", (event) => { state.organicFirst = event.target.checked; renderSmart(); });
