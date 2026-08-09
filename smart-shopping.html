@@ -117,7 +117,7 @@
   .button-primary { padding: 10px 14px; border-color: var(--green); color: #ffffff; background: var(--green); box-shadow: 0 5px 13px rgba(37, 138, 107, 0.2); font-size: 0.8rem; }
   .button-primary:hover { background: #1e795d; }
   .filter-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 13px 24px; border-bottom: 1px solid var(--line); background: #fbfcfa; }
-  .store-filter, .brand-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .store-filter, .brand-filter, .category-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
   .price-sort { margin-left: auto; }
   .search-wrap { position: relative; width: min(290px, 100%); }
   .search-wrap span { position: absolute; top: 50%; left: 11px; color: #87948e; transform: translateY(-50%); }
@@ -338,6 +338,9 @@
         <select class="brand-filter" id="brand-filter" aria-label="Filter by brand">
           <option value="all">All brands</option>
         </select>
+        <select class="category-filter" id="category-filter" aria-label="Filter by category">
+          <option value="all">All categories</option>
+        </select>
         <select class="detail-filter" id="detail-filter" aria-label="Filter by item details">
           <option value="all">All item details</option>
           <option value="photo">Photos ready</option>
@@ -453,12 +456,12 @@
       { list: "备选", name: "Sweet Potato 红薯", icon: "🍠", fit: "Good fit", fitClass: "good", detail: "Whole-food staple · no added sugar", sugar: "0g added", organic: false, price: "$4.99 / bag", unit: "$0.998 / lb", bar: "29%", source: "Costco · imported price", prices: [["Costco", "$4.99 / bag", "$0.998 / lb", "AnyList"]] }
     ];
 
-    const state = { activeList: "买菜", query: "", store: "all", brand: "all", detailFilter: "all", showAll: false, sort: "smart", draggedRef: null };
+    const state = { activeList: "买菜", query: "", store: "all", brand: "all", category: "all", detailFilter: "all", showAll: false, sort: "smart", draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       addItem: document.getElementById("add-item-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -945,6 +948,10 @@
       const importedStores = getViewItems().flatMap((item) => item.stores);
       return [...new Set([...(configured || []), ...importedStores])].sort((a, b) => a.localeCompare(b));
     }
+    function itemCategory(item) { return String(item?.category || "Uncategorized").trim() || "Uncategorized"; }
+    function availableCategories() {
+      return [...new Set(getViewItems().map(itemCategory))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+    }
     function availableBrands() {
       return allBrands();
     }
@@ -966,9 +973,10 @@
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function matchesStore(item) { return state.store === "all" || (item.stores || signalStores(item)).includes(state.store); }
     function matchesBrand(item) { return state.brand === "all" || itemBrand(item) === state.brand; }
+    function matchesCategory(item) { return state.category === "all" || itemCategory(item) === state.category; }
     function getSignals() {
       const activeItems = getViewItems();
-      let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name)) && matchesStore(item) && matchesBrand(item));
+      let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name) && matchesCategory(activeItem)) && matchesStore(item) && matchesBrand(item));
       signals = signals.filter((item) => matchesDetailFilter(null, item));
       if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "name") signals.sort((a, b) => a.name.localeCompare(b.name));
@@ -1022,6 +1030,13 @@
       els.brand.value = state.brand;
     }
 
+    function renderCategoryFilter() {
+      const categories = availableCategories();
+      if (state.category !== "all" && !categories.includes(state.category)) state.category = "all";
+      els.category.innerHTML = `<option value="all">All categories</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
+      els.category.value = state.category;
+    }
+
     function importedCard(item) {
       const facts = productFacts(item);
       const brand = itemBrand(item);
@@ -1031,7 +1046,7 @@
       const hasCustomPhoto = typeof item.photo === "string" && item.photo.startsWith("data:image/");
       const photoClass = photo || hasCustomPhoto ? " has-photo" : "";
       const storeText = item.stores.length ? item.stores.join(", ") : "Store not listed";
-      const categoryText = item.category || "Imported item";
+      const categoryText = itemCategory(item);
       const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
       return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div>${nutritionFactsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
@@ -1056,15 +1071,16 @@
       let items = getViewItems();
       if (state.store !== "all") items = items.filter((item) => item.stores.includes(state.store));
       if (state.brand !== "all") items = items.filter((item) => matchesBrand(item));
+      if (state.category !== "all") items = items.filter((item) => matchesCategory(item));
       items = items.filter((item) => matchesDetailFilter(item));
-      if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.category.toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
+      if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || itemCategory(item).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
       const total = items.length;
       if (!state.showAll) items = items.slice(0, 12);
-      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", state.brand !== "all" ? `brand: ${state.brand}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
+      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : "", state.brand !== "all" ? `brand: ${state.brand}` : "", state.category !== "all" ? `category: ${state.category}` : "", detailFilterLabel()].filter(Boolean).join(" · ");
       const scopeLabel = isGlobalDetailFilter() || isAllList() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
-      els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems]) => importedCategoryGroup(category, categoryItems)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
+      els.importedList.innerHTML = items.length ? categoryGroups(items).map(([category, categoryItems]) => importedCategoryGroup(category, categoryItems)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
     }
@@ -1330,7 +1346,7 @@
       els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : allActive ? `${viewItems.length} items across all collections · now sorted for better decisions` : `${viewItems.length} items in this list · now sorted for better decisions`;
       els.addItem.disabled = allActive;
       els.addItem.title = allActive ? "Select a collection before adding an item" : "Add an item to this collection";
-      renderRail(); renderStoreFilter(); renderBrandFilter(); renderImported();
+      renderRail(); renderStoreFilter(); renderBrandFilter(); renderCategoryFilter(); renderImported();
     }
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
@@ -1419,6 +1435,7 @@
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderImported(); });
     els.brand.addEventListener("change", () => { state.brand = els.brand.value; state.showAll = false; renderImported(); });
+    els.category.addEventListener("change", () => { state.category = els.category.value; state.showAll = false; renderImported(); });
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = state.detailFilter === "missing-photo"; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderImported(); });
     render();
