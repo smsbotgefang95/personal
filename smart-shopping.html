@@ -544,11 +544,11 @@
     function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...item, photoLookupName: item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
+        return edit ? { ...item, photoLookupName: item.name, name: edit.name || item.name, brand: edit.brand !== undefined ? edit.brand : itemBrand(item), category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(item.facts || {}), ...edit.facts } : item.facts, edited: true } : item;
       }) : [];
       return [...importedItems, ...addedItems].filter((item) => !itemRemovals[editStorageKey(listName, item.key)]);
     }
@@ -604,7 +604,10 @@
     }
     function displayItemName(item) { return productNameWithoutBrand(item?.name, itemBrand(item)); }
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
-    function foodPhoto(itemName) { return photoByName.get(normalizeFoodName(itemName)) || null; }
+    function foodPhoto(item) {
+      const itemName = item && typeof item === "object" ? item.photoLookupName || item.name : item;
+      return photoByName.get(normalizeFoodName(itemName)) || null;
+    }
     function metadataValue(item, icon) {
       const raw = (item.meta || []).find((line) => line.startsWith(icon));
       if (!raw) return "Not listed";
@@ -739,7 +742,7 @@
       return imported ? productFacts(imported) : { price: signal.price || "Not listed", weight: "Not listed", unitPrice: signal.unit || "Not listed" };
     }
     function itemHasPhoto(item) {
-      return Boolean(item && ((typeof item.photo === "string" && item.photo.startsWith("data:image/")) || foodPhoto(item.name)));
+      return Boolean(item && ((typeof item.photo === "string" && item.photo.startsWith("data:image/")) || foodPhoto(item)));
     }
     function itemHasUnitPrice(item, signal = null) {
       const facts = signal ? signalProductFacts(signal) : productFacts(item);
@@ -769,9 +772,10 @@
       const secondaryName = fullName.slice(firstCjkIndex).trim();
       return `<span class="row-name-primary">${escapeHtml(primaryName)}</span><span class="row-name-secondary">${escapeHtml(secondaryName)}</span>`;
     }
-    function photoMarkup(itemName, fallback = "🍽️", customPhoto = "") {
+    function photoMarkup(item, fallback = "🍽️", customPhoto = "") {
+      const itemName = item && typeof item === "object" ? item.name : item;
       if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo added in this browser · background removed automatically" />`;
-      const photo = foodPhoto(itemName);
+      const photo = foodPhoto(item);
       return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
     }
     document.getElementById("photo-count").textContent = photoRecords.length;
@@ -930,14 +934,14 @@
       const brand = itemBrand(item);
       const displayName = displayItemName(item);
       const brandBadge = brand ? `<span class="badge badge-brand">${escapeHtml(brand)}</span>` : "";
-      const photo = foodPhoto(item.name);
+      const photo = foodPhoto(item);
       const hasCustomPhoto = typeof item.photo === "string" && item.photo.startsWith("data:image/");
       const photoClass = photo || hasCustomPhoto ? " has-photo" : "";
       const storeText = item.stores.length ? item.stores.join(", ") : "Store not listed";
       const categoryText = item.category || "Imported item";
       const detailBar = facts.unitPrice !== "Not listed" ? "82%" : facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
+      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="card-badges">${brandBadge}<span class="badge badge-good">AnyList</span><span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div><div class="card-body"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}<div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></article>`;
     }
 
     function categoryGroups(items) {
