@@ -132,9 +132,7 @@
   .search-input:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
   .smart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .smart-card { position: relative; min-width: 0; padding: 15px; border: 1px solid #e2e8e2; border-radius: 16px; background: #ffffff; box-shadow: 0 4px 12px rgba(28, 39, 61, 0.04); overflow: hidden; }
-  .smart-card::after { position: absolute; top: -42px; right: -28px; z-index: 0; width: 100px; height: 100px; border-radius: 50%; background: rgba(232, 245, 237, 0.8); content: ""; }
-  .smart-card.card-watch::after { background: rgba(255, 241, 223, 0.85); }
-  .smart-card.card-avoid::after { background: rgba(253, 235, 240, 0.8); }
+  .smart-card::after { display: none; }
   .card-top, .card-body, .card-footer { position: relative; z-index: 1; }
   .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
   .item-photo { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; overflow: hidden; border-radius: 15px; background: linear-gradient(145deg, #e4f5eb, #c8e7d5); font-size: 1.85rem; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.1); }
@@ -143,6 +141,7 @@
   .item-photo.has-photo { background: #f3f7f3; }
   .card-watch .item-photo { background: linear-gradient(145deg, #fff1d8, #f6d29c); }
   .card-avoid .item-photo { background: linear-gradient(145deg, #fde8ef, #f5c3d0); }
+  .item-photo.has-photo, .row-photo.has-photo { background: transparent; box-shadow: none; }
   .card-badges { display: flex; justify-content: end; flex-wrap: wrap; gap: 4px; }
   .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 7px; border-radius: 999px; font-size: 0.65rem; font-weight: 850; white-space: nowrap; }
   .badge-organic { color: #22704f; background: #e5f5ea; }
@@ -219,6 +218,16 @@
   .store-option { padding: 6px 9px; border: 1px solid #dce6de; border-radius: 999px; color: var(--muted); background: #ffffff; font-size: 0.68rem; font-weight: 750; }
   .store-option:hover, .store-option[aria-pressed="true"] { border-color: #78b99b; color: #176b4c; background: #effaf3; }
   .store-option[aria-pressed="true"]::before { content: "✓ "; }
+  .photo-picker { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 9px 10px; align-items: center; padding: 10px; border: 1px dashed #d4e2d8; border-radius: 12px; background: #fbfdfb; }
+  .photo-picker input[type="file"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; clip-path: inset(50%); }
+  .photo-upload-button { display: inline-flex; justify-content: center; align-items: center; min-height: 38px; padding: 8px 11px; border: 1px solid #d6dfda; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.74rem; font-weight: 800; cursor: pointer; }
+  .photo-upload-button:hover { border-color: #8bc8ac; background: #f2fbf5; }
+  .photo-preview { display: flex; gap: 8px; align-items: center; min-width: 0; }
+  .photo-preview[hidden] { display: none; }
+  .photo-preview img { display: block; width: 48px; height: 48px; border: 1px solid #dce6de; border-radius: 9px; object-fit: cover; background: #ffffff; }
+  .photo-preview span { min-width: 0; overflow: hidden; color: var(--muted); font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }
+  .photo-remove-button { padding: 5px 7px; border: 0; border-radius: 7px; color: #a03c55; background: #fdebf0; font-size: 0.66rem; font-weight: 800; white-space: nowrap; cursor: pointer; }
+  .photo-help { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 0.66rem; font-weight: 500; }
   .modal-actions { display: flex; justify-content: end; gap: 8px; margin-top: 19px; }
   @media (max-width: 1000px) {
     .hero { grid-template-columns: 1fr; }
@@ -363,9 +372,10 @@
       <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
       <label class="edit-field" id="edit-stores-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /><span class="store-options" id="edit-store-options" aria-label="Store options"></span></label>
+      <div class="edit-field" id="edit-photo-field"><span>Photo</span><div class="photo-picker"><label class="photo-upload-button" for="edit-item-photo">Choose a photo</label><input id="edit-item-photo" type="file" accept="image/*" /><div class="photo-preview" id="edit-photo-preview" hidden><img id="edit-photo-preview-image" alt="Selected item photo" /><span id="edit-photo-name"></span><button class="photo-remove-button" id="remove-item-photo" type="button">Remove</button></div><p class="photo-help">The photo is resized and saved only in this browser.</p></div></div>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
-    <p class="modal-note" id="edit-item-note">Your changes are saved in this browser and stay separate from the original AnyList import.</p>
+    <p class="modal-note" id="edit-item-note">Your changes and photo are saved in this browser and stay separate from the original AnyList import.</p>
     <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="submit">Save changes</button></div>
   </form>
 </div>
@@ -421,7 +431,7 @@
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -506,11 +516,11 @@
     function getSourceItems(listName) {
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, edited: true } : item;
+        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, edited: true } : item;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, edited: true } : item;
+        return edit ? { ...item, name: edit.name || item.name, category: edit.category || item.category, stores: Array.isArray(edit.stores) ? edit.stores : item.stores, photo: edit.photo !== undefined ? edit.photo : item.photo, edited: true } : item;
       }) : [];
       return [...importedItems, ...addedItems];
     }
@@ -560,7 +570,8 @@
       const fields = [["Price", facts.price], ["Weight", facts.weight], ["Unit price", facts.unitPrice]];
       return `<div class="product-facts${extraClass ? ` ${extraClass}` : ""}" aria-label="Product details">${fields.map(([label, value]) => { const missing = value === "Not listed" ? " is-missing" : ""; return `<span class="product-fact"><span class="product-fact-label">${label}</span><span class="product-fact-value${missing}">${escapeHtml(value)}</span></span>`; }).join("")}</div>`;
     }
-    function photoMarkup(itemName, fallback = "🍽️") {
+    function photoMarkup(itemName, fallback = "🍽️", customPhoto = "") {
+      if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo added in this browser" />`;
       const photo = foodPhoto(itemName);
       return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
     }
@@ -718,7 +729,9 @@
       els.importedCount.textContent = `${total} imported item names in this list${filterNote ? ` · ${filterNote}` : ""}`;
       els.importedList.innerHTML = items.length ? items.map((item) => {
         const ref = escapeHtml(itemReference(item));
-        return `<div class="import-row" draggable="true" data-item-ref="${ref}" aria-label="Drag ${escapeHtml(item.name)} to another list"><span class="row-drag-handle" aria-hidden="true" title="Drag to move">⠿</span><span class="row-photo" title="${foodPhoto(item.name) ? "Photo migrated from AnyList" : "No AnyList photo"}">${photoMarkup(item.name)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><span class="row-actions"><button class="button-secondary move-row-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="button-secondary edit-row-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button></span></div>`;
+        const photoTitle = item.photo ? "Photo added in this browser" : foodPhoto(item.name) ? "Photo migrated from AnyList" : "No item photo";
+        const photoClass = item.photo || foodPhoto(item.name) ? " has-photo" : "";
+        return `<div class="import-row" draggable="true" data-item-ref="${ref}" aria-label="Drag ${escapeHtml(item.name)} to another list"><span class="row-drag-handle" aria-hidden="true" title="Drag to move">⠿</span><span class="row-photo${photoClass}" title="${photoTitle}">${photoMarkup(item.name, item.icon || "🍽️", item.photo)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><span class="row-actions"><button class="button-secondary move-row-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="button-secondary edit-row-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button></span></div>`;
       }).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
@@ -752,7 +765,46 @@
       showToast(`${item.name} moved to ${targetList}.`);
     }
 
-    const editSession = { list: "", key: "", mode: "edit" };
+    const editSession = { list: "", key: "", mode: "edit", photo: "" };
+    function setPhotoPreview(photo) {
+      const hasSelectedPhoto = Boolean(photo);
+      els.photoPreview.hidden = !hasSelectedPhoto;
+      if (hasSelectedPhoto) {
+        els.photoPreviewImage.src = photo;
+        els.photoName.textContent = "Photo ready to save";
+      } else {
+        els.photoPreviewImage.removeAttribute("src");
+        els.photoName.textContent = "";
+      }
+    }
+    function resizePhoto(file) {
+      return new Promise((resolve, reject) => {
+        if (!file || !String(file.type || "").startsWith("image/")) {
+          reject(new Error("Please choose an image file."));
+          return;
+        }
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("The photo could not be read."));
+        reader.onload = () => {
+          const image = new Image();
+          image.onerror = () => reject(new Error("The photo could not be loaded."));
+          image.onload = () => {
+            const maxDimension = 640;
+            const scale = Math.min(1, maxDimension / Math.max(image.naturalWidth, image.naturalHeight));
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+            canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+            const context = canvas.getContext("2d");
+            context.fillStyle = "#ffffff";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", 0.84));
+          };
+          image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
     function canonicalStoresFromInput(value) {
       return [...new Set(String(value || "").split(",").map((store) => store.trim()).filter(Boolean).map((store) => storeAliases.get(store.toLowerCase()) || store))];
     }
@@ -773,18 +825,22 @@
       editSession.mode = "edit";
       document.getElementById("edit-item-title").textContent = "Edit item";
       els.editSubtitle.textContent = `${itemTargetList(item.sourceList, item.key)} · changes are saved in this browser`;
-      document.getElementById("edit-item-note").textContent = "Your changes are saved in this browser and stay separate from the original AnyList import.";
+      document.getElementById("edit-item-note").textContent = "Your changes and photo are saved in this browser and stay separate from the original AnyList import.";
       document.getElementById("save-item-button").textContent = "Save changes";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editCategoryField.hidden = false;
       els.editStoresField.hidden = false;
+      els.photoField.hidden = false;
       els.editName.required = true;
       els.editName.value = item.name;
       const categories = [...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
       els.editStores.value = item.stores.join(", ");
+      editSession.photo = item.photo || "";
+      els.photoInput.value = "";
+      setPhotoPreview(editSession.photo);
       renderStoreOptions();
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
@@ -800,6 +856,7 @@
       els.editNameField.hidden = true;
       els.editCategoryField.hidden = true;
       els.editStoresField.hidden = true;
+      els.photoField.hidden = true;
       els.editName.required = false;
       els.moveField.hidden = false;
       els.moveList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("");
@@ -813,18 +870,22 @@
       editSession.mode = "add";
       document.getElementById("edit-item-title").textContent = "Add an item";
       els.editSubtitle.textContent = `${state.activeList} · add a new item to this shopping list`;
-      document.getElementById("edit-item-note").textContent = "The item is saved in this browser. Photo and price matching can be added when available.";
+      document.getElementById("edit-item-note").textContent = "The item and its photo are saved in this browser. Price matching can be added when available.";
       document.getElementById("save-item-button").textContent = "Add item";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editCategoryField.hidden = false;
       els.editStoresField.hidden = false;
+      els.photoField.hidden = false;
       els.editName.required = true;
       els.editName.value = "";
       const categories = [...categoryNames].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
       els.editStores.value = "";
+      editSession.photo = "";
+      els.photoInput.value = "";
+      setPhotoPreview("");
       renderStoreOptions();
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
@@ -834,6 +895,9 @@
       editSession.list = "";
       editSession.key = "";
       editSession.mode = "edit";
+      editSession.photo = "";
+      els.photoInput.value = "";
+      setPhotoPreview("");
     }
     function saveItemEdit(event) {
       event.preventDefault();
@@ -849,6 +913,7 @@
       if (!name) { els.editName.focus(); return; }
       const category = els.editCategory.value || "Uncategorized";
       const stores = canonicalStoresFromInput(els.editStores.value);
+      const photo = editSession.photo || "";
       if (editSession.mode === "add") {
         const duplicate = getImportedItems(editSession.list).some((item) => item.name.trim().toLowerCase() === name.toLowerCase());
         if (duplicate) {
@@ -859,10 +924,10 @@
         els.editName.setCustomValidity("");
         const key = `added::${Date.now()}`;
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
-        itemAdds[editSession.list].push({ key, name, category, meta: [], stores, added: true });
+        itemAdds[editSession.list].push({ key, name, category, meta: [], stores, photo, added: true });
         saveItemAdds();
       } else {
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category, stores };
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, category, stores, photo };
         saveItemEdits();
       }
       const savedMessage = editSession.mode === "add" ? `${name} added to ${editSession.list}.` : `${name} saved in this browser.`;
@@ -923,6 +988,23 @@
     });
     els.editForm.addEventListener("submit", saveItemEdit);
     els.editStores.addEventListener("input", renderStoreOptions);
+    els.photoInput.addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        editSession.photo = await resizePhoto(file);
+        setPhotoPreview(editSession.photo);
+      } catch (error) {
+        editSession.photo = "";
+        setPhotoPreview("");
+        showToast(error.message || "The photo could not be added.");
+      }
+    });
+    els.removePhoto.addEventListener("click", () => {
+      editSession.photo = "";
+      els.photoInput.value = "";
+      setPhotoPreview("");
+    });
     els.storeOptions.addEventListener("click", (event) => {
       const button = event.target.closest("[data-store-option]");
       if (button) toggleStoreOption(button.dataset.storeOption);
