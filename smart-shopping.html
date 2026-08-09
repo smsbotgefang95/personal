@@ -583,7 +583,7 @@
       for (const rawLine of String(source || "").split("\n")) {
         const line = rawLine.trim();
         if (!line) continue;
-        if (categoryNames.has(line)) { commit(); category = line; continue; }
+        if (categoryNames.has(line)) { commit(); category = line === "爆香料" ? "蔬菜" : line; continue; }
         const stores = storesFromLine(line);
         if (stores.length) { if (current) current.stores.push(...stores); continue; }
         if (noise.has(line) || line === "Sample Lists" || line === "Tips") continue;
