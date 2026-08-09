@@ -139,6 +139,7 @@
   .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
   .item-photo { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; overflow: hidden; border-radius: 15px; background: linear-gradient(145deg, #e4f5eb, #c8e7d5); font-size: 1.85rem; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.1); }
   .item-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .item-photo img.photo-cutout, .row-photo img.photo-cutout { object-fit: contain; filter: drop-shadow(0 3px 4px rgba(28, 39, 61, 0.12)); }
   .item-photo.has-photo { background: #f3f7f3; }
   .card-watch .item-photo { background: linear-gradient(145deg, #fff1d8, #f6d29c); }
   .card-avoid .item-photo { background: linear-gradient(145deg, #fde8ef, #f5c3d0); }
@@ -214,6 +215,10 @@
   .edit-field { display: grid; gap: 5px; color: var(--muted); font-size: 0.74rem; font-weight: 750; }
   .edit-field input, .edit-field select { width: 100%; padding: 10px 11px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.82rem; font-weight: 500; }
   .edit-field input:focus, .edit-field select:focus { border-color: #78b99b; box-shadow: 0 0 0 3px rgba(37, 138, 107, 0.1); }
+  .store-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .store-option { padding: 6px 9px; border: 1px solid #dce6de; border-radius: 999px; color: var(--muted); background: #ffffff; font-size: 0.68rem; font-weight: 750; }
+  .store-option:hover, .store-option[aria-pressed="true"] { border-color: #78b99b; color: #176b4c; background: #effaf3; }
+  .store-option[aria-pressed="true"]::before { content: "✓ "; }
   .modal-actions { display: flex; justify-content: end; gap: 8px; margin-top: 19px; }
   @media (max-width: 1000px) {
     .hero { grid-template-columns: 1fr; }
@@ -252,7 +257,7 @@
     .import-row { grid-template-columns: 28px 36px minmax(0, 1fr) auto; }
     .row-facts { grid-column: 3; grid-row: 2; }
     .row-details { grid-column: 3; justify-items: start; }
-    .edit-row-button { grid-column: 4; grid-row: 1 / span 3; }
+    .row-actions { grid-column: 4; grid-row: 1 / span 3; flex-direction: column; }
   }
 </style>
 </head>
@@ -277,7 +282,7 @@
     <article class="summary-card"><span class="summary-label">Better-fit picks</span><strong class="summary-value">18</strong><span class="summary-note">Organic-first matches in your lists</span></article>
     <article class="summary-card"><span class="summary-label">Saved price signals</span><strong class="summary-value">$42.18</strong><span class="summary-note">Sale history found in AnyList</span></article>
     <article class="summary-card"><span class="summary-label">Unit prices ready</span><strong class="summary-value">61%</strong><span class="summary-note">Compare the same food by lb, oz, or each</span></article>
-    <article class="summary-card"><span class="summary-label">Food photos migrated</span><strong class="summary-value" id="photo-count">217</strong><span class="summary-note">Unique item photos copied from AnyList</span></article>
+    <article class="summary-card"><span class="summary-label">Food photos migrated</span><strong class="summary-value" id="photo-count">217</strong><span class="summary-note">Backgrounds automatically removed</span></article>
   </section>
 
   <section class="workspace" aria-label="Smart shopping workspace">
@@ -357,7 +362,7 @@
     <div class="edit-fields">
       <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
-      <label class="edit-field" id="edit-stores-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /></label>
+      <label class="edit-field" id="edit-stores-field"><span>Stores</span><input id="edit-item-stores" type="text" placeholder="Costco, Great Wall" autocomplete="off" /><span class="store-options" id="edit-store-options" aria-label="Store options"></span></label>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
     <p class="modal-note" id="edit-item-note">Your changes are saved in this browser and stay separate from the original AnyList import.</p>
@@ -416,7 +421,7 @@
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       smartGrid: document.getElementById("smart-grid"), smartHeadingNote: document.getElementById("smart-heading-note"), importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editCategory: document.getElementById("edit-item-category"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
 
     function storesFromLine(line) {
@@ -545,7 +550,7 @@
     }
     function importedMatchForSignal(signal) {
       const target = normalizeFoodName(signal.name);
-      return getImportedItems(signal.list).find((item) => normalizeFoodName(item.name) === target) || null;
+      return getImportedItems(state.activeList).find((item) => normalizeFoodName(item.name) === target) || null;
     }
     function signalProductFacts(signal) {
       const imported = importedMatchForSignal(signal);
@@ -557,10 +562,82 @@
     }
     function photoMarkup(itemName, fallback = "🍽️") {
       const photo = foodPhoto(itemName);
-      return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo migrated from AnyList" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
+      return photo ? `<img src="assets/food/${escapeHtml(photo.file)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo migrated from AnyList · background removed automatically" />` : `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
     }
     document.getElementById("photo-count").textContent = photoRecords.length;
-    document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally`;
+    document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally · auto-cutout enabled`;
+
+    function median(values) {
+      const sorted = [...values].sort((a, b) => a - b);
+      return sorted[Math.floor(sorted.length / 2)] || 0;
+    }
+    function removePhotoBackground(image) {
+      if (!image || image.dataset.backgroundProcessed === "true" || image.dataset.backgroundProcessing === "true") return;
+      const process = () => {
+        if (!image.naturalWidth || !image.naturalHeight || image.dataset.backgroundProcessed === "true") return;
+        image.dataset.backgroundProcessing = "true";
+        const canvas = document.createElement("canvas");
+        const scale = Math.min(1, 320 / Math.max(image.naturalWidth, image.naturalHeight));
+        canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+        canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+        const { data, width, height } = pixels;
+        const edgeRed = [], edgeGreen = [], edgeBlue = [];
+        const edgeStep = Math.max(1, Math.floor(Math.min(width, height) / 90));
+        const addEdgeSample = (x, y) => {
+          const offset = (y * width + x) * 4;
+          edgeRed.push(data[offset]); edgeGreen.push(data[offset + 1]); edgeBlue.push(data[offset + 2]);
+        };
+        for (let x = 0; x < width; x += edgeStep) { addEdgeSample(x, 0); addEdgeSample(x, height - 1); }
+        for (let y = 0; y < height; y += edgeStep) { addEdgeSample(0, y); addEdgeSample(width - 1, y); }
+        const background = { red: median(edgeRed), green: median(edgeGreen), blue: median(edgeBlue) };
+        const maxDistance = 92;
+        const isBackgroundLike = (index) => {
+          const red = data[index]; const green = data[index + 1]; const blue = data[index + 2];
+          const distance = Math.hypot(red - background.red, green - background.green, blue - background.blue);
+          const brightness = (red + green + blue) / 3;
+          return distance <= maxDistance && brightness >= 105;
+        };
+        const visited = new Uint8Array(width * height);
+        const queue = new Int32Array(width * height);
+        let head = 0; let tail = 0; let removed = 0;
+        const enqueue = (x, y) => {
+          if (x < 0 || x >= width || y < 0 || y >= height) return;
+          const pixelIndex = y * width + x;
+          if (visited[pixelIndex]) return;
+          const dataIndex = pixelIndex * 4;
+          if (!isBackgroundLike(dataIndex)) return;
+          visited[pixelIndex] = 1;
+          queue[tail++] = pixelIndex;
+        };
+        for (let x = 0; x < width; x += edgeStep) { enqueue(x, 0); enqueue(x, height - 1); }
+        for (let y = 0; y < height; y += edgeStep) { enqueue(0, y); enqueue(width - 1, y); }
+        while (head < tail) {
+          const pixelIndex = queue[head++];
+          const dataIndex = pixelIndex * 4;
+          const distance = Math.hypot(data[dataIndex] - background.red, data[dataIndex + 1] - background.green, data[dataIndex + 2] - background.blue);
+          data[dataIndex + 3] = Math.max(0, Math.min(255, Math.round(((distance - 22) / 70) * 255)));
+          removed++;
+          const x = pixelIndex % width; const y = Math.floor(pixelIndex / width);
+          enqueue(x - 1, y); enqueue(x + 1, y); enqueue(x, y - 1); enqueue(x, y + 1);
+        }
+        if (removed > width * height * 0.04 && removed < width * height * 0.96) {
+          context.putImageData(pixels, 0, 0);
+          image.src = canvas.toDataURL("image/png");
+          image.classList.add("photo-cutout");
+          image.title = "Photo migrated from AnyList · background removed automatically";
+        }
+        image.dataset.backgroundProcessed = "true";
+        delete image.dataset.backgroundProcessing;
+      };
+      if (image.complete && image.naturalWidth) process();
+      else image.addEventListener("load", process, { once: true });
+    }
+    function schedulePhotoBackgroundRemoval(root) {
+      window.requestAnimationFrame(() => root.querySelectorAll("img[data-auto-remove-bg]").forEach(removePhotoBackground));
+    }
     function availableStores() {
       const configured = anyListStoreOptions[state.activeList];
       const importedStores = getImportedItems(state.activeList).flatMap((item) => item.stores);
@@ -569,7 +646,8 @@
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function matchesStore(item) { return state.store === "all" || (item.stores || signalStores(item)).includes(state.store); }
     function getSignals() {
-      let signals = signalItems.filter((item) => item.list === state.activeList && matchesStore(item));
+      const activeItems = getImportedItems(state.activeList);
+      let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name)) && matchesStore(item));
       if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.organicFirst) signals.sort((a, b) => Number(b.organic) - Number(a.organic));
       if (state.lowSugar) signals.sort((a, b) => Number(a.sugar === "No added sugar" || a.sugar === "0g added") * -1 - Number(b.sugar === "No added sugar" || b.sugar === "0g added") * -1);
@@ -586,7 +664,7 @@
       els.rail.querySelectorAll("[data-list]").forEach((button) => {
         button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); });
         button.addEventListener("dragover", (event) => {
-          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item"));
+          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item")) || state.draggedRef;
           if (!itemRef || itemTargetList(itemRef.sourceList, itemRef.key) === button.dataset.list) return;
           event.preventDefault();
           event.dataTransfer.dropEffect = "move";
@@ -596,7 +674,7 @@
           if (!button.contains(event.relatedTarget)) button.classList.remove("drag-over");
         });
         button.addEventListener("drop", (event) => {
-          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item"));
+          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item")) || state.draggedRef;
           if (!itemRef) return;
           event.preventDefault();
           button.classList.remove("drag-over");
@@ -626,6 +704,7 @@
       els.smartHeadingNote.textContent = signals.length ? `${signals.length} preference-aware matches · unit prices shown where available` : "No smart match yet · imported items are still searchable below";
       els.smartGrid.innerHTML = signals.length ? signals.map(smartCard).join("") : `<div class="empty-smart">This collection is imported and ready. Search below to find an item, then use <strong>Enrich now</strong> when you want a nutrition, price, or photo match.</div>`;
       els.smartGrid.querySelectorAll("[data-enrich]").forEach((button) => button.addEventListener("click", () => enrich(button)));
+      schedulePhotoBackgroundRemoval(els.smartGrid);
     }
 
     function renderImported() {
@@ -637,29 +716,96 @@
       if (!state.showAll) items = items.slice(0, 12);
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${state.store}` : ""].filter(Boolean).join(" · ");
       els.importedCount.textContent = `${total} imported item names in this list${filterNote ? ` · ${filterNote}` : ""}`;
-      els.importedList.innerHTML = items.length ? items.map((item) => `<div class="import-row"><span class="row-check" aria-hidden="true">＋</span><span class="row-photo" title="${foodPhoto(item.name) ? "Photo migrated from AnyList" : "No AnyList photo"}">${photoMarkup(item.name)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><button class="button-secondary edit-row-button" type="button" data-edit-key="${escapeHtml(item.key)}" aria-label="Edit ${escapeHtml(item.name)}">Edit</button></div>`).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
+      els.importedList.innerHTML = items.length ? items.map((item) => {
+        const ref = escapeHtml(itemReference(item));
+        return `<div class="import-row" draggable="true" data-item-ref="${ref}" aria-label="Drag ${escapeHtml(item.name)} to another list"><span class="row-drag-handle" aria-hidden="true" title="Drag to move">⠿</span><span class="row-photo" title="${foodPhoto(item.name) ? "Photo migrated from AnyList" : "No AnyList photo"}">${photoMarkup(item.name)}</span><span class="row-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>${productFactsMarkup(productFacts(item), "row-facts")}<span class="row-details"><span class="row-category">${escapeHtml(item.category)}</span><span class="row-store">${item.stores.length ? `Store: ${escapeHtml(item.stores.join(", "))}` : "Store not listed"}</span></span><span class="row-actions"><button class="button-secondary move-row-button" type="button" data-move-item aria-label="Move ${escapeHtml(item.name)} to another list">Move</button><button class="button-secondary edit-row-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(item.name)}">Edit</button></span></div>`;
+      }).join("") : `<div class="empty-smart">No imported items match “${escapeHtml(state.query || state.store)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
+      schedulePhotoBackgroundRemoval(els.importedList);
+    }
+
+    function clearDropTargets() {
+      els.rail.querySelectorAll(".drag-over").forEach((button) => button.classList.remove("drag-over"));
+    }
+    function moveItemToList(sourceList, itemKey, targetList) {
+      const item = findSourceItem(sourceList, itemKey);
+      if (!item || !listMeta[targetList]) return;
+      const currentList = itemTargetList(sourceList, itemKey);
+      if (currentList === targetList) return;
+      const duplicate = getImportedItems(targetList).some((candidate) => candidate.name.trim().toLowerCase() === item.name.trim().toLowerCase());
+      if (duplicate) {
+        state.draggedRef = null;
+        clearDropTargets();
+        showToast(`${item.name} is already in ${targetList}.`);
+        return;
+      }
+      itemMoves[moveStorageKey(sourceList, itemKey)] = targetList;
+      saveItemMoves();
+      state.draggedRef = null;
+      state.activeList = targetList;
+      state.query = "";
+      state.store = "all";
+      state.showAll = true;
+      els.search.value = "";
+      clearDropTargets();
+      render();
+      showToast(`${item.name} moved to ${targetList}.`);
     }
 
     const editSession = { list: "", key: "", mode: "edit" };
     function canonicalStoresFromInput(value) {
       return [...new Set(String(value || "").split(",").map((store) => store.trim()).filter(Boolean).map((store) => storeAliases.get(store.toLowerCase()) || store))];
     }
+    function renderStoreOptions() {
+      const selectedStores = canonicalStoresFromInput(els.editStores.value);
+      els.storeOptions.innerHTML = availableStores().map((store) => `<button class="store-option" type="button" data-store-option="${escapeHtml(store)}" aria-pressed="${selectedStores.includes(store)}">${escapeHtml(store)}</button>`).join("");
+    }
+    function toggleStoreOption(store) {
+      const selectedStores = canonicalStoresFromInput(els.editStores.value);
+      const nextStores = selectedStores.includes(store) ? selectedStores.filter((selected) => selected !== store) : [...selectedStores, store];
+      els.editStores.value = nextStores.join(", ");
+      renderStoreOptions();
+      els.editStores.focus();
+    }
     function openItemEditor(item) {
-      editSession.list = state.activeList;
+      editSession.list = item.sourceList;
       editSession.key = item.key;
       editSession.mode = "edit";
       document.getElementById("edit-item-title").textContent = "Edit item";
-      els.editSubtitle.textContent = `${state.activeList} · changes are saved in this browser`;
+      els.editSubtitle.textContent = `${itemTargetList(item.sourceList, item.key)} · changes are saved in this browser`;
       document.getElementById("edit-item-note").textContent = "Your changes are saved in this browser and stay separate from the original AnyList import.";
       document.getElementById("save-item-button").textContent = "Save changes";
+      els.moveField.hidden = true;
+      els.editNameField.hidden = false;
+      els.editCategoryField.hidden = false;
+      els.editStoresField.hidden = false;
+      els.editName.required = true;
       els.editName.value = item.name;
       const categories = [...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
       els.editStores.value = item.stores.join(", ");
+      renderStoreOptions();
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
+    }
+    function openItemMover(item) {
+      editSession.list = item.sourceList;
+      editSession.key = item.key;
+      editSession.mode = "move";
+      document.getElementById("edit-item-title").textContent = "Move item";
+      els.editSubtitle.textContent = `${item.name} · choose a destination list`;
+      document.getElementById("edit-item-note").textContent = "Moving is saved in this browser and leaves the original AnyList import unchanged.";
+      document.getElementById("save-item-button").textContent = "Move item";
+      els.editNameField.hidden = true;
+      els.editCategoryField.hidden = true;
+      els.editStoresField.hidden = true;
+      els.editName.required = false;
+      els.moveField.hidden = false;
+      els.moveList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("");
+      els.moveList.value = itemTargetList(item.sourceList, item.key);
+      els.editModal.classList.add("open");
+      window.requestAnimationFrame(() => els.moveList.focus());
     }
     function openItemCreator() {
       editSession.list = state.activeList;
@@ -669,11 +815,17 @@
       els.editSubtitle.textContent = `${state.activeList} · add a new item to this shopping list`;
       document.getElementById("edit-item-note").textContent = "The item is saved in this browser. Photo and price matching can be added when available.";
       document.getElementById("save-item-button").textContent = "Add item";
+      els.moveField.hidden = true;
+      els.editNameField.hidden = false;
+      els.editCategoryField.hidden = false;
+      els.editStoresField.hidden = false;
+      els.editName.required = true;
       els.editName.value = "";
       const categories = [...categoryNames].sort((a, b) => a.localeCompare(b));
       els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
       els.editStores.value = "";
+      renderStoreOptions();
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editName.focus());
     }
@@ -685,6 +837,14 @@
     }
     function saveItemEdit(event) {
       event.preventDefault();
+      if (editSession.mode === "move") {
+        const targetList = els.moveList.value;
+        const sourceList = editSession.list;
+        const itemKey = editSession.key;
+        closeItemEditor();
+        moveItemToList(sourceList, itemKey, targetList);
+        return;
+      }
       const name = els.editName.value.trim();
       if (!name) { els.editName.focus(); return; }
       const category = els.editCategory.value || "Uncategorized";
@@ -714,7 +874,7 @@
     function render() {
       const meta = listMeta[state.activeList];
       els.title.textContent = state.activeList;
-      els.subtitle.textContent = `${meta.count} items in AnyList · ${parsedByList[state.activeList].length} item names copied into the smart view`;
+      els.subtitle.textContent = `${getImportedItems(state.activeList).length} items in this list · ${meta.count} imported from AnyList`;
       renderRail(); renderStoreFilter(); renderSmart(); renderImported();
     }
 
@@ -737,12 +897,36 @@
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
     els.importedList.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-edit-key]");
-      if (!button) return;
-      const item = getImportedItems(state.activeList).find((candidate) => candidate.key === button.dataset.editKey);
-      if (item) openItemEditor(item);
+      const action = event.target.closest("[data-edit-item], [data-move-item]");
+      if (!action) return;
+      const row = action.closest("[data-item-ref]");
+      const itemRef = parseItemReference(row?.dataset.itemRef);
+      const item = itemRef ? getImportedItems(state.activeList).find((candidate) => candidate.sourceList === itemRef.sourceList && candidate.key === itemRef.key) : null;
+      if (!item) return;
+      if (action.hasAttribute("data-move-item")) openItemMover(item);
+      else openItemEditor(item);
+    });
+    els.importedList.addEventListener("dragstart", (event) => {
+      const row = event.target.closest("[data-item-ref]");
+      const itemRef = parseItemReference(row?.dataset.itemRef);
+      if (!row || !itemRef || !findSourceItem(itemRef.sourceList, itemRef.key)) return;
+      state.draggedRef = itemRef;
+      row.classList.add("dragging");
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("application/x-smart-shopping-item", JSON.stringify(itemRef));
+      event.dataTransfer.setData("text/plain", JSON.stringify(itemRef));
+    });
+    els.importedList.addEventListener("dragend", (event) => {
+      event.target.closest("[data-item-ref]")?.classList.remove("dragging");
+      state.draggedRef = null;
+      clearDropTargets();
     });
     els.editForm.addEventListener("submit", saveItemEdit);
+    els.editStores.addEventListener("input", renderStoreOptions);
+    els.storeOptions.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-store-option]");
+      if (button) toggleStoreOption(button.dataset.storeOption);
+    });
     document.getElementById("close-edit-modal").addEventListener("click", closeItemEditor);
     document.getElementById("cancel-edit-button").addEventListener("click", closeItemEditor);
     els.editModal.addEventListener("click", (event) => { if (event.target === els.editModal) closeItemEditor(); });
