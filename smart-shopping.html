@@ -100,10 +100,19 @@
   .list-button.active { border-color: #b8dfcd; background: linear-gradient(90deg, #e7f5ed, #f7fbf8); box-shadow: inset 3px 0 0 var(--green); }
   .list-button.drag-over { border-color: var(--green); background: #e7f5ed; box-shadow: inset 3px 0 0 var(--green), 0 0 0 3px rgba(37, 138, 107, 0.12); }
   .list-button.drag-over::after { position: absolute; right: 34px; bottom: 4px; color: var(--green); font-size: 0.59rem; font-weight: 800; content: "Drop to move"; }
-  .list-icon { display: grid; place-items: center; width: 36px; height: 36px; overflow: hidden; border-radius: 11px; background: #e8efeb; box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.08); font-size: 1.35rem; }
+  .list-icon { --list-icon-background: #e8efeb; display: grid; place-items: center; width: 36px; height: 36px; overflow: hidden; border-radius: 11px; background: var(--list-icon-background); box-shadow: inset 0 0 0 1px rgba(37, 138, 107, 0.08); font-size: 1.35rem; }
+  .list-icon-accent-neutral { --list-icon-background: #eef1f1; }
+  .list-icon-accent-coral { --list-icon-background: #ffe7df; }
+  .list-icon-accent-sky { --list-icon-background: #e5f0ff; }
+  .list-icon-accent-ice { --list-icon-background: #e3f6f8; }
+  .list-icon-accent-berry { --list-icon-background: #f5e2eb; }
+  .list-icon-accent-plum { --list-icon-background: #eee6f8; }
+  .list-icon-accent-amber { --list-icon-background: #fff0d8; }
+  .list-icon-accent-green { --list-icon-background: #e4f4e8; }
+  .list-icon-accent-lime { --list-icon-background: #edf5d9; }
   .list-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .list-icon svg { display: block; width: 25px; height: 25px; }
-  .list-button.active .list-icon { background: #ffffff; }
+  .list-button.active .list-icon { background: var(--list-icon-background); }
   .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
   .list-meta { display: block; margin-top: 2px; color: var(--muted); font-size: 0.71rem; font-weight: 600; }
   .list-arrow { color: #9aa7a2; font-size: 1.1rem; }
@@ -1241,12 +1250,13 @@
     function renderRail() {
       const allItems = getAllCollectionItems();
       const allActive = isAllList();
-      const allButton = `<button class="list-button all-list-button${allActive ? " active" : ""}" type="button" data-list="${ALL_LIST}" aria-pressed="${allActive}" aria-label="Open All; view every item across all collections"><span class="list-icon" aria-hidden="true">🧺</span><span><span class="list-name">All</span><span class="list-meta">${allItems.length} items across all lists</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+      const allButton = `<button class="list-button all-list-button${allActive ? " active" : ""}" type="button" data-list="${ALL_LIST}" aria-pressed="${allActive}" aria-label="Open All; view every item across all collections"><span class="list-icon list-icon-accent-neutral" aria-hidden="true">🧺</span><span><span class="list-name">All</span><span class="list-meta">${allItems.length} items across all lists</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       const collectionButtons = listNames.map((name) => {
         const meta = getListMeta(name);
         const active = name === state.activeList;
         const displayName = displayListName(name);
-        const iconClass = displayName === "冰柜" ? " list-icon-image" : "";
+        const iconAccent = String(meta.accent || "neutral").replace(/[^a-z0-9-]/gi, "");
+        const iconClass = ` list-icon-accent-${iconAccent || "neutral"}${displayName === "冰柜" ? " list-icon-image" : ""}`;
         return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(displayName)}; drop items here to move them"><span class="list-icon${iconClass}" aria-hidden="true">${listIconMarkup(meta.icon, name)}</span><span><span class="list-name">${escapeHtml(displayName)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
       els.rail.innerHTML = allButton + collectionButtons;
