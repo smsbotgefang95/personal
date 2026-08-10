@@ -129,7 +129,7 @@
   .button-primary { padding: 10px 14px; border-color: var(--green); color: #ffffff; background: var(--green); box-shadow: 0 5px 13px rgba(37, 138, 107, 0.2); font-size: 0.8rem; }
   .button-primary:hover { background: #1e795d; }
   .filter-strip { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 13px 24px; border-bottom: 1px solid var(--line); background: #fbfcfa; }
-  .store-filter, .brand-filter, .category-filter, .organic-filter, .glycemic-index-filter, .detail-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
+  .store-filter, .brand-filter, .category-filter, .organic-filter, .glycemic-index-filter, .detail-filter, .purchase-filter, .price-sort { padding: 7px 28px 7px 10px; border: 1px solid #dce6de; border-radius: 9px; color: var(--ink); background: #ffffff; font-size: 0.75rem; font-weight: 700; }
   .price-sort { margin-left: 0; }
   .search-wrap { position: relative; width: min(290px, 100%); }
   .search-wrap span { position: absolute; top: 50%; left: 11px; color: #87948e; transform: translateY(-50%); }
@@ -219,6 +219,12 @@
   .category-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; white-space: nowrap; }
   .category-items { display: grid; gap: 12px; }
   .category-group .imported-card { border-color: var(--category-border); }
+  .purchase-section { display: grid; gap: 10px; }
+  .purchase-section + .purchase-section { margin-top: 16px; padding-top: 16px; border-top: 2px solid #dfe9e2; }
+  .purchase-section-heading { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; padding: 0 8px; }
+  .purchase-section-heading h3 { margin: 0; color: var(--ink); font-size: 0.86rem; letter-spacing: -0.01em; }
+  .purchase-section-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; }
+  .purchase-section.is-purchased .purchase-section-heading h3 { color: var(--green); }
   .imported-card { display: grid; grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; column-gap: 16px; row-gap: 8px; align-items: center; min-height: 100%; padding: 14px 16px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card:active { cursor: grabbing; }
@@ -227,6 +233,16 @@
   .imported-card .item-media { grid-area: media; display: flex; flex-direction: column; gap: 8px; align-items: start; min-width: 0; }
   .imported-card .item-photo { flex: 0 0 118px; align-self: start; width: 118px; height: 118px; }
   .imported-card .imported-actions { justify-content: start; align-self: start; }
+  .purchase-control { display: flex; gap: 7px; align-items: center; min-height: 24px; margin-bottom: 6px; color: var(--muted); font-size: 0.68rem; font-weight: 800; }
+  .purchase-checkbox { appearance: none; display: grid; place-items: center; flex: 0 0 auto; width: 21px; height: 21px; margin: 0; border: 2px solid #a9bbb0; border-radius: 7px; background: #ffffff; cursor: pointer; }
+  .purchase-checkbox::after { color: #ffffff; content: "✓"; font-size: 0.78rem; font-weight: 900; opacity: 0; transform: scale(0.65); transition: opacity 120ms ease, transform 120ms ease; }
+  .purchase-checkbox:checked { border-color: var(--green); background: var(--green); }
+  .purchase-checkbox:checked::after { opacity: 1; transform: scale(1); }
+  .purchase-checkbox:focus-visible { outline: 3px solid rgba(37, 138, 107, 0.22); outline-offset: 2px; }
+  .imported-card.is-purchased { border-color: #dfe7e1; background: #fbfcfb; }
+  .imported-card.is-purchased .item-photo { filter: saturate(0.72); opacity: 0.78; }
+  .imported-card.is-purchased .card-title h4 { color: #6d7b74; text-decoration: line-through; text-decoration-thickness: 1px; }
+  .imported-card.is-purchased .purchase-control { color: var(--green); }
   .imported-card .item-main { grid-area: main; min-width: 0; }
   .imported-card .card-title { min-width: 0; }
   .imported-card .card-title h4 { max-width: none; margin: 0 0 5px; font-size: 0.94rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
@@ -352,6 +368,7 @@
     .imported-actions .mini-button { padding: 6px 9px; }
     .imported-card .shopping-details { margin-top: 9px; }
     .shopping-details summary { padding: 9px 10px; }
+    .purchase-label { display: none; }
   }
 </style>
 </head>
@@ -434,6 +451,11 @@
           <option value="missing-photo">Needs photo</option>
           <option value="unit">Unit price ready</option>
           <option value="missing-unit">Needs unit price</option>
+        </select>
+        <select class="purchase-filter" id="purchase-filter" aria-label="Filter by purchase status">
+          <option value="all">Purchase status</option>
+          <option value="to-buy">To buy</option>
+          <option value="purchased">Purchased</option>
         </select>
       </div>
 
@@ -585,15 +607,14 @@
 
     const noStoreFilterValue = "__without_store__";
     const noBrandFilterValue = "__without_brand__";
-    const state = { activeList: "买菜", query: "", store: "all", brand: "all", category: "all", organic: "all", glycemicIndex: "all", detailFilter: "all", showAll: false, sort: "smart", draggedRef: null };
+    const state = { activeList: "买菜", query: "", store: "all", brand: "all", category: "all", organic: "all", glycemicIndex: "all", detailFilter: "all", purchase: "all", showAll: false, sort: "smart", draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       addItem: document.getElementById("add-item-button"),
       newBrand: document.getElementById("new-brand-name"), addBrand: document.getElementById("add-brand-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), purchase: document.getElementById("purchase-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
-
     function storesFromLine(line) {
       const values = line.split(",").map((value) => value.trim()).filter(Boolean);
       if (!values.length || values.some((value) => !storeAliases.has(value.toLowerCase()))) return [];
@@ -638,6 +659,7 @@
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
     const itemAddsStorageKey = "smart-shopping-item-adds-v1";
     const customBrandOptionsStorageKey = "smart-shopping-brand-options-v1";
+    const itemPurchasesStorageKey = "smart-shopping-item-purchases-v1";
     const itemEdits = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemEditsStorageKey) || "{}");
@@ -671,6 +693,17 @@
     function saveCustomBrandOptions() {
       try { window.localStorage.setItem(customBrandOptionsStorageKey, JSON.stringify(customBrandOptions)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
+    const itemPurchases = (() => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(itemPurchasesStorageKey) || "{}");
+        return saved && typeof saved === "object" ? saved : {};
+      } catch (error) {
+        return {};
+      }
+    })();
+    function saveItemPurchases() {
+      try { window.localStorage.setItem(itemPurchasesStorageKey, JSON.stringify(itemPurchases)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+    }
     const itemRemovalsStorageKey = "smart-shopping-item-removals-v1";
     const itemRemovals = (() => {
       try {
@@ -697,6 +730,17 @@
     }
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
+    function purchaseStorageKey(item) { return editStorageKey(item.sourceList, item.key); }
+    function isItemPurchased(item) { return Boolean(item && itemPurchases[purchaseStorageKey(item)] === true); }
+    function setItemPurchased(item, purchased) {
+      if (!item) return;
+      const storageKey = purchaseStorageKey(item);
+      if (purchased) itemPurchases[storageKey] = true;
+      else delete itemPurchases[storageKey];
+      saveItemPurchases();
+      render();
+      showToast(`${displayItemName(item)} marked ${purchased ? "purchased" : "to buy"}.`);
+    }
     function normalizeStoredItem(item) {
       const normalized = { ...item, name: canonicalizeShoppingText(item?.name) };
       if (Object.prototype.hasOwnProperty.call(item || {}, "brand")) normalized.brand = canonicalizeShoppingText(item.brand).trim();
@@ -1314,6 +1358,14 @@
     }
     function matchesOrganic(item) { return state.organic === "all" || (state.organic === "organic" && itemOrganicStatus(item) === "organic"); }
     function organicFilterLabel() { return state.organic === "organic" ? "organic only" : ""; }
+    function matchesPurchase(item) {
+      return state.purchase === "all" || (state.purchase === "purchased" && isItemPurchased(item)) || (state.purchase === "to-buy" && !isItemPurchased(item));
+    }
+    function purchaseFilterLabel() { return state.purchase === "purchased" ? "purchased" : state.purchase === "to-buy" ? "to buy" : ""; }
+    function purchaseSummary(items) {
+      const purchased = items.filter(isItemPurchased).length;
+      return `${items.length - purchased} to buy · ${purchased} purchased`;
+    }
     function availableCategories() {
       const categories = [...new Set(getViewItems().map(itemCategory))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
       return orderCategories(categories);
@@ -1444,6 +1496,9 @@
     function renderGlycemicIndexFilter() {
       els.glycemicIndex.value = state.glycemicIndex;
     }
+    function renderPurchaseFilter() {
+      els.purchase.value = state.purchase;
+    }
 
     function importedCard(item) {
       const facts = productFacts(item);
@@ -1457,7 +1512,9 @@
       const categoryText = itemCategory(item);
       const detailBar = facts.saleUnitPrice !== "Not listed" ? "92%" : facts.unitPrice !== "Not listed" ? "82%" : facts.salePrice !== "Not listed" || facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
-      return `<article class="smart-card imported-card" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      const purchased = isItemPurchased(item);
+      const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -1475,6 +1532,13 @@
       const hue = (colorIndex * 67 + 28) % 360;
       return `<section class="category-group" style="--category-hue: ${hue}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
+    function purchaseSectionMarkup(label, items, colorOffset = 0) {
+      if (!items.length) return "";
+      const groups = state.sort === "price" ? [["Lowest unit price", items]] : state.sort === "highest-price" ? [["Highest unit price", items]] : categoryGroups(items);
+      const itemLabel = items.length === 1 ? "item" : "items";
+      const purchasedClass = label === "Purchased" ? " is-purchased" : "";
+      return `<section class="purchase-section${purchasedClass}" aria-label="${escapeHtml(label)} items"><div class="purchase-section-heading"><h3>${escapeHtml(label)}</h3><span>${items.length} ${itemLabel}</span></div>${groups.map(([category, categoryItems], index) => importedCategoryGroup(category, categoryItems, colorOffset + index)).join("")}</section>`;
+    }
 
     function filteredImportedItems() {
       let items = getViewItems();
@@ -1484,10 +1548,12 @@
       items = items.filter(matchesGlycemicIndex);
       items = items.filter(matchesOrganic);
       items = items.filter((item) => matchesDetailFilter(item));
+      items = items.filter(matchesPurchase);
       if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || itemCategory(item).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "price") items = [...items].sort(compareByUnitPrice);
       if (state.sort === "highest-price") items = [...items].sort(compareByHighestUnitPrice);
       if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+      items = [...items].sort((a, b) => Number(isItemPurchased(a)) - Number(isItemPurchased(b)));
       return items;
     }
 
@@ -1497,11 +1563,12 @@
       if (!state.showAll) items = items.slice(0, 12);
       const selectedStoreLabel = state.store === noStoreFilterValue ? "Without store" : state.store;
       const selectedBrandLabel = state.brand === noBrandFilterValue ? "No brand" : state.brand;
-      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${selectedStoreLabel}` : "", state.brand !== "all" ? `brand: ${selectedBrandLabel}` : "", state.category !== "all" ? `category: ${state.category}` : "", organicFilterLabel(), glycemicIndexFilterLabel(), detailFilterLabel()].filter(Boolean).join(" · ");
+      const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${selectedStoreLabel}` : "", state.brand !== "all" ? `brand: ${selectedBrandLabel}` : "", state.category !== "all" ? `category: ${state.category}` : "", organicFilterLabel(), glycemicIndexFilterLabel(), detailFilterLabel(), purchaseFilterLabel()].filter(Boolean).join(" · ");
       const scopeLabel = isGlobalDetailFilter() || isAllList() ? "across all collections" : "in this list";
       els.importedCount.textContent = `${total} imported item names ${scopeLabel}${filterNote ? ` · ${filterNote}` : ""}`;
-      const groups = state.sort === "price" ? [["Lowest unit price", items]] : state.sort === "highest-price" ? [["Highest unit price", items]] : categoryGroups(items);
-      els.importedList.innerHTML = items.length ? groups.map(([category, categoryItems], index) => importedCategoryGroup(category, categoryItems, index)).join("") : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
+      const toBuyItems = items.filter((item) => !isItemPurchased(item));
+      const purchasedItems = items.filter(isItemPurchased);
+      els.importedList.innerHTML = items.length ? `${purchaseSectionMarkup("To buy", toBuyItems)}${purchaseSectionMarkup("Purchased", purchasedItems, toBuyItems.length)}` : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
       schedulePhotoBackgroundRemoval(els.importedList);
     }
@@ -1551,8 +1618,10 @@
       }
       delete itemEdits[storageKey];
       delete itemMoves[moveStorageKey(item.sourceList, item.key)];
+      delete itemPurchases[storageKey];
       saveItemEdits();
       saveItemMoves();
+      saveItemPurchases();
       render();
       showToast(`${displayItemName(item)} deleted from ${targetList} in this browser.`);
     }
@@ -1774,11 +1843,13 @@
     function render() {
       const viewItems = filteredImportedItems();
       const allActive = isAllList();
+      const purchaseItems = getViewItems();
       els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : allActive ? "All items" : displayListName(state.activeList);
-      els.subtitle.textContent = isGlobalDetailFilter() ? `${viewItems.length} items across all collections · filtered to items without photos` : allActive ? `${viewItems.length} items across all collections · now sorted for better decisions` : `${viewItems.length} items in this list · now sorted for better decisions`;
+      const scopeText = isGlobalDetailFilter() ? "across all collections · filtered to items without photos" : allActive ? "across all collections · now sorted for better decisions" : "in this list · now sorted for better decisions";
+      els.subtitle.textContent = `${viewItems.length} items ${scopeText} · ${purchaseSummary(purchaseItems)}`;
       els.addItem.disabled = allActive;
       els.addItem.title = allActive ? "Select a collection before adding an item" : "Add an item to this collection";
-      renderRail(); renderStoreFilter(); renderBrandFilter(); renderCategoryFilter(); renderOrganicFilter(); renderGlycemicIndexFilter(); renderImported();
+      renderRail(); renderStoreFilter(); renderBrandFilter(); renderCategoryFilter(); renderOrganicFilter(); renderGlycemicIndexFilter(); renderPurchaseFilter(); renderImported();
     }
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
@@ -1805,7 +1876,16 @@
       else if (action.hasAttribute("data-delete-item")) deleteItem(item);
       else openItemEditor(item);
     }
+    function handlePurchaseToggle(event) {
+      const toggle = event.target.closest("[data-purchase-toggle]");
+      if (!toggle) return;
+      const row = toggle.closest("[data-item-ref]");
+      const itemRef = parseItemReference(row?.dataset.itemRef);
+      const item = itemRef ? getViewItems().find((candidate) => candidate.sourceList === itemRef.sourceList && candidate.key === itemRef.key) : null;
+      if (item) setItemPurchased(item, toggle.checked);
+    }
     els.importedList.addEventListener("click", handleItemAction);
+    els.importedList.addEventListener("change", handlePurchaseToggle);
     els.importedList.addEventListener("dragstart", (event) => {
       const row = event.target.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
@@ -1881,6 +1961,7 @@
     els.glycemicIndex.addEventListener("change", () => { state.glycemicIndex = els.glycemicIndex.value; state.showAll = false; renderImported(); });
     els.organic.addEventListener("change", () => { state.organic = els.organic.value; state.showAll = false; renderImported(); });
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = state.detailFilter === "missing-photo"; render(); });
+    els.purchase.addEventListener("change", () => { state.purchase = els.purchase.value; state.showAll = false; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderImported(); });
     render();
   })();
