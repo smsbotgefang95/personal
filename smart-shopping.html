@@ -419,6 +419,7 @@
             <option value="name">Name A–Z</option>
           </select>
           <button class="button-secondary" id="compare-all-button" type="button">Compare prices</button>
+          <button class="button-secondary" id="reset-purchased-button" type="button" hidden>Reset purchased</button>
           <button class="button-primary" id="add-item-button" type="button">＋ Add an item</button>
         </div>
       </header>
@@ -615,6 +616,7 @@
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
       search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), purchase: document.getElementById("purchase-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
+    els.resetPurchased = document.getElementById("reset-purchased-button");
     function storesFromLine(line) {
       const values = line.split(",").map((value) => value.trim()).filter(Boolean);
       if (!values.length || values.some((value) => !storeAliases.has(value.toLowerCase()))) return [];
@@ -740,6 +742,16 @@
       saveItemPurchases();
       render();
       showToast(`${displayItemName(item)} marked ${purchased ? "purchased" : "to buy"}.`);
+    }
+    function resetPurchasedItems() {
+      const purchasedItems = [...new Map(getViewItems().filter(isItemPurchased).map((item) => [purchaseStorageKey(item), item])).values()];
+      if (!purchasedItems.length) return;
+      const target = isAllList() ? "all collections" : displayListName(state.activeList);
+      if (!window.confirm(`Reset ${purchasedItems.length} purchased ${purchasedItems.length === 1 ? "item" : "items"} in ${target}?`)) return;
+      purchasedItems.forEach((item) => { delete itemPurchases[purchaseStorageKey(item)]; });
+      saveItemPurchases();
+      render();
+      showToast(`${purchasedItems.length} purchased ${purchasedItems.length === 1 ? "item" : "items"} reset in ${target}.`);
     }
     function normalizeStoredItem(item) {
       const normalized = { ...item, name: canonicalizeShoppingText(item?.name) };
@@ -1499,6 +1511,12 @@
     function renderPurchaseFilter() {
       els.purchase.value = state.purchase;
     }
+    function renderResetPurchasedButton() {
+      const purchasedCount = getViewItems().filter(isItemPurchased).length;
+      els.resetPurchased.hidden = purchasedCount === 0;
+      els.resetPurchased.textContent = purchasedCount ? `Reset purchased (${purchasedCount})` : "Reset purchased";
+      els.resetPurchased.setAttribute("aria-label", `Reset ${purchasedCount} purchased ${purchasedCount === 1 ? "item" : "items"}`);
+    }
 
     function importedCard(item) {
       const facts = productFacts(item);
@@ -1849,7 +1867,7 @@
       els.subtitle.textContent = `${viewItems.length} items ${scopeText} · ${purchaseSummary(purchaseItems)}`;
       els.addItem.disabled = allActive;
       els.addItem.title = allActive ? "Select a collection before adding an item" : "Add an item to this collection";
-      renderRail(); renderStoreFilter(); renderBrandFilter(); renderCategoryFilter(); renderOrganicFilter(); renderGlycemicIndexFilter(); renderPurchaseFilter(); renderImported();
+      renderRail(); renderStoreFilter(); renderBrandFilter(); renderCategoryFilter(); renderOrganicFilter(); renderGlycemicIndexFilter(); renderPurchaseFilter(); renderResetPurchasedButton(); renderImported();
     }
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
@@ -1953,6 +1971,7 @@
     document.addEventListener("click", (event) => { if (!event.target.closest("#edit-stores-field")) setStoreOptionsOpen(false); });
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") { if (!els.storeOptions.hidden) { setStoreOptionsOpen(false); els.editStores.focus(); return; } els.compareModal.classList.remove("open"); closeItemEditor(); } });
     document.getElementById("add-item-button").addEventListener("click", openItemCreator);
+    els.resetPurchased.addEventListener("click", resetPurchasedItems);
     document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderImported(); });
