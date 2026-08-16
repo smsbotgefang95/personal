@@ -797,7 +797,7 @@
       return listNames.includes(resolvedTarget) ? resolvedTarget : logicalListName(sourceList);
     }
     function getImportedItems(listName) {
-      return sourceListNames.filter((sourceList) => logicalListName(sourceList) === listName).flatMap((sourceList) => getSourceItems(sourceList)
+      return sourceListNames.flatMap((sourceList) => getSourceItems(sourceList)
         .filter((item) => itemTargetList(sourceList, item.key) === listName)
         .map((item) => ({ ...item, sourceList, originalList: sourceList })));
     }
