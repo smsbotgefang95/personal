@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "羊腿肉 Boneless lamb leg australian",
+    "file": "kirkland-australian-boneless-lamb-leg.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_98a49460-037a-4f1e-8a5c-c843b2202fe8.jpeg"
+  },
+  {
     "name": "Navy Beans by Goya 白芸豆 (16 oz)",
     "file": "food_graph-91e125de4f215780b19d681872b94855.jpg",
     "source": "https://photos.anylist.com/food_graph-91e125de4f215780b19d681872b94855.jpg"
@@ -1086,4 +1091,3 @@ window.SMART_LIST_PHOTOS = [
     "source": "https://photos.anylist.com/6e48f19a420e41dd95043da8f37a3540.jpg"
   }
 ];
-
