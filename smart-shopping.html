@@ -494,6 +494,7 @@
     </div>
     <div class="edit-fields">
       <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
+      <label class="edit-field" id="edit-list-field" hidden><span>Collection</span><select id="edit-item-list"></select></label>
       <div class="edit-field" id="edit-brand-field">
         <span>Brand</span>
         <div class="brand-editor">
@@ -614,7 +615,7 @@
       addItem: document.getElementById("add-item-button"),
       newBrand: document.getElementById("new-brand-name"), addBrand: document.getElementById("add-brand-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), purchase: document.getElementById("purchase-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), purchase: document.getElementById("purchase-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field"), editListField: document.getElementById("edit-list-field"), editList: document.getElementById("edit-item-list")
     };
     els.resetPurchased = document.getElementById("reset-purchased-button");
     function storesFromLine(line) {
@@ -1739,6 +1740,8 @@
       els.editFactsFields.hidden = false;
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
+      els.editListField.hidden = true;
+      els.editList.required = false;
       els.editName.required = true;
       els.editName.value = displayItemName(item);
       renderBrandOptions(itemBrand(item));
@@ -1779,6 +1782,8 @@
       els.editFactsFields.hidden = true;
       els.editStoresField.hidden = true;
       els.photoField.hidden = true;
+      els.editListField.hidden = true;
+      els.editList.required = false;
       setStoreOptionsOpen(false);
       els.editName.required = false;
       els.moveField.hidden = false;
@@ -1788,15 +1793,19 @@
       window.requestAnimationFrame(() => els.moveList.focus());
     }
     function openItemCreator() {
-      if (isAllList()) { showToast("Select a collection before adding an item."); return; }
-      editSession.list = state.activeList;
+      const addingFromAll = isAllList();
+      editSession.list = addingFromAll ? "" : state.activeList;
       editSession.key = "";
       editSession.mode = "add";
       document.getElementById("edit-item-title").textContent = "Add an item";
-      els.editSubtitle.textContent = `${displayListName(state.activeList)} · add a new item to this shopping list`;
+      els.editSubtitle.textContent = addingFromAll ? "All collections · choose a destination collection" : `${displayListName(state.activeList)} · add a new item to this shopping list`;
       document.getElementById("edit-item-note").textContent = "The item, price details, and photo are saved in this browser.";
       document.getElementById("save-item-button").textContent = "Add item";
       els.moveField.hidden = true;
+      els.editListField.hidden = !addingFromAll;
+      els.editList.required = addingFromAll;
+      els.editList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(displayListName(name))}</option>`).join("");
+      els.editList.value = addingFromAll ? (listNames[0] || "") : state.activeList;
       els.editNameField.hidden = false;
       els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
@@ -1834,6 +1843,8 @@
       editSession.key = "";
       editSession.mode = "edit";
       editSession.photo = "";
+      els.editListField.hidden = true;
+      els.editList.required = false;
       setStoreOptionsOpen(false);
       els.photoInput.value = "";
       setPhotoPreview("");
@@ -1856,7 +1867,14 @@
       const stores = canonicalStoresFromInput(els.editStores.value);
       const photo = editSession.photo || "";
       if (editSession.mode === "add") {
-        const duplicate = getImportedItems(editSession.list).some((item) => item.name.trim().toLowerCase() === name.toLowerCase());
+        const addList = editSession.list || els.editList.value;
+        if (!listNames.includes(addList)) {
+          els.editList.focus();
+          showToast("Select a collection first.");
+          return;
+        }
+        editSession.list = addList;
+        const duplicate = getImportedItems(addList).some((item) => item.name.trim().toLowerCase() === name.toLowerCase());
         if (duplicate) {
           els.editName.setCustomValidity("This item is already in the selected list.");
           els.editName.reportValidity();
@@ -1885,8 +1903,8 @@
       els.title.textContent = isGlobalDetailFilter() ? "Items needing photos" : allActive ? "All items" : displayListName(state.activeList);
       const scopeText = isGlobalDetailFilter() ? "across all collections · filtered to items without photos" : allActive ? "across all collections · now sorted for better decisions" : "in this list · now sorted for better decisions";
       els.subtitle.textContent = `${viewItems.length} items ${scopeText} · ${purchaseSummary(purchaseItems)}`;
-      els.addItem.disabled = allActive;
-      els.addItem.title = allActive ? "Select a collection before adding an item" : "Add an item to this collection";
+      els.addItem.disabled = false;
+      els.addItem.title = allActive ? "Choose a collection in the add-item dialog" : "Add an item to this collection";
       renderRail(); renderStoreFilter(); renderBrandFilter(); renderCategoryFilter(); renderOrganicFilter(); renderGlycemicIndexFilter(); renderPurchaseFilter(); renderResetPurchasedButton(); renderImported();
     }
 
