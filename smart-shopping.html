@@ -746,8 +746,9 @@
     function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function purchaseStorageKey(item) { return editStorageKey(item.sourceList, item.key); }
     const chiveStorageKey = editStorageKey("备选", "蔬菜::Chive 韭菜");
-    if (itemRemovals[chiveStorageKey] && !itemRestorations[chiveStorageKey]) {
-      delete itemRemovals[chiveStorageKey];
+    const chiveRemovalKeys = Object.keys(itemRemovals).filter((key) => key.endsWith("::Chive 韭菜"));
+    if (chiveRemovalKeys.length && !itemRestorations[chiveStorageKey]) {
+      chiveRemovalKeys.forEach((key) => { delete itemRemovals[key]; });
       itemRestorations[chiveStorageKey] = true;
       saveItemRemovals();
       saveItemRestorations();
