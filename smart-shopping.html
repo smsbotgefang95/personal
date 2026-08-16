@@ -718,6 +718,18 @@
     function saveItemRemovals() {
       try { window.localStorage.setItem(itemRemovalsStorageKey, JSON.stringify(itemRemovals)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
     }
+    const itemRestorationsStorageKey = "smart-shopping-item-restorations-v1";
+    const itemRestorations = (() => {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(itemRestorationsStorageKey) || "{}");
+        return saved && typeof saved === "object" ? saved : {};
+      } catch (error) {
+        return {};
+      }
+    })();
+    function saveItemRestorations() {
+      try { window.localStorage.setItem(itemRestorationsStorageKey, JSON.stringify(itemRestorations)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+    }
     const itemMovesStorageKey = "smart-shopping-item-moves-v1";
     const itemMoves = (() => {
       try {
@@ -733,6 +745,13 @@
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function purchaseStorageKey(item) { return editStorageKey(item.sourceList, item.key); }
+    const chiveStorageKey = editStorageKey("备选", "蔬菜::Chive 韭菜");
+    if (itemRemovals[chiveStorageKey] && !itemRestorations[chiveStorageKey]) {
+      delete itemRemovals[chiveStorageKey];
+      itemRestorations[chiveStorageKey] = true;
+      saveItemRemovals();
+      saveItemRestorations();
+    }
     function isItemPurchased(item) { return Boolean(item && itemPurchases[purchaseStorageKey(item)] === true); }
     function setItemPurchased(item, purchased) {
       if (!item) return;
