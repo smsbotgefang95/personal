@@ -523,14 +523,26 @@
     return normalizedPath(value).split("/").pop();
   }
 
-  function findZipMedia(zipFiles, reference) {
+  function buildZipMediaIndex(zipFiles) {
+    const files = Object.values(zipFiles).filter((file) => !file.dir);
+    const byPath = new Map();
+    const byBase = new Map();
+    files.forEach((file) => {
+      byPath.set(normalizedPath(file.name), file);
+      if (!byBase.has(baseName(file.name))) byBase.set(baseName(file.name), file);
+    });
+    return { files, byPath, byBase };
+  }
+
+  function findZipMedia(zipIndex, reference) {
     const candidates = mediaPathCandidates(reference).map(normalizedPath);
     if (!candidates.length) return null;
-    const files = Object.values(zipFiles).filter((file) => !file.dir);
-    return files.find((file) => candidates.includes(normalizedPath(file.name)))
-      || files.find((file) => candidates.includes(baseName(file.name)))
-      || files.find((file) => candidates.some((candidate) => candidate && normalizedPath(file.name).endsWith(`/${candidate}`)))
-      || files.find((file) => candidates.some((candidate) => candidate.length > 8 && baseName(file.name).includes(candidate)));
+    for (const candidate of candidates) {
+      const exact = zipIndex.byPath.get(candidate) || zipIndex.byBase.get(candidate);
+      if (exact) return exact;
+    }
+    return zipIndex.files.find((file) => candidates.some((candidate) => candidate && normalizedPath(file.name).endsWith(`/${candidate}`)))
+      || zipIndex.files.find((file) => candidates.some((candidate) => candidate.length > 8 && baseName(file.name).includes(candidate)));
   }
 
   function readUint32(view, offset) {
@@ -640,6 +652,7 @@
 
   async function buildImport(file) {
     const { payload, zipFiles } = await readExport(file);
+    const zipMediaIndex = buildZipMediaIndex(zipFiles);
     const sourceEntries = rawEntries(payload);
     if (!sourceEntries.length) throw new Error("No journal entries were found in this export.");
     const entries = [];
@@ -649,7 +662,7 @@
       const mediaIds = [];
       for (let mediaIndex = 0; mediaIndex < entry.mediaRefs.length; mediaIndex += 1) {
         const reference = entry.mediaRefs[mediaIndex];
-        const zipFile = findZipMedia(zipFiles, reference);
+        const zipFile = findZipMedia(zipMediaIndex, reference);
         if (!zipFile) continue;
         const blob = await zipFile.async("blob");
         const mediaId = `${entry.id}-media-${mediaIndex}`;
@@ -663,7 +676,10 @@
         mediaIds.push(mediaId);
       }
       entries.push({ ...entry, mediaIds, importedAt: new Date().toISOString() });
-      if ((index + 1) % 25 === 0) setStatus(`Reading entry ${index + 1} of ${sourceEntries.length}…`, "busy");
+      if ((index + 1) % 25 === 0) {
+        setStatus(`Reading entry ${index + 1} of ${sourceEntries.length}…`, "busy");
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
     }
     return { entries, media, journalCount: Array.isArray(payload?.journals) ? payload.journals.length : 1 };
   }
@@ -682,15 +698,15 @@
 
   async function refreshEntries() {
     allEntries = (await readAll(ENTRY_STORE)).sort((a, b) => dateSortValue(b.date) - dateSortValue(a.date));
-    renderEntries();
+    const storedMedia = await readAll(MEDIA_STORE);
+    const mediaById = new Map(storedMedia.map((item) => [item.id, item]));
+    await renderEntries(mediaById);
     await refreshStats();
   }
 
-  async function mediaForEntry(entry) {
+  function mediaForEntry(entry, mediaById) {
     if (!entry.mediaIds?.length) return [];
-    const media = await readAll(MEDIA_STORE);
-    const byId = new Map(media.map((item) => [item.id, item]));
-    return entry.mediaIds.map((id) => byId.get(id)).filter(Boolean);
+    return entry.mediaIds.map((id) => mediaById.get(id)).filter(Boolean);
   }
 
   function mediaMarkup(media) {
@@ -704,7 +720,7 @@
     }).join("");
   }
 
-  async function renderEntries() {
+  async function renderEntries(mediaById = null) {
     objectUrls.forEach((url) => URL.revokeObjectURL(url));
     objectUrls = [];
     const query = searchInput.value.trim().toLowerCase();
@@ -714,7 +730,8 @@
       entryList.innerHTML = "";
       return;
     }
-    const mediaByEntry = await Promise.all(visibleEntries.map((entry) => mediaForEntry(entry)));
+    const currentMediaById = mediaById || new Map((await readAll(MEDIA_STORE)).map((item) => [item.id, item]));
+    const mediaByEntry = visibleEntries.map((entry) => mediaForEntry(entry, currentMediaById));
     entryList.innerHTML = visibleEntries.map((entry, index) => {
       const titleMarkup = entry.title ? `<h3 class="entry-title">${escapeHtml(entry.title)}</h3>` : "";
       const tagsMarkup = entry.tags.length ? `<div class="entry-tags">${entry.tags.map((tag) => `<span class="tag">#${escapeHtml(tag)}</span>`).join("")}</div>` : "";
