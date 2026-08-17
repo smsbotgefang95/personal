@@ -754,6 +754,12 @@
       saveItemRemovals();
       saveItemRestorations();
     }
+    const chobaniItemEditKey = editStorageKey("买菜", "奶制品::Chobani 20g Greek Yogurt (16 ct)");
+    const chobaniItemEdit = itemEdits[chobaniItemEditKey];
+    if (chobaniItemEdit?.facts && Object.prototype.hasOwnProperty.call(chobaniItemEdit.facts, "weight") && !String(chobaniItemEdit.facts.weight || "").trim()) {
+      delete chobaniItemEdit.facts.weight;
+      saveItemEdits();
+    }
     function isItemPurchased(item) { return Boolean(item && itemPurchases[purchaseStorageKey(item)] === true); }
     function setItemPurchased(item, purchased) {
       if (!item) return;
