@@ -26,6 +26,11 @@ window.SMART_LIST_PHOTOS = [
     "source": "https://photos.anylist.com/db6a23f297a14ce19cb8566745db4f6f.jpg"
   },
   {
+    "name": "Strawberries 草莓",
+    "file": "costco-strawberries-27003.jpg",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A9a841f64-74f7-402f-9bca-1e1651101054/as/27003-inc__1.avif?fit=contain&height=727&width=727"
+  },
+  {
     "name": "Crunchie Munchies Organic Snack Apples 有机苹果",
     "file": "61cbf71ce380420382cb99bb2cfe4c0e.jpg",
     "source": "https://photos.anylist.com/61cbf71ce380420382cb99bb2cfe4c0e.jpg"
