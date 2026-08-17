@@ -31,6 +31,11 @@ window.SMART_LIST_PHOTOS = [
     "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A9a841f64-74f7-402f-9bca-1e1651101054/as/27003-inc__1.avif?fit=contain&height=727&width=727"
   },
   {
+    "name": "Pork Shumai 猪肉烧卖",
+    "file": "ajinomoto-pork-shumai-1781395.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_1c71b2ec-6bbd-4c7f-b8c1-da7025454177.jpg"
+  },
+  {
     "name": "Crunchie Munchies Organic Snack Apples 有机苹果",
     "file": "61cbf71ce380420382cb99bb2cfe4c0e.jpg",
     "source": "https://photos.anylist.com/61cbf71ce380420382cb99bb2cfe4c0e.jpg"
