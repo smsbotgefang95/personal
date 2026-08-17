@@ -1109,5 +1109,10 @@ window.SMART_LIST_PHOTOS = [
     "name": "雪梨 (4 × 1个)",
     "file": "6e48f19a420e41dd95043da8f37a3540.jpg",
     "source": "https://photos.anylist.com/6e48f19a420e41dd95043da8f37a3540.jpg"
+  },
+  {
+    "name": "Honey Bunches of Oats with Almonds (HBO W/ALMNDS)",
+    "file": "honey-bunches-1462402.jpg",
+    "source": "https://bfasset.costco-static.com/U447IH35/as/5cmcf59fhhn4rgct3vhwbpjw/1462402-847__1?auto=webp&canvas=1024%2C1024&fit=bounds&format=jpg&height=1024&width=1024"
   }
 ];
