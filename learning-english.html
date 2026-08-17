@@ -8,6 +8,7 @@
 <script src="assets/site-nav.js?v=20260817-day-one-journal" defer></script>
 <script src="assets/openai-tts.js?v=20260523"></script>
 <script src="data/learning-dictionary-full.js?v=20260609-singular-plural-nouns"></script>
+<script src="data/learning-notes.js?v=20260817-weekly-notes"></script>
 <style>
   :root {
     --bg: #f6f7f2;
@@ -694,12 +695,121 @@
   }
 
   .phrase-panel,
-  .vocabulary-panel {
+  .vocabulary-panel,
+  .notes-panel {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
     box-shadow: var(--shadow);
     padding: 18px;
+  }
+
+  .weekly-notes-list {
+    display: grid;
+    gap: 18px;
+  }
+
+  .weekly-note-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .weekly-note-header {
+    align-items: start;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+  }
+
+  .weekly-note-kicker {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .weekly-note-title {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-top: 4px;
+  }
+
+  .weekly-note-description {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 5px;
+  }
+
+  .weekly-note-pages {
+    background: var(--surface-2);
+    border: 1px solid #d9eee7;
+    border-radius: 999px;
+    color: var(--accent);
+    flex: 0 0 auto;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 5px 9px;
+    white-space: nowrap;
+  }
+
+  .weekly-note-viewer {
+    background: #eef3ef;
+    border: 1px solid #e5ece4;
+    border-radius: 7px;
+    min-height: 520px;
+    overflow: hidden;
+  }
+
+  .weekly-note-viewer iframe {
+    border: 0;
+    display: block;
+    height: min(78vh, 860px);
+    min-height: 520px;
+    width: 100%;
+  }
+
+  .weekly-note-footer {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    justify-content: space-between;
+  }
+
+  .weekly-note-source {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .weekly-note-link {
+    align-items: center;
+    background: #103f3a;
+    border-radius: 7px;
+    color: #ffffff;
+    display: inline-flex;
+    font-size: 0.88rem;
+    font-weight: 800;
+    min-height: 40px;
+    padding: 8px 12px;
+    text-decoration: none;
+  }
+
+  .weekly-note-link:hover {
+    background: #15564f;
+  }
+
+  .notes-visibility-note {
+    background: #fff7d6;
+    border: 1px solid #fde68a;
+    border-radius: 7px;
+    color: #6b4f00;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    padding: 11px 12px;
   }
 
   .vocabulary-tools,
@@ -1219,6 +1329,22 @@
       grid-template-columns: 1fr;
     }
 
+    .weekly-note-header,
+    .weekly-note-footer {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .weekly-note-pages,
+    .weekly-note-link {
+      align-self: flex-start;
+    }
+
+    .weekly-note-viewer,
+    .weekly-note-viewer iframe {
+      min-height: 460px;
+    }
+
     .phrase-top {
       grid-template-columns: 1fr;
     }
@@ -1302,6 +1428,7 @@
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">语块</button>
     <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">句子</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">对话</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-notes" data-view="notes">每周笔记</button>
   </div>
 
   <section class="vocabulary-panel view-panel" id="view-themes" role="tabpanel" aria-label="Picture dictionary themes">
@@ -1510,6 +1637,17 @@
     <div class="dialogue-list" id="dialogueList"></div>
   </section>
 
+  <section class="notes-panel view-panel" id="view-notes" role="tabpanel" aria-label="Weekly handwritten notes">
+    <div class="panel-header">
+      <div>
+        <h2>Weekly Notes / 每周笔记</h2>
+        <p>Keep the original handwritten lesson pages together by week.</p>
+      </div>
+    </div>
+    <div class="notes-visibility-note">These handwritten notes are visible to anyone who can access this public website.</div>
+    <div class="weekly-notes-list" id="weeklyNotesList" aria-label="Weekly handwritten note archive"></div>
+  </section>
+
 </main>
 
 <script>
@@ -1542,6 +1680,7 @@
   const STORAGE_DICTIONARY_THEME_KEY = "learningEnglishDictionaryTheme";
   const STORAGE_DIALOGUE_THEME_FILTER_KEY = "learningEnglishDialogueThemeFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+  const WEEKLY_NOTES = Array.isArray(window.LEARNING_WEEKLY_NOTES) ? window.LEARNING_WEEKLY_NOTES : [];
 
   const SCENARIOS = [
     { id: "greetings", label: "Greetings", zh: "打招呼" },
@@ -9214,7 +9353,7 @@ pass=通过；传递
   function loadSelectedView() {
     try {
       const saved = localStorage.getItem(STORAGE_VIEW_KEY);
-      return ["themes", "practice", "vocabulary", "phrase", "dialogue"].includes(saved) ? saved : "practice";
+      return ["themes", "practice", "vocabulary", "phrase", "dialogue", "notes"].includes(saved) ? saved : "practice";
     } catch (error) {
       return "practice";
     }
@@ -9538,6 +9677,30 @@ pass=通过；传递
     document.querySelectorAll(".view-panel").forEach((panel) => {
       panel.classList.toggle("active", panel.id === `view-${selectedView}`);
     });
+  }
+
+  function renderWeeklyNotes() {
+    const list = document.getElementById("weeklyNotesList");
+    if (!list) return;
+    list.innerHTML = WEEKLY_NOTES.map((note) => `
+      <article class="weekly-note-card" id="${escapeHtml(note.id)}">
+        <div class="weekly-note-header">
+          <div>
+            <div class="weekly-note-kicker">${escapeHtml(note.label)}</div>
+            <h3 class="weekly-note-title">${escapeHtml(note.title)}</h3>
+            <p class="weekly-note-description">${escapeHtml(note.description)}</p>
+          </div>
+          <span class="weekly-note-pages">${escapeHtml(note.pages)} pages</span>
+        </div>
+        <div class="weekly-note-viewer">
+          <iframe src="${escapeHtml(note.file)}#view=FitH" title="${escapeHtml(note.label)} handwritten lesson notes" loading="lazy"></iframe>
+        </div>
+        <div class="weekly-note-footer">
+          <span class="weekly-note-source">Original PDF from Notability</span>
+          <a class="weekly-note-link" href="${escapeHtml(note.file)}" target="_blank" rel="noopener">Open full note</a>
+        </div>
+      </article>
+    `).join("");
   }
 
   function getLearningThemeLabel(themeId) {
@@ -11435,6 +11598,7 @@ pass=通过；传递
     renderDialogueList();
     renderVocabularyList();
     renderVocabularyPhrases();
+    renderWeeklyNotes();
     updateProgress();
   }
 
