@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Day One Journal</title>
+<link rel="stylesheet" href="assets/site-nav.css?v=20260817-day-one-journal" />
+<script src="assets/site-nav.js?v=20260817-day-one-journal" defer></script>
+<style>
+  :root {
+    --bg: #f7f5fb;
+    --card: #ffffff;
+    --text: #241c35;
+    --muted: #6f687d;
+    --border: #ded6eb;
+    --accent: #7c3aed;
+    --accent-dark: #5b21b6;
+    --accent-light: #f1eaff;
+    --success: #0f766e;
+    --success-light: #e4f7f2;
+    --danger: #b42318;
+    --danger-light: #fff0ee;
+    --shadow: 0 16px 34px rgba(48, 31, 73, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      linear-gradient(180deg, #f2eaff 0, #fbfaff 245px, var(--bg) 500px),
+      var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  main {
+    width: min(1040px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 34px 0 64px;
+  }
+  h1, h2, h3, p { margin-top: 0; }
+  .hero {
+    margin-bottom: 22px;
+  }
+  .eyebrow {
+    margin-bottom: 7px;
+    color: var(--accent-dark);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin-bottom: 10px;
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    line-height: 1.08;
+  }
+  .hero p {
+    max-width: 730px;
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 1.03rem;
+  }
+  .privacy-note,
+  .panel,
+  .entry-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.93);
+    box-shadow: 0 5px 18px rgba(48, 31, 73, 0.06);
+  }
+  .privacy-note {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 15px 17px;
+    background: var(--success-light);
+    border-color: #b7e3d8;
+    color: #155e55;
+  }
+  .privacy-note strong { color: #0b5149; }
+  .privacy-note p { margin: 0; }
+  .privacy-icon { font-size: 1.35rem; line-height: 1.25; }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.45fr);
+    gap: 20px;
+    align-items: start;
+  }
+  .panel { padding: 20px; }
+  .panel h2 {
+    margin-bottom: 8px;
+    font-size: 1.15rem;
+  }
+  .panel-intro {
+    margin-bottom: 16px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .steps {
+    margin: 0 0 20px;
+    padding-left: 1.25rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .steps li + li { margin-top: 8px; }
+  .steps strong { color: var(--text); }
+  .source-link {
+    color: var(--accent-dark);
+    font-weight: 700;
+  }
+  .file-picker {
+    display: block;
+    padding: 15px;
+    border: 1px dashed #b59bd9;
+    border-radius: 12px;
+    background: var(--accent-light);
+    cursor: pointer;
+  }
+  .file-picker:hover { border-color: var(--accent); }
+  .file-picker span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--accent-dark);
+    font-weight: 800;
+  }
+  .file-picker input {
+    width: 100%;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.82rem;
+  }
+  .status {
+    min-height: 24px;
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .status.ok { color: var(--success); }
+  .status.error { color: var(--danger); }
+  .status.busy { color: var(--accent-dark); }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .stat {
+    padding: 11px 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fcfbff;
+    text-align: center;
+  }
+  .stat strong {
+    display: block;
+    color: var(--accent-dark);
+    font-size: 1.2rem;
+  }
+  .stat span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  .danger-zone {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  button,
+  .button-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .button-link {
+    color: var(--accent-dark);
+    border-color: #cdb8eb;
+    background: #fff;
+  }
+  .button-link:hover { background: var(--accent-light); }
+  .danger-button {
+    color: var(--danger);
+    border-color: #efb8b1;
+    background: var(--danger-light);
+  }
+  .danger-button:hover { background: #ffe1dd; }
+  .content-panel { min-width: 0; }
+  .timeline-toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .timeline-toolbar h2 { margin: 0; }
+  .search {
+    width: min(245px, 52%);
+    min-height: 40px;
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+  }
+  .search:focus,
+  .file-picker input:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 3px solid rgba(124, 58, 237, 0.22);
+    outline-offset: 2px;
+  }
+  .empty-state {
+    padding: 38px 20px;
+    border: 1px dashed #cbbbe0;
+    border-radius: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .empty-state strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .entry-list { display: grid; gap: 14px; }
+  .entry-card { padding: 18px; }
+  .entry-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .entry-date {
+    margin: 0;
+    color: var(--accent-dark);
+    font-size: 0.92rem;
+    font-weight: 850;
+  }
+  .entry-title {
+    margin: 2px 0 0;
+    font-size: 1.12rem;
+    line-height: 1.3;
+  }
+  .entry-meta {
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-align: right;
+  }
+  .entry-text {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 0.94rem;
+  }
+  .entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .tag {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .media-grid img,
+  .media-grid video {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    border-radius: 8px;
+    background: #eeeaf4;
+    object-fit: cover;
+  }
+  .media-grid audio { width: 100%; }
+  .media-note {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  @media (max-width: 760px) {
+    main { width: min(100% - 22px, 640px); padding-top: 24px; }
+    .layout { grid-template-columns: 1fr; }
+    .timeline-toolbar { align-items: stretch; flex-direction: column; }
+    .search { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<site-nav active-page="day-one"></site-nav>
+<main>
+  <header class="hero">
+    <div class="eyebrow">Private personal journal</div>
+    <h1>Day One Journal</h1>
+    <p>Bring your Day One app history into this Personal site without retyping entries. The import is processed in this browser and stays in this browser.</p>
+  </header>
+
+  <section class="privacy-note" aria-label="Privacy notice">
+    <div class="privacy-icon" aria-hidden="true">🔒</div>
+    <p><strong>Private by design.</strong> Your Day One export is read locally. It is not sent to this website, the server, or a third-party upload service. Do not place the export file in the public site repository.</p>
+  </section>
+
+  <div class="layout">
+    <section class="panel" aria-labelledby="import-heading">
+      <h2 id="import-heading">Import from the Day One app</h2>
+      <p class="panel-intro">Export your journal from the app as JSON with media, then choose the downloaded ZIP here.</p>
+      <ol class="steps">
+        <li>In Day One, open <strong>Settings → Import/Export</strong>.</li>
+        <li>Select the journal and choose <strong>JSON</strong>; include media when offered.</li>
+        <li>Save the export file, then choose it below.</li>
+      </ol>
+      <label class="file-picker" for="dayOneFile">
+        <span>Choose Day One export</span>
+        <input id="dayOneFile" type="file" accept=".zip,.json,application/zip,application/json" />
+      </label>
+      <p class="status" id="importStatus" role="status" aria-live="polite"></p>
+      <p><a class="source-link" href="https://dayoneapp.com/guides/tips-and-tutorials/exporting-entries/" target="_blank" rel="noopener">Day One’s export instructions ↗</a></p>
+      <div class="stats" aria-label="Imported journal totals">
+        <div class="stat"><strong id="entryCount">0</strong><span>entries</span></div>
+        <div class="stat"><strong id="mediaCount">0</strong><span>media files</span></div>
+        <div class="stat"><strong id="journalCount">0</strong><span>journals</span></div>
+      </div>
+      <div class="danger-zone">
+        <button class="danger-button" id="clearBtn" type="button">Clear local Day One data</button>
+      </div>
+    </section>
+
+    <section class="content-panel" aria-labelledby="timeline-heading">
+      <div class="timeline-toolbar">
+        <h2 id="timeline-heading">Your entries</h2>
+        <input class="search" id="searchInput" type="search" placeholder="Search entries" aria-label="Search entries" />
+      </div>
+      <div class="empty-state" id="emptyState">
+        <strong>No Day One entries imported yet.</strong>
+        Choose your Day One JSON or ZIP export to see the timeline here.
+      </div>
+      <div class="entry-list" id="entryList"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+  const DB_NAME = "personal-day-one-journal-v1";
+  const DB_VERSION = 1;
+  const ENTRY_STORE = "entries";
+  const MEDIA_STORE = "media";
+  const META_STORE = "meta";
+  const entryList = document.getElementById("entryList");
+  const emptyState = document.getElementById("emptyState");
+  const searchInput = document.getElementById("searchInput");
+  const importStatus = document.getElementById("importStatus");
+  let objectUrls = [];
+  let allEntries = [];
+
+  function openJournalDb() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(ENTRY_STORE)) db.createObjectStore(ENTRY_STORE, { keyPath: "id" });
+        if (!db.objectStoreNames.contains(MEDIA_STORE)) db.createObjectStore(MEDIA_STORE, { keyPath: "id" });
+        if (!db.objectStoreNames.contains(META_STORE)) db.createObjectStore(META_STORE, { keyPath: "key" });
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error("Could not open local journal storage."));
+    });
+  }
+
+  function transactionComplete(transaction) {
+    return new Promise((resolve, reject) => {
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error || new Error("Local journal storage failed."));
+      transaction.onabort = () => reject(transaction.error || new Error("Local journal storage was cancelled."));
+    });
+  }
+
+  function readAll(storeName) {
+    return openJournalDb().then((db) => new Promise((resolve, reject) => {
+      const request = db.transaction(storeName, "readonly").objectStore(storeName).getAll();
+      request.onsuccess = () => resolve(request.result || []);
+      request.onerror = () => reject(request.error || new Error("Could not read local journal storage."));
+    }));
+  }
+
+  function readMeta(key) {
+    return openJournalDb().then((db) => new Promise((resolve, reject) => {
+      const request = db.transaction(META_STORE, "readonly").objectStore(META_STORE).get(key);
+      request.onsuccess = () => resolve(request.result?.value || null);
+      request.onerror = () => reject(request.error || new Error("Could not read journal metadata."));
+    }));
+  }
+
+  async function writeImport(entries, media, meta) {
+    const db = await openJournalDb();
+    const transaction = db.transaction([ENTRY_STORE, MEDIA_STORE, META_STORE], "readwrite");
+    const entriesStore = transaction.objectStore(ENTRY_STORE);
+    const mediaStore = transaction.objectStore(MEDIA_STORE);
+    const metaStore = transaction.objectStore(META_STORE);
+    entries.forEach((entry) => entriesStore.put(entry));
+    media.forEach((item) => mediaStore.put(item));
+    metaStore.put({ key: "lastImport", value: meta });
+    await transactionComplete(transaction);
+  }
+
+  function deleteAll(storeName) {
+    return openJournalDb().then((db) => {
+      const transaction = db.transaction(storeName, "readwrite");
+      transaction.objectStore(storeName).clear();
+      return transactionComplete(transaction);
+    });
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function formatDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value || "Undated entry";
+    return new Intl.DateTimeFormat(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    }).format(date);
+  }
+
+  function dateSortValue(value) {
+    const timestamp = new Date(value || 0).getTime();
+    return Number.isNaN(timestamp) ? 0 : timestamp;
+  }
+
+  function textValue(value) {
+    if (typeof value === "string") return value;
+    if (Array.isArray(value)) return value.map(textValue).filter(Boolean).join("\n");
+    if (value && typeof value === "object") return textValue(value.text || value.content || value.value || "");
+    return value == null ? "" : String(value);
+  }
+
+  function listValue(value) {
+    if (Array.isArray(value)) return value.map((item) => textValue(item)).map((item) => item.trim()).filter(Boolean);
+    if (typeof value === "string") return value.split(",").map((item) => item.trim()).filter(Boolean);
+    return [];
+  }
+
+  function rawEntries(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (payload?.entries) return payload.entries;
+    if (payload?.journal?.entries) return payload.journal.entries;
+    if (payload?.data?.entries) return payload.data.entries;
+    if (Array.isArray(payload?.journals)) return payload.journals.flatMap((journal) => journal.entries || []);
+    if (payload?.uuid || payload?.id || payload?.creationDate || payload?.text) return [payload];
+    return [];
+  }
+
+  function normalizeEntry(entry, index) {
+    const id = String(entry.uuid || entry.id || entry.identifier || `day-one-entry-${index}`);
+    const tags = listValue(entry.tags || entry.tagNames);
+    const text = textValue(entry.text || entry.body || entry.content || entry.richText || "");
+    const title = textValue(entry.title || "").trim();
+    const date = entry.creationDate || entry.createdAt || entry.date || entry.timestamp || "";
+    const inlineMediaRefs = [...text.matchAll(/dayone-moment:\/\/\s*([^\s)\]]+)/gi)].map((match) => match[1]);
+    const mediaRefs = [
+      ...(Array.isArray(entry.photos) ? entry.photos : []),
+      ...(Array.isArray(entry.media) ? entry.media : []),
+      ...(Array.isArray(entry.attachments) ? entry.attachments : []),
+      ...listValue(entry.mediaMD5s),
+      ...inlineMediaRefs
+    ];
+    return {
+      id,
+      title,
+      text,
+      date,
+      modifiedDate: entry.modifiedDate || entry.updatedAt || "",
+      tags,
+      location: textValue(entry.location?.placeName || entry.location?.name || entry.location || ""),
+      mediaRefs: Array.isArray(mediaRefs) ? mediaRefs : [],
+      source: entry
+    };
+  }
+
+  function mediaPathCandidates(reference) {
+    if (typeof reference === "string") return [reference];
+    if (!reference || typeof reference !== "object") return [];
+    return [reference.filename, reference.fileName, reference.path, reference.name, reference.url, reference.md5]
+      .filter(Boolean)
+      .map(String);
+  }
+
+  function normalizedPath(value) {
+    return String(value || "").replaceAll("\\", "/").replace(/^\.\//, "").toLowerCase();
+  }
+
+  function baseName(value) {
+    return normalizedPath(value).split("/").pop();
+  }
+
+  function findZipMedia(zipFiles, reference) {
+    const candidates = mediaPathCandidates(reference).map(normalizedPath);
+    if (!candidates.length) return null;
+    const files = Object.values(zipFiles).filter((file) => !file.dir);
+    return files.find((file) => candidates.includes(normalizedPath(file.name)))
+      || files.find((file) => candidates.includes(baseName(file.name)))
+      || files.find((file) => candidates.some((candidate) => candidate && normalizedPath(file.name).endsWith(`/${candidate}`)))
+      || files.find((file) => candidates.some((candidate) => candidate.length > 8 && baseName(file.name).includes(candidate)));
+  }
+
+  function readUint32(view, offset) {
+    return view.getUint32(offset, true);
+  }
+
+  function readUint16(view, offset) {
+    return view.getUint16(offset, true);
+  }
+
+  async function inflateZipEntry(bytes, method) {
+    if (method === 0) return bytes;
+    if (method !== 8 || typeof DecompressionStream !== "function") {
+      throw new Error("This Day One ZIP uses an unsupported compression format in this browser.");
+    }
+    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+
+  async function readZipArchive(file) {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    const eocdSignature = 0x06054b50;
+    const centralSignature = 0x02014b50;
+    const localSignature = 0x04034b50;
+    const minimumEocdOffset = Math.max(0, bytes.length - 22 - 65535);
+    let eocdOffset = -1;
+    for (let offset = bytes.length - 22; offset >= minimumEocdOffset; offset -= 1) {
+      if (offset >= 0 && readUint32(view, offset) === eocdSignature) {
+        eocdOffset = offset;
+        break;
+      }
+    }
+    if (eocdOffset < 0) throw new Error("The selected file is not a readable ZIP archive.");
+
+    const entryCount = readUint16(view, eocdOffset + 10);
+    const centralSize = readUint32(view, eocdOffset + 12);
+    const centralOffset = readUint32(view, eocdOffset + 16);
+    if (entryCount === 0xffff || centralSize === 0xffffffff || centralOffset === 0xffffffff) {
+      throw new Error("ZIP64 exports are not supported by this browser importer yet.");
+    }
+    const decoder = new TextDecoder();
+    const files = {};
+    let offset = centralOffset;
+    const centralEnd = centralOffset + centralSize;
+    for (let index = 0; index < entryCount && offset < centralEnd; index += 1) {
+      if (readUint32(view, offset) !== centralSignature) throw new Error("The ZIP central directory is invalid.");
+      const method = readUint16(view, offset + 10);
+      const compressedSize = readUint32(view, offset + 20);
+      const uncompressedSize = readUint32(view, offset + 24);
+      const nameLength = readUint16(view, offset + 28);
+      const extraLength = readUint16(view, offset + 30);
+      const commentLength = readUint16(view, offset + 32);
+      const localOffset = readUint32(view, offset + 42);
+      const name = decoder.decode(bytes.slice(offset + 46, offset + 46 + nameLength));
+      const isDirectory = name.endsWith("/");
+      const entry = {
+        name,
+        dir: isDirectory,
+        async: async (type) => {
+          if (isDirectory) return type === "text" ? "" : new Blob([]);
+          if (readUint32(view, localOffset) !== localSignature) throw new Error("A ZIP file entry is invalid.");
+          const localNameLength = readUint16(view, localOffset + 26);
+          const localExtraLength = readUint16(view, localOffset + 28);
+          const dataStart = localOffset + 30 + localNameLength + localExtraLength;
+          const compressed = bytes.slice(dataStart, dataStart + compressedSize);
+          const uncompressed = await inflateZipEntry(compressed, method);
+          if (uncompressedSize && uncompressed.length !== uncompressedSize) throw new Error(`ZIP entry could not be fully read: ${name}`);
+          if (type === "text") return decoder.decode(uncompressed);
+          return new Blob([uncompressed], { type: mimeFromName(name) });
+        }
+      };
+      files[name] = entry;
+      offset += 46 + nameLength + extraLength + commentLength;
+    }
+    return { files };
+  }
+
+  function mimeFromName(name) {
+    const extension = String(name || "").split(".").pop().toLowerCase();
+    const types = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", gif: "image/gif", webp: "image/webp", heic: "image/heic", mp4: "video/mp4", mov: "video/quicktime", m4a: "audio/mp4", mp3: "audio/mpeg", wav: "audio/wav", pdf: "application/pdf" };
+    return types[extension] || "application/octet-stream";
+  }
+
+  async function readExport(file) {
+    if (/\.json$/i.test(file.name)) {
+      return { payload: JSON.parse(await file.text()), zipFiles: {} };
+    }
+    const zip = await readZipArchive(file);
+    const jsonFiles = Object.values(zip.files).filter((item) => !item.dir && /\.json$/i.test(item.name));
+    if (!jsonFiles.length) throw new Error("The Day One ZIP does not contain a JSON journal export.");
+    let payload = null;
+    for (const jsonFile of jsonFiles) {
+      try {
+        const candidate = JSON.parse(await jsonFile.async("text"));
+        if (rawEntries(candidate).length || jsonFiles.length === 1) {
+          payload = candidate;
+          break;
+        }
+      } catch (error) {
+        // Ignore unrelated JSON files and continue to the journal export.
+      }
+    }
+    if (!payload) throw new Error("Could not find readable Day One journal data in the ZIP.");
+    return { payload, zipFiles: zip.files };
+  }
+
+  async function buildImport(file) {
+    const { payload, zipFiles } = await readExport(file);
+    const sourceEntries = rawEntries(payload);
+    if (!sourceEntries.length) throw new Error("No journal entries were found in this export.");
+    const entries = [];
+    const media = [];
+    for (let index = 0; index < sourceEntries.length; index += 1) {
+      const entry = normalizeEntry(sourceEntries[index], index);
+      const mediaIds = [];
+      for (let mediaIndex = 0; mediaIndex < entry.mediaRefs.length; mediaIndex += 1) {
+        const reference = entry.mediaRefs[mediaIndex];
+        const zipFile = findZipMedia(zipFiles, reference);
+        if (!zipFile) continue;
+        const blob = await zipFile.async("blob");
+        const mediaId = `${entry.id}-media-${mediaIndex}`;
+        media.push({
+          id: mediaId,
+          entryId: entry.id,
+          name: zipFile.name,
+          type: blob.type || mimeFromName(zipFile.name),
+          blob
+        });
+        mediaIds.push(mediaId);
+      }
+      entries.push({ ...entry, mediaIds, importedAt: new Date().toISOString() });
+      if ((index + 1) % 25 === 0) setStatus(`Reading entry ${index + 1} of ${sourceEntries.length}…`, "busy");
+    }
+    return { entries, media, journalCount: Array.isArray(payload?.journals) ? payload.journals.length : 1 };
+  }
+
+  function setStatus(message, type = "") {
+    importStatus.textContent = message;
+    importStatus.className = `status${type ? ` ${type}` : ""}`;
+  }
+
+  async function refreshStats() {
+    const [entries, media, meta] = await Promise.all([readAll(ENTRY_STORE), readAll(MEDIA_STORE), readMeta("lastImport")]);
+    document.getElementById("entryCount").textContent = entries.length;
+    document.getElementById("mediaCount").textContent = media.length;
+    document.getElementById("journalCount").textContent = meta?.journalCount || (entries.length ? 1 : 0);
+  }
+
+  async function refreshEntries() {
+    allEntries = (await readAll(ENTRY_STORE)).sort((a, b) => dateSortValue(b.date) - dateSortValue(a.date));
+    renderEntries();
+    await refreshStats();
+  }
+
+  async function mediaForEntry(entry) {
+    if (!entry.mediaIds?.length) return [];
+    const media = await readAll(MEDIA_STORE);
+    const byId = new Map(media.map((item) => [item.id, item]));
+    return entry.mediaIds.map((id) => byId.get(id)).filter(Boolean);
+  }
+
+  function mediaMarkup(media) {
+    return media.map((item) => {
+      const url = URL.createObjectURL(item.blob);
+      objectUrls.push(url);
+      if (item.type.startsWith("image/")) return `<img src="${url}" alt="Imported Day One media" loading="lazy" />`;
+      if (item.type.startsWith("video/")) return `<video src="${url}" controls preload="metadata"></video>`;
+      if (item.type.startsWith("audio/")) return `<audio src="${url}" controls></audio>`;
+      return `<a class="button-link" href="${url}" download="${escapeHtml(item.name.split("/").pop())}">Download attachment</a>`;
+    }).join("");
+  }
+
+  async function renderEntries() {
+    objectUrls.forEach((url) => URL.revokeObjectURL(url));
+    objectUrls = [];
+    const query = searchInput.value.trim().toLowerCase();
+    const visibleEntries = allEntries.filter((entry) => !query || [entry.title, entry.text, entry.tags.join(" "), entry.location].join(" ").toLowerCase().includes(query));
+    emptyState.hidden = visibleEntries.length > 0;
+    if (!visibleEntries.length) {
+      entryList.innerHTML = "";
+      return;
+    }
+    const mediaByEntry = await Promise.all(visibleEntries.map((entry) => mediaForEntry(entry)));
+    entryList.innerHTML = visibleEntries.map((entry, index) => {
+      const titleMarkup = entry.title ? `<h3 class="entry-title">${escapeHtml(entry.title)}</h3>` : "";
+      const tagsMarkup = entry.tags.length ? `<div class="entry-tags">${entry.tags.map((tag) => `<span class="tag">#${escapeHtml(tag)}</span>`).join("")}</div>` : "";
+      const mediaMarkupValue = mediaByEntry[index].length ? `<div class="media-grid">${mediaMarkup(mediaByEntry[index])}</div>` : "";
+      const locationMarkup = entry.location ? `<div>${escapeHtml(entry.location)}</div>` : "";
+      return `<article class="entry-card"><div class="entry-head"><div><p class="entry-date">${escapeHtml(formatDate(entry.date))}</p>${titleMarkup}</div><div class="entry-meta">${locationMarkup}${entry.modifiedDate ? `<div>Updated ${escapeHtml(formatDate(entry.modifiedDate))}</div>` : ""}</div></div><p class="entry-text">${escapeHtml(entry.text || "(No text in this entry.)")}</p>${tagsMarkup}${mediaMarkupValue}${mediaByEntry[index].length ? `<p class="media-note">${mediaByEntry[index].length} imported media file${mediaByEntry[index].length === 1 ? "" : "s"}</p>` : ""}</article>`;
+    }).join("");
+  }
+
+  document.getElementById("dayOneFile").addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setStatus("Reading your export locally…", "busy");
+    try {
+      const result = await buildImport(file);
+      await writeImport(result.entries, result.media, { journalCount: result.journalCount, importedAt: new Date().toISOString(), fileName: file.name });
+      await refreshEntries();
+      setStatus(`Imported ${result.entries.length} entries and ${result.media.length} media files. Existing entries were preserved.`, "ok");
+    } catch (error) {
+      setStatus(error?.message || "The Day One export could not be imported.", "error");
+    } finally {
+      event.target.value = "";
+    }
+  });
+
+  searchInput.addEventListener("input", renderEntries);
+
+  document.getElementById("clearBtn").addEventListener("click", async () => {
+    if (!window.confirm("Clear all Day One entries and media stored in this browser? This does not affect Day One.")) return;
+    await Promise.all([deleteAll(ENTRY_STORE), deleteAll(MEDIA_STORE), deleteAll(META_STORE)]);
+    setStatus("Local Day One data cleared. Your original Day One journal was not changed.", "ok");
+    await refreshEntries();
+  });
+
+  refreshEntries().catch((error) => setStatus(error?.message || "Could not load local journal data.", "error"));
+</script>
+</body>
+</html>
