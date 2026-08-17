@@ -66,6 +66,11 @@ window.SMART_LIST_PHOTOS = [
     "source": "https://photos.anylist.com/271ccd7876464857b28df9b23aeb439d.jpg"
   },
   {
+    "name": "Chobani 20g Greek Yogurt (16 ct)",
+    "file": "chobani-protein-1920008.jpg",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3Abd67150d-ebd0-4015-b560-39cfaa342df4/as/gmp43cwsnmbq7pr8smfgwg3m__4000345017-847__1.avif?fit=contain&height=727&width=727"
+  },
+  {
     "name": "Roast chicken 烤鸡",
     "file": "7c4b9f8410ec4d2b91ca7ec691d47b55.jpg",
     "source": "https://photos.anylist.com/7c4b9f8410ec4d2b91ca7ec691d47b55.jpg"
