@@ -4,7 +4,6 @@ const SHARED_NAV_ITEMS = [
   { id: "time-analysis", href: "time-analysis.html", label: "⏰ Time Analysis" },
   { id: "kpi", href: "kpi-dashboard.html", label: "📊 KPI Life Tracker" },
   { id: "life", href: "life-events.html", label: "🗓️ Life Events" },
-  { id: "day-one", href: "day-one-journal.html", label: "📝 Day One Journal" },
   { id: "gardening", href: "gardening-journal.html", label: "🌱 Gardening Journal" },
   { id: "utility-bills", href: "utility-bills.html", label: "Utility Bills" },
   { id: "smart-shopping", href: "smart-shopping.html", label: "🛒 Smart Shopping" }
