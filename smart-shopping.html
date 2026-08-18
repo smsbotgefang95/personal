@@ -6,7 +6,7 @@
 <title>Smart Shopping</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
 <script src="smart-shopping-data.js?v=20260817-receipt-7"></script>
-<script src="smart-shopping-photos.js?v=20260817-costco-strawberries-pork-shumai-chobani-honey"></script>
+<script src="smart-shopping-photos.js?v=20260818-gem-pack-strawberries"></script>
 <script src="smart-shopping-nutrition.js?v=20260809-chosen-foods"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
 <script src="assets/site-nav.js?v=20260817-remove-day-one" defer></script>
@@ -845,6 +845,7 @@
       [normalizeFoodName("Day-lee Pride Pork Gyoza (1袋)"), "Gyoza"],
       [normalizeFoodName("Finlandia Variety Pack 奶酪"), "Finlandia"],
       [normalizeFoodName("Fresh Gourmet Organic Croutons 面包干"), "Fresh Gourmet"],
+      [normalizeFoodName("Strawberries 草莓"), "Gem Pack"],
       [normalizeFoodName("Kokuho Rose Us #1 Extra Fancy Rice 红国宝大米 (1 × 1袋)"), "Kokuho Rose"],
       [normalizeFoodName("Korean Gompyo All Purpose Wheat Flour 面粉 (1 × 1袋)"), "Gompyo"],
       [normalizeFoodName("P.A.N. Pre-Cooked White Corn Meal 预煮白玉米粉 (1 × 1袋)"), "P.A.N."],
@@ -1270,7 +1271,7 @@
       if (!photo) return `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
       const photoSrc = photo.file ? `./assets/food/${photo.file}` : photo.source || "";
       const remoteFallback = photo.file ? photo.source || "" : "";
-      const photoTitle = photo.sourcePage ? "Photo found from a Costco product listing · background removed automatically" : "Photo migrated from AnyList · background removed automatically";
+      const photoTitle = photo.sourcePage && /costco\.com/iu.test(photo.sourcePage) ? "Photo found from a Costco product listing · background removed automatically" : photo.sourcePage ? "Photo verified from a product listing · background removed automatically" : "Photo migrated from AnyList · background removed automatically";
       return `<img src="${escapeHtml(photoSrc)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" data-photo-source="${escapeHtml(remoteFallback)}" data-photo-fallback="${escapeHtml(fallback)}" title="${escapeHtml(photoTitle)}" />`;
     }
     document.getElementById("photo-count").textContent = photoRecords.length;
@@ -1336,7 +1337,6 @@
           context.putImageData(pixels, 0, 0);
           image.src = canvas.toDataURL("image/png");
           image.classList.add("photo-cutout");
-          image.title = "Photo migrated from AnyList · background removed automatically";
         }
         image.dataset.backgroundProcessed = "true";
         delete image.dataset.backgroundProcessing;
@@ -1576,7 +1576,7 @@
       const storeText = item.stores.length ? item.stores.join(", ") : "Store not listed";
       const categoryText = itemCategory(item);
       const detailBar = facts.saleUnitPrice !== "Not listed" ? "92%" : facts.unitPrice !== "Not listed" ? "82%" : facts.salePrice !== "Not listed" || facts.price !== "Not listed" || facts.weight !== "Not listed" ? "58%" : "30%";
-      const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo ? "Photo migrated from AnyList" : "No item photo";
+      const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo?.sourcePage ? "Photo verified from a product listing" : photo ? "Photo migrated from AnyList" : "No item photo";
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
       return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
