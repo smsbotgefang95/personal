@@ -1114,5 +1114,35 @@ window.SMART_LIST_PHOTOS = [
     "name": "Honey Bunches of Oats with Almonds (HBO W/ALMNDS)",
     "file": "honey-bunches-1462402.jpg",
     "source": "https://bfasset.costco-static.com/U447IH35/as/5cmcf59fhhn4rgct3vhwbpjw/1462402-847__1?auto=webp&canvas=1024%2C1024&fit=bounds&format=jpg&height=1024&width=1024"
+  },
+  {
+    "name": "Avocado 牛油果",
+    "file": "costco-avocado-hass-647465.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_856d1af9-d3f0-4abb-baf2-5e36f67d7965.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/18848256-avocado-hass-variety-6-ct-6-ct"
+  },
+  {
+    "name": "Pork Shoulder Country Style Ribs Boneless by Kirkland 猪肩部无骨乡村式排骨",
+    "file": "costco-country-ribs-33997.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_659a358d-2255-4f93-9d56-09c228e2bf2d.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/32633-kirkland-signature-pork-shoulder-country-style-ribs-boneless-each"
+  },
+  {
+    "name": "Wild Sockeye Salmon Fillet Previously Frozen 三文鱼片",
+    "file": "costco-wild-sockeye-salmon-20972625.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_966955c8-290a-43b4-a577-1fbf0ec9fa0c.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/20972625"
+  },
+  {
+    "name": "什锦坚果",
+    "file": "costco-mixed-nuts-28018715.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_36307af5-79e4-4f6f-a7a8-1518f957092c.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/28018715-kirkland-signature-extra-fancy-salted-mixed-nuts-40-oz"
+  },
+  {
+    "name": "Fresh Gourmet Organic Croutons 面包干",
+    "file": "costco-fresh-gourmet-croutons-191176.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_0e078033-0412-498a-b292-677e07b33a2e.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/191176-fresh-gourmet-organic-seasoned-croutons-32-oz"
   }
 ];
