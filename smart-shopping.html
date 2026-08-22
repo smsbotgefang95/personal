@@ -806,9 +806,15 @@
       return listNames.includes(resolvedTarget) ? resolvedTarget : logicalListName(sourceList);
     }
     function getImportedItems(listName) {
-      return sourceListNames.flatMap((sourceList) => getSourceItems(sourceList)
+      const imported = sourceListNames.flatMap((sourceList) => getSourceItems(sourceList)
         .filter((item) => itemTargetList(sourceList, item.key) === listName)
         .map((item) => ({ ...item, sourceList, originalList: sourceList })));
+      const strawberries = imported.find((item) => item.name === "Strawberries 草莓");
+      if (listName === "买菜" && !strawberries) {
+        const sourceItem = getSourceItems("备选").find((item) => item.name === "Strawberries 草莓");
+        if (sourceItem) imported.push({ ...sourceItem, sourceList: "备选", originalList: "备选" });
+      }
+      return listName === "备选" ? imported.filter((item) => item.name !== "Strawberries 草莓") : imported;
     }
     function isAllList() { return state.activeList === ALL_LIST; }
     function getAllCollectionItems() { return listNames.flatMap((listName) => getImportedItems(listName)); }
