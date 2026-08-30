@@ -16,6 +16,7 @@ from pathlib import Path
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "deletedEntryKeys": [], "updatedAt": None}
+DEFAULT_SMART_SHOPPING_PAYLOAD = {"itemEdits": {}, "itemAdds": {}, "customBrandOptions": [], "itemPurchases": {}, "itemRemovals": {}, "itemRestorations": {}, "itemMoves": {}, "updatedAt": None}
 DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
 TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
 DEFAULT_QUESTION_PROGRESS = {
@@ -54,6 +55,8 @@ LIFE_EVENTS_REPO_DATA_PATH = REPO_DIR / "data" / "life-events.json"
 LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
+SMART_SHOPPING_DATA_PATH = env_path("SMART_SHOPPING_DATA_PATH", "~/personal-data/smart-shopping.json")
+SMART_SHOPPING_ADMIN_KEY = os.environ.get("SMART_SHOPPING_ADMIN_KEY", ADMIN_KEY)
 QUESTION_PROGRESS_DATA_PATH = env_path("QUESTION_PROGRESS_DATA_PATH", "~/personal-data/question-progress.json")
 LEARNING_ENGLISH_CUSTOM_DATA_PATH = env_path("LEARNING_ENGLISH_CUSTOM_DATA_PATH", "~/personal-data/learning-english-custom.json")
 LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH = os.environ.get("LEARNING_ENGLISH_CUSTOM_PUBLIC_PATH")
@@ -994,6 +997,29 @@ def write_time_entries(payload):
     atomic_write(TIME_ENTRIES_DATA_PATH, payload)
     return {"status": "stored"}
 
+def load_smart_shopping_payload():
+    try:
+        with SMART_SHOPPING_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+        return {**DEFAULT_SMART_SHOPPING_PAYLOAD, **payload}
+    except (FileNotFoundError, json.JSONDecodeError):
+        return DEFAULT_SMART_SHOPPING_PAYLOAD.copy()
+
+def clean_smart_shopping_payload(payload):
+    payload = payload if isinstance(payload, dict) else {}
+    cleaned = DEFAULT_SMART_SHOPPING_PAYLOAD.copy()
+    for key in ("itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves"):
+        value = payload.get(key, {})
+        cleaned[key] = value if isinstance(value, dict) else {}
+    value = payload.get("customBrandOptions", [])
+    cleaned["customBrandOptions"] = value if isinstance(value, list) else []
+    cleaned["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    return cleaned
+
+def write_smart_shopping(payload):
+    atomic_write(SMART_SHOPPING_DATA_PATH, payload)
+    return {"status": "stored"}
+
 
 def write_question_progress(payload):
     atomic_write(QUESTION_PROGRESS_DATA_PATH, payload)
@@ -1040,6 +1066,12 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(401, {"ok": False, "error": "admin_key_required"})
                 return
             self.send_json(200, load_time_entries_payload())
+            return
+        if path == "/api/smart-shopping":
+            if SMART_SHOPPING_ADMIN_KEY and self.headers.get("X-Smart-Shopping-Admin-Key") != SMART_SHOPPING_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            self.send_json(200, load_smart_shopping_payload())
             return
         if path == "/api/life-events":
             self.send_json(200, load_life_events_payload())
@@ -1120,6 +1152,21 @@ class Handler(BaseHTTPRequestHandler):
             payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             write_result = write_time_entries(payload)
             self.send_json(200, {"ok": True, "payload": payload, "git": write_result})
+            return
+        if path == "/api/smart-shopping":
+            if SMART_SHOPPING_ADMIN_KEY and self.headers.get("X-Smart-Shopping-Admin-Key") != SMART_SHOPPING_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(length)
+                incoming = json.loads(raw.decode("utf-8"))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json"})
+                return
+            payload = clean_smart_shopping_payload(incoming)
+            write_smart_shopping(payload)
+            self.send_json(200, {"ok": True, "payload": payload})
             return
         if path == "/api/life-events":
             if LIFE_EVENTS_ADMIN_KEY and self.headers.get("X-Life-Events-Admin-Key") != LIFE_EVENTS_ADMIN_KEY:
@@ -1210,6 +1257,9 @@ def main():
     TIME_ENTRIES_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not TIME_ENTRIES_DATA_PATH.exists():
         write_time_entries(DEFAULT_TIME_ENTRIES_PAYLOAD.copy())
+    SMART_SHOPPING_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not SMART_SHOPPING_DATA_PATH.exists():
+        write_smart_shopping(DEFAULT_SMART_SHOPPING_PAYLOAD.copy())
     QUESTION_PROGRESS_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not QUESTION_PROGRESS_DATA_PATH.exists():
         write_question_progress(DEFAULT_QUESTION_PROGRESS_PAYLOAD.copy())

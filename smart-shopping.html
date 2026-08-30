@@ -422,6 +422,7 @@
           </select>
           <button class="button-secondary" id="compare-all-button" type="button">Compare prices</button>
           <button class="button-secondary" id="reset-purchased-button" type="button" hidden>Reset purchased</button>
+          <button class="button-secondary" id="sync-shopping-button" type="button">↻ Sync devices</button>
           <button class="button-primary" id="add-item-button" type="button">＋ Add an item</button>
         </div>
       </header>
@@ -675,6 +676,7 @@
     })();
     function saveItemEdits() {
       try { window.localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
     }
     const itemAdds = (() => {
       try {
@@ -686,6 +688,7 @@
     })();
     function saveItemAdds() {
       try { window.localStorage.setItem(itemAddsStorageKey, JSON.stringify(itemAdds)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
     }
     const customBrandOptions = (() => {
       try {
@@ -697,6 +700,7 @@
     })();
     function saveCustomBrandOptions() {
       try { window.localStorage.setItem(customBrandOptionsStorageKey, JSON.stringify(customBrandOptions)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
     }
     const itemPurchases = (() => {
       try {
@@ -708,6 +712,7 @@
     })();
     function saveItemPurchases() {
       try { window.localStorage.setItem(itemPurchasesStorageKey, JSON.stringify(itemPurchases)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
     }
     const itemRemovalsStorageKey = "smart-shopping-item-removals-v1";
     const itemRemovals = (() => {
@@ -720,6 +725,7 @@
     })();
     function saveItemRemovals() {
       try { window.localStorage.setItem(itemRemovalsStorageKey, JSON.stringify(itemRemovals)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
     }
     const itemRestorationsStorageKey = "smart-shopping-item-restorations-v1";
     const itemRestorations = (() => {
@@ -732,8 +738,13 @@
     })();
     function saveItemRestorations() {
       try { window.localStorage.setItem(itemRestorationsStorageKey, JSON.stringify(itemRestorations)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
     }
     const itemMovesStorageKey = "smart-shopping-item-moves-v1";
+    const shoppingSyncApi = "/api/smart-shopping";
+    const shoppingSyncKeyStorage = "smart-shopping-admin-key-v1";
+    let shoppingSyncKey = "";
+    let shoppingSyncTimer = null;
     const itemMoves = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemMovesStorageKey) || "{}");
@@ -744,6 +755,51 @@
     })();
     function saveItemMoves() {
       try { window.localStorage.setItem(itemMovesStorageKey, JSON.stringify(itemMoves)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      queueShoppingSync();
+    }
+    function shoppingPayload() { return { itemEdits, itemAdds, customBrandOptions, itemPurchases, itemRemovals, itemRestorations, itemMoves }; }
+    function mergeShoppingPayload(remote) {
+      [itemEdits, itemAdds, itemPurchases, itemRemovals, itemRestorations, itemMoves].forEach((target, index) => {
+        const key = ["itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves"][index];
+        Object.assign(target, remote?.[key] || {});
+        const storageKey = [itemEditsStorageKey, itemAddsStorageKey, itemPurchasesStorageKey, itemRemovalsStorageKey, itemRestorationsStorageKey, itemMovesStorageKey][index];
+        try { localStorage.setItem(storageKey, JSON.stringify(target)); } catch (error) {}
+      });
+      (remote?.customBrandOptions || []).forEach((brand) => { if (!customBrandOptions.includes(brand)) customBrandOptions.push(brand); });
+      saveCustomBrandOptions();
+    }
+    async function ensureShoppingSyncKey() {
+      if (shoppingSyncKey) return shoppingSyncKey;
+      try { shoppingSyncKey = localStorage.getItem(shoppingSyncKeyStorage) || ""; } catch (error) {}
+      if (!shoppingSyncKey) {
+        shoppingSyncKey = window.prompt("Enter the Smart Shopping sync key:", "") || "";
+        if (shoppingSyncKey) try { localStorage.setItem(shoppingSyncKeyStorage, shoppingSyncKey); } catch (error) {}
+      }
+      return shoppingSyncKey;
+    }
+    async function syncShoppingDevices({ upload = true } = {}) {
+      const key = await ensureShoppingSyncKey();
+      if (!key) return;
+      const headers = { "X-Smart-Shopping-Admin-Key": key };
+      try {
+        const response = await fetch(shoppingSyncApi, { headers, cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const remote = await response.json();
+        mergeShoppingPayload(remote);
+        if (upload) {
+          const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
+          if (!saved.ok) throw new Error(`HTTP ${saved.status}`);
+        }
+        document.getElementById("sync-detail").textContent = "Synced across devices";
+        render();
+      } catch (error) {
+        document.getElementById("sync-detail").textContent = "Sync unavailable · saved locally";
+      }
+    }
+    function queueShoppingSync() {
+      if (!shoppingSyncKey) return;
+      window.clearTimeout(shoppingSyncTimer);
+      shoppingSyncTimer = window.setTimeout(() => syncShoppingDevices(), 700);
     }
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
@@ -1285,6 +1341,7 @@
     }
     document.getElementById("photo-count").textContent = photoRecords.length;
     document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally · auto-cutout enabled`;
+    document.getElementById("sync-shopping-button").addEventListener("click", () => syncShoppingDevices());
 
     function median(values) {
       const sorted = [...values].sort((a, b) => a - b);
@@ -2056,6 +2113,7 @@
     els.purchase.addEventListener("change", () => { state.purchase = els.purchase.value; state.showAll = false; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderImported(); });
     render();
+    syncShoppingDevices({ upload: true });
   })();
 </script>
 </body>
