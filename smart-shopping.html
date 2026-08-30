@@ -523,7 +523,7 @@
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
     <p class="modal-note" id="edit-item-note">Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.</p>
-    <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="submit">Save changes</button></div>
+    <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="button">Save changes</button></div>
   </form>
 </div>
 
@@ -2050,6 +2050,7 @@
       clearDropTargets();
     });
     els.editForm.addEventListener("submit", saveItemEdit);
+    document.getElementById("save-item-button").addEventListener("click", saveItemEdit);
     els.addBrand.addEventListener("click", addBrandOption);
     els.newBrand.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
