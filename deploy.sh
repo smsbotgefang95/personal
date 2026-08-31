@@ -305,6 +305,16 @@ server {
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
 
+    location = /api/smart-shopping/item {
+        client_max_body_size 1m;
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
     location = /api/learning-english/vocabulary-autofill {
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;
