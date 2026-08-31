@@ -1059,6 +1059,31 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
 
+    def do_PATCH(self):
+        if self.path.split("?", 1)[0] != "/api/smart-shopping/item":
+            self.send_error(404)
+            return
+        if SMART_SHOPPING_ADMIN_KEY and self.headers.get("X-Smart-Shopping-Admin-Key") != SMART_SHOPPING_ADMIN_KEY:
+            self.send_json(401, {"ok": False, "error": "admin_key_required"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            incoming = json.loads(self.rfile.read(length).decode("utf-8"))
+            storage_key = str(incoming.get("storageKey", ""))
+            facts = incoming.get("facts")
+            if not storage_key or not isinstance(facts, dict):
+                raise ValueError
+        except (ValueError, json.JSONDecodeError):
+            self.send_json(400, {"ok": False, "error": "invalid_item_update"})
+            return
+        payload = load_smart_shopping_payload()
+        existing = payload["itemEdits"].get(storage_key, {})
+        existing["facts"] = {**existing.get("facts", {}), **facts}
+        payload["itemEdits"][storage_key] = existing
+        payload = clean_smart_shopping_payload(payload)
+        write_smart_shopping(payload)
+        self.send_json(200, {"ok": True, "facts": payload["itemEdits"][storage_key]["facts"]})
+
     def do_GET(self):
         path = self.path.split("?", 1)[0]
         if path == "/api/time-entries":
