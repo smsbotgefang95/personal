@@ -1331,16 +1331,16 @@
     }
     function photoMarkup(item, fallback = "🍽️", customPhoto = "") {
       const itemName = item && typeof item === "object" ? displayItemName(item) : formatProductName(item);
-      if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" title="Photo added in this browser · background removed automatically" />`;
+      if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo added in this browser" />`;
       const photo = foodPhoto(item);
       if (!photo) return `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
       const photoSrc = photo.file ? `./assets/food/${photo.file}` : photo.source || "";
       const remoteFallback = photo.file ? photo.source || "" : "";
-      const photoTitle = photo.sourcePage && /costco\.com/iu.test(photo.sourcePage) ? "Photo found from a Costco product listing · background removed automatically" : photo.sourcePage ? "Photo verified from a product listing · background removed automatically" : "Photo migrated from AnyList · background removed automatically";
-      return `<img src="${escapeHtml(photoSrc)}" alt="${escapeHtml(itemName)}" loading="lazy" data-auto-remove-bg="true" data-photo-source="${escapeHtml(remoteFallback)}" data-photo-fallback="${escapeHtml(fallback)}" title="${escapeHtml(photoTitle)}" />`;
+      const photoTitle = photo.sourcePage && /costco\.com/iu.test(photo.sourcePage) ? "Photo found from a Costco product listing" : photo.sourcePage ? "Photo verified from a product listing" : "Photo migrated from AnyList";
+      return `<img src="${escapeHtml(photoSrc)}" alt="${escapeHtml(itemName)}" loading="lazy" data-photo-source="${escapeHtml(remoteFallback)}" data-photo-fallback="${escapeHtml(fallback)}" title="${escapeHtml(photoTitle)}" />`;
     }
     document.getElementById("photo-count").textContent = photoRecords.length;
-    document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally · auto-cutout enabled`;
+    document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally`;
     document.getElementById("sync-shopping-button").addEventListener("click", () => syncShoppingDevices());
 
     function median(values) {
@@ -1701,7 +1701,6 @@
       const purchasedItems = items.filter(isItemPurchased);
       els.importedList.innerHTML = items.length ? `${purchaseSectionMarkup("To buy", toBuyItems)}${purchaseSectionMarkup("Purchased", purchasedItems, toBuyItems.length)}` : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
       document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
-      schedulePhotoBackgroundRemoval(els.importedList);
     }
 
     function clearDropTargets() {
