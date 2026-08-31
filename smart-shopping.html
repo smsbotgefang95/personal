@@ -766,7 +766,7 @@
         try { localStorage.setItem(storageKey, JSON.stringify(target)); } catch (error) {}
       });
       (remote?.customBrandOptions || []).forEach((brand) => { if (!customBrandOptions.includes(brand)) customBrandOptions.push(brand); });
-      saveCustomBrandOptions();
+      try { localStorage.setItem(customBrandOptionsStorageKey, JSON.stringify(customBrandOptions)); } catch (error) {}
     }
     async function ensureShoppingSyncKey() {
       if (shoppingSyncKey) return shoppingSyncKey;
