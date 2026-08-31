@@ -777,7 +777,7 @@
       }
       return shoppingSyncKey;
     }
-    async function syncShoppingDevices({ upload = true } = {}) {
+    async function syncShoppingDevices({ upload = true, rerender = true } = {}) {
       const key = await ensureShoppingSyncKey();
       if (!key) return;
       const headers = { "X-Smart-Shopping-Admin-Key": key };
@@ -791,7 +791,7 @@
           if (!saved.ok) throw new Error(`HTTP ${saved.status}`);
         }
         document.getElementById("sync-detail").textContent = "Synced across devices";
-        render();
+        if (rerender) render();
       } catch (error) {
         document.getElementById("sync-detail").textContent = "Sync unavailable · saved locally";
       }
@@ -2113,8 +2113,7 @@
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = state.detailFilter === "missing-photo"; render(); });
     els.purchase.addEventListener("change", () => { state.purchase = els.purchase.value; state.showAll = false; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderImported(); });
-    render();
-    syncShoppingDevices({ upload: true });
+    syncShoppingDevices({ upload: true, rerender: false }).finally(() => render());
   })();
 </script>
 </body>
