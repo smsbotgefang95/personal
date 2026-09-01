@@ -253,10 +253,13 @@ vm.runInContext([
     taskCategory: "Work"
   }
 ].forEach((entry) => {
+  const shouldTrigger = ["run ai agent", "run ai agent work"].includes(
+    breakAlarmSandbox.normalizedBreakAlarmTaskName(entry.taskName)
+  );
   assert.strictEqual(
     breakAlarmSandbox.isAiAgentBreakAlarmTask(entry),
-    false,
-    `${entry.taskName} should not trigger the 30-minute AI-agent break alarm`
+    shouldTrigger,
+    `${entry.taskName} should ${shouldTrigger ? "trigger" : "not trigger"} the 30-minute AI-agent break alarm`
   );
 });
 

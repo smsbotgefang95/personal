@@ -6144,8 +6144,9 @@
       .replace(/\s+/g, " ");
   }
 
-  function isAiAgentBreakAlarmTask() {
-    return false;
+  function isAiAgentBreakAlarmTask(entry) {
+    const normalizedName = normalizedBreakAlarmTaskName(entry?.taskName);
+    return normalizedName === "run ai agent" || normalizedName === "run ai agent work";
   }
 
   function aiAgentBreakAlarmKey(entry) {
