@@ -4100,6 +4100,7 @@
   let businessMustReminderFiredKeys = null;
   let businessMustReminderAudioContext = null;
   let businessMustReminderSoundReady = false;
+  let businessMustReminderNotifications = new Set();
   let aiAgentBreakAlarmActiveKey = "";
   let aiAgentBreakAlarmLastRingAt = 0;
   let aiAgentBreakAlarmMutedKey = (() => {
@@ -6200,6 +6201,8 @@
       }
     });
     window.speechSynthesis?.cancel();
+    businessMustReminderNotifications.forEach((notification) => notification.close());
+    businessMustReminderNotifications.clear();
     document.querySelectorAll("audio, video").forEach((media) => {
       media.pause();
       media.currentTime = 0;
@@ -7179,12 +7182,16 @@
   }
 
   function showBusinessMustReminder(entry, dueAt) {
+    if (timeAnalysisAudioMuted) return;
     const dueTime = dueAt.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
     const title = `Due in ${BUSINESS_MUST_REMINDER_MINUTES} min`;
     const body = `${cleanLabel(entry.taskName, "Business task")} is due at ${dueTime}.`;
     playBusinessMustReminderSound().catch(() => {}).finally(() => {
       if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
+        if (timeAnalysisAudioMuted) return;
+        const notification = new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
+        businessMustReminderNotifications.add(notification);
+        notification.onclose = () => businessMustReminderNotifications.delete(notification);
         return;
       }
       window.alert(`${title}: ${body}`);
