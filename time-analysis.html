@@ -6235,7 +6235,10 @@
   function startAiAgentBreakAlarm(entry) {
     const key = aiAgentBreakAlarmKey(entry);
     if (!key) return;
-    if (timeAnalysisAudioMuted || aiAgentBreakAlarmMutedKey === key) return;
+    if (timeAnalysisAudioMuted || aiAgentBreakAlarmMutedKey === key) {
+      silenceAiAgentBreakAlarmSound();
+      return;
+    }
     const now = Date.now();
     if (aiAgentBreakAlarmActiveKey !== key) {
       aiAgentBreakAlarmActiveKey = key;
@@ -7110,6 +7113,7 @@
   }
 
   function playBusinessMustReminderTone(context, frequency, toneStart, duration = 0.24) {
+    if (timeAnalysisAudioMuted || !timeAnalysisAudioOutputGain) return;
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     oscillator.type = "sine";
@@ -7117,13 +7121,14 @@
     gain.gain.setValueAtTime(0.0001, toneStart);
     gain.gain.exponentialRampToValueAtTime(BUSINESS_MUST_REMINDER_SOUND_VOLUME, toneStart + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
-    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain || context.destination);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain);
     businessMustReminderAudioNodes.push({ oscillator, gain, context });
     oscillator.start(toneStart);
     oscillator.stop(toneStart + duration + 0.03);
   }
 
   function playAiAgentBreakAlarmTone(context, frequency, toneStart, duration = 0.34) {
+    if (timeAnalysisAudioMuted || !timeAnalysisAudioOutputGain) return;
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     oscillator.type = "triangle";
@@ -7131,19 +7136,20 @@
     gain.gain.setValueAtTime(0.0001, toneStart);
     gain.gain.exponentialRampToValueAtTime(AI_AGENT_BREAK_ALARM_SOUND_VOLUME, toneStart + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
-    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain || context.destination);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain);
     aiAgentBreakAlarmAudioNodes.push({ oscillator, gain, context });
     oscillator.start(toneStart);
     oscillator.stop(toneStart + duration + 0.03);
   }
 
   function primeBusinessMustReminderSound(context) {
+    if (timeAnalysisAudioMuted || !timeAnalysisAudioOutputGain) return;
     const start = context.currentTime + 0.01;
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     oscillator.frequency.setValueAtTime(880, start);
     gain.gain.setValueAtTime(0.0001, start);
-    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain || context.destination);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain);
     oscillator.start(start);
     oscillator.stop(start + 0.03);
   }
