@@ -6174,11 +6174,6 @@
     aiAgentBreakAlarmActiveKey = "";
     aiAgentBreakAlarmLastRingAt = 0;
     aiAgentBreakAlarmMutedKey = "";
-    try {
-      localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
-    } catch (error) {
-      // Local storage is optional.
-    }
   }
 
   function silenceAiAgentBreakAlarmSound() {
