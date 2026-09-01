@@ -11499,6 +11499,7 @@
 
   async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
+    timeAnalysisAudioMuted = false;
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry, startIso) : trackerFormValues(startIso);
     if (!entry.taskName || !entry.listId) {
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
@@ -11549,6 +11550,7 @@
   async function stopTimer(stopIso = isoNow()) {
     const active = timePayload.activeEntry;
     if (!active) return;
+    timeAnalysisAudioMuted = false;
     const completed = completedTimerEntries(active, stopIso);
     timePayload.entries = [...completed, ...(timePayload.entries || [])];
     timePayload.activeEntry = null;
@@ -11561,6 +11563,7 @@
     const active = timePayload.activeEntry;
     if (!active) return;
     if (!window.confirm(`Cancel "${active.taskName}" without saving?`)) return;
+    timeAnalysisAudioMuted = false;
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
     setTrackerStatus("Timer canceled", "saved");
