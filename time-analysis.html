@@ -3416,6 +3416,7 @@
             <div class="tracker-actions">
               <button class="btn btn-danger" id="stopTimerBtn" type="button" disabled>Stop</button>
               <button class="btn btn-ghost" id="cancelTimerBtn" type="button" disabled>Cancel</button>
+              <button class="btn btn-ghost" id="muteBreakAlarmBtn" type="button" disabled>Mute alarm</button>
             </div>
           </div>
         </div>
@@ -4100,6 +4101,7 @@
   let businessMustReminderSoundReady = false;
   let aiAgentBreakAlarmActiveKey = "";
   let aiAgentBreakAlarmLastRingAt = 0;
+  let aiAgentBreakAlarmMutedKey = "";
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -6159,11 +6161,13 @@
   function stopAiAgentBreakAlarm() {
     aiAgentBreakAlarmActiveKey = "";
     aiAgentBreakAlarmLastRingAt = 0;
+    aiAgentBreakAlarmMutedKey = "";
   }
 
   function startAiAgentBreakAlarm(entry) {
     const key = aiAgentBreakAlarmKey(entry);
     if (!key) return;
+    if (aiAgentBreakAlarmMutedKey === key) return;
     const now = Date.now();
     if (aiAgentBreakAlarmActiveKey !== key) {
       aiAgentBreakAlarmActiveKey = key;
@@ -6253,6 +6257,11 @@
     document.getElementById("startTimerBtn").disabled = false;
     document.getElementById("stopTimerBtn").disabled = !active;
     document.getElementById("cancelTimerBtn").disabled = !active;
+    const muteAlarmButton = document.getElementById("muteBreakAlarmBtn");
+    muteAlarmButton.disabled = !active;
+    muteAlarmButton.textContent = active && aiAgentBreakAlarmMutedKey === aiAgentBreakAlarmKey(active)
+      ? "Alarm muted"
+      : "Mute alarm";
     checkAiAgentBreakAlarm(active, durationMs);
     if (timerTick) window.clearInterval(timerTick);
     timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
@@ -11565,6 +11574,15 @@
 
   document.getElementById("cancelTimerBtn").addEventListener("click", () => {
     cancelTimer().catch((error) => setTrackerStatus(error.message, "error"));
+  });
+
+  document.getElementById("muteBreakAlarmBtn").addEventListener("click", () => {
+    const active = timePayload.activeEntry;
+    const key = aiAgentBreakAlarmKey(active);
+    if (!key) return;
+    aiAgentBreakAlarmMutedKey = key;
+    setTrackerStatus("Break alarm muted for this timer.", "saved");
+    renderTimerState();
   });
 
   document.addEventListener("click", (event) => {
