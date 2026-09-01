@@ -4112,6 +4112,7 @@
   })();
   let aiAgentBreakAlarmAudioNodes = [];
   let timeAnalysisAudioMuted = Boolean(aiAgentBreakAlarmMutedKey);
+  let timeAnalysisAudioGeneration = 0;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -6177,6 +6178,7 @@
   }
 
   function silenceAiAgentBreakAlarmSound() {
+    timeAnalysisAudioGeneration += 1;
     if (businessMustReminderAudioContext) {
       businessMustReminderAudioContext.close().catch(() => {});
       businessMustReminderAudioContext = null;
@@ -7117,9 +7119,11 @@
 
   async function playBusinessMustReminderSound() {
     if (timeAnalysisAudioMuted) return;
+    const generation = timeAnalysisAudioGeneration;
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
+    if (timeAnalysisAudioMuted || generation !== timeAnalysisAudioGeneration) return;
     businessMustReminderSoundReady = context.state === "running";
     const start = context.currentTime + 0.03;
     [
@@ -7132,9 +7136,11 @@
 
   async function playAiAgentBreakAlarmSound() {
     if (timeAnalysisAudioMuted) return;
+    const generation = timeAnalysisAudioGeneration;
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
+    if (timeAnalysisAudioMuted || generation !== timeAnalysisAudioGeneration) return;
     businessMustReminderSoundReady = context.state === "running";
     const start = context.currentTime + 0.03;
     [
