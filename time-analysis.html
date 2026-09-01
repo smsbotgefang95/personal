@@ -4102,7 +4102,7 @@
   let aiAgentBreakAlarmActiveKey = "";
   let aiAgentBreakAlarmLastRingAt = 0;
   let aiAgentBreakAlarmMutedKey = "";
-  let aiAgentBreakAlarmGainNodes = [];
+  let aiAgentBreakAlarmAudioNodes = [];
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -6167,10 +6167,15 @@
   }
 
   function silenceAiAgentBreakAlarmSound() {
-    aiAgentBreakAlarmGainNodes.splice(0).forEach((gain) => {
+    aiAgentBreakAlarmAudioNodes.splice(0).forEach(({ oscillator, gain, context }) => {
+      try {
+        oscillator.stop(context.currentTime);
+      } catch (error) {
+        // A tone that has already finished no longer needs oscillator cleanup.
+      }
       try {
         gain.gain.cancelScheduledValues(0);
-        gain.gain.setValueAtTime(0.0001, gain.context.currentTime);
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
         gain.disconnect();
       } catch (error) {
         // A tone that has already finished no longer needs cleanup.
@@ -7070,8 +7075,7 @@
     gain.gain.exponentialRampToValueAtTime(AI_AGENT_BREAK_ALARM_SOUND_VOLUME, toneStart + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
     oscillator.connect(gain).connect(context.destination);
-    gain.context = context;
-    aiAgentBreakAlarmGainNodes.push(gain);
+    aiAgentBreakAlarmAudioNodes.push({ oscillator, gain, context });
     oscillator.start(toneStart);
     oscillator.stop(toneStart + duration + 0.03);
   }
