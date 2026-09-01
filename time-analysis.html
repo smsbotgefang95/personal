@@ -6187,6 +6187,11 @@
         // A tone that has already finished no longer needs cleanup.
       }
     });
+    window.speechSynthesis?.cancel();
+    document.querySelectorAll("audio, video").forEach((media) => {
+      media.pause();
+      media.currentTime = 0;
+    });
   }
 
   function startAiAgentBreakAlarm(entry) {
