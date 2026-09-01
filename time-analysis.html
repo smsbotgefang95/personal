@@ -6291,6 +6291,7 @@
   function renderTimerState() {
     const active = timePayload.activeEntry;
     const durationMs = active ? activeDurationMs() : 0;
+    if (active?.alarmMuted === true) timeAnalysisAudioMuted = true;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
     document.getElementById("timerValue").textContent = formatClock(durationMs);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
@@ -11634,12 +11635,19 @@
     const active = timePayload.activeEntry;
     const key = aiAgentBreakAlarmKey(active);
     if (!key) return;
+    timePayload = cleanClientPayload({
+      ...timePayload,
+      activeEntry: { ...active, alarmMuted: true },
+      updatedAt: isoNow()
+    });
+    writeLocalTimePayload(timePayload);
     aiAgentBreakAlarmMutedKey = key;
     localStorage.setItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE, key);
     timeAnalysisAudioMuted = true;
     silenceAiAgentBreakAlarmSound();
     setTrackerStatus("Break alarm muted for this timer.", "saved");
     renderTimerState();
+    saveTimePayload(timePayload).catch((error) => setTrackerStatus(error.message, "error"));
   });
 
   document.addEventListener("click", (event) => {
