@@ -3943,6 +3943,7 @@
   const TIME_ADMIN_KEY_STORAGE = "personal.timeTracking.adminKey.v1";
   const TIME_LOCAL_PAYLOAD_STORAGE = "personal.timeTracking.localPayload.v1";
   const TIME_PRIVATE_SYNC_STATE_STORAGE = "personal.timeTracking.privateSyncState.v1";
+  const AI_AGENT_BREAK_ALARM_MUTED_STORAGE = "personal.timeTracking.aiAgentBreakAlarmMuted.v1";
   const BUSINESS_TIME_ZONE = "America/New_York";
   const TRACK_COLLAPSED_STORAGE = "personal.timeTracking.collapsedGroups.v1";
   const HIDDEN_RECENT_TASKS_STORAGE = "personal.timeTracking.hiddenRecentTasks.v1";
@@ -4101,7 +4102,13 @@
   let businessMustReminderSoundReady = false;
   let aiAgentBreakAlarmActiveKey = "";
   let aiAgentBreakAlarmLastRingAt = 0;
-  let aiAgentBreakAlarmMutedKey = "";
+  let aiAgentBreakAlarmMutedKey = (() => {
+    try {
+      return localStorage.getItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE) || "";
+    } catch (error) {
+      return "";
+    }
+  })();
   let aiAgentBreakAlarmAudioNodes = [];
   let timeAnalysisAudioMuted = false;
   let timePayloadSyncQueue = Promise.resolve();
@@ -6166,6 +6173,11 @@
     aiAgentBreakAlarmActiveKey = "";
     aiAgentBreakAlarmLastRingAt = 0;
     aiAgentBreakAlarmMutedKey = "";
+    try {
+      localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
+    } catch (error) {
+      // Local storage is optional.
+    }
   }
 
   function silenceAiAgentBreakAlarmSound() {
@@ -11500,6 +11512,8 @@
   async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
     timeAnalysisAudioMuted = false;
+    aiAgentBreakAlarmMutedKey = "";
+    localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry, startIso) : trackerFormValues(startIso);
     if (!entry.taskName || !entry.listId) {
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
@@ -11617,6 +11631,7 @@
     const key = aiAgentBreakAlarmKey(active);
     if (!key) return;
     aiAgentBreakAlarmMutedKey = key;
+    localStorage.setItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE, key);
     timeAnalysisAudioMuted = true;
     silenceAiAgentBreakAlarmSound();
     setTrackerStatus("Break alarm muted for this timer.", "saved");
