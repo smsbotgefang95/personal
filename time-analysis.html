@@ -7230,7 +7230,11 @@
     playBusinessMustReminderSound().catch(() => {}).finally(() => {
       if ("Notification" in window && Notification.permission === "granted") {
         if (timeAnalysisAudioMuted) return;
-        const notification = new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
+        const notification = new Notification(title, {
+          body,
+          tag: businessMustReminderKey(entry, dueAt),
+          silent: true
+        });
         businessMustReminderNotifications.add(notification);
         notification.onclose = () => businessMustReminderNotifications.delete(notification);
         return;
