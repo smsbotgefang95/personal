@@ -6180,6 +6180,7 @@
 
   function silenceAiAgentBreakAlarmSound() {
     timeAnalysisAudioGeneration += 1;
+    businessMustReminderSoundReady = false;
     if (businessMustReminderAudioContext) {
       businessMustReminderAudioContext.close().catch(() => {});
       businessMustReminderAudioContext = null;
@@ -6224,7 +6225,7 @@
   function startAiAgentBreakAlarm(entry) {
     const key = aiAgentBreakAlarmKey(entry);
     if (!key) return;
-    if (aiAgentBreakAlarmMutedKey === key) return;
+    if (timeAnalysisAudioMuted || aiAgentBreakAlarmMutedKey === key) return;
     const now = Date.now();
     if (aiAgentBreakAlarmActiveKey !== key) {
       aiAgentBreakAlarmActiveKey = key;
@@ -7086,6 +7087,7 @@
   }
 
   function businessMustReminderAudio() {
+    if (timeAnalysisAudioMuted) return null;
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return null;
     if (!businessMustReminderAudioContext) {
