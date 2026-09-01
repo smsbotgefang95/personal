@@ -6167,6 +6167,9 @@
   }
 
   function silenceAiAgentBreakAlarmSound() {
+    if (businessMustReminderAudioContext?.state === "running") {
+      businessMustReminderAudioContext.suspend().catch(() => {});
+    }
     aiAgentBreakAlarmAudioNodes.splice(0).forEach(({ oscillator, gain, context }) => {
       try {
         oscillator.stop(context.currentTime);
