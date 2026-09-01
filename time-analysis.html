@@ -4112,7 +4112,6 @@
   })();
   let aiAgentBreakAlarmAudioNodes = [];
   let timeAnalysisAudioMuted = Boolean(aiAgentBreakAlarmMutedKey);
-  let timeAnalysisAlarmDebugSequence = 0;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -6178,11 +6177,6 @@
   }
 
   function silenceAiAgentBreakAlarmSound() {
-    console.info("[Time Analysis alarm] mute cleanup", {
-      sequence: ++timeAnalysisAlarmDebugSequence,
-      activeTimer: Boolean(timePayload.activeEntry),
-      muted: timeAnalysisAudioMuted
-    });
     if (businessMustReminderAudioContext) {
       businessMustReminderAudioContext.close().catch(() => {});
       businessMustReminderAudioContext = null;
@@ -7122,10 +7116,7 @@
   }
 
   async function playBusinessMustReminderSound() {
-    if (timeAnalysisAudioMuted) {
-      console.info("[Time Analysis alarm] Business reminder suppressed", { sequence: ++timeAnalysisAlarmDebugSequence });
-      return;
-    }
+    if (timeAnalysisAudioMuted) return;
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
@@ -7140,10 +7131,7 @@
   }
 
   async function playAiAgentBreakAlarmSound() {
-    if (timeAnalysisAudioMuted) {
-      console.info("[Time Analysis alarm] AI-agent alarm suppressed", { sequence: ++timeAnalysisAlarmDebugSequence });
-      return;
-    }
+    if (timeAnalysisAudioMuted) return;
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
@@ -7190,10 +7178,7 @@
   }
 
   function showBusinessMustReminder(entry, dueAt) {
-    if (timeAnalysisAudioMuted) {
-      console.info("[Time Analysis alarm] Business notification suppressed", { sequence: ++timeAnalysisAlarmDebugSequence });
-      return;
-    }
+    if (timeAnalysisAudioMuted) return;
     const dueTime = dueAt.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
     const title = `Due in ${BUSINESS_MUST_REMINDER_MINUTES} min`;
     const body = `${cleanLabel(entry.taskName, "Business task")} is due at ${dueTime}.`;
@@ -7201,7 +7186,6 @@
       if ("Notification" in window && Notification.permission === "granted") {
         if (timeAnalysisAudioMuted) return;
         const notification = new Notification(title, { body, tag: businessMustReminderKey(entry, dueAt) });
-        console.info("[Time Analysis alarm] Business notification created", { sequence: ++timeAnalysisAlarmDebugSequence });
         businessMustReminderNotifications.add(notification);
         notification.onclose = () => businessMustReminderNotifications.delete(notification);
         return;
@@ -11660,11 +11644,6 @@
     aiAgentBreakAlarmMutedKey = key;
     localStorage.setItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE, key);
     timeAnalysisAudioMuted = true;
-    console.info("[Time Analysis alarm] mute clicked", {
-      sequence: ++timeAnalysisAlarmDebugSequence,
-      task: active.taskName,
-      timerStart: active.start
-    });
     silenceAiAgentBreakAlarmSound();
     setTrackerStatus("Break alarm muted for this timer.", "saved");
     renderTimerState();
