@@ -4103,6 +4103,7 @@
   let aiAgentBreakAlarmLastRingAt = 0;
   let aiAgentBreakAlarmMutedKey = "";
   let aiAgentBreakAlarmAudioNodes = [];
+  let timeAnalysisAudioMuted = false;
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
@@ -7096,6 +7097,7 @@
   }
 
   async function playBusinessMustReminderSound() {
+    if (timeAnalysisAudioMuted) return;
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
@@ -7110,6 +7112,7 @@
   }
 
   async function playAiAgentBreakAlarmSound() {
+    if (timeAnalysisAudioMuted) return;
     const context = businessMustReminderAudio();
     if (!context) return;
     if (context.state === "suspended") await context.resume();
@@ -11605,6 +11608,7 @@
     const key = aiAgentBreakAlarmKey(active);
     if (!key) return;
     aiAgentBreakAlarmMutedKey = key;
+    timeAnalysisAudioMuted = true;
     silenceAiAgentBreakAlarmSound();
     setTrackerStatus("Break alarm muted for this timer.", "saved");
     renderTimerState();
