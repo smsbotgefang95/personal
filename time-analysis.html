@@ -6303,7 +6303,7 @@
     muteAlarmButton.textContent = active && (
       timeAnalysisAudioMuted || aiAgentBreakAlarmMutedKey === aiAgentBreakAlarmKey(active)
     )
-      ? "Alarm muted"
+      ? "Unmute alarm"
       : "Mute alarm";
     checkAiAgentBreakAlarm(active, durationMs);
     if (timerTick) window.clearInterval(timerTick);
@@ -11635,6 +11635,26 @@
     const active = timePayload.activeEntry;
     const key = aiAgentBreakAlarmKey(active);
     if (!key) return;
+    const currentlyMuted = timeAnalysisAudioMuted || aiAgentBreakAlarmMutedKey === key || active.alarmMuted === true;
+    if (currentlyMuted) {
+      timeAnalysisAudioMuted = false;
+      aiAgentBreakAlarmMutedKey = "";
+      try {
+        localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
+      } catch (error) {
+        // Local storage is optional.
+      }
+      timePayload = cleanClientPayload({
+        ...timePayload,
+        activeEntry: { ...active, alarmMuted: false },
+        updatedAt: isoNow()
+      });
+      writeLocalTimePayload(timePayload);
+      setTrackerStatus("Break alarm unmuted for this timer.", "saved");
+      renderTimerState();
+      saveTimePayload(timePayload).catch((error) => setTrackerStatus(error.message, "error"));
+      return;
+    }
     timePayload = cleanClientPayload({
       ...timePayload,
       activeEntry: { ...active, alarmMuted: true },
