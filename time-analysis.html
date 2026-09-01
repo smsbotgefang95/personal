@@ -4099,6 +4099,7 @@
   let businessMustReminderTimer = null;
   let businessMustReminderFiredKeys = null;
   let businessMustReminderAudioContext = null;
+  let timeAnalysisAudioOutputGain = null;
   let businessMustReminderSoundReady = false;
   let businessMustReminderNotifications = new Set();
   let businessMustReminderAudioNodes = [];
@@ -6181,10 +6182,19 @@
   function silenceAiAgentBreakAlarmSound() {
     timeAnalysisAudioGeneration += 1;
     businessMustReminderSoundReady = false;
+    if (timeAnalysisAudioOutputGain && businessMustReminderAudioContext) {
+      try {
+        timeAnalysisAudioOutputGain.gain.cancelScheduledValues(0);
+        timeAnalysisAudioOutputGain.gain.setValueAtTime(0, businessMustReminderAudioContext.currentTime);
+      } catch (error) {
+        // The context may already be closed; tracked tones are still cleaned below.
+      }
+    }
     if (businessMustReminderAudioContext) {
       businessMustReminderAudioContext.close().catch(() => {});
       businessMustReminderAudioContext = null;
     }
+    timeAnalysisAudioOutputGain = null;
     aiAgentBreakAlarmAudioNodes.splice(0).forEach(({ oscillator, gain, context }) => {
       try {
         oscillator.stop(context.currentTime);
@@ -7092,6 +7102,9 @@
     if (!AudioContextClass) return null;
     if (!businessMustReminderAudioContext) {
       businessMustReminderAudioContext = new AudioContextClass();
+      timeAnalysisAudioOutputGain = businessMustReminderAudioContext.createGain();
+      timeAnalysisAudioOutputGain.gain.setValueAtTime(1, businessMustReminderAudioContext.currentTime);
+      timeAnalysisAudioOutputGain.connect(businessMustReminderAudioContext.destination);
     }
     return businessMustReminderAudioContext;
   }
@@ -7104,7 +7117,7 @@
     gain.gain.setValueAtTime(0.0001, toneStart);
     gain.gain.exponentialRampToValueAtTime(BUSINESS_MUST_REMINDER_SOUND_VOLUME, toneStart + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
-    oscillator.connect(gain).connect(context.destination);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain || context.destination);
     businessMustReminderAudioNodes.push({ oscillator, gain, context });
     oscillator.start(toneStart);
     oscillator.stop(toneStart + duration + 0.03);
@@ -7118,7 +7131,7 @@
     gain.gain.setValueAtTime(0.0001, toneStart);
     gain.gain.exponentialRampToValueAtTime(AI_AGENT_BREAK_ALARM_SOUND_VOLUME, toneStart + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
-    oscillator.connect(gain).connect(context.destination);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain || context.destination);
     aiAgentBreakAlarmAudioNodes.push({ oscillator, gain, context });
     oscillator.start(toneStart);
     oscillator.stop(toneStart + duration + 0.03);
@@ -7130,7 +7143,7 @@
     const gain = context.createGain();
     oscillator.frequency.setValueAtTime(880, start);
     gain.gain.setValueAtTime(0.0001, start);
-    oscillator.connect(gain).connect(context.destination);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain || context.destination);
     oscillator.start(start);
     oscillator.stop(start + 0.03);
   }
@@ -11925,6 +11938,7 @@
   window.addEventListener("resize", scheduleStickyLayoutMetricsUpdate);
   window.addEventListener("resize", () => scheduleAfterPaint(() => fitRecentTasksToSingleRow(document.getElementById("recentTaskList"))));
   window.addEventListener("focus", () => schedulePrivateTimeRefresh({ delay: 250 }));
+  window.addEventListener("pagehide", silenceAiAgentBreakAlarmSound);
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") schedulePrivateTimeRefresh({ delay: 250 });
   });
