@@ -6169,8 +6169,9 @@
   }
 
   function silenceAiAgentBreakAlarmSound() {
-    if (businessMustReminderAudioContext?.state === "running") {
-      businessMustReminderAudioContext.suspend().catch(() => {});
+    if (businessMustReminderAudioContext) {
+      businessMustReminderAudioContext.close().catch(() => {});
+      businessMustReminderAudioContext = null;
     }
     aiAgentBreakAlarmAudioNodes.splice(0).forEach(({ oscillator, gain, context }) => {
       try {
