@@ -6301,7 +6301,9 @@
     document.getElementById("cancelTimerBtn").disabled = !active;
     const muteAlarmButton = document.getElementById("muteBreakAlarmBtn");
     muteAlarmButton.disabled = !active;
-    muteAlarmButton.textContent = active && aiAgentBreakAlarmMutedKey === aiAgentBreakAlarmKey(active)
+    muteAlarmButton.textContent = active && (
+      timeAnalysisAudioMuted || aiAgentBreakAlarmMutedKey === aiAgentBreakAlarmKey(active)
+    )
       ? "Alarm muted"
       : "Mute alarm";
     checkAiAgentBreakAlarm(active, durationMs);
