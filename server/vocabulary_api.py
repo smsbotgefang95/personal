@@ -773,6 +773,7 @@ def clean_time_entry(value, require_stop=False):
         "startDateText": clean_time_text(value.get("startDateText"), 80),
         "recurring": bool(value.get("recurring")),
         "recurringText": clean_time_text(value.get("recurringText"), 120),
+        "alarmMuted": bool(value.get("alarmMuted")),
         "taskOrder": clean_time_text(value.get("taskOrder"), 80),
         "notes": clean_time_text(value.get("notes"), 4000),
         "createdAt": clean_time_text(value.get("createdAt"), 40),
