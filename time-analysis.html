@@ -4101,6 +4101,7 @@
   let businessMustReminderAudioContext = null;
   let businessMustReminderSoundReady = false;
   let businessMustReminderNotifications = new Set();
+  let businessMustReminderAudioNodes = [];
   let aiAgentBreakAlarmActiveKey = "";
   let aiAgentBreakAlarmLastRingAt = 0;
   let aiAgentBreakAlarmMutedKey = (() => {
@@ -6197,6 +6198,20 @@
         // A tone that has already finished no longer needs cleanup.
       }
     });
+    businessMustReminderAudioNodes.splice(0).forEach(({ oscillator, gain, context }) => {
+      try {
+        oscillator.stop(context.currentTime);
+      } catch (error) {
+        // A tone that has already finished no longer needs oscillator cleanup.
+      }
+      try {
+        gain.gain.cancelScheduledValues(0);
+        gain.gain.setValueAtTime(0, context.currentTime);
+        gain.disconnect();
+      } catch (error) {
+        // A tone that has already finished no longer needs cleanup.
+      }
+    });
     window.speechSynthesis?.cancel();
     businessMustReminderNotifications.forEach((notification) => notification.close());
     businessMustReminderNotifications.clear();
@@ -7088,6 +7103,7 @@
     gain.gain.exponentialRampToValueAtTime(BUSINESS_MUST_REMINDER_SOUND_VOLUME, toneStart + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + duration);
     oscillator.connect(gain).connect(context.destination);
+    businessMustReminderAudioNodes.push({ oscillator, gain, context });
     oscillator.start(toneStart);
     oscillator.stop(toneStart + duration + 0.03);
   }
@@ -7152,10 +7168,12 @@
   }
 
   async function unlockBusinessMustReminderSound() {
+    if (timeAnalysisAudioMuted) return false;
     const context = businessMustReminderAudio();
     if (!context) return false;
     try {
       if (context.state === "suspended") await context.resume();
+      if (timeAnalysisAudioMuted) return false;
       if (context.state === "running") {
         primeBusinessMustReminderSound(context);
         businessMustReminderSoundReady = true;
@@ -11522,6 +11540,7 @@
 
   async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
+    stopAiAgentBreakAlarm();
     timeAnalysisAudioMuted = false;
     aiAgentBreakAlarmMutedKey = "";
     localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
@@ -11575,6 +11594,7 @@
   async function stopTimer(stopIso = isoNow()) {
     const active = timePayload.activeEntry;
     if (!active) return;
+    stopAiAgentBreakAlarm();
     timeAnalysisAudioMuted = false;
     const completed = completedTimerEntries(active, stopIso);
     timePayload.entries = [...completed, ...(timePayload.entries || [])];
@@ -11588,6 +11608,7 @@
     const active = timePayload.activeEntry;
     if (!active) return;
     if (!window.confirm(`Cancel "${active.taskName}" without saving?`)) return;
+    stopAiAgentBreakAlarm();
     timeAnalysisAudioMuted = false;
     timePayload.activeEntry = null;
     await saveTimePayload(timePayload);
