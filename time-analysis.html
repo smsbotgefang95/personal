@@ -4110,7 +4110,7 @@
     }
   })();
   let aiAgentBreakAlarmAudioNodes = [];
-  let timeAnalysisAudioMuted = false;
+  let timeAnalysisAudioMuted = Boolean(aiAgentBreakAlarmMutedKey);
   let timePayloadSyncQueue = Promise.resolve();
   let autoDoneSyncing = false;
   const taskTableSort = {
