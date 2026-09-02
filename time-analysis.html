@@ -6256,9 +6256,46 @@
     if (active && activeKey === mutedKey) renderTimerState();
   }
 
+  function applyTimeAnalysisLocalPayloadSignal(rawValue) {
+    if (!rawValue) return;
+    let nextPayload;
+    try {
+      nextPayload = cleanClientPayload(JSON.parse(rawValue));
+    } catch (error) {
+      return;
+    }
+    const currentUpdatedAt = timestampMs(timePayload.updatedAt);
+    const nextUpdatedAt = timestampMs(nextPayload.updatedAt);
+    if (currentUpdatedAt && nextUpdatedAt && nextUpdatedAt < currentUpdatedAt) return;
+    const currentActiveKey = aiAgentBreakAlarmKey(timePayload.activeEntry);
+    const nextActiveKey = aiAgentBreakAlarmKey(nextPayload.activeEntry);
+    const currentMuted = timePayload.activeEntry?.alarmMuted === true;
+    const nextMuted = nextPayload.activeEntry?.alarmMuted === true;
+    const activeChanged = currentActiveKey !== nextActiveKey;
+    const muteChanged = currentMuted !== nextMuted;
+    if (!activeChanged && !muteChanged) return;
+    if (activeChanged) stopAiAgentBreakAlarm();
+    if (nextMuted) {
+      aiAgentBreakAlarmMutedKey = nextActiveKey;
+      timeAnalysisAudioMuted = true;
+      silenceAiAgentBreakAlarmSound();
+    } else {
+      aiAgentBreakAlarmMutedKey = "";
+      timeAnalysisAudioMuted = false;
+    }
+    timePayload = nextPayload;
+    renderTimePayloadState({ renderScope: "full" });
+    if (!timePayload.activeEntry) renderTimerState();
+  }
+
   window.addEventListener("storage", (event) => {
-    if (event.key !== AI_AGENT_BREAK_ALARM_MUTED_STORAGE) return;
-    applyTimeAnalysisAlarmMuteSignal(event.newValue || "");
+    if (event.key === AI_AGENT_BREAK_ALARM_MUTED_STORAGE) {
+      applyTimeAnalysisAlarmMuteSignal(event.newValue || "");
+      return;
+    }
+    if (event.key === TIME_LOCAL_PAYLOAD_STORAGE) {
+      applyTimeAnalysisLocalPayloadSignal(event.newValue || "");
+    }
   });
 
   function startAiAgentBreakAlarm(entry) {

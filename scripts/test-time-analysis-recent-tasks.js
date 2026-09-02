@@ -265,6 +265,98 @@ vm.runInContext([
 
 console.log("AI-agent break alarm checks passed.");
 
+const crossTabAlarmEvents = [];
+const crossTabAlarmSandbox = {
+  timePayload: {
+    updatedAt: "2026-09-02T12:00:00.000Z",
+    activeEntry: {
+      id: "old-entry",
+      listId: "business",
+      taskId: "run-ai-agent",
+      taskName: "🤖 Run AI agent_Work",
+      start: "2026-09-02T11:30:00.000Z",
+      alarmMuted: false
+    }
+  },
+  timeAnalysisAudioMuted: false,
+  aiAgentBreakAlarmMutedKey: "",
+  cleanClientPayload(value) {
+    return JSON.parse(JSON.stringify(value));
+  },
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
+  },
+  timestampMs(value) {
+    const parsed = Date.parse(value || "");
+    return Number.isFinite(parsed) ? parsed : 0;
+  },
+  stopAiAgentBreakAlarm() {
+    crossTabAlarmEvents.push("stop");
+  },
+  silenceAiAgentBreakAlarmSound() {
+    crossTabAlarmEvents.push("silence");
+  },
+  renderTimePayloadState() {
+    crossTabAlarmEvents.push("render");
+  },
+  renderTimerState() {
+    crossTabAlarmEvents.push("render-timer");
+  }
+};
+
+vm.createContext(crossTabAlarmSandbox);
+vm.runInContext([
+  extractFunction(html, "normalizedBreakAlarmTaskName"),
+  extractFunction(html, "aiAgentBreakAlarmKey"),
+  extractFunction(html, "applyTimeAnalysisLocalPayloadSignal")
+].join("\n\n"), crossTabAlarmSandbox);
+
+crossTabAlarmSandbox.applyTimeAnalysisLocalPayloadSignal(JSON.stringify({
+  updatedAt: "2026-09-02T12:01:00.000Z",
+  activeEntry: {
+    id: "new-entry",
+    listId: "personal",
+    taskId: "take-a-break",
+    taskName: "🏖️ Take a break",
+    start: "2026-09-02T12:01:00.000Z",
+    alarmMuted: false
+  }
+}));
+assert.strictEqual(
+  crossTabAlarmSandbox.timePayload.activeEntry.taskName,
+  "🏖️ Take a break",
+  "a second Time Analysis tab should adopt the latest active timer"
+);
+assert.strictEqual(
+  crossTabAlarmSandbox.timeAnalysisAudioMuted,
+  false,
+  "switching to an unmuted timer should leave alarm audio enabled"
+);
+assert.ok(
+  crossTabAlarmEvents.includes("stop"),
+  "switching active timers in another tab should stop the old alarm"
+);
+
+crossTabAlarmEvents.length = 0;
+crossTabAlarmSandbox.applyTimeAnalysisLocalPayloadSignal(JSON.stringify({
+  updatedAt: "2026-09-02T12:02:00.000Z",
+  activeEntry: null
+}));
+assert.strictEqual(
+  crossTabAlarmSandbox.timePayload.activeEntry,
+  null,
+  "a second Time Analysis tab should adopt a stop from another tab"
+);
+assert.ok(
+  crossTabAlarmEvents.includes("stop")
+    && crossTabAlarmEvents.includes("render")
+    && crossTabAlarmEvents.includes("render-timer"),
+  "adopting a cross-tab stop should stop the alarm and refresh timer controls"
+);
+
+console.log("Cross-tab timer synchronization checks passed.");
+
 const autoDoneSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();
