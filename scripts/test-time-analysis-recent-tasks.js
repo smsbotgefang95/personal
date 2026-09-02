@@ -357,6 +357,14 @@ assert.ok(
 
 console.log("Cross-tab timer synchronization checks passed.");
 
+const businessReminderSource = extractFunction(html, "showBusinessMustReminder");
+assert.ok(
+  (businessReminderSource.match(/if \(timeAnalysisAudioMuted\) return;/g) || []).length >= 2,
+  "business reminder audio and its pending notification fallback should both respect mute"
+);
+
+console.log("Business reminder mute checks passed.");
+
 const autoDoneSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();

@@ -7294,8 +7294,8 @@
     const title = `Due in ${BUSINESS_MUST_REMINDER_MINUTES} min`;
     const body = `${cleanLabel(entry.taskName, "Business task")} is due at ${dueTime}.`;
     playBusinessMustReminderSound().catch(() => {}).finally(() => {
+      if (timeAnalysisAudioMuted) return;
       if ("Notification" in window && Notification.permission === "granted") {
-        if (timeAnalysisAudioMuted) return;
         const notification = new Notification(title, {
           body,
           tag: businessMustReminderKey(entry, dueAt),
