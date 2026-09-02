@@ -3956,6 +3956,7 @@
   const AI_AGENT_BREAK_ALARM_THRESHOLD_MS = 30 * 60 * 1000;
   const AI_AGENT_BREAK_ALARM_REPEAT_MS = 5 * 1000;
   const AI_AGENT_BREAK_ALARM_SOUND_VOLUME = 0.42;
+  const DEFAULT_TIME_ANALYSIS_ALARM_MUTED = true;
   const DEFAULT_RECENT_TASK_EXCLUDED_NAMES = new Set([
     "update daily kpis",
     "soak butt",
@@ -5204,6 +5205,7 @@
       recurrence,
       taskOrder: "",
       notes: normalizeMarkdownEmphasisSpacing(document.getElementById("trackerNotes").value.trim()),
+      alarmMuted: DEFAULT_TIME_ANALYSIS_ALARM_MUTED,
       createdAt: startIso,
       updatedAt: startIso
     };
@@ -5238,6 +5240,7 @@
       recurrence: inferRecurrence(entry),
       taskOrder: cleanLabel(entry.taskOrder, ""),
       notes: "",
+      alarmMuted: DEFAULT_TIME_ANALYSIS_ALARM_MUTED,
       createdAt: startIso,
       updatedAt: startIso
     };
@@ -5303,6 +5306,10 @@
 
   function cleanClientPayload(payload) {
     const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+    const rawActiveEntry = payload?.activeEntry && payload.activeEntry.id ? payload.activeEntry : null;
+    const activeEntry = rawActiveEntry
+      ? { ...rawActiveEntry, alarmMuted: rawActiveEntry.alarmMuted !== false }
+      : null;
     let repaired = false;
     const cleanEntries = entries
       .filter((entry) => entry && entry.id && entry.start && entry.stop)
@@ -5313,7 +5320,7 @@
       });
     return {
       entries: cleanEntries,
-      activeEntry: payload?.activeEntry && payload.activeEntry.id ? payload.activeEntry : null,
+      activeEntry,
       taskOverrides: cleanTaskOverrides(payload?.taskOverrides),
       taskMerges: cleanTaskMerges(payload?.taskMerges),
       deletedEntryKeys: cleanDeletedEntryKeys(payload?.deletedEntryKeys),
@@ -6322,7 +6329,7 @@
   function renderTimerState() {
     const active = timePayload.activeEntry;
     const durationMs = active ? activeDurationMs() : 0;
-    if (active?.alarmMuted === true) timeAnalysisAudioMuted = true;
+    if (active) timeAnalysisAudioMuted = active.alarmMuted !== false;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
     document.getElementById("timerValue").textContent = formatClock(durationMs);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
@@ -11566,7 +11573,7 @@
   async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
     stopAiAgentBreakAlarm();
-    timeAnalysisAudioMuted = false;
+    timeAnalysisAudioMuted = DEFAULT_TIME_ANALYSIS_ALARM_MUTED;
     aiAgentBreakAlarmMutedKey = "";
     localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry, startIso) : trackerFormValues(startIso);
