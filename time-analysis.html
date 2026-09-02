@@ -6239,6 +6239,28 @@
     });
   }
 
+  function applyTimeAnalysisAlarmMuteSignal(mutedKey) {
+    const active = timePayload.activeEntry;
+    const activeKey = aiAgentBreakAlarmKey(active);
+    if (mutedKey) {
+      aiAgentBreakAlarmMutedKey = mutedKey;
+      timeAnalysisAudioMuted = true;
+      if (active && activeKey === mutedKey && active.alarmMuted !== true) active.alarmMuted = true;
+      silenceAiAgentBreakAlarmSound();
+    } else if (!active || !activeKey || activeKey === aiAgentBreakAlarmMutedKey) {
+      aiAgentBreakAlarmMutedKey = "";
+      timeAnalysisAudioMuted = false;
+      if (active && active.alarmMuted === true) active.alarmMuted = false;
+      renderTimerState();
+    }
+    if (active && activeKey === mutedKey) renderTimerState();
+  }
+
+  window.addEventListener("storage", (event) => {
+    if (event.key !== AI_AGENT_BREAK_ALARM_MUTED_STORAGE) return;
+    applyTimeAnalysisAlarmMuteSignal(event.newValue || "");
+  });
+
   function startAiAgentBreakAlarm(entry) {
     const key = aiAgentBreakAlarmKey(entry);
     if (!key) return;
