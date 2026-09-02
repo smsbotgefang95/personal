@@ -6247,7 +6247,7 @@
       timeAnalysisAudioMuted = true;
       if (active && activeKey === mutedKey && active.alarmMuted !== true) active.alarmMuted = true;
       silenceAiAgentBreakAlarmSound();
-    } else if (!active || !activeKey || activeKey === aiAgentBreakAlarmMutedKey) {
+    } else {
       aiAgentBreakAlarmMutedKey = "";
       timeAnalysisAudioMuted = false;
       if (active && active.alarmMuted === true) active.alarmMuted = false;
