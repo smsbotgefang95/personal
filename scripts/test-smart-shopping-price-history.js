@@ -15,6 +15,11 @@ function device() {
     defaultPriceCurrency: value => value,
     parseWeightQuantity: value => value.replace(/\s/g, '')
   });
+  vm.runInContext(html.slice(html.indexOf('    const weightUnitAliases ='), html.indexOf('    function splitWeightValue')), context);
+  for (const name of ['parseDiscountAmount', 'formatMoneyAmount', 'calculateSalePrice', 'parsePriceAmount', 'normalizedWeightQuantity', 'parseWeightQuantity', 'calculateUnitPrice']) {
+    const start = html.indexOf(`    function ${name}(`);
+    vm.runInContext(html.slice(start, html.indexOf('\n    function ', start + 1)), context);
+  }
   vm.runInContext(code, context);
   return context;
 }
@@ -43,10 +48,10 @@ assert.equal(savedSale[0].saleUnitPrice, '$2.00 / lb', 'regular price update pre
 assert.equal(savedSale[1].saleUnitPrice, '', 'old sale is not an active sale');
 const afterReload = device();
 const markup = afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',facts:updated});
-assert.ok(markup.indexOf('Last saved sale unit price') < markup.indexOf('<details'), 'sale is prominent outside history');
+assert.ok(markup.indexOf('Lowest recorded unit price') < markup.indexOf('<details'), 'sale is prominent outside history');
 assert.ok(markup.includes('$2.00 / lb'));
-assert.ok(markup.includes('Historical sale'));
-assert.ok(!afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',facts:sale}).includes('Last saved sale unit price'), 'current sale does not get duplicate historical banner');
+assert.ok(markup.includes('Sale ·'));
+assert.equal((afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',facts:sale}).match(/Lowest recorded unit price/g) || []).length, 1, 'one benchmark even when current sale matches history');
 // Upgrade an existing regular-only history without losing a current sale.
 afterReload.mergePriceHistory({'shop::legacy':[{id:'legacy',...item.facts,stores:['Costco'],date:'2026-09-01'}]});
 afterReload.recordRegularPrice('shop::legacy', {...item,facts:sale}, updated, ['Costco'], '2026-09-09');
@@ -80,3 +85,27 @@ assert.equal(soy[1].price,'$4.99');
 afterReload.recordRegularPrice('discount', item, {...item.facts,discount:'$1 off'}, ['Costco'], '2026-09-10');
 assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1')).discount.length,2,'discount changes still create history');
 console.log('PASS: package completion, package correction, store edits, existing history, equivalent prices and real price/discount changes');
+
+// Choose the cheapest observation rather than the latest sale; normalize package sizes.
+afterReload.mergePriceHistory({'shop::benchmark':[
+  {id:'old', price:'$4', salePrice:'$2', weight:'2 lb', stores:['Old store'], date:'2026-08-01'},
+  {id:'recent', price:'$4', salePrice:'$3', weight:'16 oz', stores:['New store'], date:'2026-09-01'},
+  {id:'volume', unitPrice:'$0.10 / fl oz', stores:['Volume store'], date:'2026-09-02'}
+]});
+const benchmark = afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'benchmark',facts:updated,stores:['Costco']});
+assert.ok(benchmark.includes('<strong>$1.00 / lb</strong>'));
+assert.ok(benchmark.includes('Sale · 2026-08-01 · Old store'));
+assert.equal((benchmark.match(/Lowest recorded unit price/g) || []).length, 2, 'incompatible units stay separate');
+const currentBest = afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'benchmark',facts:{price:'$1',weight:'2 lb'},stores:['Current store']});
+assert.ok(currentBest.includes('<strong>$0.50 / lb</strong>'));
+assert.ok(currentBest.includes('Regular price · Date unknown · Current store'));
+const table = afterReload.priceHistoryTableMarkup([
+  {price:'$4',salePrice:'$2',weight:'2 lb'}, {price:'$6',weight:'2 lb'},
+  {price:'$4',salePrice:'$2',unitPrice:'$4 / lb'}
+]);
+assert.ok(!table.includes('<th>Sale unit price</th>'));
+assert.ok(table.includes('$1.00 / lb<span class="history-sale-label">Sale</span>'));
+assert.ok(table.includes('<td>$3.00 / lb</td>'));
+assert.ok(table.includes('Not listed<span class="history-sale-label">Sale</span>'), 'unknown sale unit price must not use regular unit price');
+assert.equal((table.match(/<th>/g) || []).length, 6);
+console.log('PASS: lowest benchmark, current regular bargain, units, provenance and simplified sale history');
