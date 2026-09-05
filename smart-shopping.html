@@ -1255,10 +1255,12 @@
       return formatProductName(fullName, leadingBrand);
     }
     function itemNames(item) {
+      // Imported list quantities are not part of the product name.
+      const withoutQuantity = value => String(value || "").replace(/\s*[（(]\s*\d+(?:\.\d+)?\s*[×xX]\s*(?:\d+(?:\.\d+)?\s*)?(?:袋|盒|个|瓶|罐|包|箱|条|根|块|顿|把|只|枚)\s*[）)]\s*$/u, "").trim();
       if (item && (Object.hasOwn(item, "englishName") || Object.hasOwn(item, "chineseName"))) {
-        return { englishName: canonicalizeShoppingText(item.englishName || "").trim(), chineseName: canonicalizeShoppingText(item.chineseName || "").trim() };
+        return { englishName: withoutQuantity(canonicalizeShoppingText(item.englishName || "")), chineseName: withoutQuantity(canonicalizeShoppingText(item.chineseName || "")) };
       }
-      const name = displayProductName(item?.name, itemBrand(item));
+      const name = withoutQuantity(displayProductName(item?.name, itemBrand(item)));
       const firstChinese = name.search(/[\u3400-\u9fff]/u);
       if (firstChinese < 0) return { englishName: name, chineseName: "" };
       // Split only a clear English prefix followed by Chinese text. Keep ambiguous text intact.
