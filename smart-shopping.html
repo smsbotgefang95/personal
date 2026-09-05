@@ -536,6 +536,7 @@
         <h3 id="edit-details-heading"><span aria-hidden="true">📝</span> Item details</h3>
       <label class="edit-field" id="edit-chinese-name-field"><span>Chinese name / 中文名称</span><input id="edit-item-chinese-name" type="text" autocomplete="off" /></label>
       <label class="edit-field" id="edit-name-field"><span>English name</span><input id="edit-item-name" type="text" autocomplete="off" /><small>Enter at least one name. Search works in either language.</small></label>
+      <label class="edit-field" id="edit-made-in-field"><span>Made in (country) / 生产国家</span><input id="edit-item-made-in" type="text" placeholder="e.g. United States, China, Japan" autocomplete="off" /><small>Optional. Use the country shown on the product label.</small></label>
       </section>
       <section class="edit-section edit-section--category" aria-labelledby="edit-category-heading">
         <h3 id="edit-category-heading"><span aria-hidden="true">🏷️</span> Brand &amp; category</h3>
@@ -729,6 +730,7 @@
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       addItem: document.getElementById("add-item-button"),
+      editMadeIn: document.getElementById("edit-item-made-in"), editMadeInField: document.getElementById("edit-made-in-field"),
       newBrand: document.getElementById("new-brand-name"), addBrand: document.getElementById("add-brand-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
       search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), list: document.getElementById("list-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editChineseName: document.getElementById("edit-item-chinese-name"), editChineseNameField: document.getElementById("edit-chinese-name-field"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
@@ -1134,12 +1136,12 @@
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const normalizedItem = normalizeStoredItem(item);
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), ...itemNames({ ...edit, brand: edit.brand ?? itemBrand(normalizedItem) }), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
+        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), ...itemNames({ ...edit, brand: edit.brand ?? itemBrand(normalizedItem) }), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), madeIn: edit.madeIn !== undefined ? String(edit.madeIn || "").trim() : normalizedItem.madeIn, category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const normalizedItem = normalizeStoredItem(item);
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), ...itemNames({ ...edit, brand: edit.brand ?? itemBrand(normalizedItem) }), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
+        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), ...itemNames({ ...edit, brand: edit.brand ?? itemBrand(normalizedItem) }), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), madeIn: edit.madeIn !== undefined ? String(edit.madeIn || "").trim() : normalizedItem.madeIn, category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
       }) : [];
       return [...importedItems, ...addedItems].filter((item) => !itemRemovals[editStorageKey(listName, item.key)]);
     }
@@ -1934,6 +1936,7 @@
       const facts = productFacts(item);
       const brand = itemBrand(item);
       const displayName = displayItemName(item);
+      const countryBadge = item.madeIn ? `<span class="badge">Made in ${escapeHtml(item.madeIn)}</span>` : "";
       const brandBadge = brand ? `<span class="badge badge-brand">${escapeHtml(brand)}</span>` : "";
       const photo = foodPhoto(item);
       const hasCustomPhoto = typeof item.photo === "string" && item.photo.startsWith("data:image/");
@@ -1946,7 +1949,7 @@
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
       const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
       const moveLabel = moveTarget === "买菜" ? "Shop" : "Later";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-compare-item>Compare</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-compare-item>Compare</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}${countryBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -2237,6 +2240,7 @@
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editChineseNameField.hidden = false;
+      els.editMadeInField.hidden = false;
       els.editName.setCustomValidity("");
       els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
@@ -2247,6 +2251,7 @@
       const names = itemNames(item);
       els.editName.value = names.englishName;
       els.editChineseName.value = names.chineseName;
+      els.editMadeIn.value = item.madeIn || "";
       renderBrandOptions(itemBrand(item));
       els.newBrand.value = "";
       renderEditCategories(item.category);
@@ -2282,6 +2287,7 @@
       document.getElementById("save-item-button").textContent = "Move item";
       els.editNameField.hidden = true;
       els.editChineseNameField.hidden = true;
+      els.editMadeInField.hidden = true;
       els.editName.setCustomValidity("");
       els.editBrandField.hidden = true;
       els.editCategoryField.hidden = true;
@@ -2312,6 +2318,7 @@
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editChineseNameField.hidden = false;
+      els.editMadeInField.hidden = false;
       els.editName.setCustomValidity("");
       els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
@@ -2321,6 +2328,7 @@
       els.editName.required = false;
       els.editName.value = "";
       els.editChineseName.value = "";
+      els.editMadeIn.value = "";
       renderBrandOptions();
       els.newBrand.value = "";
       renderEditCategories();
@@ -2372,6 +2380,7 @@
         return;
       }
       const brand = els.editBrand.value;
+      const madeIn = els.editMadeIn.value.trim();
       const parentCategory = els.editCategory.value || "Uncategorized";
       const originalCategory = els.editCategory.dataset.originalCategory;
       const category = document.getElementById("edit-item-subcategory").value || (originalCategory && mainCategory(originalCategory) === parentCategory && ["Uncategorized", "干货"].includes(parentCategory) ? originalCategory : parentCategory);
@@ -2400,14 +2409,14 @@
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
         try { recordRegularPrice(editStorageKey(editSession.list, key), null, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, key), storeChanges); }
         catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
-        itemAdds[editSession.list].push({ key, name, englishName, chineseName, brand, category, meta: [], facts, stores, photo, added: true });
+        itemAdds[editSession.list].push({ key, name, englishName, chineseName, brand, madeIn, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
         const previous = getSourceItems(editSession.list).find((item) => item.key === editSession.key);
         try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, editSession.key), storeChanges); }
         catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, madeIn, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
         pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
         savePendingEdits();
         saveItemEdits();
