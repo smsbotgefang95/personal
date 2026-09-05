@@ -299,6 +299,14 @@
   .modal-note { margin: 17px 0 0; padding: 10px 12px; border-radius: 10px; color: #72602e; background: #fff9e9; font-size: 0.73rem; }
   .edit-fields { display: grid; gap: 13px; margin-top: 19px; }
   .edit-fields [hidden] { display: none; }
+  .edit-section { display: grid; gap: 13px; min-width: 0; padding: 16px; border: 1px solid var(--section-border); border-left: 4px solid var(--section-accent); border-radius: 13px; background: var(--section-bg); }
+  .edit-section:not(:has(> :not(h3):not([hidden]))) { display: none; }
+  .edit-section h3 { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--section-heading); font-size: 0.86rem; font-weight: 800; }
+  .edit-section .edit-field { min-width: 0; color: #48536a; }
+  .edit-section--details { --section-bg: #f0f6ff; --section-border: #d3e1f5; --section-accent: #78a3da; --section-heading: #315a88; }
+  .edit-section--category { --section-bg: #f7f2fc; --section-border: #e3d8ef; --section-accent: #b090cf; --section-heading: #6d4c89; }
+  .edit-section--pricing { --section-bg: #fff8e9; --section-border: #efdfb8; --section-accent: #d4a343; --section-heading: #805d1c; }
+  .edit-section--extras { --section-bg: #eef8f3; --section-border: #cee7da; --section-accent: #70b596; --section-heading: #326b52; }
   .edit-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
   .edit-field { display: grid; gap: 5px; color: var(--muted); font-size: 0.74rem; font-weight: 750; }
   .edit-field input, .edit-field select { width: 100%; padding: 10px 11px; border: 1px solid #dce6de; border-radius: 9px; outline: none; color: var(--ink); background: #ffffff; font-size: 0.82rem; font-weight: 500; }
@@ -520,9 +528,14 @@
       <button class="close-modal" id="close-edit-modal" type="button" aria-label="Close item editor">×</button>
     </div>
     <div class="edit-fields">
+      <section class="edit-section edit-section--details" aria-labelledby="edit-details-heading">
+        <h3 id="edit-details-heading"><span aria-hidden="true">📝</span> Item details</h3>
       <label class="edit-field" id="edit-chinese-name-field"><span>Chinese name / 中文名称</span><input id="edit-item-chinese-name" type="text" autocomplete="off" /></label>
       <label class="edit-field" id="edit-name-field"><span>English name</span><input id="edit-item-name" type="text" autocomplete="off" /><small>Enter at least one name. Search works in either language.</small></label>
       <label class="edit-field" id="edit-list-field" hidden><span>Collection</span><select id="edit-item-list"></select></label>
+      </section>
+      <section class="edit-section edit-section--category" aria-labelledby="edit-category-heading">
+        <h3 id="edit-category-heading"><span aria-hidden="true">🏷️</span> Brand &amp; category</h3>
       <div class="edit-field" id="edit-brand-field">
         <span>Brand</span>
         <div class="brand-editor">
@@ -553,8 +566,12 @@
         <label class="edit-field"><span>Unit price</span><input id="edit-item-unit-price" type="text" title="Automatically calculated from price and weight when both are valid" autocomplete="off" /></label>
         <label class="edit-field"><span>Sale unit price</span><input id="edit-item-sale-unit-price" type="text" title="Automatically calculated from sale price and weight when both are valid" autocomplete="off" /></label>
       </div>
+      </section>
+      <section class="edit-section edit-section--extras" aria-labelledby="edit-extras-heading">
+        <h3 id="edit-extras-heading"><span aria-hidden="true">🛒</span> Stores &amp; photo</h3>
       <div class="edit-field" id="edit-stores-field"><span id="edit-stores-label">Stores</span><div class="store-picker"><input id="edit-item-stores" type="text" autocomplete="off" aria-labelledby="edit-stores-label" aria-controls="edit-store-options" aria-expanded="false" /><button class="store-picker-toggle" id="edit-store-toggle" type="button" aria-label="Open store options" aria-controls="edit-store-options" aria-expanded="false">⌄</button><div class="store-options" id="edit-store-options" role="listbox" aria-labelledby="edit-stores-label" hidden></div></div></div>
       <div class="edit-field" id="edit-photo-field"><span>Photo</span><div class="photo-picker"><label class="photo-upload-button" for="edit-item-photo">Choose a photo</label><input id="edit-item-photo" type="file" accept="image/*" /><div class="photo-preview" id="edit-photo-preview" hidden><img id="edit-photo-preview-image" alt="Selected item photo" /><span id="edit-photo-name"></span><button class="photo-remove-button" id="remove-item-photo" type="button">Remove</button></div><p class="photo-help">The photo is resized and saved only in this browser.</p></div></div>
+      </section>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
     <p class="modal-note" id="edit-item-note">Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.</p>
