@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "老抽",
+    "file": "kimlan-dark-soy-square.svg",
+    "source": "https://www.kimlanusa.com/wp-content/uploads/2024/09/Kimlan-Lou-Chau.png",
+    "sourcePage": "https://www.kimlanusa.com/product/kimlan-lou-chau-soy-sauce/"
+  },
+  {
     "name": "台湾香肠",
     "file": "costco-kam-yen-jan-sausage.jpg",
     "source": "https://www.instacart.com/assets/domains/product-image/file/large_43acc7a3-867b-4b69-a4bd-532f2ccd774e.jpeg",
