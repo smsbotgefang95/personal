@@ -561,7 +561,7 @@
         <h3 id="edit-pricing-heading"><span aria-hidden="true">💰</span> Pricing &amp; quantity</h3>
       <section id="price-history-section" class="edit-field" style="grid-column:1 / -1">
         <div><button class="button-secondary" id="update-regular-price" type="button">Update regular price</button> <button class="button-secondary" id="add-sale-price" type="button">Add sale price</button></div>
-        <p class="field-help">Regular and sale prices stay in history. “Update regular price” ends the current sale; its sale unit price remains visible as the last saved sale after you save.</p>
+        <p class="field-help">Regular and sale prices stay in history. “Update regular price” ends the current sale; its sale unit price remains visible in price history.</p>
         <label class="edit-field"><span>Price effective date</span><input id="price-effective-date" type="date" /></label>
         <details><summary>Price history (regular and sale)</summary><div id="price-history-rows" style="overflow-x:auto"></div></details>
       </section>
@@ -583,7 +583,8 @@
       </section>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
-    <p class="modal-note" id="edit-item-note">Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.</p>
+    <p class="modal-note" id="edit-item-note">Your changes, price details, and photo save automatically in this browser and stay separate from the original AnyList import.</p>
+    <p id="edit-save-status" role="status" aria-live="polite"></p>
     <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="button">Save changes</button></div>
   </form>
 </div>
@@ -2151,6 +2152,7 @@
       const selectedStores = canonicalStoresFromInput(value);
       const nextStores = searching ? [...new Set([...selectedStores, store])] : selectedStores.includes(store) ? selectedStores.filter((selected) => selected !== store) : [...selectedStores, store];
       els.editStores.value = nextStores.join(", ");
+      queueItemAutosave();
       renderStoreOptions();
       setStoreOptionsOpen(true);
       els.editStores.focus();
@@ -2226,7 +2228,7 @@
       storePriceDrafts.push(draft);
       if (!entry) {
         const remove = document.createElement("button"); remove.type = "button"; remove.className = "button-secondary"; remove.textContent = "Remove this store";
-        remove.addEventListener("click", () => { storePriceDrafts = storePriceDrafts.filter((value) => value !== draft); row.remove(); }); row.appendChild(remove);
+        remove.addEventListener("click", () => { storePriceDrafts = storePriceDrafts.filter((value) => value !== draft); row.remove(); queueItemAutosave(); }); row.appendChild(remove);
       }
       document.getElementById("additional-store-prices").appendChild(row);
       if (!entry) storeInput.focus();
@@ -2263,8 +2265,10 @@
       editSession.mode = "edit";
       document.getElementById("edit-item-title").textContent = "Edit item";
       els.editSubtitle.textContent = `${displayListName(itemTargetList(item.sourceList, item.key))} · changes are saved in this browser`;
-      document.getElementById("edit-item-note").textContent = "Your changes, price details, and photo are saved in this browser and stay separate from the original AnyList import.";
-      document.getElementById("save-item-button").textContent = "Save changes";
+      document.getElementById("edit-item-note").textContent = "Your changes, price details, and photo save automatically in this browser and stay separate from the original AnyList import.";
+      document.getElementById("save-item-button").hidden = true;
+      document.getElementById("cancel-edit-button").textContent = "Close";
+      document.getElementById("edit-save-status").textContent = "Edits save automatically.";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editChineseNameField.hidden = false;
@@ -2305,6 +2309,9 @@
       window.requestAnimationFrame(() => els.editChineseName.focus());
     }
     function openItemMover(item) {
+      document.getElementById("save-item-button").hidden = false;
+      document.getElementById("cancel-edit-button").textContent = "Cancel";
+      document.getElementById("edit-save-status").textContent = "";
       editSession.list = item.sourceList;
       editSession.key = item.key;
       editSession.mode = "move";
@@ -2334,6 +2341,9 @@
       window.requestAnimationFrame(() => els.moveList.focus());
     }
     function openItemCreator() {
+      document.getElementById("save-item-button").hidden = false;
+      document.getElementById("cancel-edit-button").textContent = "Cancel";
+      document.getElementById("edit-save-status").textContent = "";
       const addingFromAll = isAllList();
       editSession.list = addingFromAll ? (listNames.includes("买菜") ? "买菜" : listNames[0]) : state.activeList;
       editSession.key = "";
@@ -2379,7 +2389,30 @@
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editChineseName.focus());
     }
+    let editAutosaveTimer;
+    let editDirty = false;
+    let photoLoading = false;
+    function queueItemAutosave() {
+      if (editSession.mode !== "edit" || !els.editModal.classList.contains("open")) return;
+      editDirty = true;
+      document.getElementById("edit-save-status").textContent = "Saving…";
+      clearTimeout(editAutosaveTimer);
+      editAutosaveTimer = setTimeout(flushItemAutosave, 600);
+    }
+    function flushItemAutosave() {
+      clearTimeout(editAutosaveTimer);
+      if (!editDirty) return true;
+      if (photoLoading) return false;
+      const saved = saveItemEdit(null, true) === true;
+      document.getElementById("edit-save-status").textContent = saved
+        ? "Saved automatically in this browser."
+        : "Changes not saved yet. Complete the required fields and try again.";
+      if (saved) editDirty = false;
+      return saved;
+    }
     function closeItemEditor() {
+      if (photoLoading) { showToast("Please wait for the photo to finish saving."); return; }
+      if (editSession.mode === "edit" && !flushItemAutosave()) return;
       els.editModal.classList.remove("open");
       editSession.list = "";
       editSession.key = "";
@@ -2389,8 +2422,9 @@
       els.photoInput.value = "";
       setPhotoPreview("");
     }
-    function saveItemEdit(event) {
-      event.preventDefault();
+    function saveItemEdit(event, automatic = false) {
+      event?.preventDefault();
+      if (editSession.mode === "edit" && !automatic) return flushItemAutosave();
       if (editSession.mode === "move") {
         const targetList = els.moveList.value;
         const sourceList = editSession.list;
@@ -2404,7 +2438,7 @@
       const name = [englishName, chineseName].filter(Boolean).join(" ");
       if (!name) {
         els.editName.setCustomValidity("Enter an English or Chinese name.");
-        els.editName.reportValidity();
+        if (!automatic) els.editName.reportValidity();
         return;
       }
       const brand = els.editBrand.value;
@@ -2446,8 +2480,20 @@
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
         itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, madeIn, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
         pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
-        savePendingEdits();
-        saveItemEdits();
+        try {
+          localStorage.setItem(pendingEditsStorageKey, JSON.stringify(pendingEdits));
+          localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits));
+        } catch (error) {
+          showToast("Changes could not be saved. Free browser storage and try again.");
+          return false;
+        }
+        queueShoppingSync();
+      }
+      storePriceDrafts.forEach((draft) => { draft.original = JSON.stringify(readStorePriceDraft(draft.row)); });
+      if (automatic) {
+        document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(priceHistory[editStorageKey(editSession.list, editSession.key)] || []);
+        render();
+        return true;
       }
       const savedMessage = editSession.mode === "add" ? `${name} added to ${displayListName(editSession.list)}.` : `${name} saved in this browser.`;
       closeItemEditor();
@@ -2612,17 +2658,24 @@
       els.editSaleUnitPrice.value = "";
       refreshUnitPrice();
       els.editPrice.focus();
-      showToast("Enter the new regular price. Save to keep the previous sale in price history.");
+      showToast("Enter the new regular price. Changes save automatically and keep the previous sale in price history.");
     });
     document.getElementById("add-sale-price").addEventListener("click", () => els.editSalePrice.focus());
     [els.editName, els.editChineseName].forEach((input) => input.addEventListener("input", () => els.editName.setCustomValidity("")));
+    els.editForm.addEventListener("input", (event) => { if (event.target !== els.photoInput) queueItemAutosave(); });
+    els.editForm.addEventListener("change", (event) => { if (event.target !== els.photoInput) queueItemAutosave(); });
+    els.editForm.addEventListener("click", (event) => {
+      if (event.target.closest("[data-draft-store], #add-brand-button, #remove-item-photo, #update-regular-price")) queueItemAutosave();
+    });
+    window.addEventListener("pagehide", flushItemAutosave);
     els.editForm.addEventListener("submit", saveItemEdit);
     document.getElementById("save-item-button").addEventListener("click", saveItemEdit);
-    els.addBrand.addEventListener("click", addBrandOption);
+    els.addBrand.addEventListener("click", () => { addBrandOption(); queueItemAutosave(); });
     els.newBrand.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
         addBrandOption();
+        queueItemAutosave();
       }
     });
     els.editPrice.addEventListener("input", () => { applyDefaultPriceCurrency(); refreshUnitPrice(); });
@@ -2637,19 +2690,25 @@
     els.photoInput.addEventListener("change", async (event) => {
       const file = event.target.files?.[0];
       if (!file) return;
+      photoLoading = true;
+      const previousPhoto = editSession.photo;
       try {
         editSession.photo = await resizePhoto(file);
         setPhotoPreview(editSession.photo);
       } catch (error) {
-        editSession.photo = "";
-        setPhotoPreview("");
+        editSession.photo = previousPhoto;
+        setPhotoPreview(previousPhoto);
         showToast(error.message || "The photo could not be added.");
+      } finally {
+        photoLoading = false;
+        queueItemAutosave();
       }
     });
     els.removePhoto.addEventListener("click", () => {
       editSession.photo = "";
       els.photoInput.value = "";
       setPhotoPreview("");
+      queueItemAutosave();
     });
     els.storeOptions.addEventListener("click", (event) => {
       event.stopPropagation();
