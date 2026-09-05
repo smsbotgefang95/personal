@@ -1,0 +1,31 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const html = fs.readFileSync('smart-shopping.html', 'utf8');
+const slice = (start, end) => html.slice(html.indexOf(start), html.indexOf(end));
+const sources = ['买菜', '备选', '推车', '冰箱', '冰柜_肉和其他🥩', '橱柜_食物🍫'];
+const items = Object.fromEntries(sources.map((source, index) => [source, [{key: `item-${index}`, name: `Food ${index}`, photo: 'saved-photo', facts: {price: '$2'}, edited: true}]]));
+const moves = {};
+const context = vm.createContext({sourceListNames: sources, itemMoves: moves, moveStorageKey: (s,k) => `${s}::${k}`, getSourceItems: s => items[s] || [], state: {activeList:'__all__', detailFilter:'missing-photo'}});
+vm.runInContext(slice('    const logicalListName =', '    const listDisplayNames') + '\nconst ALL_LIST = "__all__";\n' + slice('    function itemTargetList(', '    function itemReference('), context);
+assert.equal(context.getImportedItems('买菜').length, 1);
+assert.equal(context.getImportedItems('备选').length, 5);
+const refs = context.getAllCollectionItems().map(i => `${i.sourceList}::${i.key}`);
+assert.equal(new Set(refs).size, 6, 'every source item appears exactly once');
+for (const item of context.getAllCollectionItems()) {
+  assert.equal(item.photo, 'saved-photo');
+  assert.equal(item.facts.price, '$2');
+  assert.equal(item.edited, true);
+  assert.equal(item.key, items[item.sourceList][0].key, 'source keys remain stable for history and purchase records');
+}
+moves['冰箱::item-3'] = '买菜';
+assert.equal(context.itemTargetList('冰箱', 'item-3'), '买菜', 'explicit shopping moves survive');
+moves['买菜::item-0'] = '冰柜_肉和其他🥩';
+assert.equal(context.itemTargetList('买菜', 'item-0'), '备选', 'old destination maps to reserve');
+moves['冰箱::item-3'] = '备选';
+assert.equal(context.itemTargetList('冰箱', 'item-3'), '备选');
+context.state.activeList = '买菜';
+assert.equal(context.getViewItems().length, 0, 'missing-photo filter cannot bypass selected list');
+context.state.activeList = '备选';
+assert.equal(context.getViewItems().length, 6);
+console.log('PASS: two lists, legacy destinations, saved fields and identities, explicit moves, scoped detail filter');
