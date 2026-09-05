@@ -761,6 +761,16 @@
       queueShoppingSync();
     }
     const itemMovesStorageKey = "smart-shopping-item-moves-v1";
+    const pendingMovesStorageKey = "smart-shopping-pending-moves-v1";
+    const pendingMoves = (() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(pendingMovesStorageKey) || "{}");
+        return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+      } catch (error) { return {}; }
+    })();
+    function savePendingMoves() {
+      try { localStorage.setItem(pendingMovesStorageKey, JSON.stringify(pendingMoves)); } catch (error) {}
+    }
     const shoppingSyncApi = "/api/smart-shopping";
     const shoppingSyncKeyStorage = "smart-shopping-admin-key-v1";
     let shoppingSyncKey = "";
@@ -785,6 +795,7 @@
         Object.assign(target, remote?.[key] || {});
         // Unsynced checkbox changes take precedence over the previous server value.
         if (key === "itemPurchases") Object.assign(target, pendingPurchases);
+        if (key === "itemMoves") Object.assign(target, pendingMoves);
         const storageKey = [itemEditsStorageKey, itemAddsStorageKey, itemPurchasesStorageKey, itemRemovalsStorageKey, itemRestorationsStorageKey, itemMovesStorageKey][index];
         try { localStorage.setItem(storageKey, JSON.stringify(target)); } catch (error) {}
       });
@@ -813,12 +824,17 @@
         mergeShoppingPayload(remote);
         if (upload) {
           const sentPurchases = { ...pendingPurchases };
+          const sentMoves = { ...pendingMoves };
           const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
           if (!saved.ok) throw new Error(`HTTP ${saved.status}`);
           Object.entries(sentPurchases).forEach(([itemKey, value]) => {
             if (pendingPurchases[itemKey] === value) delete pendingPurchases[itemKey];
           });
           savePendingPurchases();
+          Object.entries(sentMoves).forEach(([itemKey, value]) => {
+            if (pendingMoves[itemKey] === value) delete pendingMoves[itemKey];
+          });
+          savePendingMoves();
         }
         document.getElementById("sync-detail").textContent = "Synced across devices";
         if (rerender) render();
@@ -1766,6 +1782,8 @@
         return;
       }
       itemMoves[moveStorageKey(sourceList, itemKey)] = targetList;
+      pendingMoves[moveStorageKey(sourceList, itemKey)] = targetList;
+      savePendingMoves();
       saveItemMoves();
       state.draggedRef = null;
       state.activeList = targetList;
