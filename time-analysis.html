@@ -6180,11 +6180,6 @@
       .replace(/\s+/g, " ");
   }
 
-  function isAiAgentBreakAlarmTask(entry) {
-    const normalizedName = normalizedBreakAlarmTaskName(entry?.taskName);
-    return normalizedName === "run ai agent" || normalizedName === "run ai agent work";
-  }
-
   function aiAgentBreakAlarmKey(entry) {
     if (!entry || !entry.start) return "";
     return [
@@ -6330,12 +6325,13 @@
     if (aiAgentBreakAlarmLastRingAt && now - aiAgentBreakAlarmLastRingAt < AI_AGENT_BREAK_ALARM_REPEAT_MS) return;
     aiAgentBreakAlarmLastRingAt = now;
     playAiAgentBreakAlarmSound().catch(() => {});
-    setTrackerStatus("Break alarm: Run AI agent has been running for 30 minutes.", "error");
+    setTrackerStatus("Break alarm: Your timer has been running for 30 minutes.", "error");
   }
 
   function checkAiAgentBreakAlarm(active, durationMs) {
-    if (!active || !isAiAgentBreakAlarmTask(active) || durationMs < AI_AGENT_BREAK_ALARM_THRESHOLD_MS) {
-      stopAiAgentBreakAlarm();
+    if (!active || durationMs < AI_AGENT_BREAK_ALARM_THRESHOLD_MS) {
+      // Keep the gesture-unlocked audio context alive while counting toward 30 minutes.
+      if (aiAgentBreakAlarmActiveKey) stopAiAgentBreakAlarm();
       return;
     }
     startAiAgentBreakAlarm(active);
@@ -11654,6 +11650,7 @@
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
     }
+    unlockBusinessMustReminderSound().catch(() => {});
     if (active) {
       const completed = completedTimerEntries(active, startIso);
       const nextPayload = cleanClientPayload({
@@ -11783,6 +11780,7 @@
       });
       writeLocalTimePayload(timePayload);
       setTrackerStatus("Break alarm unmuted for this timer.", "saved");
+      unlockBusinessMustReminderSound().catch(() => {});
       renderTimerState();
       saveTimePayload(timePayload).catch((error) => setTrackerStatus(error.message, "error"));
       return;

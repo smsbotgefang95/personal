@@ -225,45 +225,33 @@ const breakAlarmSandbox = {
 };
 
 vm.createContext(breakAlarmSandbox);
-vm.runInContext([
-  extractFunction(html, "normalizedBreakAlarmTaskName"),
-  extractFunction(html, "isAiAgentBreakAlarmTask")
-].join("\n\n"), breakAlarmSandbox);
-
-[
-  { taskName: "Run AI Agent" },
-  { taskName: "Run AI Agent Life" },
-  { taskName: "Run AI Agent", taskCategory: "Life", listName: "🌈 Personal" },
-  { taskName: "Run AI Agent_Work" },
-  { taskName: "🤖 Run AI Agent_Work" },
-  { taskName: "Run Ai Agent_work" },
-  { taskName: "Run AI Agent Work" },
-  { taskName: "Run AI Agent-Work" },
-  {
-    taskId: "86agzhyhy",
-    taskName: "🤖 Run AI agent",
-    listId: "900601952633",
-    listName: "🚀 On Business",
-    taskCategory: "🙂 Work"
-  },
-  {
-    taskName: "Run AI agent",
-    listId: "900601952633",
-    listName: "🚀 On Business",
-    taskCategory: "Work"
-  }
-].forEach((entry) => {
-  const shouldTrigger = ["run ai agent", "run ai agent work"].includes(
-    breakAlarmSandbox.normalizedBreakAlarmTaskName(entry.taskName)
-  );
-  assert.strictEqual(
-    breakAlarmSandbox.isAiAgentBreakAlarmTask(entry),
-    shouldTrigger,
-    `${entry.taskName} should ${shouldTrigger ? "trigger" : "not trigger"} the 30-minute AI-agent break alarm`
-  );
+let alarmStops = 0;
+let alarmStarts = 0;
+Object.assign(breakAlarmSandbox, {
+  AI_AGENT_BREAK_ALARM_THRESHOLD_MS: 30 * 60 * 1000,
+  aiAgentBreakAlarmActiveKey: "",
+  stopAiAgentBreakAlarm() { alarmStops += 1; },
+  startAiAgentBreakAlarm() { alarmStarts += 1; }
 });
-
-console.log("AI-agent break alarm checks passed.");
+vm.runInContext(extractFunction(html, "checkAiAgentBreakAlarm"), breakAlarmSandbox);
+const lifeTimer = { taskName: "🤖 Run AI agent_Life" };
+for (let seconds = 0; seconds < 1800; seconds += 1) {
+  breakAlarmSandbox.checkAiAgentBreakAlarm(lifeTimer, seconds * 1000);
+}
+assert.strictEqual(alarmStops, 0, "countdown must preserve the unlocked audio context");
+assert.strictEqual(alarmStarts, 0, "alarm must not ring before 30 minutes");
+breakAlarmSandbox.checkAiAgentBreakAlarm(lifeTimer, 1800000);
+breakAlarmSandbox.checkAiAgentBreakAlarm(lifeTimer, 3502000);
+assert.strictEqual(alarmStarts, 2, "Life alarm must trigger at 30 minutes and the screenshot duration");
+["Run AI agent_Work", "Take a break", "Automate tasks", "Sleep", "Cook meals", "Custom task", ""].forEach((taskName) => {
+  const before = alarmStarts;
+  breakAlarmSandbox.checkAiAgentBreakAlarm({ taskName }, 1800000);
+  assert.strictEqual(alarmStarts, before + 1, `${taskName || "Unnamed task"} must trigger the alarm at 30 minutes`);
+});
+breakAlarmSandbox.aiAgentBreakAlarmActiveKey = "ringing";
+breakAlarmSandbox.checkAiAgentBreakAlarm(null, 0);
+assert.strictEqual(alarmStops, 1, "stopping a ringing timer must silence it");
+console.log("All-task break alarm checks passed.");
 
 const crossTabAlarmEvents = [];
 const crossTabAlarmSandbox = {
