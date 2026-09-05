@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "羊肚菌",
+    "file": "morel-mushrooms-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
     "name": "Cherries by sweetums 樱桃",
     "file": "cherries-square.png",
     "credit": "AI-generated with imagegen"
