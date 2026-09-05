@@ -90,6 +90,7 @@
   .summary-note { color: var(--muted); font-size: 0.76rem; }
   .workspace { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 16px; align-items: start; }
   .panel { border: 1px solid var(--line); border-radius: 20px; background: rgba(255, 255, 255, 0.92); box-shadow: var(--shadow); }
+  #list-rail-buttons { max-height: min(65vh, 680px); overflow-y: auto; }
   .list-rail { padding: 18px 14px; position: sticky; top: 70px; }
   .rail-heading { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding: 2px 6px 14px; }
   .rail-heading h2 { margin-bottom: 4px; font-size: 1rem; }
@@ -113,7 +114,7 @@
   .list-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .list-icon svg { display: block; width: 25px; height: 25px; }
   .list-button.active .list-icon { background: var(--list-icon-background); }
-  .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: nowrap; }
+  .list-name { min-width: 0; overflow: hidden; font-size: 0.88rem; font-weight: 780; text-overflow: ellipsis; white-space: normal; overflow-wrap: anywhere; }
   .list-meta { display: block; margin-top: 2px; color: var(--muted); font-size: 0.71rem; font-weight: 600; }
   .list-arrow { color: #9aa7a2; font-size: 1.1rem; }
   .source-note { margin: 17px 7px 2px; padding: 12px; border: 1px solid #e8ece7; border-radius: 13px; color: var(--muted); background: #fafcf9; font-size: 0.73rem; }
@@ -410,11 +411,10 @@
   <section class="workspace" aria-label="Smart shopping workspace">
     <aside class="panel list-rail">
       <div class="rail-heading">
-        <div><h2>Your collections</h2><p>Imported from AnyList</p></div>
+        <div><h2>Your categories</h2></div>
         <span class="rail-count" id="rail-count">0</span>
       </div>
       <div id="list-rail-buttons"></div>
-      <div class="source-note"><strong>Source stays visible</strong>Imported values are labeled separately from changes you make here, so you can tell what came from AnyList and what was added in this browser.</div>
     </aside>
 
     <section class="panel workspace-main" aria-live="polite">
@@ -588,7 +588,6 @@
       }
       return escapeHtml(icon || "🛒");
     }
-    document.getElementById("rail-count").textContent = listNames.length;
     document.getElementById("collection-import-note").textContent = `${listNames.length} collections imported from the signed-in AnyList session you approved.`;
     const categoryNames = new Set([
       "主食", "蔬菜", "水果", "蛋", "奶制品", "鱼", "虾", "鸡", "牛", "羊", "猪", "鸭",
@@ -1740,36 +1739,27 @@
 
     function renderRail() {
       const allItems = getAllCollectionItems();
-      const allActive = isAllList();
-      const allButton = `<button class="list-button all-list-button${allActive ? " active" : ""}" type="button" data-list="${ALL_LIST}" aria-pressed="${allActive}" aria-label="Open All; view every item across all collections"><span class="list-icon list-icon-accent-neutral" aria-hidden="true">🧺</span><span><span class="list-name">All</span><span class="list-meta">${allItems.length} items across all lists</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
-      const collectionButtons = listNames.map((name) => {
-        const meta = getListMeta(name);
-        const active = name === state.activeList;
-        const displayName = displayListName(name);
-        const iconAccent = String(meta.accent || "neutral").replace(/[^a-z0-9-]/gi, "");
-        const iconClass = ` list-icon-accent-${iconAccent || "neutral"}${displayName === "冰柜" ? " list-icon-image" : ""}`;
-        return `<button class="list-button${active ? " active" : ""}" type="button" data-list="${escapeHtml(name)}" aria-pressed="${active}" aria-label="Open ${escapeHtml(displayName)}; drop items here to move them"><span class="list-icon${iconClass}" aria-hidden="true">${listIconMarkup(meta.icon, name)}</span><span><span class="list-name">${escapeHtml(displayName)}</span><span class="list-meta">${getImportedItems(name).length} items now</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
+      const counts = new Map();
+      allItems.forEach((item) => {
+        const category = itemCategory(item);
+        counts.set(category, (counts.get(category) || 0) + 1);
+      });
+      const categories = orderCategories([...counts.keys()].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" })));
+      document.getElementById("rail-count").textContent = categories.length;
+      const choices = [{ value: "all", name: "All", icon: "🧺", count: allItems.length }, ...categories.map((category) => ({
+        value: category, name: category, icon: categoryEmojis.get(category) || "🍽️", count: counts.get(category)
+      }))];
+      els.rail.innerHTML = choices.map(({ value, name, icon, count }) => {
+        const active = state.category === value;
+        return `<button class="list-button${active ? " active" : ""}" type="button" data-category="${escapeHtml(value)}" aria-pressed="${active}" aria-label="Filter by ${escapeHtml(name)}"><span class="list-icon list-icon-accent-neutral" aria-hidden="true">${icon}</span><span><span class="list-name">${escapeHtml(name)}</span><span class="list-meta">${count} ${count === 1 ? "item" : "items"}</span></span><span class="list-arrow" aria-hidden="true">›</span></button>`;
       }).join("");
-      els.rail.innerHTML = allButton + collectionButtons;
-      els.rail.querySelectorAll("[data-list]").forEach((button) => {
-        button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; render(); });
-        if (button.dataset.list === ALL_LIST) return;
-        button.addEventListener("dragover", (event) => {
-          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item")) || state.draggedRef;
-          if (!itemRef || itemTargetList(itemRef.sourceList, itemRef.key) === button.dataset.list) return;
-          event.preventDefault();
-          event.dataTransfer.dropEffect = "move";
-          button.classList.add("drag-over");
-        });
-        button.addEventListener("dragleave", (event) => {
-          if (!button.contains(event.relatedTarget)) button.classList.remove("drag-over");
-        });
-        button.addEventListener("drop", (event) => {
-          const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item")) || state.draggedRef;
-          if (!itemRef) return;
-          event.preventDefault();
-          button.classList.remove("drag-over");
-          moveItemToList(itemRef.sourceList, itemRef.key, button.dataset.list);
+      els.rail.querySelectorAll("[data-category]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.activeList = ALL_LIST;
+          state.category = button.dataset.category;
+          state.query = "";
+          els.search.value = "";
+          render();
         });
       });
     }
@@ -2329,7 +2319,7 @@
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; renderImported(); });
     els.brand.addEventListener("change", () => { state.brand = els.brand.value; renderImported(); });
-    els.category.addEventListener("change", () => { state.category = els.category.value; renderImported(); });
+    els.category.addEventListener("change", () => { state.category = els.category.value; renderRail(); renderImported(); });
     els.glycemicIndex.addEventListener("change", () => { state.glycemicIndex = els.glycemicIndex.value; renderImported(); });
     els.organic.addEventListener("change", () => { state.organic = els.organic.value; renderImported(); });
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; render(); });
