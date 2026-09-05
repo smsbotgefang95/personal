@@ -672,6 +672,16 @@
 
     const parsedByList = Object.fromEntries(sourceListNames.map((name) => [name, parseImportedList(listSource[name])]));
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
+    const pendingEditsStorageKey = "smart-shopping-pending-edits-v1";
+    const pendingEdits = (() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(pendingEditsStorageKey) || "{}");
+        return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+      } catch (error) { return {}; }
+    })();
+    function savePendingEdits() {
+      try { localStorage.setItem(pendingEditsStorageKey, JSON.stringify(pendingEdits)); } catch (error) {}
+    }
     const itemAddsStorageKey = "smart-shopping-item-adds-v1";
     const customBrandOptionsStorageKey = "smart-shopping-brand-options-v1";
     const itemPurchasesStorageKey = "smart-shopping-item-purchases-v1";
@@ -693,6 +703,7 @@
         return {};
       }
     })();
+    Object.assign(itemEdits, pendingEdits);
     function saveItemEdits() {
       try { window.localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
       queueShoppingSync();
@@ -801,7 +812,8 @@
         } else {
           Object.assign(target, remote?.[key] || {});
         }
-        // Unsynced checkbox changes take precedence over the previous server value.
+        // Unsynced changes take precedence over the previous server value.
+        if (key === "itemEdits") Object.assign(target, pendingEdits);
         if (key === "itemPurchases") Object.assign(target, pendingPurchases);
         if (key === "itemMoves") Object.assign(target, pendingMoves);
         const storageKey = [itemEditsStorageKey, itemAddsStorageKey, itemPurchasesStorageKey, itemRemovalsStorageKey, itemRestorationsStorageKey, itemMovesStorageKey][index];
@@ -831,10 +843,16 @@
         const remote = await response.json();
         mergeShoppingPayload(remote);
         if (upload) {
+          const sentEdits = { ...pendingEdits };
           const sentPurchases = { ...pendingPurchases };
           const sentMoves = { ...pendingMoves };
           const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
           if (!saved.ok) throw new Error(`HTTP ${saved.status}`);
+          Object.entries(sentEdits).forEach(([itemKey, value]) => {
+            // A second save during this request still needs to be uploaded.
+            if (pendingEdits[itemKey] === value) delete pendingEdits[itemKey];
+          });
+          savePendingEdits();
           Object.entries(sentPurchases).forEach(([itemKey, value]) => {
             if (pendingPurchases[itemKey] === value) delete pendingPurchases[itemKey];
           });
@@ -2051,6 +2069,8 @@
       } else {
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
         itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo, photoLookupName: sourceItem?.photoLookupName || sourceItem?.name || name };
+        pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
+        savePendingEdits();
         saveItemEdits();
       }
       const savedMessage = editSession.mode === "add" ? `${name} added to ${displayListName(editSession.list)}.` : `${name} saved in this browser.`;
