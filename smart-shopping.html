@@ -286,10 +286,12 @@
   .price-history-scroll { max-height: 240px; overflow: auto; }
   .card-price-history .compare-table { margin-top: 8px; min-width: 440px; }
   .card-price-history .field-help { margin-bottom: 0; }
-  .last-sale-highlight { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-top: 12px; padding: 14px 18px; border: 2px solid #dda43b; border-radius: 12px; background: #fff3d6; color: #713d08; }
-  .last-sale-highlight > span { font-size: 0.85rem; font-weight: 800; }
-  .last-sale-highlight strong { font-size: 0.74rem; font-weight: 800; }
-  .last-sale-highlight small { flex-basis: 100%; }
+  .last-sale-highlight { width: fit-content; max-width: 100%; box-sizing: border-box; margin-top: 8px; padding: 6px 10px; border: 1px solid #ecd5a5; border-radius: 8px; background: #fff8e8; color: #713d08; }
+  .last-sale-highlight summary { cursor: pointer; font-size: 0.72rem; line-height: 1.5; }
+  .last-sale-highlight summary > span { margin-right: 8px; }
+  .last-sale-highlight strong { font-size: 0.78rem; font-weight: 800; white-space: nowrap; }
+  .last-sale-highlight small { display: block; margin-top: 4px; font-size: 0.7rem; line-height: 1.5; overflow-wrap: anywhere; }
+  .last-sale-highlight summary:focus-visible { outline: 2px solid #713d08; outline-offset: 3px; border-radius: 2px; }
   .product-fact.is-sale-unit-price .product-fact-value:not(.is-missing) { color: #713d08; }
   .compare-table { width: 100%; margin-top: 19px; border-collapse: collapse; font-size: 0.77rem; }
   .compare-table th, .compare-table td { padding: 10px 8px; border-bottom: 1px solid #e9eeea; text-align: left; }
@@ -817,7 +819,7 @@
           lowestByUnit.set(unitKey, { amount, entry, ...effective });
         }
       });
-      const benchmark = [...lowestByUnit.values()].map(({ entry, value, isSale }) => `<div class="last-sale-highlight"><span>Lowest recorded unit price</span><strong>${escapeHtml(value)}</strong><small>${isSale ? "Sale" : "Regular price"} · ${escapeHtml(entry.date || "Date unknown")} · ${escapeHtml((entry.stores || []).join(", ") || "Store unknown")}</small></div>`).join("");
+      const benchmark = [...lowestByUnit.values()].map(({ entry, value, isSale }) => `<details class="last-sale-highlight"><summary><span>Lowest recorded</span><strong>${escapeHtml(value)}</strong></summary><small>${isSale ? "Sale" : "Regular price"} · ${escapeHtml(entry.date || "Date unknown")} · ${escapeHtml((entry.stores || []).join(", ") || "Store unknown")}</small></details>`).join("");
       return `${benchmark}${storePricesMarkup(item)}<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular and sale price history" tabindex="0">${priceHistoryTableMarkup(entries)}</div></details>`;
     }
     function recordStorePrice(key, facts, store, date) {
