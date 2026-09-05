@@ -227,9 +227,11 @@
   .purchase-section-heading h3 { margin: 0; color: var(--ink); font-size: 0.86rem; letter-spacing: -0.01em; }
   .purchase-section-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; }
   .purchase-section.is-purchased .purchase-section-heading h3 { color: var(--green); }
-  .imported-card { display: grid; grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; column-gap: 16px; row-gap: 8px; align-items: center; min-height: 100%; padding: 14px 16px; cursor: grab; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+  .imported-card { display: grid; grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; column-gap: 16px; row-gap: 8px; align-items: center; min-height: 100%; padding: 14px 16px; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
-  .imported-card:active { cursor: grabbing; }
+  .imported-card [data-item-drag-handle] { cursor: grab; }
+  .imported-card [data-item-drag-handle]:active { cursor: grabbing; }
+  .imported-card .card-title h4 { cursor: text; -webkit-user-select: text; user-select: text; }
   .imported-card.dragging { opacity: 0.45; background: #eef7f1; }
   .imported-card .card-top { display: contents; }
   .imported-card .item-media { grid-area: media; display: flex; flex-direction: column; gap: 8px; align-items: start; min-width: 0; }
@@ -1795,7 +1797,7 @@
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo?.sourcePage ? "Photo verified from a product listing" : photo ? "Photo migrated from AnyList" : "No item photo";
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="true" data-item-drag-handle aria-label="Drag ${escapeHtml(displayName)} to another list" title="${photoTitle}. Drag photo to move to another list.">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -2213,6 +2215,7 @@
     els.importedList.addEventListener("click", handleItemAction);
     els.importedList.addEventListener("change", handlePurchaseToggle);
     els.importedList.addEventListener("dragstart", (event) => {
+      if (!event.target.closest("[data-item-drag-handle]")) return;
       const row = event.target.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
       if (!row || !itemRef || !findSourceItem(itemRef.sourceList, itemRef.key)) return;
