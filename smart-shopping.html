@@ -6,7 +6,7 @@
 <title>Smart Shopping</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
 <script src="smart-shopping-data.js?v=20260817-receipt-7"></script>
-<script src="smart-shopping-store-listings.js?v=20260905-eggs"></script>
+<script src="smart-shopping-store-listings.js?v=20260905-egg-alternatives"></script>
 <script src="smart-shopping-photos.js?v=20260905-kimlan-dark-soy"></script>
 <script src="smart-shopping-nutrition.js?v=20260809-chosen-foods"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
@@ -298,6 +298,12 @@
   .compare-table th, .compare-table td { padding: 10px 8px; border-bottom: 1px solid #e9eeea; text-align: left; }
   .compare-table th { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .compare-table tr.best td { color: #176b4c; background: #f0faf4; font-weight: 800; }
+  .product-alternatives { margin-top: 18px; }
+  .product-alternatives > summary { cursor: pointer; font-weight: 800; color: var(--green); padding: 12px 0; }
+  .alternative-card { margin: 12px 0; padding: 14px; border: 1px solid #dce6de; border-radius: 12px; }
+  .alternative-card h4 { margin: 0 0 8px; }
+  .alternative-card p, .alternative-reference { margin: 8px 0; font-size: 0.8rem; line-height: 1.5; }
+  .alternative-card small { display: block; margin-top: 7px; color: var(--muted); line-height: 1.5; }
   .modal-note { margin: 17px 0 0; padding: 10px 12px; border-radius: 10px; color: #72602e; background: #fff9e9; font-size: 0.73rem; }
   .edit-fields { display: grid; gap: 13px; margin-top: 19px; }
   .edit-fields [hidden] { display: none; }
@@ -2581,7 +2587,22 @@
       const match = item && (window.SMART_SHOPPING_STORE_LISTINGS || []).find((entry) => normalizeFoodName(entry.itemName) === normalizeFoodName(item.name));
       panel.hidden = !match;
       if (!match) { panel.innerHTML = ""; return; }
-      panel.innerHTML = `<h3 style="margin-top:20px">Matched store listings</h3>
+      const baseline = match.baseline;
+      const alternativeMarkup = baseline && match.alternatives?.length ? `<details class="product-alternatives" open><summary>Other products worth considering</summary>
+        <p class="alternative-reference"><strong>Your Costco reference</strong><br>${escapeHtml(baseline.traits)}<br>$${baseline.price.toFixed(2)} / ${baseline.count} eggs · $${(baseline.price / baseline.count * 12).toFixed(2)} / dozen<br>${escapeHtml(baseline.label)}. This reference is separate from your editable saved prices.</p>
+        <p class="alternative-reference">Costco first; check another store when it is already on your route. “Better” depends on what you value. Taste and freshness need your own trial; these listings do not establish a health advantage.</p>
+        ${match.alternatives.map((entry) => {
+          const difference = (entry.price / entry.count - baseline.price / baseline.count) * 12;
+          return `<article class="alternative-card"><h4>${escapeHtml(entry.product)}</h4><p>${escapeHtml(entry.traits)}</p>
+            <p><strong>Why consider it:</strong> ${escapeHtml(entry.reason)}</p>
+            <p><strong>Tradeoff:</strong> ${escapeHtml(entry.tradeoff)}</p>
+            <p><strong>$${entry.price.toFixed(2)} / ${entry.count} eggs · $${(entry.price / entry.count * 12).toFixed(2)} / dozen</strong><br>${escapeHtml(entry.priceContext)}</p>
+            <small>Reference difference: ${difference >= 0 ? "+" : "−"}$${Math.abs(difference).toFixed(2)} / dozen versus the historical Costco reference. Different shopping methods and dates; this is not a confirmed in-store premium. Shipping and fees excluded.</small>
+            <p><a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">Check ${escapeHtml(entry.store)} listing ↗</a> · <a href="${escapeHtml(entry.evidenceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.evidenceLabel)} ↗</a></p></article>`;
+        }).join("")}
+        <p class="alternative-reference">Researched ${escapeHtml(match.checkedOn)}. Availability near 20871 is unconfirmed. In-store shopping avoids shipping fees; compare online offers only after shipping and minimum-order requirements are known.</p>
+      </details>` : "";
+      panel.innerHTML = `${alternativeMarkup}<h3 style="margin-top:20px">Same product · store listings</h3>
         <p><strong>${escapeHtml(match.product)}</strong></p>
         <p class="modal-note">${escapeHtml(match.identityNote)}</p>
         <p class="modal-note">Checked ${escapeHtml(match.checkedOn)} · ${escapeHtml(match.location)}. Price snapshots, not live quotes; delivery fees and order minimums are not included. Indexed prices may be stale. Open a store link and select your location to confirm its current price and stock.</p>

@@ -52,6 +52,13 @@ vm.runInContext(html.slice(html.indexOf('    function renderStoreListings('), ht
 context.renderStoreListings({name:'Free range organic grade A medium egg 有机鸡蛋 (2 × 1盒)'});
 assert.equal(panel.hidden, false);
 assert.ok(panel.innerHTML.includes('$0.208 / egg'));
+assert.ok(panel.innerHTML.includes('Other products worth considering'));
+assert.ok(panel.innerHTML.includes('Kirkland Signature Free-Range Organic Large Eggs'));
+assert.ok(panel.innerHTML.includes('+$0.86 / dozen'));
+assert.ok(panel.innerHTML.includes('+$3.15 / dozen'));
+assert.ok(panel.innerHTML.includes('not a confirmed in-store premium'));
+assert.ok(panel.innerHTML.includes('date unknown'));
+assert.equal(context.window.SMART_SHOPPING_STORE_LISTINGS[0].listings.length, 3, 'alternatives must not enter same-product offers');
 assert.ok(panel.innerHTML.includes('No confirmed local best price yet'));
 assert.ok(!panel.innerHTML.includes('class="best"'));
 context.renderStoreListings({name:'Kirkland organic large eggs'});
