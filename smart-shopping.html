@@ -470,7 +470,6 @@
           <div><h3 id="imported-heading">Imported items by category</h3><p id="imported-count">Names and categories from your selected AnyList list</p></div>
           <div class="imported-heading-controls">
             <div class="search-wrap"><span aria-hidden="true">⌕</span><input class="search-input" id="search-input" type="search" placeholder="Search imported items" autocomplete="off" /></div>
-            <button class="button-secondary" id="show-all-button" type="button">Show all</button>
           </div>
         </div>
         <div class="imported-list" id="imported-list"></div>
@@ -622,7 +621,7 @@
 
     const noStoreFilterValue = "__without_store__";
     const noBrandFilterValue = "__without_brand__";
-    const state = { activeList: ALL_LIST, query: "", store: "all", brand: "all", category: "all", organic: "all", glycemicIndex: "all", detailFilter: "all", purchase: "all", showAll: false, sort: "smart", draggedRef: null };
+    const state = { activeList: ALL_LIST, query: "", store: "all", brand: "all", category: "all", organic: "all", glycemicIndex: "all", detailFilter: "all", purchase: "all", sort: "smart", draggedRef: null };
     const els = {
       rail: document.getElementById("list-rail-buttons"), title: document.getElementById("active-list-title"), subtitle: document.getElementById("active-list-subtitle"),
       addItem: document.getElementById("add-item-button"),
@@ -1644,7 +1643,7 @@
       }).join("");
       els.rail.innerHTML = allButton + collectionButtons;
       els.rail.querySelectorAll("[data-list]").forEach((button) => {
-        button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; state.showAll = false; render(); });
+        button.addEventListener("click", () => { state.activeList = button.dataset.list; state.query = ""; els.search.value = ""; render(); });
         if (button.dataset.list === ALL_LIST) return;
         button.addEventListener("dragover", (event) => {
           const itemRef = parseItemReference(event.dataTransfer?.getData("application/x-smart-shopping-item")) || state.draggedRef;
@@ -1732,7 +1731,7 @@
 
     function importedCategoryGroup(category, items, colorIndex) {
       const itemLabel = items.length === 1 ? "item" : "items";
-      const hue = (colorIndex * 67 + 28) % 360;
+      const hue = category === "蔬菜" ? 120 : (colorIndex * 67 + 28) % 360;
       return `<section class="category-group" style="--category-hue: ${hue}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
     function purchaseSectionMarkup(label, items, colorOffset = 0) {
@@ -1761,9 +1760,8 @@
     }
 
     function renderImported() {
-      let items = filteredImportedItems();
+      const items = filteredImportedItems();
       const total = items.length;
-      if (!state.showAll) items = items.slice(0, 12);
       const selectedStoreLabel = state.store === noStoreFilterValue ? "Without store" : state.store;
       const selectedBrandLabel = state.brand === noBrandFilterValue ? "No brand" : state.brand;
       const filterNote = [state.query ? "search filtered" : "", state.store !== "all" ? `store: ${selectedStoreLabel}` : "", state.brand !== "all" ? `brand: ${selectedBrandLabel}` : "", state.category !== "all" ? `category: ${state.category}` : "", organicFilterLabel(), glycemicIndexFilterLabel(), detailFilterLabel(), purchaseFilterLabel()].filter(Boolean).join(" · ");
@@ -1772,7 +1770,6 @@
       const toBuyItems = items.filter((item) => !isItemPurchased(item));
       const purchasedItems = items.filter(isItemPurchased);
       els.importedList.innerHTML = items.length ? `${purchaseSectionMarkup("To buy", toBuyItems)}${purchaseSectionMarkup("Purchased", purchasedItems, toBuyItems.length)}` : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
-      document.getElementById("show-all-button").textContent = state.showAll ? "Show less" : `Show all (${total})`;
     }
 
     function clearDropTargets() {
@@ -2174,15 +2171,14 @@
     document.getElementById("cancel-reset-purchased").addEventListener("click", () => resetPurchasedDialog.close());
     resetPurchasedDialog.addEventListener("close", () => { purchaseResetRequest = null; });
     document.getElementById("confirm-reset-purchased").addEventListener("click", confirmResetPurchasedItems);
-    document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderImported(); });
-    els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderImported(); });
-    els.brand.addEventListener("change", () => { state.brand = els.brand.value; state.showAll = false; renderImported(); });
-    els.category.addEventListener("change", () => { state.category = els.category.value; state.showAll = false; renderImported(); });
-    els.glycemicIndex.addEventListener("change", () => { state.glycemicIndex = els.glycemicIndex.value; state.showAll = false; renderImported(); });
-    els.organic.addEventListener("change", () => { state.organic = els.organic.value; state.showAll = false; renderImported(); });
-    els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; state.showAll = state.detailFilter === "missing-photo"; render(); });
-    els.purchase.addEventListener("change", () => { state.purchase = els.purchase.value; state.showAll = false; render(); });
+    els.store.addEventListener("change", () => { state.store = els.store.value; renderImported(); });
+    els.brand.addEventListener("change", () => { state.brand = els.brand.value; renderImported(); });
+    els.category.addEventListener("change", () => { state.category = els.category.value; renderImported(); });
+    els.glycemicIndex.addEventListener("change", () => { state.glycemicIndex = els.glycemicIndex.value; renderImported(); });
+    els.organic.addEventListener("change", () => { state.organic = els.organic.value; renderImported(); });
+    els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; render(); });
+    els.purchase.addEventListener("change", () => { state.purchase = els.purchase.value; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderImported(); });
     syncShoppingDevices({ upload: true, rerender: false }).finally(() => render());
   })();
