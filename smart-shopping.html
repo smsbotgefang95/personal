@@ -912,14 +912,30 @@
     }
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
     const pendingEditsStorageKey = "smart-shopping-pending-edits-v1";
-    const pendingEdits = (() => {
-      try {
-        const saved = JSON.parse(localStorage.getItem(pendingEditsStorageKey) || "{}");
-        return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
-      } catch (error) { return {}; }
+    // Store edits and their sync state together: photos must only occupy storage once.
+    const savedEditState = (() => {
+      const readObject = (key) => {
+        try {
+          const value = JSON.parse(localStorage.getItem(key) || "{}");
+          return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+        } catch (error) { return {}; }
+      };
+      const saved = readObject(itemEditsStorageKey);
+      if (saved.version === 2 && saved.items && typeof saved.items === "object" && !Array.isArray(saved.items) && Array.isArray(saved.pendingKeys)) return saved;
+      const legacyPending = readObject(pendingEditsStorageKey);
+      return { version: 2, items: { ...saved, ...legacyPending }, pendingKeys: Object.keys(legacyPending) };
     })();
+    const pendingEdits = Object.fromEntries(savedEditState.pendingKeys
+      .filter((key) => savedEditState.items[key])
+      .map((key) => [key, savedEditState.items[key]]));
+    function persistItemEditState(edits = itemEdits, pending = pendingEdits) {
+      const serialized = JSON.stringify({ version: 2, items: edits, pendingKeys: Object.keys(pending) });
+      localStorage.setItem(itemEditsStorageKey, serialized);
+      // The atomic record above now contains every legacy pending edit.
+      try { localStorage.removeItem(pendingEditsStorageKey); } catch (error) { /* The new record is already durable. */ }
+    }
     function savePendingEdits() {
-      try { localStorage.setItem(pendingEditsStorageKey, JSON.stringify(pendingEdits)); } catch (error) {}
+      try { persistItemEditState(); } catch (error) {}
     }
     const itemAddsStorageKey = "smart-shopping-item-adds-v1";
     const customBrandOptionsStorageKey = "smart-shopping-brand-options-v1";
@@ -934,17 +950,9 @@
     function savePendingPurchases() {
       try { localStorage.setItem(pendingPurchasesStorageKey, JSON.stringify(pendingPurchases)); } catch (error) {}
     }
-    const itemEdits = (() => {
-      try {
-        const saved = JSON.parse(window.localStorage.getItem(itemEditsStorageKey) || "{}");
-        return saved && typeof saved === "object" ? saved : {};
-      } catch (error) {
-        return {};
-      }
-    })();
-    Object.assign(itemEdits, pendingEdits);
+    const itemEdits = savedEditState.items;
     function saveItemEdits() {
-      try { window.localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
+      try { persistItemEditState(); } catch (error) { /* Keep the editor open when its explicit save fails. */ }
       queueShoppingSync();
     }
     const itemAdds = (() => {
@@ -1057,7 +1065,10 @@
         if (key === "itemPurchases") Object.assign(target, pendingPurchases);
         if (key === "itemMoves") Object.assign(target, pendingMoves);
         const storageKey = [itemEditsStorageKey, itemAddsStorageKey, itemPurchasesStorageKey, itemRemovalsStorageKey, itemRestorationsStorageKey, itemMovesStorageKey][index];
-        try { localStorage.setItem(storageKey, JSON.stringify(target)); } catch (error) {}
+        try {
+          if (key === "itemEdits") persistItemEditState();
+          else localStorage.setItem(storageKey, JSON.stringify(target));
+        } catch (error) {}
       });
       (remote?.customBrandOptions || []).forEach((brand) => { if (!customBrandOptions.includes(brand)) customBrandOptions.push(brand); });
       try { localStorage.setItem(customBrandOptionsStorageKey, JSON.stringify(customBrandOptions)); } catch (error) {}
@@ -2518,11 +2529,12 @@
         try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, editSession.key), storeChanges); }
         catch (error) { return reportItemSaveError("Price history could not be saved in this browser. Keep this editor open and try again after making storage available."); }
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, madeIn, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
-        pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
+        const itemKey = editStorageKey(editSession.list, editSession.key);
+        const editedItem = { name, englishName, chineseName, brand, madeIn, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
         try {
-          localStorage.setItem(pendingEditsStorageKey, JSON.stringify(pendingEdits));
-          localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits));
+          persistItemEditState({ ...itemEdits, [itemKey]: editedItem }, { ...pendingEdits, [itemKey]: editedItem });
+          itemEdits[itemKey] = editedItem;
+          pendingEdits[itemKey] = editedItem;
         } catch (error) {
           const message = error?.name === "QuotaExceededError"
             ? "Browser storage is full. Your changes are still in this editor. Try a smaller photo, or free space after backing up your shopping data. Do not clear site data or reload before saving."
