@@ -454,6 +454,11 @@
       </header>
 
       <div class="filter-strip" aria-label="Shopping filters">
+        <select class="list-filter" id="list-filter" aria-label="List">
+          <option value="__all__">All items</option>
+          <option value="买菜">Shopping List</option>
+          <option value="备选">Saved for Later</option>
+        </select>
         <select class="store-filter" id="store-filter" aria-label="Filter by store">
           <option value="all">Stores</option>
         </select>
@@ -482,11 +487,6 @@
           <option value="missing-photo">Needs photo</option>
           <option value="unit">Unit price ready</option>
           <option value="missing-unit">Needs unit price</option>
-        </select>
-        <select class="list-filter" id="list-filter" aria-label="List">
-          <option value="__all__">All items</option>
-          <option value="买菜">Shopping List</option>
-          <option value="备选">Saved for Later</option>
         </select>
       </div>
 
@@ -1941,7 +1941,7 @@
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
       const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
-      const moveLabel = moveTarget === "买菜" ? "Add to Shopping List" : "Save for Later";
+      const moveLabel = moveTarget === "买菜" ? "Shop" : "Save for Later";
       return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
