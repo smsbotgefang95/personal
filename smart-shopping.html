@@ -1479,7 +1479,7 @@
     }
     function importedNameMarkup(item) {
       const { englishName, chineseName } = itemNames(item);
-      return `<span class="row-name-primary">${escapeHtml(englishName || chineseName)}</span>${englishName && chineseName ? `<span class="row-name-secondary">${escapeHtml(chineseName)}</span>` : ""}`;
+      return `<span class="row-name-primary">${escapeHtml(chineseName || englishName)}</span>${englishName && chineseName ? `<span class="row-name-secondary">${escapeHtml(englishName)}</span>` : ""}`;
     }
     function photoMarkup(item, fallback = "🍽️", customPhoto = "") {
       const itemName = item && typeof item === "object" ? displayItemName(item) : formatProductName(item);
