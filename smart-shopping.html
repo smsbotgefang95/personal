@@ -284,6 +284,8 @@
   .card-price-history { min-width: 0; margin-top: 12px; padding: 10px 12px; border: 1px solid #dce6de; border-radius: 10px; background: #fbfcfa; }
   .card-price-history summary { cursor: pointer; color: var(--ink); font-size: 0.78rem; font-weight: 800; }
   .card-price-history summary span { margin-left: 8px; color: var(--muted); font-size: 0.7rem; font-weight: 500; }
+  .history-date-editor { display: flex; align-items: center; gap: 6px; }
+  .history-date-editor input { font: inherit; color: inherit; padding: 6px; border: 1px solid #d5dfdc; border-radius: 8px; background: white; }
   .price-history-scroll { max-height: 240px; overflow: auto; }
   .card-price-history .compare-table { margin-top: 8px; min-width: 440px; }
   .card-price-history .field-help { margin-bottom: 0; }
@@ -799,7 +801,8 @@
         if (!Array.isArray(entries)) return;
         const merged = new Map();
         [...(priceHistory[key] || []), ...entries].filter((entry) => entry && entry.id).forEach((entry) => {
-          if (!merged.get(entry.id)?.deletedAt) merged.set(entry.id, entry);
+          const existing = merged.get(entry.id);
+          if (!existing || (!existing.deletedAt && (entry.deletedAt || (entry.dateUpdatedAt || "") >= (existing.dateUpdatedAt || "")))) merged.set(entry.id, entry);
         });
         priceHistory[key] = [...merged.values()];
       });
@@ -812,6 +815,16 @@
       const entries = priceHistory[key] || [];
       if (!entries.some((entry) => entry.id === id && !entry.deletedAt)) return false;
       const updated = entries.map((entry) => entry.id === id ? { ...entry, deletedAt: new Date().toISOString() } : entry);
+      localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: updated }));
+      priceHistory[key] = updated;
+      return true;
+    }
+    function updatePriceHistoryDate(key, id, date) {
+      if (date && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date)) return false;
+      const entries = priceHistory[key] || [];
+      const entry = entries.find((value) => value.id === id && !value.deletedAt);
+      if (!entry || (entry.date || "") === date) return false;
+      const updated = entries.map((value) => value.id === id ? { ...value, date: date || null, dateUpdatedAt: new Date().toISOString() } : value);
       localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: updated }));
       priceHistory[key] = updated;
       return true;
@@ -831,7 +844,7 @@
       entries = entries.filter((entry) => !entry.deletedAt);
       return entries.length ? `<table class="compare-table"><thead><tr><th>Regular price</th><th>Unit price</th><th>Sale price</th><th>Package</th><th>Store</th><th>Date</th>${key ? "<th>Action</th>" : ""}</tr></thead><tbody>${[...entries].sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || "")).map((entry) => {
         const unitPrice = calculateUnitPrice(entry.price, entry.weight) || editableFactValue(entry.unitPrice);
-        return `<tr><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(unitPrice || "Not listed")}</td><td>${escapeHtml(entry.salePrice || "—")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml((entry.stores || []).join(", ") || "Not listed")}</td><td>${escapeHtml(entry.date || "Date unknown (previous price)")}</td>${key && entry.id ? `<td><button type="button" class="mini-button danger" data-delete-price-key="${escapeHtml(key)}" data-delete-price-id="${escapeHtml(entry.id)}" aria-label="Delete saved price ${escapeHtml(entry.price || entry.salePrice || "")}">Delete</button></td>` : key ? "<td></td>" : ""}</tr>`;
+        return `<tr><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(unitPrice || "Not listed")}</td><td>${escapeHtml(entry.salePrice || "—")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml((entry.stores || []).join(", ") || "Not listed")}</td><td>${key && entry.id ? `<div class="history-date-editor"><input type="date" data-history-date value="${escapeHtml(entry.date || "")}" aria-label="Date for saved price ${escapeHtml(entry.price || entry.salePrice || "")}"><button type="button" class="mini-button" data-save-price-date-key="${escapeHtml(key)}" data-save-price-date-id="${escapeHtml(entry.id)}">Save date</button></div>${!entry.date ? '<small>Date unknown (previous price)</small>' : ""}` : escapeHtml(entry.date || "Date unknown (previous price)")}</td>${key && entry.id ? `<td><button type="button" class="mini-button danger" data-delete-price-key="${escapeHtml(key)}" data-delete-price-id="${escapeHtml(entry.id)}" aria-label="Delete saved price ${escapeHtml(entry.price || entry.salePrice || "")}">Delete</button></td>` : key ? "<td></td>" : ""}</tr>`;
       }).join("")}</tbody></table>` : '<p class="field-help">No dated price history yet. The previous price will be preserved on the first update.</p>';
     }
     function cardPriceHistoryMarkup(item) {
@@ -2667,6 +2680,22 @@
       if (item) setItemPurchased(item, toggle.checked);
     }
     document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-save-price-date-id]");
+      if (!button) return;
+      const input = button.closest("td").querySelector("[data-history-date]");
+      if (!input.reportValidity()) return;
+      const key = button.dataset.savePriceDateKey;
+      try {
+        if (!updatePriceHistoryDate(key, button.dataset.savePriceDateId, input.value)) return;
+      } catch (error) { showToast("Date could not be saved. Free browser storage and try again."); return; }
+      if (els.editModal.classList.contains("open")) {
+        document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(activePriceHistory(key), key);
+      }
+      render();
+      queueShoppingSync();
+      showToast("Price history date saved.");
+    });
+    document.addEventListener("click", (event) => {
       const button = event.target.closest("[data-delete-price-id]");
       if (!button) return;
       const key = button.dataset.deletePriceKey;
@@ -2710,8 +2739,8 @@
     });
     document.getElementById("add-sale-price").addEventListener("click", () => els.editSalePrice.focus());
     [els.editName, els.editChineseName].forEach((input) => input.addEventListener("input", () => els.editName.setCustomValidity("")));
-    els.editForm.addEventListener("input", (event) => { if (event.target !== els.photoInput) markItemEditDirty(); });
-    els.editForm.addEventListener("change", (event) => { if (event.target !== els.photoInput) markItemEditDirty(); });
+    els.editForm.addEventListener("input", (event) => { if (event.target !== els.photoInput && !event.target.matches("[data-history-date]")) markItemEditDirty(); });
+    els.editForm.addEventListener("change", (event) => { if (event.target !== els.photoInput && !event.target.matches("[data-history-date]")) markItemEditDirty(); });
     els.editForm.addEventListener("click", (event) => {
       if (event.target.closest("[data-draft-store], #add-brand-button, #remove-item-photo, #update-regular-price")) markItemEditDirty();
     });

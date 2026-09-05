@@ -1030,7 +1030,11 @@ def merge_smart_shopping_history(existing, incoming):
             for entry in entries:
                 if isinstance(entry, dict) and isinstance(entry.get("id"), str):
                     # Deletions win over stale snapshots from other devices.
-                    if entry.get("deletedAt") or entry["id"] not in by_id:
+                    previous = by_id.get(entry["id"])
+                    if previous is None or (not previous.get("deletedAt") and (
+                        entry.get("deletedAt") or
+                        (entry.get("dateUpdatedAt") or "") > (previous.get("dateUpdatedAt") or "")
+                    )):
                         by_id[entry["id"]] = entry
             merged[key] = list(by_id.values())
     return merged
