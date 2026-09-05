@@ -1,6 +1,16 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "冬瓜",
+    "file": "winter-melon-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
+    "name": "小白菜",
+    "file": "bok-choy-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
     "name": "杏鲍菇",
     "file": "king-oyster-mushrooms-square.svg",
     "sourcePage": "https://www.rawpixel.com/image/9214624/king-oyster-mushroom-png-transparent-background",
