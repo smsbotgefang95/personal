@@ -528,6 +528,20 @@
     <p class="modal-note">The prototype can show saved AnyList prices now. A production version should refresh this table from store feeds and show the lookup time beside every result.</p>
   </div>
 </div>
+<div class="modal-backdrop" id="store-price-modal" role="dialog" aria-modal="true" aria-labelledby="store-price-title">
+  <form class="modal" id="store-price-form">
+    <div class="modal-heading"><div><h2 id="store-price-title">Add store price</h2><p id="store-price-item-name"></p></div><button class="close-modal" type="button" data-close-store-price aria-label="Close store price">×</button></div>
+    <p>Save a separate price for this item at one store.</p>
+    <div class="edit-fields">
+      <label class="edit-field"><span>Store</span><input id="store-price-store" required autocomplete="off" /></label>
+      <label class="edit-field"><span>Regular package price ($)</span><input id="store-price-regular" type="number" min="0.01" step="0.01" required /></label>
+      <label class="edit-field"><span>Sale package price ($, optional)</span><input id="store-price-sale" type="number" min="0.01" step="0.01" /></label>
+      <label class="edit-field"><span>Package weight / quantity</span><input id="store-price-weight" placeholder="e.g. 50 oz, 2 lb, 6 each" required /></label>
+      <label class="edit-field"><span>Price date</span><input id="store-price-date" type="date" required /></label>
+    </div>
+    <div class="modal-actions"><button class="button-secondary" type="button" data-close-store-price>Cancel</button><button class="button-primary" type="submit">Save store price</button></div>
+  </form>
+</div>
 <div class="modal-backdrop" id="edit-item-modal" role="dialog" aria-modal="true" aria-labelledby="edit-item-title">
   <form class="modal" id="edit-item-form" novalidate>
     <div class="modal-heading">
@@ -821,7 +835,25 @@
         }
       });
       const benchmark = [...lowestByUnit.values()].map(({ entry, value, isSale }) => `<div class="last-sale-highlight"><span>Lowest recorded unit price</span><strong>${escapeHtml(value)}</strong><small>${isSale ? "Sale" : "Regular price"} · ${escapeHtml(entry.date || "Date unknown")} · ${escapeHtml((entry.stores || []).join(", ") || "Store unknown")}</small></div>`).join("");
-      return `${benchmark}<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular and sale price history" tabindex="0">${priceHistoryTableMarkup(entries)}</div></details>`;
+      return `${benchmark}${storePricesMarkup(item)}<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular and sale price history" tabindex="0">${priceHistoryTableMarkup(entries)}</div></details>`;
+    }
+    function recordStorePrice(key, facts, store, date) {
+      const entry = { ...facts, stores: [store.trim()], date, recordedAt: new Date().toISOString(), id: crypto.randomUUID(), kind: "store-price" };
+      const entries = [...(priceHistory[key] || []), entry];
+      localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: entries }));
+      priceHistory[key] = entries;
+    }
+    function storePricesMarkup(item) {
+      const entries = priceHistory[editStorageKey(item.sourceList, item.key)] || [];
+      if (!entries.some((entry) => entry.kind === "store-price")) return "";
+      const latest = new Map();
+      [...entries].sort((a, b) => (a.date || "").localeCompare(b.date || "") || (a.recordedAt || "").localeCompare(b.recordedAt || "")).forEach((entry) => {
+        (entry.stores || []).forEach((store) => latest.set(store.toLowerCase(), { ...entry, stores: [store] }));
+      });
+      (item.stores || []).forEach((store) => {
+        if (!latest.has(store.toLowerCase())) latest.set(store.toLowerCase(), { ...productFacts(item), stores: [store] });
+      });
+      return `<details class="card-price-history" open><summary>Prices by store</summary><div class="price-history-scroll">${priceHistoryTableMarkup([...latest.values()])}</div></details>`;
     }
     function preparePriceHistory(item) {
       document.getElementById("price-history-section").hidden = false;
@@ -1715,7 +1747,7 @@
     }
     function availableStores() {
       const configured = isAllList() ? [] : anyListStoreOptions[state.activeList];
-      const importedStores = getViewItems().flatMap((item) => item.stores);
+      const importedStores = getViewItems().flatMap((item) => itemStores(item));
       return [...new Set([...(configured || []), ...importedStores])].sort((a, b) => a.localeCompare(b));
     }
     function itemCategory(item) { return String(item?.category || "Uncategorized").trim() || "Uncategorized"; }
@@ -1819,7 +1851,11 @@
       showToast(`${brand} added as a brand option.`);
     }
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
-    function itemStores(item) { return Array.isArray(item?.stores) ? item.stores : signalStores(item); }
+    function itemStores(item) {
+      const stores = Array.isArray(item?.stores) ? item.stores : signalStores(item);
+      const entries = item?.sourceList ? priceHistory[editStorageKey(item.sourceList, item.key)] || [] : [];
+      return [...new Set([...stores, ...entries.filter((entry) => entry.kind === "store-price").flatMap((entry) => entry.stores || [])])];
+    }
     function matchesStore(item) {
       if (state.store === "all") return true;
       const stores = itemStores(item);
@@ -1925,7 +1961,7 @@
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
       const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
       const moveLabel = moveTarget === "买菜" ? "加入买菜" : "移到备选";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-add-store-price>Add store price</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -1968,7 +2004,7 @@
       items = items.filter(matchesOrganic);
       items = items.filter((item) => matchesDetailFilter(item));
       items = items.filter(matchesPurchase);
-      if (state.query) items = items.filter((item) => displayItemName(item).toLowerCase().includes(state.query.toLowerCase()) || categoryLabel(itemCategory(item)).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
+      if (state.query) items = items.filter((item) => displayItemName(item).toLowerCase().includes(state.query.toLowerCase()) || categoryLabel(itemCategory(item)).toLowerCase().includes(state.query.toLowerCase()) || itemStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "price") items = [...items].sort(compareByUnitPrice);
       if (state.sort === "highest-price") items = [...items].sort(compareByHighestUnitPrice);
       if (state.sort === "name") items = [...items].sort((a, b) => displayItemName(a).localeCompare(displayItemName(b)));
@@ -2326,8 +2362,48 @@
     document.getElementById("compare-all-button").addEventListener("click", () => openCompare(getSignals()[0] || signalItems[0]));
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
+    let storePriceItem = null;
+    const storePriceModal = document.getElementById("store-price-modal");
+    const storePriceForm = document.getElementById("store-price-form");
+    function closeStorePriceEditor() {
+      storePriceModal.classList.remove("open");
+      storePriceItem = null;
+    }
+    function openStorePriceEditor(item) {
+      storePriceItem = item;
+      storePriceForm.reset();
+      document.getElementById("store-price-weight").setCustomValidity("");
+      document.getElementById("store-price-item-name").textContent = displayItemName(item);
+      document.getElementById("store-price-weight").value = editableFactValue(productFacts(item).weight) || "";
+      document.getElementById("store-price-date").value = localPriceDate();
+      storePriceModal.classList.add("open");
+      document.getElementById("store-price-store").focus();
+    }
+    document.querySelectorAll("[data-close-store-price]").forEach((button) => button.addEventListener("click", closeStorePriceEditor));
+    storePriceModal.addEventListener("keydown", (event) => { if (event.key === "Escape") closeStorePriceEditor(); });
+    document.getElementById("store-price-weight").addEventListener("input", (event) => event.target.setCustomValidity(""));
+    storePriceForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!storePriceItem) return;
+      const store = document.getElementById("store-price-store").value.trim();
+      const price = defaultPriceCurrency(document.getElementById("store-price-regular").value);
+      const salePrice = defaultPriceCurrency(document.getElementById("store-price-sale").value);
+      const weightInput = document.getElementById("store-price-weight");
+      const weight = weightInput.value.trim();
+      const unitPrice = calculateUnitPrice(price, weight);
+      if (!store) return;
+      if (!unitPrice) { weightInput.setCustomValidity("Enter a package size with a unit, such as 50 oz or 6 each."); weightInput.reportValidity(); return; }
+      const facts = { price, salePrice, weight, unitPrice, saleUnitPrice: calculateUnitPrice(salePrice, weight), discount: "" };
+      const key = editStorageKey(storePriceItem.sourceList, storePriceItem.key);
+      try { recordStorePrice(key, facts, store, document.getElementById("store-price-date").value); }
+      catch (error) { showToast("Store price could not be saved. Free browser storage and try again."); return; }
+      closeStorePriceEditor();
+      render();
+      showToast("Store price saved.");
+      syncShoppingDevices({ upload: true });
+    });
     function handleItemAction(event) {
-      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item]");
+      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item], [data-add-store-price]");
       if (!action) return;
       const row = action.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
@@ -2337,6 +2413,7 @@
         const targetList = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
         moveItemToList(item.sourceList, item.key, targetList);
       }
+      else if (action.hasAttribute("data-add-store-price")) openStorePriceEditor(item);
       else if (action.hasAttribute("data-delete-item")) deleteItem(item);
       else openItemEditor(item);
     }
