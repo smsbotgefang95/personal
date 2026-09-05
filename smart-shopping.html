@@ -1126,6 +1126,7 @@
     }
     function itemTargetList(sourceList, itemKey) {
       const targetList = itemMoves[moveStorageKey(sourceList, itemKey)];
+      if (targetList === undefined && sourceList === "备选" && getSourceItems(sourceList).some((item) => item.key === itemKey && item.name === "Strawberries 草莓")) return "买菜";
       const resolvedTarget = logicalListName(targetList);
       return listNames.includes(resolvedTarget) ? resolvedTarget : logicalListName(sourceList);
     }
@@ -1922,7 +1923,9 @@
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo?.sourcePage ? "Photo verified from a product listing" : photo ? "Photo migrated from AnyList" : "No item photo";
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
+      const moveLabel = moveTarget === "买菜" ? "加入买菜" : "移到备选";
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -2330,7 +2333,10 @@
       const itemRef = parseItemReference(row?.dataset.itemRef);
       const item = itemRef ? getViewItems().find((candidate) => candidate.sourceList === itemRef.sourceList && candidate.key === itemRef.key) : null;
       if (!item) return;
-      if (action.hasAttribute("data-move-item")) openItemMover(item);
+      if (action.hasAttribute("data-move-item")) {
+        const targetList = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
+        moveItemToList(item.sourceList, item.key, targetList);
+      }
       else if (action.hasAttribute("data-delete-item")) deleteItem(item);
       else openItemEditor(item);
     }
