@@ -1338,8 +1338,11 @@
       const quantity = parseWeightQuantity(weightValue);
       if (!price || !quantity || !Number.isFinite(quantity.amount) || quantity.amount <= 0) return "";
       const poundsPerUnit = { lb: 1, oz: 1 / 16, g: 1 / 453.59237, kg: 1000 / 453.59237 };
+      const fluidOuncesPerUnit = { "fl oz": 1, ml: 1 / 29.5735295625, L: 1000 / 29.5735295625, gal: 128 };
       const comparisonQuantity = poundsPerUnit[quantity.unit]
         ? { amount: quantity.amount * poundsPerUnit[quantity.unit], unit: "lb" }
+        : fluidOuncesPerUnit[quantity.unit]
+        ? { amount: quantity.amount * fluidOuncesPerUnit[quantity.unit], unit: "fl oz" }
         : quantity;
       const unitPrice = price / comparisonQuantity.amount;
       const displayPrice = unitPrice < 0.01 ? unitPrice.toFixed(3) : unitPrice.toFixed(2);
