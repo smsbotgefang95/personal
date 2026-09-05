@@ -228,7 +228,7 @@
   .purchase-section-heading h3 { margin: 0; color: var(--ink); font-size: 0.86rem; letter-spacing: -0.01em; }
   .purchase-section-heading span { color: var(--muted); font-size: 0.7rem; font-weight: 800; }
   .purchase-section.is-purchased .purchase-section-heading h3 { color: var(--green); }
-  .imported-card { display: grid; grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; column-gap: 16px; row-gap: 8px; align-items: start; min-height: 100%; padding: 14px 16px; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+  .imported-card { display: grid; grid-template: "media title badges" auto "media body body" 1fr / 159px minmax(0, 1fr) 150px; column-gap: 16px; row-gap: 8px; align-items: start; min-height: 100%; padding: 14px 16px; transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
   .imported-card:hover { background: #f8fbf8; transform: translateY(-1px); }
   .imported-card [data-item-drag-handle] { cursor: grab; }
   .imported-card [data-item-drag-handle]:active { cursor: grabbing; }
@@ -248,12 +248,12 @@
   .imported-card.is-purchased .item-photo { filter: saturate(0.72); opacity: 0.78; }
   .imported-card.is-purchased .card-title h4 { color: #6d7b74; text-decoration: line-through; text-decoration-thickness: 1px; }
   .imported-card.is-purchased .purchase-control { color: var(--green); }
-  .imported-card .item-main { grid-area: main; min-width: 0; }
-  .imported-card .card-title { min-width: 0; }
+  .imported-card .item-main { display: contents; }
+  .imported-card .card-title { grid-area: title; min-width: 0; }
   .imported-card .card-title h4 { max-width: none; margin: 0 0 5px; font-size: 0.94rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
   .imported-card .card-title .card-detail { min-height: 0; }
   .imported-card .card-badges { grid-area: badges; align-self: start; width: 150px; min-width: 0; }
-  .imported-card .card-body { margin-top: 0; }
+  .imported-card .card-body { grid-area: body; min-width: 0; align-self: start; margin-top: 0; }
   .imported-card .product-facts { width: 100%; grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .imported-facts-row { margin-top: 0; }
   .imported-facts-row .product-facts { margin-top: 0; }
@@ -372,7 +372,7 @@
     .imported-list { grid-template-columns: 1fr; }
     .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .imported-card .product-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .imported-card { grid-template: "media main badges" auto / 159px minmax(0, 1fr) 150px; padding: 18px 16px; }
+    .imported-card { grid-template: "media title badges" auto "media body body" 1fr / 159px minmax(0, 1fr) 150px; padding: 18px 16px; }
     .imported-card .item-photo { width: 118px; height: 118px; }
     .imported-card .card-badges { justify-content: end; }
     .imported-facts-row { grid-template-columns: 1fr; align-items: stretch; }
@@ -383,11 +383,11 @@
     .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .imported-card .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .nutrition-facts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .imported-card { grid-template: "media main" auto "media badges" auto / 72px minmax(0, 1fr); align-items: stretch; column-gap: 11px; row-gap: 9px; padding: 14px 12px; }
+    .imported-card { grid-template: "media title" auto "media badges" auto "media body" 1fr / 72px minmax(0, 1fr); align-items: stretch; column-gap: 11px; row-gap: 9px; padding: 14px 12px; }
     .imported-card .item-photo { flex-basis: 72px; width: 72px; height: 72px; border-radius: 12px; }
     .imported-card .item-media { gap: 4px; }
     .imported-card .card-badges { justify-content: start; gap: 4px; width: auto; }
-    .imported-card .card-body { margin-top: 0; }
+    .imported-card .card-body { grid-area: body; min-width: 0; align-self: start; margin-top: 0; }
     .imported-card .card-title h4 { font-size: 0.94rem; }
     .imported-card .card-title .card-detail { font-size: 0.7rem; }
     .imported-card .imported-actions { display: grid; gap: 4px; justify-content: stretch; transform: none; }
