@@ -1731,8 +1731,14 @@
 
     function importedCategoryGroup(category, items, colorIndex) {
       const itemLabel = items.length === 1 ? "item" : "items";
-      const hue = category === "蔬菜" ? 120 : (colorIndex * 67 + 28) % 360;
-      return `<section class="category-group" style="--category-hue: ${hue}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
+      const isMeatCategory = ["牛", "猪", "羊", "鸡", "鸭", "鱼", "虾", "加工食品_速冻食品_鱼", "加工食品_速冻食品_鸡"].includes(category);
+      const hue = category === "蔬菜" ? 120 : category === "加工食品_熟食" ? 280 : isMeatCategory ? 0 : (colorIndex * 67 + 28) % 360;
+      const categoryStyle = category === "蛋"
+        ? "--category-bg: #efe3d5; --category-border: #c4a484; --category-heading-bg: #dcc3a8; --category-ink: #654321"
+        : category === "主食"
+        ? "--category-bg: #f2f2f2; --category-border: #d1d1d1; --category-heading-bg: #e5e5e5; --category-ink: #444444"
+        : `--category-hue: ${hue}`;
+      return `<section class="category-group" style="${categoryStyle}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
     function purchaseSectionMarkup(label, items, colorOffset = 0) {
       if (!items.length) return "";
