@@ -2282,9 +2282,9 @@
       for (const draft of storePriceDrafts) {
         const value = readStorePriceDraft(draft.row);
         const rawStore = draft.row.querySelector('[data-price-field="stores"]').value;
-        if (!value.store || canonicalStoresFromInput(rawStore).length !== 1 || stores.has(value.store.toLowerCase())) { showToast("Choose one different store for each store price section."); return null; }
+        if (!value.store || canonicalStoresFromInput(rawStore).length !== 1 || stores.has(value.store.toLowerCase())) { reportItemSaveError("Choose one different store for each store price section.", draft.row.querySelector('[data-price-field="stores"]')); return null; }
         stores.add(value.store.toLowerCase());
-        if (!parsePriceAmount(value.facts.price) || !parseWeightQuantity(value.facts.weight)?.amount || !/^\d{4}-\d{2}-\d{2}$/.test(value.date)) { showToast("Each store needs a regular price, package size, and date."); return null; }
+        if (!parsePriceAmount(value.facts.price) || !parseWeightQuantity(value.facts.weight)?.amount || !/^\d{4}-\d{2}-\d{2}$/.test(value.date)) { reportItemSaveError("Each store needs a regular price, package size, and date.", draft.row.querySelector('[data-price-field="price"]')); return null; }
         if (JSON.stringify(value) !== draft.original) changes.push(value);
       }
       return changes;
@@ -2430,14 +2430,23 @@
       editDirty = true;
       document.getElementById("edit-save-status").textContent = "Unsaved changes. Click Done to save.";
     }
+    function reportItemSaveError(message, field) {
+      document.getElementById("edit-save-status").textContent = message;
+      showToast(message);
+      if (field) {
+        field.scrollIntoView({ block: "center" });
+        field.focus();
+      }
+      return false;
+    }
     function commitItemEdit() {
       if (!editDirty) return true;
       if (photoLoading) return false;
       const saved = saveItemEdit(null, true) === true;
-      document.getElementById("edit-save-status").textContent = saved
-        ? "Saved in this browser."
-        : "Changes not saved yet. Complete the required fields and try again.";
-      if (saved) editDirty = false;
+      if (saved) {
+        document.getElementById("edit-save-status").textContent = "Saved in this browser.";
+        editDirty = false;
+      }
       return saved;
     }
     function closeItemEditor() {
@@ -2468,8 +2477,9 @@
       const name = [englishName, chineseName].filter(Boolean).join(" ");
       if (!name) {
         els.editName.setCustomValidity("Enter an English or Chinese name.");
-        if (!automatic) els.editName.reportValidity();
-        return;
+        reportItemSaveError("Enter an English or Chinese name.", els.editName);
+        els.editName.reportValidity();
+        return false;
       }
       const brand = els.editBrand.value;
       const madeIn = els.editMadeIn.value.trim();
@@ -2482,7 +2492,7 @@
       if (storeChanges === null) return;
       const photo = editSession.photo || "";
       const date = document.getElementById("price-effective-date").value;
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { showToast("Choose a price effective date."); return; }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { return reportItemSaveError("Choose a price effective date.", document.getElementById("price-effective-date")); }
       if (editSession.mode === "add") {
         const addList = editSession.list;
         if (!listNames.includes(addList)) {
@@ -2500,13 +2510,13 @@
         const key = `added::${Date.now()}`;
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
         try { recordRegularPrice(editStorageKey(editSession.list, key), null, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, key), storeChanges); }
-        catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
+        catch (error) { return reportItemSaveError("Price history could not be saved in this browser. Keep this editor open and try again after making storage available."); }
         itemAdds[editSession.list].push({ key, name, englishName, chineseName, brand, madeIn, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
         const previous = getSourceItems(editSession.list).find((item) => item.key === editSession.key);
         try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, editSession.key), storeChanges); }
-        catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
+        catch (error) { return reportItemSaveError("Price history could not be saved in this browser. Keep this editor open and try again after making storage available."); }
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
         itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, madeIn, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
         pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
@@ -2514,8 +2524,10 @@
           localStorage.setItem(pendingEditsStorageKey, JSON.stringify(pendingEdits));
           localStorage.setItem(itemEditsStorageKey, JSON.stringify(itemEdits));
         } catch (error) {
-          showToast("Changes could not be saved. Free browser storage and try again.");
-          return false;
+          const message = error?.name === "QuotaExceededError"
+            ? "Browser storage is full. Your changes are still in this editor. Try a smaller photo, or free space after backing up your shopping data. Do not clear site data or reload before saving."
+            : "This browser could not store your changes. Keep this editor open, check browser storage permissions, and try again.";
+          return reportItemSaveError(message);
         }
         queueShoppingSync();
       }
