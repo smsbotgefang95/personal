@@ -30,7 +30,7 @@ const reloaded = device();
 reloaded.recordRegularPrice('item',{...item,facts:updated},{...updated,salePrice:'$3.99'},['Costco'],'2026-09-06');
 assert.equal(history().length,3,'sale-only save retains sale history');
 reloaded.recordRegularPrice('item',{...item,facts:{...updated,salePrice:'$3.99'}},{...updated,weight:'3 lb'},['Costco'],'2026-09-07');
-assert.equal(history().length,4,'package changes retain old package');
+assert.equal(history().length,4,'ending a sale retains old sale and package');
 reloaded.mergePriceHistory({item:[history()[0],{id:'remote',date:'2026-09-08',price:'$6.49',stores:['Giant'],weight:'3 lb'}]});
 assert.equal(history().length,5,'merge retains local and remote entries, without duplicate baseline');
 assert.equal(history()[4].stores[0],'Giant');
@@ -58,3 +58,25 @@ const before = legacy.length;
 afterReload.recordRegularPrice('shop::legacy', {...item,facts:updated}, updated, ['Costco'], '2026-09-10');
 assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1'))['shop::legacy'].length,before);
 console.log('PASS: sale retention, visible historical highlight, reload, legacy history and unchanged saves');
+
+// Completing details, including the package corrections from the reported soy sauce item,
+// must not create dated price observations or alter existing historical evidence.
+const incomplete = {stores:['Great Wall'], facts:{price:'$3.99'}};
+const largePackage = {...incomplete.facts,weight:'250 fl oz',unitPrice:'$0.02 / fl oz'};
+const correctedPackage = {...largePackage,weight:'20 fl oz',unitPrice:'$0.20 / fl oz'};
+const beforeDetails = storage.get('smart-shopping-price-history-v1');
+afterReload.recordRegularPrice('soy', incomplete, largePackage, ['Great Wall'], '2026-09-05');
+afterReload.recordRegularPrice('soy', {...incomplete,facts:largePackage}, correctedPackage, ['Great Wall'], '2026-09-05');
+afterReload.recordRegularPrice('soy', {...incomplete,facts:correctedPackage}, correctedPackage, ['Giant'], '2026-09-06');
+afterReload.recordRegularPrice('shop::legacy', {...item,facts:updated}, {...updated,weight:'20 oz',unitPrice:'$4.39 / lb'}, ['Giant'], '2026-09-10');
+assert.equal(storage.get('smart-shopping-price-history-v1'),beforeDetails,'detail-only saves leave all history unchanged');
+afterReload.recordRegularPrice('format', {...item,facts:{price:'$4.90'}}, {price:'$4.9'}, ['Costco'], '2026-09-10');
+assert.equal(storage.get('smart-shopping-price-history-v1'),beforeDetails,'equivalent price formatting is not a price change');
+afterReload.recordRegularPrice('soy', {...incomplete,facts:correctedPackage}, {...correctedPackage,price:'$4.99'}, ['Great Wall'], '2026-09-07');
+const soy = JSON.parse(storage.get('smart-shopping-price-history-v1')).soy;
+assert.equal(soy.length,2);
+assert.equal(soy[0].weight,'20 fl oz','first real change preserves completed package details');
+assert.equal(soy[1].price,'$4.99');
+afterReload.recordRegularPrice('discount', item, {...item.facts,discount:'$1 off'}, ['Costco'], '2026-09-10');
+assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1')).discount.length,2,'discount changes still create history');
+console.log('PASS: package completion, package correction, store edits, existing history, equivalent prices and real price/discount changes');

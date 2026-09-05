@@ -811,7 +811,10 @@
       const next = snapshot(facts, stores);
       const old = previous ? snapshot(productFacts(previous), previous.stores) : null;
       const comparable = (entry) => JSON.stringify({ ...entry, price: defaultPriceCurrency(entry.price).replace(/\s+/g, ""), weight: parseWeightQuantity(entry.weight) || entry.weight.replace(/\s+/g, ""), unitPrice: entry.unitPrice.replace(/\s+/g, "") });
-      if (old && comparable(old) === comparable(next)) return;
+      // Completing package/store details can recalculate unit prices without changing the price paid.
+      const priceChanges = (entry) => JSON.stringify([entry.price, entry.salePrice, entry.discount].map((value) =>
+        defaultPriceCurrency(value).toLowerCase().replace(/\s+/g, "").replace(/\d+(?:\.\d+)?/g, (amount) => String(Number(amount)))));
+      if (old && priceChanges(old) === priceChanges(next)) return;
       const entries = [...(priceHistory[key] || [])];
       const recordedAt = new Date().toISOString();
       if (old && (old.price || old.unitPrice || old.salePrice || old.saleUnitPrice) && !entries.some((entry) => comparable(snapshot(entry, entry.stores)) === comparable(old))) entries.push({ ...old, id: entries.length ? crypto.randomUUID() : `baseline::${key}`, date: null, recordedAt });
