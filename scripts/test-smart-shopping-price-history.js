@@ -48,10 +48,10 @@ assert.equal(savedSale[0].saleUnitPrice, '$2.00 / lb', 'regular price update pre
 assert.equal(savedSale[1].saleUnitPrice, '', 'old sale is not an active sale');
 const afterReload = device();
 const markup = afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',facts:updated});
-assert.ok(markup.indexOf('Lowest recorded unit price') < markup.indexOf('<details'), 'sale is prominent outside history');
+assert.ok(markup.indexOf('Lowest recorded') < markup.indexOf('class="card-price-history"'), 'sale is prominent outside history');
 assert.ok(markup.includes('$2.00 / lb'));
 assert.ok(markup.includes('Sale ·'));
-assert.equal((afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',facts:sale}).match(/Lowest recorded unit price/g) || []).length, 1, 'one benchmark even when current sale matches history');
+assert.equal((afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',facts:sale}).match(/Lowest recorded/g) || []).length, 1, 'one benchmark even when current sale matches history');
 // Upgrade an existing regular-only history without losing a current sale.
 afterReload.mergePriceHistory({'shop::legacy':[{id:'legacy',...item.facts,stores:['Costco'],date:'2026-09-01'}]});
 afterReload.recordRegularPrice('shop::legacy', {...item,facts:sale}, updated, ['Costco'], '2026-09-09');
@@ -95,7 +95,7 @@ afterReload.mergePriceHistory({'shop::benchmark':[
 const benchmark = afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'benchmark',facts:updated,stores:['Costco']});
 assert.ok(benchmark.includes('<strong>$1.00 / lb</strong>'));
 assert.ok(benchmark.includes('Sale · 2026-08-01 · Old store'));
-assert.equal((benchmark.match(/Lowest recorded unit price/g) || []).length, 2, 'incompatible units stay separate');
+assert.equal((benchmark.match(/Lowest recorded/g) || []).length, 2, 'incompatible units stay separate');
 const currentBest = afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'benchmark',facts:{price:'$1',weight:'2 lb'},stores:['Current store']});
 assert.ok(currentBest.includes('<strong>$0.50 / lb</strong>'));
 assert.ok(currentBest.includes('Regular price · Date unknown · Current store'));
@@ -124,3 +124,26 @@ assert.equal(JSON.stringify(item.facts), beforeMainFacts, 'adding store offers l
 assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1'))['shop::multi'].length,3,'same price at a different store is retained');
 assert.ok(multiDevice.cardPriceHistoryMarkup(multi).includes('<strong>$2.00 / lb</strong>'), 'past sale still wins benchmark');
 console.log('PASS: separate store offers, latest per store, reload and historical benchmark');
+
+// Deleted observations must stay deleted after reload and stale device sync.
+const stale = JSON.parse(storage.get('smart-shopping-price-history-v1'));
+const deleteId = stale['shop::multi'][0].id;
+assert.ok(multiDevice.priceHistoryTableMarkup(stale['shop::multi'], 'shop::multi').includes('data-delete-price-id'));
+assert.equal(multiDevice.deletePriceHistoryEntry('shop::multi', deleteId), true);
+assert.equal(multiDevice.deletePriceHistoryEntry('shop::multi', deleteId), false);
+const deletedDevice = device();
+deletedDevice.mergePriceHistory(stale);
+assert.equal(deletedDevice.activePriceHistory('shop::multi').length, 2);
+assert.ok(!deletedDevice.cardPriceHistoryMarkup(multi).includes('<strong>$2.00 / lb</strong>'));
+assert.equal(JSON.stringify(item.facts), beforeMainFacts);
+const deletedSnapshot = JSON.parse(storage.get('smart-shopping-price-history-v1'));
+storage.set('smart-shopping-price-history-v1', JSON.stringify(stale));
+const staleDevice = device();
+staleDevice.mergePriceHistory(deletedSnapshot);
+assert.equal(staleDevice.activePriceHistory('shop::multi').length, 2);
+const originalSet = staleDevice.localStorage.setItem;
+staleDevice.localStorage.setItem = () => { throw new Error('Storage full'); };
+assert.throws(() => staleDevice.deletePriceHistoryEntry('shop::multi', stale['shop::multi'][1].id));
+assert.equal(staleDevice.activePriceHistory('shop::multi').length, 2);
+staleDevice.localStorage.setItem = originalSet;
+console.log('PASS: deletion controls, reload, stale sync in both directions, benchmark recalculation, unchanged current price and storage failure');

@@ -1029,7 +1029,9 @@ def merge_smart_shopping_history(existing, incoming):
             by_id = {entry["id"]: entry for entry in merged.get(key, [])}
             for entry in entries:
                 if isinstance(entry, dict) and isinstance(entry.get("id"), str):
-                    by_id.setdefault(entry["id"], entry)
+                    # Deletions win over stale snapshots from other devices.
+                    if entry.get("deletedAt") or entry["id"] not in by_id:
+                        by_id[entry["id"]] = entry
             merged[key] = list(by_id.values())
     return merged
 

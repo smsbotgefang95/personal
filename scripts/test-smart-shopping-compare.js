@@ -8,7 +8,7 @@ const context = vm.createContext({
   editableFactValue: value => value === 'Not listed' ? '' : value || ''
 });
 vm.runInContext(html.slice(html.indexOf('    const weightUnitAliases ='), html.indexOf('    function splitWeightValue')), context);
-for (const name of ['parseDiscountAmount', 'formatMoneyAmount', 'calculateSalePrice', 'parsePriceAmount', 'normalizedWeightQuantity', 'parseWeightQuantity']) {
+for (const name of ['activePriceHistory', 'parseDiscountAmount', 'formatMoneyAmount', 'calculateSalePrice', 'parsePriceAmount', 'normalizedWeightQuantity', 'parseWeightQuantity']) {
   const start = html.indexOf(`    function ${name}(`);
   vm.runInContext(html.slice(start, html.indexOf('\n    function ', start + 1)), context);
 }
@@ -65,3 +65,7 @@ context.renderStoreListings({name:'Kirkland organic large eggs'});
 assert.equal(panel.hidden,true,'a different brand must not receive these listings');
 assert.equal(panel.innerHTML,'');
 console.log('PASS: saved prices, numeric minima, ties, history dates, unit conversions, currency isolation, missing prices, script syntax');
+
+context.priceHistory['shop::test'] = [{id:'deleted',price:'$0.01',weight:'1 lb',stores:['Deleted store'],deletedAt:'2026-09-05'}];
+assert.ok(!context.comparisonRows(item).some(row => row.store === 'Deleted store'));
+console.log('PASS: deleted prices are excluded from comparisons');

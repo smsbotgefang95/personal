@@ -797,10 +797,24 @@
     function mergePriceHistory(remote = {}) {
       Object.entries(remote).forEach(([key, entries]) => {
         if (!Array.isArray(entries)) return;
-        const merged = new Map([...(priceHistory[key] || []), ...entries].filter((entry) => entry && entry.id).map((entry) => [entry.id, entry]));
+        const merged = new Map();
+        [...(priceHistory[key] || []), ...entries].filter((entry) => entry && entry.id).forEach((entry) => {
+          if (!merged.get(entry.id)?.deletedAt) merged.set(entry.id, entry);
+        });
         priceHistory[key] = [...merged.values()];
       });
       localStorage.setItem(priceHistoryStorageKey, JSON.stringify(priceHistory));
+    }
+    function activePriceHistory(key) {
+      return (priceHistory[key] || []).filter((entry) => !entry.deletedAt);
+    }
+    function deletePriceHistoryEntry(key, id) {
+      const entries = priceHistory[key] || [];
+      if (!entries.some((entry) => entry.id === id && !entry.deletedAt)) return false;
+      const updated = entries.map((entry) => entry.id === id ? { ...entry, deletedAt: new Date().toISOString() } : entry);
+      localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: updated }));
+      priceHistory[key] = updated;
+      return true;
     }
     function localPriceDate() {
       const now = new Date();
@@ -813,14 +827,15 @@
       const value = isSale ? saleUnit : calculateUnitPrice(entry.price, entry.weight) || editableFactValue(entry.unitPrice);
       return { value: value || "", isSale };
     }
-    function priceHistoryTableMarkup(entries) {
-      return entries.length ? `<table class="compare-table"><thead><tr><th>Regular price</th><th>Unit price</th><th>Sale price</th><th>Package</th><th>Store</th><th>Date</th></tr></thead><tbody>${[...entries].sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || "")).map((entry) => {
+    function priceHistoryTableMarkup(entries, key = "") {
+      entries = entries.filter((entry) => !entry.deletedAt);
+      return entries.length ? `<table class="compare-table"><thead><tr><th>Regular price</th><th>Unit price</th><th>Sale price</th><th>Package</th><th>Store</th><th>Date</th>${key ? "<th>Action</th>" : ""}</tr></thead><tbody>${[...entries].sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || "")).map((entry) => {
         const unitPrice = calculateUnitPrice(entry.price, entry.weight) || editableFactValue(entry.unitPrice);
-        return `<tr><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(unitPrice || "Not listed")}</td><td>${escapeHtml(entry.salePrice || "—")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml((entry.stores || []).join(", ") || "Not listed")}</td><td>${escapeHtml(entry.date || "Date unknown (previous price)")}</td></tr>`;
+        return `<tr><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(unitPrice || "Not listed")}</td><td>${escapeHtml(entry.salePrice || "—")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml((entry.stores || []).join(", ") || "Not listed")}</td><td>${escapeHtml(entry.date || "Date unknown (previous price)")}</td>${key && entry.id ? `<td><button type="button" class="mini-button danger" data-delete-price-key="${escapeHtml(key)}" data-delete-price-id="${escapeHtml(entry.id)}" aria-label="Delete saved price ${escapeHtml(entry.price || entry.salePrice || "")}">Delete</button></td>` : key ? "<td></td>" : ""}</tr>`;
       }).join("")}</tbody></table>` : '<p class="field-help">No dated price history yet. The previous price will be preserved on the first update.</p>';
     }
     function cardPriceHistoryMarkup(item) {
-      const entries = priceHistory[editStorageKey(item.sourceList, item.key)] || [];
+      const entries = activePriceHistory(editStorageKey(item.sourceList, item.key));
       const current = { ...productFacts(item), stores: item.stores || [] };
       const lowestByUnit = new Map();
       // Include the current observation, but never invent its recording date.
@@ -836,7 +851,7 @@
         }
       });
       const benchmark = [...lowestByUnit.values()].map(({ entry, value, isSale }) => `<details class="last-sale-highlight"><summary><span>Lowest recorded</span><strong>${escapeHtml(value)}</strong></summary><small>${isSale ? "Sale" : "Regular price"} · ${escapeHtml(entry.date || "Date unknown")} · ${escapeHtml((entry.stores || []).join(", ") || "Store unknown")}</small></details>`).join("");
-      return `${benchmark}${storePricesMarkup(item)}<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular and sale price history" tabindex="0">${priceHistoryTableMarkup(entries)}</div></details>`;
+      return `${benchmark}${storePricesMarkup(item)}<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular and sale price history" tabindex="0">${priceHistoryTableMarkup(entries, editStorageKey(item.sourceList, item.key))}</div></details>`;
     }
     function recordStorePrice(key, facts, store, date) {
       const entry = { ...facts, stores: [store.trim()], date, recordedAt: new Date().toISOString(), id: crypto.randomUUID(), kind: "store-price" };
@@ -845,7 +860,7 @@
       priceHistory[key] = entries;
     }
     function storePricesMarkup(item) {
-      const entries = priceHistory[editStorageKey(item.sourceList, item.key)] || [];
+      const entries = activePriceHistory(editStorageKey(item.sourceList, item.key));
       if (!entries.some((entry) => entry.kind === "store-price")) return "";
       const latest = new Map();
       [...entries].sort((a, b) => (a.date || "").localeCompare(b.date || "") || (a.recordedAt || "").localeCompare(b.recordedAt || "")).forEach((entry) => {
@@ -859,8 +874,8 @@
     function preparePriceHistory(item) {
       document.getElementById("price-history-section").hidden = false;
       document.getElementById("price-effective-date").value = localPriceDate();
-      const entries = item ? priceHistory[editStorageKey(editSession.list, item.key)] || [] : [];
-      document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(entries);
+      const entries = item ? activePriceHistory(editStorageKey(editSession.list, item.key)) : [];
+      document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(entries, item ? editStorageKey(editSession.list, item.key) : "");
     }
     function recordRegularPrice(key, previous, facts, stores, date) {
       const snapshot = (values, locations) => ({ price: editableFactValue(values.price), weight: editableFactValue(values.weight), unitPrice: editableFactValue(values.unitPrice), discount: editableFactValue(values.discount), salePrice: editableFactValue(values.salePrice), saleUnitPrice: editableFactValue(values.saleUnitPrice), stores: [...(locations || [])].sort() });
@@ -1860,7 +1875,7 @@
     function signalStores(item) { return [...new Set((item.prices || []).map((row) => row[0]).filter((store) => store && !/^Saved /.test(store)))]; }
     function itemStores(item) {
       const stores = Array.isArray(item?.stores) ? item.stores : signalStores(item);
-      const entries = item?.sourceList ? priceHistory[editStorageKey(item.sourceList, item.key)] || [] : [];
+      const entries = item?.sourceList ? activePriceHistory(editStorageKey(item.sourceList, item.key)) : [];
       return [...new Set([...stores, ...entries.filter((entry) => entry.kind === "store-price").flatMap((entry) => entry.stores || [])])];
     }
     function matchesStore(item) {
@@ -2243,7 +2258,7 @@
       storePriceDrafts = [];
       document.getElementById("additional-store-prices").replaceChildren();
       document.getElementById("add-another-store").hidden = false;
-      const entries = item ? priceHistory[editStorageKey(item.sourceList, item.key)] || [] : [];
+      const entries = item ? activePriceHistory(editStorageKey(item.sourceList, item.key)) : [];
       const latest = new Map();
       [...entries].filter((entry) => entry.kind === "store-price").sort((a,b) => (a.date || "").localeCompare(b.date || "") || (a.recordedAt || "").localeCompare(b.recordedAt || "")).forEach((entry) => latest.set(entry.stores[0].toLowerCase(), entry));
       latest.forEach(addStorePriceSection);
@@ -2497,7 +2512,7 @@
       }
       storePriceDrafts.forEach((draft) => { draft.original = JSON.stringify(readStorePriceDraft(draft.row)); });
       if (automatic) {
-        document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(priceHistory[editStorageKey(editSession.list, editSession.key)] || []);
+        document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(activePriceHistory(editStorageKey(editSession.list, editSession.key)), editStorageKey(editSession.list, editSession.key));
         render();
         return true;
       }
@@ -2553,7 +2568,7 @@
       return { amount, key: `${currency}::${unit}`, text: `${currency}${amount.toFixed(amount < 0.01 ? 3 : 2)} / ${unit}` };
     }
     function comparisonRows(item) {
-      const history = [...(priceHistory[editStorageKey(item.sourceList, item.key)] || [])]
+      const history = [...(activePriceHistory(editStorageKey(item.sourceList, item.key)))]
         .sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || ""));
       const facts = productFacts(item);
       const current = { ...facts, stores: item.stores || [], label: "Item price", date: "" };
@@ -2655,6 +2670,23 @@
       const item = itemRef ? getViewItems().find((candidate) => candidate.sourceList === itemRef.sourceList && candidate.key === itemRef.key) : null;
       if (item) setItemPurchased(item, toggle.checked);
     }
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-delete-price-id]");
+      if (!button) return;
+      const key = button.dataset.deletePriceKey;
+      const id = button.dataset.deletePriceId;
+      if (els.editModal.classList.contains("open") && !flushItemAutosave()) return;
+      try {
+        if (!deletePriceHistoryEntry(key, id)) return;
+      } catch (error) { showToast("Price history could not be deleted. Free browser storage and try again."); return; }
+      if (els.editModal.classList.contains("open")) {
+        document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(activePriceHistory(key), key);
+        prepareStorePriceSections(getSourceItems(editSession.list).find((item) => item.key === editSession.key));
+      }
+      render();
+      queueShoppingSync();
+      showToast("Saved price deleted. Current item price unchanged.");
+    });
     els.importedList.addEventListener("click", handleItemAction);
     els.importedList.addEventListener("change", handlePurchaseToggle);
     els.importedList.addEventListener("dragstart", (event) => {
