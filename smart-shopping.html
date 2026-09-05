@@ -457,7 +457,7 @@
         <select class="list-filter" id="list-filter" aria-label="List">
           <option value="__all__">All items</option>
           <option value="买菜">Shopping List</option>
-          <option value="备选">Saved for Later</option>
+          <option value="备选">Later</option>
         </select>
         <select class="store-filter" id="store-filter" aria-label="Filter by store">
           <option value="all">Stores</option>
@@ -519,8 +519,10 @@
       <div><h2 id="compare-title">Price comparison</h2><p id="compare-subtitle">Unit price is the fair comparison.</p></div>
       <button class="close-modal" id="close-modal" type="button" aria-label="Close price comparison">×</button>
     </div>
-    <table class="compare-table"><thead><tr><th>Store</th><th>Package price</th><th>Unit price</th><th>Source</th></tr></thead><tbody id="compare-table-body"></tbody></table>
-    <p class="modal-note">The prototype can show saved AnyList prices now. A production version should refresh this table from store feeds and show the lookup time beside every result.</p>
+    <label for="compare-item-select">Choose an item from your filtered list</label>
+    <select id="compare-item-select" style="width:100%;margin-top:8px"></select>
+    <div class="price-history-scroll"><table class="compare-table"><thead><tr><th>Store</th><th>Package price</th><th>Unit price</th><th>Record / date</th></tr></thead><tbody id="compare-table-body"></tbody></table></div>
+    <p class="modal-note">Saved prices only; stores are not checked live. Green marks the lowest recorded price within each matching currency and unit, including historical sales. A saved sale may have ended. Add store prices and dates using Edit → Add another store.</p>
   </div>
 </div>
 <div class="modal-backdrop" id="edit-item-modal" role="dialog" aria-modal="true" aria-labelledby="edit-item-title">
@@ -594,7 +596,7 @@
     const listNames = ["买菜", "备选"];
     const listDisplayNames = new Map([
       ["买菜", "Shopping List"],
-      ["备选", "Saved for Later"],
+      ["备选", "Later"],
       ["冰柜_肉和其他🥩", "冰柜"],
       ["橱柜_食物🍫", "橱柜"]
     ]);
@@ -616,7 +618,7 @@
       }
       return escapeHtml(icon || "🛒");
     }
-    document.getElementById("collection-import-note").textContent = "Items organized into Shopping List and Saved for Later.";
+    document.getElementById("collection-import-note").textContent = "Items organized into Shopping List and Later.";
     const categoryNames = new Set([
       "主食", "蔬菜", "水果", "蛋", "奶制品", "鱼", "虾", "鸡", "牛", "羊", "猪", "鸭",
       "杂豆和豆制品", "坚果（坚果酱/粉）和种子", "加工食品_熟食", "加工食品_甜点", "加工食品_速冻食品_鱼", "加工食品_速冻食品_鸡",
@@ -1941,8 +1943,8 @@
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
       const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
-      const moveLabel = moveTarget === "买菜" ? "Shop" : "Save for Later";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      const moveLabel = moveTarget === "买菜" ? "Shop" : "Later";
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-compare-item>Compare</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -2428,20 +2430,83 @@
     }
 
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
-    function openCompare(item) {
-      if (!item) return;
-      els.compareTitle.textContent = `${displayProductName(item.name, itemBrand(item))} · compare unit price`;
-      els.compareSubtitle.textContent = item.sugar === "Added sugar" ? "A lower price is not automatically a better food fit." : "The lowest comparable unit price is highlighted.";
-      const bestIndex = item.prices.reduce((best, row, index) => row[2].includes("$") && !row[2].includes("—") ? index : best, 0);
-      els.compareBody.innerHTML = item.prices.map((row, index) => `<tr class="${index === bestIndex ? "best" : ""}"><td>${escapeHtml(row[0])}</td><td>${escapeHtml(row[1])}</td><td>${escapeHtml(row[2])}</td><td>${escapeHtml(row[3])}</td></tr>`).join("");
-      els.compareModal.classList.add("open");
+    // Compare unrounded amounts, converting only compatible dimensions.
+    function comparisonUnit(price, weight, manualUnit) {
+      const quantity = parseWeightQuantity(weight);
+      const raw = String(price || "").replace(/,/g, "");
+      let amount = parsePriceAmount(raw);
+      let currency = raw.match(/[$€£]/)?.[0] || "$";
+      let unit;
+      if (amount && quantity?.amount > 0 && quantity.unit !== "unit") {
+        amount /= quantity.amount;
+        unit = quantity.unit;
+      } else {
+        const match = String(manualUnit || "").replace(/,/g, "").match(/^([$€£])\s*(\d+(?:\.\d+)?)\s*\/\s*(.+)$/);
+        if (!match) return null;
+        currency = match[1];
+        amount = Number(match[2]);
+        unit = canonicalWeightUnit(match[3]);
+      }
+      if (!unit || !Number.isFinite(amount) || amount <= 0) return null;
+      const mass = { lb: 1, oz: 1 / 16, g: 1 / 453.59237, kg: 1000 / 453.59237 };
+      const volume = { "fl oz": 1, ml: 1 / 29.5735295625, L: 1000 / 29.5735295625, gal: 128 };
+      if (mass[unit]) { amount /= mass[unit]; unit = "lb"; }
+      else if (volume[unit]) { amount /= volume[unit]; unit = "fl oz"; }
+      return { amount, key: `${currency}::${unit}`, text: `${currency}${amount.toFixed(amount < 0.01 ? 3 : 2)} / ${unit}` };
     }
-
-    document.getElementById("compare-all-button").addEventListener("click", () => openCompare(getSignals()[0] || signalItems[0]));
+    function comparisonRows(item) {
+      const history = [...(priceHistory[editStorageKey(item.sourceList, item.key)] || [])]
+        .sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || ""));
+      const facts = productFacts(item);
+      const current = { ...facts, stores: item.stores || [], label: "Item price", date: "" };
+      const observations = [current, ...history.map((entry) => ({ ...entry, label: entry.kind === "store-price" ? "Saved store price" : "Price history" }))];
+      const rows = [];
+      observations.forEach((entry) => {
+        const sale = calculateSalePrice(entry.price, entry.discount) || editableFactValue(entry.salePrice);
+        [[entry.price, entry.unitPrice, "Regular"], [sale, entry.saleUnitPrice, "Sale"]].forEach(([price, manual, type]) => {
+          price = editableFactValue(price) || "";
+          manual = editableFactValue(manual) || "";
+          if (!price && !manual) return;
+          rows.push({ store: (entry.stores || []).join(", ") || "Store unknown", price: price || "Not listed", weight: editableFactValue(entry.weight) || "Package unknown", unit: comparisonUnit(price, entry.weight, manual), label: `${entry.label} · ${type}`, date: entry.date || "Date unknown" });
+        });
+      });
+      const groups = new Map();
+      rows.forEach((row) => {
+        if (!row.unit) return;
+        const group = groups.get(row.unit.key) || { min: Infinity, count: 0 };
+        group.min = Math.min(group.min, row.unit.amount); group.count++;
+        groups.set(row.unit.key, group);
+      });
+      rows.forEach((row) => {
+        const group = row.unit && groups.get(row.unit.key);
+        row.best = Boolean(group && group.count > 1 && Math.abs(row.unit.amount - group.min) < 1e-9);
+      });
+      return rows;
+    }
+    let compareItems = [];
+    function renderComparison(item) {
+      els.compareTitle.textContent = item ? `${displayItemName(item)} · compare prices` : "Compare prices";
+      els.compareSubtitle.textContent = "Compare saved regular and sale prices for the same item. Weight and volume are converted to matching units.";
+      const rows = item ? comparisonRows(item) : [];
+      els.compareBody.innerHTML = rows.length ? rows.map((row) => `<tr class="${row.best ? "best" : ""}"><td>${escapeHtml(row.store)}</td><td>${escapeHtml(row.price)}<br><small>${escapeHtml(row.weight)}</small></td><td>${escapeHtml(row.unit?.text || "Needs package size / unit price")}${row.best ? "<br><small>Lowest recorded</small>" : ""}</td><td>${escapeHtml(row.label)}<br><small>${escapeHtml(row.date)}</small></td></tr>`).join("") : '<tr><td colspan="4">No saved prices to compare. Choose an item with prices, or add prices and package sizes using Edit.</td></tr>';
+    }
+    function openCompare(item) {
+      compareItems = filteredImportedItems();
+      const selector = document.getElementById("compare-item-select");
+      selector.innerHTML = compareItems.map((candidate, index) => `<option value="${index}">${escapeHtml(displayItemName(candidate))} — ${escapeHtml(displayListName(itemTargetList(candidate.sourceList, candidate.key)))}</option>`).join("");
+      const index = item ? compareItems.findIndex((candidate) => candidate.sourceList === item.sourceList && candidate.key === item.key) : 0;
+      selector.value = String(Math.max(0, index));
+      selector.disabled = !compareItems.length;
+      renderComparison(compareItems[Math.max(0, index)]);
+      els.compareModal.classList.add("open");
+      selector.focus();
+    }
+    document.getElementById("compare-item-select").addEventListener("change", (event) => renderComparison(compareItems[Number(event.target.value)]));
+    document.getElementById("compare-all-button").addEventListener("click", () => openCompare());
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
     function handleItemAction(event) {
-      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item]");
+      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item], [data-compare-item]");
       if (!action) return;
       const row = action.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
@@ -2452,6 +2517,7 @@
         moveItemToList(item.sourceList, item.key, targetList);
       }
       else if (action.hasAttribute("data-delete-item")) deleteItem(item);
+      else if (action.hasAttribute("data-compare-item")) openCompare(item);
       else openItemEditor(item);
     }
     function handlePurchaseToggle(event) {
