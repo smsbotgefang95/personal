@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "杏鲍菇",
+    "file": "king-oyster-mushrooms.png",
+    "sourcePage": "https://www.rawpixel.com/image/9214624/king-oyster-mushroom-png-transparent-background",
+    "credit": "piyapon singthong / Rawpixel; background removed with imagegen"
+  },
+  {
     "name": "Artisan romaine",
     "file": "artisan-romaine.jpg",
     "source": "https://bfasset.costco-static.com/U447IH35/as/5bhz8fmvm469hmmhvx6kbs/8288__1psd?auto=webp&canvas=727%2C727&fit=bounds&format=jpg&height=727&width=727"
