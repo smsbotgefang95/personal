@@ -375,8 +375,8 @@ echo "🔒 Confirming SSL status via Certbot..."
 sudo certbot --nginx -d "$DOMAIN" --keep-until-expiring --non-interactive --agree-tos --register-unsafely-without-email
 
 # Certbot can rewrite the active server block. Re-apply API upload limits after
-# its nginx installer runs so Time Analysis sync accepts the intended payload size.
-echo "📦 Ensuring Time Analysis API upload limit is active..."
+# its nginx installer runs so sync endpoints retain their intended payload sizes.
+echo "📦 Ensuring API upload limits are active..."
 TMP_NGINX_CONF=$(mktemp)
 python3 - "/etc/nginx/sites-available/$NGINX_CONF" > "$TMP_NGINX_CONF" <<'PY'
 from pathlib import Path
@@ -384,15 +384,16 @@ import sys
 
 path = Path(sys.argv[1])
 text = path.read_text()
-needle = "    location = /api/time-entries {\n"
-directive = "        client_max_body_size 16m;\n"
-if needle not in text:
-    raise SystemExit("missing /api/time-entries nginx location")
-location_start = text.index(needle)
-location_end = text.index("    }\n", location_start)
-location_block = text[location_start:location_end]
-if directive not in location_block:
-    text = text[:location_start + len(needle)] + directive + text[location_start + len(needle):]
+import re
+
+for endpoint, limit in (("time-entries", "16m"), ("smart-shopping", "64m")):
+    pattern = re.compile(r"(location = /api/" + re.escape(endpoint) + r" \{)([^}]*)(\})")
+    if not pattern.search(text):
+        raise SystemExit(f"missing /api/{endpoint} nginx location")
+    def update_limit(match):
+        body = re.sub(r"[ \t]*client_max_body_size\s+[^;]+;[ \t]*\n?", "", match.group(2))
+        return match.group(1) + f"\n        client_max_body_size {limit};" + body + match.group(3)
+    text = pattern.sub(update_limit, text)
 print(text, end="")
 PY
 sudo tee "/etc/nginx/sites-available/$NGINX_CONF" > /dev/null < "$TMP_NGINX_CONF"
