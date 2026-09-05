@@ -519,8 +519,14 @@
         </div>
       </div>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
+      <section id="price-history-section" class="edit-field" style="grid-column:1 / -1">
+        <div><button class="button-secondary" id="update-regular-price" type="button">Update regular price</button> <button class="button-secondary" id="add-sale-price" type="button">Add sale price</button></div>
+        <p class="field-help">Regular price updates keep a dated history. “Update regular price” also clears the current sale.</p>
+        <label class="edit-field"><span>Price effective date</span><input id="price-effective-date" type="date" /></label>
+        <details><summary>Regular price history</summary><div id="price-history-rows" style="overflow-x:auto"></div></details>
+      </section>
       <div class="edit-facts" id="edit-facts-fields">
-        <label class="edit-field"><span>Price</span><input id="edit-item-price" type="text" autocomplete="off" /></label>
+        <label class="edit-field"><span>Regular price</span><input id="edit-item-price" type="text" autocomplete="off" /></label>
         <label class="edit-field"><span>Discount</span><input id="edit-item-discount" type="text" title="Sale price is calculated from price minus discount" autocomplete="off" /></label>
         <label class="edit-field"><span>Sale price</span><input id="edit-item-sale-price" type="text" autocomplete="off" /></label>
         <label class="edit-field"><span>Weight / quantity</span><div class="weight-input-group"><input id="edit-item-weight" type="text" autocomplete="off" aria-label="Weight or quantity amount" /><select id="edit-item-weight-unit" aria-label="Weight or quantity unit"><option value="">Unit</option><option value="lb">lb</option><option value="oz">oz</option><option value="kg">kg</option><option value="g">g</option><option value="fl oz">fl oz</option><option value="gal">gal</option><option value="L">L</option><option value="ml">ml</option><option value="each">each</option><option value="bag">bag</option><option value="box">box</option><option value="bottle">bottle</option><option value="can">can</option><option value="pack">pack</option><option value="bunch">bunch</option><option value="个">个</option><option value="根">根</option><option value="枚">枚</option><option value="只">只</option><option value="颗">颗</option><option value="条">条</option><option value="袋">袋</option><option value="盒">盒</option><option value="瓶">瓶</option><option value="包">包</option><option value="把">把</option><option value="罐">罐</option><option value="片">片</option><option value="卷">卷</option><option value="顿">顿</option><option value="块">块</option><option value="箱">箱</option></select></div></label>
@@ -671,6 +677,46 @@
     }
 
     const parsedByList = Object.fromEntries(sourceListNames.map((name) => [name, parseImportedList(listSource[name])]));
+    const priceHistoryStorageKey = "smart-shopping-price-history-v1";
+    const priceHistory = (() => {
+      try { const saved = JSON.parse(localStorage.getItem(priceHistoryStorageKey) || "{}"); return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {}; }
+      catch (error) { return {}; }
+    })();
+    function mergePriceHistory(remote = {}) {
+      Object.entries(remote).forEach(([key, entries]) => {
+        if (!Array.isArray(entries)) return;
+        const merged = new Map([...(priceHistory[key] || []), ...entries].filter((entry) => entry && entry.id).map((entry) => [entry.id, entry]));
+        priceHistory[key] = [...merged.values()];
+      });
+      localStorage.setItem(priceHistoryStorageKey, JSON.stringify(priceHistory));
+    }
+    function localPriceDate() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    }
+    function preparePriceHistory(item) {
+      document.getElementById("price-history-section").hidden = false;
+      document.getElementById("price-effective-date").value = localPriceDate();
+      const entries = item ? priceHistory[editStorageKey(editSession.list, item.key)] || [] : [];
+      document.getElementById("price-history-rows").innerHTML = entries.length ? `<table class="compare-table"><thead><tr><th>Date</th><th>Store</th><th>Package</th><th>Regular price</th><th>Unit price</th></tr></thead><tbody>${[...entries].sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || "")).map((entry) => `<tr><td>${escapeHtml(entry.date || "Date unknown (previous price)")}</td><td>${escapeHtml(entry.stores.join(", ") || "Not listed")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(entry.unitPrice || "Not listed")}</td></tr>`).join("")}</tbody></table>` : '<p class="field-help">No dated regular price history yet. The previous price will be preserved on the first update.</p>';
+    }
+    function recordRegularPrice(key, previous, facts, stores, date) {
+      const snapshot = (values, locations) => ({ price: editableFactValue(values.price), weight: editableFactValue(values.weight), unitPrice: editableFactValue(values.unitPrice), stores: [...locations].sort() });
+      const next = snapshot(facts, stores);
+      const old = previous ? snapshot(productFacts(previous), previous.stores) : null;
+      const comparable = (entry) => JSON.stringify({ ...entry, price: defaultPriceCurrency(entry.price).replace(/\s+/g, ""), weight: parseWeightQuantity(entry.weight) || entry.weight.replace(/\s+/g, ""), unitPrice: entry.unitPrice.replace(/\s+/g, "") });
+      if (old && comparable(old) === comparable(next)) return;
+      const entries = [...(priceHistory[key] || [])];
+      const recordedAt = new Date().toISOString();
+      if (!entries.length && (old?.price || old?.unitPrice)) entries.push({ ...old, id: `baseline::${key}`, date: null, recordedAt });
+      if (next.price || next.unitPrice) entries.push({ ...next, id: crypto.randomUUID(), date, recordedAt });
+      if (entries.length) {
+        // Persist before changing the current price; report storage failures to the user.
+        const updated = { ...priceHistory, [key]: entries };
+        localStorage.setItem(priceHistoryStorageKey, JSON.stringify(updated));
+        priceHistory[key] = entries;
+      }
+    }
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
     const pendingEditsStorageKey = "smart-shopping-pending-edits-v1";
     const pendingEdits = (() => {
@@ -798,8 +844,9 @@
       try { window.localStorage.setItem(itemMovesStorageKey, JSON.stringify(itemMoves)); } catch (error) { /* Storage can be unavailable in private browsing. */ }
       queueShoppingSync();
     }
-    function shoppingPayload() { return { itemEdits, itemAdds, customBrandOptions, itemPurchases, itemRemovals, itemRestorations, itemMoves }; }
+    function shoppingPayload() { return { itemEdits, itemAdds, customBrandOptions, itemPurchases, itemRemovals, itemRestorations, itemMoves, priceHistory }; }
     function mergeShoppingPayload(remote) {
+      mergePriceHistory(remote?.priceHistory || {});
       [itemEdits, itemAdds, itemPurchases, itemRemovals, itemRestorations, itemMoves].forEach((target, index) => {
         const key = ["itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves"][index];
         if (key === "itemAdds") {
@@ -1930,6 +1977,7 @@
       const categories = orderCategories([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
       els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
       els.editCategory.value = item.category;
+      preparePriceHistory(item);
       const facts = productFacts(item);
       els.editPrice.value = defaultPriceCurrency(editableFactValue(facts.price));
       els.editDiscount.value = defaultDiscountValue(editableFactValue(facts.discount));
@@ -1953,6 +2001,7 @@
       editSession.list = item.sourceList;
       editSession.key = item.key;
       editSession.mode = "move";
+      document.getElementById("price-history-section").hidden = true;
       document.getElementById("edit-item-title").textContent = "Move item";
       els.editSubtitle.textContent = `${displayItemName(item)} · choose a destination list`;
       document.getElementById("edit-item-note").textContent = "Moving is saved in this browser and leaves the original AnyList import unchanged.";
@@ -1978,6 +2027,7 @@
       editSession.list = addingFromAll ? "" : state.activeList;
       editSession.key = "";
       editSession.mode = "add";
+      preparePriceHistory(null);
       document.getElementById("edit-item-title").textContent = "Add an item";
       els.editSubtitle.textContent = addingFromAll ? "All collections · choose a destination collection" : `${displayListName(state.activeList)} · add a new item to this shopping list`;
       document.getElementById("edit-item-note").textContent = "The item, price details, and photo are saved in this browser.";
@@ -2047,6 +2097,8 @@
       const facts = { price: defaultPriceCurrency(els.editPrice.value), discount: defaultDiscountValue(els.editDiscount.value), salePrice: defaultPriceCurrency(els.editSalePrice.value), weight: editableWeightValue(), unitPrice: els.editUnitPrice.value.trim(), saleUnitPrice: els.editSaleUnitPrice.value.trim() };
       const stores = canonicalStoresFromInput(els.editStores.value);
       const photo = editSession.photo || "";
+      const date = document.getElementById("price-effective-date").value;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { showToast("Choose a price effective date."); return; }
       if (editSession.mode === "add") {
         const addList = editSession.list || els.editList.value;
         if (!listNames.includes(addList)) {
@@ -2064,9 +2116,14 @@
         els.editName.setCustomValidity("");
         const key = `added::${Date.now()}`;
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
+        try { recordRegularPrice(editStorageKey(editSession.list, key), null, facts, stores, date); }
+        catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
         itemAdds[editSession.list].push({ key, name, brand, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
+        const previous = getSourceItems(editSession.list).find((item) => item.key === editSession.key);
+        try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); }
+        catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
         itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo, photoLookupName: sourceItem?.photoLookupName || sourceItem?.name || name };
         pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
@@ -2141,6 +2198,15 @@
       state.draggedRef = null;
       clearDropTargets();
     });
+    document.getElementById("update-regular-price").addEventListener("click", () => {
+      els.editDiscount.value = "";
+      els.editSalePrice.value = "";
+      els.editSaleUnitPrice.value = "";
+      refreshUnitPrice();
+      els.editPrice.focus();
+      showToast("Enter the new regular price. The current sale has been cleared.");
+    });
+    document.getElementById("add-sale-price").addEventListener("click", () => els.editSalePrice.focus());
     els.editForm.addEventListener("submit", saveItemEdit);
     document.getElementById("save-item-button").addEventListener("click", saveItemEdit);
     els.addBrand.addEventListener("click", addBrandOption);

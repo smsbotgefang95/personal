@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const html = fs.readFileSync('smart-shopping.html', 'utf8');
-const code = html.slice(html.indexOf('    const itemEditsStorageKey ='), html.indexOf('    function normalizeStoredItem('));
+const code = html.slice(html.indexOf('    const priceHistoryStorageKey ='), html.indexOf('    function normalizeStoredItem('));
 const id = '橱柜::主食::Organic Light Brown Rice 有机糙米 (1 × 1袋)';
 const server = { data: { itemEdits: { [id]: { name: '糙米', facts: { price: '$16.69' } } } } };
 function device(storage = new Map()) {

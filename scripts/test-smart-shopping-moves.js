@@ -1,6 +1,6 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const html=fs.readFileSync('smart-shopping.html','utf8');
-const code=html.slice(html.indexOf('    const itemEditsStorageKey ='),html.indexOf('    function normalizeStoredItem('));
+const code=html.slice(html.indexOf('    const priceHistoryStorageKey ='),html.indexOf('    function normalizeStoredItem('));
 const move=html.slice(html.indexOf('    function moveItemToList('),html.indexOf('    function deleteItem('));
 const id='冰柜_肉和其他🥩::杂豆和豆制品::Organic edamame 有机毛豆';
 const server={data:{itemMoves:{[id]:'买菜'}}};

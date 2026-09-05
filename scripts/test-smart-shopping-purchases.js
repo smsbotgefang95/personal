@@ -5,7 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'smart-shopping.html'), 'utf8');
-const code = html.slice(html.indexOf('    const itemEditsStorageKey ='), html.indexOf('    function normalizeStoredItem('));
+const code = html.slice(html.indexOf('    const priceHistoryStorageKey ='), html.indexOf('    function normalizeStoredItem('));
 const purchaseKey = 'smart-shopping-item-purchases-v1';
 const pendingKey = 'smart-shopping-pending-purchases-v1';
 const chicken = { sourceList: '买菜', key: '熟食::Roast chicken' };

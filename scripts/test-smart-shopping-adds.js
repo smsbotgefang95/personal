@@ -1,6 +1,6 @@
 const fs = require('node:fs'), vm = require('node:vm'), assert = require('node:assert/strict');
 const html = fs.readFileSync('smart-shopping.html', 'utf8');
-const code = html.slice(html.indexOf('    const itemEditsStorageKey ='), html.indexOf('    function normalizeStoredItem('));
+const code = html.slice(html.indexOf('    const priceHistoryStorageKey ='), html.indexOf('    function normalizeStoredItem('));
 const server = { data: { itemAdds: { '买菜': [{key:'old',name:'白菜'}] } } };
 function device(storage = new Map()) {
   const localStorage = {getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};

@@ -16,7 +16,7 @@ from pathlib import Path
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "deletedEntryKeys": [], "updatedAt": None}
-DEFAULT_SMART_SHOPPING_PAYLOAD = {"itemEdits": {}, "itemAdds": {}, "customBrandOptions": [], "itemPurchases": {}, "itemRemovals": {}, "itemRestorations": {}, "itemMoves": {}, "updatedAt": None}
+DEFAULT_SMART_SHOPPING_PAYLOAD = {"itemEdits": {}, "itemAdds": {}, "customBrandOptions": [], "itemPurchases": {}, "itemRemovals": {}, "itemRestorations": {}, "itemMoves": {}, "priceHistory": {}, "updatedAt": None}
 DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
 TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
 DEFAULT_QUESTION_PROGRESS = {
@@ -1009,13 +1009,30 @@ def load_smart_shopping_payload():
 def clean_smart_shopping_payload(payload):
     payload = payload if isinstance(payload, dict) else {}
     cleaned = DEFAULT_SMART_SHOPPING_PAYLOAD.copy()
-    for key in ("itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves"):
+    for key in ("itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves", "priceHistory"):
         value = payload.get(key, {})
         cleaned[key] = value if isinstance(value, dict) else {}
     value = payload.get("customBrandOptions", [])
     cleaned["customBrandOptions"] = value if isinstance(value, list) else []
     cleaned["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     return cleaned
+
+def merge_smart_shopping_history(existing, incoming):
+    # Retain history when an older or offline client uploads a stale snapshot.
+    merged = {}
+    for history in (existing, incoming):
+        if not isinstance(history, dict):
+            continue
+        for key, entries in history.items():
+            if not isinstance(entries, list):
+                continue
+            by_id = {entry["id"]: entry for entry in merged.get(key, [])}
+            for entry in entries:
+                if isinstance(entry, dict) and isinstance(entry.get("id"), str):
+                    by_id.setdefault(entry["id"], entry)
+            merged[key] = list(by_id.values())
+    return merged
+
 
 def write_smart_shopping(payload):
     atomic_write(SMART_SHOPPING_DATA_PATH, payload)
@@ -1191,6 +1208,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(400, {"ok": False, "error": "invalid_json"})
                 return
             payload = clean_smart_shopping_payload(incoming)
+            payload["priceHistory"] = merge_smart_shopping_history(
+                load_smart_shopping_payload().get("priceHistory", {}), payload["priceHistory"])
             write_smart_shopping(payload)
             self.send_json(200, {"ok": True, "payload": payload})
             return
