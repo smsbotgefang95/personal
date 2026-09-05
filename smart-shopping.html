@@ -6,6 +6,7 @@
 <title>Smart Shopping</title>
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
 <script src="smart-shopping-data.js?v=20260817-receipt-7"></script>
+<script src="smart-shopping-store-listings.js?v=20260905-eggs"></script>
 <script src="smart-shopping-photos.js?v=20260905-kimlan-dark-soy"></script>
 <script src="smart-shopping-nutrition.js?v=20260809-chosen-foods"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
@@ -521,6 +522,7 @@
     </div>
     <label for="compare-item-select">Choose an item from your filtered list</label>
     <select id="compare-item-select" style="width:100%;margin-top:8px"></select>
+    <section id="compare-store-listings" hidden aria-label="Matched store listings"></section>
     <div class="price-history-scroll"><table class="compare-table"><thead><tr><th>Store</th><th>Package price</th><th>Unit price</th><th>Record / date</th></tr></thead><tbody id="compare-table-body"></tbody></table></div>
     <p class="modal-note">Saved prices only; stores are not checked live. Green marks the lowest recorded price within each matching currency and unit, including historical sales. A saved sale may have ended. Add store prices and dates using Edit → Add another store.</p>
   </div>
@@ -2451,6 +2453,13 @@
     function showToast(message) { els.toast.textContent = message; els.toast.classList.add("show"); window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => els.toast.classList.remove("show"), 2800); }
     // Compare unrounded amounts, converting only compatible dimensions.
     function comparisonUnit(price, weight, manualUnit) {
+      const eggCount = String(weight || "").match(/\b(\d+)\s*eggs?\b/i);
+      const eggPrice = parsePriceAmount(String(price || "").replace(/,/g, ""));
+      if (eggCount && Number(eggCount[1]) > 0 && eggPrice > 0) {
+        const currency = String(price).match(/[$€£]/)?.[0] || "$";
+        const amount = eggPrice / Number(eggCount[1]);
+        return { amount, key: `${currency}::egg`, text: `${currency}${amount.toFixed(3)} / egg` };
+      }
       const quantity = parseWeightQuantity(weight);
       const raw = String(price || "").replace(/,/g, "");
       let amount = parsePriceAmount(raw);
@@ -2503,7 +2512,21 @@
       return rows;
     }
     let compareItems = [];
+    function renderStoreListings(item) {
+      const panel = document.getElementById("compare-store-listings");
+      const match = item && (window.SMART_SHOPPING_STORE_LISTINGS || []).find((entry) => normalizeFoodName(entry.itemName) === normalizeFoodName(item.name));
+      panel.hidden = !match;
+      if (!match) { panel.innerHTML = ""; return; }
+      panel.innerHTML = `<h3 style="margin-top:20px">Matched store listings</h3>
+        <p><strong>${escapeHtml(match.product)}</strong></p>
+        <p class="modal-note">${escapeHtml(match.identityNote)}</p>
+        <p class="modal-note">Checked ${escapeHtml(match.checkedOn)} · ${escapeHtml(match.location)}. Price snapshots, not live quotes; delivery fees and order minimums are not included. Indexed prices may be stale. Open a store link and select your location to confirm its current price and stock.</p>
+        <div class="price-history-scroll"><table class="compare-table"><thead><tr><th>Store / shopping method</th><th>Carton</th><th>Per egg / dozen</th><th>Availability</th></tr></thead><tbody>${match.listings.map((entry) => `<tr><td><a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.store)} ↗</a><br><small>${escapeHtml(entry.channel)}</small></td><td>$${entry.price.toFixed(2)}<br><small>${entry.count} eggs</small></td><td>$${(entry.price / entry.count).toFixed(3)} / egg<br><small>$${(entry.price / entry.count * 12).toFixed(2)} / dozen</small></td><td>${escapeHtml(entry.availability)}</td></tr>`).join("")}</tbody></table></div>
+        <p class="modal-note"><strong>No confirmed local best price yet.</strong> Costco and Grocery Outlet were unavailable in the checked browser views. Papaya Express lists the matching carton, but shipping to 20871 is unconfirmed. These prices are separate from your saved purchases.</p>
+        <h3 style="margin-top:20px">Your saved prices</h3>`;
+    }
     function renderComparison(item) {
+      renderStoreListings(item);
       els.compareTitle.textContent = item ? `${displayItemName(item)} · compare prices` : "Compare prices";
       els.compareSubtitle.textContent = "Compare saved regular and sale prices for the same item. Weight and volume are converted to matching units.";
       const rows = item ? comparisonRows(item) : [];
