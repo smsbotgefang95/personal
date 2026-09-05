@@ -2,7 +2,7 @@
 window.SMART_LIST_PHOTOS = [
   {
     "name": "杏鲍菇",
-    "file": "king-oyster-mushrooms.png",
+    "file": "king-oyster-mushrooms-square.svg",
     "sourcePage": "https://www.rawpixel.com/image/9214624/king-oyster-mushroom-png-transparent-background",
     "credit": "piyapon singthong / Rawpixel; background removed with imagegen"
   },
