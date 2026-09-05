@@ -286,6 +286,12 @@
   .price-history-scroll { max-height: 240px; overflow: auto; }
   .card-price-history .compare-table { margin-top: 8px; min-width: 440px; }
   .card-price-history .field-help { margin-bottom: 0; }
+  .sale-history-value { background: #fff3d6; color: #713d08; font-weight: 800; }
+  .last-sale-highlight { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-top: 12px; padding: 14px 18px; border: 2px solid #dda43b; border-radius: 12px; background: #fff3d6; color: #713d08; }
+  .last-sale-highlight > span { font-size: 0.85rem; font-weight: 800; }
+  .last-sale-highlight strong { font-size: 1.5rem; }
+  .last-sale-highlight small { flex-basis: 100%; }
+  .product-fact.is-sale-unit-price .product-fact-value:not(.is-missing) { color: #713d08; font-size: 1.15rem; font-weight: 900; }
   .compare-table { width: 100%; margin-top: 19px; border-collapse: collapse; font-size: 0.77rem; }
   .compare-table th, .compare-table td { padding: 10px 8px; border-bottom: 1px solid #e9eeea; text-align: left; }
   .compare-table th { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; }
@@ -530,11 +536,14 @@
       </div>
       <label class="edit-field" id="edit-category-field"><span>Category</span><select id="edit-item-category"></select></label>
       <label class="edit-field" id="edit-subcategory-field" hidden><span>Subcategory (optional)</span><select id="edit-item-subcategory"></select></label>
+      </section>
+      <section class="edit-section edit-section--pricing" aria-labelledby="edit-pricing-heading">
+        <h3 id="edit-pricing-heading"><span aria-hidden="true">💰</span> Pricing &amp; quantity</h3>
       <section id="price-history-section" class="edit-field" style="grid-column:1 / -1">
         <div><button class="button-secondary" id="update-regular-price" type="button">Update regular price</button> <button class="button-secondary" id="add-sale-price" type="button">Add sale price</button></div>
-        <p class="field-help">Regular price updates keep a dated history. “Update regular price” also clears the current sale.</p>
+        <p class="field-help">Regular and sale prices stay in history. “Update regular price” ends the current sale; its sale unit price remains visible as the last saved sale after you save.</p>
         <label class="edit-field"><span>Price effective date</span><input id="price-effective-date" type="date" /></label>
-        <details><summary>Regular price history</summary><div id="price-history-rows" style="overflow-x:auto"></div></details>
+        <details><summary>Price history (regular and sale)</summary><div id="price-history-rows" style="overflow-x:auto"></div></details>
       </section>
       <div class="edit-facts" id="edit-facts-fields">
         <label class="edit-field"><span>Regular price</span><input id="edit-item-price" type="text" autocomplete="off" /></label>
@@ -765,11 +774,13 @@
       return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     }
     function priceHistoryTableMarkup(entries) {
-      return entries.length ? `<table class="compare-table"><thead><tr><th>Regular price</th><th>Unit price</th><th>Package</th><th>Store</th><th>Date</th></tr></thead><tbody>${[...entries].sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || "")).map((entry) => `<tr><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(entry.unitPrice || "Not listed")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml((entry.stores || []).join(", ") || "Not listed")}</td><td>${escapeHtml(entry.date || "Date unknown (previous price)")}</td></tr>`).join("")}</tbody></table>` : '<p class="field-help">No dated regular price history yet. The previous price will be preserved on the first update.</p>';
+      return entries.length ? `<table class="compare-table"><thead><tr><th>Regular price</th><th>Unit price</th><th>Sale price</th><th class="sale-history-value">Sale unit price</th><th>Package</th><th>Store</th><th>Date</th></tr></thead><tbody>${[...entries].sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || "")).map((entry) => `<tr><td>${escapeHtml(entry.price || "Not listed")}</td><td>${escapeHtml(entry.unitPrice || "Not listed")}</td><td>${escapeHtml(entry.salePrice || "—")}</td><td class="sale-history-value">${escapeHtml(entry.saleUnitPrice || "—")}</td><td>${escapeHtml(entry.weight || "Not listed")}</td><td>${escapeHtml((entry.stores || []).join(", ") || "Not listed")}</td><td>${escapeHtml(entry.date || "Date unknown (previous price)")}</td></tr>`).join("")}</tbody></table>` : '<p class="field-help">No dated price history yet. The previous price will be preserved on the first update.</p>';
     }
     function cardPriceHistoryMarkup(item) {
       const entries = priceHistory[editStorageKey(item.sourceList, item.key)] || [];
-      return `<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular price history" tabindex="0">${priceHistoryTableMarkup(entries)}</div></details>`;
+      const lastSale = [...entries].filter((entry) => editableFactValue(entry.saleUnitPrice)).sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.recordedAt || "").localeCompare(a.recordedAt || ""))[0];
+      const saleReminder = lastSale && !editableFactValue(productFacts(item).saleUnitPrice) ? `<div class="last-sale-highlight"><span>Last saved sale unit price</span><strong>${escapeHtml(lastSale.saleUnitPrice)}</strong><small>Historical sale · ${escapeHtml(lastSale.date || "Date unknown")} · ${escapeHtml(lastSale.weight || "Package unknown")}${lastSale.stores?.length ? ` · ${escapeHtml(lastSale.stores.join(", "))}` : ""}</small></div>` : "";
+      return `${saleReminder}<details class="card-price-history" open><summary>Price history <span>${entries.length ? `${entries.length} saved ${entries.length === 1 ? "price" : "prices"}` : "No saved changes"}</span></summary><div class="price-history-scroll" role="region" aria-label="Regular and sale price history" tabindex="0">${priceHistoryTableMarkup(entries)}</div></details>`;
     }
     function preparePriceHistory(item) {
       document.getElementById("price-history-section").hidden = false;
@@ -778,15 +789,15 @@
       document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(entries);
     }
     function recordRegularPrice(key, previous, facts, stores, date) {
-      const snapshot = (values, locations) => ({ price: editableFactValue(values.price), weight: editableFactValue(values.weight), unitPrice: editableFactValue(values.unitPrice), stores: [...locations].sort() });
+      const snapshot = (values, locations) => ({ price: editableFactValue(values.price), weight: editableFactValue(values.weight), unitPrice: editableFactValue(values.unitPrice), discount: editableFactValue(values.discount), salePrice: editableFactValue(values.salePrice), saleUnitPrice: editableFactValue(values.saleUnitPrice), stores: [...(locations || [])].sort() });
       const next = snapshot(facts, stores);
       const old = previous ? snapshot(productFacts(previous), previous.stores) : null;
       const comparable = (entry) => JSON.stringify({ ...entry, price: defaultPriceCurrency(entry.price).replace(/\s+/g, ""), weight: parseWeightQuantity(entry.weight) || entry.weight.replace(/\s+/g, ""), unitPrice: entry.unitPrice.replace(/\s+/g, "") });
       if (old && comparable(old) === comparable(next)) return;
       const entries = [...(priceHistory[key] || [])];
       const recordedAt = new Date().toISOString();
-      if (!entries.length && (old?.price || old?.unitPrice)) entries.push({ ...old, id: `baseline::${key}`, date: null, recordedAt });
-      if (next.price || next.unitPrice) entries.push({ ...next, id: crypto.randomUUID(), date, recordedAt });
+      if (old && (old.price || old.unitPrice || old.salePrice || old.saleUnitPrice) && !entries.some((entry) => comparable(snapshot(entry, entry.stores)) === comparable(old))) entries.push({ ...old, id: entries.length ? crypto.randomUUID() : `baseline::${key}`, date: null, recordedAt });
+      if (next.price || next.unitPrice || next.salePrice || next.saleUnitPrice) entries.push({ ...next, id: crypto.randomUUID(), date, recordedAt });
       if (entries.length) {
         // Persist before changing the current price; report storage failures to the user.
         const updated = { ...priceHistory, [key]: entries };
@@ -2307,7 +2318,7 @@
       els.editSaleUnitPrice.value = "";
       refreshUnitPrice();
       els.editPrice.focus();
-      showToast("Enter the new regular price. The current sale has been cleared.");
+      showToast("Enter the new regular price. Save to keep the previous sale in price history.");
     });
     document.getElementById("add-sale-price").addEventListener("click", () => els.editSalePrice.focus());
     [els.editName, els.editChineseName].forEach((input) => input.addEventListener("input", () => els.editName.setCustomValidity("")));
