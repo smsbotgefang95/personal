@@ -104,8 +104,10 @@ const table = afterReload.priceHistoryTableMarkup([
   {price:'$4',salePrice:'$2',unitPrice:'$4 / lb'}
 ]);
 assert.ok(!table.includes('<th>Sale unit price</th>'));
-assert.ok(table.includes('$1.00 / lb<span class="history-sale-label">Sale</span>'));
+assert.ok(table.includes('<td>$2.00 / lb</td>'));
+assert.ok(!table.includes('$1.00 / lb'), 'sale unit price is absent from history');
+assert.ok(!table.includes('history-sale-label'));
 assert.ok(table.includes('<td>$3.00 / lb</td>'));
-assert.ok(table.includes('Not listed<span class="history-sale-label">Sale</span>'), 'unknown sale unit price must not use regular unit price');
+assert.ok(table.includes('<td>$4 / lb</td>'), 'history keeps the saved regular unit price');
 assert.equal((table.match(/<th>/g) || []).length, 6);
 console.log('PASS: lowest benchmark, current regular bargain, units, provenance and simplified sale history');
