@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "台湾香肠",
+    "file": "costco-kam-yen-jan-sausage.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_43acc7a3-867b-4b69-a4bd-532f2ccd774e.jpeg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/32772-kam-yen-jan-chinese-style-sausage-2-ct"
+  },
+  {
     "name": "带鱼",
     "file": "hairtail-square.png",
     "credit": "AI-generated with imagegen"
