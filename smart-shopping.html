@@ -2060,13 +2060,20 @@
       els.editStores.setAttribute("aria-expanded", String(open));
       els.storeOptionsToggle.setAttribute("aria-expanded", String(open));
     }
-    function renderStoreOptions() {
+    function renderStoreOptions(filterByInput = false) {
+      els.editStores.dataset.searching = String(filterByInput);
+      const query = filterByInput ? els.editStores.value.split(",").pop().trim().toLowerCase() : "";
       const selectedStores = canonicalStoresFromInput(els.editStores.value);
-      els.storeOptions.innerHTML = availableStores().map((store) => `<button class="store-option" type="button" role="option" data-store-option="${escapeHtml(store)}" aria-selected="${selectedStores.includes(store)}">${escapeHtml(store)}</button>`).join("");
+      const stores = canonicalStoresFromInput([...storeAliases.values(), ...Object.values(anyListStoreOptions).flat(), ...getAllCollectionItems().flatMap((item) => item.stores)].join(","));
+      const matches = stores.filter((store) => !query || store.toLowerCase().includes(query) || [...storeAliases].some(([alias, name]) => name === store && alias.includes(query))).sort((a, b) => a.localeCompare(b));
+      els.storeOptions.innerHTML = matches.map((store) => `<button class="store-option" type="button" role="option" data-store-option="${escapeHtml(store)}" aria-selected="${selectedStores.includes(store)}">${escapeHtml(store)}</button>`).join("") || `<div class="edit-hint">No matching stores. You can keep the name you typed.</div>`;
+      els.storeOptions.scrollTop = 0;
     }
     function toggleStoreOption(store) {
-      const selectedStores = canonicalStoresFromInput(els.editStores.value);
-      const nextStores = selectedStores.includes(store) ? selectedStores.filter((selected) => selected !== store) : [...selectedStores, store];
+      const searching = els.editStores.dataset.searching === "true";
+      const value = searching ? els.editStores.value.split(",").slice(0, -1).join(",") : els.editStores.value;
+      const selectedStores = canonicalStoresFromInput(value);
+      const nextStores = searching ? [...new Set([...selectedStores, store])] : selectedStores.includes(store) ? selectedStores.filter((selected) => selected !== store) : [...selectedStores, store];
       els.editStores.value = nextStores.join(", ");
       renderStoreOptions();
       setStoreOptionsOpen(true);
@@ -2348,7 +2355,7 @@
     els.editUnitPrice.addEventListener("input", () => { delete els.editUnitPrice.dataset.autoCalculated; });
     els.editSaleUnitPrice.addEventListener("input", () => { delete els.editSaleUnitPrice.dataset.autoCalculated; });
     els.editStores.addEventListener("focus", () => setStoreOptionsOpen(true));
-    els.editStores.addEventListener("input", () => { renderStoreOptions(); setStoreOptionsOpen(true); });
+    els.editStores.addEventListener("input", () => { renderStoreOptions(true); setStoreOptionsOpen(true); });
     els.photoInput.addEventListener("change", async (event) => {
       const file = event.target.files?.[0];
       if (!file) return;
