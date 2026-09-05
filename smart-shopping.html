@@ -521,20 +521,6 @@
     <p class="modal-note">The prototype can show saved AnyList prices now. A production version should refresh this table from store feeds and show the lookup time beside every result.</p>
   </div>
 </div>
-<div class="modal-backdrop" id="store-price-modal" role="dialog" aria-modal="true" aria-labelledby="store-price-title">
-  <form class="modal" id="store-price-form">
-    <div class="modal-heading"><div><h2 id="store-price-title">Add store price</h2><p id="store-price-item-name"></p></div><button class="close-modal" type="button" data-close-store-price aria-label="Close store price">×</button></div>
-    <p>Save a separate price for this item at one store.</p>
-    <div class="edit-fields">
-      <label class="edit-field"><span>Store</span><input id="store-price-store" required autocomplete="off" /></label>
-      <label class="edit-field"><span>Regular package price ($)</span><input id="store-price-regular" type="number" min="0.01" step="0.01" required /></label>
-      <label class="edit-field"><span>Sale package price ($, optional)</span><input id="store-price-sale" type="number" min="0.01" step="0.01" /></label>
-      <label class="edit-field"><span>Package weight / quantity</span><input id="store-price-weight" placeholder="e.g. 50 oz, 2 lb, 6 each" required /></label>
-      <label class="edit-field"><span>Price date</span><input id="store-price-date" type="date" required /></label>
-    </div>
-    <div class="modal-actions"><button class="button-secondary" type="button" data-close-store-price>Cancel</button><button class="button-primary" type="submit">Save store price</button></div>
-  </form>
-</div>
 <div class="modal-backdrop" id="edit-item-modal" role="dialog" aria-modal="true" aria-labelledby="edit-item-title">
   <form class="modal" id="edit-item-form" novalidate>
     <div class="modal-heading">
@@ -583,6 +569,8 @@
       <section class="edit-section edit-section--extras" aria-labelledby="edit-extras-heading">
         <h3 id="edit-extras-heading"><span aria-hidden="true">🛒</span> Stores &amp; photo</h3>
       <div class="edit-field" id="edit-stores-field"><span id="edit-stores-label">Stores</span><div class="store-picker"><input id="edit-item-stores" type="text" autocomplete="off" aria-labelledby="edit-stores-label" aria-controls="edit-store-options" aria-expanded="false" /><button class="store-picker-toggle" id="edit-store-toggle" type="button" aria-label="Open store options" aria-controls="edit-store-options" aria-expanded="false">⌄</button><div class="store-options" id="edit-store-options" role="listbox" aria-labelledby="edit-stores-label" hidden></div></div></div>
+      <div id="additional-store-prices" style="grid-column:1 / -1"></div>
+      <button class="button-secondary" id="add-another-store" type="button">Add another store</button>
       <div class="edit-field" id="edit-photo-field"><span>Photo</span><div class="photo-picker"><label class="photo-upload-button" for="edit-item-photo">Choose a photo</label><input id="edit-item-photo" type="file" accept="image/*" /><div class="photo-preview" id="edit-photo-preview" hidden><img id="edit-photo-preview-image" alt="Selected item photo" /><span id="edit-photo-name"></span><button class="photo-remove-button" id="remove-item-photo" type="button">Remove</button></div><p class="photo-help">The photo is resized and saved only in this browser.</p></div></div>
       </section>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
@@ -1952,7 +1940,7 @@
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
       const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
       const moveLabel = moveTarget === "买菜" ? "Add to Shopping List" : "Save for Later";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-add-store-price>Add store price</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -2130,6 +2118,108 @@
       setStoreOptionsOpen(true);
       els.editStores.focus();
     }
+    let storePriceDrafts = [];
+    function readStorePriceDraft(row) {
+      const field = (name) => row.querySelector(`[data-price-field="${name}"]`);
+      const weight = formatWeightValue(field("weight").value.trim(), field("weight-unit").value);
+      return { store: canonicalStoresFromInput(field("stores").value)[0] || "", date: field("date").value,
+        facts: { price: defaultPriceCurrency(field("price").value), discount: defaultDiscountValue(field("discount").value), salePrice: defaultPriceCurrency(field("sale-price").value), weight,
+          unitPrice: field("unit-price").value.trim(), saleUnitPrice: field("sale-unit-price").value.trim() } };
+    }
+    function addStorePriceSection(entry = null) {
+      const row = document.createElement("section");
+      row.className = "edit-section edit-section--pricing";
+      row.style.marginTop = "16px";
+      row.innerHTML = '<h3>Store price</h3>';
+      const picker = els.editStoresField.cloneNode(true);
+      const facts = els.editFactsFields.cloneNode(true);
+      const date = document.createElement("label");
+      date.className = "edit-field";
+      date.innerHTML = '<span>Price effective date</span><input type="date" data-price-field="date" />';
+      [picker, facts].forEach((part) => {
+        part.hidden = false;
+        part.removeAttribute("id");
+        part.querySelectorAll("[id]").forEach((element) => {
+          if (element.matches("input, select")) element.dataset.priceField = element.id.replace("edit-item-", "");
+          element.removeAttribute("id");
+        });
+        part.querySelectorAll("[aria-labelledby], [aria-controls]").forEach((element) => { element.removeAttribute("aria-labelledby"); element.removeAttribute("aria-controls"); });
+        row.appendChild(part);
+      });
+      row.appendChild(date);
+      const field = (name) => row.querySelector(`[data-price-field="${name}"]`);
+      row.querySelectorAll("input").forEach((input) => { input.value = ""; input.setCustomValidity(""); delete input.dataset.autoCalculated; });
+      const storeInput = field("stores");
+      storeInput.setAttribute("aria-label", "Store for this price");
+      storeInput.value = entry?.stores?.[0] || "";
+      // Existing entries keep their store identity; another store gets its own section.
+      storeInput.readOnly = Boolean(entry);
+      const options = row.querySelector(".store-options");
+      const toggle = row.querySelector(".store-picker-toggle");
+      const renderOptions = () => {
+        const names = canonicalStoresFromInput([...storeAliases.values(), ...Object.values(anyListStoreOptions).flat(), ...getAllCollectionItems().flatMap(itemStores)].join(","));
+        options.innerHTML = names.filter((name) => name.toLowerCase().includes(storeInput.value.toLowerCase())).sort().map((name) => `<button type="button" class="store-option" role="option" data-draft-store="${escapeHtml(name)}">${escapeHtml(name)}</button>`).join("");
+      };
+      const openOptions = () => { if (!entry) { renderOptions(); options.hidden = false; storeInput.setAttribute("aria-expanded", "true"); } };
+      options.hidden = true;
+      toggle.hidden = Boolean(entry);
+      toggle.addEventListener("click", () => { if (options.hidden) openOptions(); else options.hidden = true; });
+      storeInput.addEventListener("focus", openOptions);
+      storeInput.addEventListener("input", openOptions);
+      options.addEventListener("click", (event) => { const button = event.target.closest("[data-draft-store]"); if (button) { storeInput.value = button.dataset.draftStore; options.hidden = true; storeInput.setAttribute("aria-expanded", "false"); } });
+      row.addEventListener("focusout", (event) => { if (!picker.contains(event.relatedTarget)) options.hidden = true; });
+      const values = entry || {};
+      for (const [name, key] of [["price", "price"], ["discount", "discount"], ["sale-price", "salePrice"], ["unit-price", "unitPrice"], ["sale-unit-price", "saleUnitPrice"]]) field(name).value = editableFactValue(values[key]) || "";
+      const weight = splitWeightValue(values.weight || editableWeightValue());
+      field("weight").value = weight.amount;
+      field("weight-unit").value = weight.unit;
+      field("date").value = entry?.date || localPriceDate();
+      const refresh = (event) => {
+        if (event?.target === field("sale-price")) { field("discount").value = ""; delete field("sale-price").dataset.autoCalculated; }
+        const sale = calculateSalePrice(field("price").value, field("discount").value);
+        if (sale) { field("sale-price").value = sale; field("sale-price").dataset.autoCalculated = "true"; }
+        else if (field("sale-price").dataset.autoCalculated === "true") { field("sale-price").value = ""; delete field("sale-price").dataset.autoCalculated; }
+        const quantity = formatWeightValue(field("weight").value, field("weight-unit").value);
+        refreshCalculatedUnitPrice(field("price"), field("unit-price"), quantity);
+        refreshCalculatedUnitPrice(field("sale-price"), field("sale-unit-price"), quantity);
+      };
+      for (const name of ["price", "discount", "sale-price", "weight", "weight-unit"]) field(name).addEventListener(name === "weight-unit" ? "change" : "input", refresh);
+      refresh();
+      const draft = { row, original: entry ? JSON.stringify(readStorePriceDraft(row)) : null };
+      storePriceDrafts.push(draft);
+      if (!entry) {
+        const remove = document.createElement("button"); remove.type = "button"; remove.className = "button-secondary"; remove.textContent = "Remove this store";
+        remove.addEventListener("click", () => { storePriceDrafts = storePriceDrafts.filter((value) => value !== draft); row.remove(); }); row.appendChild(remove);
+      }
+      document.getElementById("additional-store-prices").appendChild(row);
+      if (!entry) storeInput.focus();
+    }
+    function prepareStorePriceSections(item) {
+      storePriceDrafts = [];
+      document.getElementById("additional-store-prices").replaceChildren();
+      document.getElementById("add-another-store").hidden = false;
+      const entries = item ? priceHistory[editStorageKey(item.sourceList, item.key)] || [] : [];
+      const latest = new Map();
+      [...entries].filter((entry) => entry.kind === "store-price").sort((a,b) => (a.date || "").localeCompare(b.date || "") || (a.recordedAt || "").localeCompare(b.recordedAt || "")).forEach((entry) => latest.set(entry.stores[0].toLowerCase(), entry));
+      latest.forEach(addStorePriceSection);
+    }
+    function collectStorePriceChanges() {
+      const changes = [];
+      const stores = new Set();
+      for (const draft of storePriceDrafts) {
+        const value = readStorePriceDraft(draft.row);
+        const rawStore = draft.row.querySelector('[data-price-field="stores"]').value;
+        if (!value.store || canonicalStoresFromInput(rawStore).length !== 1 || stores.has(value.store.toLowerCase())) { showToast("Choose one different store for each store price section."); return null; }
+        stores.add(value.store.toLowerCase());
+        if (!parsePriceAmount(value.facts.price) || !parseWeightQuantity(value.facts.weight)?.amount || !/^\d{4}-\d{2}-\d{2}$/.test(value.date)) { showToast("Each store needs a regular price, package size, and date."); return null; }
+        if (JSON.stringify(value) !== draft.original) changes.push(value);
+      }
+      return changes;
+    }
+    function saveStorePriceChanges(key, changes) {
+      changes.forEach(({ facts, store, date }) => recordStorePrice(key, facts, store, date));
+    }
+    document.getElementById("add-another-store").addEventListener("click", () => addStorePriceSection());
     function openItemEditor(item) {
       editSession.list = item.sourceList;
       editSession.key = item.key;
@@ -2171,6 +2261,7 @@
       setPhotoPreview(editSession.photo);
       renderStoreOptions();
       setStoreOptionsOpen(false);
+      prepareStorePriceSections(item);
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editChineseName.focus());
     }
@@ -2197,6 +2288,8 @@
       els.moveField.hidden = false;
       els.moveList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(displayListName(name))}</option>`).join("");
       els.moveList.value = itemTargetList(item.sourceList, item.key);
+      document.getElementById("additional-store-prices").replaceChildren();
+      document.getElementById("add-another-store").hidden = true;
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.moveList.focus());
     }
@@ -2240,6 +2333,7 @@
       setPhotoPreview("");
       renderStoreOptions();
       setStoreOptionsOpen(false);
+      prepareStorePriceSections(null);
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editChineseName.focus());
     }
@@ -2277,6 +2371,8 @@
       const category = document.getElementById("edit-item-subcategory").value || (originalCategory && mainCategory(originalCategory) === parentCategory && ["Uncategorized", "干货"].includes(parentCategory) ? originalCategory : parentCategory);
       const facts = { price: defaultPriceCurrency(els.editPrice.value), discount: defaultDiscountValue(els.editDiscount.value), salePrice: defaultPriceCurrency(els.editSalePrice.value), weight: editableWeightValue(), unitPrice: els.editUnitPrice.value.trim(), saleUnitPrice: els.editSaleUnitPrice.value.trim() };
       const stores = canonicalStoresFromInput(els.editStores.value);
+      const storeChanges = collectStorePriceChanges();
+      if (storeChanges === null) return;
       const photo = editSession.photo || "";
       const date = document.getElementById("price-effective-date").value;
       if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { showToast("Choose a price effective date."); return; }
@@ -2296,13 +2392,13 @@
         els.editName.setCustomValidity("");
         const key = `added::${Date.now()}`;
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
-        try { recordRegularPrice(editStorageKey(editSession.list, key), null, facts, stores, date); }
+        try { recordRegularPrice(editStorageKey(editSession.list, key), null, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, key), storeChanges); }
         catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
         itemAdds[editSession.list].push({ key, name, englishName, chineseName, brand, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
         const previous = getSourceItems(editSession.list).find((item) => item.key === editSession.key);
-        try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); }
+        try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); saveStorePriceChanges(editStorageKey(editSession.list, editSession.key), storeChanges); }
         catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
         itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
@@ -2342,48 +2438,8 @@
     document.getElementById("compare-all-button").addEventListener("click", () => openCompare(getSignals()[0] || signalItems[0]));
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
-    let storePriceItem = null;
-    const storePriceModal = document.getElementById("store-price-modal");
-    const storePriceForm = document.getElementById("store-price-form");
-    function closeStorePriceEditor() {
-      storePriceModal.classList.remove("open");
-      storePriceItem = null;
-    }
-    function openStorePriceEditor(item) {
-      storePriceItem = item;
-      storePriceForm.reset();
-      document.getElementById("store-price-weight").setCustomValidity("");
-      document.getElementById("store-price-item-name").textContent = displayItemName(item);
-      document.getElementById("store-price-weight").value = editableFactValue(productFacts(item).weight) || "";
-      document.getElementById("store-price-date").value = localPriceDate();
-      storePriceModal.classList.add("open");
-      document.getElementById("store-price-store").focus();
-    }
-    document.querySelectorAll("[data-close-store-price]").forEach((button) => button.addEventListener("click", closeStorePriceEditor));
-    storePriceModal.addEventListener("keydown", (event) => { if (event.key === "Escape") closeStorePriceEditor(); });
-    document.getElementById("store-price-weight").addEventListener("input", (event) => event.target.setCustomValidity(""));
-    storePriceForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!storePriceItem) return;
-      const store = document.getElementById("store-price-store").value.trim();
-      const price = defaultPriceCurrency(document.getElementById("store-price-regular").value);
-      const salePrice = defaultPriceCurrency(document.getElementById("store-price-sale").value);
-      const weightInput = document.getElementById("store-price-weight");
-      const weight = weightInput.value.trim();
-      const unitPrice = calculateUnitPrice(price, weight);
-      if (!store) return;
-      if (!unitPrice) { weightInput.setCustomValidity("Enter a package size with a unit, such as 50 oz or 6 each."); weightInput.reportValidity(); return; }
-      const facts = { price, salePrice, weight, unitPrice, saleUnitPrice: calculateUnitPrice(salePrice, weight), discount: "" };
-      const key = editStorageKey(storePriceItem.sourceList, storePriceItem.key);
-      try { recordStorePrice(key, facts, store, document.getElementById("store-price-date").value); }
-      catch (error) { showToast("Store price could not be saved. Free browser storage and try again."); return; }
-      closeStorePriceEditor();
-      render();
-      showToast("Store price saved.");
-      syncShoppingDevices({ upload: true });
-    });
     function handleItemAction(event) {
-      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item], [data-add-store-price]");
+      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item]");
       if (!action) return;
       const row = action.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
@@ -2393,7 +2449,6 @@
         const targetList = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
         moveItemToList(item.sourceList, item.key, targetList);
       }
-      else if (action.hasAttribute("data-add-store-price")) openStorePriceEditor(item);
       else if (action.hasAttribute("data-delete-item")) deleteItem(item);
       else openItemEditor(item);
     }
