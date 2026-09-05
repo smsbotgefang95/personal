@@ -296,7 +296,7 @@ server {
     }
 
     location = /api/smart-shopping {
-        client_max_body_size 16m;
+        client_max_body_size 64m;
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;
         proxy_set_header Host \$host;
