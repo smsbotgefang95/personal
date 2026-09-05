@@ -1254,7 +1254,7 @@
       const calculatedSaleUnitPrice = calculateUnitPrice(facts.salePrice, facts.weight);
       const salePrice = calculatedSalePrice || facts.salePrice;
       const saleUnitPrice = calculateUnitPrice(salePrice, facts.weight);
-      return { ...facts, salePrice, unit: quantity?.unit || "Not listed", unitPrice: calculatedUnitPrice || facts.unitPrice, saleUnitPrice: facts.saleUnitPrice !== "Not listed" ? facts.saleUnitPrice : saleUnitPrice || calculatedSaleUnitPrice };
+      return { ...facts, salePrice, unit: quantity?.unit || "Not listed", unitPrice: calculatedUnitPrice || facts.unitPrice, saleUnitPrice: saleUnitPrice || calculatedSaleUnitPrice || facts.saleUnitPrice };
     }
     function editableFactValue(value) {
       return value === "Not listed" ? "" : value;
@@ -1337,8 +1337,9 @@
       const price = parsePriceAmount(priceValue);
       const quantity = parseWeightQuantity(weightValue);
       if (!price || !quantity || !Number.isFinite(quantity.amount) || quantity.amount <= 0) return "";
-      const comparisonQuantity = quantity.unit === "oz"
-        ? { amount: quantity.amount / 16, unit: "lb" }
+      const poundsPerUnit = { lb: 1, oz: 1 / 16, g: 1 / 453.59237, kg: 1000 / 453.59237 };
+      const comparisonQuantity = poundsPerUnit[quantity.unit]
+        ? { amount: quantity.amount * poundsPerUnit[quantity.unit], unit: "lb" }
         : quantity;
       const unitPrice = price / comparisonQuantity.amount;
       const displayPrice = unitPrice < 0.01 ? unitPrice.toFixed(3) : unitPrice.toFixed(2);
@@ -1369,7 +1370,7 @@
       const weightValue = editableWeightValue();
       refreshSalePrice();
       refreshCalculatedUnitPrice(els.editPrice, els.editUnitPrice, weightValue);
-      refreshCalculatedUnitPrice(els.editSalePrice, els.editSaleUnitPrice, weightValue, els.editSalePrice.dataset.autoCalculated !== "true");
+      refreshCalculatedUnitPrice(els.editSalePrice, els.editSaleUnitPrice, weightValue);
     }
     function importedMatchForSignal(signal) {
       const target = normalizeFoodName(signal.name);
