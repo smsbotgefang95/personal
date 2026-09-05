@@ -591,6 +591,21 @@
       "加工食品_零食", "烹饪_油", "烹饪_调味品_固体", "烹饪_调味品_酱料", "烹饪_调味品_液体", "烹饪_烘培",
       "自制食品", "爆香料", "Uncategorized Items"
     ]);
+    const categoryEmojis = new Map([
+      ["主食", "🍚"], ["蔬菜", "🥬"], ["水果", "🍎"], ["蛋", "🥚"], ["奶制品", "🥛"],
+      ["鱼", "🐟"], ["虾", "🦐"], ["鸡", "🐔"], ["牛", "🐄"], ["羊", "🐑"], ["猪", "🐖"], ["鸭", "🦆"],
+      ["杂豆和豆制品", "🫘"], ["坚果（坚果酱/粉）和种子", "🥜"],
+      ["加工食品_熟食", "🍱"], ["加工食品_甜点", "🍰"], ["加工食品_速冻食品_鱼", "🐟"],
+      ["加工食品_速冻食品_鸡", "🐔"], ["加工食品_速冻食品_包子", "🥟"], ["加工食品_速冻食品_饺子", "🥟"],
+      ["加工食品_速冻食品_其他", "🧊"], ["加工食品_罐头", "🥫"], ["加工食品_干货", "🍄"],
+      ["加工食品_零食", "🍿"], ["烹饪_油", "🫗"], ["烹饪_调味品_固体", "🧂"],
+      ["烹饪_调味品_酱料", "🥣"], ["烹饪_调味品_液体", "🍶"], ["烹饪_烘培", "🧁"],
+      ["自制食品", "👩‍🍳"], ["爆香料", "🧄"], ["Uncategorized Items", "📦"], ["Uncategorized", "📦"]
+    ]);
+    function categoryLabel(category) {
+      if (category === "Lowest unit price" || category === "Highest unit price") return category;
+      return `${categoryEmojis.get(category) || "🍽️"} ${category}`;
+    }
     const storeAliases = new Map([
       ["costco", "Costco"], ["dollartree", "DollarTree"], ["ebisu japanese life store", "Ebisu Japanese Life Store"],
       ["大中华", "Great Wall"], ["great wall", "Great Wall"], ["great wall 大中华", "Great Wall"], ["giant", "Giant"],
@@ -1763,7 +1778,7 @@
     function renderCategoryFilter() {
       const categories = availableCategories();
       if (state.category !== "all" && !categories.includes(state.category)) state.category = "all";
-      els.category.innerHTML = `<option value="all">Categories</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
+      els.category.innerHTML = `<option value="all">Categories</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(categoryLabel(category))}</option>`).join("")}`;
       els.category.value = state.category;
     }
 
@@ -1797,7 +1812,7 @@
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo?.sourcePage ? "Photo verified from a product listing" : photo ? "Photo migrated from AnyList" : "No item photo";
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="true" data-item-drag-handle aria-label="Drag ${escapeHtml(displayName)} to another list" title="${photoTitle}. Drag photo to move to another list.">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" draggable="true" data-item-drag-handle aria-label="Drag ${escapeHtml(displayName)} to another list" title="${photoTitle}. Drag photo to move to another list.">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -1821,7 +1836,7 @@
         : category === "奶制品"
         ? "--category-bg: #ffffff; --category-border: #d1d1d1; --category-heading-bg: #ffffff; --category-ink: #444444"
         : `--category-hue: ${hue}`;
-      return `<section class="category-group" style="${categoryStyle}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
+      return `<section class="category-group" style="${categoryStyle}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(categoryLabel(category))}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
     function purchaseSectionMarkup(label, items, colorOffset = 0) {
       if (!items.length) return "";
@@ -1995,7 +2010,7 @@
       renderBrandOptions(itemBrand(item));
       els.newBrand.value = "";
       const categories = orderCategories([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
-      els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("");
+      els.editCategory.innerHTML = categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(categoryLabel(category))}</option>`).join("");
       els.editCategory.value = item.category;
       preparePriceHistory(item);
       const facts = productFacts(item);
@@ -2073,7 +2088,7 @@
       renderBrandOptions();
       els.newBrand.value = "";
       const categories = orderCategories([...categoryNames].sort((a, b) => a.localeCompare(b)));
-      els.editCategory.innerHTML = `<option value="Uncategorized">Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")}`;
+      els.editCategory.innerHTML = `<option value="Uncategorized">📦 Uncategorized</option>${categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(categoryLabel(category))}</option>`).join("")}`;
       els.editCategory.value = "Uncategorized";
       els.editPrice.value = "";
       els.editDiscount.value = "";
