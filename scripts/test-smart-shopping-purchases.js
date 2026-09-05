@@ -15,8 +15,8 @@ const key = (item) => `${item.sourceList}::${item.key}`;
 function device(server, storage = new Map()) {
   const localStorage = { getItem: (k) => storage.get(k) || null, setItem: (k, v) => storage.set(k, v) };
   const context = vm.createContext({
-    localStorage, window: { localStorage, confirm: () => true, setTimeout: () => 1, clearTimeout() {} },
-    document: { getElementById: () => ({ textContent: '' }) },
+    localStorage, window: { localStorage, confirm: () => { throw new Error('Reset must not depend on browser confirmation'); }, setTimeout: () => 1, clearTimeout() {} },
+    document: { getElementById: () => ({ textContent: '', showModal() {}, close() {} }) },
     render() {}, showToast() {}, displayItemName: (item) => item.key,
     getViewItems: () => [chicken, walnuts], isAllList: () => true,
     fetch: async (_, options) => {
@@ -34,6 +34,7 @@ function device(server, storage = new Map()) {
     storage,
     set: (item, value) => context.setItemPurchased(item, value),
     reset: () => context.resetPurchasedItems(),
+    confirmReset: () => context.confirmResetPurchasedItems(),
     sync: () => context.syncShoppingDevices(),
     purchased: (item) => context.isItemPurchased(item),
     pending: () => JSON.parse(storage.get(pendingKey) || '{}')
@@ -59,6 +60,8 @@ function device(server, storage = new Map()) {
   await first.sync();
   assert.equal(first.purchased(chicken), true, 'checking works too');
   first.reset();
+  assert.equal(first.purchased(chicken), true, 'opening confirmation must not change purchases');
+  first.confirmReset();
   await first.sync();
   assert.equal(server.data.itemPurchases[key(chicken)], false);
   assert.equal(server.data.itemPurchases[key(walnuts)], false, 'bulk reset syncs');

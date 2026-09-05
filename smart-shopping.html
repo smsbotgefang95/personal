@@ -314,6 +314,8 @@
   .photo-remove-button { padding: 5px 7px; border: 0; border-radius: 7px; color: #a03c55; background: #fdebf0; font-size: 0.66rem; font-weight: 800; white-space: nowrap; cursor: pointer; }
   .photo-help { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 0.66rem; font-weight: 500; }
   .modal-actions { display: flex; justify-content: end; gap: 8px; margin-top: 19px; }
+  .reset-dialog { border: 0; width: min(480px, calc(100% - 44px)); }
+  .reset-dialog::backdrop { background: rgba(22, 31, 43, 0.38); }
   @media (max-width: 1000px) {
     .hero { grid-template-columns: 1fr; }
     .sync-card { max-width: 420px; }
@@ -479,6 +481,14 @@
 </main>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="modal reset-dialog" id="reset-purchased-dialog" aria-labelledby="reset-purchased-title" aria-describedby="reset-purchased-description">
+  <div class="modal-heading"><h2 id="reset-purchased-title">Reset purchased items?</h2></div>
+  <p id="reset-purchased-description"></p>
+  <div class="modal-actions">
+    <button class="button-secondary" id="cancel-reset-purchased" type="button" autofocus>Cancel</button>
+    <button class="button-primary" id="confirm-reset-purchased" type="button">Move back to To buy</button>
+  </div>
+</dialog>
 <div class="modal-backdrop" id="compare-modal" role="dialog" aria-modal="true" aria-labelledby="compare-title">
   <div class="modal">
     <div class="modal-heading">
@@ -851,11 +861,20 @@
       render();
       showToast(`${displayItemName(item)} marked ${purchased ? "purchased" : "to buy"}.`);
     }
+    let purchaseResetRequest = null;
     function resetPurchasedItems() {
       const purchasedItems = [...new Map(getViewItems().filter(isItemPurchased).map((item) => [purchaseStorageKey(item), item])).values()];
       if (!purchasedItems.length) return;
-      const target = isAllList() ? "all collections" : displayListName(state.activeList);
-      if (!window.confirm(`Reset ${purchasedItems.length} purchased ${purchasedItems.length === 1 ? "item" : "items"} in ${target}?`)) return;
+      const target = isAllList() || isGlobalDetailFilter() ? "all collections" : displayListName(state.activeList);
+      purchaseResetRequest = { purchasedItems, target };
+      document.getElementById("reset-purchased-description").textContent = `Move ${purchasedItems.length} purchased ${purchasedItems.length === 1 ? "item" : "items"} in ${target} back to To buy? Item details will be kept.`;
+      document.getElementById("reset-purchased-dialog").showModal();
+    }
+    function confirmResetPurchasedItems() {
+      if (!purchaseResetRequest) return;
+      const { purchasedItems, target } = purchaseResetRequest;
+      purchaseResetRequest = null;
+      document.getElementById("reset-purchased-dialog").close();
       purchasedItems.forEach((item) => {
         const storageKey = purchaseStorageKey(item);
         itemPurchases[storageKey] = false;
@@ -2131,6 +2150,10 @@
     document.addEventListener("keydown", (event) => { if (event.key === "Escape") { if (!els.storeOptions.hidden) { setStoreOptionsOpen(false); els.editStores.focus(); return; } els.compareModal.classList.remove("open"); closeItemEditor(); } });
     document.getElementById("add-item-button").addEventListener("click", openItemCreator);
     els.resetPurchased.addEventListener("click", resetPurchasedItems);
+    const resetPurchasedDialog = document.getElementById("reset-purchased-dialog");
+    document.getElementById("cancel-reset-purchased").addEventListener("click", () => resetPurchasedDialog.close());
+    resetPurchasedDialog.addEventListener("close", () => { purchaseResetRequest = null; });
+    document.getElementById("confirm-reset-purchased").addEventListener("click", confirmResetPurchasedItems);
     document.getElementById("show-all-button").addEventListener("click", () => { state.showAll = !state.showAll; renderImported(); });
     els.search.addEventListener("input", () => { state.query = els.search.value.trim(); renderImported(); });
     els.store.addEventListener("change", () => { state.store = els.store.value; state.showAll = false; renderImported(); });
