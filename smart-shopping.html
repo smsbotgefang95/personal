@@ -466,7 +466,7 @@
         <select class="brand-filter" id="brand-filter" aria-label="Filter by brand">
           <option value="all">Brands</option>
         </select>
-        <select class="country-filter" id="country-filter" aria-label="Filter by country"><option value="all">Countries / 国家</option></select>
+        <select class="country-filter" id="country-filter" aria-label="Filter by country"><option value="all">Countries</option></select>
         <select class="organic-filter" id="organic-filter" aria-label="Filter by organic status">
           <option value="all">Organic status</option>
           <option value="organic">Organic only</option>
@@ -1921,7 +1921,7 @@
     function renderCountryFilter() {
       const countries = [...new Set(sourceListNames.flatMap((name) => getSourceItems(name)).map(itemCountry).filter(Boolean))].sort((a, b) => a.localeCompare(b));
       if (state.country !== "all" && state.country !== noCountryFilterValue && !countries.includes(state.country)) state.country = "all";
-      els.country.innerHTML = `<option value="all">Countries / 国家</option><option value="${noCountryFilterValue}">No country / 未填写国家</option>${countries.map((country) => `<option value="${escapeHtml(country)}">${escapeHtml(countryLabel(country))}</option>`).join("")}`;
+      els.country.innerHTML = `<option value="all">Countries</option><option value="${noCountryFilterValue}">No country</option>${countries.map((country) => `<option value="${escapeHtml(country)}">${escapeHtml(countryLabel(country))}</option>`).join("")}`;
       els.country.value = state.country;
     }
     function renderBrandFilter() {
