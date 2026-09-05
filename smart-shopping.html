@@ -505,8 +505,8 @@
       <button class="close-modal" id="close-edit-modal" type="button" aria-label="Close item editor">×</button>
     </div>
     <div class="edit-fields">
-      <label class="edit-field" id="edit-name-field"><span>English name</span><input id="edit-item-name" type="text" autocomplete="off" /></label>
-      <label class="edit-field" id="edit-chinese-name-field"><span>Chinese name / 中文名称</span><input id="edit-item-chinese-name" type="text" autocomplete="off" /><small>Enter at least one name. Search works in either language.</small></label>
+      <label class="edit-field" id="edit-chinese-name-field"><span>Chinese name / 中文名称</span><input id="edit-item-chinese-name" type="text" autocomplete="off" /></label>
+      <label class="edit-field" id="edit-name-field"><span>English name</span><input id="edit-item-name" type="text" autocomplete="off" /><small>Enter at least one name. Search works in either language.</small></label>
       <label class="edit-field" id="edit-list-field" hidden><span>Collection</span><select id="edit-item-list"></select></label>
       <div class="edit-field" id="edit-brand-field">
         <span>Brand</span>
@@ -2010,7 +2010,7 @@
       renderStoreOptions();
       setStoreOptionsOpen(false);
       els.editModal.classList.add("open");
-      window.requestAnimationFrame(() => els.editName.focus());
+      window.requestAnimationFrame(() => els.editChineseName.focus());
     }
     function openItemMover(item) {
       editSession.list = item.sourceList;
@@ -2086,7 +2086,7 @@
       renderStoreOptions();
       setStoreOptionsOpen(false);
       els.editModal.classList.add("open");
-      window.requestAnimationFrame(() => els.editName.focus());
+      window.requestAnimationFrame(() => els.editChineseName.focus());
     }
     function closeItemEditor() {
       els.editModal.classList.remove("open");
