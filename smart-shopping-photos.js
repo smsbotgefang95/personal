@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "带鱼",
+    "file": "hairtail-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
     "name": "雪豆 Snow pea",
     "file": "snow-peas-square.png",
     "credit": "AI-generated with imagegen"
