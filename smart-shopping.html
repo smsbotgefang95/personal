@@ -589,7 +589,7 @@
       </section>
       <label class="edit-field" id="move-item-field" hidden><span>Move to list</span><select id="edit-item-move-list"></select></label>
     </div>
-    <p class="modal-note" id="edit-item-note">Your changes, price details, and photo save automatically in this browser and stay separate from the original AnyList import.</p>
+    <p class="modal-note" id="edit-item-note">Finish editing, then click Done to save your changes and price history in this browser.</p>
     <p id="edit-save-status" role="status" aria-live="polite"></p>
     <div class="modal-actions"><button class="button-secondary" id="cancel-edit-button" type="button">Cancel</button><button class="button-primary" id="save-item-button" type="button">Save changes</button></div>
   </form>
@@ -2173,7 +2173,7 @@
       const selectedStores = canonicalStoresFromInput(value);
       const nextStores = searching ? [...new Set([...selectedStores, store])] : selectedStores.includes(store) ? selectedStores.filter((selected) => selected !== store) : [...selectedStores, store];
       els.editStores.value = nextStores.join(", ");
-      queueItemAutosave();
+      markItemEditDirty();
       renderStoreOptions();
       setStoreOptionsOpen(true);
       els.editStores.focus();
@@ -2249,7 +2249,7 @@
       storePriceDrafts.push(draft);
       if (!entry) {
         const remove = document.createElement("button"); remove.type = "button"; remove.className = "button-secondary"; remove.textContent = "Remove this store";
-        remove.addEventListener("click", () => { storePriceDrafts = storePriceDrafts.filter((value) => value !== draft); row.remove(); queueItemAutosave(); }); row.appendChild(remove);
+        remove.addEventListener("click", () => { storePriceDrafts = storePriceDrafts.filter((value) => value !== draft); row.remove(); markItemEditDirty(); }); row.appendChild(remove);
       }
       document.getElementById("additional-store-prices").appendChild(row);
       if (!entry) storeInput.focus();
@@ -2286,10 +2286,10 @@
       editSession.mode = "edit";
       document.getElementById("edit-item-title").textContent = "Edit item";
       els.editSubtitle.textContent = `${displayListName(itemTargetList(item.sourceList, item.key))} · changes are saved in this browser`;
-      document.getElementById("edit-item-note").textContent = "Your changes, price details, and photo save automatically in this browser and stay separate from the original AnyList import.";
+      document.getElementById("edit-item-note").textContent = "Finish editing, then click Done to save your changes and price history in this browser.";
       document.getElementById("save-item-button").hidden = true;
-      document.getElementById("cancel-edit-button").textContent = "Close";
-      document.getElementById("edit-save-status").textContent = "Edits save automatically.";
+      document.getElementById("cancel-edit-button").textContent = "Done";
+      document.getElementById("edit-save-status").textContent = "Click Done when you have finished editing.";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
       els.editChineseNameField.hidden = false;
@@ -2410,30 +2410,26 @@
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editChineseName.focus());
     }
-    let editAutosaveTimer;
     let editDirty = false;
     let photoLoading = false;
-    function queueItemAutosave() {
+    function markItemEditDirty() {
       if (editSession.mode !== "edit" || !els.editModal.classList.contains("open")) return;
       editDirty = true;
-      document.getElementById("edit-save-status").textContent = "Saving…";
-      clearTimeout(editAutosaveTimer);
-      editAutosaveTimer = setTimeout(flushItemAutosave, 600);
+      document.getElementById("edit-save-status").textContent = "Unsaved changes. Click Done to save.";
     }
-    function flushItemAutosave() {
-      clearTimeout(editAutosaveTimer);
+    function commitItemEdit() {
       if (!editDirty) return true;
       if (photoLoading) return false;
       const saved = saveItemEdit(null, true) === true;
       document.getElementById("edit-save-status").textContent = saved
-        ? "Saved automatically in this browser."
+        ? "Saved in this browser."
         : "Changes not saved yet. Complete the required fields and try again.";
       if (saved) editDirty = false;
       return saved;
     }
     function closeItemEditor() {
       if (photoLoading) { showToast("Please wait for the photo to finish saving."); return; }
-      if (editSession.mode === "edit" && !flushItemAutosave()) return;
+      if (editSession.mode === "edit" && !commitItemEdit()) return;
       els.editModal.classList.remove("open");
       editSession.list = "";
       editSession.key = "";
@@ -2445,7 +2441,7 @@
     }
     function saveItemEdit(event, automatic = false) {
       event?.preventDefault();
-      if (editSession.mode === "edit" && !automatic) return flushItemAutosave();
+      if (editSession.mode === "edit" && !automatic) return commitItemEdit();
       if (editSession.mode === "move") {
         const targetList = els.moveList.value;
         const sourceList = editSession.list;
@@ -2675,13 +2671,12 @@
       if (!button) return;
       const key = button.dataset.deletePriceKey;
       const id = button.dataset.deletePriceId;
-      if (els.editModal.classList.contains("open") && !flushItemAutosave()) return;
       try {
         if (!deletePriceHistoryEntry(key, id)) return;
       } catch (error) { showToast("Price history could not be deleted. Free browser storage and try again."); return; }
       if (els.editModal.classList.contains("open")) {
         document.getElementById("price-history-rows").innerHTML = priceHistoryTableMarkup(activePriceHistory(key), key);
-        prepareStorePriceSections(getSourceItems(editSession.list).find((item) => item.key === editSession.key));
+        if (!editDirty) prepareStorePriceSections(getSourceItems(editSession.list).find((item) => item.key === editSession.key));
       }
       render();
       queueShoppingSync();
@@ -2711,24 +2706,23 @@
       els.editSaleUnitPrice.value = "";
       refreshUnitPrice();
       els.editPrice.focus();
-      showToast("Enter the new regular price. Changes save automatically and keep the previous sale in price history.");
+      showToast("Enter the complete regular price, then click Done to save it and keep the previous sale in price history.");
     });
     document.getElementById("add-sale-price").addEventListener("click", () => els.editSalePrice.focus());
     [els.editName, els.editChineseName].forEach((input) => input.addEventListener("input", () => els.editName.setCustomValidity("")));
-    els.editForm.addEventListener("input", (event) => { if (event.target !== els.photoInput) queueItemAutosave(); });
-    els.editForm.addEventListener("change", (event) => { if (event.target !== els.photoInput) queueItemAutosave(); });
+    els.editForm.addEventListener("input", (event) => { if (event.target !== els.photoInput) markItemEditDirty(); });
+    els.editForm.addEventListener("change", (event) => { if (event.target !== els.photoInput) markItemEditDirty(); });
     els.editForm.addEventListener("click", (event) => {
-      if (event.target.closest("[data-draft-store], #add-brand-button, #remove-item-photo, #update-regular-price")) queueItemAutosave();
+      if (event.target.closest("[data-draft-store], #add-brand-button, #remove-item-photo, #update-regular-price")) markItemEditDirty();
     });
-    window.addEventListener("pagehide", flushItemAutosave);
     els.editForm.addEventListener("submit", saveItemEdit);
     document.getElementById("save-item-button").addEventListener("click", saveItemEdit);
-    els.addBrand.addEventListener("click", () => { addBrandOption(); queueItemAutosave(); });
+    els.addBrand.addEventListener("click", () => { addBrandOption(); markItemEditDirty(); });
     els.newBrand.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
         addBrandOption();
-        queueItemAutosave();
+        markItemEditDirty();
       }
     });
     els.editPrice.addEventListener("input", () => { applyDefaultPriceCurrency(); refreshUnitPrice(); });
@@ -2754,14 +2748,14 @@
         showToast(error.message || "The photo could not be added.");
       } finally {
         photoLoading = false;
-        queueItemAutosave();
+        markItemEditDirty();
       }
     });
     els.removePhoto.addEventListener("click", () => {
       editSession.photo = "";
       els.photoInput.value = "";
       setPhotoPreview("");
-      queueItemAutosave();
+      markItemEditDirty();
     });
     els.storeOptions.addEventListener("click", (event) => {
       event.stopPropagation();

@@ -147,3 +147,35 @@ assert.throws(() => staleDevice.deletePriceHistoryEntry('shop::multi', stale['sh
 assert.equal(staleDevice.activePriceHistory('shop::multi').length, 2);
 staleDevice.localStorage.setItem = originalSet;
 console.log('PASS: deletion controls, reload, stale sync in both directions, benchmark recalculation, unchanged current price and storage failure');
+
+// Typing, including long pauses, must not persist intermediate prices.
+const draftStatus = {};
+let draftPrice = '1';
+let saves = 0;
+const scheduled = [];
+const editContext = vm.createContext({
+  editSession: {mode:'edit'},
+  els: {editModal:{classList:{contains:()=>true}}},
+  document: {getElementById:()=>draftStatus},
+  setTimeout: callback => scheduled.push(callback), clearTimeout() {},
+  saveItemEdit() {
+    saves++;
+    afterReload.recordRegularPrice('typing', item, {...item.facts,price:draftPrice}, ['Costco'], '2026-09-05');
+    return true;
+  }
+});
+vm.runInContext(html.slice(html.indexOf('    let editDirty ='), html.indexOf('    function closeItemEditor()')), editContext);
+for (const value of ['1', '12', '12.69']) {
+  draftPrice = value;
+  editContext.markItemEditDirty();
+  scheduled.splice(0).forEach(callback => callback());
+  assert.equal(saves, 0, 'pausing between digits cannot save');
+}
+assert.equal(editContext.commitItemEdit(), true);
+assert.equal(saves, 1);
+const typed = JSON.parse(storage.get('smart-shopping-price-history-v1')).typing;
+assert.equal(typed.length, 2, 'only original and completed price recorded');
+assert.equal(typed[1].price, '12.69');
+editContext.commitItemEdit();
+assert.equal(saves, 1, 'closing again cannot duplicate history');
+console.log('PASS: partial typing and pauses do not save; completion records final price once');
