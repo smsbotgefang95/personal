@@ -1737,6 +1737,8 @@
         ? "--category-bg: #efe3d5; --category-border: #c4a484; --category-heading-bg: #dcc3a8; --category-ink: #654321"
         : category === "主食"
         ? "--category-bg: #f2f2f2; --category-border: #d1d1d1; --category-heading-bg: #e5e5e5; --category-ink: #444444"
+        : category === "奶制品"
+        ? "--category-bg: #ffffff; --category-border: #d1d1d1; --category-heading-bg: #ffffff; --category-ink: #444444"
         : `--category-hue: ${hue}`;
       return `<section class="category-group" style="${categoryStyle}" aria-label="${escapeHtml(category)} category"><div class="category-heading"><h4>${escapeHtml(category)}</h4><span>${items.length} ${itemLabel}</span></div><div class="category-items">${items.map(importedCard).join("")}</div></section>`;
     }
