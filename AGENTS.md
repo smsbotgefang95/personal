@@ -107,3 +107,7 @@ This alias is project-specific. Do not reuse another project's alias, such as `h
 The server has limited passwordless sudo configured for `/home/dev1/personal/deploy.sh` through `/etc/sudoers.d/personal-deploy`.
 
 If deploy prompts for a sudo password, the server-side sudoers rule is missing or no longer matches `deploy.sh`. Fix `/etc/sudoers.d/personal-deploy` on the server before retrying unattended deploy.
+
+## Smart Shopping Image Requirements
+
+When adding or replacing food pictures in Smart Shopping, use a square (1:1) image with a genuinely transparent background (alpha channel), no background color, and no colored tile behind the picture. Apply this default without asking the operator to repeat it.

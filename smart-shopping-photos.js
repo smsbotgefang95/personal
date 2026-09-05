@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "茭白",
+    "file": "jiaobai-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
     "name": "羊肚菌",
     "file": "morel-mushrooms-square.png",
     "credit": "AI-generated with imagegen"
