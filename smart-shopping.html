@@ -505,7 +505,8 @@
       <button class="close-modal" id="close-edit-modal" type="button" aria-label="Close item editor">×</button>
     </div>
     <div class="edit-fields">
-      <label class="edit-field" id="edit-name-field"><span>Item name</span><input id="edit-item-name" type="text" required autocomplete="off" /></label>
+      <label class="edit-field" id="edit-name-field"><span>English name</span><input id="edit-item-name" type="text" autocomplete="off" /></label>
+      <label class="edit-field" id="edit-chinese-name-field"><span>Chinese name / 中文名称</span><input id="edit-item-chinese-name" type="text" autocomplete="off" /><small>Enter at least one name. Search works in either language.</small></label>
       <label class="edit-field" id="edit-list-field" hidden><span>Collection</span><select id="edit-item-list"></select></label>
       <div class="edit-field" id="edit-brand-field">
         <span>Brand</span>
@@ -633,7 +634,7 @@
       addItem: document.getElementById("add-item-button"),
       newBrand: document.getElementById("new-brand-name"), addBrand: document.getElementById("add-brand-button"),
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
-      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), purchase: document.getElementById("purchase-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field"), editListField: document.getElementById("edit-list-field"), editList: document.getElementById("edit-item-list")
+      search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), purchase: document.getElementById("purchase-filter"), sort: document.getElementById("sort-select"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editChineseName: document.getElementById("edit-item-chinese-name"), editChineseNameField: document.getElementById("edit-chinese-name-field"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field"), editListField: document.getElementById("edit-list-field"), editList: document.getElementById("edit-item-list")
     };
     els.resetPurchased = document.getElementById("reset-purchased-button");
     function storesFromLine(line) {
@@ -983,12 +984,12 @@
       const importedItems = (parsedByList[listName] || []).map((item) => {
         const normalizedItem = normalizeStoredItem(item);
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
+        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), ...itemNames({ ...edit, brand: edit.brand ?? itemBrand(normalizedItem) }), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
       });
       const addedItems = Array.isArray(itemAdds[listName]) ? itemAdds[listName].map((item) => {
         const normalizedItem = normalizeStoredItem(item);
         const edit = itemEdits[editStorageKey(listName, item.key)];
-        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
+        return edit ? { ...normalizedItem, photoLookupName: canonicalizeShoppingText(edit.photoLookupName || normalizedItem.photoLookupName || normalizedItem.name), name: canonicalizeShoppingText(edit.name || normalizedItem.name), ...itemNames({ ...edit, brand: edit.brand ?? itemBrand(normalizedItem) }), brand: edit.brand !== undefined ? canonicalizeShoppingText(edit.brand).trim() : itemBrand(normalizedItem), category: edit.category || normalizedItem.category, stores: Array.isArray(edit.stores) ? edit.stores : normalizedItem.stores, photo: edit.photo !== undefined ? edit.photo : normalizedItem.photo, facts: edit.facts && typeof edit.facts === "object" ? { ...(normalizedItem.facts || {}), ...edit.facts } : normalizedItem.facts, edited: true } : normalizedItem;
       }) : [];
       return [...importedItems, ...addedItems].filter((item) => !itemRemovals[editStorageKey(listName, item.key)]);
     }
@@ -1103,7 +1104,20 @@
       const leadingBrand = brand && new RegExp(`^${escapeRegExp(brand)}(?:\\s|$)`, "iu").test(fullName) ? brand : "";
       return formatProductName(fullName, leadingBrand);
     }
-    function displayItemName(item) { return displayProductName(item?.name, itemBrand(item)); }
+    function itemNames(item) {
+      if (item && (Object.hasOwn(item, "englishName") || Object.hasOwn(item, "chineseName"))) {
+        return { englishName: canonicalizeShoppingText(item.englishName || "").trim(), chineseName: canonicalizeShoppingText(item.chineseName || "").trim() };
+      }
+      const name = displayProductName(item?.name, itemBrand(item));
+      const firstChinese = name.search(/[\u3400-\u9fff]/u);
+      if (firstChinese < 0) return { englishName: name, chineseName: "" };
+      // Split only a clear English prefix followed by Chinese text. Keep ambiguous text intact.
+      if (!/[A-Za-z]/u.test(name.slice(firstChinese))) {
+        return { englishName: name.slice(0, firstChinese).trim(), chineseName: name.slice(firstChinese).trim() };
+      }
+      return firstChinese === 0 ? { englishName: "", chineseName: name } : { englishName: name, chineseName: "" };
+    }
+    function displayItemName(item) { return Object.values(itemNames(item)).filter(Boolean).join(" "); }
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
     function photoLookupCandidates(item) {
       const isObject = item && typeof item === "object";
@@ -1383,10 +1397,10 @@
     function compareByUnitPrice(a, b, direction = 1) {
       const aPrice = lowestComparableUnitPrice(a);
       const bPrice = lowestComparableUnitPrice(b);
-      if (aPrice === null && bPrice === null) return a.name.localeCompare(b.name);
+      if (aPrice === null && bPrice === null) return displayItemName(a).localeCompare(displayItemName(b));
       if (aPrice === null) return 1;
       if (bPrice === null) return -1;
-      return (aPrice - bPrice) * direction || a.name.localeCompare(b.name);
+      return (aPrice - bPrice) * direction || displayItemName(a).localeCompare(displayItemName(b));
     }
     function compareByHighestUnitPrice(a, b) {
       return compareByUnitPrice(a, b, -1);
@@ -1457,13 +1471,9 @@
     function glycemicIndexFilterLabel() {
       return { low: "Glycemic Index: Low", medium: "Glycemic Index: Medium", high: "Glycemic Index: High", "not-applicable": "Glycemic Index: Not applicable", "package-label": "Glycemic Index: Package label needed" }[state.glycemicIndex] || "";
     }
-    function importedNameMarkup(name, brand = "") {
-      const fullName = displayProductName(name, brand);
-      const firstCjkIndex = fullName.search(/[\u3400-\u9fff]/u);
-      if (firstCjkIndex <= 0) return `<span class="row-name-primary">${escapeHtml(fullName)}</span>`;
-      const primaryName = fullName.slice(0, firstCjkIndex).trim();
-      const secondaryName = fullName.slice(firstCjkIndex).trim();
-      return `<span class="row-name-primary">${escapeHtml(primaryName)}</span><span class="row-name-secondary">${escapeHtml(secondaryName)}</span>`;
+    function importedNameMarkup(item) {
+      const { englishName, chineseName } = itemNames(item);
+      return `<span class="row-name-primary">${escapeHtml(englishName || chineseName)}</span>${englishName && chineseName ? `<span class="row-name-secondary">${escapeHtml(chineseName)}</span>` : ""}`;
     }
     function photoMarkup(item, fallback = "🍽️", customPhoto = "") {
       const itemName = item && typeof item === "object" ? displayItemName(item) : formatProductName(item);
@@ -1689,8 +1699,8 @@
       const activeItems = getViewItems();
       let signals = signalItems.filter((item) => activeItems.some((activeItem) => normalizeFoodName(activeItem.name) === normalizeFoodName(item.name) && matchesCategory(activeItem) && matchesOrganic(activeItem) && matchesOrganic(item)) && matchesStore(item) && matchesBrand(item));
       signals = signals.filter((item) => matchesDetailFilter(null, item));
-      if (state.query) signals = signals.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
-      if (state.sort === "name") signals.sort((a, b) => a.name.localeCompare(b.name));
+      if (state.query) signals = signals.filter((item) => displayItemName(item).toLowerCase().includes(state.query.toLowerCase()) || item.detail.toLowerCase().includes(state.query.toLowerCase()) || signalStores(item).join(" ").toLowerCase().includes(state.query.toLowerCase()));
+      if (state.sort === "name") signals.sort((a, b) => displayItemName(a).localeCompare(displayItemName(b)));
       return signals;
     }
 
@@ -1781,7 +1791,7 @@
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo?.sourcePage ? "Photo verified from a product listing" : photo ? "Photo migrated from AnyList" : "No item photo";
       const purchased = isItemPurchased(item);
       const purchaseLabel = purchased ? "Purchased" : "Mark as purchased";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item.name, brand)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" draggable="true" data-item-ref="${escapeHtml(itemReference(item))}" aria-label="Drag ${escapeHtml(displayName)} to another list"><div class="card-top"><div class="item-media"><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><div class="item-photo${photoClass}" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="Move ${escapeHtml(displayName)} to another list">Move</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryText)}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -1824,10 +1834,10 @@
       items = items.filter(matchesOrganic);
       items = items.filter((item) => matchesDetailFilter(item));
       items = items.filter(matchesPurchase);
-      if (state.query) items = items.filter((item) => item.name.toLowerCase().includes(state.query.toLowerCase()) || itemCategory(item).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
+      if (state.query) items = items.filter((item) => displayItemName(item).toLowerCase().includes(state.query.toLowerCase()) || itemCategory(item).toLowerCase().includes(state.query.toLowerCase()) || item.stores.join(" ").toLowerCase().includes(state.query.toLowerCase()));
       if (state.sort === "price") items = [...items].sort(compareByUnitPrice);
       if (state.sort === "highest-price") items = [...items].sort(compareByHighestUnitPrice);
-      if (state.sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+      if (state.sort === "name") items = [...items].sort((a, b) => displayItemName(a).localeCompare(displayItemName(b)));
       items = [...items].sort((a, b) => Number(isItemPurchased(a)) - Number(isItemPurchased(b)));
       return items;
     }
@@ -1963,6 +1973,8 @@
       document.getElementById("save-item-button").textContent = "Save changes";
       els.moveField.hidden = true;
       els.editNameField.hidden = false;
+      els.editChineseNameField.hidden = false;
+      els.editName.setCustomValidity("");
       els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
       els.editFactsFields.hidden = false;
@@ -1970,8 +1982,10 @@
       els.photoField.hidden = false;
       els.editListField.hidden = true;
       els.editList.required = false;
-      els.editName.required = true;
-      els.editName.value = displayItemName(item);
+      els.editName.required = false;
+      const names = itemNames(item);
+      els.editName.value = names.englishName;
+      els.editChineseName.value = names.chineseName;
       renderBrandOptions(itemBrand(item));
       els.newBrand.value = "";
       const categories = orderCategories([...new Set([item.category, ...categoryNames])].sort((a, b) => a.localeCompare(b)));
@@ -2007,6 +2021,8 @@
       document.getElementById("edit-item-note").textContent = "Moving is saved in this browser and leaves the original AnyList import unchanged.";
       document.getElementById("save-item-button").textContent = "Move item";
       els.editNameField.hidden = true;
+      els.editChineseNameField.hidden = true;
+      els.editName.setCustomValidity("");
       els.editBrandField.hidden = true;
       els.editCategoryField.hidden = true;
       els.editFactsFields.hidden = true;
@@ -2038,13 +2054,16 @@
       els.editList.innerHTML = listNames.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(displayListName(name))}</option>`).join("");
       els.editList.value = addingFromAll ? (listNames[0] || "") : state.activeList;
       els.editNameField.hidden = false;
+      els.editChineseNameField.hidden = false;
+      els.editName.setCustomValidity("");
       els.editBrandField.hidden = false;
       els.editCategoryField.hidden = false;
       els.editFactsFields.hidden = false;
       els.editStoresField.hidden = false;
       els.photoField.hidden = false;
-      els.editName.required = true;
+      els.editName.required = false;
       els.editName.value = "";
+      els.editChineseName.value = "";
       renderBrandOptions();
       els.newBrand.value = "";
       const categories = orderCategories([...categoryNames].sort((a, b) => a.localeCompare(b)));
@@ -2090,8 +2109,14 @@
         moveItemToList(sourceList, itemKey, targetList);
         return;
       }
-      const name = formatProductName(els.editName.value.trim());
-      if (!name) { els.editName.focus(); return; }
+      const englishName = formatProductName(els.editName.value.trim());
+      const chineseName = canonicalizeShoppingText(els.editChineseName.value).trim();
+      const name = [englishName, chineseName].filter(Boolean).join(" ");
+      if (!name) {
+        els.editName.setCustomValidity("Enter an English or Chinese name.");
+        els.editName.reportValidity();
+        return;
+      }
       const brand = els.editBrand.value;
       const category = els.editCategory.value || "Uncategorized";
       const facts = { price: defaultPriceCurrency(els.editPrice.value), discount: defaultDiscountValue(els.editDiscount.value), salePrice: defaultPriceCurrency(els.editSalePrice.value), weight: editableWeightValue(), unitPrice: els.editUnitPrice.value.trim(), saleUnitPrice: els.editSaleUnitPrice.value.trim() };
@@ -2118,14 +2143,14 @@
         if (!Array.isArray(itemAdds[editSession.list])) itemAdds[editSession.list] = [];
         try { recordRegularPrice(editStorageKey(editSession.list, key), null, facts, stores, date); }
         catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
-        itemAdds[editSession.list].push({ key, name, brand, category, meta: [], facts, stores, photo, added: true });
+        itemAdds[editSession.list].push({ key, name, englishName, chineseName, brand, category, meta: [], facts, stores, photo, added: true });
         saveItemAdds();
       } else {
         const previous = getSourceItems(editSession.list).find((item) => item.key === editSession.key);
         try { recordRegularPrice(editStorageKey(editSession.list, editSession.key), previous, facts, stores, date); }
         catch (error) { showToast("Price history could not be saved. Free browser storage and try again."); return; }
         const sourceItem = (parsedByList[editSession.list] || []).find((item) => item.key === editSession.key);
-        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, brand, category, facts, stores, photo, photoLookupName: sourceItem?.photoLookupName || sourceItem?.name || name };
+        itemEdits[editStorageKey(editSession.list, editSession.key)] = { name, englishName, chineseName, brand, category, facts, stores, photo, photoLookupName: previous?.photoLookupName || sourceItem?.photoLookupName || sourceItem?.name || previous?.name || name };
         pendingEdits[editStorageKey(editSession.list, editSession.key)] = itemEdits[editStorageKey(editSession.list, editSession.key)];
         savePendingEdits();
         saveItemEdits();
@@ -2207,6 +2232,7 @@
       showToast("Enter the new regular price. The current sale has been cleared.");
     });
     document.getElementById("add-sale-price").addEventListener("click", () => els.editSalePrice.focus());
+    [els.editName, els.editChineseName].forEach((input) => input.addEventListener("input", () => els.editName.setCustomValidity("")));
     els.editForm.addEventListener("submit", saveItemEdit);
     document.getElementById("save-item-button").addEventListener("click", saveItemEdit);
     els.addBrand.addEventListener("click", addBrandOption);
