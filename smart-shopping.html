@@ -792,7 +792,16 @@
     function mergeShoppingPayload(remote) {
       [itemEdits, itemAdds, itemPurchases, itemRemovals, itemRestorations, itemMoves].forEach((target, index) => {
         const key = ["itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves"][index];
-        Object.assign(target, remote?.[key] || {});
+        if (key === "itemAdds") {
+          // Additions are independent records; an older list must not erase new items.
+          Object.entries(remote?.itemAdds || {}).forEach(([list, items]) => {
+            const merged = new Map((Array.isArray(items) ? items : []).map((item) => [item.key, item]));
+            (Array.isArray(target[list]) ? target[list] : []).forEach((item) => merged.set(item.key, item));
+            target[list] = [...merged.values()];
+          });
+        } else {
+          Object.assign(target, remote?.[key] || {});
+        }
         // Unsynced checkbox changes take precedence over the previous server value.
         if (key === "itemPurchases") Object.assign(target, pendingPurchases);
         if (key === "itemMoves") Object.assign(target, pendingMoves);
@@ -1797,13 +1806,12 @@
       const confirmed = window.confirm(`Delete “${displayItemName(item)}” from ${targetList}? This only changes this browser’s shopping view.`);
       if (!confirmed) return;
       const storageKey = editStorageKey(item.sourceList, item.key);
+      itemRemovals[storageKey] = true;
+      saveItemRemovals();
       if (item.added) {
         itemAdds[item.sourceList] = (itemAdds[item.sourceList] || []).filter((candidate) => candidate.key !== item.key);
         if (!itemAdds[item.sourceList].length) delete itemAdds[item.sourceList];
         saveItemAdds();
-      } else {
-        itemRemovals[storageKey] = true;
-        saveItemRemovals();
       }
       delete itemEdits[storageKey];
       delete itemMoves[moveStorageKey(item.sourceList, item.key)];
