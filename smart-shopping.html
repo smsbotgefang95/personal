@@ -666,6 +666,16 @@
     const itemAddsStorageKey = "smart-shopping-item-adds-v1";
     const customBrandOptionsStorageKey = "smart-shopping-brand-options-v1";
     const itemPurchasesStorageKey = "smart-shopping-item-purchases-v1";
+    const pendingPurchasesStorageKey = "smart-shopping-pending-purchases-v1";
+    const pendingPurchases = (() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(pendingPurchasesStorageKey) || "{}");
+        return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+      } catch (error) { return {}; }
+    })();
+    function savePendingPurchases() {
+      try { localStorage.setItem(pendingPurchasesStorageKey, JSON.stringify(pendingPurchases)); } catch (error) {}
+    }
     const itemEdits = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemEditsStorageKey) || "{}");
@@ -745,6 +755,7 @@
     const shoppingSyncKeyStorage = "smart-shopping-admin-key-v1";
     let shoppingSyncKey = "";
     let shoppingSyncTimer = null;
+    let shoppingSyncInProgress = false;
     const itemMoves = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemMovesStorageKey) || "{}");
@@ -762,6 +773,8 @@
       [itemEdits, itemAdds, itemPurchases, itemRemovals, itemRestorations, itemMoves].forEach((target, index) => {
         const key = ["itemEdits", "itemAdds", "itemPurchases", "itemRemovals", "itemRestorations", "itemMoves"][index];
         Object.assign(target, remote?.[key] || {});
+        // Unsynced checkbox changes take precedence over the previous server value.
+        if (key === "itemPurchases") Object.assign(target, pendingPurchases);
         const storageKey = [itemEditsStorageKey, itemAddsStorageKey, itemPurchasesStorageKey, itemRemovalsStorageKey, itemRestorationsStorageKey, itemMovesStorageKey][index];
         try { localStorage.setItem(storageKey, JSON.stringify(target)); } catch (error) {}
       });
@@ -778,8 +791,10 @@
       return shoppingSyncKey;
     }
     async function syncShoppingDevices({ upload = true, rerender = true } = {}) {
+      if (shoppingSyncInProgress) { queueShoppingSync(); return; }
       const key = await ensureShoppingSyncKey();
       if (!key) return;
+      shoppingSyncInProgress = true;
       const headers = { "X-Smart-Shopping-Admin-Key": key };
       try {
         const response = await fetch(shoppingSyncApi, { headers, cache: "no-store" });
@@ -787,13 +802,20 @@
         const remote = await response.json();
         mergeShoppingPayload(remote);
         if (upload) {
+          const sentPurchases = { ...pendingPurchases };
           const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
           if (!saved.ok) throw new Error(`HTTP ${saved.status}`);
+          Object.entries(sentPurchases).forEach(([itemKey, value]) => {
+            if (pendingPurchases[itemKey] === value) delete pendingPurchases[itemKey];
+          });
+          savePendingPurchases();
         }
         document.getElementById("sync-detail").textContent = "Synced across devices";
         if (rerender) render();
       } catch (error) {
         document.getElementById("sync-detail").textContent = "Sync unavailable · saved locally";
+      } finally {
+        shoppingSyncInProgress = false;
       }
     }
     function queueShoppingSync() {
@@ -822,8 +844,9 @@
     function setItemPurchased(item, purchased) {
       if (!item) return;
       const storageKey = purchaseStorageKey(item);
-      if (purchased) itemPurchases[storageKey] = true;
-      else delete itemPurchases[storageKey];
+      itemPurchases[storageKey] = Boolean(purchased);
+      pendingPurchases[storageKey] = Boolean(purchased);
+      savePendingPurchases();
       saveItemPurchases();
       render();
       showToast(`${displayItemName(item)} marked ${purchased ? "purchased" : "to buy"}.`);
@@ -833,7 +856,12 @@
       if (!purchasedItems.length) return;
       const target = isAllList() ? "all collections" : displayListName(state.activeList);
       if (!window.confirm(`Reset ${purchasedItems.length} purchased ${purchasedItems.length === 1 ? "item" : "items"} in ${target}?`)) return;
-      purchasedItems.forEach((item) => { delete itemPurchases[purchaseStorageKey(item)]; });
+      purchasedItems.forEach((item) => {
+        const storageKey = purchaseStorageKey(item);
+        itemPurchases[storageKey] = false;
+        pendingPurchases[storageKey] = false;
+      });
+      savePendingPurchases();
       saveItemPurchases();
       render();
       showToast(`${purchasedItems.length} purchased ${purchasedItems.length === 1 ? "item" : "items"} reset in ${target}.`);
