@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const html = fs.readFileSync('smart-shopping.html', 'utf8');
 const section = (start, end) => html.slice(html.indexOf(start), html.indexOf(end));
 const fields = {};
-const field = key => fields[key] ||= { value: '', setCustomValidity(value) { this.error = value; }, reportValidity() {} };
+const field = key => fields[key] ||= { value: '', dataset: {}, setCustomValidity(value) { this.error = value; }, reportValidity() {} };
 const context = vm.createContext({
   canonicalizeShoppingText: value => String(value || ''),
   displayProductName: value => String(value || ''), itemBrand: item => item.brand || '',
