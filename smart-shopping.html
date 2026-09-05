@@ -1786,13 +1786,7 @@
       savePendingMoves();
       saveItemMoves();
       state.draggedRef = null;
-      state.activeList = targetList;
-      state.query = "";
-      state.store = "all";
-      state.brand = "all";
-      state.organic = "all";
-      state.showAll = true;
-      els.search.value = "";
+      // Keep the current collection and filters so editing can continue here.
       clearDropTargets();
       render();
       showToast(`${displayItemName(item)} moved to ${targetList}.`);
