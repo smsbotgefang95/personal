@@ -1,6 +1,19 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Zesty Italian dressing & marinade 沙拉酱",
+    "file": "kens-zesty-italian-square.svg",
+    "sourcePage": "https://www.kensfoods.com/products/zesty-italian",
+    "credit": "Ken’s Foods official product photo"
+  },
+  {
+    "name": "Zesty Italian dressing & marinade",
+    "file": "kens-zesty-italian-square.svg",
+    "source": "https://img.firebrandlab.com/fit-in/216x300/5b04620235ec91ae73e93f7e/assets/5ceb9b6419630300114ade10/010030zx.png",
+    "sourcePage": "https://www.kensfoods.com/products/zesty-italian",
+    "credit": "Ken’s Foods official product photo"
+  },
+  {
     "name": "老抽",
     "file": "kimlan-dark-soy-square.svg",
     "source": "https://www.kimlanusa.com/wp-content/uploads/2024/09/Kimlan-Lou-Chau.png",
