@@ -1,6 +1,13 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Organic chicken tenderloin",
+    "file": "costco-organic-chicken-tenderloins-square.png",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_8486a0c9-ffe5-453b-b4f5-0a20801ff9b8.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/16916639",
+    "credit": "Costco product photo; background manually removed"
+  },
+  {
     "name": "Dave's killer bread 21 whole grains and seeds organic bread",
     "file": "daves-21-whole-grains-square.svg",
     "source": "https://images.squarespace-cdn.com/content/v1/5f44410f4070506a20db3f2b/9b33eef7-75d3-4879-a9cd-ea535d792ca9/21WGS-FOP-Green-9.13.24.gif",
