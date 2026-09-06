@@ -1,6 +1,13 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Dave's killer bread 21 whole grains and seeds organic bread",
+    "file": "daves-21-whole-grains-square.svg",
+    "source": "https://images.squarespace-cdn.com/content/v1/5f44410f4070506a20db3f2b/9b33eef7-75d3-4879-a9cd-ea535d792ca9/21WGS-FOP-Green-9.13.24.gif",
+    "sourcePage": "https://www.daveskillerbread.com/21-whole-grains-and-seeds",
+    "credit": "Dave's Killer Bread official product photo"
+  },
+  {
     "name": "Zesty Italian dressing & marinade 沙拉酱",
     "file": "kens-zesty-italian-square.svg",
     "sourcePage": "https://www.kensfoods.com/products/zesty-italian",
