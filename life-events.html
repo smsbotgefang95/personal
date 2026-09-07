@@ -800,16 +800,6 @@
     padding: 12px;
   }
 
-  .cell-title {
-    color: var(--text);
-    font-size: 0.95rem;
-    font-weight: 800;
-    line-height: 1.4;
-    margin: 0 0 5px;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-  }
-
   .cell-content {
     font-size: 0.9rem;
     line-height: 1.45;
@@ -3122,13 +3112,11 @@ W03: Cornbread`],
 
   function renderSheetCellEvent(event) {
     const people = eventEntryPeopleList(event.people);
-    const title = String(event.title || "").trim();
     const content = event.notes || event.lesson || "";
     const action = event.action === GENERIC_NEXT_ACTION ? "" : event.action;
     return `
       <div class="cell-entry">
         <div class="cell-date">${escapeHtml(formatEventDateRange(event))}</div>
-        ${title ? `<h3 class="cell-title">${escapeHtml(title)}</h3>` : ""}
         ${content ? `<div class="cell-content">${formatCellContent(content)}</div>` : ""}
         ${people.length ? `<div class="cell-meta"><span>${escapeHtml(people.join(", "))}</span></div>` : ""}
         ${action ? `<div class="cell-meta"><strong>Next:</strong> ${escapeHtml(action)}</div>` : ""}
