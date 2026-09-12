@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "菠萝",
+    "file": "costco-pineapple-square.png",
+    "credit": "AI-generated with imagegen for Costco pineapple"
+  },
+  {
     "name": "西瓜",
     "file": "costco-watermelon-square.png",
     "credit": "AI-generated with imagegen for Costco watermelon"
