@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "西瓜",
+    "file": "costco-watermelon-square.png",
+    "credit": "AI-generated with imagegen for Costco watermelon"
+  },
+  {
     "name": "Organic chicken tenderloin",
     "file": "costco-organic-chicken-tenderloins-square.png",
     "source": "https://www.instacart.com/assets/domains/product-image/file/large_8486a0c9-ffe5-453b-b4f5-0a20801ff9b8.jpg",
