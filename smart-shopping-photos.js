@@ -986,6 +986,11 @@ window.SMART_LIST_PHOTOS = [
     "source": "AI-generated transparent food cutout"
   },
   {
+    "name": "红薯",
+    "file": "sweet-potato-square.png",
+    "source": "AI-generated transparent food cutout"
+  },
+  {
     "name": "丝瓜",
     "file": "b65a594669fa4210ab361a7005bb4a82.jpg",
     "source": "https://photos.anylist.com/b65a594669fa4210ab361a7005bb4a82.jpg"
