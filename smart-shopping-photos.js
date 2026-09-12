@@ -977,8 +977,8 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Sweet Potato 红薯",
-    "file": "9722cf467ee84efe87f8e15a47200515.jpg",
-    "source": "https://photos.anylist.com/9722cf467ee84efe87f8e15a47200515.jpg"
+    "file": "sweet-potato-square.png",
+    "source": "AI-generated transparent food cutout"
   },
   {
     "name": "丝瓜",
