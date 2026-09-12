@@ -13,12 +13,16 @@ window.SMART_LIST_PHOTOS = [
   {
     "name": "Yellow nectarin",
     "file": "yellow-nectarines-square.png",
-    "credit": "AI-generated with imagegen"
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_09255237-23ed-418c-a7d7-db76d381be8f.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/124813176-yellow-nectarines-3-lbs",
+    "credit": "Costco Same-Day product photo; background removed with imagegen"
   },
   {
     "name": "Yellow nectarine",
     "file": "yellow-nectarines-square.png",
-    "credit": "AI-generated with imagegen"
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_09255237-23ed-418c-a7d7-db76d381be8f.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/124813176-yellow-nectarines-3-lbs",
+    "credit": "Costco Same-Day product photo; background removed with imagegen"
   },
   {
     "name": "绿葡萄",
