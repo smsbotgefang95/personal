@@ -6,6 +6,11 @@ window.SMART_LIST_PHOTOS = [
     "credit": "AI-generated with imagegen for fresh garlic"
   },
   {
+    "name": "菠菜",
+    "file": "whole-spinach-square.png",
+    "source": "Generated transparent whole-root spinach cutout"
+  },
+  {
     "name": "菠萝",
     "file": "costco-pineapple-square.png",
     "credit": "AI-generated with imagegen for Costco pineapple"
