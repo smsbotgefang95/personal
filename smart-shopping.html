@@ -1033,6 +1033,7 @@
     let shoppingSyncKey = "";
     let shoppingSyncTimer = null;
     let shoppingSyncInProgress = false;
+    let shoppingRefreshTimer = null;
     const itemMoves = (() => {
       try {
         const saved = JSON.parse(window.localStorage.getItem(itemMovesStorageKey) || "{}");
@@ -1125,6 +1126,10 @@
       if (!shoppingSyncKey) return;
       window.clearTimeout(shoppingSyncTimer);
       shoppingSyncTimer = window.setTimeout(() => syncShoppingDevices(), 700);
+    }
+    function refreshShoppingFromServer() {
+      if (document.visibilityState !== "visible" || !shoppingSyncKey) return;
+      syncShoppingDevices({ upload: false });
     }
     function editStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
     function moveStorageKey(listName, itemKey) { return `${listName}::${itemKey}`; }
@@ -2845,6 +2850,11 @@
     els.detailFilter.addEventListener("change", () => { state.detailFilter = els.detailFilter.value; render(); });
     els.list.addEventListener("change", () => { state.activeList = els.list.value; render(); });
     els.sort.addEventListener("change", () => { state.sort = els.sort.value; renderImported(); });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") refreshShoppingFromServer();
+    });
+    window.addEventListener("focus", refreshShoppingFromServer);
+    shoppingRefreshTimer = window.setInterval(refreshShoppingFromServer, 30000);
     syncShoppingDevices({ upload: true, rerender: false }).finally(() => render());
   })();
 </script>
