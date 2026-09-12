@@ -6,6 +6,16 @@ window.SMART_LIST_PHOTOS = [
     "credit": "AI-generated with imagegen for Costco watermelon"
   },
   {
+    "name": "Yellow nectarin",
+    "file": "yellow-nectarines-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
+    "name": "Yellow nectarine",
+    "file": "yellow-nectarines-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
     "name": "Organic chicken tenderloin",
     "file": "costco-organic-chicken-tenderloins-square.png",
     "source": "https://www.instacart.com/assets/domains/product-image/file/large_8486a0c9-ffe5-453b-b4f5-0a20801ff9b8.jpg",
