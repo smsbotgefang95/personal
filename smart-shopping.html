@@ -1326,7 +1326,7 @@
     const photoByName = new Map(photoRecords.map((photo) => [normalizeFoodName(photo.name), photo]));
     function photoLookupCandidates(item) {
       const isObject = item && typeof item === "object";
-      const names = isObject ? [item.photoLookupName, item.name] : [item];
+      const names = isObject ? [item.photoLookupName, item.name, item.englishName, item.chineseName, displayItemName(item)] : [item];
       const candidates = new Set(names.map(normalizeFoodName).filter(Boolean));
       if (isObject) {
         const name = normalizeFoodName(item.name);
