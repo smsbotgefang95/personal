@@ -977,8 +977,8 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Organic Fresh Baby Spinach by Marketside 有机菠菜 (16 oz)",
-    "file": "whole-spinach-square.png",
-    "source": "Generated transparent whole-root spinach cutout"
+    "file": "food_graph-012256225f585827a68af193cb4a4f56.jpg",
+    "source": "https://photos.anylist.com/food_graph-012256225f585827a68af193cb4a4f56.jpg"
   },
   {
     "name": "Organic Snipped Green Beans by Pero 有机扁豆",
