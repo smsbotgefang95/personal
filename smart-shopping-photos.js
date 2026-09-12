@@ -146,9 +146,9 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Strawberries 草莓",
-    "file": "gem-pack-strawberries-2lb.jpg",
-    "source": "https://www.instacart.com/image-server/1200x1200/www.instacart.com/assets/domains/product-image/file/large_8c00be2a-c9b3-4f51-93cd-9622def58481.jpg",
-    "sourcePage": "https://shop.maceys.com/store/maceys/products/25887635-fresh-strawberries-2-lb"
+    "file": "costco-strawberries-27003.avif",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn:aaid:aem:9a841f64-74f7-402f-9bca-1e1651101054/as/27003-inc__1.avif?width=1024&height=1024&fit=contain",
+    "sourcePage": "https://www.costco.com/p/-/strawberries-2-lbs/100441726"
   },
   {
     "name": "Pork Shumai 猪肉烧卖",
