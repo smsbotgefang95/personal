@@ -25,20 +25,6 @@ window.SMART_LIST_PHOTOS = [
     "credit": "Costco Same-Day product photo; background removed with imagegen"
   },
   {
-    "name": "绿葡萄",
-    "file": "costco-green-seedless-grapes-47825.jpg",
-    "source": "https://www.instacart.com/assets/domains/product-image/file/large_cb24a152-64cf-4e05-9452-9f7a6bbee032.jpeg",
-    "sourcePage": "https://sameday.costco.com/store/costco/products/3331322-thompson-grapes-bag-3-lb",
-    "credit": "Costco Same-Day product photo"
-  },
-  {
-    "name": "Green Grapes 绿葡萄",
-    "file": "costco-green-seedless-grapes-47825.jpg",
-    "source": "https://www.instacart.com/assets/domains/product-image/file/large_cb24a152-64cf-4e05-9452-9f7a6bbee032.jpeg",
-    "sourcePage": "https://sameday.costco.com/store/costco/products/3331322-thompson-grapes-bag-3-lb",
-    "credit": "Costco Same-Day product photo"
-  },
-  {
     "name": "Organic chicken tenderloin",
     "file": "costco-organic-chicken-tenderloins-square.png",
     "source": "https://www.instacart.com/assets/domains/product-image/file/large_8486a0c9-ffe5-453b-b4f5-0a20801ff9b8.jpg",
