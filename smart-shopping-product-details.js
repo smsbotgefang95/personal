@@ -6,7 +6,7 @@
 
   if (source) {
     const blankRecord = `${itemName}\n\n`;
-    const detailedRecord = `${itemName}\n\n💵 $9.78 [⬇️ $2.30 off]\n⚖️ 33 oz\n🏷️ $4.74 / lb [⬇️ $3.63 / lb]\nCostco\n`;
+    const detailedRecord = `${itemName}\n\n💵 $3.22\n⚖️ 6 oz\n🏷️ $0.537 / oz\nWalmart\n`;
     window.SMART_LIST_IMPORT[listName] = source.replaceAll(blankRecord, detailedRecord);
   }
 
@@ -23,9 +23,9 @@
     sugars_g: 0,
     added_sugars_g: 0,
     sodium_mg: 350,
-    source: "Costco supplier label",
+    source: "Lawry's package label",
     confidence: "matched",
-    matched_record: "Lawry's Coarse Ground Garlic Salt with Parsley, 33 oz",
+    matched_record: "Lawry's Coarse Ground With Parsley Garlic Salt, 6 oz",
     brand: "Lawry's"
   });
 })();
