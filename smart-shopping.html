@@ -1338,15 +1338,34 @@
       const leadingBrand = brand && new RegExp(`^${escapeRegExp(brand)}(?:\\s|$)`, "iu").test(fullName) ? brand : "";
       return formatProductName(fullName, leadingBrand);
     }
+    const importedChineseNameByEnglish = new Map([
+      ["chobani 20g greek yogurt (16 ct)", "Chobani 20克蛋白希腊酸奶"],
+      ["organic broccoli florets", "有机西兰花小朵"],
+      ["micro rainbow mix", "彩虹微型蔬菜混合"],
+      ["st. louis ribs", "圣路易斯式猪肋排"],
+      ["honey bunches of oats with almonds (hbo w/almnds)", "蜂蜜杏仁燕麦脆谷物"],
+      ["all purpose flour", "中筋面粉"],
+      ["organic super grains (white & red quinoa, millet & buckwheat)", "有机超级谷物（白藜麦、红藜麦、小米和荞麦）"],
+      ["flavored pistachios salt & pepper", "盐椒味开心果"],
+      ["roasted peanut butter powder", "烘烤花生酱粉"],
+      ["triple zero yogurt", "三重零希腊酸奶"],
+      ["organic 7 nut and seed butter power fuel crunchy", "有机七种坚果籽脆粒酱"],
+      ["fully cooked mini wonton", "熟制小馄饨"]
+    ]);
+    function importedChineseName(englishName) {
+      return importedChineseNameByEnglish.get(String(englishName || "").trim().toLowerCase()) || "";
+    }
     function itemNames(item) {
       // Imported list quantities are not part of the product name.
       const withoutQuantity = value => String(value || "").replace(/\s*[（(]\s*\d+(?:\.\d+)?\s*[×xX]\s*(?:\d+(?:\.\d+)?\s*)?(?:袋|盒|个|瓶|罐|包|箱|条|根|块|顿|把|只|枚)\s*[）)]\s*$/u, "").trim();
       if (item && (Object.hasOwn(item, "englishName") || Object.hasOwn(item, "chineseName"))) {
-        return { englishName: withoutQuantity(canonicalizeShoppingText(item.englishName || "")), chineseName: withoutQuantity(canonicalizeShoppingText(item.chineseName || "")) };
+        const englishName = withoutQuantity(canonicalizeShoppingText(item.englishName || ""));
+        const chineseName = withoutQuantity(canonicalizeShoppingText(item.chineseName || "")) || importedChineseName(englishName);
+        return { englishName, chineseName };
       }
       const name = withoutQuantity(displayProductName(item?.name, itemBrand(item)));
       const firstChinese = name.search(/[\u3400-\u9fff]/u);
-      if (firstChinese < 0) return { englishName: name, chineseName: "" };
+      if (firstChinese < 0) return { englishName: name, chineseName: importedChineseName(name) };
       // Split only a clear English prefix followed by Chinese text. Keep ambiguous text intact.
       if (!/[A-Za-z]/u.test(name.slice(firstChinese))) {
         return { englishName: name.slice(0, firstChinese).trim(), chineseName: name.slice(firstChinese).trim() };
