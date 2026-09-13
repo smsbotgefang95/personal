@@ -1374,6 +1374,32 @@
       return { startDate: normalizeDate(currentThenPrevious[2]), endDate: normalizeDate(currentThenPrevious[1]) };
     }
 
+    // Some Washington Gas PDFs retain the meter-reading dates but lose their
+    // column labels during text extraction. The two latest distinct dates
+    // immediately before the invoice are the previous and current reads.
+    const invoiceDate = extractDateAfterLabel(clean, [
+      "Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"
+    ]);
+    const invoiceTime = invoiceDate ? new Date(`${invoiceDate}T00:00:00`).getTime() : Number.POSITIVE_INFINITY;
+    const candidateDates = [...clean.matchAll(new RegExp(datePattern, "gi"))]
+      .map((match) => normalizeDate(match[1]))
+      .filter(Boolean)
+      .filter((date) => date !== invoiceDate)
+      .filter((date) => new Date(`${date}T00:00:00`).getTime() < invoiceTime)
+      .filter((date, index, dates) => dates.indexOf(date) === index)
+      .sort();
+    if (candidateDates.length >= 2) {
+      const startDate = candidateDates[candidateDates.length - 2];
+      const endDate = candidateDates[candidateDates.length - 1];
+      const spanDays = (new Date(`${endDate}T00:00:00`) - new Date(`${startDate}T00:00:00`)) / 86400000;
+      const invoiceLagDays = Number.isFinite(invoiceTime)
+        ? (invoiceTime - new Date(`${endDate}T00:00:00`).getTime()) / 86400000
+        : 0;
+      if (spanDays >= 10 && spanDays <= 45 && invoiceLagDays >= 0 && invoiceLagDays <= 15) {
+        return { startDate, endDate };
+      }
+    }
+
     return { startDate: "", endDate: "" };
   }
 
