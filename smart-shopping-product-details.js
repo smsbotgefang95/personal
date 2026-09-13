@@ -29,3 +29,40 @@
     brand: "Lawry's"
   });
 })();
+
+// Verified against the exact 365 by Whole Foods Market Amazon listing on Sep 13, 2026.
+(() => {
+  const listName = "橱柜_烹饪用品👩🏻‍🍳";
+  const itemName = "Baking Soda by 365 苏打 (1 × 1盒)";
+  const source = window.SMART_LIST_IMPORT?.[listName];
+
+  if (source) {
+    const importedRecord = `${itemName}\n\n⚖️ 16 oz\nAmazon\n`;
+    const detailedRecord = `${itemName}\n\n💵 $1.07 / 盒\n⚖️ 16 oz\n🏷️ $0.07 / oz\nAmazon\n`;
+    window.SMART_LIST_IMPORT[listName] = source.replaceAll(importedRecord, detailedRecord);
+  }
+})();
+
+(() => {
+  const listName = "橱柜_烹饪用品👩🏻‍🍳";
+  const itemName = "Onion Powder by Stonemill 洋葱粉 (1 × 1瓶)";
+  const source = window.SMART_LIST_IMPORT?.[listName];
+
+  if (source) {
+    const importedRecord = `${itemName}\n\n⚖️ 2.62 oz\nWalmart\n`;
+    const detailedRecord = `${itemName}\n\n💵 $5.99\n⚖️ 2.62 oz\n🏷️ $36.58 / lb\nWalmart\n`;
+    window.SMART_LIST_IMPORT[listName] = source.replaceAll(importedRecord, detailedRecord);
+  }
+})();
+
+(() => {
+  const listName = "橱柜_烹饪用品👩🏻‍🍳";
+  const itemName = "Double Acting Baking Powder by Clabber Girl 双效泡打粉 (1 × 1罐)";
+  const source = window.SMART_LIST_IMPORT?.[listName];
+
+  if (source) {
+    const importedRecord = `${itemName}\n\n⚖️ 8.1 oz\nAmazon\n`;
+    const detailedRecord = `${itemName}\n\n💵 $2.52\n⚖️ 8.1 oz\n🏷️ $0.31 / oz\nAmazon\n`;
+    window.SMART_LIST_IMPORT[listName] = source.replaceAll(importedRecord, detailedRecord);
+  }
+})();

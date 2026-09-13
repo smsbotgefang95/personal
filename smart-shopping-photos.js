@@ -945,7 +945,8 @@ window.SMART_LIST_PHOTOS = [
   {
     "name": "Baking Soda by 365 苏打 (1 × 1盒)",
     "file": "food_graph-69eb884db67956c4b3877e9981090cdf.jpg",
-    "source": "https://photos.anylist.com/food_graph-69eb884db67956c4b3877e9981090cdf.jpg"
+    "source": "https://photos.anylist.com/food_graph-69eb884db67956c4b3877e9981090cdf.jpg",
+    "sourcePage": "https://www.amazon.com/365-Everyday-Value-Baking-Soda/dp/B074J7X1DN"
   },
   {
     "name": "Double Acting Baking Powder by Clabber Girl 双效泡打粉 (1 × 1罐)",
