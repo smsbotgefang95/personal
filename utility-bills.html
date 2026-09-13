@@ -1203,7 +1203,8 @@
   function extractUsage(text, provider) {
     const clean = normalizeWhitespace(text);
     if (provider === "electric") {
-      const match = clean.match(/([\d,]+(?:\.\d+)?)\s*kWh/i);
+      const match = clean.match(/\bKWH\s+used\s+([\d,]+(?:\.\d+)?)/i)
+        || clean.match(/([\d,]+(?:\.\d+)?)\s*kWh\b/i);
       return { usage: match ? Number(match[1].replace(/,/g, "")) : "", unit: "kWh" };
     }
     if (provider === "gas") {
