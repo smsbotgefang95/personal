@@ -1259,6 +1259,43 @@
     };
   }
 
+  function extractFirstEnergyDates(text) {
+    const clean = normalizeWhitespace(text);
+    const datePattern = "([A-Z][a-z]+\\s+\\d{1,2},?\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})";
+    const invoiceDate = extractDateAfterLabel(clean, [
+      "Bill Date", "Billing Date", "Statement Date", "Invoice Date", "Date of Bill"
+    ]);
+    const periodPatterns = [
+      new RegExp(`(?:Billing Period|Service Period|Service Dates|Billing Dates|Meter Reading Period)[^A-Za-z0-9]{0,80}${datePattern}\\s*(?:to|through|thru|-|–|—)\\s*${datePattern}`, "i"),
+      new RegExp(`(?:Service From|Billing From|From)[^A-Za-z0-9]{0,40}${datePattern}[\\s\\S]{0,60}?(?:Service To|Billing To|To|through|thru|-|–|—)[^A-Za-z0-9]{0,20}${datePattern}`, "i")
+    ];
+    let period = { startDate: "", endDate: "" };
+    for (const pattern of periodPatterns) {
+      const match = clean.match(pattern);
+      if (match) {
+        period = { startDate: normalizeDate(match[1]), endDate: normalizeDate(match[2]) };
+        break;
+      }
+    }
+
+    // FirstEnergy statements can be extracted in column order: all headings
+    // first, followed by their values. Cover that layout separately.
+    const tabularInvoiceMatch = clean.match(new RegExp(
+      `(?:Bill Date|Billing Date)\\s+(?:Due Date|Amount Due)[\\s\\S]{0,100}?${datePattern}`,
+      "i"
+    ));
+    const tabularPeriodMatch = clean.match(new RegExp(
+      `(?:From|Start Date)\\s+(?:To|End Date)[\\s\\S]{0,100}?${datePattern}\\s+${datePattern}`,
+      "i"
+    ));
+
+    return {
+      invoiceDate: invoiceDate || normalizeDate(tabularInvoiceMatch?.[1]),
+      startDate: period.startDate || normalizeDate(tabularPeriodMatch?.[1]),
+      endDate: period.endDate || normalizeDate(tabularPeriodMatch?.[2])
+    };
+  }
+
   function extractLineItems(text, provider) {
     const clean = normalizeWhitespace(text);
     const lower = clean.toLowerCase();
@@ -1282,7 +1319,8 @@
     const compact = normalizeWhitespace(text);
     const provider = detectProvider(compact);
     const waterDetails = provider === "water" ? extractWsscWaterDetails(compact) : {};
-    const invoiceDate = waterDetails.invoiceDate || extractDateAfterLabel(compact, ["Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"]) || "";
+    const electricDates = provider === "electric" ? extractFirstEnergyDates(compact) : {};
+    const invoiceDate = waterDetails.invoiceDate || electricDates.invoiceDate || extractDateAfterLabel(compact, ["Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"]) || "";
     const period = extractServicePeriod(compact);
     const amount = waterDetails.amount ?? extractAmountAfterLabels(compact, ["Total Amount Due", "Amount Due", "Total Due", "Total Current Charges", "Current Charges", "New Charges", "Total"]);
     const usage = waterDetails.usage
@@ -1294,8 +1332,8 @@
       id: "",
       provider,
       invoiceDate,
-      startDate: waterDetails.startDate || period.startDate,
-      endDate: waterDetails.endDate || period.endDate,
+      startDate: waterDetails.startDate || electricDates.startDate || period.startDate,
+      endDate: waterDetails.endDate || electricDates.endDate || period.endDate,
       amount,
       usage: usage.usage,
       usageUnit: usage.unit,
