@@ -1086,12 +1086,19 @@
     async function syncShoppingDevices({ upload = true, rerender = true } = {}) {
       if (shoppingSyncInProgress) { queueShoppingSync(); return; }
       const key = await ensureShoppingSyncKey();
-      if (!key) return;
+      if (!key) {
+        document.getElementById("sync-detail").textContent = "Phone not connected · tap Sync devices";
+        return;
+      }
       shoppingSyncInProgress = true;
       const headers = { "X-Smart-Shopping-Admin-Key": key };
       try {
         const response = await fetch(shoppingSyncApi, { headers, cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) {
+          const error = new Error(`HTTP ${response.status}`);
+          error.status = response.status;
+          throw error;
+        }
         const remote = await response.json();
         mergeShoppingPayload(remote);
         if (upload) {
@@ -1099,7 +1106,11 @@
           const sentPurchases = { ...pendingPurchases };
           const sentMoves = { ...pendingMoves };
           const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
-          if (!saved.ok) throw new Error(`HTTP ${saved.status}`);
+          if (!saved.ok) {
+            const error = new Error(`HTTP ${saved.status}`);
+            error.status = saved.status;
+            throw error;
+          }
           Object.entries(sentEdits).forEach(([itemKey, value]) => {
             // A second save during this request still needs to be uploaded.
             if (pendingEdits[itemKey] === value) delete pendingEdits[itemKey];
@@ -1117,7 +1128,15 @@
         document.getElementById("sync-detail").textContent = "Synced across devices";
         if (rerender) render();
       } catch (error) {
-        document.getElementById("sync-detail").textContent = "Sync unavailable · saved locally";
+        if (error.status === 401) {
+          shoppingSyncKey = "";
+          try { localStorage.removeItem(shoppingSyncKeyStorage); } catch (storageError) {}
+          document.getElementById("sync-detail").textContent = "Phone disconnected · tap Sync devices to reconnect";
+        } else if (error.status === 413) {
+          document.getElementById("sync-detail").textContent = "Sync data is too large · saved locally";
+        } else {
+          document.getElementById("sync-detail").textContent = "Sync unavailable · saved locally";
+        }
       } finally {
         shoppingSyncInProgress = false;
       }
