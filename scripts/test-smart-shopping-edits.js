@@ -90,4 +90,13 @@ function device(storage = new Map(), limit = Infinity) {
   await laptop.sync();
   assert.equal(laptop.price(), '$21.99');
   console.log('PASS: stale server edit, second device, failed upload/reload, edit during upload, subsequent remote update');
+
+  // Safari can run out of localStorage while caching synced history because
+  // photos already consume much of its quota. That cache failure must not stop
+  // the server merge or the following upload.
+  server.data.priceHistory = { [id]: [{ id: 'history::quota', price: '$21.99', note: 'x'.repeat(1000) }] };
+  const quotaLimitedPhone = device(new Map(), 500);
+  await quotaLimitedPhone.sync();
+  assert.equal(server.data.priceHistory[id][0].id, 'history::quota');
+  console.log('PASS: local price-history quota does not abort phone sync');
 })().catch(error => { console.error(error); process.exitCode = 1; });

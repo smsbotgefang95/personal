@@ -806,7 +806,10 @@
         });
         priceHistory[key] = [...merged.values()];
       });
-      localStorage.setItem(priceHistoryStorageKey, JSON.stringify(priceHistory));
+      // A phone can be near Safari's localStorage quota because item photos are
+      // cached locally. The server copy is still authoritative, so a cache write
+      // failure must not abort the rest of the cross-device merge.
+      try { localStorage.setItem(priceHistoryStorageKey, JSON.stringify(priceHistory)); } catch (error) {}
     }
     function activePriceHistory(key) {
       return (priceHistory[key] || []).filter((entry) => !entry.deletedAt);
