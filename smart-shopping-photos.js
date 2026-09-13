@@ -1,6 +1,13 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Organic roasted chestnuts",
+    "file": "costco-galil-organic-roasted-chestnuts-1092438.png",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_6dcf4a39-cdbb-49f4-832f-a4dbc0d4945e.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/18656071-galil-organic-roasted-chestnuts-6-ct",
+    "credit": "Costco Same-Day product photo"
+  },
+  {
     "name": "馄饨皮",
     "file": "twin-marquis-hong-kong-style-wonton-wrapper-14oz-small.webp",
     "source": "https://www.twinmarquis.com/wp-content/uploads/2017/06/Hong-Kong-Style-Wonton-Wrapper_14oz.png",
