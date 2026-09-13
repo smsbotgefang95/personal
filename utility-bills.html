@@ -791,6 +791,11 @@
 <script>
   const STORAGE_KEY = "personal.utilityBills.v1";
 
+  const BILL_CORRECTIONS = {
+    "gas|2026-04-20": { usage: 19.5, usageUnit: "therms" },
+    "gas|2026-06-18": { usage: 5.1, usageUnit: "therms" }
+  };
+
   const PROVIDERS = {
     water: {
       label: "WSSC Water",
@@ -1055,9 +1060,16 @@
   }
 
   function mergeSeedBills(storedBills) {
-    const storedIds = new Set(storedBills.map((bill) => bill.id));
-    const missingSeeds = SEED_BILLS.filter((seedBill) => !storedIds.has(seedBill.id));
-    return [...storedBills, ...cloneBills(missingSeeds)];
+    const correctedBills = storedBills.map((bill) => {
+      const correction = BILL_CORRECTIONS[`${bill.provider}|${bill.invoiceDate}`];
+      return correction ? { ...bill, ...correction } : bill;
+    });
+    const storedIds = new Set(correctedBills.map((bill) => bill.id));
+    const storedKeys = new Set(correctedBills.map((bill) => `${bill.provider}|${bill.invoiceDate}`));
+    const missingSeeds = SEED_BILLS.filter((seedBill) =>
+      !storedIds.has(seedBill.id) && !storedKeys.has(`${seedBill.provider}|${seedBill.invoiceDate}`)
+    );
+    return [...correctedBills, ...cloneBills(missingSeeds)];
   }
 
   function loadBills() {
@@ -1065,7 +1077,7 @@
       const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
       if (stored?.version === 1 && Array.isArray(stored.bills)) {
         state.bills = mergeSeedBills(stored.bills);
-        if (state.bills.length !== stored.bills.length) {
+        if (JSON.stringify(state.bills) !== JSON.stringify(stored.bills)) {
           saveBills();
         }
         return;
