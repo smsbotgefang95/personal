@@ -6,7 +6,7 @@
 
   if (source) {
     const blankRecord = `${itemName}\n\n`;
-    const detailedRecord = `${itemName}\n\n⚖️ 33 oz\nCostco\n`;
+    const detailedRecord = `${itemName}\n\n💵 $9.78 [⬇️ $2.30 off]\n⚖️ 33 oz\n🏷️ $4.74 / lb [⬇️ $3.63 / lb]\nCostco\n`;
     window.SMART_LIST_IMPORT[listName] = source.replaceAll(blankRecord, detailedRecord);
   }
 
