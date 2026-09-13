@@ -936,7 +936,14 @@
       .filter((key) => savedEditState.items[key])
       .map((key) => [key, savedEditState.items[key]]));
     function persistItemEditState(edits = itemEdits, pending = pendingEdits) {
-      const serialized = JSON.stringify({ version: 2, items: edits, pendingKeys: Object.keys(pending) });
+      // The server is authoritative for edits that have already synced. Keeping
+      // every server edit (and its data-URL photo) in localStorage eventually
+      // exhausts the browser's small synchronous quota and can block an
+      // unrelated item save. Only unsynced edits need a durable browser copy.
+      const pendingItems = Object.fromEntries(Object.keys(pending)
+        .filter((key) => edits[key])
+        .map((key) => [key, edits[key]]));
+      const serialized = JSON.stringify({ version: 2, items: pendingItems, pendingKeys: Object.keys(pendingItems) });
       localStorage.setItem(itemEditsStorageKey, serialized);
       // The atomic record above now contains every legacy pending edit.
       try { localStorage.removeItem(pendingEditsStorageKey); } catch (error) { /* The new record is already durable. */ }
