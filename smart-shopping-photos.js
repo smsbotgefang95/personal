@@ -25,6 +25,11 @@ window.SMART_LIST_PHOTOS = [
     "source": "Generated transparent whole-root spinach cutout"
   },
   {
+    "name": "扁桔",
+    "file": "flat-mandarin-square.png",
+    "credit": "AI-generated with imagegen"
+  },
+  {
     "name": "菠萝",
     "file": "costco-pineapple-square.png",
     "credit": "AI-generated with imagegen for Costco pineapple"
