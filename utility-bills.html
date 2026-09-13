@@ -941,6 +941,27 @@
         { name: "Montgomery County Tax", amount: 3.92 },
         { name: "MD Gross Receipts Tax Surcharge", amount: 0.01 }
       ]
+    },
+    {
+      id: "seed-gas-2026-06",
+      provider: "gas",
+      invoiceDate: "2026-06-18",
+      startDate: "2026-05-19",
+      endDate: "2026-06-16",
+      amount: 20.59,
+      usage: 5.1,
+      usageUnit: "therms",
+      source: "Washington Gas bill.pdf",
+      notes: "Verified from the bill's Total Therms used field.",
+      lineItems: [
+        { name: "Distribution Charge", amount: 2.66 },
+        { name: "STRIDE Surcharge", amount: 2 },
+        { name: "EmPower MD Surcharge", amount: 0.38 },
+        { name: "System Charge", amount: 11.85 },
+        { name: "PGC", amount: 3.19 },
+        { name: "Montgomery County Tax", amount: 0.5 },
+        { name: "MD Gross Receipts Tax Surcharge", amount: 0.01 }
+      ]
     }
   ].map((bill) => ({
     lineItems: [],
@@ -1186,8 +1207,25 @@
       return { usage: match ? Number(match[1].replace(/,/g, "")) : "", unit: "kWh" };
     }
     if (provider === "gas") {
-      const match = clean.match(/([\d,]+(?:\.\d+)?)\s*(therms?|ccf)\b/i);
-      return { usage: match ? Number(match[1].replace(/,/g, "")) : "", unit: match?.[2]?.toLowerCase().startsWith("ccf") ? "ccf" : "therms" };
+      // Washington Gas places a 0-100 Therms chart before the meter table.
+      // Prefer the labeled current-period total so a chart tick such as
+      // "100 Therms" cannot become the bill's usage.
+      const totalThermsMatch = clean.match(
+        /Total\s+Therms(?:\s*\([^)]*\))?\s+used(?:\s+for\s+\d+\s+days)?(?:\s*\([^)]*\))?[^\d]{0,40}([\d,]+(?:\.\d+)?)/i
+      ) || clean.match(
+        /Total\s+Therms(?:\s*\([^)]*\))?[^\d]{0,40}([\d,]+(?:\.\d+)?)/i
+      );
+      if (totalThermsMatch) {
+        return { usage: Number(totalThermsMatch[1].replace(/,/g, "")), unit: "therms" };
+      }
+
+      const thermChargeMatch = clean.match(/([\d,]+(?:\.\d+)?)\s*(?:TH|therms?)\s*x\s*[.$\d]/i);
+      if (thermChargeMatch) {
+        return { usage: Number(thermChargeMatch[1].replace(/,/g, "")), unit: "therms" };
+      }
+
+      const ccfMatch = clean.match(/Total\s+CCF[^\d]{0,24}([\d,]+(?:\.\d+)?)/i);
+      return { usage: ccfMatch ? Number(ccfMatch[1].replace(/,/g, "")) : "", unit: ccfMatch ? "ccf" : "therms" };
     }
     const averageMatch = clean.match(/A\s*verage Daily (?:Consumption|Gallons?)[^0-9]{0,40}([\d,]+(?:\.\d+)?)/i)
       || clean.match(/([\d,]+(?:\.\d+)?)\s+(?:A\s*verage Daily Gallons?|Gallons? Per Day)\b/i);
