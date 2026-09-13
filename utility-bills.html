@@ -1288,7 +1288,7 @@
     };
   }
 
-  function extractFirstEnergyDates(text) {
+  function extractFirstEnergyDates(text, fileName = "") {
     const clean = normalizeWhitespace(text);
     const datePattern = "([A-Z][a-z]+\\s+\\d{1,2},?\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})";
     const labeledInvoiceDate = extractDateAfterLabel(clean, [
@@ -1297,7 +1297,7 @@
     // Potomac Edison places the issue date at the top of the statement without
     // a label, immediately before the account number.
     const unlabeledInvoiceMatch = clean.match(new RegExp(`${datePattern}\\s+Account Number`, "i"));
-    const invoiceDate = labeledInvoiceDate || normalizeDate(unlabeledInvoiceMatch?.[1]);
+    let invoiceDate = labeledInvoiceDate || normalizeDate(unlabeledInvoiceMatch?.[1]);
     const periodPatterns = [
       new RegExp(`(?:Billing Period|Service Period|Service Dates|Billing Dates|Meter Reading Period)[^A-Za-z0-9]{0,80}${datePattern}\\s*(?:to|through|thru|-|–|—)\\s*${datePattern}`, "i"),
       new RegExp(`(?:Service From|Billing From|From)[^A-Za-z0-9]{0,40}${datePattern}[\\s\\S]{0,60}?(?:Service To|Billing To|To|through|thru|-|–|—)[^A-Za-z0-9]{0,20}${datePattern}`, "i")
@@ -1314,7 +1314,7 @@
     // FirstEnergy's standard period format supplies the year only once:
     // "Billing Period: May 13 to Jun 12, 2026 for 31 days".
     if (!period.startDate) {
-      const shortMonthPeriodMatch = clean.match(/Billing Period[^A-Za-z0-9]{0,40}([A-Z][a-z]+)\s+(\d{1,2})\s*(?:to|through|thru|-|–|—)\s*([A-Z][a-z]+)\s+(\d{1,2}),?\s+(\d{4})/i);
+      const shortMonthPeriodMatch = clean.match(/(?:Billing Period[\s\S]{0,160}?)?([A-Z][a-z]+)\s+(\d{1,2})\s*(?:to|through|thru|-|–|—)\s*([A-Z][a-z]+)\s+(\d{1,2}),?\s+(\d{4})(?:\s+for\s+\d+\s+days)?/i);
       if (shortMonthPeriodMatch) {
         const [, startMonth, startDay, endMonth, endDay, endYearRaw] = shortMonthPeriodMatch;
         const endYear = Number(endYearRaw);
@@ -1327,6 +1327,26 @@
           startDate: normalizeDate(`${startMonth} ${startDay}, ${startYear}`),
           endDate
         };
+      }
+    }
+
+    // PDF.js can place FirstEnergy's headings and values in separate columns.
+    // The downloaded filename is typically MM.DD.pdf, so use it to select the
+    // matching full statement date instead of accidentally choosing the due or
+    // meter-reading date.
+    if (!invoiceDate) {
+      const fileDateMatch = String(fileName).match(/(?:^|\D)(\d{1,2})[._-](\d{1,2})(?:\D|$)/);
+      if (fileDateMatch) {
+        const targetMonth = Number(fileDateMatch[1]);
+        const targetDay = Number(fileDateMatch[2]);
+        const fullDates = [...clean.matchAll(new RegExp(datePattern, "gi"))];
+        for (const match of fullDates) {
+          const normalized = normalizeDate(match[1]);
+          if (Number(normalized.slice(5, 7)) === targetMonth && Number(normalized.slice(8, 10)) === targetDay) {
+            invoiceDate = normalized;
+            break;
+          }
+        }
       }
     }
 
@@ -1426,7 +1446,7 @@
     const compact = normalizeWhitespace(text);
     const provider = detectProvider(compact);
     const waterDetails = provider === "water" ? extractWsscWaterDetails(compact) : {};
-    const electricDates = provider === "electric" ? extractFirstEnergyDates(compact) : {};
+    const electricDates = provider === "electric" ? extractFirstEnergyDates(compact, fileName) : {};
     const gasDates = provider === "gas" ? extractWashingtonGasDates(compact) : {};
     const invoiceDate = waterDetails.invoiceDate || electricDates.invoiceDate || extractDateAfterLabel(compact, ["Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"]) || "";
     const period = extractServicePeriod(compact);
