@@ -1296,6 +1296,35 @@
     };
   }
 
+  function extractWashingtonGasDates(text) {
+    const clean = normalizeWhitespace(text);
+    const datePattern = "([A-Z][a-z]+\\s+\\d{1,2},?\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})";
+    const periodPatterns = [
+      new RegExp(`(?:Billing Period|Service Period|Service Dates|Billing Dates|For Service)[\\s\\S]{0,100}?${datePattern}\\s*(?:to|through|thru|-|–|—)\\s*${datePattern}`, "i"),
+      new RegExp(`(?:Previous (?:Meter )?(?:Reading )?Date|Previous Read Date)[^A-Za-z0-9]{0,40}${datePattern}[\\s\\S]{0,100}?(?:Current (?:Meter )?(?:Reading )?Date|Current Read Date)[^A-Za-z0-9]{0,40}${datePattern}`, "i")
+    ];
+
+    for (const pattern of periodPatterns) {
+      const match = clean.match(pattern);
+      if (match) {
+        return { startDate: normalizeDate(match[1]), endDate: normalizeDate(match[2]) };
+      }
+    }
+
+    // Washington Gas meter tables are sometimes flattened with both column
+    // headings first and the current (end) reading before the previous (start)
+    // reading. Preserve that semantic order when converting to a service range.
+    const currentThenPrevious = clean.match(new RegExp(
+      `(?:Current (?:Meter )?(?:Reading )?Date|Current Read Date)\\s+(?:Previous (?:Meter )?(?:Reading )?Date|Previous Read Date)[\\s\\S]{0,100}?${datePattern}\\s+${datePattern}`,
+      "i"
+    ));
+    if (currentThenPrevious) {
+      return { startDate: normalizeDate(currentThenPrevious[2]), endDate: normalizeDate(currentThenPrevious[1]) };
+    }
+
+    return { startDate: "", endDate: "" };
+  }
+
   function extractLineItems(text, provider) {
     const clean = normalizeWhitespace(text);
     const lower = clean.toLowerCase();
@@ -1320,6 +1349,7 @@
     const provider = detectProvider(compact);
     const waterDetails = provider === "water" ? extractWsscWaterDetails(compact) : {};
     const electricDates = provider === "electric" ? extractFirstEnergyDates(compact) : {};
+    const gasDates = provider === "gas" ? extractWashingtonGasDates(compact) : {};
     const invoiceDate = waterDetails.invoiceDate || electricDates.invoiceDate || extractDateAfterLabel(compact, ["Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"]) || "";
     const period = extractServicePeriod(compact);
     const amount = waterDetails.amount ?? extractAmountAfterLabels(compact, ["Total Amount Due", "Amount Due", "Total Due", "Total Current Charges", "Current Charges", "New Charges", "Total"]);
@@ -1332,8 +1362,8 @@
       id: "",
       provider,
       invoiceDate,
-      startDate: waterDetails.startDate || electricDates.startDate || period.startDate,
-      endDate: waterDetails.endDate || electricDates.endDate || period.endDate,
+      startDate: waterDetails.startDate || electricDates.startDate || gasDates.startDate || period.startDate,
+      endDate: waterDetails.endDate || electricDates.endDate || gasDates.endDate || period.endDate,
       amount,
       usage: usage.usage,
       usageUnit: usage.unit,
