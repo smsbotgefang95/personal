@@ -1189,17 +1189,37 @@
       const match = clean.match(/([\d,]+(?:\.\d+)?)\s*(therms?|ccf)\b/i);
       return { usage: match ? Number(match[1].replace(/,/g, "")) : "", unit: match?.[2]?.toLowerCase().startsWith("ccf") ? "ccf" : "therms" };
     }
-    const averageMatch = clean.match(/Average Daily Consumption[^0-9]{0,40}([\d,]+(?:\.\d+)?)/i);
+    const averageMatch = clean.match(/Average Daily (?:Consumption|Gallons?)[^0-9]{0,40}([\d,]+(?:\.\d+)?)/i)
+      || clean.match(/([\d,]+(?:\.\d+)?)\s+(?:Average Daily Gallons?|Gallons? Per Day)\b/i);
     if (averageMatch) return { usage: Number(averageMatch[1].replace(/,/g, "")), unit: "gal/day" };
+    // Water charts track daily consumption. Do not substitute a billing-period
+    // total such as "2,000 gallons" when the daily figure is unavailable.
+    if (provider === "water") return { usage: "", unit: "gal/day" };
     const gallonMatch = clean.match(/([\d,]+(?:\.\d+)?)\s*(?:gallons?|gal)\b/i);
     return { usage: gallonMatch ? Number(gallonMatch[1].replace(/,/g, "")) : "", unit: gallonMatch ? "gallons" : "gal/day" };
   }
 
   function extractWsscWaterDetails(text) {
     const clean = normalizeWhitespace(text);
-    const billPeriodMatch = clean.match(/Bill Date\s+Bill Period\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\s*[-–]\s*(\d{1,2}\/\d{1,2}\/\d{2,4})/i);
+    const numericDatePattern = "(\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4})";
+    const tabularBillPeriodMatch = clean.match(new RegExp(
+      `Bill Date\\s+Bill Period\\s+${numericDatePattern}\\s+${numericDatePattern}\\s*[-–—]\\s*${numericDatePattern}`,
+      "i"
+    ));
+    // PDF.js may flatten WSSC's two-column header as either labels-then-values
+    // or label-value pairs. Parse the fields independently so both layouts work.
+    const billDateMatch = clean.match(new RegExp(`Bill Date[^0-9]{0,40}${numericDatePattern}`, "i"));
+    const labeledPeriodMatch = clean.match(new RegExp(
+      `Bill Period[^0-9]{0,40}${numericDatePattern}\\s*(?:to|through|thru|-|–|—)\\s*${numericDatePattern}`,
+      "i"
+    ));
+    const invoiceDate = billDateMatch?.[1] || tabularBillPeriodMatch?.[1];
+    const periodStart = labeledPeriodMatch?.[1] || tabularBillPeriodMatch?.[2];
+    const periodEnd = labeledPeriodMatch?.[2] || tabularBillPeriodMatch?.[3];
     const currentChargesMatch = clean.match(/CURRENT CHARGES\s*(\(?-?\$?\s*[\d,]+\.\d{2}\)?)/i);
-    const dailyUsageMatch = clean.match(/([\d,]+(?:\.\d+)?)\s+Gallons\s*(?:÷|\/)\s*\d+\s+Days\s*=\s*([\d,]+(?:\.\d+)?)\s+Average Daily Gallons/i);
+    const dailyUsageMatch = clean.match(/([\d,]+(?:\.\d+)?)\s+Gallons\D{0,24}\d+\s+Days\D{0,24}([\d,]+(?:\.\d+)?)\s+Average Daily Gallons/i)
+      || clean.match(/Average Daily (?:Consumption|Gallons?)[^0-9]{0,40}([\d,]+(?:\.\d+)?)/i)
+      || clean.match(/([\d,]+(?:\.\d+)?)\s+(?:Average Daily Gallons?|Gallons? Per Day)\b/i);
     const totalGallonsMatch = clean.match(/Water and Sewer Usage:\s*([\d,]+(?:\.\d+)?)\s*gallons/i);
     const lineItems = [];
     const chargePattern = /\b(WATER CHARGES|SEWER CHARGES)\s*\(([^)]*)\)\s*(\(?-?\$?\s*[\d,]+\.\d{2}\)?)/gi;
@@ -1228,11 +1248,11 @@
     });
 
     return {
-      invoiceDate: normalizeDate(billPeriodMatch?.[1]),
-      startDate: normalizeDate(billPeriodMatch?.[2]),
-      endDate: normalizeDate(billPeriodMatch?.[3]),
+      invoiceDate: normalizeDate(invoiceDate),
+      startDate: normalizeDate(periodStart),
+      endDate: normalizeDate(periodEnd),
       amount: currentChargesMatch ? parseCurrency(currentChargesMatch[1]) : null,
-      usage: dailyUsageMatch ? Number(dailyUsageMatch[2].replace(/,/g, "")) : "",
+      usage: dailyUsageMatch ? Number((dailyUsageMatch[2] || dailyUsageMatch[1]).replace(/,/g, "")) : "",
       usageUnit: dailyUsageMatch ? "gal/day" : "",
       totalGallons: totalGallonsMatch ? Number(totalGallonsMatch[1].replace(/,/g, "")) : "",
       lineItems
