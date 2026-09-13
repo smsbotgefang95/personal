@@ -1,6 +1,13 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "馄饨皮",
+    "file": "twin-marquis-hong-kong-style-wonton-wrapper-14oz.webp",
+    "source": "https://www.twinmarquis.com/wp-content/uploads/2017/06/Hong-Kong-Style-Wonton-Wrapper_14oz.png",
+    "sourcePage": "https://www.twinmarquis.com/products/hong-kong-style-wonton-wrapper/",
+    "credit": "Twin Marquis official product photo"
+  },
+  {
     "name": "杏干",
     "file": "costco-sunny-fruit-dried-apricots-1856165.jpg",
     "source": "https://www.instacart.com/assets/domains/product-image/file/6802596c-da7b-40be-9808-b4dbe5d480dc.jpg",
