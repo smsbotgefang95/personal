@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="assets/site-nav.css?v=20260809-smart-shopping" />
 <script src="smart-shopping-data.js?v=20260817-receipt-7"></script>
 <script src="smart-shopping-store-listings.js?v=20260905-egg-alternatives"></script>
-<script src="smart-shopping-photos.js?v=20260913-flat-mandarin"></script>
+<script src="smart-shopping-photos.js?v=20260913-chestnuts"></script>
 <script src="smart-shopping-nutrition.js?v=20260809-chosen-foods"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
 <script src="assets/site-nav.js?v=20260817-remove-day-one" defer></script>
@@ -582,6 +582,7 @@
         <label class="edit-field"><span>Discount</span><input id="edit-item-discount" type="text" title="Sale price is calculated from price minus discount" autocomplete="off" /></label>
         <label class="edit-field"><span>Sale price</span><input id="edit-item-sale-price" type="text" autocomplete="off" /></label>
         <label class="edit-field"><span>Weight / quantity</span><div class="weight-input-group"><input id="edit-item-weight" type="text" autocomplete="off" aria-label="Weight or quantity amount" /><select id="edit-item-weight-unit" aria-label="Weight or quantity unit"><option value="">Unit</option><option value="lb">lb</option><option value="oz">oz</option><option value="kg">kg</option><option value="g">g</option><option value="fl oz">fl oz</option><option value="gal">gal</option><option value="L">L</option><option value="ml">ml</option><option value="each">each</option><option value="bag">bag</option><option value="box">box</option><option value="bottle">bottle</option><option value="can">can</option><option value="pack">pack</option><option value="bunch">bunch</option><option value="个">个</option><option value="根">根</option><option value="枚">枚</option><option value="只">只</option><option value="颗">颗</option><option value="条">条</option><option value="袋">袋</option><option value="盒">盒</option><option value="瓶">瓶</option><option value="包">包</option><option value="把">把</option><option value="罐">罐</option><option value="片">片</option><option value="卷">卷</option><option value="顿">顿</option><option value="块">块</option><option value="箱">箱</option></select></div></label>
+        <label class="edit-field"><span>Count (optional)</span><input id="edit-item-count" type="number" min="1" step="1" inputmode="numeric" autocomplete="off" placeholder="e.g. 6" aria-label="Number of items in package" /></label>
         <label class="edit-field"><span>Unit price</span><input id="edit-item-unit-price" type="text" title="Automatically calculated from price and weight when both are valid" autocomplete="off" /></label>
         <label class="edit-field"><span>Sale unit price</span><input id="edit-item-sale-unit-price" type="text" title="Automatically calculated from sale price and weight when both are valid" autocomplete="off" /></label>
       </div>
@@ -753,6 +754,7 @@
       importedList: document.getElementById("imported-list"), importedCount: document.getElementById("imported-count"),
       search: document.getElementById("search-input"), store: document.getElementById("store-filter"), brand: document.getElementById("brand-filter"), category: document.getElementById("category-filter"), organic: document.getElementById("organic-filter"), glycemicIndex: document.getElementById("glycemic-index-filter"), detailFilter: document.getElementById("detail-filter"), list: document.getElementById("list-filter"), sort: document.getElementById("sort-select"), clearFilters: document.getElementById("clear-filters-button"), toast: document.getElementById("toast"), compareModal: document.getElementById("compare-modal"), compareBody: document.getElementById("compare-table-body"), compareTitle: document.getElementById("compare-title"), compareSubtitle: document.getElementById("compare-subtitle"), editModal: document.getElementById("edit-item-modal"), editForm: document.getElementById("edit-item-form"), editSubtitle: document.getElementById("edit-item-subtitle"), editName: document.getElementById("edit-item-name"), editChineseName: document.getElementById("edit-item-chinese-name"), editChineseNameField: document.getElementById("edit-chinese-name-field"), editBrand: document.getElementById("edit-item-brand"), editCategory: document.getElementById("edit-item-category"), editFactsFields: document.getElementById("edit-facts-fields"), editPrice: document.getElementById("edit-item-price"), editDiscount: document.getElementById("edit-item-discount"), editSalePrice: document.getElementById("edit-item-sale-price"), editWeight: document.getElementById("edit-item-weight"), editWeightUnit: document.getElementById("edit-item-weight-unit"), editUnitPrice: document.getElementById("edit-item-unit-price"), editSaleUnitPrice: document.getElementById("edit-item-sale-unit-price"), editStores: document.getElementById("edit-item-stores"), storeOptions: document.getElementById("edit-store-options"), storeOptionsToggle: document.getElementById("edit-store-toggle"), photoField: document.getElementById("edit-photo-field"), photoInput: document.getElementById("edit-item-photo"), photoPreview: document.getElementById("edit-photo-preview"), photoPreviewImage: document.getElementById("edit-photo-preview-image"), photoName: document.getElementById("edit-photo-name"), removePhoto: document.getElementById("remove-item-photo"), moveField: document.getElementById("move-item-field"), moveList: document.getElementById("edit-item-move-list"), editNameField: document.getElementById("edit-name-field"), editBrandField: document.getElementById("edit-brand-field"), editCategoryField: document.getElementById("edit-category-field"), editStoresField: document.getElementById("edit-stores-field")
     };
+    els.editCount = document.getElementById("edit-item-count");
     els.resetPurchased = document.getElementById("reset-purchased-button");
     function storesFromLine(line) {
       const values = line.split(",").map((value) => value.trim()).filter(Boolean);
@@ -1466,9 +1468,14 @@
     function splitWeightValue(value) {
       const raw = String(value || "").trim();
       if (!raw) return { amount: "", unit: "" };
+      const packageMatch = raw.match(/^(\d+(?:\.\d+)?)\s*(.*?)\s*[×x]\s*(\d+)\s*(?:count|ct)?$/i);
+      if (packageMatch) {
+        const unit = canonicalWeightUnit(packageMatch[2]);
+        if (unit) return { amount: packageMatch[1], unit, count: packageMatch[3] };
+      }
       const match = raw.match(/^(\d+(?:\.\d+)?)\s*(.*?)$/);
       const unit = match ? canonicalWeightUnit(match[2]) : "";
-      return unit ? { amount: match[1], unit } : { amount: raw, unit: "" };
+      return unit ? { amount: match[1], unit, count: "" } : { amount: raw, unit: "", count: "" };
     }
     function formatWeightValue(amount, unit) {
       const number = String(amount || "").trim();
@@ -1476,15 +1483,21 @@
       if (!number || !normalizedUnit) return number;
       return /[\u3400-\u9fff]/u.test(normalizedUnit) ? `${number}${normalizedUnit}` : `${number} ${normalizedUnit}`;
     }
+    function packageWeightValue(amount, unit, count) {
+      const size = formatWeightValue(amount, unit);
+      const packageCount = String(count || "").trim();
+      return size && /^\d+$/.test(packageCount) && Number(packageCount) > 1 ? `${size} × ${packageCount} count` : size;
+    }
     function editableWeightValue() {
       const amount = els.editWeight.value.trim();
       const unit = els.editWeightUnit.value;
-      return unit && /^\d+(?:\.\d+)?$/.test(amount) ? formatWeightValue(amount, unit) : amount;
+      return unit && /^\d+(?:\.\d+)?$/.test(amount) ? packageWeightValue(amount, unit, els.editCount.value) : amount;
     }
     function setEditableWeight(value) {
       const parsed = splitWeightValue(editableFactValue(value));
       els.editWeight.value = parsed.amount;
       els.editWeightUnit.value = parsed.unit;
+      els.editCount.value = parsed.count || "";
     }
     const webProductFactEnrichments = new Map([
       [normalizeFoodName("Pork Shoulder Country Style Ribs Boneless by Kirkland 猪肩部无骨乡村式排骨"), { price: "$22.33 / pkg (est.)", weight: "5.64 lb", sourceLabel: "Costco Same-Day · Aug 17, 2026", sourceUrl: "https://sameday.costco.com/store/costco/products/32633-kirkland-signature-pork-shoulder-country-style-ribs-boneless-each" }],
@@ -1583,6 +1596,8 @@
     function parseWeightQuantity(value) {
       const raw = String(value || "").replace(/,/g, "").trim();
       if (!raw) return null;
+      const packageMatch = raw.match(/(\d+(?:\.\d+)?)\s*(fl\s*oz|ounces?|oz|pounds?|lbs?|lb|kilograms?|kg|gallons?|gal|grams?|g|liters?|litres?|l|milliliters?|millilitres?|ml)\s*[×x]\s*(\d+)\s*(?:count|ct)?/i);
+      if (packageMatch) return normalizedWeightQuantity(Number(packageMatch[1]) * Number(packageMatch[3]), packageMatch[2]);
       const numberOnlyMatch = raw.match(/^\d+(?:\.\d+)?$/);
       if (numberOnlyMatch) return { amount: Number(numberOnlyMatch[0]), unit: "unit" };
       const countMatch = raw.match(/(\d+(?:\.\d+)?)\s*(eggs?|each(?:\s+egg)?|items?|pieces?|pcs?|count|ct|bag(?:s)?|box(?:es)?|bottle(?:s)?|can(?:s)?|pack(?:s)?|bunch(?:es)?|bundle(?:s)?|个|根|枚|只|颗|条|袋|盒|瓶|包|把|罐|片|卷|顿|块|箱)/iu);
@@ -2274,7 +2289,7 @@
     let storePriceDrafts = [];
     function readStorePriceDraft(row) {
       const field = (name) => row.querySelector(`[data-price-field="${name}"]`);
-      const weight = formatWeightValue(field("weight").value.trim(), field("weight-unit").value);
+      const weight = packageWeightValue(field("weight").value.trim(), field("weight-unit").value, field("count").value);
       return { store: canonicalStoresFromInput(field("stores").value)[0] || "", date: field("date").value,
         facts: { price: defaultPriceCurrency(field("price").value), discount: defaultDiscountValue(field("discount").value), salePrice: defaultPriceCurrency(field("sale-price").value), weight,
           unitPrice: field("unit-price").value.trim(), saleUnitPrice: field("sale-unit-price").value.trim() } };
@@ -2326,17 +2341,18 @@
       const weight = splitWeightValue(values.weight || editableWeightValue());
       field("weight").value = weight.amount;
       field("weight-unit").value = weight.unit;
+      field("count").value = weight.count || "";
       field("date").value = entry?.date || localPriceDate();
       const refresh = (event) => {
         if (event?.target === field("sale-price")) { field("discount").value = ""; delete field("sale-price").dataset.autoCalculated; }
         const sale = calculateSalePrice(field("price").value, field("discount").value);
         if (sale) { field("sale-price").value = sale; field("sale-price").dataset.autoCalculated = "true"; }
         else if (field("sale-price").dataset.autoCalculated === "true") { field("sale-price").value = ""; delete field("sale-price").dataset.autoCalculated; }
-        const quantity = formatWeightValue(field("weight").value, field("weight-unit").value);
+        const quantity = packageWeightValue(field("weight").value, field("weight-unit").value, field("count").value);
         refreshCalculatedUnitPrice(field("price"), field("unit-price"), quantity);
         refreshCalculatedUnitPrice(field("sale-price"), field("sale-unit-price"), quantity);
       };
-      for (const name of ["price", "discount", "sale-price", "weight", "weight-unit"]) field(name).addEventListener(name === "weight-unit" ? "change" : "input", refresh);
+      for (const name of ["price", "discount", "sale-price", "weight", "weight-unit", "count"]) field(name).addEventListener(name === "weight-unit" ? "change" : "input", refresh);
       refresh();
       const draft = { row, original: entry ? JSON.stringify(readStorePriceDraft(row)) : null };
       storePriceDrafts.push(draft);
@@ -2489,6 +2505,7 @@
       els.editSalePrice.value = "";
       els.editWeight.value = "";
       els.editWeightUnit.value = "";
+      els.editCount.value = "";
       els.editUnitPrice.value = "";
       els.editSaleUnitPrice.value = "";
       delete els.editUnitPrice.dataset.autoCalculated;
@@ -2852,6 +2869,7 @@
     els.editSalePrice.addEventListener("input", () => { if (els.editDiscount.value.trim()) els.editDiscount.value = ""; applyDefaultSalePriceCurrency(); delete els.editSalePrice.dataset.autoCalculated; refreshUnitPrice(); });
     els.editWeight.addEventListener("input", refreshUnitPrice);
     els.editWeightUnit.addEventListener("change", refreshUnitPrice);
+    els.editCount.addEventListener("input", refreshUnitPrice);
     els.editUnitPrice.addEventListener("input", () => { delete els.editUnitPrice.dataset.autoCalculated; });
     els.editSaleUnitPrice.addEventListener("input", () => { delete els.editSaleUnitPrice.dataset.autoCalculated; });
     els.editStores.addEventListener("focus", () => setStoreOptionsOpen(true));
