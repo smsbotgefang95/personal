@@ -1506,14 +1506,18 @@
       [normalizeFoodName("Strawberries 草莓"), { weight: "2 lb", sourceLabel: "Costco item 27003 · 2 lb", sourceUrl: "https://www.costco.com/p/-/strawberries-2-lbs/100441726" }],
       [normalizeFoodName("Fresh Gourmet Organic Croutons 面包干"), { price: "$9.07", weight: "2 lb", sourceLabel: "Costco Same-Day · Aug 17, 2026", sourceUrl: "https://sameday.costco.com/store/costco/products/191176-fresh-gourmet-organic-seasoned-croutons-32-oz" }],
       [normalizeFoodName("Double Acting Baking Powder by Clabber Girl 双效泡打粉 (1 × 1罐)"), { price: "$2.52", weight: "8.1 oz", sourceLabel: "Amazon · Sep 13, 2026", sourceUrl: "https://www.amazon.com/dp/B0014E4DS6" }],
-      [normalizeFoodName("Onion Powder by Stonemill 洋葱粉 (1 × 1瓶)"), { price: "$5.99", weight: "2.62 oz", sourceLabel: "Walmart · Sep 13, 2026 · third-party seller", sourceUrl: "https://www.walmart.com/ip/13499318632" }]
+      [normalizeFoodName("Onion Powder by Stonemill 洋葱粉 (1 × 1瓶)"), { price: "$5.99", weight: "2.62 oz", sourceLabel: "Walmart · Sep 13, 2026 · third-party seller", sourceUrl: "https://www.walmart.com/ip/13499318632" }],
+      [normalizeFoodName("Coarse Ground With Parsley Garlic Salt by Lawry's 粗磨香芹蒜盐 (1 × 1罐)"), { price: "$9.78", discount: "$2.30 off", salePrice: "$7.48", weight: "33 oz", unitPrice: "$4.74 / lb", saleUnitPrice: "$3.63 / lb", sourceLabel: "Costco Same-Day · Sep 13, 2026", sourceUrl: "https://sameday.costco.com/store/costco/products/2722877-lawry-s-coarse-ground-garlic-salt-with-parsley-33-oz" }]
     ]);
     function productFacts(item) {
       const importedFacts = { price: metadataValue(item, "💵"), discount: metadataDiscountValue(item, "💵"), salePrice: metadataSaleValue(item, "💵"), weight: metadataValue(item, "⚖️"), unitPrice: metadataValue(item, "🏷️"), saleUnitPrice: metadataSaleValue(item, "🏷️") };
       const overrides = item && item.facts && typeof item.facts === "object" ? item.facts : {};
       const webEnrichment = webProductFactEnrichments.get(normalizeFoodName(item?.name)) || {};
       const enrichedFact = (key) => {
-        if (Object.prototype.hasOwnProperty.call(overrides, key)) return normalizedFactValue(overrides[key]);
+        if (Object.prototype.hasOwnProperty.call(overrides, key)) {
+          const override = normalizedFactValue(overrides[key]);
+          if (override !== "Not listed") return override;
+        }
         if (importedFacts[key] !== "Not listed") return importedFacts[key];
         return webEnrichment[key] ? normalizedFactValue(webEnrichment[key]) : importedFacts[key];
       };
