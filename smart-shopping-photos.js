@@ -2,7 +2,7 @@
 window.SMART_LIST_PHOTOS = [
   {
     "name": "馄饨皮",
-    "file": "twin-marquis-hong-kong-style-wonton-wrapper-14oz.webp",
+    "file": "twin-marquis-hong-kong-style-wonton-wrapper-14oz-small.webp",
     "source": "https://www.twinmarquis.com/wp-content/uploads/2017/06/Hong-Kong-Style-Wonton-Wrapper_14oz.png",
     "sourcePage": "https://www.twinmarquis.com/products/hong-kong-style-wonton-wrapper/",
     "credit": "Twin Marquis official product photo"
