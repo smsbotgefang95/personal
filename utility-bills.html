@@ -1203,7 +1203,7 @@
     const clean = normalizeWhitespace(text);
     const numericDatePattern = "(\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4})";
     const tabularBillPeriodMatch = clean.match(new RegExp(
-      `Bill Date\\s+Bill Period\\s+${numericDatePattern}\\s+${numericDatePattern}\\s*[-–—]\\s*${numericDatePattern}`,
+      `Bill Date[\\s\\S]{0,100}?Bill Period[\\s\\S]{0,180}?${numericDatePattern}\\s+${numericDatePattern}\\s*[-–—]\\s*${numericDatePattern}`,
       "i"
     ));
     // PDF.js may flatten WSSC's two-column header as either labels-then-values
