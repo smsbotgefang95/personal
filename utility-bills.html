@@ -1302,35 +1302,32 @@
     // a label, immediately before the account number.
     const unlabeledInvoiceMatch = clean.match(new RegExp(`${datePattern}\\s+Account Number`, "i"));
     let invoiceDate = labeledInvoiceDate || normalizeDate(unlabeledInvoiceMatch?.[1]);
+    const shortMonthPeriodMatch = clean.match(/Billing Period[^A-Za-z0-9]{0,40}([A-Z][a-z]+)\s+(\d{1,2})\s*(?:to|through|thru|-|–|—)\s*([A-Z][a-z]+)\s+(\d{1,2}),?\s+(\d{4})(?:\s+for\s+\d+\s+days)?/i);
+    let period = { startDate: "", endDate: "" };
+    if (shortMonthPeriodMatch) {
+      const [, startMonth, startDay, endMonth, endDay, endYearRaw] = shortMonthPeriodMatch;
+      const endYear = Number(endYearRaw);
+      const endDate = normalizeDate(`${endMonth} ${endDay}, ${endYear}`);
+      const endMonthNumber = Number(endDate.slice(5, 7));
+      const tentativeStart = normalizeDate(`${startMonth} ${startDay}, ${endYear}`);
+      const startMonthNumber = Number(tentativeStart.slice(5, 7));
+      const startYear = startMonthNumber > endMonthNumber ? endYear - 1 : endYear;
+      period = {
+        startDate: normalizeDate(`${startMonth} ${startDay}, ${startYear}`),
+        endDate
+      };
+    }
     const periodPatterns = [
       new RegExp(`(?:Billing Period|Service Period|Service Dates|Billing Dates|Meter Reading Period)[^A-Za-z0-9]{0,80}${datePattern}\\s*(?:to|through|thru|-|–|—)\\s*${datePattern}`, "i"),
       new RegExp(`(?:Service From|Billing From|From)[^A-Za-z0-9]{0,40}${datePattern}[\\s\\S]{0,60}?(?:Service To|Billing To|To|through|thru|-|–|—)[^A-Za-z0-9]{0,20}${datePattern}`, "i")
     ];
-    let period = { startDate: "", endDate: "" };
-    for (const pattern of periodPatterns) {
-      const match = clean.match(pattern);
-      if (match) {
-        period = { startDate: normalizeDate(match[1]), endDate: normalizeDate(match[2]) };
-        break;
-      }
-    }
-
-    // FirstEnergy's standard period format supplies the year only once:
-    // "Billing Period: May 13 to Jun 12, 2026 for 31 days".
     if (!period.startDate) {
-      const shortMonthPeriodMatch = clean.match(/(?:Billing Period[\s\S]{0,160}?)?([A-Z][a-z]+)\s+(\d{1,2})\s*(?:to|through|thru|-|–|—)\s*([A-Z][a-z]+)\s+(\d{1,2}),?\s+(\d{4})(?:\s+for\s+\d+\s+days)?/i);
-      if (shortMonthPeriodMatch) {
-        const [, startMonth, startDay, endMonth, endDay, endYearRaw] = shortMonthPeriodMatch;
-        const endYear = Number(endYearRaw);
-        const endDate = normalizeDate(`${endMonth} ${endDay}, ${endYear}`);
-        const endMonthNumber = Number(endDate.slice(5, 7));
-        const tentativeStart = normalizeDate(`${startMonth} ${startDay}, ${endYear}`);
-        const startMonthNumber = Number(tentativeStart.slice(5, 7));
-        const startYear = startMonthNumber > endMonthNumber ? endYear - 1 : endYear;
-        period = {
-          startDate: normalizeDate(`${startMonth} ${startDay}, ${startYear}`),
-          endDate
-        };
+      for (const pattern of periodPatterns) {
+        const match = clean.match(pattern);
+        if (match) {
+          period = { startDate: normalizeDate(match[1]), endDate: normalizeDate(match[2]) };
+          break;
+        }
       }
     }
 
