@@ -1,6 +1,13 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "杏干",
+    "file": "costco-sunny-fruit-dried-apricots-1856165.jpg",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/6802596c-da7b-40be-9808-b4dbe5d480dc.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/87902612-sunny-fruit-dried-apricots-32-oz",
+    "credit": "Costco Same-Day product photo"
+  },
+  {
     "name": "蒜",
     "file": "garlic-square.png",
     "credit": "AI-generated with imagegen for fresh garlic"
