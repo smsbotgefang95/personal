@@ -1376,7 +1376,7 @@
     const clean = normalizeWhitespace(text);
     const datePattern = "([A-Z][a-z]+\\s+\\d{1,2},?\\s+\\d{4}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})";
     const periodPatterns = [
-      new RegExp(`(?:Billing Period|Service Period|Service Dates|Billing Dates|For Service)[\\s\\S]{0,100}?${datePattern}\\s*(?:to|through|thru|-|–|—)\\s*${datePattern}`, "i"),
+      new RegExp(`(?:Invoice Period|Billing Period|Service Period|Service Dates|Billing Dates|For Service)[\\s\\S]{0,100}?${datePattern}\\s*(?:to|through|thru|-|–|—)\\s*${datePattern}`, "i"),
       new RegExp(`(?:Previous (?:Meter )?(?:Reading )?Date|Previous Read Date)[^A-Za-z0-9]{0,40}${datePattern}[\\s\\S]{0,100}?(?:Current (?:Meter )?(?:Reading )?Date|Current Read Date)[^A-Za-z0-9]{0,40}${datePattern}`, "i")
     ];
 
@@ -1398,12 +1398,39 @@
       return { startDate: normalizeDate(currentThenPrevious[2]), endDate: normalizeDate(currentThenPrevious[1]) };
     }
 
+    const previousThenCurrent = clean.match(new RegExp(
+      `Previous (?:Meter )?(?:Reading|Read)(?: Date)?\\s+Current (?:Meter )?(?:Reading|Read)(?: Date)?[\\s\\S]{0,140}?${datePattern}\\s+${datePattern}`,
+      "i"
+    ));
+    if (previousThenCurrent) {
+      return { startDate: normalizeDate(previousThenCurrent[1]), endDate: normalizeDate(previousThenCurrent[2]) };
+    }
+
     // Some Washington Gas PDFs retain the meter-reading dates but lose their
     // column labels during text extraction. The two latest distinct dates
     // immediately before the invoice are the previous and current reads.
     const invoiceDate = extractDateAfterLabel(clean, [
       "Invoice Date", "Bill Date", "Statement Date", "Date of Bill", "Billing Date"
     ]);
+    const invoiceYear = Number(invoiceDate.slice(0, 4));
+    const shortDatePattern = "([A-Z][a-z]{2,8}\\s+\\d{1,2}|\\d{1,2}[/-]\\d{1,2})";
+    const shortPeriodPatterns = [
+      new RegExp(`(?:Billing Period|Service Period|Service Dates|Billing Dates|For Service)[\\s\\S]{0,120}?${shortDatePattern}\\s*(?:to|through|thru|-|–|—)\\s*${shortDatePattern}`, "i"),
+      new RegExp(`Previous (?:Meter )?(?:Reading|Read)(?: Date)?\\s+Current (?:Meter )?(?:Reading|Read)(?: Date)?[\\s\\S]{0,140}?${shortDatePattern}\\s+${shortDatePattern}`, "i")
+    ];
+    for (const pattern of shortPeriodPatterns) {
+      const match = clean.match(pattern);
+      if (!match || !invoiceYear) continue;
+      const endDate = normalizeDate(`${match[2]}, ${invoiceYear}`.replace(/(\d{1,2})[/-](\d{1,2}),/, "$1/$2/"));
+      if (!endDate) continue;
+      const endMonth = Number(endDate.slice(5, 7));
+      const tentativeStart = normalizeDate(`${match[1]}, ${invoiceYear}`.replace(/(\d{1,2})[/-](\d{1,2}),/, "$1/$2/"));
+      if (!tentativeStart) continue;
+      const startYear = Number(tentativeStart.slice(5, 7)) > endMonth ? invoiceYear - 1 : invoiceYear;
+      const startDate = normalizeDate(`${match[1]}, ${startYear}`.replace(/(\d{1,2})[/-](\d{1,2}),/, "$1/$2/"));
+      return { startDate, endDate };
+    }
+
     const invoiceTime = invoiceDate ? new Date(`${invoiceDate}T00:00:00`).getTime() : Number.POSITIVE_INFINITY;
     const candidateDates = [...clean.matchAll(new RegExp(datePattern, "gi"))]
       .map((match) => normalizeDate(match[1]))
