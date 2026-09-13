@@ -842,9 +842,10 @@ window.SMART_LIST_PHOTOS = [
     "source": "https://photos.anylist.com/food_graph-61cc94fb2a4c54cb967b637b940d4a6a.jpg"
   },
   {
-    "name": "Perilla seed oil 紫苏籽油",
+    "name": "Perilla seed oil by Hansang 紫苏籽油",
     "file": "c3535755e65a49babaff622ba8476342.jpg",
-    "source": "https://photos.anylist.com/c3535755e65a49babaff622ba8476342.jpg"
+    "source": "https://photos.anylist.com/c3535755e65a49babaff622ba8476342.jpg",
+    "sourcePage": "https://www.hmart.com/perilla-seed-oil-10-82fl-oz-320ml--1/p"
   },
   {
     "name": "Brown Gravy Mix by McCormick 棕色肉汁粉 (1 × 1瓶)",
@@ -1297,3 +1298,15 @@ window.SMART_LIST_PHOTOS = [
     "sourcePage": "https://sameday.costco.com/store/costco/products/191176-fresh-gourmet-organic-seasoned-croutons-32-oz"
   }
 ];
+
+// Verified against the matching Hansang 320 ml H Mart listing on Sep 13, 2026.
+(() => {
+  const listName = "橱柜_烹饪用品👩🏻‍🍳";
+  const itemName = "Perilla seed oil 紫苏籽油";
+  const detailedName = "Perilla seed oil by Hansang 紫苏籽油";
+  const source = window.SMART_LIST_IMPORT?.[listName];
+  if (!source) return;
+  const importedRecord = `${itemName}\n\n$9.99 / 瓶\nH Mart\n`;
+  const detailedRecord = `${detailedName}\n\n💵 $9.99 / 瓶\n⚖️ 10.82 fl oz\n🏷️ $0.92 / fl oz\nH Mart\n`;
+  window.SMART_LIST_IMPORT[listName] = source.replaceAll(importedRecord, detailedRecord);
+})();
