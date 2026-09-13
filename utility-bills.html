@@ -1199,8 +1199,36 @@
     return { usage: gallonMatch ? Number(gallonMatch[1].replace(/,/g, "")) : "", unit: gallonMatch ? "gallons" : "gal/day" };
   }
 
+  function extractWsscFallbackDates(text) {
+    const clean = normalizeWhitespace(text).replace(/\s*([/–—])\s*/g, "$1");
+    const dateToken = "\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}";
+    const ranges = [...clean.matchAll(new RegExp(`(${dateToken})\\s*(?:to|through|thru|-|–|—)\\s*(${dateToken})`, "gi"))]
+      .map((match) => {
+        const startDate = normalizeDate(match[1]);
+        const endDate = normalizeDate(match[2]);
+        const days = startDate && endDate
+          ? Math.round((new Date(`${endDate}T00:00:00`) - new Date(`${startDate}T00:00:00`)) / 86400000)
+          : 0;
+        return { startDate, endDate, days };
+      })
+      .filter((range) => range.days >= 15 && range.days <= 45)
+      .sort((a, b) => b.days - a.days);
+    const period = ranges[0] || { startDate: "", endDate: "" };
+    if (!period.endDate) return { invoiceDate: "", startDate: "", endDate: "" };
+
+    const endTime = new Date(`${period.endDate}T00:00:00`).getTime();
+    const invoiceDate = [...clean.matchAll(new RegExp(`\\b(${dateToken})\\b`, "g"))]
+      .map((match) => normalizeDate(match[1]))
+      .filter(Boolean)
+      .map((date) => ({ date, daysAfter: Math.round((new Date(`${date}T00:00:00`).getTime() - endTime) / 86400000) }))
+      .filter((candidate) => candidate.daysAfter >= 1 && candidate.daysAfter <= 10)
+      .sort((a, b) => a.daysAfter - b.daysAfter)[0]?.date || "";
+
+    return { invoiceDate, startDate: period.startDate, endDate: period.endDate };
+  }
+
   function extractWsscWaterDetails(text) {
-    const clean = normalizeWhitespace(text);
+    const clean = normalizeWhitespace(text).replace(/\s*([/–—])\s*/g, "$1");
     const numericDatePattern = "(\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4})";
     const tabularBillPeriodMatch = clean.match(new RegExp(
       `Bill Date[\\s\\S]{0,100}?Bill Period[\\s\\S]{0,180}?${numericDatePattern}\\s+${numericDatePattern}\\s*[-–—]\\s*${numericDatePattern}`,
@@ -1216,6 +1244,7 @@
     const invoiceDate = billDateMatch?.[1] || tabularBillPeriodMatch?.[1];
     const periodStart = labeledPeriodMatch?.[1] || tabularBillPeriodMatch?.[2];
     const periodEnd = labeledPeriodMatch?.[2] || tabularBillPeriodMatch?.[3];
+    const fallbackDates = extractWsscFallbackDates(clean);
     const currentChargesMatch = clean.match(/CURRENT CHARGES\s*(\(?-?\$?\s*[\d,]+\.\d{2}\)?)/i);
     const dailyUsageMatch = clean.match(/([\d,]+(?:\.\d+)?)\s+Gallons\D{0,24}\d+\s+Days\D{0,24}([\d,]+(?:\.\d+)?)\s+Average Daily Gallons/i)
       || clean.match(/Average Daily (?:Consumption|Gallons?)[^0-9]{0,40}([\d,]+(?:\.\d+)?)/i)
@@ -1248,9 +1277,9 @@
     });
 
     return {
-      invoiceDate: normalizeDate(invoiceDate),
-      startDate: normalizeDate(periodStart),
-      endDate: normalizeDate(periodEnd),
+      invoiceDate: normalizeDate(invoiceDate) || fallbackDates.invoiceDate,
+      startDate: normalizeDate(periodStart) || fallbackDates.startDate,
+      endDate: normalizeDate(periodEnd) || fallbackDates.endDate,
       amount: currentChargesMatch ? parseCurrency(currentChargesMatch[1]) : null,
       usage: dailyUsageMatch ? Number((dailyUsageMatch[2] || dailyUsageMatch[1]).replace(/,/g, "")) : "",
       usageUnit: dailyUsageMatch ? "gal/day" : "",
