@@ -611,7 +611,7 @@
       </div>
       <div class="upload-zone">
         <div class="file-shell" id="dropZone">
-          <input id="pdfInput" type="file" accept="application/pdf" multiple />
+          <input id="pdfInput" type="file" multiple />
           <div class="file-copy">
             <strong>Select PDF bills</strong>
             <span>WSSC Water, FirstEnergy, or Washington Gas</span>
@@ -1287,11 +1287,20 @@
     };
   }
 
+  async function readPdfData(file) {
+    const data = await file.arrayBuffer();
+    const signature = new TextDecoder("ascii").decode(data.slice(0, 5));
+    if (signature !== "%PDF-") {
+      throw new Error("This file is not a PDF bill.");
+    }
+    return data;
+  }
+
   async function extractPdfText(file) {
     if (!window.pdfjsLib) {
       throw new Error("PDF.js did not load.");
     }
-    const data = await file.arrayBuffer();
+    const data = await readPdfData(file);
     const pdf = await window.pdfjsLib.getDocument({ data }).promise;
     const pages = [];
     for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
@@ -1303,12 +1312,12 @@
   }
 
   async function handleFiles(files) {
-    const pdfFiles = [...files].filter((file) => file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"));
-    if (!pdfFiles.length) {
-      setStatus("No PDF files selected.", "err");
+    const selectedFiles = [...files];
+    if (!selectedFiles.length) {
+      setStatus("No files selected.", "err");
       return;
     }
-    for (const file of pdfFiles) {
+    for (const file of selectedFiles) {
       try {
         setStatus(`Reading ${file.name}...`);
         const text = await extractPdfText(file);
