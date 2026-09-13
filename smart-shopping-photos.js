@@ -16,8 +16,8 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "蒜",
-    "file": "garlic-square.png",
-    "credit": "AI-generated with imagegen for fresh garlic"
+    "file": "garlic-package-transparent.png",
+    "credit": "User-supplied fresh garlic product photo; background removed with imagegen"
   },
   {
     "name": "菠菜",
@@ -226,8 +226,8 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Fresh Garlic USA California Heirloom Gilroy Finest by Christopher Ranch 蒜 (1 × 1袋)",
-    "file": "go_upc-5afa9ea2cfdc5b61a2ad2c62ffcf5d92.jpg",
-    "source": "https://photos.anylist.com/go_upc-5afa9ea2cfdc5b61a2ad2c62ffcf5d92.jpg"
+    "file": "garlic-package-transparent.png",
+    "credit": "User-supplied fresh garlic product photo; background removed with imagegen"
   },
   {
     "name": "Potato 土豆 (3 × 1个)",
