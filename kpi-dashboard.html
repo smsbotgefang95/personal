@@ -169,13 +169,13 @@
     <button id="toggleFormBtn" onclick="toggleForm()">+ Log Yesterday</button>
     <button id="openUrineLogBtn" onclick="openUrineLog()">+ Log Urine</button>
     <div class="water-quick-log" id="waterLogCard">
+      <button id="logWaterBtn" onclick="logWaterIntake()">Log Water</button>
       <div class="water-log-total" id="waterLogTotal">Water: 0 mL</div>
       <div class="water-log-form">
         <div class="field">
           <label for="waterLogAmount">Amount (mL)</label>
           <input type="number" id="waterLogAmount" min="1" step="50" value="250" aria-label="Water amount in mL">
         </div>
-        <button id="logWaterBtn" onclick="logWaterIntake()">Log Water</button>
       </div>
       <div id="waterLogStatus"></div>
     </div>
