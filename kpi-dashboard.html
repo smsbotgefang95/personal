@@ -1213,8 +1213,9 @@ function render(rows) {
   const first=rows[0]?.date||'',last=rows[rows.length-1]?.date||'';
   document.getElementById('headerRange').textContent=fmtDate(first)+' – '+fmtDate(last)+', '+first.slice(0,4)+'  ·  Weeks '+(weeks[0]||'')+'–'+(weeks[weeks.length-1]||'')+'  ·  Sleep · Exercise · Hydration';
   document.getElementById('avgSleep').textContent=avgSleepVal;
-  document.getElementById('workoutDays').textContent=totalYes;
-  document.getElementById('workoutSub').textContent=Math.round(totalYes/totalNonNA*100)+'% of '+totalNonNA+' non-rest days';
+  const workoutRate=totalNonNA?Math.round(totalYes/totalNonNA*100):0;
+  document.getElementById('workoutDays').textContent=workoutRate+'%';
+  document.getElementById('workoutSub').textContent=totalYes+' of '+totalNonNA+' non-rest days';
   document.getElementById('avgWater').textContent=avgWaterVal;
   document.getElementById('waterSub').textContent=wRows.length+'-day avg (mL-tracked)';
   document.getElementById('badMoodDays').textContent=totalBad;
