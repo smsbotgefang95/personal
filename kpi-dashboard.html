@@ -50,6 +50,11 @@
     #toggleFormBtn:hover { opacity:.88; }
     #openUrineLogBtn { height:44px;padding:0 16px;background:var(--blue);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap; }
     #openUrineLogBtn:hover { opacity:.88; }
+    .urine-quick-log { display:flex;align-items:center;gap:8px;flex-wrap:nowrap; }
+    #urineLogTotal { height:44px;min-width:148px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);font-size:12px;font-weight:700;color:var(--blue);white-space:nowrap;cursor:pointer; }
+    #urineLogTotal:hover { border-color:var(--blue); }
+    #urineQuickAmount { width:86px;height:44px;border:1px solid var(--border);border-radius:8px;padding:0 9px;font-size:13px;font-weight:600;color:var(--text);background:#1f2937;outline:none; }
+    #urineQuickAmount:focus { border-color:var(--blue); }
 
     /* Urine log dialog */
     #urineLogDialog { width:min(560px,calc(100% - 28px));max-height:calc(100vh - 28px);margin:auto;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);padding:0;box-shadow:0 24px 70px rgba(0,0,0,.55); }
@@ -151,7 +156,7 @@
     .water-log-delete:hover { color:var(--danger);border-color:rgba(239,68,68,.55); }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}}
+    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}}
   </style>
 </head>
 <body>
@@ -167,7 +172,11 @@
   </div>
   <div class="header-actions">
     <button id="toggleFormBtn" onclick="toggleForm()">+ Log Yesterday</button>
-    <button id="openUrineLogBtn" onclick="openUrineLog()">+ Log Urine</button>
+    <div class="urine-quick-log" id="urineQuickLogCard">
+      <button id="openUrineLogBtn" type="button" onclick="logUrineQuick()">+ Log Urine</button>
+      <button id="urineLogTotal" type="button" onclick="openUrineLog()" title="Open detailed urine log">Urine today: 0 mL</button>
+      <input type="number" id="urineQuickAmount" min="10" step="10" value="250" inputmode="numeric" aria-label="Urine volume in mL">
+    </div>
     <div class="water-quick-log" id="waterLogCard">
       <button id="logWaterBtn" onclick="logWaterIntake()">Log Water</button>
       <div class="water-log-total" id="waterLogTotal">Water: 0 mL</div>
@@ -497,6 +506,44 @@ function writeUrineLog(entries) {
   localStorage.setItem(URINE_LOG_KEY, JSON.stringify(entries));
 }
 
+function urineEntriesForDate(dateStr) {
+  return readUrineLog().filter(entry => entry.date === dateStr);
+}
+
+function urineTotalForDate(dateStr) {
+  return urineEntriesForDate(dateStr).reduce((sum, entry) => sum + Number(entry.volumeMl || 0), 0);
+}
+
+function renderQuickUrineLog() {
+  const entries = urineEntriesForDate(todayStr);
+  const total = urineTotalForDate(todayStr);
+  const totalEl = document.getElementById('urineLogTotal');
+  totalEl.textContent = `Urine saved: ${total} mL`;
+  totalEl.title = `${entries.length} visit${entries.length === 1 ? '' : 's'} today · Open detailed urine log`;
+}
+
+function logUrineQuick() {
+  const amountEl = document.getElementById('urineQuickAmount');
+  const volume = Math.round(Number(amountEl.value));
+  if (!Number.isFinite(volume) || volume <= 0) {
+    amountEl.focus();
+    return;
+  }
+  const now = new Date();
+  writeUrineLog([...readUrineLog(), {
+    id: 'urine-' + now.getTime() + '-' + Math.random().toString(16).slice(2),
+    date: localDateStr(now),
+    time: localTimeStr(now),
+    volumeMl: volume,
+    color: '',
+    urgency: '',
+    leakage: 'No',
+    notes: '',
+    createdAt: now.toISOString()
+  }]);
+  renderQuickUrineLog();
+}
+
 function openUrineLog() {
   const dialog = document.getElementById('urineLogDialog');
   document.getElementById('urineDate').value = localDateStr();
@@ -541,6 +588,7 @@ function saveUrineEntry(event) {
   document.getElementById('urineNotes').value = '';
   document.getElementById('urineTime').value = localTimeStr();
   renderUrineLog(entry.date);
+  renderQuickUrineLog();
   document.getElementById('urineVolume').focus();
 }
 
@@ -549,6 +597,7 @@ function deleteUrineEntry(id) {
   document.getElementById('urineLogStatus').textContent = 'Entry deleted.';
   document.getElementById('urineLogStatus').className = 'ok';
   renderUrineLog(document.getElementById('urineDate').value || localDateStr());
+  renderQuickUrineLog();
 }
 
 function renderUrineLog(dateStr = document.getElementById('urineDate')?.value || localDateStr()) {
@@ -1247,6 +1296,7 @@ function refreshIfDateChanged() {
   todayStr = nextTodayStr;
   defaultEntryDateStr = nextDefaultEntryDateStr;
   setWaterLogStatus('', '');
+  renderQuickUrineLog();
   renderTodayWaterLog();
   loadData();
 }
@@ -1257,6 +1307,7 @@ document.addEventListener('visibilitychange', () => {
   if (!document.hidden) refreshIfDateChanged();
 });
 
+renderQuickUrineLog();
 renderTodayWaterLog();
 loadData();
 </script>
