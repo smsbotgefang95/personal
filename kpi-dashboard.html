@@ -48,6 +48,33 @@
     .header-actions { display:flex;align-items:center;justify-content:flex-start;gap:10px;flex-wrap:nowrap;width:100%; }
     #toggleFormBtn { height:44px;padding:0 18px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s;display:inline-flex;align-items:center;justify-content:center; }
     #toggleFormBtn:hover { opacity:.88; }
+    #openUrineLogBtn { height:44px;padding:0 16px;background:var(--blue);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap; }
+    #openUrineLogBtn:hover { opacity:.88; }
+
+    /* Urine log dialog */
+    #urineLogDialog { width:min(560px,calc(100% - 28px));max-height:calc(100vh - 28px);margin:auto;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);padding:0;box-shadow:0 24px 70px rgba(0,0,0,.55); }
+    #urineLogDialog::backdrop { background:rgba(3,7,18,.78); }
+    .urine-dialog-inner { padding:20px; }
+    .urine-dialog-header { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px; }
+    .urine-dialog-header h2 { color:var(--blue);font-size:18px;margin-bottom:4px; }
+    .urine-dialog-header p { color:var(--muted);font-size:12px; }
+    .dialog-close { width:36px;height:36px;border:1px solid var(--border);border-radius:8px;background:#1f2937;color:var(--muted);font-size:20px;cursor:pointer; }
+    .urine-fields { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+    .urine-fields .field { margin:0; }
+    .urine-fields .wide { grid-column:1/-1; }
+    .urine-dialog-actions { display:flex;align-items:center;gap:12px;margin-top:16px; }
+    #saveUrineBtn { padding:11px 24px;border:0;border-radius:9px;background:var(--blue);color:white;font-size:14px;font-weight:700;cursor:pointer; }
+    #urineLogStatus { font-size:12px;color:var(--muted); }
+    #urineLogStatus.ok { color:var(--green); }
+    #urineLogStatus.err { color:var(--danger); }
+    .urine-history { margin-top:20px;padding-top:16px;border-top:1px solid var(--border); }
+    .urine-history h3 { font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:9px; }
+    #urineLogList { display:grid;gap:8px;max-height:210px;overflow:auto; }
+    .urine-log-row { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 11px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft); }
+    .urine-log-main { font-size:13px;font-weight:700; }
+    .urine-log-detail { color:var(--muted);font-size:11px;margin-top:3px; }
+    .urine-log-delete { width:34px;height:34px;flex:0 0 auto;border:1px solid var(--border);border-radius:7px;background:#1f2937;color:var(--muted);cursor:pointer; }
+    .urine-log-delete:hover { color:var(--danger);border-color:var(--danger); }
 
     /* Entry Form Panel */
     #entryPanel {
@@ -131,7 +158,7 @@
     .water-log-delete:hover { color:var(--danger);border-color:rgba(239,68,68,.55); }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}.water-log-popover{flex-basis:100%;max-width:100%;margin-left:0}.water-log-list{display:grid}.water-log-row{min-width:0}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}}
+    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}.water-log-popover{flex-basis:100%;max-width:100%;margin-left:0}.water-log-list{display:grid}.water-log-row{min-width:0}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}}
   </style>
 </head>
 <body>
@@ -147,6 +174,7 @@
   </div>
   <div class="header-actions">
     <button id="toggleFormBtn" onclick="toggleForm()">+ Log Yesterday</button>
+    <button id="openUrineLogBtn" onclick="openUrineLog()">+ Log Urine</button>
     <div class="water-quick-log" id="waterLogCard">
       <div class="water-log-total" id="waterLogTotal">Water: 0 mL</div>
       <div class="water-log-form">
@@ -163,6 +191,28 @@
     </div>
   </div>
 </header>
+
+<dialog id="urineLogDialog" aria-labelledby="urineLogTitle">
+  <div class="urine-dialog-inner">
+    <div class="urine-dialog-header">
+      <div><h2 id="urineLogTitle">Urine Entry</h2><p>Record one bathroom visit. Volume and time are required.</p></div>
+      <button class="dialog-close" type="button" onclick="closeUrineLog()" aria-label="Close">×</button>
+    </div>
+    <form id="urineLogForm" onsubmit="saveUrineEntry(event)">
+      <div class="urine-fields">
+        <div class="field"><label for="urineDate">Date</label><input type="date" id="urineDate" required></div>
+        <div class="field"><label for="urineTime">Time</label><input type="time" id="urineTime" required></div>
+        <div class="field"><label for="urineVolume">Volume (mL)</label><input type="number" id="urineVolume" min="10" step="10" inputmode="numeric" placeholder="e.g. 250" required></div>
+        <div class="field"><label for="urineColor">Color</label><select id="urineColor"><option value="">Not recorded</option><option>Pale yellow</option><option>Yellow</option><option>Dark yellow</option><option>Clear</option><option>Amber/brown</option><option>Pink/red</option></select></div>
+        <div class="field"><label for="urineUrgency">Urgency</label><select id="urineUrgency"><option value="">Not recorded</option><option>None</option><option>Mild</option><option>Moderate</option><option>Strong</option></select></div>
+        <div class="field"><label for="urineLeakage">Leakage</label><select id="urineLeakage"><option>No</option><option>Yes</option></select></div>
+        <div class="field wide"><label for="urineNotes">Notes</label><input type="text" id="urineNotes" maxlength="160" placeholder="Optional symptoms or context"></div>
+      </div>
+      <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><span id="urineLogStatus" role="status"></span></div>
+    </form>
+    <div class="urine-history"><h3 id="urineHistoryTitle">Today’s entries</h3><div id="urineLogList"></div></div>
+  </div>
+</dialog>
 
 <!-- ── ENTRY FORM ─────────────────────────────────────────────────────────── -->
 <div id="entryPanel">
@@ -342,6 +392,7 @@
 const API = 'https://script.google.com/macros/s/AKfycbx3Jg4yrFCInTSYfRMfyS1FJO6JDPFcMrlOSDgsCFMpVGjjPY4OWd9zTYj5QqAZimA/exec';
 const MONTHS = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const WATER_LOG_KEY = 'kpiWaterIntakeLog.v1';
+const URINE_LOG_KEY = 'kpiUrineLog.v1';
 const segs = {};
 let charts = {};
 let savedTodayWaterMl = null;
@@ -439,6 +490,93 @@ function yesterdayDateStr(date = new Date()) {
 function localTimeStr(date = new Date()) {
   return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 }
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+}
+
+function readUrineLog() {
+  try {
+    const entries = JSON.parse(localStorage.getItem(URINE_LOG_KEY) || '[]');
+    return Array.isArray(entries) ? entries.filter(e => e && isValidDateString(e.date) && /^\d{2}:\d{2}$/.test(e.time || '') && Number(e.volumeMl) > 0) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function writeUrineLog(entries) {
+  localStorage.setItem(URINE_LOG_KEY, JSON.stringify(entries));
+}
+
+function openUrineLog() {
+  const dialog = document.getElementById('urineLogDialog');
+  document.getElementById('urineDate').value = localDateStr();
+  document.getElementById('urineTime').value = localTimeStr();
+  document.getElementById('urineVolume').value = '';
+  document.getElementById('urineLogStatus').textContent = '';
+  document.getElementById('urineLogStatus').className = '';
+  renderUrineLog();
+  if (!dialog.open) dialog.showModal();
+  setTimeout(() => document.getElementById('urineVolume').focus(), 0);
+}
+
+function closeUrineLog() {
+  document.getElementById('urineLogDialog').close();
+}
+
+function saveUrineEntry(event) {
+  event.preventDefault();
+  const volume = Math.round(Number(document.getElementById('urineVolume').value));
+  const status = document.getElementById('urineLogStatus');
+  if (!Number.isFinite(volume) || volume <= 0) {
+    status.textContent = 'Enter a valid volume.';
+    status.className = 'err';
+    return;
+  }
+  const now = new Date();
+  const entry = {
+    id: 'urine-' + now.getTime() + '-' + Math.random().toString(16).slice(2),
+    date: document.getElementById('urineDate').value,
+    time: document.getElementById('urineTime').value,
+    volumeMl: volume,
+    color: document.getElementById('urineColor').value,
+    urgency: document.getElementById('urineUrgency').value,
+    leakage: document.getElementById('urineLeakage').value,
+    notes: document.getElementById('urineNotes').value.trim(),
+    createdAt: now.toISOString()
+  };
+  writeUrineLog([...readUrineLog(), entry]);
+  status.textContent = `Saved ${volume} mL at ${entry.time}.`;
+  status.className = 'ok';
+  document.getElementById('urineVolume').value = '';
+  document.getElementById('urineNotes').value = '';
+  document.getElementById('urineTime').value = localTimeStr();
+  renderUrineLog(entry.date);
+  document.getElementById('urineVolume').focus();
+}
+
+function deleteUrineEntry(id) {
+  writeUrineLog(readUrineLog().filter(entry => entry.id !== id));
+  document.getElementById('urineLogStatus').textContent = 'Entry deleted.';
+  document.getElementById('urineLogStatus').className = 'ok';
+  renderUrineLog(document.getElementById('urineDate').value || localDateStr());
+}
+
+function renderUrineLog(dateStr = document.getElementById('urineDate')?.value || localDateStr()) {
+  const entries = readUrineLog()
+    .filter(entry => entry.date === dateStr)
+    .sort((a, b) => b.time.localeCompare(a.time) || String(b.createdAt).localeCompare(String(a.createdAt)));
+  const total = entries.reduce((sum, entry) => sum + Number(entry.volumeMl), 0);
+  document.getElementById('urineHistoryTitle').textContent = `${dateStr === localDateStr() ? "Today’s" : dateStr} entries · ${entries.length} visit${entries.length === 1 ? '' : 's'} · ${total} mL`;
+  document.getElementById('urineLogList').innerHTML = entries.length ? entries.map(entry => {
+    const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : '', entry.notes].filter(Boolean).map(escapeHtml).join(' · ');
+    return `<div class="urine-log-row"><div><div class="urine-log-main">${escapeHtml(entry.time)} · ${escapeHtml(entry.volumeMl)} mL</div>${details ? `<div class="urine-log-detail">${details}</div>` : ''}</div><button type="button" class="urine-log-delete" onclick="deleteUrineEntry('${escapeHtml(entry.id)}')" aria-label="Delete urine entry">🗑</button></div>`;
+  }).join('') : '<div class="urine-log-detail">No entries for this date yet.</div>';
+}
+
+document.getElementById('urineDate').addEventListener('change', event => renderUrineLog(event.target.value));
+document.getElementById('urineLogDialog').addEventListener('click', event => {
+  if (event.target === event.currentTarget) closeUrineLog();
+});
 function isWeekendDate(dateStr) {
   const d = new Date(dateStr + 'T12:00:00');
   return [0, 6].includes(d.getDay());
