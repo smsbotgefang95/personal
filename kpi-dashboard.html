@@ -130,6 +130,7 @@
     .charts-row.two { grid-template-columns:1fr 1fr; }
     .chart-box { background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px 22px;box-shadow:none; }
     .chart-box h3 { font-size:13px;font-weight:600;color:var(--muted);margin-bottom:14px; }
+    .chart-box .chart-note { font-size:11px;color:var(--dim);margin:-8px 0 12px;line-height:1.4; }
     .chart-box canvas { max-height:220px; }
     .insight-box { background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted);margin-top:14px;line-height:1.6; }
     .insight-box strong { color:var(--accent); }
@@ -338,7 +339,11 @@
   <h2><span class="dot" style="background:var(--green)"></span>Exercise &amp; Daily Habits</h2>
   <div class="charts-row two">
     <div class="chart-box"><h3>Weekly Workout Compliance — Yes vs No (excluding NA rest days)</h3><canvas id="workoutChart"></canvas></div>
-    <div class="chart-box"><h3>Overall Habit Compliance</h3><canvas id="habitsDonut"></canvas></div>
+    <div class="chart-box">
+      <h3>Completion Rate by Habit</h3>
+      <p class="chart-note">Each bar shows completed days ÷ days answered Yes or No.</p>
+      <canvas id="habitsDonut"></canvas>
+    </div>
   </div>
   <div class="charts-row two" style="margin-top:16px;">
     <div class="chart-box">
@@ -1173,8 +1178,9 @@ function render(rows) {
   const skipLabels=Object.keys(skipC).sort((a,b)=>skipC[b]-skipC[a]);
   const skipValues=skipLabels.map(r=>skipC[r]);
   const skipColors=['rgba(239,68,68,0.78)','rgba(245,158,11,0.78)','rgba(148,163,184,0.68)','rgba(236,72,153,0.72)'];
-  const hPct=n=>{const y=rows.filter(r=>r[n]==='Yes').length,t=rows.filter(r=>r[n]==='Yes'||r[n]==='No').length;return t?Math.round(y/t*100):0;};
-  const hp={stretch:hPct('stretch'),footbath:hPct('footbath'),massage:hPct('massage')};
+  const hStat=n=>{const yes=rows.filter(r=>r[n]==='Yes').length,total=rows.filter(r=>r[n]==='Yes'||r[n]==='No').length;return {yes,total,pct:total?Math.round(yes/total*100):0};};
+  const hs={stretch:hStat('stretch'),footbath:hStat('footbath'),massage:hStat('massage')};
+  const hp={stretch:hs.stretch.pct,footbath:hs.footbath.pct,massage:hs.massage.pct};
 
   // ── Water ─────────────────────────────────────────────────────────────────
   const wRows=rows.filter(r=>r.water!==null&&(r.water>=100||r.water===0));
@@ -1248,9 +1254,9 @@ function render(rows) {
     options:{responsive:true,plugins:{legend:{display:true,position:'top',labels:{boxWidth:12,padding:12,font:{size:11},color:THEME.muted}},tooltip:{callbacks:{title:ctx=>`${ctx[0].label} — ${wrkPct[ctx[0].dataIndex]}% compliance`,label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y} day${ctx.parsed.y!==1?'s':''}`}},datalabels:{display:ctx=>ctx.dataset.label==='Worked out'&&wrkYes[ctx.dataIndex]>0,color:'#fff',font:{size:10,weight:'700'},formatter:(_,ctx)=>`${wrkPct[ctx.dataIndex]}%`}},scales:{y:{stacked:true,max:7,grid:{color:THEME.border},ticks:{stepSize:1,callback:v=>v+'d',color:THEME.muted}},x:{stacked:true,grid:{display:false},ticks:{color:THEME.muted}}}}
   });
   charts.habits = new Chart(document.getElementById('habitsDonut'),{
-    type:'doughnut',
-    data:{labels:['Stretching','Foot Bath','Massage'],datasets:[{data:[hp.stretch,hp.footbath,hp.massage],backgroundColor:[THEME.accent,THEME.green,THEME.warm],borderWidth:2,borderColor:THEME.card,hoverOffset:6}]},
-    options:{responsive:true,cutout:'62%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:12,padding:14,font:{size:12},color:THEME.muted}},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}% compliance`}}}}
+    type:'bar',plugins:[ChartDataLabels],
+    data:{labels:['Stretching','Foot Bath','Massage'],datasets:[{data:[hp.stretch,hp.footbath,hp.massage],backgroundColor:[THEME.accent,THEME.green,THEME.warm],borderRadius:6,borderSkipped:false,barThickness:32}]},
+    options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const s=[hs.stretch,hs.footbath,hs.massage][ctx.dataIndex];return ` ${ctx.parsed.x}% — ${s.yes} of ${s.total} tracked days`;}}},datalabels:{color:'#fff',font:{size:12,weight:'700'},anchor:'end',align:'left',offset:6,formatter:v=>`${v}%`}},scales:{x:{min:0,max:100,grid:{color:THEME.border},ticks:{stepSize:20,color:THEME.muted,callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:THEME.muted,font:{size:12,weight:'600'}}}}}
   });
   document.getElementById('skipTitle').textContent=`Why Did You Skip Workouts? (${totalNo} missed days)`;
   if (skipLabels.length) {
