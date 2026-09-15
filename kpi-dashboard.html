@@ -173,12 +173,11 @@
   <div class="header-actions">
     <button id="toggleFormBtn" onclick="toggleForm()">+ Log Yesterday</button>
     <div class="urine-quick-log" id="urineQuickLogCard">
-      <button id="openUrineLogBtn" type="button" onclick="logUrineQuick()">+ Log Urine</button>
       <button id="urineLogTotal" type="button" onclick="openUrineLog()" title="Open detailed urine log">Urine today: 0 mL</button>
       <input type="number" id="urineQuickAmount" min="10" step="10" value="250" inputmode="numeric" aria-label="Urine volume in mL">
+      <button id="openUrineLogBtn" type="button" onclick="logUrineQuick()">+ Log Urine</button>
     </div>
     <div class="water-quick-log" id="waterLogCard">
-      <button id="logWaterBtn" onclick="logWaterIntake()">Log Water</button>
       <div class="water-log-total" id="waterLogTotal">Water: 0 mL</div>
       <div class="water-log-form">
         <div class="field">
@@ -186,6 +185,7 @@
           <input type="number" id="waterLogAmount" min="1" step="50" value="250" aria-label="Water amount in mL">
         </div>
       </div>
+      <button id="logWaterBtn" onclick="logWaterIntake()">Log Water</button>
       <div id="waterLogStatus"></div>
     </div>
   </div>
