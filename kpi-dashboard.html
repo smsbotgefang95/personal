@@ -74,7 +74,7 @@
     #urineLogStatus.err { color:var(--danger); }
     .urine-history { margin-top:20px;padding-top:16px;border-top:1px solid var(--border); }
     .urine-history h3 { font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:9px; }
-    #urineLogList { display:grid;gap:8px;max-height:210px;overflow:auto; }
+    #urineLogList, #waterHistoryList { display:grid;gap:8px;max-height:210px;overflow:auto; }
     .urine-log-row { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 11px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft); }
     .urine-log-main { font-size:13px;font-weight:700; }
     .urine-log-detail { color:var(--muted);font-size:11px;margin-top:3px; }
@@ -244,7 +244,7 @@
 <dialog id="waterHistoryDialog" aria-labelledby="waterHistoryTitle">
   <div class="urine-dialog-inner">
     <div class="urine-dialog-header">
-      <div><h2 id="waterHistoryTitle" style="color:var(--warm)">Water History</h2><p>Add water intake or edit the amount and time for any individual drink.</p></div>
+      <div><h2 id="waterHistoryTitle" style="color:var(--warm)">Water History</h2><p>Add water intake and review individual drinks.</p></div>
       <button class="dialog-close" type="button" onclick="closeWaterHistory()" aria-label="Close">×</button>
     </div>
     <div class="field"><label for="waterHistoryDate">Date</label><input type="date" id="waterHistoryDate"></div>
@@ -957,13 +957,11 @@ function renderWaterHistory(dateStr = document.getElementById('waterHistoryDate'
   const itemizedTotal = entries.reduce((sum, entry) => sum + waterNumber(entry.amountMl), 0);
   const displayedTotal = Math.max(savedTotal === null ? 0 : savedTotal, itemizedTotal);
   const dateLabel = dateStr === todayStr ? "Today’s" : dateStr;
-  document.getElementById('waterHistorySummary').textContent = `${dateLabel} water · ${displayedTotal} mL`;
+  document.getElementById('waterHistorySummary').textContent = `${dateLabel} water · ${entries.length} drink${entries.length === 1 ? '' : 's'} · ${displayedTotal} mL`;
 
-  const entryRows = entries.map(entry => `<div class="water-history-entry">
-    <div class="field"><label for="water-time-${escapeHtml(entry.id)}">Time</label><input type="time" id="water-time-${escapeHtml(entry.id)}" value="${escapeHtml(timeInputValue(entry.time))}" required></div>
-    <div class="field"><label for="water-amount-${escapeHtml(entry.id)}">Amount (mL)</label><input type="number" id="water-amount-${escapeHtml(entry.id)}" min="1" step="1" value="${escapeHtml(waterNumber(entry.amountMl))}" required></div>
-    <button class="water-entry-save" type="button" onclick="updateWaterEntry('${escapeHtml(entry.id)}')">Save</button>
-    <button class="water-log-delete" type="button" onclick="deleteWaterEntry('${escapeHtml(entry.id)}')" aria-label="Delete this water entry" title="Delete entry">×</button>
+  const entryRows = entries.map(entry => `<div class="urine-log-row">
+    <div><div class="urine-log-main">${escapeHtml(timeInputValue(entry.time))} · ${escapeHtml(waterNumber(entry.amountMl))} mL</div></div>
+    <button class="urine-log-delete" type="button" onclick="deleteWaterEntry('${escapeHtml(entry.id)}')" aria-label="Delete water entry">🗑</button>
   </div>`).join('');
   const unitemizedAmount = savedTotal === null ? 0 : Math.max(0, savedTotal - itemizedTotal);
   const aggregateRow = unitemizedAmount > 0
