@@ -228,10 +228,8 @@
         <div class="field"><label for="urineDate">Date</label><input type="date" id="urineDate" required></div>
         <div class="field"><label for="urineTime">Time</label><input type="time" id="urineTime" required></div>
         <div class="field"><label for="urineVolume">Volume (mL)</label><input type="number" id="urineVolume" min="10" step="10" inputmode="numeric" placeholder="e.g. 250" required></div>
-        <div class="field"><label for="urineColor">Color</label><select id="urineColor"><option value="">Not recorded</option><option>Pale yellow</option><option>Yellow</option><option>Dark yellow</option><option>Clear</option><option>Amber/brown</option><option>Pink/red</option></select></div>
-        <div class="field"><label for="urineUrgency">Urgency</label><select id="urineUrgency"><option value="">Not recorded</option><option>None</option><option>Mild</option><option>Moderate</option><option>Strong</option></select></div>
-        <div class="field"><label for="urineLeakage">Leakage</label><select id="urineLeakage"><option>No</option><option>Yes</option></select></div>
-        <div class="field wide"><label for="urineNotes">Notes</label><input type="text" id="urineNotes" maxlength="160" placeholder="Optional symptoms or context"></div>
+        <div class="field"><label for="urineColor">Color</label><select id="urineColor"><option selected>Pale yellow</option><option>Yellow</option><option>Dark yellow</option><option>Clear</option><option>Amber/brown</option><option>Pink/red</option></select></div>
+        <div class="field"><label for="urineUrgency">Urgency</label><select id="urineUrgency"><option>Mild</option><option selected>Moderate</option><option>Strong</option></select></div>
       </div>
       <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><span id="urineLogStatus" role="status"></span></div>
     </form>
@@ -692,8 +690,6 @@ function logUrineQuick() {
     volumeMl: volume,
     color: '',
     urgency: '',
-    leakage: 'No',
-    notes: '',
     createdAt: now.toISOString()
   }]);
   renderQuickUrineLog();
@@ -705,6 +701,7 @@ function openUrineLog() {
   document.getElementById('urineDate').value = localDateStr();
   document.getElementById('urineTime').value = localTimeStr();
   document.getElementById('urineVolume').value = '';
+  document.getElementById('urineUrgency').value = 'Moderate';
   document.getElementById('urineLogStatus').textContent = '';
   document.getElementById('urineLogStatus').className = '';
   renderUrineLog();
@@ -733,15 +730,13 @@ function saveUrineEntry(event) {
     volumeMl: volume,
     color: document.getElementById('urineColor').value,
     urgency: document.getElementById('urineUrgency').value,
-    leakage: document.getElementById('urineLeakage').value,
-    notes: document.getElementById('urineNotes').value.trim(),
     createdAt: now.toISOString()
   };
   writeUrineLog([...readUrineLog(), entry]);
   status.textContent = `Saved ${volume} mL at ${entry.time}.`;
   status.className = 'ok';
   document.getElementById('urineVolume').value = '';
-  document.getElementById('urineNotes').value = '';
+  document.getElementById('urineUrgency').value = 'Moderate';
   document.getElementById('urineTime').value = localTimeStr();
   renderUrineLog(trackingDateForTimestamp(entry.date, entry.time));
   renderQuickUrineLog();
@@ -767,7 +762,7 @@ function renderUrineLog(dateStr = currentTrackingDateStr()) {
   title.dataset.trackingDate = dateStr;
   title.textContent = `${label} · ${entries.length} visit${entries.length === 1 ? '' : 's'} · ${total} mL`;
   document.getElementById('urineLogList').innerHTML = entries.length ? entries.map(entry => {
-    const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : '', entry.notes].filter(Boolean).map(escapeHtml).join(' · ');
+    const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : ''].filter(Boolean).map(escapeHtml).join(' · ');
     return `<div class="urine-log-row"><div><div class="urine-log-main">${escapeHtml(entry.time)} · ${escapeHtml(entry.volumeMl)} mL</div>${details ? `<div class="urine-log-detail">${details}</div>` : ''}</div><button type="button" class="urine-log-delete" onclick="deleteUrineEntry('${escapeHtml(entry.id)}')" aria-label="Delete urine entry">🗑</button></div>`;
   }).join('') : '<div class="urine-log-detail">No entries for this date yet.</div>';
   renderUrineHistoryDays(dateStr);
@@ -787,7 +782,7 @@ function renderUrineHistoryDays(selectedDate = currentTrackingDateStr()) {
       .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`) || String(b.createdAt).localeCompare(String(a.createdAt)));
     const total = dayEntries.reduce((sum, entry) => sum + Number(entry.volumeMl || 0), 0);
     const entryDetails = dayEntries.map(entry => {
-      const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : ''].filter(Boolean).map(escapeHtml).join(' · ');
+      const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : ''].filter(Boolean).map(escapeHtml).join(' · ');
       return `<span class="water-history-day-entry"><span><strong>${escapeHtml(entry.time)}</strong>${details ? `<span class="urine-log-detail">${details}</span>` : ''}</span><span>${escapeHtml(entry.volumeMl)} mL</span></span>`;
     }).join('');
     const dateLabel = dateStr === currentTrackingDateStr() ? `Today · ${dateStr}` : dateStr;
