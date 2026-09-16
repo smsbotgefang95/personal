@@ -667,7 +667,7 @@ function renderQuickUrineLog() {
   const total = urineTotalForTrackingDate(trackingDate);
   const totalEl = document.getElementById('urineLogTotal');
   totalEl.textContent = `Urine saved: ${total} mL`;
-  totalEl.title = `${entries.length} visit${entries.length === 1 ? '' : 's'} in today’s 6 AM–6 AM tracking day · Open detailed urine log`;
+  totalEl.title = `${entries.length} visit${entries.length === 1 ? '' : 's'} since today at 6 AM · Open detailed urine log`;
 }
 
 function logUrineQuick() {
@@ -755,10 +755,10 @@ function renderUrineLog(dateStr = currentTrackingDateStr()) {
   const entries = urineEntriesForTrackingDate(dateStr)
     .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`) || String(b.createdAt).localeCompare(String(a.createdAt)));
   const total = entries.reduce((sum, entry) => sum + Number(entry.volumeMl), 0);
-  const label = dateStr === currentTrackingDateStr() ? "Today’s 6 AM–6 AM" : `${dateStr} 6 AM–6 AM`;
+  const label = dateStr === currentTrackingDateStr() ? "Today’s entries since 6 AM" : `${dateStr} entries from 6 AM`;
   const title = document.getElementById('urineHistoryTitle');
   title.dataset.trackingDate = dateStr;
-  title.textContent = `${label} entries · ${entries.length} visit${entries.length === 1 ? '' : 's'} · ${total} mL`;
+  title.textContent = `${label} · ${entries.length} visit${entries.length === 1 ? '' : 's'} · ${total} mL`;
   document.getElementById('urineLogList').innerHTML = entries.length ? entries.map(entry => {
     const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : '', entry.notes].filter(Boolean).map(escapeHtml).join(' · ');
     return `<div class="urine-log-row"><div><div class="urine-log-main">${escapeHtml(entry.time)} · ${escapeHtml(entry.volumeMl)} mL</div>${details ? `<div class="urine-log-detail">${details}</div>` : ''}</div><button type="button" class="urine-log-delete" onclick="deleteUrineEntry('${escapeHtml(entry.id)}')" aria-label="Delete urine entry">🗑</button></div>`;
