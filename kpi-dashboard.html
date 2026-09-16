@@ -830,8 +830,8 @@ function timeInputValue(value) {
 }
 
 function currentTodayWaterBaseline() {
-  if (savedTodayWaterLoaded) return waterNumber(savedTodayWaterMl);
-  return waterNumber(document.getElementById('water')?.value || todayWaterTotal());
+  const savedTotal = savedTodayWaterLoaded ? waterNumber(savedTodayWaterMl) : 0;
+  return Math.max(savedTotal, todayWaterTotal());
 }
 
 function syncTodayHydrationFields(total, stopTime = '') {
@@ -886,10 +886,11 @@ function setWaterLogStatus(message, type = '') {
 function renderTodayWaterLog() {
   const entries = todayWaterEntries();
   const total = entries.reduce((sum, e) => sum + Number(e.amountMl || 0), 0);
+  const displayedTotal = Math.max(savedTodayWaterLoaded ? waterNumber(savedTodayWaterMl) : 0, total);
   const label = waterSavePending
     ? 'Saving: ' + waterNumber(pendingTodayWaterMl ?? total) + ' mL'
     : savedTodayWaterLoaded
-      ? 'Today saved: ' + waterNumber(savedTodayWaterMl) + ' mL'
+      ? 'Today saved: ' + displayedTotal + ' mL'
       : 'Today: ' + total + ' mL';
   document.getElementById('waterLogTotal').textContent = label;
   document.getElementById('waterLogTotal').title = `${entries.length} individual entr${entries.length === 1 ? 'y' : 'ies'} today · Open water history`;
@@ -917,7 +918,7 @@ function renderWaterHistory(dateStr = document.getElementById('waterHistoryDate'
   const entries = waterEntriesForDate(dateStr);
   const savedTotal = waterSavedTotalForDate(dateStr);
   const itemizedTotal = entries.reduce((sum, entry) => sum + waterNumber(entry.amountMl), 0);
-  const displayedTotal = savedTotal === null ? itemizedTotal : savedTotal;
+  const displayedTotal = Math.max(savedTotal === null ? 0 : savedTotal, itemizedTotal);
   const dateLabel = dateStr === todayStr ? "Today’s" : dateStr;
   document.getElementById('waterHistorySummary').textContent = `${dateLabel} water · ${displayedTotal} mL`;
 
@@ -950,7 +951,7 @@ function renderWaterHistoryDays(selectedDate = document.getElementById('waterHis
     const savedTotal = waterSavedTotalForDate(dateStr);
     const entries = waterEntriesForDate(dateStr);
     const localTotal = entries.reduce((sum, entry) => sum + waterNumber(entry.amountMl), 0);
-    const total = savedTotal === null ? localTotal : savedTotal;
+    const total = Math.max(savedTotal === null ? 0 : savedTotal, localTotal);
     const entryDetails = entries.map(entry => `<div class="water-history-day-entry"><span><strong>${escapeHtml(entry.time || 'Time unavailable')}</strong></span><span>${escapeHtml(waterNumber(entry.amountMl))} mL</span></div>`).join('');
     const unitemizedAmount = savedTotal === null ? 0 : Math.max(0, savedTotal - localTotal);
     const aggregateDetail = unitemizedAmount > 0
@@ -1027,7 +1028,7 @@ async function addWaterHistoryEntry(event) {
   const now = new Date();
   const entry = { id: 'water-' + now.getTime() + '-' + Math.random().toString(16).slice(2), date: dateStr, time, amountMl: amount, createdAt: now.toISOString() };
   const savedTotal = waterSavedTotalForDate(dateStr);
-  const nextTotal = (savedTotal === null ? waterTotalForDate(dateStr) : savedTotal) + amount;
+  const nextTotal = Math.max(savedTotal === null ? 0 : savedTotal, waterTotalForDate(dateStr)) + amount;
   btn.disabled = true;
   setWaterHistoryStatus('Saving...');
   writeWaterLog([...entries, entry]);
@@ -1100,7 +1101,7 @@ async function deleteWaterEntry(id) {
     .filter(e => e.date === dateStr)
     .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0]?.time || '';
   const savedTotal = waterSavedTotalForDate(dateStr);
-  const currentTotal = savedTotal === null ? waterTotalForDate(dateStr) : savedTotal;
+  const currentTotal = Math.max(savedTotal === null ? 0 : savedTotal, waterTotalForDate(dateStr));
   setWaterHistoryStatus('Saving...');
   try {
     const nextTotal = Math.max(0, currentTotal - waterNumber(entry?.amountMl));
@@ -1135,7 +1136,7 @@ async function updateWaterEntry(id) {
 
   const dateStr = target.date;
   const savedTotal = waterSavedTotalForDate(dateStr);
-  const currentTotal = savedTotal === null ? waterTotalForDate(dateStr) : savedTotal;
+  const currentTotal = Math.max(savedTotal === null ? 0 : savedTotal, waterTotalForDate(dateStr));
   const nextTotal = Math.max(0, currentTotal - waterNumber(target.amountMl) + amount);
   setWaterHistoryStatus('Saving...');
   try {
