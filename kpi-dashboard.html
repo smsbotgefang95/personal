@@ -177,6 +177,9 @@
     .water-history-day-entry { display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:12px; }
     .water-history-day-entry strong { color:var(--text); }
     .water-history-day-entry.aggregate { display:block;color:var(--dim);font-style:italic;line-height:1.4; }
+    .urine-history-days .water-history-day:hover, .urine-history-days .water-history-day.active { border-color:var(--blue);background:var(--blue-soft); }
+    .urine-history-days .water-history-day-total { color:var(--blue); }
+    .urine-history-days .urine-log-detail { display:block; }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}.water-history-add{grid-template-columns:1fr 1fr}.water-history-add button{grid-column:1/-1}.water-history-entry{grid-template-columns:1fr 1fr}.water-history-entry .water-entry-save,.water-history-entry .water-log-delete{width:100%}}
@@ -233,6 +236,10 @@
       <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><span id="urineLogStatus" role="status"></span></div>
     </form>
     <div class="urine-history"><h3 id="urineHistoryTitle">Today’s entries</h3><div id="urineLogList"></div></div>
+    <div class="urine-history">
+      <h3>Recorded days · newest first</h3>
+      <div class="water-history-days urine-history-days" id="urineHistoryDays"></div>
+    </div>
   </div>
 </dialog>
 
@@ -763,6 +770,29 @@ function renderUrineLog(dateStr = currentTrackingDateStr()) {
     const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : '', entry.notes].filter(Boolean).map(escapeHtml).join(' · ');
     return `<div class="urine-log-row"><div><div class="urine-log-main">${escapeHtml(entry.time)} · ${escapeHtml(entry.volumeMl)} mL</div>${details ? `<div class="urine-log-detail">${details}</div>` : ''}</div><button type="button" class="urine-log-delete" onclick="deleteUrineEntry('${escapeHtml(entry.id)}')" aria-label="Delete urine entry">🗑</button></div>`;
   }).join('') : '<div class="urine-log-detail">No entries for this date yet.</div>';
+  renderUrineHistoryDays(dateStr);
+}
+
+function showUrineHistoryDate(dateStr) {
+  document.getElementById('urineDate').value = dateStr;
+  renderUrineLog(dateStr);
+}
+
+function renderUrineHistoryDays(selectedDate = currentTrackingDateStr()) {
+  const entries = readUrineLog();
+  const dates = [...new Set(entries.map(entry => trackingDateForTimestamp(entry.date, entry.time)))].sort().reverse();
+  document.getElementById('urineHistoryDays').innerHTML = dates.length ? dates.map(dateStr => {
+    const dayEntries = entries
+      .filter(entry => trackingDateForTimestamp(entry.date, entry.time) === dateStr)
+      .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`) || String(b.createdAt).localeCompare(String(a.createdAt)));
+    const total = dayEntries.reduce((sum, entry) => sum + Number(entry.volumeMl || 0), 0);
+    const entryDetails = dayEntries.map(entry => {
+      const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : ''].filter(Boolean).map(escapeHtml).join(' · ');
+      return `<span class="water-history-day-entry"><span><strong>${escapeHtml(entry.time)}</strong>${details ? `<span class="urine-log-detail">${details}</span>` : ''}</span><span>${escapeHtml(entry.volumeMl)} mL</span></span>`;
+    }).join('');
+    const dateLabel = dateStr === currentTrackingDateStr() ? `Today · ${dateStr}` : dateStr;
+    return `<button type="button" class="water-history-day${dateStr === selectedDate ? ' active' : ''}" onclick="showUrineHistoryDate('${escapeHtml(dateStr)}')"><span class="water-history-day-header"><span class="water-history-day-date">${escapeHtml(dateLabel)}</span><span class="water-history-day-total">${escapeHtml(total)} mL</span></span><span class="water-history-day-entries">${entryDetails}</span></button>`;
+  }).join('') : '<div class="urine-log-detail">No urine history recorded yet.</div>';
 }
 
 document.getElementById('urineDate').addEventListener('change', event => renderUrineLog(event.target.value));
