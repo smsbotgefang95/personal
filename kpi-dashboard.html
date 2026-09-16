@@ -156,6 +156,17 @@
     .water-log-time:focus { border-color:var(--accent); }
     .water-log-delete { width:44px;height:44px;border-radius:7px;border:1px solid var(--border);background:#1f2937;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center; }
     .water-log-delete:hover { color:var(--danger);border-color:rgba(239,68,68,.55); }
+    .water-history-add { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:end;margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft); }
+    .water-history-add .field { margin:0; }
+    .water-history-add button, .water-entry-save { height:40px;padding:0 14px;border:0;border-radius:7px;background:var(--warm);color:#111827;font-weight:700;cursor:pointer;white-space:nowrap; }
+    .water-history-add button:disabled, .water-entry-save:disabled { opacity:.55;cursor:not-allowed; }
+    .water-history-entry { display:grid;grid-template-columns:minmax(90px,1fr) minmax(110px,1fr) auto auto;gap:8px;align-items:end;padding:10px 0;border-bottom:1px solid var(--border); }
+    .water-history-entry:last-child { border-bottom:0; }
+    .water-history-entry .field { margin:0; }
+    .water-history-entry input, .water-history-add input { height:40px; }
+    #waterHistoryStatus { min-height:18px;margin-top:8px;font-size:12px;color:var(--muted); }
+    #waterHistoryStatus.ok { color:var(--green); }
+    #waterHistoryStatus.err { color:var(--danger); }
     .water-history-days { display:grid;gap:8px;max-height:320px;overflow:auto;padding-right:3px; }
     .water-history-day { width:100%;display:block;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft);color:var(--text);cursor:pointer;text-align:left; }
     .water-history-day:hover, .water-history-day.active { border-color:var(--warm);background:var(--warm-soft); }
@@ -168,7 +179,7 @@
     .water-history-day-entry.aggregate { display:block;color:var(--dim);font-style:italic;line-height:1.4; }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}}
+    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}.water-history-add{grid-template-columns:1fr 1fr}.water-history-add button{grid-column:1/-1}.water-history-entry{grid-template-columns:1fr 1fr}.water-history-entry .water-entry-save,.water-history-entry .water-log-delete{width:100%}}
   </style>
 </head>
 <body>
@@ -228,10 +239,16 @@
 <dialog id="waterHistoryDialog" aria-labelledby="waterHistoryTitle">
   <div class="urine-dialog-inner">
     <div class="urine-dialog-header">
-      <div><h2 id="waterHistoryTitle" style="color:var(--warm)">Water History</h2><p>View the saved total and individual drink entries for any date.</p></div>
+      <div><h2 id="waterHistoryTitle" style="color:var(--warm)">Water History</h2><p>Add water intake or edit the amount and time for any individual drink.</p></div>
       <button class="dialog-close" type="button" onclick="closeWaterHistory()" aria-label="Close">×</button>
     </div>
     <div class="field"><label for="waterHistoryDate">Date</label><input type="date" id="waterHistoryDate"></div>
+    <form class="water-history-add" onsubmit="addWaterHistoryEntry(event)">
+      <div class="field"><label for="waterHistoryAmount">Amount (mL)</label><input type="number" id="waterHistoryAmount" min="1" step="50" value="250" required></div>
+      <div class="field"><label for="waterHistoryTime">Time</label><input type="time" id="waterHistoryTime" required></div>
+      <button id="addWaterHistoryBtn" type="submit">Add Water</button>
+    </form>
+    <div id="waterHistoryStatus" role="status"></div>
     <div class="urine-history">
       <h3 id="waterHistorySummary">Today’s water</h3>
       <div id="waterHistoryList"></div>
@@ -886,6 +903,8 @@ function waterSavedTotalForDate(dateStr) {
 function openWaterHistory() {
   const dialog = document.getElementById('waterHistoryDialog');
   document.getElementById('waterHistoryDate').value = todayStr;
+  document.getElementById('waterHistoryTime').value = localTimeStr();
+  setWaterHistoryStatus('');
   renderWaterHistory(todayStr);
   if (!dialog.open) dialog.showModal();
 }
@@ -902,7 +921,12 @@ function renderWaterHistory(dateStr = document.getElementById('waterHistoryDate'
   const dateLabel = dateStr === todayStr ? "Today’s" : dateStr;
   document.getElementById('waterHistorySummary').textContent = `${dateLabel} water · ${displayedTotal} mL`;
 
-  const entryRows = entries.map(entry => `<div class="urine-log-row"><div><div class="urine-log-main">${escapeHtml(entry.time || 'Time unavailable')} · ${escapeHtml(waterNumber(entry.amountMl))} mL</div><div class="urine-log-detail">Individual drink entry</div></div></div>`).join('');
+  const entryRows = entries.map(entry => `<div class="water-history-entry">
+    <div class="field"><label for="water-time-${escapeHtml(entry.id)}">Time</label><input type="time" id="water-time-${escapeHtml(entry.id)}" value="${escapeHtml(timeInputValue(entry.time))}" required></div>
+    <div class="field"><label for="water-amount-${escapeHtml(entry.id)}">Amount (mL)</label><input type="number" id="water-amount-${escapeHtml(entry.id)}" min="1" step="50" value="${escapeHtml(waterNumber(entry.amountMl))}" required></div>
+    <button class="water-entry-save" type="button" onclick="updateWaterEntry('${escapeHtml(entry.id)}')">Save</button>
+    <button class="water-log-delete" type="button" onclick="deleteWaterEntry('${escapeHtml(entry.id)}')" aria-label="Delete this water entry" title="Delete entry">×</button>
+  </div>`).join('');
   const unitemizedAmount = savedTotal === null ? 0 : Math.max(0, savedTotal - itemizedTotal);
   const aggregateRow = unitemizedAmount > 0
     ? `<div class="urine-log-row"><div><div class="urine-log-main">Daily saved total · ${escapeHtml(unitemizedAmount)} mL</div><div class="urine-log-detail">No individual time was recorded for this amount.</div></div></div>`
@@ -936,7 +960,10 @@ function renderWaterHistoryDays(selectedDate = document.getElementById('waterHis
   }).join('') : '<div class="urine-log-detail">No water history recorded yet.</div>';
 }
 
-document.getElementById('waterHistoryDate').addEventListener('change', event => renderWaterHistory(event.target.value));
+document.getElementById('waterHistoryDate').addEventListener('change', event => {
+  setWaterHistoryStatus('');
+  renderWaterHistory(event.target.value);
+});
 document.getElementById('waterHistoryDialog').addEventListener('click', event => {
   if (event.target === event.currentTarget) closeWaterHistory();
 });
@@ -950,17 +977,73 @@ async function prepareTodayEntryForm() {
   }
 }
 
-async function persistTodayWaterTotal(total, stopTime = latestWaterEntryTime()) {
+async function prepareWaterEntryForm(dateStr) {
+  setEntryPanelOpen(true);
+  const entryDate = document.getElementById('entryDate');
+  if (entryDate.value !== dateStr || loadedEntryDate !== dateStr) {
+    entryDate.value = dateStr;
+    await onDateChange();
+  }
+}
+
+function setWaterHistoryStatus(message, type = '') {
+  const el = document.getElementById('waterHistoryStatus');
+  el.textContent = message;
+  el.className = type;
+}
+
+async function persistWaterTotalForDate(dateStr, total, stopTime = latestWaterEntryTimeForDate(dateStr)) {
   total = waterNumber(total);
+  await prepareWaterEntryForm(dateStr);
   document.getElementById('water').value = String(total);
-  if (stopTime) document.getElementById('stopWaterTime').value = timeInputValue(stopTime);
+  document.getElementById('stopWaterTime').value = stopTime ? timeInputValue(stopTime) : '';
   const data = await submitEntry({ keepFormOpen: true, hideSaveMessage: true });
   if (!data || !data.success) throw new Error(data?.message || 'Save failed');
-  savedTodayWaterLoaded = true;
-  savedTodayWaterMl = total;
-  syncTodayHydrationFields(total, stopTime);
-  renderTodayWaterLog();
+  if (dateStr === todayStr) {
+    savedTodayWaterLoaded = true;
+    savedTodayWaterMl = total;
+    syncTodayHydrationFields(total, stopTime);
+    renderTodayWaterLog();
+  }
   return data;
+}
+
+async function persistTodayWaterTotal(total, stopTime = latestWaterEntryTime()) {
+  return persistWaterTotalForDate(todayStr, total, stopTime);
+}
+
+async function addWaterHistoryEntry(event) {
+  event.preventDefault();
+  const dateStr = document.getElementById('waterHistoryDate').value;
+  const amount = waterNumber(document.getElementById('waterHistoryAmount').value);
+  const time = document.getElementById('waterHistoryTime').value;
+  const btn = document.getElementById('addWaterHistoryBtn');
+  if (!isValidDateString(dateStr) || amount <= 0 || !/^\d{2}:\d{2}$/.test(time)) {
+    setWaterHistoryStatus('Enter a valid date, amount, and time.', 'err');
+    return;
+  }
+
+  const entries = readWaterLog();
+  const now = new Date();
+  const entry = { id: 'water-' + now.getTime() + '-' + Math.random().toString(16).slice(2), date: dateStr, time, amountMl: amount, createdAt: now.toISOString() };
+  const savedTotal = waterSavedTotalForDate(dateStr);
+  const nextTotal = (savedTotal === null ? waterTotalForDate(dateStr) : savedTotal) + amount;
+  btn.disabled = true;
+  setWaterHistoryStatus('Saving...');
+  writeWaterLog([...entries, entry]);
+  renderWaterHistory(dateStr);
+  try {
+    await persistWaterTotalForDate(dateStr, nextTotal, latestWaterEntryTimeForDate(dateStr));
+    await loadData();
+    renderWaterHistory(dateStr);
+    setWaterHistoryStatus(`Added ${amount} mL at ${time}.`, 'ok');
+  } catch (e) {
+    writeWaterLog(entries);
+    renderWaterHistory(dateStr);
+    setWaterHistoryStatus('Could not save: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 async function logWaterIntake() {
@@ -1012,67 +1095,64 @@ async function deleteWaterEntry(id) {
   const entry = entries.find(e => e.id === id);
   const next = entries.filter(e => e.id !== id);
   if (next.length === entries.length) return;
+  const dateStr = entry.date;
   const nextStopTime = next
-    .filter(e => e.date === todayStr)
+    .filter(e => e.date === dateStr)
     .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0]?.time || '';
-  setWaterLogStatus('Saving...', '');
+  const savedTotal = waterSavedTotalForDate(dateStr);
+  const currentTotal = savedTotal === null ? waterTotalForDate(dateStr) : savedTotal;
+  setWaterHistoryStatus('Saving...');
   try {
-    await prepareTodayEntryForm();
-    const nextTotal = Math.max(0, currentTodayWaterBaseline() - waterNumber(entry?.amountMl));
-    waterSavePending = true;
-    pendingTodayWaterMl = nextTotal;
+    const nextTotal = Math.max(0, currentTotal - waterNumber(entry?.amountMl));
     writeWaterLog(next);
-    syncTodayHydrationFields(nextTotal, nextStopTime);
-    renderTodayWaterLog();
-    await persistTodayWaterTotal(nextTotal, nextStopTime);
-    waterSavePending = false;
-    pendingTodayWaterMl = null;
-    renderTodayWaterLog();
+    renderWaterHistory(dateStr);
+    await persistWaterTotalForDate(dateStr, nextTotal, nextStopTime);
     await loadData();
-    setWaterLogStatus('Entry deleted.', 'ok');
+    renderWaterHistory(dateStr);
+    setWaterHistoryStatus('Entry deleted.', 'ok');
   } catch(e) {
-    waterSavePending = false;
-    pendingTodayWaterMl = null;
-    renderTodayWaterLog();
-    setWaterLogStatus('Could not save: ' + e.message, 'err');
+    writeWaterLog(entries);
+    renderWaterHistory(dateStr);
+    setWaterHistoryStatus('Could not save: ' + e.message, 'err');
   }
 }
 
-async function updateWaterEntryTime(id, time) {
-  if (!/^\d{2}:\d{2}$/.test(time || '')) {
-    setWaterLogStatus('Enter a valid time.', 'err');
-    renderTodayWaterLog();
+async function updateWaterEntry(id) {
+  const time = document.getElementById('water-time-' + id)?.value || '';
+  const amount = waterNumber(document.getElementById('water-amount-' + id)?.value);
+  if (!/^\d{2}:\d{2}$/.test(time) || amount <= 0) {
+    setWaterHistoryStatus('Enter a valid amount and time.', 'err');
     return;
   }
 
   const entries = readWaterLog();
   const target = entries.find(e => e.id === id);
-  if (!target || target.time === time) return;
+  if (!target) return;
+  if (target.time === time && waterNumber(target.amountMl) === amount) {
+    setWaterHistoryStatus('No changes to save.');
+    return;
+  }
 
-  setWaterLogStatus('Saving...', '');
+  const dateStr = target.date;
+  const savedTotal = waterSavedTotalForDate(dateStr);
+  const currentTotal = savedTotal === null ? waterTotalForDate(dateStr) : savedTotal;
+  const nextTotal = Math.max(0, currentTotal - waterNumber(target.amountMl) + amount);
+  setWaterHistoryStatus('Saving...');
   try {
-    await prepareTodayEntryForm();
-    const total = currentTodayWaterBaseline();
-    const next = entries.map(e => e.id === id ? { ...e, time } : e);
+    const next = entries.map(e => e.id === id ? { ...e, time, amountMl: amount } : e);
     const nextStopTime = next
-      .filter(e => e.date === todayStr)
+      .filter(e => e.date === dateStr)
       .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0]?.time || '';
-    waterSavePending = true;
-    pendingTodayWaterMl = total;
     writeWaterLog(next);
-    syncTodayHydrationFields(total, nextStopTime);
-    renderTodayWaterLog();
-    await persistTodayWaterTotal(total, nextStopTime);
-    waterSavePending = false;
-    pendingTodayWaterMl = null;
-    renderTodayWaterLog();
+    renderWaterHistory(dateStr);
+    await persistWaterTotalForDate(dateStr, nextTotal, nextStopTime);
     await loadData();
-    setWaterLogStatus('Time updated.', 'ok');
+    renderWaterHistory(dateStr);
+    setWaterHistoryStatus('Water entry updated.', 'ok');
   } catch(e) {
-    waterSavePending = false;
-    pendingTodayWaterMl = null;
-    renderTodayWaterLog();
-    setWaterLogStatus('Could not save: ' + e.message, 'err');
+    writeWaterLog(entries);
+    renderWaterHistory(dateStr);
+    setWaterHistoryStatus('Could not save: ' + e.message, 'err');
   }
 }
 
