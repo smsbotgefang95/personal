@@ -369,7 +369,7 @@
     </div>
     <div class="chart-box">
       <h3 id="fluidComparisonTitle">Drink vs Urine Volume</h3>
-      <p class="chart-note">Daily totals in mL. A missing bar means that volume was not recorded.</p>
+      <p class="chart-note">Each tracking day runs from 6:00 AM to 6:00 AM. A missing bar means that volume was not recorded.</p>
       <canvas id="fluidComparisonChart" style="max-height:200px"></canvas>
       <div class="insight-box" id="fluidComparisonInsight"></div>
     </div>
@@ -518,6 +518,15 @@ function writeUrineLog(entries) {
   localStorage.setItem(URINE_LOG_KEY, JSON.stringify(entries));
 }
 
+function trackingDateForTimestamp(dateStr, timeStr, cutoffHour = 6) {
+  if (!isValidDateString(dateStr)) return dateStr;
+  const hour = Number(String(timeStr || '').split(':')[0]);
+  if (!Number.isFinite(hour) || hour >= cutoffHour) return dateStr;
+  const date = new Date(dateStr + 'T12:00:00');
+  date.setDate(date.getDate() - 1);
+  return localDateStr(date);
+}
+
 function renderFluidComparisonChart(rows = lastLoadedRows) {
   if (charts.fluidComparison) {
     charts.fluidComparison.destroy();
@@ -531,9 +540,21 @@ function renderFluidComparisonChart(rows = lastLoadedRows) {
     if (Number.isFinite(amount) && amount >= 0) waterByDate.set(row.date, amount);
   });
 
+  // The API stores one calendar-date water total. Move any timestamped intake
+  // before 6 AM into the previous tracking day for this comparison.
+  readWaterLog().forEach(entry => {
+    const trackingDate = trackingDateForTimestamp(entry.date, entry.time);
+    if (trackingDate === entry.date) return;
+    const amount = Number(entry.amountMl || 0);
+    if (!Number.isFinite(amount) || amount <= 0) return;
+    waterByDate.set(entry.date, Math.max(0, (waterByDate.get(entry.date) || 0) - amount));
+    waterByDate.set(trackingDate, (waterByDate.get(trackingDate) || 0) + amount);
+  });
+
   const urineByDate = new Map();
   readUrineLog().forEach(entry => {
-    urineByDate.set(entry.date, (urineByDate.get(entry.date) || 0) + Number(entry.volumeMl || 0));
+    const trackingDate = trackingDateForTimestamp(entry.date, entry.time);
+    urineByDate.set(trackingDate, (urineByDate.get(trackingDate) || 0) + Number(entry.volumeMl || 0));
   });
 
   const dates = [...new Set([...waterByDate.keys(), ...urineByDate.keys()])]
@@ -544,7 +565,7 @@ function renderFluidComparisonChart(rows = lastLoadedRows) {
   const pairedDates = dates.filter(date => waterByDate.has(date) && urineByDate.has(date));
   const insight = document.getElementById('fluidComparisonInsight');
 
-  document.getElementById('fluidComparisonTitle').textContent = `Drink vs Urine Volume${dates.length ? ` (${dispDate(dates[0])} – ${dispDate(dates[dates.length - 1])})` : ''}`;
+  document.getElementById('fluidComparisonTitle').textContent = `Drink vs Urine Volume · 6 AM Day${dates.length ? ` (${dispDate(dates[0])} – ${dispDate(dates[dates.length - 1])})` : ''}`;
   charts.fluidComparison = new Chart(document.getElementById('fluidComparisonChart'), {
     type: 'bar',
     data: {
