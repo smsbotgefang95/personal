@@ -157,10 +157,15 @@
     .water-log-delete { width:44px;height:44px;border-radius:7px;border:1px solid var(--border);background:#1f2937;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center; }
     .water-log-delete:hover { color:var(--danger);border-color:rgba(239,68,68,.55); }
     .water-history-days { display:grid;gap:8px;max-height:320px;overflow:auto;padding-right:3px; }
-    .water-history-day { width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft);color:var(--text);cursor:pointer;text-align:left; }
+    .water-history-day { width:100%;display:block;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft);color:var(--text);cursor:pointer;text-align:left; }
     .water-history-day:hover, .water-history-day.active { border-color:var(--warm);background:var(--warm-soft); }
+    .water-history-day-header { display:flex;align-items:center;justify-content:space-between;gap:16px; }
     .water-history-day-date { font-size:13px;font-weight:700; }
     .water-history-day-total { color:var(--warm);font-size:13px;font-weight:700;white-space:nowrap; }
+    .water-history-day-entries { display:grid;gap:5px;margin-top:9px;padding-top:8px;border-top:1px solid var(--border); }
+    .water-history-day-entry { display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:12px; }
+    .water-history-day-entry strong { color:var(--text); }
+    .water-history-day-entry.aggregate { display:block;color:var(--dim);font-style:italic;line-height:1.4; }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}}
@@ -919,9 +924,15 @@ function renderWaterHistoryDays(selectedDate = document.getElementById('waterHis
   const dates = [...new Set([...savedDates, ...localDates])].sort().reverse();
   document.getElementById('waterHistoryDays').innerHTML = dates.length ? dates.map(dateStr => {
     const savedTotal = waterSavedTotalForDate(dateStr);
-    const localTotal = waterTotalForDate(dateStr);
+    const entries = waterEntriesForDate(dateStr);
+    const localTotal = entries.reduce((sum, entry) => sum + waterNumber(entry.amountMl), 0);
     const total = savedTotal === null ? localTotal : savedTotal;
-    return `<button type="button" class="water-history-day${dateStr === selectedDate ? ' active' : ''}" onclick="showWaterHistoryDate('${escapeHtml(dateStr)}')"><span class="water-history-day-date">${escapeHtml(dateStr === todayStr ? 'Today · ' + dateStr : dateStr)}</span><span class="water-history-day-total">${escapeHtml(total)} mL</span></button>`;
+    const entryDetails = entries.map(entry => `<div class="water-history-day-entry"><span><strong>${escapeHtml(entry.time || 'Time unavailable')}</strong></span><span>${escapeHtml(waterNumber(entry.amountMl))} mL</span></div>`).join('');
+    const unitemizedAmount = savedTotal === null ? 0 : Math.max(0, savedTotal - localTotal);
+    const aggregateDetail = unitemizedAmount > 0
+      ? `<div class="water-history-day-entry aggregate">${escapeHtml(unitemizedAmount)} mL is saved only as a daily total; individual drink times were not recorded.</div>`
+      : '';
+    return `<button type="button" class="water-history-day${dateStr === selectedDate ? ' active' : ''}" onclick="showWaterHistoryDate('${escapeHtml(dateStr)}')"><span class="water-history-day-header"><span class="water-history-day-date">${escapeHtml(dateStr === todayStr ? 'Today · ' + dateStr : dateStr)}</span><span class="water-history-day-total">${escapeHtml(total)} mL</span></span><span class="water-history-day-entries">${entryDetails || aggregateDetail}${entryDetails ? aggregateDetail : ''}</span></button>`;
   }).join('') : '<div class="urine-log-detail">No water history recorded yet.</div>';
 }
 
