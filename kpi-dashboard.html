@@ -156,6 +156,11 @@
     .water-log-time:focus { border-color:var(--accent); }
     .water-log-delete { width:44px;height:44px;border-radius:7px;border:1px solid var(--border);background:#1f2937;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center; }
     .water-log-delete:hover { color:var(--danger);border-color:rgba(239,68,68,.55); }
+    .water-history-days { display:grid;gap:8px;max-height:320px;overflow:auto;padding-right:3px; }
+    .water-history-day { width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--slate-soft);color:var(--text);cursor:pointer;text-align:left; }
+    .water-history-day:hover, .water-history-day.active { border-color:var(--warm);background:var(--warm-soft); }
+    .water-history-day-date { font-size:13px;font-weight:700; }
+    .water-history-day-total { color:var(--warm);font-size:13px;font-weight:700;white-space:nowrap; }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}}
@@ -225,6 +230,10 @@
     <div class="urine-history">
       <h3 id="waterHistorySummary">Today’s water</h3>
       <div id="waterHistoryList"></div>
+    </div>
+    <div class="urine-history">
+      <h3>Recorded days · newest first</h3>
+      <div class="water-history-days" id="waterHistoryDays"></div>
     </div>
   </div>
 </dialog>
@@ -894,6 +903,26 @@ function renderWaterHistory(dateStr = document.getElementById('waterHistoryDate'
     ? `<div class="urine-log-row"><div><div class="urine-log-main">Daily saved total · ${escapeHtml(unitemizedAmount)} mL</div><div class="urine-log-detail">No individual time was recorded for this amount.</div></div></div>`
     : '';
   document.getElementById('waterHistoryList').innerHTML = entryRows + aggregateRow || '<div class="urine-log-detail">No water recorded for this date.</div>';
+  renderWaterHistoryDays(dateStr);
+}
+
+function showWaterHistoryDate(dateStr) {
+  document.getElementById('waterHistoryDate').value = dateStr;
+  renderWaterHistory(dateStr);
+}
+
+function renderWaterHistoryDays(selectedDate = document.getElementById('waterHistoryDate')?.value || todayStr) {
+  const localDates = readWaterLog().map(entry => entry.date);
+  const savedDates = lastLoadedRows
+    .filter(row => hasWaterValue(row.water) && waterNumber(row.water) > 0)
+    .map(row => row.date);
+  const dates = [...new Set([...savedDates, ...localDates])].sort().reverse();
+  document.getElementById('waterHistoryDays').innerHTML = dates.length ? dates.map(dateStr => {
+    const savedTotal = waterSavedTotalForDate(dateStr);
+    const localTotal = waterTotalForDate(dateStr);
+    const total = savedTotal === null ? localTotal : savedTotal;
+    return `<button type="button" class="water-history-day${dateStr === selectedDate ? ' active' : ''}" onclick="showWaterHistoryDate('${escapeHtml(dateStr)}')"><span class="water-history-day-date">${escapeHtml(dateStr === todayStr ? 'Today · ' + dateStr : dateStr)}</span><span class="water-history-day-total">${escapeHtml(total)} mL</span></button>`;
+  }).join('') : '<div class="urine-log-detail">No water history recorded yet.</div>';
 }
 
 document.getElementById('waterHistoryDate').addEventListener('change', event => renderWaterHistory(event.target.value));
