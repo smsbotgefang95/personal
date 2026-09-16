@@ -361,11 +361,17 @@
 <!-- ── HYDRATION ──────────────────────────────────────────────────────────── -->
 <div class="section">
   <h2><span class="dot" style="background:var(--warm)"></span>Hydration</h2>
-  <div class="charts-row">
+  <div class="charts-row two">
     <div class="chart-box">
       <h3 id="waterChartTitle">Daily Water Intake in ML</h3>
       <canvas id="waterChart" style="max-height:200px"></canvas>
       <div class="insight-box" id="waterInsight"></div>
+    </div>
+    <div class="chart-box">
+      <h3 id="fluidComparisonTitle">Drink vs Urine Volume</h3>
+      <p class="chart-note">Daily totals in mL. A missing bar means that volume was not recorded.</p>
+      <canvas id="fluidComparisonChart" style="max-height:200px"></canvas>
+      <div class="insight-box" id="fluidComparisonInsight"></div>
     </div>
   </div>
 </div>
@@ -403,6 +409,7 @@ let savedTodayWaterMl = null;
 let savedTodayWaterLoaded = false;
 let waterSavePending = false;
 let pendingTodayWaterMl = null;
+let lastLoadedRows = [];
 const THEME = {
   bg: '#030712',
   card: '#111827',
@@ -511,6 +518,70 @@ function writeUrineLog(entries) {
   localStorage.setItem(URINE_LOG_KEY, JSON.stringify(entries));
 }
 
+function renderFluidComparisonChart(rows = lastLoadedRows) {
+  if (charts.fluidComparison) {
+    charts.fluidComparison.destroy();
+    delete charts.fluidComparison;
+  }
+
+  const waterByDate = new Map();
+  rows.forEach(row => {
+    if (!isValidDateString(row.date) || !hasWaterValue(row.water)) return;
+    const amount = Number(row.water);
+    if (Number.isFinite(amount) && amount >= 0) waterByDate.set(row.date, amount);
+  });
+
+  const urineByDate = new Map();
+  readUrineLog().forEach(entry => {
+    urineByDate.set(entry.date, (urineByDate.get(entry.date) || 0) + Number(entry.volumeMl || 0));
+  });
+
+  const dates = [...new Set([...waterByDate.keys(), ...urineByDate.keys()])]
+    .sort()
+    .slice(-14);
+  const drinkValues = dates.map(date => waterByDate.has(date) ? waterByDate.get(date) : null);
+  const urineValues = dates.map(date => urineByDate.has(date) ? urineByDate.get(date) : null);
+  const pairedDates = dates.filter(date => waterByDate.has(date) && urineByDate.has(date));
+  const insight = document.getElementById('fluidComparisonInsight');
+
+  document.getElementById('fluidComparisonTitle').textContent = `Drink vs Urine Volume${dates.length ? ` (${dispDate(dates[0])} – ${dispDate(dates[dates.length - 1])})` : ''}`;
+  charts.fluidComparison = new Chart(document.getElementById('fluidComparisonChart'), {
+    type: 'bar',
+    data: {
+      labels: dates.map(dispDate),
+      datasets: [
+        {label:'Drink',data:drinkValues,backgroundColor:'rgba(245,158,11,0.76)',borderRadius:4,borderSkipped:false},
+        {label:'Urine',data:urineValues,backgroundColor:'rgba(59,130,246,0.76)',borderRadius:4,borderSkipped:false}
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {display:true,position:'top',labels:{boxWidth:12,padding:12,color:THEME.muted}},
+        tooltip: {callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y} mL`}},
+        datalabels: {display:false}
+      },
+      scales: {
+        y: {beginAtZero:true,grid:{color:THEME.border},ticks:{callback:v=>v+' mL',color:THEME.muted}},
+        x: {grid:{display:false},ticks:{maxTicksLimit:14,color:THEME.muted}}
+      }
+    }
+  });
+
+  if (!dates.length) {
+    insight.innerHTML = '<strong>No drink or urine volumes recorded yet.</strong>';
+    return;
+  }
+  if (!pairedDates.length) {
+    insight.innerHTML = '<strong>No day has both volumes yet.</strong> Record drink and urine volume on the same date to compare them directly.';
+    return;
+  }
+  const drinkTotal = pairedDates.reduce((sum, date) => sum + waterByDate.get(date), 0);
+  const urineTotal = pairedDates.reduce((sum, date) => sum + urineByDate.get(date), 0);
+  const difference = drinkTotal - urineTotal;
+  insight.innerHTML = `<strong>${pairedDates.length} day${pairedDates.length === 1 ? '' : 's'} with both recorded.</strong> Drink: <strong>${drinkTotal} mL</strong> · Urine: <strong>${urineTotal} mL</strong> · Difference: <strong>${difference >= 0 ? '+' : ''}${difference} mL</strong>.`;
+}
+
 function urineEntriesForDate(dateStr) {
   return readUrineLog().filter(entry => entry.date === dateStr);
 }
@@ -547,6 +618,7 @@ function logUrineQuick() {
     createdAt: now.toISOString()
   }]);
   renderQuickUrineLog();
+  renderFluidComparisonChart();
 }
 
 function openUrineLog() {
@@ -594,6 +666,7 @@ function saveUrineEntry(event) {
   document.getElementById('urineTime').value = localTimeStr();
   renderUrineLog(entry.date);
   renderQuickUrineLog();
+  renderFluidComparisonChart();
   document.getElementById('urineVolume').focus();
 }
 
@@ -603,6 +676,7 @@ function deleteUrineEntry(id) {
   document.getElementById('urineLogStatus').className = 'ok';
   renderUrineLog(document.getElementById('urineDate').value || localDateStr());
   renderQuickUrineLog();
+  renderFluidComparisonChart();
 }
 
 function renderUrineLog(dateStr = document.getElementById('urineDate')?.value || localDateStr()) {
@@ -1074,6 +1148,7 @@ async function loadData() {
     const validRows = json
       .filter(r => isValidDateString(r.date))
       .sort((a, b) => a.date.localeCompare(b.date));
+    lastLoadedRows = validRows;
     setSavedTodayWaterFromRows(validRows);
     renderTodayWaterLog();
     render(validRows);
@@ -1274,6 +1349,7 @@ function render(rows) {
     options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} mL`}}},scales:{y:{min:0,max:1200,grid:{color:THEME.border},ticks:{callback:v=>v+' mL',stepSize:250,color:THEME.muted}},x:{grid:{display:false},ticks:{maxTicksLimit:20,color:THEME.muted}}}}
   });
   document.getElementById('waterInsight').innerHTML=`<strong>Avg: ${avgWaterVal} mL/day</strong> — <strong style="color:${THEME.danger}">${Math.round(avgWaterVal/1500*100)}%</strong> of the 1,500 mL target (${1500-avgWaterVal} mL short). <strong>${d500}</strong> days ≤500 mL · <strong>${zeroWD}</strong> days at 0 · <strong>${highWD}</strong> days ≥750 mL.<br><br><strong>📋 Action plan:</strong> ① Wake-up glass (200 mL) ② Glass 30 min before each meal (3×300 mL) ③ 10 AM alarm labeled "水" (400 mL) ④ Hard cutoff at 2 PM.`;
+  renderFluidComparisonChart(rows);
 
   if (wbBuckets.length) {
     charts.wb = new Chart(document.getElementById('waterBathroomChart'),{
