@@ -244,7 +244,7 @@
     </div>
     <div class="field"><label for="waterHistoryDate">Date</label><input type="date" id="waterHistoryDate"></div>
     <form class="water-history-add" onsubmit="addWaterHistoryEntry(event)">
-      <div class="field"><label for="waterHistoryAmount">Amount (mL)</label><input type="number" id="waterHistoryAmount" min="1" step="50" value="250" required></div>
+      <div class="field"><label for="waterHistoryAmount">Amount (mL)</label><input type="number" id="waterHistoryAmount" min="1" step="1" value="250" required></div>
       <div class="field"><label for="waterHistoryTime">Time</label><input type="time" id="waterHistoryTime" required></div>
       <button id="addWaterHistoryBtn" type="submit">Add Water</button>
     </form>
@@ -923,7 +923,7 @@ function renderWaterHistory(dateStr = document.getElementById('waterHistoryDate'
 
   const entryRows = entries.map(entry => `<div class="water-history-entry">
     <div class="field"><label for="water-time-${escapeHtml(entry.id)}">Time</label><input type="time" id="water-time-${escapeHtml(entry.id)}" value="${escapeHtml(timeInputValue(entry.time))}" required></div>
-    <div class="field"><label for="water-amount-${escapeHtml(entry.id)}">Amount (mL)</label><input type="number" id="water-amount-${escapeHtml(entry.id)}" min="1" step="50" value="${escapeHtml(waterNumber(entry.amountMl))}" required></div>
+    <div class="field"><label for="water-amount-${escapeHtml(entry.id)}">Amount (mL)</label><input type="number" id="water-amount-${escapeHtml(entry.id)}" min="1" step="1" value="${escapeHtml(waterNumber(entry.amountMl))}" required></div>
     <button class="water-entry-save" type="button" onclick="updateWaterEntry('${escapeHtml(entry.id)}')">Save</button>
     <button class="water-log-delete" type="button" onclick="deleteWaterEntry('${escapeHtml(entry.id)}')" aria-label="Delete this water entry" title="Delete entry">×</button>
   </div>`).join('');
