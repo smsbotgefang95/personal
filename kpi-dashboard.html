@@ -234,8 +234,8 @@
       <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><span id="urineLogStatus" role="status"></span></div>
     </form>
     <div class="urine-history"><h3 id="urineHistoryTitle">Today’s entries</h3><div id="urineLogList"></div></div>
-    <div class="urine-history">
-      <h3>Recorded days · newest first</h3>
+    <div class="urine-history" id="urineHistorySection">
+      <h3>Other recorded days · newest first</h3>
       <div class="water-history-days urine-history-days" id="urineHistoryDays"></div>
     </div>
   </div>
@@ -258,8 +258,8 @@
       <h3 id="waterHistorySummary">Today’s water</h3>
       <div id="waterHistoryList"></div>
     </div>
-    <div class="urine-history">
-      <h3>Recorded days · newest first</h3>
+    <div class="urine-history" id="waterHistorySection">
+      <h3>Other recorded days · newest first</h3>
       <div class="water-history-days" id="waterHistoryDays"></div>
     </div>
   </div>
@@ -775,8 +775,13 @@ function showUrineHistoryDate(dateStr) {
 
 function renderUrineHistoryDays(selectedDate = currentTrackingDateStr()) {
   const entries = readUrineLog();
-  const dates = [...new Set(entries.map(entry => trackingDateForTimestamp(entry.date, entry.time)))].sort().reverse();
-  document.getElementById('urineHistoryDays').innerHTML = dates.length ? dates.map(dateStr => {
+  const dates = [...new Set(entries.map(entry => trackingDateForTimestamp(entry.date, entry.time)))]
+    .filter(dateStr => dateStr !== selectedDate)
+    .sort()
+    .reverse();
+  const historySection = document.getElementById('urineHistorySection');
+  historySection.hidden = dates.length === 0;
+  document.getElementById('urineHistoryDays').innerHTML = dates.map(dateStr => {
     const dayEntries = entries
       .filter(entry => trackingDateForTimestamp(entry.date, entry.time) === dateStr)
       .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`) || String(b.createdAt).localeCompare(String(a.createdAt)));
@@ -787,7 +792,7 @@ function renderUrineHistoryDays(selectedDate = currentTrackingDateStr()) {
     }).join('');
     const dateLabel = dateStr === currentTrackingDateStr() ? `Today · ${dateStr}` : dateStr;
     return `<button type="button" class="water-history-day${dateStr === selectedDate ? ' active' : ''}" onclick="showUrineHistoryDate('${escapeHtml(dateStr)}')"><span class="water-history-day-header"><span class="water-history-day-date">${escapeHtml(dateLabel)}</span><span class="water-history-day-total">${escapeHtml(total)} mL</span></span><span class="water-history-day-entries">${entryDetails}</span></button>`;
-  }).join('') : '<div class="urine-log-detail">No urine history recorded yet.</div>';
+  }).join('');
 }
 
 document.getElementById('urineDate').addEventListener('change', event => renderUrineLog(event.target.value));
@@ -978,8 +983,13 @@ function renderWaterHistoryDays(selectedDate = document.getElementById('waterHis
   const savedDates = lastLoadedRows
     .filter(row => hasWaterValue(row.water) && waterNumber(row.water) > 0)
     .map(row => row.date);
-  const dates = [...new Set([...savedDates, ...localDates])].sort().reverse();
-  document.getElementById('waterHistoryDays').innerHTML = dates.length ? dates.map(dateStr => {
+  const dates = [...new Set([...savedDates, ...localDates])]
+    .filter(dateStr => dateStr !== selectedDate)
+    .sort()
+    .reverse();
+  const historySection = document.getElementById('waterHistorySection');
+  historySection.hidden = dates.length === 0;
+  document.getElementById('waterHistoryDays').innerHTML = dates.map(dateStr => {
     const savedTotal = waterSavedTotalForDate(dateStr);
     const entries = waterEntriesForDate(dateStr);
     const localTotal = entries.reduce((sum, entry) => sum + waterNumber(entry.amountMl), 0);
@@ -990,7 +1000,7 @@ function renderWaterHistoryDays(selectedDate = document.getElementById('waterHis
       ? `<div class="water-history-day-entry aggregate">${escapeHtml(unitemizedAmount)} mL is saved only as a daily total; individual drink times were not recorded.</div>`
       : '';
     return `<button type="button" class="water-history-day${dateStr === selectedDate ? ' active' : ''}" onclick="showWaterHistoryDate('${escapeHtml(dateStr)}')"><span class="water-history-day-header"><span class="water-history-day-date">${escapeHtml(dateStr === todayStr ? 'Today · ' + dateStr : dateStr)}</span><span class="water-history-day-total">${escapeHtml(total)} mL</span></span><span class="water-history-day-entries">${entryDetails || aggregateDetail}${entryDetails ? aggregateDetail : ''}</span></button>`;
-  }).join('') : '<div class="urine-log-detail">No water history recorded yet.</div>';
+  }).join('');
 }
 
 document.getElementById('waterHistoryDate').addEventListener('change', event => {
