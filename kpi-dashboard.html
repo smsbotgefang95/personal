@@ -649,20 +649,25 @@ function renderFluidComparisonChart(rows = lastLoadedRows) {
   insight.innerHTML = `<strong>${pairedDates.length} day${pairedDates.length === 1 ? '' : 's'} with both recorded.</strong> Drink: <strong>${drinkTotal} mL</strong> · Urine: <strong>${urineTotal} mL</strong> · Difference: <strong>${difference >= 0 ? '+' : ''}${difference} mL</strong>.`;
 }
 
-function urineEntriesForDate(dateStr) {
-  return readUrineLog().filter(entry => entry.date === dateStr);
+function currentTrackingDateStr(date = new Date()) {
+  return trackingDateForTimestamp(localDateStr(date), localTimeStr(date));
 }
 
-function urineTotalForDate(dateStr) {
-  return urineEntriesForDate(dateStr).reduce((sum, entry) => sum + Number(entry.volumeMl || 0), 0);
+function urineEntriesForTrackingDate(dateStr) {
+  return readUrineLog().filter(entry => trackingDateForTimestamp(entry.date, entry.time) === dateStr);
+}
+
+function urineTotalForTrackingDate(dateStr) {
+  return urineEntriesForTrackingDate(dateStr).reduce((sum, entry) => sum + Number(entry.volumeMl || 0), 0);
 }
 
 function renderQuickUrineLog() {
-  const entries = urineEntriesForDate(todayStr);
-  const total = urineTotalForDate(todayStr);
+  const trackingDate = currentTrackingDateStr();
+  const entries = urineEntriesForTrackingDate(trackingDate);
+  const total = urineTotalForTrackingDate(trackingDate);
   const totalEl = document.getElementById('urineLogTotal');
   totalEl.textContent = `Urine saved: ${total} mL`;
-  totalEl.title = `${entries.length} visit${entries.length === 1 ? '' : 's'} today · Open detailed urine log`;
+  totalEl.title = `${entries.length} visit${entries.length === 1 ? '' : 's'} in today’s 6 AM–6 AM tracking day · Open detailed urine log`;
 }
 
 function logUrineQuick() {
@@ -731,7 +736,7 @@ function saveUrineEntry(event) {
   document.getElementById('urineVolume').value = '';
   document.getElementById('urineNotes').value = '';
   document.getElementById('urineTime').value = localTimeStr();
-  renderUrineLog(entry.date);
+  renderUrineLog(trackingDateForTimestamp(entry.date, entry.time));
   renderQuickUrineLog();
   renderFluidComparisonChart();
   document.getElementById('urineVolume').focus();
@@ -741,17 +746,19 @@ function deleteUrineEntry(id) {
   writeUrineLog(readUrineLog().filter(entry => entry.id !== id));
   document.getElementById('urineLogStatus').textContent = 'Entry deleted.';
   document.getElementById('urineLogStatus').className = 'ok';
-  renderUrineLog(document.getElementById('urineDate').value || localDateStr());
+  renderUrineLog(document.getElementById('urineHistoryTitle').dataset.trackingDate || currentTrackingDateStr());
   renderQuickUrineLog();
   renderFluidComparisonChart();
 }
 
-function renderUrineLog(dateStr = document.getElementById('urineDate')?.value || localDateStr()) {
-  const entries = readUrineLog()
-    .filter(entry => entry.date === dateStr)
-    .sort((a, b) => b.time.localeCompare(a.time) || String(b.createdAt).localeCompare(String(a.createdAt)));
+function renderUrineLog(dateStr = currentTrackingDateStr()) {
+  const entries = urineEntriesForTrackingDate(dateStr)
+    .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`) || String(b.createdAt).localeCompare(String(a.createdAt)));
   const total = entries.reduce((sum, entry) => sum + Number(entry.volumeMl), 0);
-  document.getElementById('urineHistoryTitle').textContent = `${dateStr === localDateStr() ? "Today’s" : dateStr} entries · ${entries.length} visit${entries.length === 1 ? '' : 's'} · ${total} mL`;
+  const label = dateStr === currentTrackingDateStr() ? "Today’s 6 AM–6 AM" : `${dateStr} 6 AM–6 AM`;
+  const title = document.getElementById('urineHistoryTitle');
+  title.dataset.trackingDate = dateStr;
+  title.textContent = `${label} entries · ${entries.length} visit${entries.length === 1 ? '' : 's'} · ${total} mL`;
   document.getElementById('urineLogList').innerHTML = entries.length ? entries.map(entry => {
     const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : '', entry.leakage === 'Yes' ? 'Leakage' : '', entry.notes].filter(Boolean).map(escapeHtml).join(' · ');
     return `<div class="urine-log-row"><div><div class="urine-log-main">${escapeHtml(entry.time)} · ${escapeHtml(entry.volumeMl)} mL</div>${details ? `<div class="urine-log-detail">${details}</div>` : ''}</div><button type="button" class="urine-log-delete" onclick="deleteUrineEntry('${escapeHtml(entry.id)}')" aria-label="Delete urine entry">🗑</button></div>`;
