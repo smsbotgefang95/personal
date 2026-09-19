@@ -806,7 +806,7 @@ function renderHydrationDetails(rows = lastLoadedRows) {
     return;
   }
 
-  table.innerHTML = days.map(day => {
+  table.innerHTML = days.slice().reverse().map(day => {
     const waterEntries = day.waterEntries.map(entry => `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}</span><span>${escapeHtml(waterNumber(entry.amountMl))} mL</span></div>`).join('');
     const unitemized = Math.max(0, day.waterTotal - day.waterItemized);
     const waterAggregate = unitemized > 0 ? `<div class="hydration-detail-entry aggregate">${escapeHtml(unitemized)} mL saved without an individual time</div>` : '';
