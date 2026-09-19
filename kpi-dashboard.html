@@ -180,9 +180,37 @@
     .urine-history-days .water-history-day:hover, .urine-history-days .water-history-day.active { border-color:var(--blue);background:var(--blue-soft); }
     .urine-history-days .water-history-day-total { color:var(--blue); }
     .urine-history-days .urine-log-detail { display:block; }
+    .hydration-detail-box { margin-top:16px; }
+    .hydration-detail-header { display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px; }
+    .hydration-detail-header h3 { margin:0 0 4px; }
+    .hydration-detail-header p { color:var(--dim);font-size:11px;line-height:1.4; }
+    .hydration-filter { display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap; }
+    .hydration-filter .field { margin:0; }
+    .hydration-filter input { min-width:138px;height:38px; }
+    .hydration-filter button { height:38px;padding:0 13px;border:1px solid var(--border);border-radius:7px;background:#1f2937;color:var(--text);font-size:12px;font-weight:700;cursor:pointer; }
+    .hydration-filter button:hover { border-color:var(--blue); }
+    .hydration-detail-summary { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px; }
+    .hydration-summary-chip { padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:var(--slate-soft);color:var(--muted);font-size:12px; }
+    .hydration-summary-chip strong { color:var(--text); }
+    .hydration-detail-table { display:grid;gap:8px; }
+    .hydration-detail-row { display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,1fr) 110px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--slate-soft); }
+    .hydration-detail-cell { min-width:0;padding:12px;border-left:1px solid var(--border); }
+    .hydration-detail-cell:first-child { border-left:0; }
+    .hydration-detail-date { font-size:13px;font-weight:700;color:var(--text); }
+    .hydration-detail-day { color:var(--dim);font-size:11px;margin-top:3px; }
+    .hydration-detail-total { font-size:15px;font-weight:800;margin-bottom:7px; }
+    .hydration-detail-total.water { color:var(--warm); }
+    .hydration-detail-total.urine { color:var(--blue); }
+    .hydration-detail-entry { display:flex;justify-content:space-between;gap:10px;padding:3px 0;color:var(--muted);font-size:11px;line-height:1.35; }
+    .hydration-detail-entry span:last-child { white-space:nowrap;color:var(--text);font-weight:600; }
+    .hydration-detail-entry.aggregate { display:block;color:var(--dim);font-style:italic; }
+    .hydration-detail-difference { font-size:15px;font-weight:800; }
+    .hydration-detail-difference.positive { color:var(--green); }
+    .hydration-detail-difference.negative { color:var(--danger); }
+    .hydration-detail-empty { padding:18px;border:1px dashed var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-align:center; }
 
     @media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}.water-history-add{grid-template-columns:1fr 1fr}.water-history-add button{grid-column:1/-1}.water-history-entry{grid-template-columns:1fr 1fr}.water-history-entry .water-entry-save,.water-history-entry .water-log-delete{width:100%}}
+    @media(max-width:800px){header{align-items:stretch}.header-actions{justify-content:flex-start;width:100%;flex-wrap:wrap}.cards{grid-template-columns:1fr 1fr}.charts-row.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.water-quick-log{flex-wrap:wrap;justify-content:flex-start;overflow-x:visible;padding-bottom:18px}.water-log-form input{width:94px}#waterLogStatus{left:0;right:auto;top:auto;bottom:0;text-align:left}.urine-quick-log{max-width:100%;overflow-x:auto}.urine-fields{grid-template-columns:1fr}.urine-fields .wide{grid-column:auto}.water-history-add{grid-template-columns:1fr 1fr}.water-history-add button{grid-column:1/-1}.water-history-entry{grid-template-columns:1fr 1fr}.water-history-entry .water-entry-save,.water-history-entry .water-log-delete{width:100%}.hydration-detail-row{grid-template-columns:92px 1fr 1fr}.hydration-detail-cell:last-child{grid-column:1/-1;border-left:0;border-top:1px solid var(--border)}.hydration-detail-cell{padding:10px}.hydration-filter{width:100%}.hydration-filter .field{flex:1}.hydration-filter input{min-width:0}}
   </style>
 </head>
 <body>
@@ -425,6 +453,23 @@
       <div class="insight-box" id="fluidComparisonInsight"></div>
     </div>
   </div>
+  <div class="chart-box hydration-detail-box">
+    <div class="hydration-detail-header">
+      <div>
+        <h3>Daily Water &amp; Urine Details</h3>
+        <p>Side-by-side by 6:00 AM tracking day. Water means recorded plain water, not all fluids.</p>
+      </div>
+      <div class="hydration-filter" aria-label="Hydration date filter">
+        <div class="field"><label for="hydrationStartDate">From</label><input type="date" id="hydrationStartDate" onchange="renderHydrationDetails()"></div>
+        <div class="field"><label for="hydrationEndDate">To</label><input type="date" id="hydrationEndDate" onchange="renderHydrationDetails()"></div>
+        <button type="button" onclick="setHydrationDateRange(7)">7 days</button>
+        <button type="button" onclick="setHydrationDateRange(14)">14 days</button>
+        <button type="button" onclick="setHydrationDateRange(0)">All</button>
+      </div>
+    </div>
+    <div class="hydration-detail-summary" id="hydrationDetailSummary"></div>
+    <div class="hydration-detail-table" id="hydrationDetailTable"></div>
+  </div>
 </div>
 
 <!-- ── WATER vs BATHROOM ──────────────────────────────────────────────────── -->
@@ -639,6 +684,7 @@ function renderFluidComparisonChart(rows = lastLoadedRows) {
       }
     }
   });
+  renderHydrationDetails(rows);
 
   if (!dates.length) {
     insight.innerHTML = '<strong>No drink or urine volumes recorded yet.</strong>';
@@ -656,6 +702,131 @@ function renderFluidComparisonChart(rows = lastLoadedRows) {
 
 function currentTrackingDateStr(date = new Date()) {
   return trackingDateForTimestamp(localDateStr(date), localTimeStr(date));
+}
+
+function hydrationDailyData(rows = lastLoadedRows) {
+  const days = new Map();
+  const ensureDay = date => {
+    if (!days.has(date)) days.set(date, { date, waterTotal: null, waterEntries: [], urineEntries: [] });
+    return days.get(date);
+  };
+
+  rows.forEach(row => {
+    if (!isValidDateString(row.date) || !hasWaterValue(row.water)) return;
+    ensureDay(row.date).waterTotal = waterNumber(row.water);
+  });
+
+  readWaterLog().forEach(entry => {
+    const trackingDate = trackingDateForTimestamp(entry.date, entry.time);
+    const amount = waterNumber(entry.amountMl);
+    if (amount <= 0) return;
+    ensureDay(trackingDate).waterEntries.push(entry);
+    if (trackingDate !== entry.date) {
+      const calendarDay = ensureDay(entry.date);
+      if (calendarDay.waterTotal !== null) calendarDay.waterTotal = Math.max(0, calendarDay.waterTotal - amount);
+      const trackingDay = ensureDay(trackingDate);
+      if (trackingDay.waterTotal !== null) trackingDay.waterTotal += amount;
+    }
+  });
+
+  readUrineLog().forEach(entry => {
+    const trackingDate = trackingDateForTimestamp(entry.date, entry.time);
+    ensureDay(trackingDate).urineEntries.push(entry);
+  });
+
+  return [...days.values()].map(day => {
+    day.waterEntries.sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
+    day.urineEntries.sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
+    day.waterItemized = day.waterEntries.reduce((sum, entry) => sum + waterNumber(entry.amountMl), 0);
+    day.waterTotal = Math.max(day.waterTotal === null ? 0 : day.waterTotal, day.waterItemized);
+    day.urineTotal = day.urineEntries.reduce((sum, entry) => sum + Number(entry.volumeMl || 0), 0);
+    return day;
+  }).sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function dateMinusDays(dateStr, count) {
+  const date = new Date(dateStr + 'T12:00:00');
+  date.setDate(date.getDate() - count);
+  return localDateStr(date);
+}
+
+function setHydrationDateRange(days) {
+  const data = hydrationDailyData();
+  const availableDates = data.map(day => day.date);
+  const end = availableDates.length ? availableDates[availableDates.length - 1] : currentTrackingDateStr();
+  const start = days === 0 && availableDates.length ? availableDates[0] : dateMinusDays(end, Math.max(0, days - 1));
+  document.getElementById('hydrationStartDate').value = start;
+  document.getElementById('hydrationEndDate').value = end;
+  renderHydrationDetails();
+}
+
+function hydrationEntryTime(entry, trackingDate) {
+  const nextDay = entry.date !== trackingDate ? ' next day' : '';
+  return `${entry.time}${nextDay}`;
+}
+
+function renderHydrationDetails(rows = lastLoadedRows) {
+  const table = document.getElementById('hydrationDetailTable');
+  const summary = document.getElementById('hydrationDetailSummary');
+  if (!table || !summary) return;
+  const allDays = hydrationDailyData(rows);
+  const startInput = document.getElementById('hydrationStartDate');
+  const endInput = document.getElementById('hydrationEndDate');
+  if (!startInput.value || !endInput.value) {
+    const end = allDays.length ? allDays[allDays.length - 1].date : currentTrackingDateStr();
+    endInput.value = end;
+    startInput.value = dateMinusDays(end, 13);
+  }
+  if (startInput.value > endInput.value) {
+    table.innerHTML = '<div class="hydration-detail-empty">The From date must be on or before the To date.</div>';
+    summary.innerHTML = '';
+    return;
+  }
+  const byDate = new Map(allDays.map(day => [day.date, day]));
+  const days = [];
+  let cursor = startInput.value;
+  while (cursor <= endInput.value && days.length < 1000) {
+    days.push(byDate.get(cursor) || { date: cursor, waterTotal: 0, waterItemized: 0, waterEntries: [], urineTotal: 0, urineEntries: [] });
+    const next = new Date(cursor + 'T12:00:00');
+    next.setDate(next.getDate() + 1);
+    cursor = localDateStr(next);
+  }
+  const waterTotal = days.reduce((sum, day) => sum + day.waterTotal, 0);
+  const urineTotal = days.reduce((sum, day) => sum + day.urineTotal, 0);
+  const paired = days.filter(day => day.waterTotal > 0 && day.urineTotal > 0);
+  const recorded = days.filter(day => day.waterTotal > 0 || day.urineTotal > 0);
+  summary.innerHTML = [
+    `<span class="hydration-summary-chip"><strong>${days.length}</strong> tracking day${days.length === 1 ? '' : 's'} · <strong>${recorded.length}</strong> with data</span>`,
+    `<span class="hydration-summary-chip">Water <strong>${waterTotal} mL</strong></span>`,
+    `<span class="hydration-summary-chip">Urine <strong>${urineTotal} mL</strong></span>`,
+    `<span class="hydration-summary-chip">Days with both <strong>${paired.length}</strong></span>`
+  ].join('');
+  if (!recorded.length) {
+    table.innerHTML = '<div class="hydration-detail-empty">No water or urine volume was recorded in this date range.</div>';
+    return;
+  }
+
+  table.innerHTML = days.map(day => {
+    const waterEntries = day.waterEntries.map(entry => `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}</span><span>${escapeHtml(waterNumber(entry.amountMl))} mL</span></div>`).join('');
+    const unitemized = Math.max(0, day.waterTotal - day.waterItemized);
+    const waterAggregate = unitemized > 0 ? `<div class="hydration-detail-entry aggregate">${escapeHtml(unitemized)} mL saved without an individual time</div>` : '';
+    const urineEntries = day.urineEntries.map(entry => {
+      const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : ''].filter(Boolean).join(' · ');
+      return `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}${details ? `<br>${escapeHtml(details)}` : ''}</span><span>${escapeHtml(entry.volumeMl)} mL</span></div>`;
+    }).join('');
+    const hasBoth = day.waterTotal > 0 && day.urineTotal > 0;
+    const difference = day.waterTotal - day.urineTotal;
+    const differenceHtml = hasBoth
+      ? `<div class="hydration-detail-difference ${difference >= 0 ? 'positive' : 'negative'}">${difference >= 0 ? '+' : ''}${difference} mL</div><div class="hydration-detail-day">water minus urine</div>`
+      : '<div class="hydration-detail-day">Need both totals</div>';
+    const weekday = new Date(day.date + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'short' });
+    return `<div class="hydration-detail-row">
+      <div class="hydration-detail-cell"><div class="hydration-detail-date">${escapeHtml(day.date)}</div><div class="hydration-detail-day">${escapeHtml(weekday)} · 6 AM day</div></div>
+      <div class="hydration-detail-cell"><div class="hydration-detail-total water">Water ${escapeHtml(day.waterTotal)} mL</div>${waterEntries || waterAggregate ? waterEntries + waterAggregate : '<div class="hydration-detail-day">No water recorded</div>'}</div>
+      <div class="hydration-detail-cell"><div class="hydration-detail-total urine">Urine ${escapeHtml(day.urineTotal)} mL</div>${urineEntries || '<div class="hydration-detail-day">No urine recorded</div>'}</div>
+      <div class="hydration-detail-cell">${differenceHtml}</div>
+    </div>`;
+  }).join('');
 }
 
 function urineEntriesForTrackingDate(dateStr) {
