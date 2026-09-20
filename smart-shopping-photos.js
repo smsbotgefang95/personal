@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "发酵粉",
+    "file": "zhenhaojia-instant-yeast-transparent.png",
+    "source": "User-provided Smart Shopping photo",
+    "credit": "Background removed with OpenAI ImageGen"
+  },
+  {
     "name": "Organic roasted chestnuts",
     "file": "costco-galil-organic-roasted-chestnuts-1092438.png",
     "source": "https://www.instacart.com/assets/domains/product-image/file/large_6dcf4a39-cdbb-49f4-832f-a4dbc0d4945e.jpg",
