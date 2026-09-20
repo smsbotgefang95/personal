@@ -1,10 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
-    "name": "发酵粉",
+    "name": "Baking powder",
     "file": "zhenhaojia-instant-yeast-transparent.png",
     "source": "User-provided Smart Shopping photo",
-    "credit": "Background removed with OpenAI ImageGen"
+    "credit": "Background removed with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Organic roasted chestnuts",

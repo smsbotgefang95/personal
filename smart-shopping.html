@@ -1785,8 +1785,8 @@
     }
     function photoMarkup(item, fallback = "🍽️", customPhoto = "") {
       const itemName = item && typeof item === "object" ? displayItemName(item) : formatProductName(item);
-      if (typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img draggable="false" src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo added in this browser" />`;
       const photo = foodPhoto(item);
+      if (!photo?.overrideCustomPhoto && typeof customPhoto === "string" && customPhoto.startsWith("data:image/")) return `<img draggable="false" src="${escapeHtml(customPhoto)}" alt="${escapeHtml(itemName)}" loading="lazy" title="Photo added in this browser" />`;
       if (!photo) return `<span class="photo-fallback" aria-hidden="true">${escapeHtml(fallback)}</span>`;
       const photoSrc = photo.file ? `./assets/food/${photo.file}` : photo.source || "";
       const remoteFallback = photo.file ? photo.source || "" : "";
@@ -2121,7 +2121,7 @@
       const countryBadge = item.madeIn ? `<span class="badge">Made in ${escapeHtml(item.madeIn)}</span>` : "";
       const brandBadge = brand ? `<span class="badge badge-brand">${escapeHtml(brand)}</span>` : "";
       const photo = foodPhoto(item);
-      const hasCustomPhoto = typeof item.photo === "string" && item.photo.startsWith("data:image/");
+      const hasCustomPhoto = !photo?.overrideCustomPhoto && typeof item.photo === "string" && item.photo.startsWith("data:image/");
       const photoClass = photo || hasCustomPhoto ? " has-photo" : "";
       const storeText = item.stores.length ? item.stores.join(", ") : "Store not listed";
       const categoryText = itemCategory(item);
