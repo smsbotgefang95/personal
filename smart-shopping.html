@@ -1088,7 +1088,11 @@
         const storageKey = [itemEditsStorageKey, itemAddsStorageKey, itemPurchasesStorageKey, itemRemovalsStorageKey, itemRestorationsStorageKey, itemMovesStorageKey][index];
         try {
           if (key === "itemEdits") persistItemEditState();
-          else localStorage.setItem(storageKey, JSON.stringify(target));
+          // Added items can contain data-URL photos. The server response is
+          // already in memory, so writing the full merged collection here can
+          // fill Safari storage and prevent the next item from being added.
+          // saveItemAdds() has already stored any unsynced local additions.
+          else if (key !== "itemAdds") localStorage.setItem(storageKey, JSON.stringify(target));
         } catch (error) {}
       });
       (remote?.customBrandOptions || []).forEach((brand) => { if (!customBrandOptions.includes(brand)) customBrandOptions.push(brand); });
@@ -1123,6 +1127,7 @@
         mergeShoppingPayload(remote);
         if (upload) {
           const sentEdits = { ...pendingEdits };
+          const sentAdds = JSON.stringify(itemAdds);
           const sentPurchases = { ...pendingPurchases };
           const sentMoves = { ...pendingMoves };
           const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
@@ -1136,6 +1141,14 @@
             if (pendingEdits[itemKey] === value) delete pendingEdits[itemKey];
           });
           savePendingEdits();
+          // Once the complete additions collection is on the server, keeping
+          // another local copy (often including photos) only consumes quota.
+          // Do not remove a new addition made while this request was running.
+          if (JSON.stringify(itemAdds) === sentAdds) {
+            try { localStorage.removeItem(itemAddsStorageKey); } catch (error) {}
+          } else {
+            saveItemAdds();
+          }
           Object.entries(sentPurchases).forEach(([itemKey, value]) => {
             if (pendingPurchases[itemKey] === value) delete pendingPurchases[itemKey];
           });
@@ -1144,6 +1157,9 @@
             if (pendingMoves[itemKey] === value) delete pendingMoves[itemKey];
           });
           savePendingMoves();
+          // Price history is also returned by the server on every sync. Clear
+          // its redundant cache after upload so phones regain storage space.
+          try { localStorage.removeItem(priceHistoryStorageKey); } catch (error) {}
         }
         document.getElementById("sync-detail").textContent = "Synced across devices";
         if (rerender) render();
