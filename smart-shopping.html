@@ -2445,6 +2445,33 @@
       els.editModal.classList.add("open");
       window.requestAnimationFrame(() => els.editChineseName.focus());
     }
+    function openDuplicateStoreEditor(item, facts, stores, date) {
+      openItemEditor(item);
+      const store = stores.length === 1 ? stores[0] : "";
+      let draft = store
+        ? storePriceDrafts.find(({ row }) => canonicalStoresFromInput(row.querySelector('[data-price-field="stores"]').value)[0]?.toLowerCase() === store.toLowerCase())
+        : null;
+      if (!draft) {
+        addStorePriceSection();
+        draft = storePriceDrafts.at(-1);
+      }
+      const field = (name) => draft.row.querySelector(`[data-price-field="${name}"]`);
+      field("stores").value = store;
+      field("price").value = editableFactValue(facts.price);
+      field("discount").value = editableFactValue(facts.discount);
+      field("sale-price").value = editableFactValue(facts.salePrice);
+      const weight = splitWeightValue(facts.weight);
+      field("weight").value = weight.amount;
+      field("weight-unit").value = weight.unit;
+      field("count").value = weight.count || "";
+      field("unit-price").value = editableFactValue(facts.unitPrice);
+      field("sale-unit-price").value = editableFactValue(facts.saleUnitPrice);
+      field("date").value = date;
+      markItemEditDirty();
+      document.getElementById("edit-save-status").textContent = "This item already exists. Review the new store price below, then click Done.";
+      showToast("This item already exists. Add the other store's price to this item.");
+      window.requestAnimationFrame(() => field("stores").focus());
+    }
     function openItemMover(item) {
       document.getElementById("save-item-button").hidden = false;
       document.getElementById("cancel-edit-button").textContent = "Cancel";
@@ -2604,11 +2631,11 @@
           return;
         }
         editSession.list = addList;
-        const duplicate = getImportedItems(addList).some((item) => item.name.trim().toLowerCase() === name.toLowerCase());
+        const duplicate = getImportedItems(addList).find((item) => item.name.trim().toLowerCase() === name.toLowerCase());
         if (duplicate) {
-          els.editName.setCustomValidity("This item is already in the selected list.");
-          els.editName.reportValidity();
-          return;
+          els.editName.setCustomValidity("");
+          openDuplicateStoreEditor(duplicate, facts, stores, date);
+          return false;
         }
         els.editName.setCustomValidity("");
         const key = `added::${Date.now()}`;
