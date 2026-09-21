@@ -253,6 +253,30 @@ breakAlarmSandbox.checkAiAgentBreakAlarm(null, 0);
 assert.strictEqual(alarmStops, 1, "stopping a ringing timer must silence it");
 console.log("All-task break alarm checks passed.");
 
+const deskSessionSandbox = {
+  timePayload: { activeEntry: null },
+  timestampMs(value) {
+    const date = value ? new Date(value) : null;
+    return date && !Number.isNaN(date.getTime()) ? date.getTime() : 0;
+  },
+  Date
+};
+vm.createContext(deskSessionSandbox);
+vm.runInContext(extractFunction(html, "activeDeskSessionDurationMs"), deskSessionSandbox);
+deskSessionSandbox.timePayload.activeEntry = {
+  start: "2026-09-21T14:15:00.000Z",
+  deskSessionStart: "2026-09-21T14:00:00.000Z"
+};
+const realNow = Date.now;
+Date.now = () => new Date("2026-09-21T14:30:00.000Z").getTime();
+assert.strictEqual(
+  deskSessionSandbox.activeDeskSessionDurationMs(),
+  30 * 60 * 1000,
+  "switching tasks must preserve the continuous 30-minute desk session"
+);
+Date.now = realNow;
+console.log("Continuous desk-session alarm checks passed.");
+
 const crossTabAlarmEvents = [];
 const crossTabAlarmSandbox = {
   timePayload: {

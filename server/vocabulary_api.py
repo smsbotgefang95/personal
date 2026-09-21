@@ -755,6 +755,7 @@ def clean_time_entry(value, require_stop=False):
         "id": clean_time_text(value.get("id"), 120),
         "sourceType": "native",
         "start": clean_time_text(value.get("start"), 40),
+        "deskSessionStart": clean_time_text(value.get("deskSessionStart"), 40),
         "stop": clean_time_text(value.get("stop"), 40),
         "durationMs": clean_time_int(value.get("durationMs")),
         "listId": clean_time_text(value.get("listId"), 80),

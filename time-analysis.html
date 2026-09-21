@@ -5201,6 +5201,7 @@
       id: nativeId(),
       sourceType: "native",
       start: startIso,
+      deskSessionStart: startIso,
       stop: "",
       durationMs: 0,
       listId: list.listId,
@@ -5236,6 +5237,7 @@
       id: nativeId(),
       sourceType: "native",
       start: startIso,
+      deskSessionStart: cleanLabel(entry.deskSessionStart, startIso),
       stop: "",
       durationMs: 0,
       listId,
@@ -5257,7 +5259,7 @@
       recurrence: inferRecurrence(entry),
       taskOrder: cleanLabel(entry.taskOrder, ""),
       notes: "",
-      alarmMuted: DEFAULT_TIME_ANALYSIS_ALARM_MUTED,
+      alarmMuted: entry.alarmMuted === true,
       createdAt: startIso,
       updatedAt: startIso
     };
@@ -6170,6 +6172,13 @@
     return Math.max(0, Date.now() - new Date(timePayload.activeEntry.start).getTime());
   }
 
+  function activeDeskSessionDurationMs() {
+    const active = timePayload.activeEntry;
+    if (!active?.start) return 0;
+    const sessionStart = timestampMs(active.deskSessionStart) || timestampMs(active.start);
+    return sessionStart ? Math.max(0, Date.now() - sessionStart) : 0;
+  }
+
   function normalizedBreakAlarmTaskName(value) {
     return cleanLabel(value, "")
       .replace(/^[^A-Za-z0-9]+/, "")
@@ -6182,13 +6191,7 @@
 
   function aiAgentBreakAlarmKey(entry) {
     if (!entry || !entry.start) return "";
-    return [
-      cleanLabel(entry.id, ""),
-      cleanLabel(entry.listId, ""),
-      cleanLabel(entry.taskId, ""),
-      normalizedBreakAlarmTaskName(entry.taskName),
-      cleanLabel(entry.start, "")
-    ].join("|||");
+    return cleanLabel(entry.deskSessionStart, cleanLabel(entry.start, ""));
   }
 
   function stopAiAgentBreakAlarm() {
@@ -6325,7 +6328,7 @@
     if (aiAgentBreakAlarmLastRingAt && now - aiAgentBreakAlarmLastRingAt < AI_AGENT_BREAK_ALARM_REPEAT_MS) return;
     aiAgentBreakAlarmLastRingAt = now;
     playAiAgentBreakAlarmSound().catch(() => {});
-    setTrackerStatus("Break alarm: Your timer has been running for 30 minutes.", "error");
+    setTrackerStatus("Break alarm: You have been at your desk for 30 minutes.", "error");
   }
 
   function checkAiAgentBreakAlarm(active, durationMs) {
@@ -6401,6 +6404,7 @@
   function renderTimerState() {
     const active = timePayload.activeEntry;
     const durationMs = active ? activeDurationMs() : 0;
+    const deskSessionDurationMs = active ? activeDeskSessionDurationMs() : 0;
     if (active) timeAnalysisAudioMuted = active.alarmMuted !== false;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
     document.getElementById("timerValue").textContent = formatClock(durationMs);
@@ -6415,7 +6419,7 @@
     )
       ? "Unmute alarm"
       : "Mute alarm";
-    checkAiAgentBreakAlarm(active, durationMs);
+    checkAiAgentBreakAlarm(active, deskSessionDurationMs);
     if (timerTick) window.clearInterval(timerTick);
     timerTick = active ? window.setInterval(renderTimerState, 1000) : null;
     if (active) syncRunningTrackRowClock(durationMs);
@@ -11641,11 +11645,17 @@
 
   async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
-    stopAiAgentBreakAlarm();
-    timeAnalysisAudioMuted = DEFAULT_TIME_ANALYSIS_ALARM_MUTED;
-    aiAgentBreakAlarmMutedKey = "";
-    localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
+    if (!active) {
+      stopAiAgentBreakAlarm();
+      timeAnalysisAudioMuted = DEFAULT_TIME_ANALYSIS_ALARM_MUTED;
+      aiAgentBreakAlarmMutedKey = "";
+      localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
+    }
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry, startIso) : trackerFormValues(startIso);
+    if (active) {
+      entry.deskSessionStart = cleanLabel(active.deskSessionStart, active.start);
+      entry.alarmMuted = active.alarmMuted === true;
+    }
     if (!entry.taskName || !entry.listId) {
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
