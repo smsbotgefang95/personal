@@ -647,6 +647,11 @@ assert.ok(
   "detail table should render delete controls for editable detail entries"
 );
 
+assert.ok(
+  html.includes("openDetailEntryEdit(auditItem.entry)"),
+  "flagged day-audit entries should open the editor directly even when table filters hide them"
+);
+
 console.log("Detail entry deletion checks passed.");
 
 const dateAuditSandbox = {

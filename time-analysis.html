@@ -10548,7 +10548,7 @@
       ? ` ${hiddenIssueCount.toLocaleString()} flagged ${hiddenIssueCount === 1 ? "entry is" : "entries are"} hidden by current filters.`
       : "";
     const summary = facts.length
-      ? `${facts.join(" and ")} found. Highlighted rows are likely start/stop updates.${hiddenText}`
+      ? `${facts.join(" and ")} found. Select an editable flagged entry to update its start or end time.${hiddenText}`
       : `No direct gaps or overlaps found. Check duplicate imports or entries with missing start/end times.${hiddenText}`;
     const issueRows = audit.issueEntries.slice(0, DAY_TOTAL_AUDIT_ENTRY_LIMIT).map((item) => {
       const reason = item.reasons[0]?.reason || "Check start and stop times";
@@ -10815,6 +10815,11 @@
       document.querySelectorAll("[data-audit-entry-key]").forEach((button) => {
         button.addEventListener("click", () => {
           const targetKey = button.dataset.auditEntryKey || "";
+          const auditItem = dayAudit?.issueEntries.find((item) => item.key === targetKey);
+          if (auditItem?.entry && editableDetailEntry(auditItem.entry)) {
+            openDetailEntryEdit(auditItem.entry);
+            return;
+          }
           const row = Array.from(document.querySelectorAll("[data-detail-entry-key]"))
             .find((item) => item.dataset.detailEntryKey === targetKey);
           if (!row) {
