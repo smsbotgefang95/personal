@@ -253,29 +253,43 @@ breakAlarmSandbox.checkAiAgentBreakAlarm(null, 0);
 assert.strictEqual(alarmStops, 1, "stopping a ringing timer must silence it");
 console.log("All-task break alarm checks passed.");
 
-const deskSessionSandbox = {
-  timePayload: { activeEntry: null },
-  timestampMs(value) {
-    const date = value ? new Date(value) : null;
-    return date && !Number.isNaN(date.getTime()) ? date.getTime() : 0;
+const taskSwitchSandbox = {
+  DEFAULT_TIME_ANALYSIS_ALARM_MUTED: false,
+  LIST_NAME_MAP: { personal: "Personal" },
+  nativeId() { return "new-running-entry"; },
+  cleanLabel(value, fallback = "") {
+    const text = value == null ? "" : String(value).trim();
+    return text || fallback;
   },
-  Date
+  taskIdFor(value) { return String(value).toLowerCase().replace(/\s+/g, "-"); },
+  normalizeTaskCategory(value) { return value || ""; },
+  inferRecurrence() { return "none"; },
+  timeInputValue(value) { return value || ""; }
 };
-vm.createContext(deskSessionSandbox);
-vm.runInContext(extractFunction(html, "activeDeskSessionDurationMs"), deskSessionSandbox);
-deskSessionSandbox.timePayload.activeEntry = {
-  start: "2026-09-21T14:15:00.000Z",
-  deskSessionStart: "2026-09-21T14:00:00.000Z"
-};
-const realNow = Date.now;
-Date.now = () => new Date("2026-09-21T14:30:00.000Z").getTime();
+vm.createContext(taskSwitchSandbox);
+vm.runInContext(extractFunction(html, "entryToRunningTimer"), taskSwitchSandbox);
+const switchedTimer = taskSwitchSandbox.entryToRunningTimer({
+  listId: "personal",
+  taskName: "Take a break",
+  deskSessionStart: "2026-09-21T14:00:00.000Z",
+  alarmMuted: true
+}, "2026-09-21T14:30:00.000Z");
 assert.strictEqual(
-  deskSessionSandbox.activeDeskSessionDurationMs(),
-  30 * 60 * 1000,
-  "switching tasks must preserve the continuous 30-minute desk session"
+  switchedTimer.deskSessionStart,
+  "2026-09-21T14:30:00.000Z",
+  "switching tasks must begin a fresh 30-minute alarm window"
 );
-Date.now = realNow;
-console.log("Continuous desk-session alarm checks passed.");
+assert.strictEqual(
+  switchedTimer.alarmMuted,
+  false,
+  "switching tasks must not carry the previous timer's alarm state"
+);
+const startTimerSource = extractFunction(html, "startTimer");
+assert.ok(
+  startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound()"),
+  "switching tasks must stop scheduled alarm audio before unlocking audio for the new timer"
+);
+console.log("Task-switch alarm reset checks passed.");
 
 const crossTabAlarmEvents = [];
 const crossTabAlarmSandbox = {

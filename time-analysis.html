@@ -5237,7 +5237,7 @@
       id: nativeId(),
       sourceType: "native",
       start: startIso,
-      deskSessionStart: cleanLabel(entry.deskSessionStart, startIso),
+      deskSessionStart: startIso,
       stop: "",
       durationMs: 0,
       listId,
@@ -5259,7 +5259,7 @@
       recurrence: inferRecurrence(entry),
       taskOrder: cleanLabel(entry.taskOrder, ""),
       notes: "",
-      alarmMuted: entry.alarmMuted === true,
+      alarmMuted: DEFAULT_TIME_ANALYSIS_ALARM_MUTED,
       createdAt: startIso,
       updatedAt: startIso
     };
@@ -11650,20 +11650,18 @@
 
   async function startTimer(sourceEntry = null, { startIso = isoNow(), optimistic = Boolean(sourceEntry) } = {}) {
     const active = timePayload.activeEntry;
-    if (!active) {
-      stopAiAgentBreakAlarm();
-      timeAnalysisAudioMuted = DEFAULT_TIME_ANALYSIS_ALARM_MUTED;
-      aiAgentBreakAlarmMutedKey = "";
-      localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
-    }
     const entry = sourceEntry ? entryToRunningTimer(sourceEntry, startIso) : trackerFormValues(startIso);
-    if (active) {
-      entry.deskSessionStart = cleanLabel(active.deskSessionStart, active.start);
-      entry.alarmMuted = active.alarmMuted === true;
-    }
     if (!entry.taskName || !entry.listId) {
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
+    }
+    stopAiAgentBreakAlarm();
+    timeAnalysisAudioMuted = DEFAULT_TIME_ANALYSIS_ALARM_MUTED;
+    aiAgentBreakAlarmMutedKey = "";
+    try {
+      localStorage.removeItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE);
+    } catch (error) {
+      // Local storage is optional.
     }
     unlockBusinessMustReminderSound().catch(() => {});
     if (active) {
