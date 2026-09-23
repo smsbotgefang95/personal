@@ -217,6 +217,44 @@ assert.ok(
 
 console.log("Analytics task merge checks passed.");
 
+const tooltipSandbox = {
+  formatHours(hours, digits = 1) {
+    return `${Number(hours).toFixed(digits)}h`;
+  }
+};
+
+vm.createContext(tooltipSandbox);
+vm.runInContext([
+  extractFunction(html, "tooltipHoursValue"),
+  extractFunction(html, "tooltipOptions")
+].join("\n\n"), tooltipSandbox);
+
+const weeklyTooltipLabel = tooltipSandbox.tooltipOptions().callbacks.label({
+  dataset: { label: "🌈 Personal", data: [12.5, 18.25] },
+  dataIndex: 1,
+  parsed: { x: 37, y: 18.25 },
+  chart: { options: {} }
+});
+assert.strictEqual(
+  weeklyTooltipLabel,
+  "🌈 Personal: 18.3h",
+  "weekly chart tooltip should show tracked hours, not the horizontal week index"
+);
+
+const horizontalTooltipLabel = tooltipSandbox.tooltipOptions().callbacks.label({
+  dataset: { label: "Task", data: [9.75] },
+  dataIndex: 0,
+  parsed: { x: 9.75, y: 4 },
+  chart: { options: { indexAxis: "y" } }
+});
+assert.strictEqual(
+  horizontalTooltipLabel,
+  "Task: 9.8h",
+  "horizontal chart tooltip should continue to show its numeric value"
+);
+
+console.log("Chart tooltip value checks passed.");
+
 const breakAlarmSandbox = {
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();

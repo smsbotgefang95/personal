@@ -10867,13 +10867,21 @@
     updateTable();
   }
 
+  function tooltipHoursValue(context) {
+    const datasetValue = context?.dataset?.data?.[context.dataIndex];
+    if (Number.isFinite(Number(datasetValue))) return Number(datasetValue);
+    if (Number.isFinite(Number(context?.raw))) return Number(context.raw);
+    if (typeof context?.parsed === "number") return context.parsed;
+    const valueAxis = context?.chart?.options?.indexAxis === "y" ? "x" : "y";
+    return Number(context?.parsed?.[valueAxis]) || 0;
+  }
+
   function tooltipOptions() {
     return {
       callbacks: {
         label: (context) => {
           const label = context.dataset.label ? `${context.dataset.label}: ` : "";
-          const value = typeof context.parsed === "number" ? context.parsed : context.parsed.x ?? context.parsed.y;
-          return `${label}${formatHours(Number(value), 1)}`;
+          return `${label}${formatHours(tooltipHoursValue(context), 1)}`;
         }
       }
     };
