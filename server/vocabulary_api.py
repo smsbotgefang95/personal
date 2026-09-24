@@ -1330,6 +1330,32 @@ def kpi_add_water(entry):
     return current_total + entry["amountMl"]
 
 
+def kpi_remove_water(entry, remaining_entries):
+    current = kpi_api_request({"action": "getForDate", "date": entry["date"]})
+    try:
+        current_total = int(round(float(current.get("water") or 0))) if current.get("found") else 0
+    except (TypeError, ValueError):
+        current_total = 0
+    fields = (
+        "workout", "workoutNotes", "stretch", "footbath", "massage", "badMood", "moodReason",
+        "wakeOnTime", "sleepOnTime", "sleepTracked", "sleepScore", "minutesAwake", "lateSleepReason",
+        "nightUrination",
+    )
+    update = {"action": "update", "date": entry["date"], "water": max(0, current_total - entry["amountMl"])}
+    for field in fields:
+        update[field] = current.get(field) or ""
+    latest = max((item for item in remaining_entries if item["date"] == entry["date"]), key=lambda item: item["time"], default=None)
+    if latest:
+        hour, minute = (int(part) for part in latest["time"].split(":"))
+        update["stopWaterTime"] = f"{(hour - 1) % 12 + 1}:{minute:02d} {'PM' if hour >= 12 else 'AM'}"
+    else:
+        update["stopWaterTime"] = ""
+    result = kpi_api_request(update)
+    if not result.get("success"):
+        raise RuntimeError(result.get("message") or "KPI update failed")
+    return update["water"]
+
+
 def add_water_entry(incoming, now=None):
     entry = clean_water_entry(incoming, now=now)
     if not entry:
@@ -1528,6 +1554,32 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         path = self.path.split("?", 1)[0]
+        water_prefix = "/api/water-entries/"
+        if path.startswith(water_prefix):
+            if WATER_LOG_ADMIN_KEY and self.headers.get("X-Water-Log-Admin-Key") != WATER_LOG_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            entry_id = clean_time_text(path.removeprefix(water_prefix), 160)
+            if not entry_id:
+                self.send_json(400, {"ok": False, "error": "invalid_entry_id"})
+                return
+            try:
+                with WATER_LOG_LOCK:
+                    payload = load_water_log_payload()
+                    entry = next((item for item in payload["entries"] if item["id"] == entry_id), None)
+                    if entry:
+                        remaining = [item for item in payload["entries"] if item["id"] != entry_id]
+                        total = kpi_remove_water(entry, remaining)
+                        payload["entries"] = remaining
+                        payload["updatedAt"] = utc_iso_now()
+                        write_water_log(payload)
+                    else:
+                        total = None
+            except (urllib.error.URLError, TimeoutError, RuntimeError) as exc:
+                self.send_json(502, {"ok": False, "error": "kpi_update_failed", "message": str(exc)})
+                return
+            self.send_json(200, {"ok": True, "deleted": entry is not None, "totalMl": total})
+            return
         urine_prefix = "/api/urine-entries/"
         if path.startswith(urine_prefix):
             if URINE_LOG_ADMIN_KEY and self.headers.get("X-Urine-Log-Admin-Key") != URINE_LOG_ADMIN_KEY:

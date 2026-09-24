@@ -64,6 +64,8 @@
     .urine-dialog-header h2 { color:var(--blue);font-size:18px;margin-bottom:4px; }
     .urine-dialog-header p { color:var(--muted);font-size:12px; }
     .dialog-close { width:36px;height:36px;border:1px solid var(--border);border-radius:8px;background:#1f2937;color:var(--muted);font-size:20px;cursor:pointer; }
+    .sync-connect-button { width:auto;height:38px;padding:0 13px;border:1px solid var(--border);border-radius:8px;background:#1f2937;color:var(--text);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap; }
+    .sync-connect-button:hover { border-color:var(--warm); }
     .urine-fields { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
     .urine-fields .field { margin:0; }
     .urine-fields .wide { grid-column:1/-1; }
@@ -282,7 +284,7 @@
       <button id="addWaterHistoryBtn" type="submit">Add Water</button>
     </form>
     <div class="urine-dialog-actions">
-      <button type="button" class="dialog-close" onclick="connectWaterSync()">Connect Siri &amp; Sync</button>
+      <button type="button" class="sync-connect-button" onclick="connectWaterSync()">Connect Siri &amp; Sync</button>
       <div id="waterHistoryStatus" role="status"></div>
     </div>
     <div class="urine-history">
@@ -1082,7 +1084,7 @@ function writeWaterLog(entries) {
   localStorage.setItem(WATER_LOG_KEY, JSON.stringify(entries));
 }
 
-async function waterApi(method = 'GET', payload = null) {
+async function waterApi(method = 'GET', payload = null, entryId = '') {
   const key = urineAdminKey();
   if (!key) throw Object.assign(new Error('Connect Siri & Sync first.'), { status: 401 });
   const options = { method, headers: { 'X-Water-Log-Admin-Key': key }, cache: 'no-store' };
@@ -1090,7 +1092,7 @@ async function waterApi(method = 'GET', payload = null) {
     options.headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(payload);
   }
-  const response = await fetch(WATER_API, options);
+  const response = await fetch(WATER_API + (entryId ? '/' + encodeURIComponent(entryId) : ''), options);
   if (!response.ok) throw Object.assign(new Error(response.status === 401 ? 'The private key was not accepted.' : `Water sync returned HTTP ${response.status}.`), { status: response.status });
   return response.json();
 }
@@ -1434,6 +1436,7 @@ async function deleteWaterEntry(id) {
   setWaterHistoryStatus('Saving...');
   try {
     const nextTotal = Math.max(0, currentTotal - waterNumber(entry?.amountMl));
+    if (urineAdminKey()) await waterApi('DELETE', null, id);
     writeWaterLog(next);
     renderWaterHistory(dateStr);
     await persistWaterTotalForDate(dateStr, nextTotal, nextStopTime);
