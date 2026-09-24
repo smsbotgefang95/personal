@@ -261,7 +261,7 @@
         <div class="field"><label for="urineColor">Color</label><select id="urineColor"><option>Colorless</option><option selected>Pale yellow</option><option>Yellow</option><option>Dark yellow</option></select></div>
         <div class="field"><label for="urineUrgency">Urgency</label><select id="urineUrgency"><option>Mild</option><option selected>Moderate</option><option>Strong</option></select></div>
       </div>
-      <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><button type="button" class="dialog-close" onclick="connectUrineSync()">Connect Siri &amp; Sync</button><span id="urineLogStatus" role="status"></span></div>
+      <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><button id="urineSyncConnectBtn" type="button" class="sync-connect-button" onclick="connectUrineSync()">Connect Siri &amp; Sync</button><span id="urineLogStatus" role="status"></span></div>
     </form>
     <div class="urine-history"><h3 id="urineHistoryTitle">Today’s entries</h3><div id="urineLogList"></div></div>
     <div class="urine-history" id="urineHistorySection">
@@ -284,7 +284,7 @@
       <button id="addWaterHistoryBtn" type="submit">Add Water</button>
     </form>
     <div class="urine-dialog-actions">
-      <button type="button" class="sync-connect-button" onclick="connectWaterSync()">Connect Siri &amp; Sync</button>
+      <button id="waterSyncConnectBtn" type="button" class="sync-connect-button" onclick="connectWaterSync()">Connect Siri &amp; Sync</button>
       <div id="waterHistoryStatus" role="status"></div>
     </div>
     <div class="urine-history">
@@ -631,6 +631,14 @@ function urineAdminKey() {
   return localStorage.getItem(URINE_ADMIN_KEY_STORAGE) || localStorage.getItem(SHARED_ADMIN_KEY_STORAGE) || '';
 }
 
+function updateHydrationSyncControls() {
+  const connected = Boolean(urineAdminKey());
+  ['urineSyncConnectBtn', 'waterSyncConnectBtn'].forEach(id => {
+    const button = document.getElementById(id);
+    if (button) button.hidden = connected;
+  });
+}
+
 async function urineApi(method = 'GET', payload = null, entryId = '') {
   const key = urineAdminKey();
   if (!key) throw Object.assign(new Error('Connect Siri & Sync first.'), { status: 401 });
@@ -665,6 +673,7 @@ async function connectUrineSync() {
   if (!key) key = window.prompt('Enter the same Personal site private key used by Time Analysis:') || '';
   if (!key) return;
   localStorage.setItem(URINE_ADMIN_KEY_STORAGE, key.trim());
+  updateHydrationSyncControls();
   const status = document.getElementById('urineLogStatus');
   status.textContent = 'Syncing…';
   status.className = '';
@@ -675,6 +684,7 @@ async function connectUrineSync() {
     status.className = 'ok';
   } catch (error) {
     if (error.status === 401) localStorage.removeItem(URINE_ADMIN_KEY_STORAGE);
+    updateHydrationSyncControls();
     status.textContent = error.message;
     status.className = 'err';
   }
@@ -950,6 +960,7 @@ function openUrineLog() {
   document.getElementById('urineLogStatus').textContent = '';
   document.getElementById('urineLogStatus').className = '';
   renderUrineLog();
+  updateHydrationSyncControls();
   if (!dialog.open) dialog.showModal();
   setTimeout(() => document.getElementById('urineVolume').focus(), 0);
 }
@@ -1235,6 +1246,7 @@ function openWaterHistory() {
   document.getElementById('waterHistoryTime').value = localTimeStr();
   setWaterHistoryStatus('');
   renderWaterHistory(todayStr);
+  updateHydrationSyncControls();
   if (!dialog.open) dialog.showModal();
 }
 
@@ -1941,6 +1953,7 @@ renderQuickUrineLog();
 renderTodayWaterLog();
 loadData();
 refreshSyncedHydrationLogs();
+updateHydrationSyncControls();
 </script>
 </body>
 </html>
