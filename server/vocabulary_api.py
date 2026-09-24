@@ -8,6 +8,7 @@ import tempfile
 import threading
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import unicodedata
 import uuid
@@ -22,6 +23,7 @@ DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "deletedEntryKeys": [], "updatedAt": None}
 DEFAULT_URINE_LOG_PAYLOAD = {"entries": [], "updatedAt": None}
+DEFAULT_WATER_LOG_PAYLOAD = {"entries": [], "updatedAt": None}
 DEFAULT_SMART_SHOPPING_PAYLOAD = {"itemEdits": {}, "itemAdds": {}, "customBrandOptions": [], "itemPurchases": {}, "itemRemovals": {}, "itemRestorations": {}, "itemMoves": {}, "priceHistory": {}, "updatedAt": None}
 DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
 TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
@@ -43,6 +45,7 @@ QUESTION_STATUSES = {"tolearn", "learning", "review", "learned"}
 QUESTION_PROGRESS_LOCK = threading.Lock()
 TIME_ENTRIES_LOCK = threading.Lock()
 URINE_LOG_LOCK = threading.Lock()
+WATER_LOG_LOCK = threading.Lock()
 
 
 def env_path(name, default):
@@ -65,6 +68,9 @@ TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/tim
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
 URINE_LOG_DATA_PATH = env_path("URINE_LOG_DATA_PATH", "~/personal-data/urine-log.json")
 URINE_LOG_ADMIN_KEY = os.environ.get("URINE_LOG_ADMIN_KEY", TIME_ENTRIES_ADMIN_KEY or ADMIN_KEY)
+WATER_LOG_DATA_PATH = env_path("WATER_LOG_DATA_PATH", "~/personal-data/water-log.json")
+WATER_LOG_ADMIN_KEY = os.environ.get("WATER_LOG_ADMIN_KEY", TIME_ENTRIES_ADMIN_KEY or ADMIN_KEY)
+KPI_API_URL = os.environ.get("KPI_API_URL", "https://script.google.com/macros/s/AKfycbx3Jg4yrFCInTSYfRMfyS1FJO6JDPFcMrlOSDgsCFMpVGjjPY4OWd9zTYj5QqAZimA/exec")
 TIME_TASK_CATALOG_PATH = env_path("TIME_TASK_CATALOG_PATH", str(REPO_DIR / "data" / "time-task-catalog.json"))
 SMART_SHOPPING_DATA_PATH = env_path("SMART_SHOPPING_DATA_PATH", "~/personal-data/smart-shopping.json")
 SMART_SHOPPING_ADMIN_KEY = os.environ.get("SMART_SHOPPING_ADMIN_KEY", ADMIN_KEY)
@@ -1246,6 +1252,102 @@ def add_urine_entry(incoming, now=None):
             write_urine_log(payload)
     return 200, {"ok": True, "entry": entry, "message": f"Logged {entry['volumeMl']} milliliters of urine at {entry['time']}."}
 
+
+def clean_water_entry(value, now=None):
+    if not isinstance(value, dict):
+        return None
+    try:
+        amount_ml = int(round(float(value.get("amountMl", value.get("amount", 0)))))
+    except (TypeError, ValueError):
+        return None
+    if not 1 <= amount_ml <= 5000:
+        return None
+    now = now or datetime.now().astimezone()
+    date = clean_time_text(value.get("date"), 10) or now.strftime("%Y-%m-%d")
+    entry_time = clean_time_text(value.get("time"), 5) or now.strftime("%H:%M")
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+        datetime.strptime(entry_time, "%H:%M")
+    except ValueError:
+        return None
+    return {
+        "id": clean_time_text(value.get("id"), 160) or f"water-{uuid.uuid4().hex}",
+        "date": date,
+        "time": entry_time,
+        "amountMl": amount_ml,
+        "source": clean_time_text(value.get("source"), 40) or "siri",
+        "createdAt": clean_time_text(value.get("createdAt"), 40) or now.isoformat(timespec="milliseconds"),
+    }
+
+
+def load_water_log_payload():
+    try:
+        with WATER_LOG_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        payload = DEFAULT_WATER_LOG_PAYLOAD.copy()
+    incoming = payload.get("entries", []) if isinstance(payload, dict) else []
+    entries = []
+    seen = set()
+    for item in incoming[:10000] if isinstance(incoming, list) else []:
+        entry = clean_water_entry(item)
+        if entry and entry["id"] not in seen:
+            seen.add(entry["id"])
+            entries.append(entry)
+    entries.sort(key=lambda item: (item["date"], item["time"], item["createdAt"]))
+    return {"entries": entries, "updatedAt": payload.get("updatedAt") if isinstance(payload, dict) else None}
+
+
+def write_water_log(payload):
+    atomic_write(WATER_LOG_DATA_PATH, payload)
+
+
+def kpi_api_request(params):
+    url = KPI_API_URL + "?" + urllib.parse.urlencode(params)
+    with urllib.request.urlopen(url, timeout=20) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def kpi_add_water(entry):
+    current = kpi_api_request({"action": "getForDate", "date": entry["date"]})
+    try:
+        current_total = int(round(float(current.get("water") or 0))) if current.get("found") else 0
+    except (TypeError, ValueError):
+        current_total = 0
+    fields = (
+        "workout", "workoutNotes", "stretch", "footbath", "massage", "badMood", "moodReason",
+        "wakeOnTime", "sleepOnTime", "sleepTracked", "sleepScore", "minutesAwake", "lateSleepReason",
+        "nightUrination",
+    )
+    update = {"action": "update", "date": entry["date"], "water": current_total + entry["amountMl"]}
+    for field in fields:
+        update[field] = current.get(field) or ""
+    hour, minute = (int(part) for part in entry["time"].split(":"))
+    update["stopWaterTime"] = f"{(hour - 1) % 12 + 1}:{minute:02d} {'PM' if hour >= 12 else 'AM'}"
+    result = kpi_api_request(update)
+    if not result.get("success"):
+        raise RuntimeError(result.get("message") or "KPI update failed")
+    return current_total + entry["amountMl"]
+
+
+def add_water_entry(incoming, now=None):
+    entry = clean_water_entry(incoming, now=now)
+    if not entry:
+        return 400, {"ok": False, "error": "invalid_entry", "message": "Enter a water amount between 1 and 5000 milliliters."}
+    with WATER_LOG_LOCK:
+        payload = load_water_log_payload()
+        existing = next((item for item in payload["entries"] if item["id"] == entry["id"]), None)
+        if existing:
+            entry = existing
+            day_total = sum(item["amountMl"] for item in payload["entries"] if item["date"] == entry["date"])
+        else:
+            day_total = kpi_add_water(entry)
+            payload["entries"].append(entry)
+            payload["entries"].sort(key=lambda item: (item["date"], item["time"], item["createdAt"]))
+            payload["updatedAt"] = utc_iso_now()
+            write_water_log(payload)
+    return 200, {"ok": True, "entry": entry, "totalMl": day_total, "message": f"Logged {entry['amountMl']} milliliters of water. Today's total is {day_total} milliliters."}
+
 def load_smart_shopping_payload():
     try:
         with SMART_SHOPPING_DATA_PATH.open("r", encoding="utf-8") as handle:
@@ -1319,7 +1421,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Urine-Log-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Urine-Log-Admin-Key, X-Water-Log-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
         self.end_headers()
         self.wfile.write(body)
 
@@ -1327,7 +1429,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Urine-Log-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Urine-Log-Admin-Key, X-Water-Log-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
 
@@ -1358,6 +1460,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/water-entries":
+            if WATER_LOG_ADMIN_KEY and self.headers.get("X-Water-Log-Admin-Key") != WATER_LOG_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            self.send_json(200, load_water_log_payload())
+            return
         if path == "/api/urine-entries":
             if URINE_LOG_ADMIN_KEY and self.headers.get("X-Urine-Log-Admin-Key") != URINE_LOG_ADMIN_KEY:
                 self.send_json(401, {"ok": False, "error": "admin_key_required"})
@@ -1456,6 +1564,26 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/water-entries":
+            if WATER_LOG_ADMIN_KEY and self.headers.get("X-Water-Log-Admin-Key") != WATER_LOG_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required", "message": "The Personal site private key is required."})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if length > 16 * 1024:
+                    self.send_json(413, {"ok": False, "error": "payload_too_large"})
+                    return
+                incoming = json.loads(self.rfile.read(length).decode("utf-8"))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json", "message": "I could not understand that water entry."})
+                return
+            try:
+                status, response = add_water_entry(incoming)
+            except (urllib.error.URLError, TimeoutError, RuntimeError) as exc:
+                self.send_json(502, {"ok": False, "error": "kpi_update_failed", "message": str(exc)})
+                return
+            self.send_json(status, response)
+            return
         if path == "/api/urine-entries":
             if URINE_LOG_ADMIN_KEY and self.headers.get("X-Urine-Log-Admin-Key") != URINE_LOG_ADMIN_KEY:
                 self.send_json(401, {"ok": False, "error": "admin_key_required", "message": "The Personal site private key is required."})
@@ -1617,6 +1745,9 @@ def main():
     TIME_ENTRIES_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not TIME_ENTRIES_DATA_PATH.exists():
         write_time_entries(DEFAULT_TIME_ENTRIES_PAYLOAD.copy())
+    WATER_LOG_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not WATER_LOG_DATA_PATH.exists():
+        write_water_log(DEFAULT_WATER_LOG_PAYLOAD.copy())
     URINE_LOG_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not URINE_LOG_DATA_PATH.exists():
         write_urine_log(DEFAULT_URINE_LOG_PAYLOAD.copy())

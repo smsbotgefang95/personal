@@ -504,6 +504,9 @@ const SHARED_ADMIN_KEY_STORAGE = 'personal.timeTracking.adminKey.v1';
 const URINE_API = (["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016")
   ? "http://localhost:8016/api/urine-entries"
   : "/api/urine-entries";
+const WATER_API = (["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016")
+  ? "http://localhost:8016/api/water-entries"
+  : "/api/water-entries";
 const segs = {};
 let charts = {};
 let savedTodayWaterMl = null;
@@ -662,6 +665,7 @@ async function connectUrineSync() {
   status.className = '';
   try {
     await syncUrineLogFromServer();
+    await syncWaterLogFromServer();
     status.textContent = 'Siri and cross-device sync connected.';
     status.className = 'ok';
   } catch (error) {
@@ -1073,6 +1077,31 @@ function readWaterLog() {
 
 function writeWaterLog(entries) {
   localStorage.setItem(WATER_LOG_KEY, JSON.stringify(entries));
+}
+
+async function waterApi(method = 'GET', payload = null) {
+  const key = urineAdminKey();
+  if (!key) throw Object.assign(new Error('Connect Siri & Sync first.'), { status: 401 });
+  const options = { method, headers: { 'X-Water-Log-Admin-Key': key }, cache: 'no-store' };
+  if (payload) {
+    options.headers['Content-Type'] = 'application/json';
+    options.body = JSON.stringify(payload);
+  }
+  const response = await fetch(WATER_API, options);
+  if (!response.ok) throw Object.assign(new Error(response.status === 401 ? 'The private key was not accepted.' : `Water sync returned HTTP ${response.status}.`), { status: response.status });
+  return response.json();
+}
+
+async function syncWaterLogFromServer() {
+  if (!urineAdminKey()) return false;
+  const remote = await waterApi();
+  const local = readWaterLog();
+  const merged = new Map([...local, ...(remote.entries || [])].map(entry => [entry.id, entry]));
+  writeWaterLog([...merged.values()]);
+  renderTodayWaterLog();
+  renderWaterHistory();
+  renderFluidComparisonChart();
+  return true;
 }
 
 function waterEntriesForDate(dateStr) {
@@ -1870,7 +1899,10 @@ document.addEventListener('visibilitychange', () => {
 renderQuickUrineLog();
 renderTodayWaterLog();
 loadData();
-if (urineAdminKey()) syncUrineLogFromServer().catch(() => {});
+if (urineAdminKey()) {
+  syncUrineLogFromServer().catch(() => {});
+  syncWaterLogFromServer().catch(() => {});
+}
 </script>
 </body>
 </html>
