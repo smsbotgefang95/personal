@@ -1890,19 +1890,36 @@ function refreshIfDateChanged() {
   loadData();
 }
 
+let hydrationSyncPending = false;
+async function refreshSyncedHydrationLogs() {
+  if (!urineAdminKey() || hydrationSyncPending) return;
+  hydrationSyncPending = true;
+  try {
+    await Promise.allSettled([
+      syncUrineLogFromServer(),
+      syncWaterLogFromServer()
+    ]);
+  } finally {
+    hydrationSyncPending = false;
+  }
+}
+
 // Keep long-lived tabs current when a new day/week starts.
 setInterval(refreshIfDateChanged, 60 * 1000);
+setInterval(() => {
+  if (!document.hidden) refreshSyncedHydrationLogs();
+}, 60 * 1000);
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) refreshIfDateChanged();
+  if (!document.hidden) {
+    refreshIfDateChanged();
+    refreshSyncedHydrationLogs();
+  }
 });
 
 renderQuickUrineLog();
 renderTodayWaterLog();
 loadData();
-if (urineAdminKey()) {
-  syncUrineLogFromServer().catch(() => {});
-  syncWaterLogFromServer().catch(() => {});
-}
+refreshSyncedHydrationLogs();
 </script>
 </body>
 </html>
