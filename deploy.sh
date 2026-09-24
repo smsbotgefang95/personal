@@ -419,6 +419,24 @@ path = Path(sys.argv[1])
 text = path.read_text()
 import re
 
+if "location ^~ /api/urine-entries" not in text:
+    urine_location = """
+    location ^~ /api/urine-entries {
+        client_max_body_size 16k;
+        proxy_pass http://127.0.0.1:8016;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+"""
+    marker = "    location = /api/smart-shopping {"
+    if marker not in text:
+        raise SystemExit("missing nginx insertion point for /api/urine-entries")
+    text = text.replace(marker, urine_location + marker, 1)
+
 for endpoint, limit in (("time-entries", "16m"), ("smart-shopping", "64m")):
     pattern = re.compile(r"(location = /api/" + re.escape(endpoint) + r" \{)([^}]*)(\})")
     if not pattern.search(text):
