@@ -69,6 +69,9 @@ fi
 if [ ! -f "$DATA_DIR/time-entries.json" ]; then
     printf '{\n  "entries": [],\n  "activeEntry": null,\n  "updatedAt": null\n}\n' > "$DATA_DIR/time-entries.json"
 fi
+if [ ! -f "$DATA_DIR/urine-log.json" ]; then
+    printf '{\n  "entries": [],\n  "updatedAt": null\n}\n' > "$DATA_DIR/urine-log.json"
+fi
 if [ ! -f "$DATA_DIR/smart-shopping.json" ]; then
     printf '{\n  "itemEdits": {},\n  "itemAdds": {},\n  "customBrandOptions": [],\n  "itemPurchases": {},\n  "itemRemovals": {},\n  "itemRestorations": {},\n  "itemMoves": {},\n  "updatedAt": null\n}\n' > "$DATA_DIR/smart-shopping.json"
 fi
@@ -118,6 +121,8 @@ LIFE_EVENTS_PUBLIC_PATH=$WEB_ROOT/data/life-events.json
 LIFE_EVENTS_ADMIN_KEY=$VOCAB_ADMIN_KEY
 TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
 TIME_ENTRIES_ADMIN_KEY=$VOCAB_ADMIN_KEY
+URINE_LOG_DATA_PATH=$DATA_DIR/urine-log.json
+URINE_LOG_ADMIN_KEY=$VOCAB_ADMIN_KEY
 SMART_SHOPPING_DATA_PATH=$DATA_DIR/smart-shopping.json
 SMART_SHOPPING_ADMIN_KEY=$VOCAB_ADMIN_KEY
 QUESTION_PROGRESS_DATA_PATH=$DATA_DIR/question-progress.json
@@ -150,6 +155,14 @@ TIME_ENTRIES_DATA_PATH=$DATA_DIR/time-entries.json
 TIME_ENTRIES_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
 EOF
     echo "Added Time Tracking API settings to $DATA_DIR/vocabulary-api.env"
+fi
+if ! grep -q '^URINE_LOG_DATA_PATH=' "$DATA_DIR/vocabulary-api.env"; then
+    EXISTING_VOCAB_ADMIN_KEY=$(grep '^VOCAB_ADMIN_KEY=' "$DATA_DIR/vocabulary-api.env" | head -n 1 | cut -d= -f2-)
+    cat >> "$DATA_DIR/vocabulary-api.env" <<EOF
+URINE_LOG_DATA_PATH=$DATA_DIR/urine-log.json
+URINE_LOG_ADMIN_KEY=$EXISTING_VOCAB_ADMIN_KEY
+EOF
+    echo "Added urine log API settings to $DATA_DIR/vocabulary-api.env"
 fi
 if ! grep -q '^SMART_SHOPPING_DATA_PATH=' "$DATA_DIR/vocabulary-api.env"; then
     EXISTING_VOCAB_ADMIN_KEY=$(grep '^VOCAB_ADMIN_KEY=' "$DATA_DIR/vocabulary-api.env" | head -n 1 | cut -d= -f2-)
@@ -296,6 +309,16 @@ server {
     }
 
     location = /api/time-command {
+        client_max_body_size 16k;
+        proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location ^~ /api/urine-entries {
         client_max_body_size 16k;
         proxy_pass http://127.0.0.1:$VOCAB_API_PORT;
         proxy_http_version 1.1;

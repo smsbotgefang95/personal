@@ -259,7 +259,7 @@
         <div class="field"><label for="urineColor">Color</label><select id="urineColor"><option>Colorless</option><option selected>Pale yellow</option><option>Yellow</option><option>Dark yellow</option></select></div>
         <div class="field"><label for="urineUrgency">Urgency</label><select id="urineUrgency"><option>Mild</option><option selected>Moderate</option><option>Strong</option></select></div>
       </div>
-      <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><span id="urineLogStatus" role="status"></span></div>
+      <div class="urine-dialog-actions"><button id="saveUrineBtn" type="submit">Save Entry</button><button type="button" class="dialog-close" onclick="connectUrineSync()">Connect Siri &amp; Sync</button><span id="urineLogStatus" role="status"></span></div>
     </form>
     <div class="urine-history"><h3 id="urineHistoryTitle">Today’s entries</h3><div id="urineLogList"></div></div>
     <div class="urine-history" id="urineHistorySection">
@@ -499,6 +499,11 @@ const API = 'https://script.google.com/macros/s/AKfycbx3Jg4yrFCInTSYfRMfyS1FJO6J
 const MONTHS = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const WATER_LOG_KEY = 'kpiWaterIntakeLog.v1';
 const URINE_LOG_KEY = 'kpiUrineLog.v1';
+const URINE_ADMIN_KEY_STORAGE = 'personal.urineLog.adminKey.v1';
+const SHARED_ADMIN_KEY_STORAGE = 'personal.timeTracking.adminKey.v1';
+const URINE_API = (["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port !== "8016")
+  ? "http://localhost:8016/api/urine-entries"
+  : "/api/urine-entries";
 const segs = {};
 let charts = {};
 let savedTodayWaterMl = null;
@@ -612,6 +617,63 @@ function readUrineLog() {
 
 function writeUrineLog(entries) {
   localStorage.setItem(URINE_LOG_KEY, JSON.stringify(entries));
+}
+
+function urineAdminKey() {
+  return localStorage.getItem(URINE_ADMIN_KEY_STORAGE) || localStorage.getItem(SHARED_ADMIN_KEY_STORAGE) || '';
+}
+
+async function urineApi(method = 'GET', payload = null, entryId = '') {
+  const key = urineAdminKey();
+  if (!key) throw Object.assign(new Error('Connect Siri & Sync first.'), { status: 401 });
+  const options = { method, headers: { 'X-Urine-Log-Admin-Key': key }, cache: 'no-store' };
+  if (payload) {
+    options.headers['Content-Type'] = 'application/json';
+    options.body = JSON.stringify(payload);
+  }
+  const response = await fetch(URINE_API + (entryId ? '/' + encodeURIComponent(entryId) : ''), options);
+  if (!response.ok) throw Object.assign(new Error(response.status === 401 ? 'The private key was not accepted.' : `Urine sync returned HTTP ${response.status}.`), { status: response.status });
+  return response.json();
+}
+
+async function syncUrineLogFromServer() {
+  if (!urineAdminKey()) return false;
+  const remote = await urineApi();
+  const local = readUrineLog();
+  const remoteIds = new Set((remote.entries || []).map(entry => entry.id));
+  for (const entry of local) {
+    if (!remoteIds.has(entry.id)) await urineApi('POST', { ...entry, source: entry.source || 'site' });
+  }
+  const refreshed = local.some(entry => !remoteIds.has(entry.id)) ? await urineApi() : remote;
+  writeUrineLog(refreshed.entries || []);
+  renderQuickUrineLog();
+  renderUrineLog();
+  renderFluidComparisonChart();
+  return true;
+}
+
+async function connectUrineSync() {
+  let key = urineAdminKey();
+  if (!key) key = window.prompt('Enter the same Personal site private key used by Time Analysis:') || '';
+  if (!key) return;
+  localStorage.setItem(URINE_ADMIN_KEY_STORAGE, key.trim());
+  const status = document.getElementById('urineLogStatus');
+  status.textContent = 'Syncing…';
+  status.className = '';
+  try {
+    await syncUrineLogFromServer();
+    status.textContent = 'Siri and cross-device sync connected.';
+    status.className = 'ok';
+  } catch (error) {
+    if (error.status === 401) localStorage.removeItem(URINE_ADMIN_KEY_STORAGE);
+    status.textContent = error.message;
+    status.className = 'err';
+  }
+}
+
+async function saveUrineEntryRemote(entry) {
+  if (!urineAdminKey()) return;
+  await urineApi('POST', { ...entry, source: entry.source || 'site' });
 }
 
 function trackingDateForTimestamp(dateStr, timeStr, cutoffHour = 6) {
@@ -854,17 +916,20 @@ function logUrineQuick() {
     return;
   }
   const now = new Date();
-  writeUrineLog([...readUrineLog(), {
+  const entry = {
     id: 'urine-' + now.getTime() + '-' + Math.random().toString(16).slice(2),
     date: localDateStr(now),
     time: localTimeStr(now),
     volumeMl: volume,
     color: '',
     urgency: '',
-    createdAt: now.toISOString()
-  }]);
+    createdAt: now.toISOString(),
+    source: 'site'
+  };
+  writeUrineLog([...readUrineLog(), entry]);
   renderQuickUrineLog();
   renderFluidComparisonChart();
+  saveUrineEntryRemote(entry).catch(() => {});
 }
 
 function openUrineLog() {
@@ -901,7 +966,8 @@ function saveUrineEntry(event) {
     volumeMl: volume,
     color: document.getElementById('urineColor').value,
     urgency: document.getElementById('urineUrgency').value,
-    createdAt: now.toISOString()
+    createdAt: now.toISOString(),
+    source: 'site'
   };
   writeUrineLog([...readUrineLog(), entry]);
   status.textContent = `Saved ${volume} mL at ${entry.time}.`;
@@ -912,6 +978,10 @@ function saveUrineEntry(event) {
   renderUrineLog(trackingDateForTimestamp(entry.date, entry.time));
   renderQuickUrineLog();
   renderFluidComparisonChart();
+  saveUrineEntryRemote(entry).catch(error => {
+    status.textContent = `Saved locally; sync failed: ${error.message}`;
+    status.className = 'err';
+  });
   document.getElementById('urineVolume').focus();
 }
 
@@ -922,6 +992,7 @@ function deleteUrineEntry(id) {
   renderUrineLog(document.getElementById('urineHistoryTitle').dataset.trackingDate || currentTrackingDateStr());
   renderQuickUrineLog();
   renderFluidComparisonChart();
+  if (urineAdminKey()) urineApi('DELETE', null, id).catch(() => {});
 }
 
 function renderUrineLog(dateStr = currentTrackingDateStr()) {
@@ -1799,6 +1870,7 @@ document.addEventListener('visibilitychange', () => {
 renderQuickUrineLog();
 renderTodayWaterLog();
 loadData();
+if (urineAdminKey()) syncUrineLogFromServer().catch(() => {});
 </script>
 </body>
 </html>

@@ -15,11 +15,13 @@ from datetime import datetime, timezone
 from difflib import SequenceMatcher
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 
 DEFAULT_PAYLOAD = {"labels": {}, "meanings": {}, "updatedAt": None}
 DEFAULT_LIFE_EVENTS_PAYLOAD = {"events": [], "deletedImportIds": [], "topicOrderByArea": {}, "hiddenTopicRows": {}, "updatedAt": None}
 DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrides": {}, "taskMerges": {}, "deletedEntryKeys": [], "updatedAt": None}
+DEFAULT_URINE_LOG_PAYLOAD = {"entries": [], "updatedAt": None}
 DEFAULT_SMART_SHOPPING_PAYLOAD = {"itemEdits": {}, "itemAdds": {}, "customBrandOptions": [], "itemPurchases": {}, "itemRemovals": {}, "itemRestorations": {}, "itemMoves": {}, "priceHistory": {}, "updatedAt": None}
 DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
 TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
@@ -40,6 +42,7 @@ DEFAULT_QUESTION_PROGRESS_PAYLOAD = {"progress": DEFAULT_QUESTION_PROGRESS, "upd
 QUESTION_STATUSES = {"tolearn", "learning", "review", "learned"}
 QUESTION_PROGRESS_LOCK = threading.Lock()
 TIME_ENTRIES_LOCK = threading.Lock()
+URINE_LOG_LOCK = threading.Lock()
 
 
 def env_path(name, default):
@@ -60,6 +63,8 @@ LIFE_EVENTS_REPO_DATA_PATH = REPO_DIR / "data" / "life-events.json"
 LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
+URINE_LOG_DATA_PATH = env_path("URINE_LOG_DATA_PATH", "~/personal-data/urine-log.json")
+URINE_LOG_ADMIN_KEY = os.environ.get("URINE_LOG_ADMIN_KEY", TIME_ENTRIES_ADMIN_KEY or ADMIN_KEY)
 TIME_TASK_CATALOG_PATH = env_path("TIME_TASK_CATALOG_PATH", str(REPO_DIR / "data" / "time-task-catalog.json"))
 SMART_SHOPPING_DATA_PATH = env_path("SMART_SHOPPING_DATA_PATH", "~/personal-data/smart-shopping.json")
 SMART_SHOPPING_ADMIN_KEY = os.environ.get("SMART_SHOPPING_ADMIN_KEY", ADMIN_KEY)
@@ -71,6 +76,7 @@ LEARNING_ENGLISH_CUSTOM_REPO_DATA_PATH = REPO_DIR / "data" / "learning-english-c
 LEARNING_ENGLISH_CUSTOM_ADMIN_KEY = os.environ.get("LEARNING_ENGLISH_CUSTOM_ADMIN_KEY", ADMIN_KEY)
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_VOCAB_MODEL = os.environ.get("OPENAI_VOCAB_MODEL", "gpt-4o-mini")
+PERSONAL_TIME_ZONE = ZoneInfo("America/New_York")
 
 
 def clean_map(value):
@@ -1166,6 +1172,80 @@ def write_time_entries(payload):
     atomic_write(TIME_ENTRIES_DATA_PATH, payload)
     return {"status": "stored"}
 
+
+def clean_urine_entry(value, now=None):
+    if not isinstance(value, dict):
+        return None
+    try:
+        volume_ml = int(round(float(value.get("volumeMl", value.get("volume", 0)))))
+    except (TypeError, ValueError):
+        return None
+    if not 5 <= volume_ml <= 5000:
+        return None
+    now = (now or datetime.now(timezone.utc)).astimezone(PERSONAL_TIME_ZONE)
+    date = clean_time_text(value.get("date"), 10) or now.strftime("%Y-%m-%d")
+    entry_time = clean_time_text(value.get("time"), 5) or now.strftime("%H:%M")
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+        datetime.strptime(entry_time, "%H:%M")
+    except ValueError:
+        return None
+    return {
+        "id": clean_time_text(value.get("id"), 160) or f"urine-{uuid.uuid4().hex}",
+        "date": date,
+        "time": entry_time,
+        "volumeMl": volume_ml,
+        "color": clean_time_text(value.get("color"), 40),
+        "urgency": clean_time_text(value.get("urgency"), 40),
+        "source": clean_time_text(value.get("source"), 40) or "site",
+        "createdAt": clean_time_text(value.get("createdAt"), 40) or now.isoformat(timespec="milliseconds"),
+    }
+
+
+def clean_urine_log_payload(value):
+    incoming = value.get("entries", []) if isinstance(value, dict) else []
+    entries = []
+    seen = set()
+    for item in incoming[:10000] if isinstance(incoming, list) else []:
+        entry = clean_urine_entry(item)
+        if not entry or entry["id"] in seen:
+            continue
+        seen.add(entry["id"])
+        entries.append(entry)
+    entries.sort(key=lambda item: (item["date"], item["time"], item["createdAt"]))
+    return {"entries": entries, "updatedAt": value.get("updatedAt") if isinstance(value, dict) else None}
+
+
+def load_urine_log_payload():
+    try:
+        with URINE_LOG_DATA_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        payload = DEFAULT_URINE_LOG_PAYLOAD.copy()
+    return clean_urine_log_payload(payload)
+
+
+def write_urine_log(payload):
+    atomic_write(URINE_LOG_DATA_PATH, payload)
+    return {"status": "stored"}
+
+
+def add_urine_entry(incoming, now=None):
+    entry = clean_urine_entry(incoming, now=now)
+    if not entry:
+        return 400, {"ok": False, "error": "invalid_entry", "message": "Enter a urine volume between 5 and 5000 milliliters."}
+    with URINE_LOG_LOCK:
+        payload = load_urine_log_payload()
+        existing = next((item for item in payload["entries"] if item["id"] == entry["id"]), None)
+        if existing:
+            entry = existing
+        else:
+            payload["entries"].append(entry)
+            payload["entries"].sort(key=lambda item: (item["date"], item["time"], item["createdAt"]))
+            payload["updatedAt"] = utc_iso_now()
+            write_urine_log(payload)
+    return 200, {"ok": True, "entry": entry, "message": f"Logged {entry['volumeMl']} milliliters of urine at {entry['time']}."}
+
 def load_smart_shopping_payload():
     try:
         with SMART_SHOPPING_DATA_PATH.open("r", encoding="utf-8") as handle:
@@ -1239,7 +1319,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Urine-Log-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
         self.end_headers()
         self.wfile.write(body)
 
@@ -1247,7 +1327,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Vocab-Admin-Key, X-Life-Events-Admin-Key, X-Time-Tracking-Admin-Key, X-Urine-Log-Admin-Key, X-Learning-English-Admin-Key, X-Smart-Shopping-Admin-Key")
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
 
@@ -1278,6 +1358,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/urine-entries":
+            if URINE_LOG_ADMIN_KEY and self.headers.get("X-Urine-Log-Admin-Key") != URINE_LOG_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            self.send_json(200, load_urine_log_payload())
+            return
         if path == "/api/time-entries":
             if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
                 self.send_json(401, {"ok": False, "error": "admin_key_required"})
@@ -1334,6 +1420,25 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         path = self.path.split("?", 1)[0]
+        urine_prefix = "/api/urine-entries/"
+        if path.startswith(urine_prefix):
+            if URINE_LOG_ADMIN_KEY and self.headers.get("X-Urine-Log-Admin-Key") != URINE_LOG_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            entry_id = clean_time_text(path.removeprefix(urine_prefix), 160)
+            if not entry_id:
+                self.send_json(400, {"ok": False, "error": "invalid_entry_id"})
+                return
+            with URINE_LOG_LOCK:
+                payload = load_urine_log_payload()
+                original_count = len(payload["entries"])
+                payload["entries"] = [entry for entry in payload["entries"] if entry["id"] != entry_id]
+                deleted = len(payload["entries"]) != original_count
+                if deleted:
+                    payload["updatedAt"] = utc_iso_now()
+                    write_urine_log(payload)
+            self.send_json(200, {"ok": True, "deleted": deleted})
+            return
         prefix = "/api/citizenship/question-progress/"
         if not path.startswith(prefix):
             self.send_error(404)
@@ -1351,6 +1456,22 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/urine-entries":
+            if URINE_LOG_ADMIN_KEY and self.headers.get("X-Urine-Log-Admin-Key") != URINE_LOG_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required", "message": "The Personal site private key is required."})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if length > 16 * 1024:
+                    self.send_json(413, {"ok": False, "error": "payload_too_large"})
+                    return
+                incoming = json.loads(self.rfile.read(length).decode("utf-8"))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json", "message": "I could not understand that urine entry."})
+                return
+            status, response = add_urine_entry(incoming)
+            self.send_json(status, response)
+            return
         if path == "/api/time-command":
             if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
                 self.send_json(401, {"ok": False, "error": "admin_key_required", "message": "The Time Analysis private key is required."})
@@ -1496,6 +1617,9 @@ def main():
     TIME_ENTRIES_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not TIME_ENTRIES_DATA_PATH.exists():
         write_time_entries(DEFAULT_TIME_ENTRIES_PAYLOAD.copy())
+    URINE_LOG_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not URINE_LOG_DATA_PATH.exists():
+        write_urine_log(DEFAULT_URINE_LOG_PAYLOAD.copy())
     SMART_SHOPPING_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     if not SMART_SHOPPING_DATA_PATH.exists():
         write_smart_shopping(DEFAULT_SMART_SHOPPING_PAYLOAD.copy())
