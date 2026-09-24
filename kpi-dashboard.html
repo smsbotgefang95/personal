@@ -281,7 +281,10 @@
       <div class="field"><label for="waterHistoryTime">Time</label><input type="time" id="waterHistoryTime" required></div>
       <button id="addWaterHistoryBtn" type="submit">Add Water</button>
     </form>
-    <div id="waterHistoryStatus" role="status"></div>
+    <div class="urine-dialog-actions">
+      <button type="button" class="dialog-close" onclick="connectWaterSync()">Connect Siri &amp; Sync</button>
+      <div id="waterHistoryStatus" role="status"></div>
+    </div>
     <div class="urine-history">
       <h3 id="waterHistorySummary">Today’s water</h3>
       <div id="waterHistoryList"></div>
@@ -1102,6 +1105,21 @@ async function syncWaterLogFromServer() {
   renderWaterHistory();
   renderFluidComparisonChart();
   return true;
+}
+
+async function connectWaterSync() {
+  let key = urineAdminKey();
+  if (!key) key = window.prompt('Enter the same Personal site private key used by your Siri Shortcut:') || '';
+  if (!key) return;
+  localStorage.setItem(URINE_ADMIN_KEY_STORAGE, key.trim());
+  setWaterHistoryStatus('Syncing...');
+  try {
+    await syncWaterLogFromServer();
+    setWaterHistoryStatus('Siri and water history sync connected.', 'ok');
+  } catch (error) {
+    if (error.status === 401) localStorage.removeItem(URINE_ADMIN_KEY_STORAGE);
+    setWaterHistoryStatus(error.message, 'err');
+  }
 }
 
 function waterEntriesForDate(dateStr) {
