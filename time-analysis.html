@@ -4118,6 +4118,7 @@
   let businessMustReminderFiredKeys = null;
   let businessMustReminderAudioContext = null;
   let timeAnalysisAudioOutputGain = null;
+  let timeAnalysisAudioKeepAliveNode = null;
   let businessMustReminderSoundReady = false;
   let businessMustReminderNotifications = new Set();
   let businessMustReminderAudioNodes = [];
@@ -6204,6 +6205,16 @@
   function silenceAiAgentBreakAlarmSound() {
     timeAnalysisAudioGeneration += 1;
     businessMustReminderSoundReady = false;
+    if (timeAnalysisAudioKeepAliveNode) {
+      try {
+        timeAnalysisAudioKeepAliveNode.oscillator.stop();
+        timeAnalysisAudioKeepAliveNode.oscillator.disconnect();
+        timeAnalysisAudioKeepAliveNode.gain.disconnect();
+      } catch (error) {
+        // The keep-alive oscillator may already be stopped during page teardown.
+      }
+      timeAnalysisAudioKeepAliveNode = null;
+    }
     if (timeAnalysisAudioOutputGain && businessMustReminderAudioContext) {
       try {
         timeAnalysisAudioOutputGain.gain.cancelScheduledValues(0);
@@ -7195,6 +7206,17 @@
     return businessMustReminderAudioContext;
   }
 
+  function keepTimeAnalysisAudioAwake(context) {
+    if (timeAnalysisAudioMuted || timeAnalysisAudioKeepAliveNode || !timeAnalysisAudioOutputGain) return;
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.frequency.setValueAtTime(20, context.currentTime);
+    gain.gain.setValueAtTime(0, context.currentTime);
+    oscillator.connect(gain).connect(timeAnalysisAudioOutputGain);
+    oscillator.start();
+    timeAnalysisAudioKeepAliveNode = { oscillator, gain };
+  }
+
   function playBusinessMustReminderTone(context, frequency, toneStart, duration = 0.24) {
     if (timeAnalysisAudioMuted || !timeAnalysisAudioOutputGain) return;
     const oscillator = context.createOscillator();
@@ -7244,6 +7266,7 @@
     if (!context) return;
     if (context.state === "suspended") await context.resume();
     if (timeAnalysisAudioMuted || generation !== timeAnalysisAudioGeneration) return;
+    keepTimeAnalysisAudioAwake(context);
     businessMustReminderSoundReady = context.state === "running";
     const start = context.currentTime + 0.03;
     [
@@ -7261,6 +7284,7 @@
     if (!context) return;
     if (context.state === "suspended") await context.resume();
     if (timeAnalysisAudioMuted || generation !== timeAnalysisAudioGeneration) return;
+    keepTimeAnalysisAudioAwake(context);
     businessMustReminderSoundReady = context.state === "running";
     const start = context.currentTime + 0.03;
     AI_AGENT_BREAK_ALARM_TONE.forEach(([frequency, offset]) => {
@@ -7277,6 +7301,7 @@
       if (timeAnalysisAudioMuted) return false;
       if (context.state === "running") {
         primeBusinessMustReminderSound(context);
+        keepTimeAnalysisAudioAwake(context);
         businessMustReminderSoundReady = true;
         return true;
       }

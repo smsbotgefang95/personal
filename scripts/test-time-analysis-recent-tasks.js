@@ -327,6 +327,16 @@ assert.ok(
   startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound()"),
   "switching tasks must stop scheduled alarm audio before unlocking audio for the new timer"
 );
+const unlockAlarmSource = extractFunction(html, "unlockBusinessMustReminderSound");
+assert.ok(
+  unlockAlarmSource.includes("keepTimeAnalysisAudioAwake(context)"),
+  "starting a timer must keep its unlocked audio context alive while the tab is in the background"
+);
+const silenceAlarmSource = extractFunction(html, "silenceAiAgentBreakAlarmSound");
+assert.ok(
+  silenceAlarmSource.includes("timeAnalysisAudioKeepAliveNode.oscillator.stop()"),
+  "muting or stopping the alarm must stop the audio keep-alive oscillator"
+);
 console.log("Task-switch alarm reset checks passed.");
 
 const crossTabAlarmEvents = [];
