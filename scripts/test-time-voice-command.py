@@ -26,12 +26,25 @@ def run():
             "entries": [
                 {"listId": "business", "listName": "In Business", "taskId": "books", "taskName": "💳 Reconcile books", "department": "Finance"},
                 {"listId": "personal", "listName": "Personal", "taskId": "walk", "taskName": "🚶 Walk"},
+                {"listId": "personal", "listName": "Personal", "taskId": "workout-current", "taskName": "🏋🏻‍♀️ Work out"},
                 {"listId": "business", "listName": "In Business", "taskId": "vendor-calls", "taskName": "Call vendors"},
                 {"listId": "business", "listName": "In Business", "taskId": "seller-calls", "taskName": "Call sellers"},
             ]
         }
         API.TIME_TASK_CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
-        API.TIME_ENTRIES_DATA_PATH.write_text(json.dumps(API.DEFAULT_TIME_ENTRIES_PAYLOAD), encoding="utf-8")
+        initial_payload = {
+            **API.DEFAULT_TIME_ENTRIES_PAYLOAD,
+            "entries": [{
+                "id": "legacy-workout-entry", "sourceType": "native",
+                "start": "2026-09-23T10:00:00.000Z", "stop": "2026-09-23T10:30:00.000Z", "durationMs": 1800000,
+                "listId": "personal", "listName": "Personal", "taskId": "native-task:work-out", "taskName": "🏋🏻‍♀️ Work out"
+            }]
+        }
+        API.TIME_ENTRIES_DATA_PATH.write_text(json.dumps(initial_payload), encoding="utf-8")
+
+        status, response = API.apply_time_voice_command({"action": "switch", "task": "workout"}, "2026-09-24T11:00:00.000Z")
+        assert_equal(status, 200, "legacy duplicate match status")
+        assert_equal(API.load_time_entries_payload()["activeEntry"]["taskId"], "workout-current", "catalog task preferred over legacy duplicate")
 
         status, response = API.apply_time_voice_command({"action": "switch", "task": "reconcile books"}, "2026-09-24T12:00:00.000Z")
         assert_equal(status, 200, "exact match status")

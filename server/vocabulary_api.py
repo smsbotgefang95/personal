@@ -853,11 +853,12 @@ def load_time_task_catalog():
 def voice_task_candidates(payload):
     candidates = []
     seen = set()
+    seen_names = set()
     sources = []
     if payload.get("activeEntry"):
         sources.append(payload["activeEntry"])
-    sources.extend(payload.get("entries", []))
     sources.extend(load_time_task_catalog())
+    sources.extend(payload.get("entries", []))
     overrides = payload.get("taskOverrides", {})
     for source in sources:
         task_id = clean_time_text(source.get("taskId"), 160)
@@ -873,8 +874,12 @@ def voice_task_candidates(payload):
         for field in ("listId", "taskName", "department", "priority", "section", "taskCategory", "taskType"):
             if field in override and override[field]:
                 entry[field] = override[field]
-        if entry.get("taskName"):
-            candidates.append(entry)
+        normalized_name = normalize_voice_task_name(entry.get("taskName"))
+        name_key = (clean_time_text(entry.get("listId"), 80), normalized_name)
+        if not normalized_name or name_key in seen_names:
+            continue
+        seen_names.add(name_key)
+        candidates.append(entry)
     return candidates
 
 
