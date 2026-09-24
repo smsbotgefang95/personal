@@ -54,6 +54,7 @@ def run():
 
         status, response = API.apply_time_voice_command({"action": "switch", "task": "does not exist"}, "2026-09-24T12:35:00.000Z")
         assert_equal(status, 404, "missing task status")
+        assert_equal(response["message"], "I could not find that task. Try saying more of its name.", "missing task response")
 
     print("time voice command tests passed")
 

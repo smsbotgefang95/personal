@@ -1361,7 +1361,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(400, {"ok": False, "error": "invalid_json", "message": "I could not understand that command."})
                 return
             status, response = apply_time_voice_command(incoming)
-            self.send_json(status, response)
+            # Siri Shortcuts can read the response message reliably when a
+            # valid but unmatched/ambiguous spoken command still returns 200.
+            self.send_json(200 if status in {404, 409} else status, response)
             return
         if path == "/api/time-entries":
             if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
