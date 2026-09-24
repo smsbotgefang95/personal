@@ -9,6 +9,10 @@ import threading
 import time
 import urllib.error
 import urllib.request
+import unicodedata
+import uuid
+from datetime import datetime, timezone
+from difflib import SequenceMatcher
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -35,6 +39,7 @@ DEFAULT_QUESTION_PROGRESS = {
 DEFAULT_QUESTION_PROGRESS_PAYLOAD = {"progress": DEFAULT_QUESTION_PROGRESS, "updatedAt": None}
 QUESTION_STATUSES = {"tolearn", "learning", "review", "learned"}
 QUESTION_PROGRESS_LOCK = threading.Lock()
+TIME_ENTRIES_LOCK = threading.Lock()
 
 
 def env_path(name, default):
@@ -55,6 +60,7 @@ LIFE_EVENTS_REPO_DATA_PATH = REPO_DIR / "data" / "life-events.json"
 LIFE_EVENTS_ADMIN_KEY = os.environ.get("LIFE_EVENTS_ADMIN_KEY", ADMIN_KEY)
 TIME_ENTRIES_DATA_PATH = env_path("TIME_ENTRIES_DATA_PATH", "~/personal-data/time-entries.json")
 TIME_ENTRIES_ADMIN_KEY = os.environ.get("TIME_ENTRIES_ADMIN_KEY", ADMIN_KEY)
+TIME_TASK_CATALOG_PATH = env_path("TIME_TASK_CATALOG_PATH", str(REPO_DIR / "data" / "time-task-catalog.json"))
 SMART_SHOPPING_DATA_PATH = env_path("SMART_SHOPPING_DATA_PATH", "~/personal-data/smart-shopping.json")
 SMART_SHOPPING_ADMIN_KEY = os.environ.get("SMART_SHOPPING_ADMIN_KEY", ADMIN_KEY)
 QUESTION_PROGRESS_DATA_PATH = env_path("QUESTION_PROGRESS_DATA_PATH", "~/personal-data/question-progress.json")
@@ -828,6 +834,162 @@ def load_time_entries_payload():
     return clean_time_entries_payload(payload)
 
 
+def normalize_voice_task_name(value):
+    text = unicodedata.normalize("NFKD", clean_time_text(value, 240)).casefold()
+    text = "".join(char if char.isalnum() else " " for char in text)
+    return " ".join(text.split())
+
+
+def load_time_task_catalog():
+    try:
+        with TIME_TASK_CATALOG_PATH.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+    entries = payload.get("entries", []) if isinstance(payload, dict) else []
+    return [entry for entry in entries if isinstance(entry, dict) and entry.get("taskName") and entry.get("listId")]
+
+
+def voice_task_candidates(payload):
+    candidates = []
+    seen = set()
+    sources = []
+    if payload.get("activeEntry"):
+        sources.append(payload["activeEntry"])
+    sources.extend(payload.get("entries", []))
+    sources.extend(load_time_task_catalog())
+    overrides = payload.get("taskOverrides", {})
+    for source in sources:
+        task_id = clean_time_text(source.get("taskId"), 160)
+        list_id = clean_time_text(source.get("listId"), 80)
+        if not task_id or not list_id:
+            continue
+        key = f"{list_id}|||{task_id}"
+        if key in seen:
+            continue
+        seen.add(key)
+        entry = dict(source)
+        override = overrides.get(key, {})
+        for field in ("listId", "taskName", "department", "priority", "section", "taskCategory", "taskType"):
+            if field in override and override[field]:
+                entry[field] = override[field]
+        if entry.get("taskName"):
+            candidates.append(entry)
+    return candidates
+
+
+def match_voice_task(payload, requested_name):
+    query = normalize_voice_task_name(requested_name)
+    if not query:
+        return None, []
+    ranked = []
+    query_tokens = set(query.split())
+    for index, entry in enumerate(voice_task_candidates(payload)):
+        name = normalize_voice_task_name(entry.get("taskName"))
+        if not name:
+            continue
+        name_tokens = set(name.split())
+        if name == query:
+            score = 3.0
+        elif query in name:
+            score = 2.0 + min(0.5, len(query) / max(len(name), 1))
+        elif query_tokens and query_tokens.issubset(name_tokens):
+            score = 1.8 + min(0.4, len(query_tokens) / max(len(name_tokens), 1))
+        else:
+            score = SequenceMatcher(None, query, name).ratio()
+        ranked.append((score, -index, entry))
+    ranked.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    if not ranked or ranked[0][0] < 0.72:
+        return None, [item[2] for item in ranked[:3] if item[0] >= 0.55]
+    best_score = ranked[0][0]
+    close = [item[2] for item in ranked if item[0] >= best_score - 0.08 and item[0] >= 0.72]
+    if best_score < 3.0 and len(close) > 1:
+        return None, close[:5]
+    return ranked[0][2], []
+
+
+def utc_iso_now():
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
+
+def iso_timestamp_ms(value):
+    try:
+        return int(datetime.fromisoformat(str(value).replace("Z", "+00:00")).timestamp() * 1000)
+    except (TypeError, ValueError):
+        return 0
+
+
+def completed_voice_entry(active, stopped_at):
+    completed = dict(active)
+    completed["stop"] = stopped_at
+    completed["durationMs"] = max(1000, iso_timestamp_ms(stopped_at) - iso_timestamp_ms(active.get("start")))
+    completed["updatedAt"] = stopped_at
+    return clean_time_entry(completed, require_stop=True)
+
+
+def running_voice_entry(source, started_at):
+    entry = {
+        field: source.get(field, "")
+        for field in (
+            "listId", "listName", "taskId", "taskName", "department", "priority", "section",
+            "taskCategory", "taskType", "dueDate", "dueDateText", "dueTime", "startDate",
+            "startDateText", "recurring", "recurringText", "taskOrder", "notes"
+        )
+    }
+    entry.update({
+        "id": f"voice-{uuid.uuid4().hex}",
+        "sourceType": "native",
+        "start": started_at,
+        "deskSessionStart": started_at,
+        "stop": "",
+        "durationMs": 0,
+        "alarmMuted": True,
+        "createdAt": started_at,
+        "updatedAt": started_at,
+    })
+    return clean_time_entry(entry, require_stop=False)
+
+
+def apply_time_voice_command(incoming, now=None):
+    if not isinstance(incoming, dict):
+        return 400, {"ok": False, "error": "invalid_command", "message": "Tell me which task to track."}
+    action = clean_time_text(incoming.get("action"), 20).lower() or "switch"
+    now = now or utc_iso_now()
+    with TIME_ENTRIES_LOCK:
+        payload = load_time_entries_payload()
+        active = payload.get("activeEntry")
+        if action == "stop":
+            if not active:
+                return 200, {"ok": True, "message": "No timer is running.", "activeTask": None}
+            completed = completed_voice_entry(active, now)
+            if completed:
+                payload["entries"] = [completed, *payload.get("entries", [])]
+            payload["activeEntry"] = None
+            payload["updatedAt"] = now
+            write_time_entries(clean_time_entries_payload(payload))
+            return 200, {"ok": True, "message": f"Stopped {active['taskName']}.", "activeTask": None}
+        if action != "switch":
+            return 400, {"ok": False, "error": "invalid_action", "message": "Use switch or stop."}
+        match, alternatives = match_voice_task(payload, incoming.get("task") or incoming.get("taskName"))
+        if not match:
+            names = [clean_time_text(item.get("taskName"), 240) for item in alternatives]
+            if names:
+                return 409, {"ok": False, "error": "ambiguous_task", "message": f"I found more than one possible task: {', '.join(names)}.", "candidates": names}
+            return 404, {"ok": False, "error": "task_not_found", "message": "I could not find that task. Try saying more of its name."}
+        if active and active.get("listId") == match.get("listId") and active.get("taskId") == match.get("taskId"):
+            return 200, {"ok": True, "message": f"Already tracking {active['taskName']}.", "activeTask": active["taskName"]}
+        if active:
+            completed = completed_voice_entry(active, now)
+            if completed:
+                payload["entries"] = [completed, *payload.get("entries", [])]
+        new_active = running_voice_entry(match, now)
+        payload["activeEntry"] = new_active
+        payload["updatedAt"] = now
+        saved = clean_time_entries_payload(payload)
+        write_time_entries(saved)
+        return 200, {"ok": True, "message": f"Now tracking {new_active['taskName']}.", "activeTask": new_active["taskName"]}
+
+
 def clean_question_index(value):
     try:
         idx = int(value)
@@ -1184,6 +1346,23 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
+        if path == "/api/time-command":
+            if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
+                self.send_json(401, {"ok": False, "error": "admin_key_required", "message": "The Time Analysis private key is required."})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if length > 16 * 1024:
+                    self.send_json(413, {"ok": False, "error": "payload_too_large"})
+                    return
+                raw = self.rfile.read(length)
+                incoming = json.loads(raw.decode("utf-8"))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json(400, {"ok": False, "error": "invalid_json", "message": "I could not understand that command."})
+                return
+            status, response = apply_time_voice_command(incoming)
+            self.send_json(status, response)
+            return
         if path == "/api/time-entries":
             if TIME_ENTRIES_ADMIN_KEY and self.headers.get("X-Time-Tracking-Admin-Key") != TIME_ENTRIES_ADMIN_KEY:
                 self.send_json(401, {"ok": False, "error": "admin_key_required"})
@@ -1200,7 +1379,8 @@ class Handler(BaseHTTPRequestHandler):
                 return
             payload = clean_time_entries_payload(incoming)
             payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            write_result = write_time_entries(payload)
+            with TIME_ENTRIES_LOCK:
+                write_result = write_time_entries(payload)
             self.send_json(200, {"ok": True, "payload": payload, "git": write_result})
             return
         if path == "/api/smart-shopping":
