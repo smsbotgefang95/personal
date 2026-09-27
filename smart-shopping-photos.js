@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "烟台苹果",
+    "file": "yantai-apples-square.png",
+    "credit": "AI-generated with OpenAI ImageGen"
+  },
+  {
     "name": "鲳鱼",
     "file": "silver-pomfret-square.png",
     "source": "AI-generated transparent silver pomfret cutout",
