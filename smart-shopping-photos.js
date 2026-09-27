@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "鲳鱼",
+    "file": "silver-pomfret-square.png",
+    "source": "AI-generated transparent silver pomfret cutout",
+    "credit": "OpenAI ImageGen"
+  },
+  {
     "name": "Baking powder",
     "file": "zhenhaojia-instant-yeast-transparent.png",
     "source": "User-provided Smart Shopping photo",
