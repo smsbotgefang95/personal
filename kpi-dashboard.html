@@ -480,6 +480,13 @@
 <!-- ── WATER vs BATHROOM ──────────────────────────────────────────────────── -->
 <div class="section">
   <h2><span class="dot" style="background:var(--blue)"></span>Stop Water Time → Night Bathroom Trips</h2>
+  <div class="charts-row" style="margin-bottom:16px">
+    <div class="chart-box">
+      <h3>Nighttime Urination by Day</h3>
+      <p class="chart-note">Each bar shows the number of bathroom trips recorded for that night.</p>
+      <canvas id="nightUrinationChart" style="max-height:220px"></canvas>
+    </div>
+  </div>
   <div class="charts-row two">
     <div class="chart-box"><h3>Avg Night Bathroom Trips by Last Water Intake Time</h3><canvas id="waterBathroomChart"></canvas></div>
     <div class="chart-box"><h3>Breakdown by Time Window</h3><div id="waterBathroomTable" style="margin-top:8px;"></div></div>
@@ -1805,6 +1812,9 @@ function render(rows) {
   const zeroWD=wML.filter(v=>v===0).length,highWD=wML.filter(v=>v>=750).length,d500=wML.filter(v=>v>0&&v<=500).length;
 
   // ── Water vs Bathroom ─────────────────────────────────────────────────────
+  const nightUrinationRows=rows.filter(r=>r.nightUrination!==null&&r.nightUrination!==undefined&&r.nightUrination!==''&&Number.isFinite(Number(r.nightUrination)));
+  const nightUrinationDates=nightUrinationRows.map(r=>dispDate(r.date));
+  const nightUrinationCounts=nightUrinationRows.map(r=>Number(r.nightUrination));
   const wbDef=['Before 12PM','12–2PM','2–4PM','4–6PM','6–8PM','After 8PM'];
   const wbData={};wbDef.forEach(b=>{wbData[b]={total:0,count:0};});
   rows.forEach(r=>{
@@ -1889,6 +1899,12 @@ function render(rows) {
   });
   document.getElementById('waterInsight').innerHTML=`<strong>Avg: ${avgWaterVal} mL/day</strong> — <strong style="color:${THEME.danger}">${Math.round(avgWaterVal/1500*100)}%</strong> of the 1,500 mL target (${1500-avgWaterVal} mL short). <strong>${d500}</strong> days ≤500 mL · <strong>${zeroWD}</strong> days at 0 · <strong>${highWD}</strong> days ≥750 mL.<br><br><strong>📋 Action plan:</strong> ① Wake-up glass (200 mL) ② Glass 30 min before each meal (3×300 mL) ③ 10 AM alarm labeled "水" (400 mL) ④ Hard cutoff at 2 PM.`;
   renderFluidComparisonChart(rows);
+
+  charts.nightUrination = new Chart(document.getElementById('nightUrinationChart'),{
+    type:'bar',plugins:[ChartDataLabels],
+    data:{labels:nightUrinationDates,datasets:[{data:nightUrinationCounts,backgroundColor:nightUrinationCounts.map(v=>v===0?'rgba(34,197,94,0.72)':v===1?'rgba(59,130,246,0.76)':'rgba(245,158,11,0.8)'),borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} trip${ctx.parsed.y===1?'':'s'}`}},datalabels:{color:THEME.muted,font:{size:10,weight:'600'},align:'end',anchor:'end',offset:2,formatter:v=>v}},scales:{y:{beginAtZero:true,suggestedMax:Math.max(3,...nightUrinationCounts)+1,grid:{color:THEME.border},ticks:{stepSize:1,precision:0,callback:v=>v+' trip'+(v===1?'':'s'),color:THEME.muted}},x:{grid:{display:false},ticks:{maxTicksLimit:20,color:THEME.muted}}}}
+  });
 
   if (wbBuckets.length) {
     charts.wb = new Chart(document.getElementById('waterBathroomChart'),{
