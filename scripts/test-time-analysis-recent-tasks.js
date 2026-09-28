@@ -271,6 +271,8 @@ Object.assign(breakAlarmSandbox, {
   stopAiAgentBreakAlarm() { alarmStops += 1; },
   startAiAgentBreakAlarm() { alarmStarts += 1; }
 });
+vm.runInContext(extractFunction(html, "normalizedBreakAlarmTaskName"), breakAlarmSandbox);
+vm.runInContext(extractFunction(html, "isBreakAlarmExemptEntry"), breakAlarmSandbox);
 vm.runInContext(extractFunction(html, "checkAiAgentBreakAlarm"), breakAlarmSandbox);
 const lifeTimer = { taskName: "🤖 Run AI agent_Life" };
 for (let seconds = 0; seconds < 1800; seconds += 1) {
@@ -281,11 +283,14 @@ assert.strictEqual(alarmStarts, 0, "alarm must not ring before 30 minutes");
 breakAlarmSandbox.checkAiAgentBreakAlarm(lifeTimer, 1800000);
 breakAlarmSandbox.checkAiAgentBreakAlarm(lifeTimer, 3502000);
 assert.strictEqual(alarmStarts, 2, "Life alarm must trigger at 30 minutes and the screenshot duration");
-["Run AI agent_Work", "Take a break", "Automate tasks", "Sleep", "Cook meals", "Custom task", ""].forEach((taskName) => {
+["Run AI agent_Work", "Automate tasks", "Sleep", "Cook meals", "Custom task", ""].forEach((taskName) => {
   const before = alarmStarts;
   breakAlarmSandbox.checkAiAgentBreakAlarm({ taskName }, 1800000);
   assert.strictEqual(alarmStarts, before + 1, `${taskName || "Unnamed task"} must trigger the alarm at 30 minutes`);
 });
+const beforeBreakTask = alarmStarts;
+breakAlarmSandbox.checkAiAgentBreakAlarm({ taskName: "Take a break" }, 1800000);
+assert.strictEqual(alarmStarts, beforeBreakTask, "Take a break must never trigger the desk-work alarm");
 breakAlarmSandbox.aiAgentBreakAlarmActiveKey = "ringing";
 breakAlarmSandbox.checkAiAgentBreakAlarm(null, 0);
 assert.strictEqual(alarmStops, 1, "stopping a ringing timer must silence it");
@@ -324,8 +329,8 @@ assert.strictEqual(
 );
 const startTimerSource = extractFunction(html, "startTimer");
 assert.ok(
-  startTimerSource.includes("entry.deskSessionStart = cleanLabel(active.deskSessionStart, cleanLabel(active.start, startIso));"),
-  "switching tasks must preserve the continuous desk-session start for the 30-minute alarm"
+  startTimerSource.includes("active && !isBreakAlarmExemptEntry(active) && !isBreakAlarmExemptEntry(entry)"),
+  "work-task switches may preserve the desk session, but entering or leaving a break must reset it"
 );
 assert.ok(
   startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound()"),

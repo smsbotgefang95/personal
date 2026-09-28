@@ -6190,6 +6190,10 @@
       .replace(/\s+/g, " ");
   }
 
+  function isBreakAlarmExemptEntry(entry) {
+    return normalizedBreakAlarmTaskName(entry?.taskName) === "take a break";
+  }
+
   function aiAgentBreakAlarmKey(entry) {
     if (!entry || !entry.start) return "";
     return cleanLabel(entry.deskSessionStart, cleanLabel(entry.start, ""));
@@ -6343,7 +6347,7 @@
   }
 
   function checkAiAgentBreakAlarm(active, durationMs) {
-    if (!active || durationMs < AI_AGENT_BREAK_ALARM_THRESHOLD_MS) {
+    if (!active || isBreakAlarmExemptEntry(active) || durationMs < AI_AGENT_BREAK_ALARM_THRESHOLD_MS) {
       // Keep the gesture-unlocked audio context alive while counting toward 30 minutes.
       if (aiAgentBreakAlarmActiveKey) stopAiAgentBreakAlarm();
       return;
@@ -11688,7 +11692,7 @@
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
     }
-    if (active) {
+    if (active && !isBreakAlarmExemptEntry(active) && !isBreakAlarmExemptEntry(entry)) {
       entry.deskSessionStart = cleanLabel(active.deskSessionStart, cleanLabel(active.start, startIso));
     }
     stopAiAgentBreakAlarm();
