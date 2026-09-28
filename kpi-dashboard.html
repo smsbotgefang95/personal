@@ -1902,7 +1902,7 @@ function render(rows) {
 
   charts.nightUrination = new Chart(document.getElementById('nightUrinationChart'),{
     type:'bar',plugins:[ChartDataLabels],
-    data:{labels:nightUrinationDates,datasets:[{data:nightUrinationCounts,backgroundColor:nightUrinationCounts.map(v=>v===0?'rgba(34,197,94,0.72)':v===1?'rgba(59,130,246,0.76)':'rgba(245,158,11,0.8)'),borderRadius:4,borderSkipped:false}]},
+    data:{labels:nightUrinationDates,datasets:[{data:nightUrinationCounts,backgroundColor:nightUrinationCounts.map(v=>v===0?'rgba(148,163,184,0.5)':v===1?'rgba(34,197,94,0.8)':v===2?'rgba(250,204,21,0.82)':v===3?'rgba(239,68,68,0.82)':v===4?'rgba(185,28,28,0.88)':'rgba(127,29,29,0.94)'),borderRadius:4,borderSkipped:false}]},
     options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} trip${ctx.parsed.y===1?'':'s'}`}},datalabels:{color:THEME.muted,font:{size:10,weight:'600'},align:'end',anchor:'end',offset:2,formatter:v=>v}},scales:{y:{beginAtZero:true,suggestedMax:Math.max(3,...nightUrinationCounts)+1,grid:{color:THEME.border},ticks:{stepSize:1,precision:0,callback:v=>v+' trip'+(v===1?'':'s'),color:THEME.muted}},x:{grid:{display:false},ticks:{maxTicksLimit:20,color:THEME.muted}}}}
   });
 
