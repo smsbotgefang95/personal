@@ -324,6 +324,10 @@ assert.strictEqual(
 );
 const startTimerSource = extractFunction(html, "startTimer");
 assert.ok(
+  startTimerSource.includes("entry.deskSessionStart = cleanLabel(active.deskSessionStart, cleanLabel(active.start, startIso));"),
+  "switching tasks must preserve the continuous desk-session start for the 30-minute alarm"
+);
+assert.ok(
   startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound()"),
   "switching tasks must stop scheduled alarm audio before unlocking audio for the new timer"
 );
