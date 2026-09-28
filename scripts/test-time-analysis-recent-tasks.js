@@ -329,8 +329,13 @@ assert.strictEqual(
 );
 const startTimerSource = extractFunction(html, "startTimer");
 assert.ok(
-  startTimerSource.includes("active && !isBreakAlarmExemptEntry(active) && !isBreakAlarmExemptEntry(entry)"),
+  startTimerSource.includes("!isBreakAlarmExemptEntry(active)") &&
+    startTimerSource.includes("!isBreakAlarmExemptEntry(entry)"),
   "work-task switches may preserve the desk session, but entering or leaving a break must reset it"
+);
+assert.ok(
+  startTimerSource.includes("active.alarmMuted !== true"),
+  "switching tasks after acknowledging an alarm must begin a fresh 30-minute window"
 );
 assert.ok(
   startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound()"),

@@ -11692,7 +11692,12 @@
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
     }
-    if (active && !isBreakAlarmExemptEntry(active) && !isBreakAlarmExemptEntry(entry)) {
+    if (
+      active &&
+      active.alarmMuted !== true &&
+      !isBreakAlarmExemptEntry(active) &&
+      !isBreakAlarmExemptEntry(entry)
+    ) {
       entry.deskSessionStart = cleanLabel(active.deskSessionStart, cleanLabel(active.start, startIso));
     }
     stopAiAgentBreakAlarm();
