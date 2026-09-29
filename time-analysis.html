@@ -11728,6 +11728,7 @@
     if (
       active &&
       active.alarmMuted !== true &&
+      activeDeskSessionDurationMs() < AI_AGENT_BREAK_ALARM_THRESHOLD_MS &&
       !isBreakAlarmExemptEntry(active) &&
       !isBreakAlarmExemptEntry(entry)
     ) {

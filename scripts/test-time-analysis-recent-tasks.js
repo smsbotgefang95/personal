@@ -330,9 +330,10 @@ assert.strictEqual(
 const startTimerSource = extractFunction(html, "startTimer");
 assert.ok(
   startTimerSource.includes("entry.deskSessionStart = cleanLabel(active.deskSessionStart") &&
+    startTimerSource.includes("activeDeskSessionDurationMs() < AI_AGENT_BREAK_ALARM_THRESHOLD_MS") &&
     startTimerSource.includes("!isBreakAlarmExemptEntry(active)") &&
     startTimerSource.includes("!isBreakAlarmExemptEntry(entry)"),
-  "continuous work across task switches must keep the same 30-minute desk-session window"
+  "task switches must preserve an unexpired desk session but reset one whose alarm is already due"
 );
 assert.ok(
   startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound(entry)"),
