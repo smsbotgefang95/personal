@@ -5778,12 +5778,15 @@
 
   async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false, requireServer = false, verifyEntry = null } = {}) {
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
+    const pendingLatest = latestTimePayloadDate(pendingPayload);
     const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
     if (!key) {
       if (requireServer) {
         throw new Error("Server sync is required to save this edit. Enter the Time Analysis admin key and try again.");
       }
-      saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope, deferRender });
+      if (latestTimePayloadDate(timePayload) <= pendingLatest) {
+        saveTimePayloadLocally(pendingPayload, "Saved locally. Load private data to sync.", { renderScope, deferRender });
+      }
       return;
     }
     let response;
@@ -5796,7 +5799,9 @@
         response = await postTimePayload(pendingPayload);
       } else {
         if (shouldFallbackToLocalTimeSave(error)) {
-          saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope, deferRender });
+          if (latestTimePayloadDate(timePayload) <= pendingLatest) {
+            saveTimePayloadLocally(pendingPayload, localTimeSaveFallbackMessage(error), { renderScope, deferRender });
+          }
           return;
         }
         throw error;
@@ -5812,8 +5817,10 @@
         throw new Error("The server did not confirm the new end time. Refresh the page and try again.");
       }
     }
-    timePayload = savedPayload;
-    writeLocalTimePayload(timePayload);
+    if (latestTimePayloadDate(timePayload) <= pendingLatest) {
+      timePayload = savedPayload;
+      writeLocalTimePayload(timePayload);
+    }
     showPrivateTimeLoadButton(Boolean(key));
     if (deferRender) scheduleDeferredTimePayloadRender(renderScope);
     else renderTimePayloadState({ renderScope });

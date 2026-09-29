@@ -463,6 +463,14 @@ assert.ok(
 
 console.log("Cross-tab timer synchronization checks passed.");
 
+const saveTimePayloadSource = extractFunction(html, "saveTimePayload");
+assert.ok(
+  saveTimePayloadSource.includes("const pendingLatest = latestTimePayloadDate(pendingPayload)") &&
+    saveTimePayloadSource.includes("if (latestTimePayloadDate(timePayload) <= pendingLatest)"),
+  "an older save response must not overwrite a newer timer or alarm timestamp"
+);
+console.log("Timer save race checks passed.");
+
 const businessReminderSource = extractFunction(html, "showBusinessMustReminder");
 assert.ok(
   (businessReminderSource.match(/if \(timeAnalysisAudioMuted\) return;/g) || []).length >= 2,
