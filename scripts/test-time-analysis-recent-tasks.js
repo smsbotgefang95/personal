@@ -360,6 +360,15 @@ assert.ok(
   silenceAlarmSource.includes("timeAnalysisAudioKeepAliveNode.oscillator.stop()"),
   "muting or stopping the alarm must stop the audio keep-alive oscillator"
 );
+const muteAlarmHandlerSource = html.slice(
+  html.indexOf('document.getElementById("muteBreakAlarmBtn").addEventListener'),
+  html.indexOf('document.addEventListener("click"', html.indexOf('document.getElementById("muteBreakAlarmBtn").addEventListener'))
+);
+assert.ok(
+  muteAlarmHandlerSource.includes("resetExpiredWindow") &&
+    muteAlarmHandlerSource.includes("deskSessionStart: unmutedAt"),
+  "unmuting an expired alarm must begin a fresh 30-minute window instead of immediately ringing again"
+);
 console.log("Task-switch alarm reset checks passed.");
 
 const crossTabAlarmEvents = [];
