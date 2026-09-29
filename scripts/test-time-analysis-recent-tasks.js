@@ -329,17 +329,30 @@ assert.strictEqual(
 );
 const startTimerSource = extractFunction(html, "startTimer");
 assert.ok(
-  !startTimerSource.includes("entry.deskSessionStart = cleanLabel(active.deskSessionStart"),
-  "every newly selected task must begin a fresh 30-minute alarm window"
+  startTimerSource.includes("entry.deskSessionStart = cleanLabel(active.deskSessionStart") &&
+    startTimerSource.includes("!isBreakAlarmExemptEntry(active)") &&
+    startTimerSource.includes("!isBreakAlarmExemptEntry(entry)"),
+  "continuous work across task switches must keep the same 30-minute desk-session window"
 );
 assert.ok(
-  startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound()"),
+  startTimerSource.indexOf("stopAiAgentBreakAlarm();") < startTimerSource.indexOf("unlockBusinessMustReminderSound(entry)"),
   "switching tasks must stop scheduled alarm audio before unlocking audio for the new timer"
 );
 const unlockAlarmSource = extractFunction(html, "unlockBusinessMustReminderSound");
 assert.ok(
   unlockAlarmSource.includes("keepTimeAnalysisAudioAwake(context)"),
   "starting a timer must keep its unlocked audio context alive while the tab is in the background"
+);
+assert.ok(
+  unlockAlarmSource.includes("scheduleAiAgentBreakAlarmSound(context, entryToArm)"),
+  "starting a timer must schedule the alarm in the audio clock instead of relying only on background JavaScript timers"
+);
+const scheduledAlarmSource = extractFunction(html, "scheduleAiAgentBreakAlarmSound");
+assert.ok(
+  scheduledAlarmSource.includes("AI_AGENT_BREAK_ALARM_THRESHOLD_MS") &&
+    scheduledAlarmSource.includes("context.currentTime") &&
+    scheduledAlarmSource.includes("playAiAgentBreakAlarmTone"),
+  "the audio clock must schedule the 30-minute alarm tone directly"
 );
 const silenceAlarmSource = extractFunction(html, "silenceAiAgentBreakAlarmSound");
 assert.ok(

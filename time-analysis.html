@@ -4124,6 +4124,8 @@
   let businessMustReminderAudioNodes = [];
   let aiAgentBreakAlarmActiveKey = "";
   let aiAgentBreakAlarmLastRingAt = 0;
+  let aiAgentBreakAlarmScheduledKey = "";
+  let aiAgentBreakAlarmScheduledAt = 0;
   let aiAgentBreakAlarmMutedKey = (() => {
     try {
       return localStorage.getItem(AI_AGENT_BREAK_ALARM_MUTED_STORAGE) || "";
@@ -6203,6 +6205,8 @@
     silenceAiAgentBreakAlarmSound();
     aiAgentBreakAlarmActiveKey = "";
     aiAgentBreakAlarmLastRingAt = 0;
+    aiAgentBreakAlarmScheduledKey = "";
+    aiAgentBreakAlarmScheduledAt = 0;
     aiAgentBreakAlarmMutedKey = "";
   }
 
@@ -6339,6 +6343,15 @@
     if (aiAgentBreakAlarmActiveKey !== key) {
       aiAgentBreakAlarmActiveKey = key;
       aiAgentBreakAlarmLastRingAt = 0;
+    }
+    if (
+      aiAgentBreakAlarmScheduledKey === key &&
+      aiAgentBreakAlarmScheduledAt &&
+      now - aiAgentBreakAlarmScheduledAt < AI_AGENT_BREAK_ALARM_REPEAT_MS
+    ) {
+      aiAgentBreakAlarmLastRingAt = aiAgentBreakAlarmScheduledAt;
+      setTrackerStatus("Break alarm: You have been at your desk for 30 minutes.", "error");
+      return;
     }
     if (aiAgentBreakAlarmLastRingAt && now - aiAgentBreakAlarmLastRingAt < AI_AGENT_BREAK_ALARM_REPEAT_MS) return;
     aiAgentBreakAlarmLastRingAt = now;
@@ -7251,6 +7264,25 @@
     oscillator.stop(toneStart + duration + 0.03);
   }
 
+  function scheduleAiAgentBreakAlarmSound(context, entry = timePayload.activeEntry) {
+    const key = aiAgentBreakAlarmKey(entry);
+    if (!key || isBreakAlarmExemptEntry(entry) || timeAnalysisAudioMuted || !timeAnalysisAudioOutputGain) return;
+    const sessionStart = timestampMs(entry.deskSessionStart) || timestampMs(entry.start);
+    if (!sessionStart) return;
+    const remainingMs = Math.max(50, AI_AGENT_BREAK_ALARM_THRESHOLD_MS - (Date.now() - sessionStart));
+    const scheduledAt = Date.now() + remainingMs;
+    if (
+      aiAgentBreakAlarmScheduledKey === key &&
+      Math.abs(aiAgentBreakAlarmScheduledAt - scheduledAt) < 1000
+    ) return;
+    const start = context.currentTime + (remainingMs / 1000);
+    AI_AGENT_BREAK_ALARM_TONE.forEach(([frequency, offset]) => {
+      playAiAgentBreakAlarmTone(context, frequency, start + offset, 0.25);
+    });
+    aiAgentBreakAlarmScheduledKey = key;
+    aiAgentBreakAlarmScheduledAt = scheduledAt;
+  }
+
   function primeBusinessMustReminderSound(context) {
     if (timeAnalysisAudioMuted || !timeAnalysisAudioOutputGain) return;
     const start = context.currentTime + 0.01;
@@ -7296,7 +7328,7 @@
     });
   }
 
-  async function unlockBusinessMustReminderSound() {
+  async function unlockBusinessMustReminderSound(entryToArm = timePayload.activeEntry) {
     if (timeAnalysisAudioMuted) return false;
     const context = businessMustReminderAudio();
     if (!context) return false;
@@ -7306,6 +7338,7 @@
       if (context.state === "running") {
         primeBusinessMustReminderSound(context);
         keepTimeAnalysisAudioAwake(context);
+        scheduleAiAgentBreakAlarmSound(context, entryToArm);
         businessMustReminderSoundReady = true;
         return true;
       }
@@ -11692,6 +11725,14 @@
       setTrackerStatus("Pick an activity or enter a custom task.", "error");
       return;
     }
+    if (
+      active &&
+      active.alarmMuted !== true &&
+      !isBreakAlarmExemptEntry(active) &&
+      !isBreakAlarmExemptEntry(entry)
+    ) {
+      entry.deskSessionStart = cleanLabel(active.deskSessionStart, cleanLabel(active.start, startIso));
+    }
     stopAiAgentBreakAlarm();
     timeAnalysisAudioMuted = DEFAULT_TIME_ANALYSIS_ALARM_MUTED;
     aiAgentBreakAlarmMutedKey = "";
@@ -11700,7 +11741,7 @@
     } catch (error) {
       // Local storage is optional.
     }
-    unlockBusinessMustReminderSound().catch(() => {});
+    unlockBusinessMustReminderSound(entry).catch(() => {});
     if (active) {
       const completed = completedTimerEntries(active, startIso);
       const nextPayload = cleanClientPayload({
