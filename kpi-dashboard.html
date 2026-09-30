@@ -205,6 +205,7 @@
     .hydration-detail-total.urine { color:var(--blue); }
     .hydration-detail-entry { display:flex;justify-content:space-between;gap:10px;padding:3px 0;color:var(--muted);font-size:11px;line-height:1.35; }
     .hydration-detail-entry span:last-child { white-space:nowrap;color:var(--text);font-weight:600; }
+    .hydration-entry-edit { margin-left:8px;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);padding:3px 7px;cursor:pointer; }
     .hydration-detail-entry.aggregate { display:block;color:var(--dim);font-style:italic; }
     .hydration-detail-difference { font-size:15px;font-weight:800; }
     .hydration-detail-difference.positive { color:var(--green); }
@@ -246,6 +247,20 @@
     </div>
   </div>
 </header>
+
+<dialog id="hydrationEditDialog" style="margin:auto;padding:20px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);width:min(440px,calc(100% - 28px))">
+  <h2 id="hydrationEditTitle">Edit entry</h2>
+  <form id="hydrationEditForm">
+    <div class="field"><label for="hydrationEditTime">Time</label><input id="hydrationEditTime" type="time" required></div>
+    <div class="field"><label for="hydrationEditVolume">Volume (mL)</label><input id="hydrationEditVolume" type="number" min="1" max="5000" required></div>
+    <div id="hydrationEditUrineFields">
+      <div class="field"><label for="hydrationEditColor">Color</label><input id="hydrationEditColor" maxlength="40"></div>
+      <div class="field"><label for="hydrationEditUrgency">Urgency</label><input id="hydrationEditUrgency" maxlength="40"></div>
+    </div>
+    <p id="hydrationEditStatus" role="status"></p>
+    <div class="urine-dialog-actions"><button type="submit" id="hydrationEditSave">Save changes</button><button type="button" onclick="document.getElementById('hydrationEditDialog').close()">Cancel</button></div>
+  </form>
+</dialog>
 
 <dialog id="urineLogDialog" aria-labelledby="urineLogTitle">
   <div class="urine-dialog-inner">
@@ -702,6 +717,59 @@ async function saveUrineEntryRemote(entry) {
   await urineApi('POST', { ...entry, source: entry.source || 'site' });
 }
 
+let hydrationEditTarget = null;
+document.getElementById('hydrationDetailTable').addEventListener('click', event => {
+  const button = event.target.closest('[data-entry-id]');
+  if (!button) return;
+  const kind = button.dataset.kind;
+  const entry = (kind === 'water' ? readWaterLog() : readUrineLog()).find(e => e.id === button.dataset.entryId);
+  if (!entry) return;
+  hydrationEditTarget = { kind, entry };
+  document.getElementById('hydrationEditTitle').textContent = `Edit ${kind} · ${entry.date}`;
+  document.getElementById('hydrationEditTime').value = entry.time;
+  document.getElementById('hydrationEditVolume').value = kind === 'water' ? entry.amountMl : entry.volumeMl;
+  document.getElementById('hydrationEditVolume').min = kind === 'water' ? '1' : '5';
+  document.getElementById('hydrationEditUrineFields').hidden = kind !== 'urine';
+  document.getElementById('hydrationEditColor').value = entry.color || '';
+  document.getElementById('hydrationEditUrgency').value = entry.urgency || '';
+  document.getElementById('hydrationEditStatus').textContent = '';
+  document.getElementById('hydrationEditDialog').showModal();
+});
+document.getElementById('hydrationEditForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!hydrationEditTarget) return;
+  const { kind, entry } = hydrationEditTarget;
+  const amount = Math.round(Number(document.getElementById('hydrationEditVolume').value));
+  const next = { ...entry, time: document.getElementById('hydrationEditTime').value,
+    ...(kind === 'water' ? { amountMl: amount } : { volumeMl: amount, color: document.getElementById('hydrationEditColor').value, urgency: document.getElementById('hydrationEditUrgency').value }) };
+  const button = document.getElementById('hydrationEditSave');
+  const status = document.getElementById('hydrationEditStatus');
+  button.disabled = true;
+  status.textContent = 'Saving…';
+  try {
+    if (kind === 'water') {
+      if (!urineAdminKey()) throw new Error('Connect Siri & Sync before editing water entries.');
+      const result = await waterApi('PUT', next, entry.id);
+      writeWaterLog(readWaterLog().map(e => e.id === entry.id ? result.entry : e));
+      await loadData();
+      renderTodayWaterLog();
+      renderWaterHistory();
+    } else {
+      if (urineAdminKey()) await urineApi('PUT', next, entry.id);
+      writeUrineLog(readUrineLog().map(e => e.id === entry.id ? next : e));
+      renderQuickUrineLog();
+      renderUrineLog();
+    }
+    renderFluidComparisonChart();
+    renderHydrationDetails();
+    document.getElementById('hydrationEditDialog').close();
+  } catch (error) {
+    status.textContent = 'Could not save: ' + error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
+
 function trackingDateForTimestamp(dateStr, timeStr, cutoffHour = 6) {
   if (!isValidDateString(dateStr)) return dateStr;
   const hour = Number(String(timeStr || '').split(':')[0]);
@@ -895,12 +963,12 @@ function renderHydrationDetails(rows = lastLoadedRows) {
   }
 
   table.innerHTML = days.slice().reverse().map(day => {
-    const waterEntries = day.waterEntries.map(entry => `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}</span><span>${escapeHtml(waterNumber(entry.amountMl))} mL</span></div>`).join('');
+    const waterEntries = day.waterEntries.map(entry => `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}</span><span>${escapeHtml(waterNumber(entry.amountMl))} mL<button class="hydration-entry-edit" data-kind="water" data-entry-id="${escapeHtml(entry.id)}">Edit</button></span></div>`).join('');
     const unitemized = Math.max(0, day.waterTotal - day.waterItemized);
     const waterAggregate = unitemized > 0 ? `<div class="hydration-detail-entry aggregate">${escapeHtml(unitemized)} mL saved without an individual time</div>` : '';
     const urineEntries = day.urineEntries.map(entry => {
       const details = [entry.color, entry.urgency ? `${entry.urgency} urgency` : ''].filter(Boolean).join(' · ');
-      return `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}${details ? `<br>${escapeHtml(details)}` : ''}</span><span>${escapeHtml(entry.volumeMl)} mL</span></div>`;
+      return `<div class="hydration-detail-entry"><span>${escapeHtml(hydrationEntryTime(entry, day.date))}${details ? `<br>${escapeHtml(details)}` : ''}</span><span>${escapeHtml(entry.volumeMl)} mL<button class="hydration-entry-edit" data-kind="urine" data-entry-id="${escapeHtml(entry.id)}">Edit</button></span></div>`;
     }).join('');
     const hasBoth = day.waterTotal > 0 && day.urineTotal > 0;
     const difference = day.waterTotal - day.urineTotal;

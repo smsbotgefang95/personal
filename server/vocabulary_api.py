@@ -1526,6 +1526,46 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         path = self.path.split("?", 1)[0]
+        for kind, key, cleaner, lock, loader, writer in (
+            ("water", WATER_LOG_ADMIN_KEY, clean_water_entry, WATER_LOG_LOCK, load_water_log_payload, write_water_log),
+            ("urine", URINE_LOG_ADMIN_KEY, clean_urine_entry, URINE_LOG_LOCK, load_urine_log_payload, write_urine_log),
+        ):
+            prefix = f"/api/{kind}-entries/"
+            if not path.startswith(prefix):
+                continue
+            if key and self.headers.get(f"X-{kind.title()}-Log-Admin-Key") != key:
+                self.send_json(401, {"ok": False, "error": "admin_key_required"})
+                return
+            entry_id = urllib.parse.unquote(path.removeprefix(prefix))
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                incoming = json.loads(self.rfile.read(min(length, 16384)).decode("utf-8"))
+                with lock:
+                    payload = loader()
+                    original = next((e for e in payload["entries"] if e["id"] == entry_id), None)
+                    if original is None:
+                        self.send_json(404, {"ok": False, "error": "entry_not_found"})
+                        return
+                    fields = ("time", "amountMl") if kind == "water" else ("time", "volumeMl", "color", "urgency")
+                    entry = cleaner({**original, **{k: incoming[k] for k in fields if k in incoming}})
+                    if entry is None:
+                        self.send_json(400, {"ok": False, "error": "invalid_entry"})
+                        return
+                    next_entries = [entry if e["id"] == entry_id else e for e in payload["entries"]]
+                    total = None
+                    if kind == "water":
+                        total = kpi_remove_water({**original, "amountMl": original["amountMl"] - entry["amountMl"]}, next_entries)
+                    payload["entries"] = next_entries
+                    payload["updatedAt"] = utc_iso_now()
+                    writer(payload)
+            except (ValueError, TypeError, KeyError):
+                self.send_json(400, {"ok": False, "error": "invalid_json"})
+                return
+            except (urllib.error.URLError, TimeoutError, RuntimeError) as exc:
+                self.send_json(502, {"ok": False, "error": "kpi_update_failed", "message": str(exc)})
+                return
+            self.send_json(200, {"ok": True, "entry": entry, "totalMl": total})
+            return
         prefix = "/api/citizenship/question-progress/"
         if not path.startswith(prefix):
             self.send_error(404)
