@@ -545,6 +545,19 @@ let pendingTodayWaterMl = null;
 let lastLoadedRows = [];
 let urineSyncState = 'disconnected';
 let urineSyncError = '';
+let syncedUrineEntries = null;
+let syncedWaterEntries = null;
+let hydrationCacheUnavailable = false;
+let hydrationSessionKey = '';
+
+function cacheSyncedHydration(storageKey, entries) {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(entries));
+  } catch (error) {
+    if (error.name !== 'QuotaExceededError' && error.name !== 'SecurityError') throw error;
+    hydrationCacheUnavailable = true;
+  }
+}
 const THEME = {
   bg: '#030712',
   card: '#111827',
@@ -642,7 +655,7 @@ function escapeHtml(value) {
 
 function readUrineLog() {
   try {
-    const entries = JSON.parse(localStorage.getItem(URINE_LOG_KEY) || '[]');
+    const entries = syncedUrineEntries ?? JSON.parse(localStorage.getItem(URINE_LOG_KEY) || '[]');
     return Array.isArray(entries) ? entries.filter(e => e && isValidDateString(e.date) && /^\d{2}:\d{2}$/.test(e.time || '') && Number(e.volumeMl) > 0) : [];
   } catch (e) {
     return [];
@@ -651,10 +664,11 @@ function readUrineLog() {
 
 function writeUrineLog(entries) {
   localStorage.setItem(URINE_LOG_KEY, JSON.stringify(entries));
+  if (syncedUrineEntries !== null) syncedUrineEntries = entries;
 }
 
 function urineAdminKey() {
-  return localStorage.getItem(URINE_ADMIN_KEY_STORAGE) || localStorage.getItem(SHARED_ADMIN_KEY_STORAGE) || '';
+  return hydrationSessionKey || localStorage.getItem(URINE_ADMIN_KEY_STORAGE) || localStorage.getItem(SHARED_ADMIN_KEY_STORAGE) || '';
 }
 
 function updateHydrationSyncControls() {
@@ -670,7 +684,7 @@ function updateHydrationSyncControls() {
     button.textContent = connected ? 'Sync now' : 'Connect urine sync';
   }
   if (status) status.textContent = urineSyncState === 'ready'
-    ? 'Urine entries synced from the server.'
+    ? `Urine entries synced from the server.${hydrationCacheUnavailable ? ' Browser storage is full or unavailable; entries are displayed for this visit. Reconnect after closing this page if your key could not be saved.' : ''}`
     : urineSyncState === 'loading' ? 'Loading saved urine entries…'
     : urineSyncState === 'disconnected'
       ? 'Connect urine sync on this device to show saved urine entries. Water totals load separately.'
@@ -702,7 +716,8 @@ async function syncUrineLogFromServer() {
       if (!remoteIds.has(entry.id)) await urineApi('POST', { ...entry, source: entry.source || 'site' });
     }
     const refreshed = local.some(entry => !remoteIds.has(entry.id)) ? await urineApi() : remote;
-    writeUrineLog(refreshed.entries || []);
+    syncedUrineEntries = refreshed.entries || [];
+    cacheSyncedHydration(URINE_LOG_KEY, syncedUrineEntries);
     urineSyncState = 'ready';
     urineSyncError = '';
     renderQuickUrineLog();
@@ -723,7 +738,15 @@ async function connectUrineSync() {
   let key = urineSyncState === 'unauthorized' ? '' : urineAdminKey();
   if (!key) key = window.prompt('Enter the same Personal site private key used by Time Analysis:') || '';
   if (!key) return;
-  localStorage.setItem(URINE_ADMIN_KEY_STORAGE, key.trim());
+  hydrationSessionKey = key.trim();
+  try {
+    if (localStorage.getItem(URINE_ADMIN_KEY_STORAGE) !== hydrationSessionKey) {
+      localStorage.setItem(URINE_ADMIN_KEY_STORAGE, hydrationSessionKey);
+    }
+  } catch (error) {
+    if (error.name !== 'QuotaExceededError' && error.name !== 'SecurityError') throw error;
+    hydrationCacheUnavailable = true;
+  }
   updateHydrationSyncControls();
   const status = document.getElementById('urineLogStatus');
   status.textContent = 'Syncing…';
@@ -734,7 +757,10 @@ async function connectUrineSync() {
     status.className = 'ok';
     await syncWaterLogFromServer();
   } catch (error) {
-    if (error.status === 401) localStorage.removeItem(URINE_ADMIN_KEY_STORAGE);
+    if (error.status === 401) {
+      hydrationSessionKey = '';
+      localStorage.removeItem(URINE_ADMIN_KEY_STORAGE);
+    }
     updateHydrationSyncControls();
     status.textContent = error.message;
     status.className = 'err';
@@ -1205,7 +1231,7 @@ applyEntryDefaults(defaultEntryDateStr);
 
 function readWaterLog() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(WATER_LOG_KEY) || '[]');
+    const parsed = syncedWaterEntries ?? JSON.parse(localStorage.getItem(WATER_LOG_KEY) || '[]');
     return Array.isArray(parsed) ? parsed.filter(e => e && isValidDateString(e.date) && Number(e.amountMl) > 0) : [];
   } catch(e) {
     return [];
@@ -1214,6 +1240,7 @@ function readWaterLog() {
 
 function writeWaterLog(entries) {
   localStorage.setItem(WATER_LOG_KEY, JSON.stringify(entries));
+  if (syncedWaterEntries !== null) syncedWaterEntries = entries;
 }
 
 async function waterApi(method = 'GET', payload = null, entryId = '') {
@@ -1234,7 +1261,9 @@ async function syncWaterLogFromServer() {
   const remote = await waterApi();
   const local = readWaterLog();
   const merged = new Map([...local, ...(remote.entries || [])].map(entry => [entry.id, entry]));
-  writeWaterLog([...merged.values()]);
+  syncedWaterEntries = [...merged.values()];
+  cacheSyncedHydration(WATER_LOG_KEY, syncedWaterEntries);
+  updateHydrationSyncControls();
   renderTodayWaterLog();
   renderWaterHistory();
   renderFluidComparisonChart();
