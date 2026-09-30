@@ -255,7 +255,7 @@
     <div class="field"><label for="hydrationEditVolume">Volume (mL)</label><input id="hydrationEditVolume" type="number" min="1" max="5000" required></div>
     <div id="hydrationEditUrineFields">
       <div class="field"><label for="hydrationEditColor">Color</label><input id="hydrationEditColor" maxlength="40"></div>
-      <div class="field"><label for="hydrationEditUrgency">Urgency</label><input id="hydrationEditUrgency" maxlength="40"></div>
+      <div class="field"><label for="hydrationEditUrgency">Urgency</label><select id="hydrationEditUrgency"><option value="">No urgency</option><option>Mild</option><option>Moderate</option><option>Strong</option></select></div>
     </div>
     <p id="hydrationEditStatus" role="status"></p>
     <div class="urine-dialog-actions"><button type="submit" id="hydrationEditSave">Save changes</button><button type="button" onclick="document.getElementById('hydrationEditDialog').close()">Cancel</button></div>
@@ -760,7 +760,15 @@ document.getElementById('hydrationDetailTable').addEventListener('click', event 
   document.getElementById('hydrationEditVolume').min = kind === 'water' ? '1' : '5';
   document.getElementById('hydrationEditUrineFields').hidden = kind !== 'urine';
   document.getElementById('hydrationEditColor').value = entry.color || '';
-  document.getElementById('hydrationEditUrgency').value = entry.urgency || '';
+  const urgencySelect = document.getElementById('hydrationEditUrgency');
+  urgencySelect.querySelectorAll('[data-legacy]').forEach(option => option.remove());
+  const urgency = entry.urgency || '';
+  if (urgency && !Array.from(urgencySelect.options).some(option => option.value === urgency)) {
+    const option = new Option(urgency + ' (saved value)', urgency);
+    option.dataset.legacy = 'true';
+    urgencySelect.add(option);
+  }
+  urgencySelect.value = urgency;
   document.getElementById('hydrationEditStatus').textContent = '';
   document.getElementById('hydrationEditDialog').showModal();
 });
