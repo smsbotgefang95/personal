@@ -485,8 +485,10 @@
         <button type="button" onclick="setHydrationDateRange(7)">7 days</button>
         <button type="button" onclick="setHydrationDateRange(14)">14 days</button>
         <button type="button" onclick="setHydrationDateRange(0)">All</button>
+        <button type="button" id="hydrationSyncBtn" onclick="connectUrineSync()">Connect urine sync</button>
       </div>
     </div>
+    <p id="hydrationSyncStatus" role="status" style="font-size:12px;color:var(--muted);margin-bottom:12px"></p>
     <div class="hydration-detail-summary" id="hydrationDetailSummary"></div>
     <div class="hydration-detail-table" id="hydrationDetailTable"></div>
   </div>
@@ -541,6 +543,8 @@ let savedTodayWaterLoaded = false;
 let waterSavePending = false;
 let pendingTodayWaterMl = null;
 let lastLoadedRows = [];
+let urineSyncState = 'disconnected';
+let urineSyncError = '';
 const THEME = {
   bg: '#030712',
   card: '#111827',
@@ -654,11 +658,23 @@ function urineAdminKey() {
 }
 
 function updateHydrationSyncControls() {
-  const connected = Boolean(urineAdminKey());
+  const connected = Boolean(urineAdminKey()) && urineSyncState !== 'unauthorized';
   ['urineSyncConnectBtn', 'waterSyncConnectBtn'].forEach(id => {
     const button = document.getElementById(id);
     if (button) button.hidden = connected;
   });
+  const button = document.getElementById('hydrationSyncBtn');
+  const status = document.getElementById('hydrationSyncStatus');
+  if (button) {
+    button.disabled = urineSyncState === 'loading';
+    button.textContent = connected ? 'Sync now' : 'Connect urine sync';
+  }
+  if (status) status.textContent = urineSyncState === 'ready'
+    ? 'Urine entries synced from the server.'
+    : urineSyncState === 'loading' ? 'Loading saved urine entries…'
+    : urineSyncState === 'disconnected'
+      ? 'Connect urine sync on this device to show saved urine entries. Water totals load separately.'
+      : `Urine sync failed: ${urineSyncError} ${connected ? 'Tap Sync now to retry.' : 'Tap Connect urine sync to enter your private key.'} Showing only entries saved on this device.`;
 }
 
 async function urineApi(method = 'GET', payload = null, entryId = '') {
@@ -676,22 +692,35 @@ async function urineApi(method = 'GET', payload = null, entryId = '') {
 
 async function syncUrineLogFromServer() {
   if (!urineAdminKey()) return false;
-  const remote = await urineApi();
-  const local = readUrineLog();
-  const remoteIds = new Set((remote.entries || []).map(entry => entry.id));
-  for (const entry of local) {
-    if (!remoteIds.has(entry.id)) await urineApi('POST', { ...entry, source: entry.source || 'site' });
+  urineSyncState = 'loading';
+  updateHydrationSyncControls();
+  try {
+    const remote = await urineApi();
+    const local = readUrineLog();
+    const remoteIds = new Set((remote.entries || []).map(entry => entry.id));
+    for (const entry of local) {
+      if (!remoteIds.has(entry.id)) await urineApi('POST', { ...entry, source: entry.source || 'site' });
+    }
+    const refreshed = local.some(entry => !remoteIds.has(entry.id)) ? await urineApi() : remote;
+    writeUrineLog(refreshed.entries || []);
+    urineSyncState = 'ready';
+    urineSyncError = '';
+    renderQuickUrineLog();
+    renderUrineLog();
+    renderFluidComparisonChart();
+    return true;
+  } catch (error) {
+    urineSyncState = error.status === 401 ? 'unauthorized' : 'error';
+    urineSyncError = error.message;
+    renderHydrationDetails();
+    throw error;
+  } finally {
+    updateHydrationSyncControls();
   }
-  const refreshed = local.some(entry => !remoteIds.has(entry.id)) ? await urineApi() : remote;
-  writeUrineLog(refreshed.entries || []);
-  renderQuickUrineLog();
-  renderUrineLog();
-  renderFluidComparisonChart();
-  return true;
 }
 
 async function connectUrineSync() {
-  let key = urineAdminKey();
+  let key = urineSyncState === 'unauthorized' ? '' : urineAdminKey();
   if (!key) key = window.prompt('Enter the same Personal site private key used by Time Analysis:') || '';
   if (!key) return;
   localStorage.setItem(URINE_ADMIN_KEY_STORAGE, key.trim());
@@ -701,9 +730,9 @@ async function connectUrineSync() {
   status.className = '';
   try {
     await syncUrineLogFromServer();
-    await syncWaterLogFromServer();
     status.textContent = 'Siri and cross-device sync connected.';
     status.className = 'ok';
+    await syncWaterLogFromServer();
   } catch (error) {
     if (error.status === 401) localStorage.removeItem(URINE_ADMIN_KEY_STORAGE);
     updateHydrationSyncControls();
@@ -949,12 +978,13 @@ function renderHydrationDetails(rows = lastLoadedRows) {
   }
   const waterTotal = days.reduce((sum, day) => sum + day.waterTotal, 0);
   const urineTotal = days.reduce((sum, day) => sum + day.urineTotal, 0);
+  const urineUnavailable = urineSyncState !== 'ready' && urineTotal === 0;
   const paired = days.filter(day => day.waterTotal > 0 && day.urineTotal > 0);
   const recorded = days.filter(day => day.waterTotal > 0 || day.urineTotal > 0);
   summary.innerHTML = [
     `<span class="hydration-summary-chip"><strong>${days.length}</strong> tracking day${days.length === 1 ? '' : 's'} · <strong>${recorded.length}</strong> with data</span>`,
     `<span class="hydration-summary-chip">Water <strong>${waterTotal} mL</strong></span>`,
-    `<span class="hydration-summary-chip">Urine <strong>${urineTotal} mL</strong></span>`,
+    `<span class="hydration-summary-chip">Urine <strong>${urineUnavailable ? 'Not synced' : `${urineTotal} mL`}</strong></span>`,
     `<span class="hydration-summary-chip">Days with both <strong>${paired.length}</strong></span>`
   ].join('');
   if (!recorded.length) {
@@ -979,7 +1009,7 @@ function renderHydrationDetails(rows = lastLoadedRows) {
     return `<div class="hydration-detail-row">
       <div class="hydration-detail-cell"><div class="hydration-detail-date">${escapeHtml(day.date)}</div><div class="hydration-detail-day">${escapeHtml(weekday)} · 6 AM day</div></div>
       <div class="hydration-detail-cell"><div class="hydration-detail-total water">Water ${escapeHtml(day.waterTotal)} mL</div>${waterEntries || waterAggregate ? waterEntries + waterAggregate : '<div class="hydration-detail-day">No water recorded</div>'}</div>
-      <div class="hydration-detail-cell"><div class="hydration-detail-total urine">Urine ${escapeHtml(day.urineTotal)} mL</div>${urineEntries || '<div class="hydration-detail-day">No urine recorded</div>'}</div>
+      <div class="hydration-detail-cell"><div class="hydration-detail-total urine">Urine ${urineSyncState !== 'ready' && !day.urineEntries.length ? 'not synced' : `${escapeHtml(day.urineTotal)} mL`}</div>${urineEntries || `<div class="hydration-detail-day">${urineSyncState === 'ready' ? 'No urine recorded' : 'Connect or retry sync to load saved entries'}</div>`}</div>
       <div class="hydration-detail-cell">${differenceHtml}</div>
     </div>`;
   }).join('');
