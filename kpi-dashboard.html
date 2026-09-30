@@ -254,7 +254,7 @@
     <div class="field"><label for="hydrationEditTime">Time</label><input id="hydrationEditTime" type="time" required></div>
     <div class="field"><label for="hydrationEditVolume">Volume (mL)</label><input id="hydrationEditVolume" type="number" min="1" max="5000" required></div>
     <div id="hydrationEditUrineFields">
-      <div class="field"><label for="hydrationEditColor">Color</label><input id="hydrationEditColor" maxlength="40"></div>
+      <div class="field"><label for="hydrationEditColor">Color</label><select id="hydrationEditColor"><option value="">Not recorded</option><option>Colorless</option><option>Pale yellow</option><option>Yellow</option><option>Dark yellow</option></select></div>
       <div class="field"><label for="hydrationEditUrgency">Urgency</label><select id="hydrationEditUrgency"><option value="">No urgency</option><option>Mild</option><option>Moderate</option><option>Strong</option></select></div>
     </div>
     <p id="hydrationEditStatus" role="status"></p>
@@ -759,7 +759,15 @@ document.getElementById('hydrationDetailTable').addEventListener('click', event 
   document.getElementById('hydrationEditVolume').value = kind === 'water' ? entry.amountMl : entry.volumeMl;
   document.getElementById('hydrationEditVolume').min = kind === 'water' ? '1' : '5';
   document.getElementById('hydrationEditUrineFields').hidden = kind !== 'urine';
-  document.getElementById('hydrationEditColor').value = entry.color || '';
+  const colorSelect = document.getElementById('hydrationEditColor');
+  colorSelect.querySelectorAll('[data-legacy]').forEach(option => option.remove());
+  const color = entry.color || '';
+  if (color && !Array.from(colorSelect.options).some(option => option.value === color)) {
+    const option = new Option(color + ' (saved value)', color);
+    option.dataset.legacy = 'true';
+    colorSelect.add(option);
+  }
+  colorSelect.value = color;
   const urgencySelect = document.getElementById('hydrationEditUrgency');
   urgencySelect.querySelectorAll('[data-legacy]').forEach(option => option.remove());
   const urgency = entry.urgency || '';
