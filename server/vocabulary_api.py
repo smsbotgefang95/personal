@@ -1205,17 +1205,17 @@ def write_time_entries(payload):
     return {"status": "stored"}
 
 
-def clean_urine_urgency(value):
-    """Correct known dictation errors and unique one-edit urgency typos."""
+def clean_urine_label(value, labels, aliases, suffixes):
+    """Correct known dictation errors and unique one-edit label typos."""
     original = clean_time_text(value, 40)
     word = original.lower().strip(" .,!?:;")
-    if word.endswith(" urgency"):
-        word = word[:-8].strip()
+    for suffix in suffixes:
+        if word.endswith(suffix):
+            word = word[:-len(suffix)].strip()
+            break
     word = "".join(word.split())
-    levels = {"mild": "Mild", "moderate": "Moderate", "strong": "Strong"}
-    aliases = {"monterey": "Moderate", "motor": "Moderate", "straw": "Strong"}
-    if word in levels or word in aliases:
-        return levels.get(word) or aliases[word]
+    if word in labels or word in aliases:
+        return labels.get(word) or aliases[word]
 
     def one_edit(left, right):
         if len(left) == len(right):
@@ -1231,8 +1231,28 @@ def clean_urine_urgency(value):
             right[:i] + right[i + 1:] == left for i in range(len(right))
         )
 
-    matches = [label for name, label in levels.items() if one_edit(word, name)]
+    matches = [label for name, label in labels.items() if one_edit(word, name)]
     return matches[0] if len(matches) == 1 else original
+
+
+def clean_urine_urgency(value):
+    return clean_urine_label(
+        value,
+        {"mild": "Mild", "moderate": "Moderate", "strong": "Strong"},
+        {"monterey": "Moderate", "motor": "Moderate", "straw": "Strong"},
+        (" urgency",),
+    )
+
+
+def clean_urine_color(value):
+    return clean_urine_label(
+        value,
+        {"colorless": "Colorless", "paleyellow": "Pale yellow",
+         "yellow": "Yellow", "darkyellow": "Dark yellow"},
+        {"playyellow": "Pale yellow", "pailyellow": "Pale yellow",
+         "callearliest": "Colorless", "colourless": "Colorless"},
+        (" color", " colour"),
+    )
 
 
 def clean_urine_entry(value, now=None):
@@ -1257,7 +1277,7 @@ def clean_urine_entry(value, now=None):
         "date": date,
         "time": entry_time,
         "volumeMl": volume_ml,
-        "color": clean_time_text(value.get("color"), 40),
+        "color": clean_urine_color(value.get("color")),
         "urgency": clean_urine_urgency(value.get("urgency")),
         "source": clean_time_text(value.get("source"), 40) or "site",
         "createdAt": clean_time_text(value.get("createdAt"), 40) or now.isoformat(timespec="milliseconds"),

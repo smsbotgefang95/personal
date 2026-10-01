@@ -19,22 +19,33 @@ def main():
         "unknown": "unknown", "moderately": "moderately",
     }.items():
         assert API.clean_urine_urgency(value) == expected, value
+    for value, expected in {
+        "Play yellow": "Pale yellow", "pail yellow": "Pale yellow",
+        "Call earliest": "Colorless", "colourless": "Colorless",
+        " PALE  YELLOW color. ": "Pale yellow", "pale yelow": "Pale yellow",
+        "yelow": "Yellow", "yelolw": "Yellow", "dark yelow": "Dark yellow",
+        "colorles": "Colorless", "darkyellow": "Dark yellow",
+        "": "", "Moderate": "Moderate", "What's the current": "What's the current",
+        "red": "red", "brown": "brown", "cloudy": "cloudy", "unknown": "unknown",
+    }.items():
+        assert API.clean_urine_color(value) == expected, value
     with tempfile.TemporaryDirectory() as tmp:
         API.URINE_LOG_DATA_PATH = Path(tmp) / "urine-log.json"
         API.write_urine_log(API.DEFAULT_URINE_LOG_PAYLOAD.copy())
         now = datetime(2026, 9, 24, 21, 15, tzinfo=timezone.utc)
-        status, response = API.add_urine_entry({"volumeMl": 250, "source": "siri", "urgency": "Monterey"}, now=now)
+        status, response = API.add_urine_entry({"volumeMl": 250, "source": "siri", "urgency": "Monterey", "color": "Play yellow"}, now=now)
         assert status == 200
         assert response["entry"]["volumeMl"] == 250
         assert response["entry"]["date"] == "2026-09-24"
         assert response["entry"]["time"] == "17:15"
         assert response["entry"]["source"] == "siri"
         assert response["entry"]["urgency"] == "Moderate"
+        assert response["entry"]["color"] == "Pale yellow"
         assert API.load_urine_log_payload()["entries"][0]["urgency"] == "Moderate"
-        legacy = {**response["entry"], "urgency": "Straw"}
+        legacy = {**response["entry"], "urgency": "Straw", "color": "Call earliest"}
         API.write_urine_log({"entries": [legacy], "updatedAt": None})
         corrected = API.load_urine_log_payload()["entries"][0]
-        assert corrected == {**legacy, "urgency": "Strong"}
+        assert corrected == {**legacy, "urgency": "Strong", "color": "Colorless"}
         entry_id = response["entry"]["id"]
         status, _ = API.add_urine_entry({"id": entry_id, "volumeMl": 250, "date": "2026-09-24", "time": "17:15"}, now=now)
         assert status == 200
