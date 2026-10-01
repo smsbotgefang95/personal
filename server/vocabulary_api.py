@@ -817,7 +817,7 @@ def clean_time_entries_payload(value):
         incoming_entries = []
     entries = []
     seen = set()
-    for item in incoming_entries[:5000]:
+    for item in incoming_entries:
         entry = clean_time_entry(item, require_stop=True)
         if not entry or entry["id"] in seen:
             continue
@@ -844,6 +844,32 @@ def load_time_entries_payload():
     except (FileNotFoundError, json.JSONDecodeError):
         payload = DEFAULT_TIME_ENTRIES_PAYLOAD.copy()
     return clean_time_entries_payload(payload)
+
+
+def merge_saved_time_history(current, incoming):
+    """Keep history absent from stale clients; only explicit tombstones delete it."""
+    deleted_keys = clean_deleted_time_entry_keys([
+        *current.get("deletedEntryKeys", []), *incoming.get("deletedEntryKeys", [])
+    ])
+    deleted = set(deleted_keys)
+    by_id = {}
+
+    def version(entry):
+        return max(iso_timestamp_ms(entry.get(field)) for field in (
+            "updatedAt", "stop", "start", "createdAt"
+        ))
+
+    for entry in [*current.get("entries", []), *incoming.get("entries", [])]:
+        if f"id:{entry['id']}" in deleted:
+            continue
+        previous = by_id.get(entry["id"])
+        if previous is None or version(entry) >= version(previous):
+            by_id[entry["id"]] = entry
+    return {
+        **incoming,
+        "entries": sorted(by_id.values(), key=version, reverse=True),
+        "deletedEntryKeys": deleted_keys,
+    }
 
 
 def normalize_voice_task_name(value):
@@ -1758,6 +1784,16 @@ class Handler(BaseHTTPRequestHandler):
             payload = clean_time_entries_payload(incoming)
             payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             with TIME_ENTRIES_LOCK:
+                current = load_time_entries_payload()
+                if incoming.get("restoreMissingHistory") is True:
+                    # Recovery must not change the live timer, metadata, or existing edits.
+                    existing_ids = {entry["id"] for entry in current["entries"]}
+                    payload = {
+                        **current,
+                        "entries": [entry for entry in payload["entries"] if entry["id"] not in existing_ids],
+                        "updatedAt": payload["updatedAt"],
+                    }
+                payload = merge_saved_time_history(current, payload)
                 write_result = write_time_entries(payload)
             self.send_json(200, {"ok": True, "payload": payload, "git": write_result})
             return
