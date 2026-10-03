@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
+const { randomUUID } = require('node:crypto');
 const html = fs.readFileSync('smart-shopping.html', 'utf8');
 const code = html.slice(html.indexOf('    const priceHistoryStorageKey ='), html.indexOf('    function normalizeStoredItem('));
 const id = '橱柜::主食::Organic Light Brown Rice 有机糙米 (1 × 1袋)';
@@ -13,7 +14,7 @@ function device(storage = new Map(), limit = Infinity) {
     }
     storage.set(k, v);
   }, removeItem: k => storage.delete(k) };
-  const context = vm.createContext({ localStorage, window: { localStorage, setTimeout: () => 1, clearTimeout() {} },
+  const context = vm.createContext({ crypto: { randomUUID }, localStorage, window: { localStorage, setTimeout: () => 1, clearTimeout() {} },
     document: { getElementById: () => ({}) }, render() {},
     fetch: async (_, options) => {
       if (options.method === 'POST') {
@@ -28,6 +29,7 @@ function device(storage = new Map(), limit = Infinity) {
   vm.runInContext(code + '\nshoppingSyncKey="test";', context);
   return {
     storage,
+    recordPrice: (price) => context.recordStorePrice(id, { price, weight: '1 lb' }, 'Great Wall', '2026-10-03'),
     persist: () => context.persistItemEditState(),
     photo: () => vm.runInContext(`itemEdits[${JSON.stringify(id)}]?.photo`, context),
     edit(price) { vm.runInContext(`itemEdits[${JSON.stringify(id)}] = {name:'糙米',facts:{price:${JSON.stringify(price)}}}; pendingEdits[${JSON.stringify(id)}] = itemEdits[${JSON.stringify(id)}]; savePendingEdits(); saveItemEdits();`, context); },
@@ -99,4 +101,21 @@ function device(storage = new Map(), limit = Infinity) {
   await quotaLimitedPhone.sync();
   assert.equal(server.data.priceHistory[id][0].id, 'history::quota');
   console.log('PASS: local price-history quota does not abort phone sync');
+  const historyPhone = device(new Map(), 500);
+  await historyPhone.sync();
+  historyPhone.recordPrice('$22');
+  server.fail = true;
+  await historyPhone.sync();
+  assert.equal(JSON.parse(historyPhone.storage.get('smart-shopping-price-history-v1'))[id][0].price, '$22');
+  server.fail = false;
+  server.onPost = () => historyPhone.recordPrice('$23');
+  await historyPhone.sync();
+  assert.ok(JSON.parse(historyPhone.storage.get('smart-shopping-price-history-v1'))[id].some(entry => entry.price === '$23'));
+  server.onPost = null;
+  await historyPhone.sync();
+  assert.equal(historyPhone.storage.has('smart-shopping-price-history-v1'), false);
+  assert.ok(server.data.priceHistory[id].some(entry => entry.price === '$22'));
+  assert.ok(server.data.priceHistory[id].some(entry => entry.price === '$23'));
+  console.log('PASS: price outbox survives failed/concurrent upload and clears after successful sync');
+
 })().catch(error => { console.error(error); process.exitCode = 1; });

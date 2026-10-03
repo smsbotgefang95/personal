@@ -806,6 +806,20 @@
       try { const saved = JSON.parse(localStorage.getItem(priceHistoryStorageKey) || "{}"); return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {}; }
       catch (error) { return {}; }
     })();
+    // Keep only changes awaiting upload in the small localStorage outbox.
+    // Downloaded history remains in memory and can be fetched again from the server.
+    const pendingPriceHistory = { ...priceHistory };
+    function persistPriceHistoryChange(key, entries) {
+      const existing = new Map((priceHistory[key] || []).map((entry) => [entry.id, JSON.stringify(entry)]));
+      const pending = new Map((pendingPriceHistory[key] || []).map((entry) => [entry.id, entry]));
+      entries.forEach((entry) => {
+        if (existing.get(entry.id) !== JSON.stringify(entry)) pending.set(entry.id, entry);
+      });
+      const updated = { ...pendingPriceHistory, [key]: [...pending.values()] };
+      localStorage.setItem(priceHistoryStorageKey, JSON.stringify(updated));
+      pendingPriceHistory[key] = updated[key];
+      priceHistory[key] = entries;
+    }
     function mergePriceHistory(remote = {}) {
       Object.entries(remote).forEach(([key, entries]) => {
         if (!Array.isArray(entries)) return;
@@ -816,10 +830,7 @@
         });
         priceHistory[key] = [...merged.values()];
       });
-      // A phone can be near Safari's localStorage quota because item photos are
-      // cached locally. The server copy is still authoritative, so a cache write
-      // failure must not abort the rest of the cross-device merge.
-      try { localStorage.setItem(priceHistoryStorageKey, JSON.stringify(priceHistory)); } catch (error) {}
+
     }
     function activePriceHistory(key) {
       return (priceHistory[key] || []).filter((entry) => !entry.deletedAt);
@@ -828,8 +839,7 @@
       const entries = priceHistory[key] || [];
       if (!entries.some((entry) => entry.id === id && !entry.deletedAt)) return false;
       const updated = entries.map((entry) => entry.id === id ? { ...entry, deletedAt: new Date().toISOString() } : entry);
-      localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: updated }));
-      priceHistory[key] = updated;
+      persistPriceHistoryChange(key, updated);
       return true;
     }
     function updatePriceHistoryDate(key, id, date) {
@@ -838,8 +848,7 @@
       const entry = entries.find((value) => value.id === id && !value.deletedAt);
       if (!entry || (entry.date || "") === date) return false;
       const updated = entries.map((value) => value.id === id ? { ...value, date: date || null, dateUpdatedAt: new Date().toISOString() } : value);
-      localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: updated }));
-      priceHistory[key] = updated;
+      persistPriceHistoryChange(key, updated);
       return true;
     }
     function localPriceDate() {
@@ -882,8 +891,7 @@
     function recordStorePrice(key, facts, store, date) {
       const entry = { ...facts, stores: [store.trim()], date, recordedAt: new Date().toISOString(), id: crypto.randomUUID(), kind: "store-price" };
       const entries = [...(priceHistory[key] || []), entry];
-      localStorage.setItem(priceHistoryStorageKey, JSON.stringify({ ...priceHistory, [key]: entries }));
-      priceHistory[key] = entries;
+      persistPriceHistoryChange(key, entries);
     }
     function storePricesMarkup(item) {
       const entries = activePriceHistory(editStorageKey(item.sourceList, item.key));
@@ -918,9 +926,7 @@
       if (next.price || next.unitPrice || next.salePrice || next.saleUnitPrice) entries.push({ ...next, id: crypto.randomUUID(), date, recordedAt });
       if (entries.length) {
         // Persist before changing the current price; report storage failures to the user.
-        const updated = { ...priceHistory, [key]: entries };
-        localStorage.setItem(priceHistoryStorageKey, JSON.stringify(updated));
-        priceHistory[key] = entries;
+        persistPriceHistoryChange(key, entries);
       }
     }
     const itemEditsStorageKey = "smart-shopping-item-edits-v1";
@@ -1128,6 +1134,7 @@
         if (upload) {
           const sentEdits = { ...pendingEdits };
           const sentAdds = JSON.stringify(itemAdds);
+          const sentPriceHistory = { ...pendingPriceHistory };
           const sentPurchases = { ...pendingPurchases };
           const sentMoves = { ...pendingMoves };
           const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
@@ -1157,9 +1164,17 @@
             if (pendingMoves[itemKey] === value) delete pendingMoves[itemKey];
           });
           savePendingMoves();
-          // Price history is also returned by the server on every sync. Clear
-          // its redundant cache after upload so phones regain storage space.
-          try { localStorage.removeItem(priceHistoryStorageKey); } catch (error) {}
+          // A history edit made during upload must remain durable for the next sync.
+          const remainingHistory = { ...pendingPriceHistory };
+          Object.entries(sentPriceHistory).forEach(([itemKey, entries]) => {
+            if (pendingPriceHistory[itemKey] === entries) delete remainingHistory[itemKey];
+          });
+          try {
+            if (Object.keys(remainingHistory).length) localStorage.setItem(priceHistoryStorageKey, JSON.stringify(remainingHistory));
+            else localStorage.removeItem(priceHistoryStorageKey);
+            Object.keys(pendingPriceHistory).forEach((itemKey) => delete pendingPriceHistory[itemKey]);
+            Object.assign(pendingPriceHistory, remainingHistory);
+          } catch (error) { /* Retain the durable outbox for retry. */ }
         }
         document.getElementById("sync-detail").textContent = "Synced across devices";
         if (rerender) render();

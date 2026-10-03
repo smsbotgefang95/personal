@@ -37,8 +37,9 @@ assert.equal(history().length,3,'sale-only save retains sale history');
 reloaded.recordRegularPrice('item',{...item,facts:{...updated,salePrice:'$3.99'}},{...updated,weight:'3 lb'},['Costco'],'2026-09-07');
 assert.equal(history().length,4,'ending a sale retains old sale and package');
 reloaded.mergePriceHistory({item:[history()[0],{id:'remote',date:'2026-09-08',price:'$6.49',stores:['Giant'],weight:'3 lb'}]});
-assert.equal(history().length,5,'merge retains local and remote entries, without duplicate baseline');
-assert.equal(history()[4].stores[0],'Giant');
+assert.equal(reloaded.activePriceHistory('item').length,5,'merge retains local and remote entries, without duplicate baseline');
+assert.equal(reloaded.activePriceHistory('item')[4].stores[0],'Giant');
+assert.equal(history().length, 4, 'downloaded history is not copied to the local outbox');
 console.log('PASS: previous price, dates, reload, sale-only save, package change and offline history merge');
 
 const sale = {...item.facts, salePrice:'$3.99', saleUnitPrice:'$2.00 / lb'};
@@ -55,13 +56,13 @@ assert.equal((afterReload.cardPriceHistoryMarkup({sourceList:'shop',key:'sale',f
 // Upgrade an existing regular-only history without losing a current sale.
 afterReload.mergePriceHistory({'shop::legacy':[{id:'legacy',...item.facts,stores:['Costco'],date:'2026-09-01'}]});
 afterReload.recordRegularPrice('shop::legacy', {...item,facts:sale}, updated, ['Costco'], '2026-09-09');
-const legacy = JSON.parse(storage.get('smart-shopping-price-history-v1'))['shop::legacy'];
+const legacy = afterReload.activePriceHistory('shop::legacy');
 assert.equal(legacy.length,3);
 assert.equal(legacy[1].saleUnitPrice,'$2.00 / lb');
 assert.equal(legacy[1].date,null,'do not invent a date for an unsaved previous sale');
 const before = legacy.length;
 afterReload.recordRegularPrice('shop::legacy', {...item,facts:updated}, updated, ['Costco'], '2026-09-10');
-assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1'))['shop::legacy'].length,before);
+assert.equal(afterReload.activePriceHistory('shop::legacy').length,before);
 console.log('PASS: sale retention, visible historical highlight, reload, legacy history and unchanged saves');
 
 // Completing details, including the package corrections from the reported soy sauce item,
@@ -194,7 +195,7 @@ assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1')).item[0].
 storage.set('smart-shopping-price-history-v1', JSON.stringify(dateStale));
 const oldDateDevice = device();
 oldDateDevice.mergePriceHistory(dateSaved);
-assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1')).item[0].date, '2026-08-20');
+assert.equal(oldDateDevice.activePriceHistory('item')[0].date, '2026-08-20');
 assert.equal(oldDateDevice.updatePriceHistoryDate('item', dateId, ''), true);
 assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1')).item[0].date, null);
 const oldDateSet = oldDateDevice.localStorage.setItem;
@@ -205,3 +206,26 @@ oldDateDevice.localStorage.setItem = oldDateSet;
 oldDateDevice.deletePriceHistoryEntry('item', dateId);
 assert.equal(oldDateDevice.updatePriceHistoryDate('item', dateId, '2026-08-21'), false);
 console.log('PASS: date edits, validation, reload, bidirectional stale merge, clear date, unchanged prices, storage failure and deletion');
+
+// A large downloaded history must not prevent a small offline price save.
+storage.clear();
+const smallOutbox = device();
+smallOutbox.mergePriceHistory({ remote: [{ id: 'large', price: '$2', note: 'x'.repeat(10000) }] });
+smallOutbox.localStorage.setItem = (key, value) => {
+  if (value.length > 1500) { const error = new Error('Storage full'); error.name = 'QuotaExceededError'; throw error; }
+  storage.set(key, value);
+};
+smallOutbox.recordStorePrice('remote', { price: '$3', weight: '1 lb' }, 'Great Wall', '2026-10-03');
+assert.equal(smallOutbox.activePriceHistory('remote').length, 2);
+const outbox = JSON.parse(storage.get('smart-shopping-price-history-v1'));
+assert.equal(outbox.remote.length, 1);
+assert.equal(outbox.remote[0].price, '$3');
+const offlineOutbox = device();
+assert.equal(offlineOutbox.activePriceHistory('remote')[0].price, '$3');
+offlineOutbox.mergePriceHistory({ remote: [{ id: 'large', price: '$2', note: 'x'.repeat(10000) }] });
+assert.equal(offlineOutbox.activePriceHistory('remote').length, 2);
+const savedOutbox = storage.get('smart-shopping-price-history-v1');
+assert.throws(() => smallOutbox.recordStorePrice('remote', { price: '$4', note: 'x'.repeat(2000) }, 'Giant', '2026-10-03'), { name: 'QuotaExceededError' });
+assert.equal(storage.get('smart-shopping-price-history-v1'), savedOutbox);
+assert.equal(smallOutbox.activePriceHistory('remote').length, 2);
+console.log('PASS: large server history, small offline outbox, reload and atomic quota failure');
