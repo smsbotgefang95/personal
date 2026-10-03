@@ -1797,6 +1797,32 @@
     document.getElementById("sync-detail").textContent = `${photoRecords.length} food photos ready locally`;
     document.getElementById("sync-shopping-button").addEventListener("click", () => syncShoppingDevices());
 
+    function prepareItemPhotos(root) {
+      root.querySelectorAll(".item-photo img").forEach((image, index) => {
+        const handleError = () => {
+          const remoteSource = image.dataset.photoSource;
+          if (remoteSource && image.dataset.photoRemoteFallback !== "true") {
+            image.dataset.photoRemoteFallback = "true";
+            image.src = remoteSource;
+            return;
+          }
+          const fallback = document.createElement("span");
+          fallback.className = "photo-fallback";
+          fallback.setAttribute("aria-hidden", "true");
+          fallback.textContent = image.dataset.photoFallback || "🍽️";
+          image.replaceWith(fallback);
+        };
+        image.addEventListener("error", handleError);
+        // Start the first results immediately after each filter/render, while
+        // keeping long lists lazy. Explicit dimensions also reserve image space.
+        image.width = 118;
+        image.height = 118;
+        if (index < 12) image.loading = "eager";
+        // A cached failure can complete before the listener is attached.
+        if (image.complete && !image.naturalWidth) handleError();
+      });
+    }
+
     function median(values) {
       const sorted = [...values].sort((a, b) => a - b);
       return sorted[Math.floor(sorted.length / 2)] || 0;
@@ -2193,6 +2219,7 @@
       const toBuyItems = items.filter((item) => !isItemPurchased(item));
       const purchasedItems = items.filter(isItemPurchased);
       els.importedList.innerHTML = items.length ? `${purchaseSectionMarkup("Not purchased", toBuyItems)}${purchaseSectionMarkup("Purchased", purchasedItems, toBuyItems.length)}` : `<div class="empty-state">No imported items match “${escapeHtml(state.query || state.category || selectedStoreLabel)}”.</div>`;
+      prepareItemPhotos(els.importedList);
       els.clearFilters.disabled = !hasAppliedConditions();
     }
 
