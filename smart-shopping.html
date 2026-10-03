@@ -2188,9 +2188,8 @@
       const photoTitle = hasCustomPhoto ? "Photo added in this browser" : photo?.sourcePage ? "Photo verified from a product listing" : photo ? "Photo migrated from AnyList" : "No item photo";
       const purchased = isItemPurchased(item);
       const purchaseLabel = "Purchased";
-      const moveTarget = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
-      const moveLabel = moveTarget === "买菜" ? "Shop" : "Later";
-      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><label class="purchase-control"><input type="checkbox" class="purchase-checkbox" data-weekly-toggle aria-label="Weekly staple: ${escapeHtml(displayName)}" ${isWeeklyStaple(item) ? "checked" : ""} /><span>Weekly staple</span></label><div class="imported-actions"><button class="mini-button" type="button" data-move-item aria-label="${moveLabel}: ${escapeHtml(displayName)}">${moveLabel}</button><button class="mini-button" type="button" data-shopping-status="${shoppingStatus(item) === "saved" ? "to-buy" : "saved"}">${shoppingStatus(item) === "saved" ? "Buy again" : "Save for later"}</button><button class="mini-button" type="button" data-compare-item>Compare</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}${countryBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
+      const shoppingAction = shoppingStatus(item) === "saved" ? "Shop" : "Save for later";
+      return `<article class="smart-card imported-card${purchased ? " is-purchased" : ""}" data-item-ref="${escapeHtml(itemReference(item))}"><div class="card-top"><div class="item-media"><div class="item-photo${photoClass}" draggable="false" title="${photoTitle}">${photoMarkup(item, item.icon || "🍽️", item.photo)}</div><label class="purchase-control"><input class="purchase-checkbox" type="checkbox" data-purchase-toggle aria-label="${escapeHtml(purchaseLabel)}: ${escapeHtml(displayName)}" ${purchased ? "checked" : ""} /><span class="purchase-label">${purchaseLabel}</span></label><label class="purchase-control"><input type="checkbox" class="purchase-checkbox" data-weekly-toggle aria-label="Weekly staple: ${escapeHtml(displayName)}" ${isWeeklyStaple(item) ? "checked" : ""} /><span>Weekly staple</span></label><div class="imported-actions"><button class="mini-button" type="button" data-shopping-status="${shoppingStatus(item) === "saved" ? "to-buy" : "saved"}" aria-label="${shoppingAction}: ${escapeHtml(displayName)}">${shoppingAction}</button><button class="mini-button" type="button" data-compare-item>Compare</button><button class="mini-button" type="button" data-edit-item aria-label="Edit ${escapeHtml(displayName)}">Edit</button><button class="mini-button danger" type="button" data-delete-item aria-label="Delete ${escapeHtml(displayName)}">Delete</button></div></div><div class="item-main"><div class="card-title"><h4>${importedNameMarkup(item)}</h4><p class="card-detail">${escapeHtml(categoryLabel(categoryText))}</p></div><div class="card-body"><div class="imported-facts-row">${productFactsMarkup(facts, "card-facts")}</div>${cardPriceHistoryMarkup(item)}${shoppingDetailsMarkup(item)}<div class="price-bar" aria-label="Item detail completeness"><span style="--bar:${detailBar}"></span></div></div></div><div class="card-badges">${brandBadge}${countryBadge}<span class="badge badge-price">${escapeHtml(item.stores.length ? storeText : "Imported")}</span></div></div></article>`;
     }
 
     function categoryGroups(items) {
@@ -2881,17 +2880,13 @@
     document.getElementById("close-modal").addEventListener("click", () => els.compareModal.classList.remove("open"));
     els.compareModal.addEventListener("click", (event) => { if (event.target === els.compareModal) els.compareModal.classList.remove("open"); });
     function handleItemAction(event) {
-      const action = event.target.closest("[data-edit-item], [data-move-item], [data-delete-item], [data-compare-item], [data-shopping-status]");
+      const action = event.target.closest("[data-edit-item], [data-delete-item], [data-compare-item], [data-shopping-status]");
       if (!action) return;
       const row = action.closest("[data-item-ref]");
       const itemRef = parseItemReference(row?.dataset.itemRef);
       const item = itemRef ? getViewItems().find((candidate) => candidate.sourceList === itemRef.sourceList && candidate.key === itemRef.key) : null;
       if (!item) return;
-      if (action.hasAttribute("data-move-item")) {
-        const targetList = itemTargetList(item.sourceList, item.key) === "买菜" ? "备选" : "买菜";
-        moveItemToList(item.sourceList, item.key, targetList);
-      }
-      else if (action.hasAttribute("data-shopping-status")) {
+      if (action.hasAttribute("data-shopping-status")) {
         saveShoppingState(item, action.dataset.shoppingStatus);
         render();
         showToast(`${displayItemName(item)} moved to ${action.dataset.shoppingStatus === "saved" ? "Saved" : "To buy"}.`);
