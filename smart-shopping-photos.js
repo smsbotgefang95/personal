@@ -1,6 +1,14 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Sunny Fruit Dried Apricots",
+    "file": "costco-apricots-transparent.png",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A454dedb4-6bc8-48cf-94a0-be2919f1d483/as/1856165__1.avif?fit=contain&height=1024&width=1024",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/87902612-sunny-fruit-dried-apricots-32-oz",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "烟台苹果",
     "file": "yantai-apples-square.png",
     "credit": "AI-generated with OpenAI ImageGen"
@@ -34,10 +42,11 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "杏干",
-    "file": "costco-sunny-fruit-dried-apricots-1856165.jpg",
-    "source": "https://www.instacart.com/assets/domains/product-image/file/6802596c-da7b-40be-9808-b4dbe5d480dc.jpg",
+    "file": "costco-apricots-transparent.png",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A454dedb4-6bc8-48cf-94a0-be2919f1d483/as/1856165__1.avif?fit=contain&height=1024&width=1024",
     "sourcePage": "https://sameday.costco.com/store/costco/products/87902612-sunny-fruit-dried-apricots-32-oz",
-    "credit": "Costco Same-Day product photo"
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "蒜",
@@ -751,8 +760,11 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Kirkland Signature Wild Alaskan Pink Salmon 野生阿拉斯加粉红三文鱼 (6 × 1盒)",
-    "file": "go_upc-cd6ef1e99c375fea80cf41f779ec26b4.jpg",
-    "source": "https://photos.anylist.com/go_upc-cd6ef1e99c375fea80cf41f779ec26b4.jpg"
+    "file": "costco-salmon-transparent.png",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A09820082-e41f-4341-8010-0615264f372a/as/890181__1.avif?fit=contain&height=1024&width=1024",
+    "sourcePage": "https://www.costcobusinessdelivery.com/p/-/kirkland-signature-wild-alaskan-pink-salmon-6-oz-6-ct/100273178",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Season Brand® Skinless & Boneless Sardines in 100% Olive Oil 沙丁鱼（去骨去皮，橄榄油浸泡） (4 × 1盒)",
@@ -816,8 +828,11 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Granola Honey Nut by NuTrail Nut 蜂蜜坚果燕麦麦片",
-    "file": "273d9e0a88664e04b7e627da11c3d440.jpg",
-    "source": "https://photos.anylist.com/273d9e0a88664e04b7e627da11c3d440.jpg"
+    "file": "costco-honey-nut-transparent.png",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_36653e21-8de6-4c54-961c-8af641fe0af9.jpeg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/30524702-nu-trail-honey-nut-granola-22-oz",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Organic Pumpkin Seed Plus Flax Granola by Nature's Path 有机南瓜籽亚麻籽燕麦脆 (1 × 1袋)",
@@ -826,8 +841,11 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Organic Whole Dried Blueberries by Kirkland Signature 有机整颗干蓝莓 (1 × 1袋)",
-    "file": "go_upc-630435ff6edb5756a9390c11c52f28dd.jpg",
-    "source": "https://photos.anylist.com/go_upc-630435ff6edb5756a9390c11c52f28dd.jpg"
+    "file": "costco-blueberries-transparent.png",
+    "source": "https://www.costco.co.jp/medias/sys_master/images/h8a/h01/397174046588958.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/2803963-kirkland-signature-organic-dried-blueberries-20-oz-20-oz",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Peanut Butter Dark Chocolate Protein Chewy Bars by Nature Valley 花生酱黑巧蛋白能量棒（软嚼型）",
@@ -1198,13 +1216,19 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Albacore Wilda Tuna by Wild Planet 金枪鱼",
-    "file": "food_graph-41fca4a5547c5afeb94559dc528194e1.jpg",
-    "source": "https://photos.anylist.com/food_graph-41fca4a5547c5afeb94559dc528194e1.jpg"
+    "file": "costco-wild-tuna-transparent.png",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A31fffb22-110b-4ae0-adcc-6cef31be0ab0/as/7552__1.avif?fit=contain&height=1024&width=1024",
+    "sourcePage": "https://www.costcobusinessdelivery.com/p/-/wild-planet-wild-albacore-tuna-5-oz-6-ct/100243177",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Black Beans by Goya黑豆",
-    "file": "food_graph-b5fb913ea6cd53d19d796a8a3902c0a6.jpg",
-    "source": "https://photos.anylist.com/food_graph-b5fb913ea6cd53d19d796a8a3902c0a6.jpg"
+    "file": "costco-black-beans-transparent.png",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A787cf8db-88f7-4dfa-a267-149c16b8d7d6/as/1011354__1.avif?fit=contain&height=1024&width=1024",
+    "sourcePage": "https://www.costcobusinessdelivery.com/p/-/goya-black-beans-155-oz-can-8-ct/100275469",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Chick Peas by Goya 鹰嘴豆",
@@ -1218,8 +1242,11 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Raw Whole Almonds 原味整杏仁 (1 × 袋)",
-    "file": "food_graph-a11c8ec5b6a85714a798446c295f05c6.jpg",
-    "source": "https://photos.anylist.com/food_graph-a11c8ec5b6a85714a798446c295f05c6.jpg"
+    "file": "costco-almonds-transparent.png",
+    "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A44c355b1-8063-44c0-aef8-00f391d4b7e3/as/284601__1.avif?fit=contain&height=1024&width=1024",
+    "sourcePage": "https://www.costcobusinessdelivery.com/p/-/kirkland-signature-whole-almonds-baking-nuts-3-lbs/10183563",
+    "credit": "Costco product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "Walnuts by Kirkland Signature 核桃 (1 × 1袋)",
