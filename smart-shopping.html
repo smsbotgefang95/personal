@@ -1113,6 +1113,18 @@
       }
       return shoppingSyncKey;
     }
+    async function fetchShoppingSync(options) {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch(shoppingSyncApi, { ...options, signal: controller.signal });
+        // Keep the timeout active while downloading the response body, too.
+        const body = await response.text();
+        return { ok: response.ok, status: response.status, json: () => JSON.parse(body) };
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
     async function syncShoppingDevices({ upload = true, rerender = true } = {}) {
       if (shoppingSyncInProgress) { queueShoppingSync(); return; }
       const key = await ensureShoppingSyncKey();
@@ -1123,7 +1135,7 @@
       shoppingSyncInProgress = true;
       const headers = { "X-Smart-Shopping-Admin-Key": key };
       try {
-        const response = await fetch(shoppingSyncApi, { headers, cache: "no-store" });
+        const response = await fetchShoppingSync({ headers, cache: "no-store" });
         if (!response.ok) {
           const error = new Error(`HTTP ${response.status}`);
           error.status = response.status;
@@ -1137,7 +1149,7 @@
           const sentPriceHistory = { ...pendingPriceHistory };
           const sentPurchases = { ...pendingPurchases };
           const sentMoves = { ...pendingMoves };
-          const saved = await fetch(shoppingSyncApi, { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
+          const saved = await fetchShoppingSync({ method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify(shoppingPayload()) });
           if (!saved.ok) {
             const error = new Error(`HTTP ${saved.status}`);
             error.status = saved.status;
@@ -1830,7 +1842,7 @@
     document.getElementById("sync-shopping-button").addEventListener("click", () => syncShoppingDevices());
 
     function prepareItemPhotos(root) {
-      root.querySelectorAll(".item-photo img").forEach((image, index) => {
+      root.querySelectorAll(".item-photo img").forEach((image) => {
         const handleError = () => {
           const remoteSource = image.dataset.photoSource;
           if (remoteSource && image.dataset.photoRemoteFallback !== "true") {
@@ -1845,11 +1857,11 @@
           image.replaceWith(fallback);
         };
         image.addEventListener("error", handleError);
-        // Start the first results immediately after each filter/render, while
-        // keeping long lists lazy. Explicit dimensions also reserve image space.
+        // Lazy photos do not hold the page's load event open when an external
+        // photo host stalls. Dimensions reserve space and visible photos still load.
         image.width = 118;
         image.height = 118;
-        if (index < 12) image.loading = "eager";
+        image.loading = "lazy";
         // A cached failure can complete before the listener is attached.
         if (image.complete && !image.naturalWidth) handleError();
       });
@@ -3055,7 +3067,9 @@
     });
     window.addEventListener("focus", refreshShoppingFromServer);
     shoppingRefreshTimer = window.setInterval(refreshShoppingFromServer, 30000);
-    syncShoppingDevices({ upload: true, rerender: false }).finally(() => render());
+    render();
+    // Sync in the background: a stalled connection must not hide the list.
+    syncShoppingDevices({ upload: true });
   })();
 </script>
 </body>

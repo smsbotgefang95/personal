@@ -14,16 +14,16 @@ function device(storage = new Map(), limit = Infinity) {
     }
     storage.set(k, v);
   }, removeItem: k => storage.delete(k) };
-  const context = vm.createContext({ crypto: { randomUUID }, localStorage, window: { localStorage, setTimeout: () => 1, clearTimeout() {} },
+  const context = vm.createContext({AbortController, crypto: { randomUUID }, localStorage, window: { localStorage, setTimeout: () => 1, clearTimeout() {} },
     document: { getElementById: () => ({}) }, render() {},
     fetch: async (_, options) => {
       if (options.method === 'POST') {
-        if (server.fail) return { ok: false, status: 503 };
+        if (server.fail) return { ok: false, status: 503, text: async () => '' };
         server.data = JSON.parse(options.body);
         if (server.onPost) server.onPost();
-        return { ok: true };
+        return { ok: true, text: async () => '' };
       }
-      return { ok: true, json: async () => JSON.parse(JSON.stringify(server.data)) };
+      return { ok: true, text: async () => JSON.stringify(server.data) };
     }
   });
   vm.runInContext(code + '\nshoppingSyncKey="test";', context);

@@ -14,8 +14,8 @@ function image(complete = false, naturalWidth = 0, source = 'https://photos.anyl
 }
 const images = Array.from({ length: 13 }, () => image());
 context.prepareItemPhotos({ querySelectorAll: () => images });
-assert.equal(images[0].loading, 'eager');
-assert.equal(images[11].loading, 'eager');
+assert.equal(images[0].loading, 'lazy');
+assert.equal(images[11].loading, 'lazy');
 assert.equal(images[12].loading, 'lazy');
 images[0].handlers.error();
 assert.equal(images[0].src, images[0].dataset.photoSource);

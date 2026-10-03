@@ -19,14 +19,15 @@ function device(server, storage = new Map(), viewItems = [chicken, walnuts]) {
     document: { getElementById: () => ({ textContent: '', showModal() {}, close() {} }) },
     render() {}, showToast() {}, displayItemName: (item) => item.key,
     getViewItems: () => viewItems, isAllList: () => true,
+    AbortController,
     fetch: async (_, options) => {
       if (options.method === 'POST') {
-        if (server.fail) return { ok: false, status: 503 };
+        if (server.fail) return { ok: false, status: 503, text: async () => '' };
         server.data = JSON.parse(options.body);
         if (server.onPost) await server.onPost();
-        return { ok: true };
+        return { ok: true, text: async () => '' };
       }
-      return { ok: true, json: async () => JSON.parse(JSON.stringify(server.data)) };
+      return { ok: true, text: async () => JSON.stringify(server.data) };
     }
   });
   vm.runInContext(code + '\nshoppingSyncKey = "test-only";', context);

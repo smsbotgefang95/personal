@@ -10,9 +10,9 @@ function device(storage = new Map(), limit = Infinity) {
     storage.set(k,v);
   };
   localStorage.removeItem = k=>storage.delete(k);
-  const c = vm.createContext({localStorage,window:{localStorage,setTimeout:()=>1,clearTimeout(){}},document:{getElementById:()=>({})},render(){},fetch:async(_,o)=>{
-    if(o.method==='POST') { if(server.fail) return {ok:false,status:503}; server.data=JSON.parse(o.body); if(server.onPost)server.onPost(); return {ok:true}; }
-    return {ok:true,json:async()=>JSON.parse(JSON.stringify(server.data))};
+  const c = vm.createContext({AbortController,localStorage,window:{localStorage,setTimeout:()=>1,clearTimeout(){}},document:{getElementById:()=>({})},render(){},fetch:async(_,o)=>{
+    if(o.method==='POST') { if(server.fail) return {ok:false,status:503,text:async()=>''}; server.data=JSON.parse(o.body); if(server.onPost)server.onPost(); return {ok:true,text:async()=>''}; }
+    return {ok:true,text:async()=>JSON.stringify(server.data)};
   }});
   vm.runInContext(code+'\nshoppingSyncKey="test";',c);
   return {storage,sync:()=>c.syncShoppingDevices(),add:(key,name)=>vm.runInContext(`(itemAdds['买菜'] ||= []).push(${JSON.stringify({key,name})});saveItemAdds()`,c),items:()=>JSON.parse(vm.runInContext('JSON.stringify(itemAdds)',c)),remove:key=>vm.runInContext(`itemRemovals['买菜::${key}']=true;saveItemRemovals();itemAdds['买菜']=itemAdds['买菜'].filter(i=>i.key!==${JSON.stringify(key)});saveItemAdds()`,c)};
