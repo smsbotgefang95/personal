@@ -2346,10 +2346,16 @@
             canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
             canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
             const context = canvas.getContext("2d");
-            context.fillStyle = "#ffffff";
-            context.fillRect(0, 0, canvas.width, canvas.height);
             context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL("image/jpeg", 0.84));
+            const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+            let hasTransparency = false;
+            for (let alpha = 3; alpha < pixels.length; alpha += 4) {
+              if (pixels[alpha] < 255) {
+                hasTransparency = true;
+                break;
+              }
+            }
+            resolve(hasTransparency ? canvas.toDataURL("image/png") : canvas.toDataURL("image/jpeg", 0.84));
           };
           image.src = reader.result;
         };
