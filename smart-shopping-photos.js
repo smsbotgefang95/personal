@@ -1,6 +1,14 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Beef chuck roast",
+    "file": "costco-beef-chuck-roast-transparent.png",
+    "source": "https://www.instacart.com/assets/domains/product-image/file/large_8135f33f-2c25-4811-a96a-f5ada0d58a59.jpg",
+    "sourcePage": "https://sameday.costco.com/store/costco/products/32665-kirkland-signature-usda-choice-beef-chuck-pot-roast-boneless-per-lb",
+    "credit": "Costco Same-Day product photo; transparent background prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "Sunny Fruit Dried Apricots",
     "file": "costco-apricots-transparent.png",
     "source": "https://gdx-assets.costco.com/adobe/assets/urn%3Aaaid%3Aaem%3A454dedb4-6bc8-48cf-94a0-be2919f1d483/as/1856165__1.avif?fit=contain&height=1024&width=1024",
