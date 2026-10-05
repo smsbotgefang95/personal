@@ -4169,6 +4169,7 @@
     ["same", "Same due-date day", "Same"],
     ["first", "First day", "1st"],
     ["second", "Second day", "2nd"],
+    ["seventh", "7th day", "7th"],
     ["eleventh", "11th day", "11th"],
     ["twentyFirst", "21st day", "21st"],
     ["last", "Last day", "Last"]
@@ -4675,6 +4676,7 @@
     }
     if (monthlyDay === "first") return new Date(year, month, 1);
     if (monthlyDay === "second") return new Date(year, month, 2);
+    if (monthlyDay === "seventh") return new Date(year, month, 7);
     if (monthlyDay === "eleventh") return new Date(year, month, 11);
     if (monthlyDay === "twentyFirst") return new Date(year, month, 21);
     return new Date(year, month + 1, 0);
@@ -4698,6 +4700,7 @@
   function monthlyDayValue(value) {
     const text = String(value || "").trim().toLowerCase();
     if (text === "same" || text === "first" || text === "second" || text === "last") return text;
+    if (text === "7th" || text === "7" || text === "seventh") return "seventh";
     if (text === "11th" || text === "11" || text === "eleventh") return "eleventh";
     if (text === "21st" || text === "21" || text === "twenty-first" || text === "twenty first" || text === "twentyfirst") return "twentyFirst";
     return "";
@@ -4778,7 +4781,7 @@
       const monthlyWeekday = monthlyWeekdayValueFromText(match[1], match[2]);
       if (monthlyWeekday) monthlyDayMatches.push({ index: match.index, value: monthlyWeekday });
     }
-    for (const match of text.matchAll(/\bon\s+(first|second|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/gi)) {
+    for (const match of text.matchAll(/\bon\s+(first|second|7th|7|seventh|11th|11|eleventh|21st|21|twenty-first|twenty first|last)\s+day\b/gi)) {
       const monthlyDay = monthlyDayValue(match[1]);
       if (monthlyDay) monthlyDayMatches.push({ index: match.index, value: monthlyDay });
     }
