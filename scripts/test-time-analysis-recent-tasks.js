@@ -895,3 +895,22 @@ assert.ok(dateAuditSandbox.dayTotalAuditHtml(emptyAudit).includes("No entries co
 const unexplainedAudit = { ...smallAudit, issueEntries: [], overlaps: [], gaps: [] };
 assert.ok(dateAuditSandbox.dayTotalAuditHtml(unexplainedAudit).includes("Entries exist for this day"));
 console.log("Sub-minute day audit checks passed.");
+
+// Entry edits expose seconds and preserve unchanged sub-second timestamps.
+const editTimeSandbox = {};
+vm.createContext(editTimeSandbox);
+vm.runInContext([
+  extractFunction(html, "toDatetimeLocal"),
+  extractFunction(html, "dateFromEditDateTimeInput"),
+  extractFunction(html, "isoFromEditDateTimeInput")
+].join("\n\n"), editTimeSandbox);
+const preciseStart = new Date(2026, 9, 3, 6, 7, 23, 50).toISOString();
+const preciseZero = new Date(2026, 9, 3, 6, 24, 0, 395).toISOString();
+assert.strictEqual(editTimeSandbox.toDatetimeLocal(preciseStart), "2026-10-03T06:07:23");
+assert.strictEqual(editTimeSandbox.isoFromEditDateTimeInput("2026-10-03T06:07:23", preciseStart), preciseStart);
+assert.strictEqual(editTimeSandbox.isoFromEditDateTimeInput("2026-10-03T06:24", preciseZero), preciseZero, "browser-normalized zero seconds must preserve milliseconds");
+assert.strictEqual(editTimeSandbox.isoFromEditDateTimeInput("2026-10-03T06:07:38", preciseStart), new Date(2026, 9, 3, 6, 7, 38).toISOString());
+assert.strictEqual(editTimeSandbox.isoFromEditDateTimeInput("invalid", preciseStart), "");
+const matchingEnd = editTimeSandbox.isoFromEditDateTimeInput("2026-10-03T06:07:23", new Date(2026, 9, 3, 6, 7, 0).toISOString());
+assert.ok(Math.abs(new Date(preciseStart) - new Date(matchingEnd)) < 1000, "matching visible boundaries must close the gap to sub-second precision");
+console.log("Second-precision entry edit checks passed.");
