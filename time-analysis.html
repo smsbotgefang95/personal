@@ -892,7 +892,7 @@
 
   .day-total-audit-entry {
     display: grid;
-    grid-template-columns: minmax(92px, 120px) minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-columns: max-content minmax(0, 1.1fr) minmax(0, 1fr);
     gap: 8px;
     align-items: center;
     width: 100%;
@@ -940,6 +940,8 @@
   .day-total-audit-reason {
     color: var(--muted);
     font-size: 0.78rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .day-total-audit-empty {
@@ -10457,7 +10459,7 @@
   function dayAuditTimeLabel(ms) {
     const date = new Date(ms);
     if (Number.isNaN(date.getTime())) return "-";
-    return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit", second: "2-digit" });
   }
 
   function dayAuditRangeLabel(startMs, endMs) {
@@ -10543,7 +10545,7 @@
         const overlapStart = Math.max(current.startMs, next.startMs);
         const overlapEnd = Math.min(current.endMs, next.endMs);
         const overlapMs = overlapEnd - overlapStart;
-        if (overlapMs < DAY_TOTAL_AUDIT_TOLERANCE_MS) continue;
+        if (overlapMs <= 0) continue;
         const rangeLabel = dayAuditRangeLabel(overlapStart, overlapEnd);
         overlaps.push({ startMs: overlapStart, endMs: overlapEnd, durationMs: overlapMs, entries: [current, next] });
         addDayAuditIssue(issueByKey, current, `Overlaps ${rangeLabel} with ${cleanLabel(next.entry.taskName, "another entry")}`, "overlap", overlapMs);
@@ -10555,7 +10557,7 @@
     let beforeWindow = null;
     windows.forEach((windowEntry) => {
       const gapMs = windowEntry.startMs - cursorMs;
-      if (gapMs >= DAY_TOTAL_AUDIT_TOLERANCE_MS) {
+      if (gapMs > 0) {
         const rangeLabel = dayAuditRangeLabel(cursorMs, windowEntry.startMs);
         gaps.push({ startMs: cursorMs, endMs: windowEntry.startMs, durationMs: gapMs, before: beforeWindow, after: windowEntry });
         if (beforeWindow) addDayAuditIssue(issueByKey, beforeWindow, `Stops before ${rangeLabel} gap`, "gap", gapMs);
@@ -10568,7 +10570,7 @@
     });
 
     const endGapMs = bounds.end.getTime() - cursorMs;
-    if (endGapMs >= DAY_TOTAL_AUDIT_TOLERANCE_MS) {
+    if (endGapMs > 0) {
       const rangeLabel = dayAuditRangeLabel(cursorMs, bounds.end.getTime());
       gaps.push({ startMs: cursorMs, endMs: bounds.end.getTime(), durationMs: endGapMs, before: beforeWindow, after: null });
       if (beforeWindow) addDayAuditIssue(issueByKey, beforeWindow, `Stops before ${rangeLabel} gap`, "gap", endGapMs);
@@ -10578,7 +10580,7 @@
     dayEntries.forEach((entry) => {
       const key = detailEntryKey(entry);
       const durationMs = entryDateFilterMs(entry, dateValue);
-      if (windowKeys.has(key) || durationMs < DAY_TOTAL_AUDIT_TOLERANCE_MS) return;
+      if (windowKeys.has(key) || durationMs <= 0) return;
       addDayAuditIssue(issueByKey, {
         key,
         entry,
@@ -10620,7 +10622,7 @@
       ? `${facts.join(" and ")} found. Select an editable flagged entry to update its start or end time.${hiddenText}`
       : `No direct gaps or overlaps found. Check duplicate imports or entries with missing start/end times.${hiddenText}`;
     const issueRows = audit.issueEntries.slice(0, DAY_TOTAL_AUDIT_ENTRY_LIMIT).map((item) => {
-      const reason = item.reasons[0]?.reason || "Check start and stop times";
+      const reason = item.reasons.map((itemReason) => `${itemReason.reason} (${formatDuration(itemReason.ms)})`).join("; ") || "Check start and stop times";
       const hiddenByFilter = hasVisibleKeys && !visibleKeys.has(item.key);
       return `
         <li>
@@ -10638,7 +10640,9 @@
       : "";
     const emptyText = issueRows
       ? ""
-      : `<p class="day-total-audit-empty">No entries cover this day. Add a missing entry or check adjacent day timers.</p>`;
+      : audit.dayEntries.length
+        ? `<p class="day-total-audit-empty">Entries exist for this day, but no specific start/end discrepancy was identified. Check imported durations and timestamps.</p>`
+        : `<p class="day-total-audit-empty">No entries cover this day. Add a missing entry or check adjacent day timers.</p>`;
     return `
       <div class="day-total-audit-header">
         <p class="day-total-audit-title">Day is ${direction} 24h by ${escapeHtml(formatDuration(Math.abs(audit.deltaMs)))}</p>

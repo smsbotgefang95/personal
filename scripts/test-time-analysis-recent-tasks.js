@@ -848,3 +848,50 @@ assert.strictEqual(
 );
 
 console.log("Legacy week-only date audit checks passed.");
+
+// A flagged day must explain discrepancies even when each is under one minute.
+dateAuditSandbox.cleanLabel = sandbox.cleanLabel;
+dateAuditSandbox.escapeHtml = (value) => String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+vm.runInContext([
+  extractConst(html, "DAY_TOTAL_TARGET_MS"),
+  extractConst(html, "DAY_TOTAL_AUDIT_ENTRY_LIMIT"),
+  ...["entryDateFilterMs", "dayAuditTimeLabel", "dayAuditRangeLabel", "dayAuditSourceLabel", "dayAuditEntryTitle", "addDayAuditIssue", "countLabel", "buildDayTotalAudit", "formatDuration", "dayTotalAuditHtml"].map((name) => extractFunction(html, name))
+].join("\n\n"), dateAuditSandbox);
+
+const smallDiscrepancyEntries = vm.runInContext(`(() => {
+  const midnight = new Date(2026, 9, 3).getTime();
+  const boundaries = [
+    [0, 22020000],
+    [22043050, 23018327],
+    [23040722, 61200000],
+    [61238863, 63020900],
+    [63000000, 86400000]
+  ];
+  return boundaries.map(([startMs, stopMs], index) => ({
+    id: "small-" + index, sourceType: "native", taskName: "Task " + index,
+    date: "2026-10-03", start: new Date(midnight + startMs),
+    stop: new Date(midnight + stopMs), durationMs: stopMs - startMs
+  }));
+})()`, dateAuditSandbox);
+const smallAudit = dateAuditSandbox.buildDayTotalAudit(smallDiscrepancyEntries, "2026-10-03");
+assert.strictEqual(smallAudit.deltaMs, -63408);
+assert.strictEqual(smallAudit.isComplete, false);
+assert.strictEqual(smallAudit.gaps.length, 3, "all sub-minute gaps must be identified");
+assert.strictEqual(smallAudit.overlaps.length, 1, "sub-minute overlap must be identified");
+assert.strictEqual(smallAudit.gaps.reduce((sum, item) => sum + item.durationMs, 0), 84308);
+assert.strictEqual(smallAudit.overlaps[0].durationMs, 20900);
+const smallAuditHtml = dateAuditSandbox.dayTotalAuditHtml(smallAudit);
+assert.ok(smallAuditHtml.includes("1 overlap and 3 gaps found"));
+assert.ok(!smallAuditHtml.includes("No entries cover this day"));
+assert.ok(smallAuditHtml.includes("23s"), "reasons must show short discrepancy durations");
+assert.ok(dateAuditSandbox.dayAuditRangeLabel(smallAudit.gaps[0].startMs, smallAudit.gaps[0].endMs).includes(":23"), "ranges must show seconds");
+const completeAudit = dateAuditSandbox.buildDayTotalAudit([{
+  ...smallDiscrepancyEntries[0], stop: smallDiscrepancyEntries[4].stop,
+  durationMs: 86400000
+}], "2026-10-03");
+assert.strictEqual(dateAuditSandbox.dayTotalAuditHtml(completeAudit), "");
+const emptyAudit = dateAuditSandbox.buildDayTotalAudit([], "2026-10-03");
+assert.ok(dateAuditSandbox.dayTotalAuditHtml(emptyAudit).includes("No entries cover this day"));
+const unexplainedAudit = { ...smallAudit, issueEntries: [], overlaps: [], gaps: [] };
+assert.ok(dateAuditSandbox.dayTotalAuditHtml(unexplainedAudit).includes("Entries exist for this day"));
+console.log("Sub-minute day audit checks passed.");
