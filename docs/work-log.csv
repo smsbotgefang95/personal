@@ -4,3 +4,4 @@ phase,date,title,summary,hours
 3,2026-06-02,Show done search matches,Task search now includes done tasks so completed matches remain findable.,0.5
 4,2026-06-06,Revert task layout,Task form and tracker rows restored to prior layout.,0.5
 5,2026-10-01,Preserve and recover time tracking history,Remove silent 5000-entry truncation; preserve history across stale saves and explicit deletions; add timer-safe missing-history recovery. HTTP regression and local browser verification passed.,1
+6,2026-10-04,Correct Siri single-task suggestion error,Use retry guidance instead of claiming multiple matches for one uncertain suggestion; verify soak feet and soak fee matching and preserve timers on failed commands.,0.5

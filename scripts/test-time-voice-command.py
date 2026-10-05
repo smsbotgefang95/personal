@@ -29,6 +29,8 @@ def run():
                 {"listId": "personal", "listName": "Personal", "taskId": "workout-current", "taskName": "🏋🏻‍♀️ Work out"},
                 {"listId": "business", "listName": "In Business", "taskId": "vendor-calls", "taskName": "Call vendors"},
                 {"listId": "business", "listName": "In Business", "taskId": "seller-calls", "taskName": "Call sellers"},
+                {"listId": "personal", "listName": "Personal", "taskId": "soak-feet", "taskName": "🪣 Soak feet"},
+                {"listId": "personal", "listName": "Personal", "taskId": "soak-butt", "taskName": "🪣 Soak butt"},
             ]
         }
         API.TIME_TASK_CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
@@ -60,6 +62,24 @@ def run():
         status, response = API.apply_time_voice_command({"action": "switch", "task": "call"}, "2026-09-24T12:20:00.000Z")
         assert_equal(status, 409, "ambiguous match status")
         assert_equal(response["error"], "ambiguous_task", "ambiguous match error")
+
+        before = API.load_time_entries_payload()
+        status, response = API.apply_time_voice_command({"task": "soak my feet please"}, "2026-09-24T12:21:00.000Z")
+        assert_equal(status, 404, "single uncertain suggestion status")
+        assert_equal(response["error"], "task_not_found", "single suggestion is not ambiguity")
+        assert_equal(response["message"], "I could not confidently match that task. Try saying 🪣 Soak feet.", "single suggestion guidance")
+        assert_equal(API.load_time_entries_payload(), before, "uncertain command preserves timer and history")
+
+        status, response = API.apply_time_voice_command({"task": "soak"}, "2026-09-24T12:22:00.000Z")
+        assert_equal(status, 409, "distinct soak tasks remain ambiguous")
+        assert_equal(API.load_time_entries_payload(), before, "ambiguous command preserves timer and history")
+
+        status, response = API.apply_time_voice_command({"task": "soak fee"}, "2026-09-24T12:23:00.000Z")
+        assert_equal(status, 200, "soak fee transcription status")
+        assert_equal(response["activeTask"], "🪣 Soak feet", "soak fee matches feet rather than butt")
+        status, response = API.apply_time_voice_command({"task": "soak feet"}, "2026-09-24T12:24:00.000Z")
+        assert_equal(status, 200, "spoken soak feet status")
+        assert_equal(response["message"], "Already tracking 🪣 Soak feet.", "exact name retains the existing feet timer")
 
         status, response = API.apply_time_voice_command({"action": "stop"}, "2026-09-24T12:30:00.000Z")
         assert_equal(status, 200, "stop status")

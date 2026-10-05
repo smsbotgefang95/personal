@@ -1016,6 +1016,8 @@ def apply_time_voice_command(incoming, now=None):
         match, alternatives = match_voice_task(payload, incoming.get("task") or incoming.get("taskName"))
         if not match:
             names = [clean_time_text(item.get("taskName"), 240) for item in alternatives]
+            if len(names) == 1:
+                return 404, {"ok": False, "error": "task_not_found", "message": f"I could not confidently match that task. Try saying {names[0]}.", "candidates": names}
             if names:
                 return 409, {"ok": False, "error": "ambiguous_task", "message": f"I found more than one possible task: {', '.join(names)}.", "candidates": names}
             return 404, {"ok": False, "error": "task_not_found", "message": "I could not find that task. Try saying more of its name."}
