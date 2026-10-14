@@ -6,7 +6,7 @@ const slice = (start, end) => html.slice(html.indexOf(start), html.indexOf(end))
 const sources = ['买菜', '备选', '推车', '冰箱', '冰柜_肉和其他🥩', '橱柜_食物🍫'];
 const items = Object.fromEntries(sources.map((source, index) => [source, [{key: `item-${index}`, name: `Food ${index}`, photo: 'saved-photo', facts: {price: '$2'}, edited: true}]]));
 const moves = {};
-const context = vm.createContext({sourceListNames: sources, itemMoves: moves, moveStorageKey: (s,k) => `${s}::${k}`, getSourceItems: s => items[s] || [], state: {activeList:'__all__', detailFilter:'missing-photo'}});
+const context = vm.createContext({sourceListNames: sources, itemMoves: moves, moveStorageKey: (s,k) => `${s}::${k}`, getSourceItems: s => items[s] || [], shoppingStatus: item => item.status || 'to-buy', state: {activeList:'__all__', detailFilter:'missing-photo'}});
 vm.runInContext(slice('    const logicalListName =', '    const listDisplayNames') + '\nconst ALL_LIST = "__all__";\n' + slice('    function itemTargetList(', '    function itemReference('), context);
 assert.equal(context.getImportedItems('买菜').length, 1);
 assert.equal(context.getImportedItems('备选').length, 5);
@@ -28,4 +28,9 @@ context.state.activeList = '买菜';
 assert.equal(context.getViewItems().length, 0, 'missing-photo filter cannot bypass selected list');
 context.state.activeList = '备选';
 assert.equal(context.getViewItems().length, 6);
+items['买菜'].push({key: 'saved-food', name: 'Saved food', status: 'saved'}, {key: 'bought-food', name: 'Bought food', status: 'purchased'});
+context.state.activeList = '买菜';
+assert.deepEqual(Array.from(context.getViewItems(), item => item.key), ['bought-food'], 'Shopping List excludes Saved and retains Bought');
+context.state.activeList = '__all__';
+assert.equal(context.getViewItems().some(item => item.key === 'saved-food'), true, 'Saved items remain accessible under All items');
 console.log('PASS: two lists, legacy destinations, saved fields and identities, explicit moves, scoped detail filter');

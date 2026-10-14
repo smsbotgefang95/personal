@@ -1320,7 +1320,10 @@
     }
     function isAllList() { return state.activeList === ALL_LIST; }
     function getAllCollectionItems() { return listNames.flatMap((listName) => getImportedItems(listName)); }
-    function getViewItems() { return isAllList() ? getAllCollectionItems() : getImportedItems(state.activeList); }
+    function getViewItems() {
+      const items = isAllList() ? getAllCollectionItems() : getImportedItems(state.activeList);
+      return state.activeList === "买菜" ? items.filter((item) => shoppingStatus(item) !== "saved") : items;
+    }
     function itemReference(item) { return JSON.stringify({ sourceList: item.sourceList, key: item.key }); }
     function parseItemReference(value) {
       try {
