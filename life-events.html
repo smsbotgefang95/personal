@@ -352,6 +352,35 @@
     resize: vertical;
   }
 
+  .people-label-row,
+  .new-person-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .add-person-button {
+    background: none;
+    border: 0;
+    color: var(--accent);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 0;
+  }
+
+  .new-person-editor {
+    display: grid;
+    gap: 6px;
+  }
+
+  .new-person-editor[hidden] {
+    display: none;
+  }
+
   .people-multiselect {
     position: relative;
   }
@@ -1316,8 +1345,19 @@
                 </select>
               </div>
               <div class="field">
-                <label id="eventPeopleLabel" for="eventPeople">People Involved</label>
+                <div class="people-label-row">
+                  <label id="eventPeopleLabel" for="eventPeopleButton">People Involved</label>
+                  <button id="addPersonBtn" class="add-person-button" type="button" aria-expanded="false" aria-controls="newPersonEditor">+ Add person</button>
+                </div>
                 <div id="eventPeople" class="people-multiselect" role="group" aria-labelledby="eventPeopleLabel"></div>
+                <div id="newPersonEditor" class="new-person-editor" hidden>
+                  <label for="newPersonName">Person’s name</label>
+                  <input id="newPersonName" type="text" placeholder="Enter a name" autocomplete="off" />
+                  <div class="new-person-actions">
+                    <button id="confirmPersonBtn" class="add-person-button" type="button">Add</button>
+                    <button id="cancelPersonBtn" class="add-person-button" type="button">Cancel</button>
+                  </div>
+                </div>
               </div>
               <input id="eventTags" type="hidden" />
               <div class="field full">
@@ -1878,6 +1918,11 @@ W03: Cornbread`],
     eventEnergy: document.getElementById("eventEnergy"),
     eventPattern: document.getElementById("eventPattern"),
     eventPeople: document.getElementById("eventPeople"),
+    addPersonBtn: document.getElementById("addPersonBtn"),
+    newPersonEditor: document.getElementById("newPersonEditor"),
+    newPersonName: document.getElementById("newPersonName"),
+    confirmPersonBtn: document.getElementById("confirmPersonBtn"),
+    cancelPersonBtn: document.getElementById("cancelPersonBtn"),
     eventTags: document.getElementById("eventTags"),
     eventNotes: document.getElementById("eventNotes"),
     eventLesson: document.getElementById("eventLesson"),
@@ -2542,6 +2587,28 @@ W03: Cornbread`],
     updatePeopleTrigger(els.eventPeople);
   }
 
+  function closeNewPersonEditor() {
+    els.newPersonEditor.hidden = true;
+    els.addPersonBtn.setAttribute("aria-expanded", "false");
+    els.newPersonName.value = "";
+    els.newPersonName.setCustomValidity("");
+  }
+
+  function addEventPerson() {
+    const name = personDisplayName(els.newPersonName.value.replace(/\s+/g, " ").trim());
+    if (!name || /[,，]/.test(name)) {
+      els.newPersonName.setCustomValidity("Enter one person’s name without commas.");
+      els.newPersonName.reportValidity();
+      return;
+    }
+    const selected = selectedCheckboxValues(els.eventPeople);
+    const existingOptions = Array.from(els.eventPeople.querySelectorAll("input[type='checkbox']")).map((input) => input.value);
+    const existingName = existingOptions.find((option) => option.toLocaleLowerCase() === name.toLocaleLowerCase());
+    updateEventPeopleOptions([...new Set([...selected, existingName || name])].join(", "));
+    closeNewPersonEditor();
+    els.eventPeople.querySelector(".people-trigger").focus();
+  }
+
   function eventTagOptions() {
     const eventTags = events.flatMap((event) => splitList(event.tags));
     return [...new Set(eventTags)].sort((a, b) => a.localeCompare(b));
@@ -2835,6 +2902,7 @@ W03: Cornbread`],
   }
 
   function fillForm(event) {
+    closeNewPersonEditor();
     els.eventId.value = event.id || "";
     els.eventDate.value = event.date || today();
     els.eventEndDate.value = event.endDate || "";
@@ -3475,6 +3543,33 @@ W03: Cornbread`],
     normalizePeopleFilterSelection(event.target);
     render();
     rememberTimelineViewState();
+  });
+
+  els.addPersonBtn.addEventListener("click", () => {
+    if (!els.newPersonEditor.hidden) {
+      closeNewPersonEditor();
+      return;
+    }
+    closePeopleMenu(els.eventPeople);
+    els.newPersonEditor.hidden = false;
+    els.addPersonBtn.setAttribute("aria-expanded", "true");
+    els.newPersonName.focus();
+  });
+  els.confirmPersonBtn.addEventListener("click", addEventPerson);
+  els.cancelPersonBtn.addEventListener("click", () => {
+    closeNewPersonEditor();
+    els.addPersonBtn.focus();
+  });
+  els.newPersonName.addEventListener("input", () => els.newPersonName.setCustomValidity(""));
+  els.newPersonName.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addEventPerson();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      closeNewPersonEditor();
+      els.addPersonBtn.focus();
+    }
   });
 
   els.eventPeople.addEventListener("change", () => {
