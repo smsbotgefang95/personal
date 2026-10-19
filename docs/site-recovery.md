@@ -20,8 +20,13 @@ are excluded. It refuses missing sources or database dumps older than 36 hours.
 Backups are AES256 GPG-encrypted before upload to a dedicated private Google
 Drive folder. Full decryption/archive validation occurs before upload; the
 uploaded size and MD5 must match before rotation. Keep the newest successful
-backup from each of 14 UTC days, plus the two newest local encrypted archives.
-Earlier history accumulates over time; a new installation has one restore point.
+backup from each of three UTC days, plus the two newest local encrypted archives.
+The backup account currently has a 15 GB storage allowance. The first full
+archive is about 3.5 GiB; three retained copies leave room for the next upload
+at the current size. Longer retention needs additional capacity or an incremental
+backup design. Watch storage as application data grows. The server's private
+`backup.json` controls retention; rotation occurs only after a verified upload.
+History accumulates over time; a new installation has one restore point.
 The older database-only backup job remains separate and unchanged.
 
 The folder ID and passphrase are stored in `~/.config/personal-ops/` on the

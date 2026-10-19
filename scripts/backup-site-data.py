@@ -130,7 +130,7 @@ def main():
         records = parse_backup_listing(listing)
         if (name, file_id) not in records:
             raise RuntimeError('New backup missing from remote listing; no pruning performed')
-        # Keep 14 distinct UTC daily restore points (newest successful run/day).
+        # Keep the configured number of distinct UTC daily restore points.
         keep = retained_daily_ids(records, config['keep_days'])
         for remote_name, remote_id in records:
             if remote_id not in keep:
@@ -138,7 +138,9 @@ def main():
         # Keep only two local encrypted copies; off-server retention is longer.
         for old in sorted(STATE.glob(PREFIX + '*.tar.gz.gpg'), reverse=True)[2:]:
             old.unlink()
-        status = {'completed_at_utc': stamp, 'file_id': file_id, 'name': name,
+        completed = dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+        status = {'started_at_utc': stamp, 'completed_at_utc': completed,
+                  'file_id': file_id, 'name': name,
                   'bytes': target.stat().st_size, 'md5': md5,
                   'sha256': digest(target, 'sha256'), 'sources': sources,
                   'remote_daily_restore_points': len(keep)}
