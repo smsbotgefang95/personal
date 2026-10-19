@@ -240,15 +240,6 @@ PY
     echo "Updated OpenAI vocabulary auto-fill key from deploy environment."
 fi
 
-echo "🧭 Ensuring vocabulary API restarts after server reboot..."
-API_REBOOT_MARKER="# personal-vocabulary-api-reboot"
-API_REBOOT_CMD="@reboot /bin/bash -lc 'DATA_DIR=\"$DATA_DIR\" BUILD_DIR=\"$BUILD_DIR\"; set -a; . \"\$DATA_DIR/vocabulary-api.env\"; set +a; nohup /usr/bin/python3 \"\$BUILD_DIR/server/vocabulary_api.py\" >> \"\$DATA_DIR/vocabulary-api.log\" 2>&1 & echo \$! > \"\$DATA_DIR/vocabulary-api.pid\"' $API_REBOOT_MARKER"
-CRON_TMP=$(mktemp)
-crontab -l 2>/dev/null | grep -vF "$API_REBOOT_MARKER" > "$CRON_TMP" || true
-printf '%s\n' "$API_REBOOT_CMD" >> "$CRON_TMP"
-crontab "$CRON_TMP"
-rm -f "$CRON_TMP"
-
 # 5. Apply standard directory permissions
 echo "🔒 Adjusting folder permissions..."
 sudo chown -R "$CURRENT_USER":"$CURRENT_USER" "$WEB_ROOT"
@@ -258,24 +249,8 @@ cp "$DATA_DIR/life-events.json" "$WEB_ROOT/data/life-events.json"
 cp "$DATA_DIR/learning-english-custom.json" "$WEB_ROOT/data/learning-english-custom.json"
 chmod 644 "$WEB_ROOT/data/vocabulary-overrides.json" "$WEB_ROOT/data/life-events.json" "$WEB_ROOT/data/learning-english-custom.json"
 
-echo "🔁 Starting vocabulary API..."
-if [ -f "$DATA_DIR/vocabulary-api.pid" ]; then
-    OLD_PID=$(cat "$DATA_DIR/vocabulary-api.pid" || true)
-    if [ -n "$OLD_PID" ] && kill -0 "$OLD_PID" 2>/dev/null; then
-        kill "$OLD_PID" || true
-    fi
-fi
-set -a
-. "$DATA_DIR/vocabulary-api.env"
-set +a
-nohup /usr/bin/python3 "$BUILD_DIR/server/vocabulary_api.py" >> "$DATA_DIR/vocabulary-api.log" 2>&1 &
-echo $! > "$DATA_DIR/vocabulary-api.pid"
-sleep 1
-if ! kill -0 "$(cat "$DATA_DIR/vocabulary-api.pid")" 2>/dev/null; then
-    echo "Vocabulary API failed to start. Recent log:"
-    tail -n 40 "$DATA_DIR/vocabulary-api.log" || true
-    exit 1
-fi
+echo "🔁 Starting supervised vocabulary API..."
+/bin/bash "$BUILD_DIR/scripts/install-personal-api-service.sh"
 
 # 6. Write/Verify the Nginx Configuration Block
 echo "🌐 Ensuring Nginx server configuration is updated..."
