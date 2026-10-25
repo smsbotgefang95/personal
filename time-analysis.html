@@ -9132,12 +9132,12 @@
 
   function timeOnly(date) {
     if (!date) return "-";
-    return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit", second: "2-digit" });
   }
 
   function timeWithShortDate(date) {
     if (!date) return "-";
-    return date.toLocaleString(undefined, { month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit" });
+    return date.toLocaleString(undefined, { month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit" });
   }
 
   function formatHours(hours, digits = 1) {
