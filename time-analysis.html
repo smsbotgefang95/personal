@@ -5693,19 +5693,31 @@
       headers["Content-Type"] = "application/json";
       options.body = JSON.stringify(payload);
     }
-    const response = await fetch(TIME_ENTRIES_API, options);
-    if (response.status === 401) {
-      clearTimeAdminKey();
-      const error = new Error("Time Analysis sync needs the admin key again.");
-      error.status = 401;
+    const controller = new AbortController();
+    options.signal = controller.signal;
+    const timeout = window.setTimeout(() => controller.abort(), 30000);
+    try {
+      const response = await fetch(TIME_ENTRIES_API, options);
+      if (response.status === 401) {
+        clearTimeAdminKey();
+        const error = new Error("Time Analysis sync needs the admin key again.");
+        error.status = 401;
+        throw error;
+      }
+      if (!response.ok) {
+        const error = new Error(`Time API returned HTTP ${response.status}`);
+        error.status = response.status;
+        throw error;
+      }
+      return await response.json();
+    } catch (error) {
+      if (controller.signal.aborted) {
+        throw new Error("Time Analysis sync timed out. Check your connection and try again.");
+      }
       throw error;
+    } finally {
+      window.clearTimeout(timeout);
     }
-    if (!response.ok) {
-      const error = new Error(`Time API returned HTTP ${response.status}`);
-      error.status = response.status;
-      throw error;
-    }
-    return response.json();
   }
 
   function enqueueTimePayloadSync(task) {
@@ -7517,14 +7529,16 @@
     let endDate = localDateTimeFromInputs(dateValue, endValue);
     if (!dateValue || !startValue || !endValue || !startDate || !endDate) {
       setTrackerStatus("Enter a date, start time, and end time.", "error");
+      showTrackerToast("Enter a date, start time, and end time.", "error");
       return;
     }
     if (endDate.getTime() === startDate.getTime()) {
       setTrackerStatus("End time must be after start time.", "error");
+      showTrackerToast("End time must be after start time.", "error");
       return;
     }
     if (endDate < startDate) {
-      endDate = addLocalDays(endDate, 1);
+      endDate.setDate(endDate.getDate() + 1);
     }
     const startIso = startDate.toISOString();
     const stopIso = endDate.toISOString();
@@ -7560,13 +7574,33 @@
       updatedAt: stopIso
     };
     const completed = completedTimerEntries(manualEntry, stopIso);
+    const alreadySaved = completed.every((candidate) => (timePayload.entries || []).some((saved) =>
+      saved.listId === candidate.listId && saved.taskId === candidate.taskId
+      && timestampMs(saved.start) === timestampMs(candidate.start)
+      && timestampMs(saved.stop) === timestampMs(candidate.stop)
+    ));
+    if (alreadySaved) {
+      const message = "This time interval is already saved for this task.";
+      setTrackerStatus(message, "saved");
+      showTrackerToast(message, "saved");
+      return;
+    }
+    const editorKey = pastEntryTaskKey;
     pastEntryTaskKey = "";
-    await saveTimePayload({
-      ...timePayload,
-      entries: [...completed, ...(timePayload.entries || [])]
-    });
+    try {
+      await saveTimePayload({
+        ...timePayload,
+        entries: [...completed, ...(timePayload.entries || [])]
+      });
+    } catch (error) {
+      pastEntryTaskKey = editorKey;
+      throw error;
+    }
     await autoMarkTimeLoggedTasksDone({ sourceEntries: completed });
-    setTrackerStatus(`Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.`, "saved");
+    const syncNote = privateTimeSyncState.mode === "local-only" ? " Saved locally; server sync is pending." : "";
+    const message = `Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.${syncNote}`;
+    setTrackerStatus(message, "saved");
+    showTrackerToast(message, "saved");
   }
 
   function updateDueStatusFilterOptions(rows) {
@@ -8898,12 +8932,25 @@
     });
     document.querySelectorAll("[data-save-past-key]").forEach((button) => {
       button.addEventListener("click", async () => {
-        const committedEntry = await flushPendingTaskNameInput(rows);
-        let entry = rows.find((item) => taskOverrideKey(item) === button.dataset.savePastKey);
-        entry = withCommittedTaskName(entry, committedEntry);
+        if (button.disabled) return;
         const editor = button.closest("[data-past-editor-key]");
-        if (!entry || !editor) return;
-        savePastTimeEntry(entry, editor).catch((error) => setTrackerStatus(error.message, "error"));
+        if (!editor) return;
+        button.disabled = true;
+        button.textContent = "Saving...";
+        showTrackerToast("Saving past time entry...", "", { duration: 0 });
+        try {
+          const committedEntry = await flushPendingTaskNameInput(rows);
+          let entry = rows.find((item) => taskOverrideKey(item) === button.dataset.savePastKey);
+          entry = withCommittedTaskName(entry, committedEntry);
+          if (!entry) throw new Error("Task could not be found. Reopen the past entry and try again.");
+          await savePastTimeEntry(entry, editor);
+        } catch (error) {
+          setTrackerStatus(error.message, "error");
+          showTrackerToast(error.message, "error");
+        } finally {
+          button.disabled = false;
+          button.textContent = "Save";
+        }
       });
     });
     document.querySelectorAll("[data-cancel-past-key]").forEach((button) => {
