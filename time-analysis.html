@@ -5474,7 +5474,7 @@
       updatedAt,
       lastSuccessAt: lastSuccessAt == null ? privateTimeSyncState.lastSuccessAt : lastSuccessAt
     });
-    if (nextState.mode === "synced" && !nextState.lastSuccessAt) nextState.lastSuccessAt = nextState.updatedAt || isoNow();
+    if (nextState.mode === "synced") nextState.lastSuccessAt = lastSuccessAt || nextState.updatedAt || isoNow();
     privateTimeSyncState = nextState;
     if (persist) writePrivateTimeSyncState(privateTimeSyncState);
     renderPrivateTimeSyncState();
@@ -7580,6 +7580,8 @@
       && timestampMs(saved.stop) === timestampMs(candidate.stop)
     ));
     if (alreadySaved) {
+      pastEntryTaskKey = "";
+      renderActivityRows();
       const message = "This time interval is already saved for this task.";
       setTrackerStatus(message, "saved");
       showTrackerToast(message, "saved");

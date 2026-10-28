@@ -23,6 +23,7 @@ const context = {
   listNameForId: () => 'Survival', normalizeTaskCategory: v => v, inferRecurrence: () => 'daily',
   timestampMs: v => new Date(v).getTime(), formatDuration: ms => String(ms),
   setTrackerStatus: () => {}, showTrackerToast: () => {},
+  renderActivityRows: () => {},
   autoMarkTimeLoggedTasksDone: async () => {},
   saveTimePayload: async payload => {
     if (fail) throw new Error('offline');
@@ -44,8 +45,10 @@ function editor(start, end) {
   await context.savePastTimeEntry(task, editor('22:30', '23:59'));
   assert.equal(context.timePayload.entries[0].durationMs, 89 * 60000);
   assert.equal(context.timePayload.activeEntry, active, 'past logging must preserve the running timer');
+  context.pastEntryTaskKey = 'sleep';
   await context.savePastTimeEntry(task, editor('22:30', '23:59'));
   assert.equal(writes, 1, 'retrying the same interval must not duplicate it');
+  assert.equal(context.pastEntryTaskKey, '', 'an already-saved interval must close the editor');
   context.timePayload.entries = [];
   await context.savePastTimeEntry(task, editor('22:30', '06:30'));
   assert.equal(context.timePayload.entries.length, 2, 'overnight Sleep must split at midnight');
@@ -55,6 +58,18 @@ function editor(start, end) {
   fail = true;
   await assert.rejects(context.savePastTimeEntry(task, editor('10:00', '11:00')), /offline/);
   assert.equal(context.pastEntryTaskKey, 'sleep', 'a failed save must preserve the open editor');
+  const syncContext = {
+    privateTimeSyncState: {mode: 'synced', lastSuccessAt: '2026-07-02T10:59:00Z'},
+    isoNow: () => '2026-10-28T11:00:00Z',
+    cleanPrivateTimeSyncState: value => value,
+    writePrivateTimeSyncState: () => {}, renderPrivateTimeSyncState: () => {}
+  };
+  vm.createContext(syncContext);
+  vm.runInContext(source('setPrivateTimeSyncState'), syncContext);
+  syncContext.setPrivateTimeSyncState('synced');
+  assert.equal(syncContext.privateTimeSyncState.lastSuccessAt, '2026-10-28T11:00:00Z', 'each successful sync must refresh its timestamp');
+  syncContext.setPrivateTimeSyncState('error');
+  assert.equal(syncContext.privateTimeSyncState.lastSuccessAt, '2026-10-28T11:00:00Z', 'failed sync must preserve the last successful timestamp');
   // A stalled request must release the sync queue, including a stalled response body.
   for (const stallBody of [false, true]) {
     let expire, cleared = false;

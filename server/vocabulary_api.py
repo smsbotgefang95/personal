@@ -859,9 +859,28 @@ def merge_saved_time_history(current, incoming):
             "updatedAt", "stop", "start", "createdAt"
         ))
 
+    def manual_interval(entry):
+        if not entry["id"].startswith("manual-") or not entry.get("taskId"):
+            return None
+        return (entry.get("listId"), entry["taskId"],
+                iso_timestamp_ms(entry.get("start")), iso_timestamp_ms(entry.get("stop")))
+
+    # A retry after a lost response may carry a fresh client-generated ID.
+    # Match new manual intervals against saved history without collapsing old
+    # records or interfering with edits to an existing ID.
+    saved_intervals = {
+        manual_interval(entry): entry["id"] for entry in current.get("entries", [])
+        if manual_interval(entry) is not None and f"id:{entry['id']}" not in deleted
+    }
+    current_ids = {entry["id"] for entry in current.get("entries", [])}
     for entry in [*current.get("entries", []), *incoming.get("entries", [])]:
         if f"id:{entry['id']}" in deleted:
             continue
+        interval = manual_interval(entry)
+        if interval is not None:
+            if entry["id"] not in current_ids and interval in saved_intervals and saved_intervals[interval] != entry["id"]:
+                continue
+            saved_intervals[interval] = entry["id"]
         previous = by_id.get(entry["id"])
         if previous is None or version(entry) >= version(previous):
             by_id[entry["id"]] = entry

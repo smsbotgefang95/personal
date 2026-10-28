@@ -63,6 +63,14 @@ def run():
             assert restored["history-0"] == by_id["history-0"], "recovery must preserve current edits"
             assert "history-1" not in restored, "recovery must honor explicit deletions"
             assert "recovered" in restored
+            manual = {**entries[0], "id": "manual-first", "taskId": "sleep", "taskName": "Sleep"}
+            first = request({**recovery, "entries": [manual]})["payload"]
+            retry = request({**first, "entries": [{**manual, "id": "manual-retry"}]})["payload"]
+            assert sum(e["id"].startswith("manual-") for e in retry["entries"]) == 1, "a retry with a fresh ID must not count a manual interval twice"
+            assert retry["activeEntry"] == first["activeEntry"], "manual logging must preserve the running timer"
+            edit = {**manual, "stop": "2026-06-04T12:02:00Z", "durationMs": 120000, "updatedAt": "2026-10-28T11:00:00Z"}
+            edited = request({**retry, "entries": [edit]})["payload"]
+            assert next(e for e in edited["entries"] if e["id"] == manual["id"])["durationMs"] == 120000, "manual interval deduplication must allow existing entries to be edited"
         finally:
             server.shutdown()
             server.server_close()
