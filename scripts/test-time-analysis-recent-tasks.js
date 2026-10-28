@@ -599,6 +599,9 @@ assert.strictEqual(
 console.log("Auto-done recovery guard checks passed.");
 
 const sleepStatusSandbox = {
+  businessDateKey() {
+    return "2026-07-14";
+  },
   cleanLabel(value, fallback = "") {
     const text = value == null ? "" : String(value).trim();
     return text || fallback;
@@ -664,6 +667,33 @@ assert.deepStrictEqual(
 );
 
 console.log("Sleep status recurrence checks passed.");
+
+for (const dueDate of ["2026-06-01", "2026-07-14", ""]) {
+  const patch = sleepStatusSandbox.taskStatusPatch({ taskName: "Do dishes", recurrence: "daily", dueDate }, "done");
+  assert.strictEqual(patch.dueDate, "2026-07-15", "daily completion must advance from today even with an overdue or missing date");
+  assert.strictEqual(patch.status, "todo");
+}
+assert.strictEqual(
+  sleepStatusSandbox.taskStatusPatch({ taskName: "Do dishes", recurrence: "daily", dueDate: "2026-07-20" }, "done").dueDate,
+  "2026-07-21",
+  "completing a future daily occurrence should preserve its schedule"
+);
+assert.strictEqual(
+  sleepStatusSandbox.taskStatusPatch({ taskName: "Weekly task", recurrence: "weekly", dueDate: "2026-06-01" }, "done").dueDate,
+  "2026-06-08",
+  "weekly recurrence should retain its existing schedule behavior"
+);
+vm.runInContext([
+  extractFunction(html, "isDailyRecurringTask"),
+  extractFunction(html, "addDateKeyDays"),
+  extractFunction(html, "autoDoneStatusPatch")
+].join("\n\n"), sleepStatusSandbox);
+assert.strictEqual(
+  sleepStatusSandbox.autoDoneStatusPatch({ taskName: "Daily task", recurrence: "daily" }, "2026-07-10").dueDate,
+  "2026-07-11",
+  "replaying historical time logs must still advance from the actual completion day"
+);
+console.log("Daily due-date catch-up checks passed.");
 
 const deletionSandbox = {
   timePayload: {

@@ -4720,9 +4720,15 @@
   function nextRecurringDueDate(entry) {
     const recurrence = isSleepTimerEntry(entry) ? "daily" : (entry.recurrence || inferRecurrence(entry));
     if (recurrence === "none") return "";
+    if (recurrence === "daily") {
+      // Completing today's occurrence must clear an old backlog in one action.
+      const today = businessDateKey(new Date());
+      const dueDate = dateInputValue(entry.dueDate || entry.dueDateText);
+      const baseDate = parseDateInput(dueDate && dueDate > today ? dueDate : today);
+      return baseDate ? formatDateInput(addLocalDays(baseDate, 1)) : "";
+    }
     const baseDate = parseDateInput(entry.dueDate || entry.dueDateText);
     if (!baseDate) return "";
-    if (recurrence === "daily") return formatDateInput(addLocalDays(baseDate, 1));
     if (recurrence === "weekly") return formatDateInput(addLocalDays(baseDate, 7));
     if (recurrence === "monthly") return formatDateInput(addLocalMonths(baseDate, 1));
     if (recurrence === "yearly") return formatDateInput(addLocalMonths(baseDate, 12));
