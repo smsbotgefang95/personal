@@ -69,6 +69,7 @@ function editor(start, end) {
     privateTimeSyncState: {mode: "synced"},
     timePayload: {entries: history}, isoNow: () => '2026-10-29T12:00:00Z',
     cleanClientPayload: p => p,
+    timeEntrySaveMatches: (a, b) => a?.id === b.id && a?.stop === b.stop,
     latestTimePayloadDate: p => Date.parse(p.updatedAt || '2026-01-01'),
     resolveTimeAdminKey: async () => 'test-key',
     postTimePayload: async p => {
@@ -97,6 +98,20 @@ function editor(start, end) {
   assert.equal(saveContext.timePayload.entries.length, 6001, 'compact response must preserve local history');
   assert.equal(saveContext.timePayload.entries[0].id, 'manual-canonical', 'retry must use the canonical server ID');
   assert.equal(saveContext.timePayload.activeEntry, active);
+  const editOptions = {...options, requireServer: true, verifyEntry: candidate};
+  // A compact response must confirm the actual edited ID/time; the submitted
+  // draft must never stand in for a missing or stale server acknowledgement.
+  saveContext.postTimePayload = async p => { sent = p; return {partialEntries: true, payload: {...pending, entries: [candidate]}}; };
+  await saveContext.saveTimePayload(pending, editOptions);
+  assert.equal(sent.entries.length, 1, 'manual edit must send just the edited entry');
+  assert.equal(saveContext.timePayload.entries.length, 6001);
+  for (const entries of [[], [{...candidate, stop: '2026-10-29T10:30:00Z'}]]) {
+    saveContext.postTimePayload = async () => ({partialEntries: true, payload: {...pending, entries}});
+    await assert.rejects(saveContext.saveTimePayload(pending, editOptions), /did not confirm/);
+  }
+  saveContext.postTimePayload = async () => { throw new Error('offline'); };
+  await assert.rejects(saveContext.saveTimePayload(pending, editOptions), /offline/);
+  assert.equal(localFallback, undefined, 'manual edit must never report local-only persistence as server success');
   saveContext.privateTimeSyncState.mode = 'local-only';
   saveContext.postTimePayload = async p => { sent = p; return {payload: p}; };
   await saveContext.saveTimePayload(pending, options);

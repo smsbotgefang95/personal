@@ -5813,7 +5813,7 @@
       }
       return;
     }
-    // A past interval does not need to upload or download the entire history.
+    // An interval save does not need to upload or download the entire history.
     // Send the full payload when earlier local changes still need syncing,
     // and keep it available for the existing local fallback.
     const requestPayload = appendEntries && privateTimeSyncState.mode === "synced" ? {
@@ -12201,7 +12201,9 @@
         promptForKey: true,
         requireServer: true,
         deferRender: true,
-        verifyEntry: nextEntry
+        verifyEntry: nextEntry,
+        appendEntries: [nextEntry],
+        taskOverrideUpdates: { [taskOverrideKey(nextEntry)]: nextOverrides[taskOverrideKey(nextEntry)] }
       });
       closeEditEntry({ discardDraft: false });
     } catch (error) {

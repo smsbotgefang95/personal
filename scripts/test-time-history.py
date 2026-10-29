@@ -95,6 +95,17 @@ def run():
             repeated = request({**delta, "entries": [{**added, "id": "manual-small-retry"}]})
             assert repeated["payload"]["entries"][0]["id"] == "manual-small", "retry must return the canonical saved ID"
             assert len(request()["entries"]) == len(after["entries"]), "append retry must not duplicate the interval"
+            changed = {**added, "stop": "2026-06-04T12:03:00Z", "durationMs": 180000,
+                       "updatedAt": "2026-10-29T17:00:00Z"}
+            edit_response = request({"appendEntriesOnly": True, "entries": [changed]})
+            assert len(edit_response["payload"]["entries"]) == 1
+            assert edit_response["payload"]["entries"][0]["durationMs"] == 180000
+            stored = request()
+            assert len(stored["entries"]) == len(after["entries"]), "incremental edit must replace the existing entry"
+            assert stored["activeEntry"] == after["activeEntry"], "editing must preserve the current server timer"
+            assert stored["taskOverrides"] == after["taskOverrides"]
+            stale_edit = request({"appendEntriesOnly": True, "entries": [added]})
+            assert stale_edit["payload"]["entries"][0]["durationMs"] == 180000, "stale retry must return the newer server entry"
             request({"appendEntriesOnly": True, "entries": [], "taskOverrides": {
                 "personal|||small": {"status": "todo", "updatedAt": "2026-01-01T00:00:00Z"}}})
             assert request()["taskOverrides"]["personal|||small"]["status"] == "done", "stale append must preserve newer task updates"
