@@ -1822,11 +1822,30 @@ class Handler(BaseHTTPRequestHandler):
             except (ValueError, json.JSONDecodeError):
                 self.send_json(400, {"ok": False, "error": "invalid_json"})
                 return
+            if not isinstance(incoming, dict):
+                self.send_json(400, {"ok": False, "error": "invalid_payload"})
+                return
+            append_only = incoming.get("appendEntriesOnly") is True
             payload = clean_time_entries_payload(incoming)
+            submitted_entries = payload["entries"]
             payload["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             with TIME_ENTRIES_LOCK:
                 current = load_time_entries_payload()
-                if incoming.get("restoreMissingHistory") is True:
+                if append_only:
+                    # A small interval save must preserve the current timer and
+                    # all metadata not explicitly updated by this operation.
+                    overrides = dict(current["taskOverrides"])
+                    for key, update in payload["taskOverrides"].items():
+                        existing = overrides.get(key)
+                        if existing is None or iso_timestamp_ms(update.get("updatedAt")) >= iso_timestamp_ms(existing.get("updatedAt")):
+                            overrides[key] = update
+                    payload = {
+                        **current,
+                        "entries": submitted_entries,
+                        "taskOverrides": overrides,
+                        "updatedAt": payload["updatedAt"],
+                    }
+                elif incoming.get("restoreMissingHistory") is True:
                     # Recovery must not change the live timer, metadata, or existing edits.
                     existing_ids = {entry["id"] for entry in current["entries"]}
                     payload = {
@@ -1836,7 +1855,18 @@ class Handler(BaseHTTPRequestHandler):
                     }
                 payload = merge_saved_time_history(current, payload)
                 write_result = write_time_entries(payload)
-            self.send_json(200, {"ok": True, "payload": payload, "git": write_result})
+            if append_only:
+                submitted_ids = {entry["id"] for entry in submitted_entries}
+                def interval(entry):
+                    return (entry.get("listId"), entry.get("taskId"),
+                            iso_timestamp_ms(entry.get("start")), iso_timestamp_ms(entry.get("stop")))
+                submitted_intervals = {interval(entry) for entry in submitted_entries if entry["id"].startswith("manual-")}
+                # Return canonical IDs after retry deduplication, plus metadata;
+                # history stays on the server instead of crossing the network.
+                payload = {**payload, "entries": [entry for entry in payload["entries"]
+                    if entry["id"] in submitted_ids or (
+                        entry["id"].startswith("manual-") and interval(entry) in submitted_intervals)]}
+            self.send_json(200, {"ok": True, "payload": payload, "git": write_result, "partialEntries": append_only})
             return
         if path == "/api/smart-shopping":
             if SMART_SHOPPING_ADMIN_KEY and self.headers.get("X-Smart-Shopping-Admin-Key") != SMART_SHOPPING_ADMIN_KEY:

@@ -71,6 +71,33 @@ def run():
             edit = {**manual, "stop": "2026-06-04T12:02:00Z", "durationMs": 120000, "updatedAt": "2026-10-28T11:00:00Z"}
             edited = request({**retry, "entries": [edit]})["payload"]
             assert next(e for e in edited["entries"] if e["id"] == manual["id"])["durationMs"] == 120000, "manual interval deduplication must allow existing entries to be edited"
+            # Incremental saves return one interval, retaining history and the
+            # latest server timer/metadata even when the client is stale.
+            before = request()
+            before["taskOverrides"] = {"personal|||unrelated": {"status": "done", "notes": "preserve"}}
+            request(before)
+            before = request()
+            added = {**manual, "id": "manual-small", "taskId": "small", "taskName": "Small save"}
+            delta = {"appendEntriesOnly": True, "entries": [added],
+                     "activeEntry": None, "deletedEntryKeys": ["id:history-2"],
+                     "taskOverrides": {"personal|||small": {"status": "done", "updatedAt": "2026-10-29T16:00:00Z"}}}
+            compact = request(delta)
+            assert compact["partialEntries"] is True
+            assert len(compact["payload"]["entries"]) == 1, "incremental response must not return old history"
+            assert len(json.dumps(compact)) < 5000, "response should stay small with thousands of historical entries"
+            after = request()
+            assert len(after["entries"]) == len(before["entries"]) + 1
+            assert after["activeEntry"] == before["activeEntry"], "append must preserve the server timer"
+            assert after["deletedEntryKeys"] == before["deletedEntryKeys"]
+            assert after["taskMerges"] == before["taskMerges"]
+            assert after["taskOverrides"]["personal|||unrelated"] == before["taskOverrides"]["personal|||unrelated"]
+            assert after["taskOverrides"]["personal|||small"]["status"] == "done"
+            repeated = request({**delta, "entries": [{**added, "id": "manual-small-retry"}]})
+            assert repeated["payload"]["entries"][0]["id"] == "manual-small", "retry must return the canonical saved ID"
+            assert len(request()["entries"]) == len(after["entries"]), "append retry must not duplicate the interval"
+            request({"appendEntriesOnly": True, "entries": [], "taskOverrides": {
+                "personal|||small": {"status": "todo", "updatedAt": "2026-01-01T00:00:00Z"}}})
+            assert request()["taskOverrides"]["personal|||small"]["status"] == "done", "stale append must preserve newer task updates"
         finally:
             server.shutdown()
             server.server_close()

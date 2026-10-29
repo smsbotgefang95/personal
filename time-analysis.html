@@ -5800,7 +5800,7 @@
       && Math.round(Number(actualEntry.durationMs) || 0) === Math.round(Number(expectedEntry.durationMs) || 0);
   }
 
-  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false, requireServer = false, verifyEntry = null } = {}) {
+  async function saveTimePayload(nextPayload, { promptForKey = false, renderScope = "full", deferRender = false, requireServer = false, verifyEntry = null, appendEntries = null, taskOverrideUpdates = {} } = {}) {
     const pendingPayload = cleanClientPayload({ ...nextPayload, updatedAt: isoNow() });
     const pendingLatest = latestTimePayloadDate(pendingPayload);
     const key = await resolveTimeAdminKey({ promptForKey, intent: "save" });
@@ -5813,14 +5813,22 @@
       }
       return;
     }
+    // A past interval does not need to upload or download the entire history.
+    // Send the full payload when earlier local changes still need syncing,
+    // and keep it available for the existing local fallback.
+    const requestPayload = appendEntries && privateTimeSyncState.mode === "synced" ? {
+      appendEntriesOnly: true,
+      entries: appendEntries,
+      taskOverrides: taskOverrideUpdates
+    } : pendingPayload;
     let response;
     try {
-      response = await postTimePayload(pendingPayload);
+      response = await postTimePayload(requestPayload);
     } catch (error) {
       if (requireServer) {
         if (error?.status !== 401 || !promptForKey) throw error;
         await resolveTimeAdminKey({ promptForKey: true, intent: "save" });
-        response = await postTimePayload(pendingPayload);
+        response = await postTimePayload(requestPayload);
       } else {
         if (shouldFallbackToLocalTimeSave(error)) {
           if (latestTimePayloadDate(timePayload) <= pendingLatest) {
@@ -5834,7 +5842,15 @@
     if (requireServer && (!response?.payload || typeof response.payload !== "object")) {
       throw new Error("The server did not return the saved Time Analysis entry. Try again.");
     }
-    const savedPayload = cleanClientPayload(response.payload || pendingPayload);
+    let savedPayload = cleanClientPayload(response.payload || pendingPayload);
+    if (response.partialEntries === true && appendEntries) {
+      const submittedIds = new Set(appendEntries.map((entry) => entry.id));
+      savedPayload = cleanClientPayload({
+        ...savedPayload,
+        entries: mergeTimePayloadEntries(savedPayload.entries,
+          pendingPayload.entries.filter((entry) => !submittedIds.has(entry.id)), { preferServer: true })
+      });
+    }
     if (requireServer && verifyEntry) {
       const savedEntry = savedPayload.entries.find((entry) => entry.id === verifyEntry.id);
       if (!timeEntrySaveMatches(savedEntry, verifyEntry)) {
@@ -7590,15 +7606,16 @@
     const editorKey = pastEntryTaskKey;
     pastEntryTaskKey = "";
     try {
+      const taskOverrideUpdates = timeLoggedTaskOverrideUpdates({ sourceEntries: completed });
       await saveTimePayload({
         ...timePayload,
-        entries: [...completed, ...(timePayload.entries || [])]
-      });
+        entries: [...completed, ...(timePayload.entries || [])],
+        taskOverrides: { ...(timePayload.taskOverrides || {}), ...taskOverrideUpdates }
+      }, { appendEntries: completed, taskOverrideUpdates, deferRender: true });
     } catch (error) {
       pastEntryTaskKey = editorKey;
       throw error;
     }
-    await autoMarkTimeLoggedTasksDone({ sourceEntries: completed });
     const syncNote = privateTimeSyncState.mode === "local-only" ? " Saved locally; server sync is pending." : "";
     const message = `Added ${formatDuration(endDate.getTime() - startDate.getTime())} to ${taskName}.${syncNote}`;
     setTrackerStatus(message, "saved");
@@ -8006,8 +8023,7 @@
     });
   }
 
-  async function autoMarkTimeLoggedTasksDone({ sourceEntries = null } = {}) {
-    if (autoDoneSyncing) return;
+  function timeLoggedTaskOverrideUpdates({ sourceEntries = null } = {}) {
     const loggedDatesByTarget = new Map();
     const entriesForAutoDone = Array.isArray(sourceEntries) ? sourceEntries : (timePayload.entries || []);
     const ignoreManualHold = Array.isArray(sourceEntries);
@@ -8023,7 +8039,7 @@
         });
       });
     });
-    if (!loggedDatesByTarget.size) return;
+    if (!loggedDatesByTarget.size) return {};
 
     const matchingRows = trackerActivities()
       .map((entry) => {
@@ -8036,9 +8052,9 @@
         return { entry, autoDoneDate: autoDoneDateForTask(entry, loggedDates, { ignoreManualHold }) };
       })
       .filter((item) => item.autoDoneDate);
-    if (!matchingRows.length) return;
+    if (!matchingRows.length) return {};
 
-    const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    const nextOverrides = {};
     let changedCount = 0;
     matchingRows.forEach(({ entry, autoDoneDate }) => {
       taskOverrideKeysForEdit(entry).forEach((key) => {
@@ -8056,7 +8072,14 @@
         }
       });
     });
-    if (!changedCount) return;
+    return changedCount ? nextOverrides : {};
+  }
+
+  async function autoMarkTimeLoggedTasksDone({ sourceEntries = null } = {}) {
+    if (autoDoneSyncing) return;
+    const updates = timeLoggedTaskOverrideUpdates({ sourceEntries });
+    if (!Object.keys(updates).length) return;
+    const nextOverrides = { ...(timePayload.taskOverrides || {}), ...updates };
 
     autoDoneSyncing = true;
     try {

@@ -24,8 +24,10 @@ const context = {
   timestampMs: v => new Date(v).getTime(), formatDuration: ms => String(ms),
   setTrackerStatus: () => {}, showTrackerToast: () => {},
   renderActivityRows: () => {},
-  autoMarkTimeLoggedTasksDone: async () => {},
-  saveTimePayload: async payload => {
+  timeLoggedTaskOverrideUpdates: () => ({sleep: {status: "done"}}),
+  saveTimePayload: async (payload, options) => {
+    assert.ok(options.appendEntries.length <= 2, "only the new intervals should be sent");
+    assert.equal(options.taskOverrideUpdates.sleep.status, "done", "completion must be included in the same save");
     if (fail) throw new Error('offline');
     writes++;
     context.timePayload = payload;
@@ -58,6 +60,52 @@ function editor(start, end) {
   fail = true;
   await assert.rejects(context.savePastTimeEntry(task, editor('10:00', '11:00')), /offline/);
   assert.equal(context.pastEntryTaskKey, 'sleep', 'a failed save must preserve the open editor');
+  // Exercise the real save transport with a large cached history and compact
+  // server response. New intervals and completion updates share one request.
+  let sent, requestCount = 0, localFallback;
+  const history = Array.from({length: 6000}, (_, i) => ({id: `old-${i}`, start: '2026-01-01', stop: '2026-01-02'}));
+  const candidate = {id: 'manual-new', start: '2026-10-29T10:00:00Z', stop: '2026-10-29T11:00:00Z'};
+  const saveContext = {
+    privateTimeSyncState: {mode: "synced"},
+    timePayload: {entries: history}, isoNow: () => '2026-10-29T12:00:00Z',
+    cleanClientPayload: p => p,
+    latestTimePayloadDate: p => Date.parse(p.updatedAt || '2026-01-01'),
+    resolveTimeAdminKey: async () => 'test-key',
+    postTimePayload: async p => {
+      sent = p; requestCount++;
+      return {partialEntries: true, payload: {
+        entries: [{...candidate, id: 'manual-canonical'}], activeEntry: active,
+        taskOverrides: p.taskOverrides, updatedAt: '2026-10-29T12:00:00Z'
+      }};
+    },
+    mergeTimePayloadEntries: (a, b) => [...a, ...b],
+    writeLocalTimePayload: () => {}, showPrivateTimeLoadButton: () => {},
+    scheduleDeferredTimePayloadRender: () => {}, renderTimePayloadState: () => {},
+    setPrivateTimeSyncState: () => {}, setTrackerStatus: () => {},
+    shouldFallbackToLocalTimeSave: () => true, localTimeSaveFallbackMessage: () => 'offline',
+    saveTimePayloadLocally: p => { localFallback = p; }
+  };
+  vm.createContext(saveContext);
+  vm.runInContext('async ' + source('saveTimePayload'), saveContext);
+  const pending = {entries: [candidate, ...history], activeEntry: active, taskOverrides: {sleep: {status: 'done'}}};
+  const options = {appendEntries: [candidate], taskOverrideUpdates: pending.taskOverrides, deferRender: true};
+  await saveContext.saveTimePayload(pending, options);
+  assert.equal(requestCount, 1);
+  assert.equal(sent.appendEntriesOnly, true);
+  assert.equal(sent.entries.length, 1);
+  assert.ok(JSON.stringify(sent).length < 1000, 'request size must not grow with cached history');
+  assert.equal(saveContext.timePayload.entries.length, 6001, 'compact response must preserve local history');
+  assert.equal(saveContext.timePayload.entries[0].id, 'manual-canonical', 'retry must use the canonical server ID');
+  assert.equal(saveContext.timePayload.activeEntry, active);
+  saveContext.privateTimeSyncState.mode = 'local-only';
+  saveContext.postTimePayload = async p => { sent = p; return {payload: p}; };
+  await saveContext.saveTimePayload(pending, options);
+  assert.equal(sent.entries.length, 6001, 'reconnecting must upload older unsynced entries too');
+  assert.equal(sent.appendEntriesOnly, undefined);
+  saveContext.privateTimeSyncState.mode = 'synced';
+  saveContext.postTimePayload = async () => { throw new Error('offline'); };
+  await saveContext.saveTimePayload(pending, options);
+  assert.equal(localFallback.entries.length, 6001, 'offline fallback must save the full history, not the transport delta');
   const syncContext = {
     privateTimeSyncState: {mode: 'synced', lastSuccessAt: '2026-07-02T10:59:00Z'},
     isoNow: () => '2026-10-28T11:00:00Z',
