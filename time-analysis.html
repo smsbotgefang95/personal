@@ -7879,7 +7879,8 @@
   }
 
   function manualTaskStatusPatch(entry, status) {
-    return taskStatusPatch(entry, status);
+    // Older logged time must not replay over a manual completion or reopen.
+    return { ...taskStatusPatch(entry, status), dueDateEditedAt: isoNow() };
   }
 
   function movedRecurringTaskToNextDueDate(entry, requestedStatus, patch) {

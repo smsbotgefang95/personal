@@ -34,7 +34,8 @@ const sandbox = {
   console,
   cleanLabel: (value, fallback = "") => String(value || fallback).trim(),
   dateInputValue: (value) => value || "",
-  isSleepTimerEntry: () => false,
+  businessDateKey: () => "2026-11-01",
+  dueDateKey: (entry) => entry.dueDate || "",
   timestampMs: (value) => Date.parse(value) || 0,
   isoNow: () => "2026-11-01T15:00:00.000Z",
   cleanClientPayload: (value) => JSON.parse(JSON.stringify(value)),
@@ -52,7 +53,7 @@ vm.createContext(sandbox);
 vm.runInContext([
   html.slice(html.indexOf("  const CUSTOM_RECURRENCE_DAYS"), html.indexOf("  const CUSTOM_MONTHLY_DAY_SHORT_LABELS")),
   html.slice(html.indexOf("  function parseDateInput"), html.indexOf("  function customRecurrenceText")),
-  ...["taskStatusPatch", "manualTaskStatusPatch", "saveTaskOverride", "saveTimePayload", "choosePayloadRecord", "mergePayloadRecordMaps"].map(name => extractFunction(html, name))
+  ...["isSleepTimerEntry", "isDailyRecurringTask", "latestLoggedCompletionAfter", "manualHoldBlocksAutoDone", "alreadyAutoDoneForDueDate", "latestEligibleLoggedAutoDoneDate", "autoDoneDateForTask", "taskStatusPatch", "manualTaskStatusPatch", "saveTaskOverride", "saveTimePayload", "choosePayloadRecord", "mergePayloadRecordMaps"].map(name => extractFunction(html, name))
 ].join("\n"), sandbox);
 
 async function run() {
@@ -61,6 +62,16 @@ async function run() {
   const patch = sandbox.manualTaskStatusPatch(entry, "done");
   assert.equal(patch.dueDate, "2026-10-01");
   assert.equal(patch.status, "todo");
+  const sleep = {taskName: "🛏️ Sleep", recurrence: "daily", dueDate: "2026-10-28",
+    status: "todo", autoDoneDate: "2026-10-27", dueDateEditedAt: "2026-07-15T01:12:56.381Z"};
+  const completedSleep = {...sleep, ...sandbox.manualTaskStatusPatch(sleep, "done")};
+  assert.equal(completedSleep.dueDate, "2026-11-02");
+  const oldSleepLogs = new Map([["2026-10-27", Date.parse("2026-10-28T10:00:00Z")]]);
+  assert.equal(sandbox.autoDoneDateForTask(completedSleep, oldSleepLogs), "",
+    "historical Sleep logs must not undo a manual Done and move the due date back to October 28");
+  const newSleepLogs = new Map([["2026-11-02", Date.parse("2026-11-02T10:00:00Z")]]);
+  assert.equal(sandbox.autoDoneDateForTask(completedSleep, newSleepLogs), "2026-11-02",
+    "genuinely new sleep logs must remain eligible for automatic completion");
   const history = [{id: "old-history"}];
   sandbox.timePayload = {entries: history, taskOverrides: {"unrelated": {status: "todo"}}};
   let submitted;
