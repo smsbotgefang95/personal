@@ -5813,9 +5813,8 @@
       }
       return;
     }
-    // An interval save does not need to upload or download the entire history.
-    // Send the full payload when earlier local changes still need syncing,
-    // and keep it available for the existing local fallback.
+    // Synced task edits and intervals use the compact server merge.
+    // Keep the full payload when earlier local changes still need syncing.
     const requestPayload = appendEntries && privateTimeSyncState.mode === "synced" ? {
       appendEntriesOnly: true,
       entries: appendEntries,
@@ -5850,6 +5849,12 @@
         entries: mergeTimePayloadEntries(savedPayload.entries,
           pendingPayload.entries.filter((entry) => !submittedIds.has(entry.id)), { preferServer: true })
       });
+    }
+    if (requireServer && Object.keys(taskOverrideUpdates).some((key) => {
+      const saved = savedPayload.taskOverrides?.[key];
+      return !saved || Object.entries(pendingPayload.taskOverrides[key]).some(([field, value]) => saved[field] !== value);
+    })) {
+      throw new Error("The server did not confirm the task change. Refresh private data and try again.");
     }
     if (requireServer && verifyEntry) {
       const savedEntry = savedPayload.entries.find((entry) => entry.id === verifyEntry.id);
@@ -7836,6 +7841,7 @@
       : patch;
     const ownsDueDate = Object.prototype.hasOwnProperty.call(normalizedPatch || {}, "dueDate");
     const nextOverrides = { ...(timePayload.taskOverrides || {}) };
+    const taskOverrideUpdates = {};
     taskOverrideKeysForEdit(entry).forEach((key) => {
       const next = {
         ...currentTaskOverrideForKey(entry, key),
@@ -7845,13 +7851,14 @@
       if (ownsDueDate) next.dueDateManaged = true;
       if (next.recurrence !== "custom") next.recurringText = "";
       nextOverrides[key] = next;
+      taskOverrideUpdates[key] = next;
     });
     const nextPayload = cleanClientPayload({
       ...timePayload,
       taskOverrides: nextOverrides,
       updatedAt: isoNow()
     });
-    await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true });
+    await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true, appendEntries: [], taskOverrideUpdates });
   }
 
   function taskStatusPatch(entry, status, { advanceRecurring = true } = {}) {
@@ -8086,7 +8093,7 @@
       await saveTimePayload({
         ...timePayload,
         taskOverrides: nextOverrides
-      });
+      }, { appendEntries: [], taskOverrideUpdates: updates });
     } finally {
       autoDoneSyncing = false;
     }
