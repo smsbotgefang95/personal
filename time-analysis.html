@@ -5865,6 +5865,17 @@
     if (latestTimePayloadDate(timePayload) <= pendingLatest) {
       timePayload = savedPayload;
       writeLocalTimePayload(timePayload);
+    } else if (Object.keys(taskOverrideUpdates).length) {
+      // A newer timer/refresh must not hide a task edit the server confirmed.
+      // Merge only these task records, retaining newer edits and timer state.
+      const savedTaskUpdates = Object.fromEntries(Object.keys(taskOverrideUpdates)
+        .filter((taskKey) => savedPayload.taskOverrides?.[taskKey])
+        .map((taskKey) => [taskKey, savedPayload.taskOverrides[taskKey]]));
+      timePayload = cleanClientPayload({
+        ...timePayload,
+        taskOverrides: mergePayloadRecordMaps(savedTaskUpdates, timePayload.taskOverrides || {})
+      });
+      writeLocalTimePayload(timePayload);
     }
     showPrivateTimeLoadButton(Boolean(key));
     if (deferRender) scheduleDeferredTimePayloadRender(renderScope);
@@ -7858,7 +7869,7 @@
       taskOverrides: nextOverrides,
       updatedAt: isoNow()
     });
-    await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true, appendEntries: [], taskOverrideUpdates });
+    await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true, renderScope: "activityRows", appendEntries: [], taskOverrideUpdates });
   }
 
   function taskStatusPatch(entry, status, { advanceRecurring = true } = {}) {
