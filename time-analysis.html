@@ -7872,15 +7872,21 @@
     await saveTimePayload(nextPayload, { promptForKey: true, requireServer: true, renderScope: "activityRows", appendEntries: [], taskOverrideUpdates });
   }
 
-  function taskStatusPatch(entry, status, { advanceRecurring = true } = {}) {
+  function taskStatusPatch(entry, status, { advanceRecurring = true, completedOn = "" } = {}) {
     if (status !== "done") return { status: "todo", autoDoneDate: "", dueDateEditedAt: isoNow() };
-    const nextDueDate = advanceRecurring ? nextRecurringDueDate(entry) : "";
+    let nextDueDate = advanceRecurring ? nextRecurringDueDate(entry) : "";
+    // A manual Done completes today's backlog, retaining the scheduled cadence.
+    while (completedOn && nextDueDate && nextDueDate <= completedOn) {
+      const followingDate = nextRecurringDueDate({ ...entry, dueDate: nextDueDate, dueDateText: "" });
+      if (!followingDate || followingDate <= nextDueDate) break;
+      nextDueDate = followingDate;
+    }
     return nextDueDate ? { dueDate: nextDueDate, dueDateManaged: true, dueDateManualHold: "", status: "todo" } : { dueDateManualHold: "", status: "done" };
   }
 
   function manualTaskStatusPatch(entry, status) {
     // Older logged time must not replay over a manual completion or reopen.
-    return { ...taskStatusPatch(entry, status), dueDateEditedAt: isoNow() };
+    return { ...taskStatusPatch(entry, status, { completedOn: businessDateKey(new Date()) }), dueDateEditedAt: isoNow() };
   }
 
   function movedRecurringTaskToNextDueDate(entry, requestedStatus, patch) {
