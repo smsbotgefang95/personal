@@ -8,6 +8,7 @@ const storage = new Map();
 function device() {
   const context = vm.createContext({
     localStorage: { getItem: k => storage.get(k), setItem: (k,v) => storage.set(k,v) },
+    persistItemEditState() {},
     crypto: { randomUUID }, productFacts: item => item.facts,
     escapeHtml: value => String(value).replaceAll('<', '&lt;'),
     editStorageKey: (list, key) => `${list}::${key}`,
@@ -229,3 +230,15 @@ assert.throws(() => smallOutbox.recordStorePrice('remote', { price: '$4', note: 
 assert.equal(storage.get('smart-shopping-price-history-v1'), savedOutbox);
 assert.equal(smallOutbox.activePriceHistory('remote').length, 2);
 console.log('PASS: large server history, small offline outbox, reload and atomic quota failure');
+
+// Quota recovery compacts redundant synced edits and retries without losing history.
+let compacted = false;
+smallOutbox.persistItemEditState = () => { compacted = true; };
+smallOutbox.localStorage.setItem = (key, value) => {
+  if (!compacted) { const error = new Error('Full'); error.name = 'QuotaExceededError'; throw error; }
+  storage.set(key, value);
+};
+smallOutbox.recordStorePrice('remote', {price: '$5'}, 'Giant', '2026-10-04');
+assert.equal(compacted, true);
+assert.equal(JSON.parse(storage.get('smart-shopping-price-history-v1')).remote.at(-1).price, '$5');
+console.log('PASS: history retries after safe edit-cache compaction');
