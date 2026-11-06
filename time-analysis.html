@@ -3997,7 +3997,6 @@
   const TRACKER_SEARCH_RENDER_DELAY_MS = 1000;
   const TRACKER_SEARCH_FOCUS_DEFER_MS = 800;
   const DETAILS_SEARCH_RENDER_DELAY_MS = 900;
-  const DAY_TOTAL_TARGET_MS = 24 * 60 * 60 * 1000;
   const DAY_TOTAL_AUDIT_TOLERANCE_MS = 60 * 1000;
   const DAY_TOTAL_AUDIT_ENTRY_LIMIT = 12;
   const TASK_SEARCH_ALIASES = [
@@ -10641,7 +10640,8 @@
       .filter(Boolean)
       .sort((a, b) => (a.startMs - b.startMs) || (a.endMs - b.endMs));
     const totalMs = dayEntries.reduce((total, entry) => total + entryDateFilterMs(entry, dateValue), 0);
-    const deltaMs = totalMs - DAY_TOTAL_TARGET_MS;
+    const expectedMs = bounds.end.getTime() - bounds.start.getTime();
+    const deltaMs = totalMs - expectedMs;
     const issueByKey = new Map();
     const overlaps = [];
     const gaps = [];
@@ -10703,6 +10703,7 @@
 
     return {
       totalMs,
+      expectedMs,
       deltaMs,
       isComplete: Math.abs(deltaMs) < DAY_TOTAL_AUDIT_TOLERANCE_MS,
       dayEntries,
@@ -10723,13 +10724,15 @@
     const facts = [];
     if (audit.overlaps.length) facts.push(countLabel(audit.overlaps.length, "overlap"));
     if (audit.gaps.length) facts.push(countLabel(audit.gaps.length, "gap"));
+    const invalidCount = audit.issueEntries.filter((item) => item.reasons.some((reason) => reason.type === "invalid")).length;
+    if (invalidCount) facts.push(countLabel(invalidCount, "entry with missing start/end times", "entries with missing start/end times"));
     const direction = audit.deltaMs > 0 ? "over" : "under";
     const hiddenText = hiddenIssueCount
       ? ` ${hiddenIssueCount.toLocaleString()} flagged ${hiddenIssueCount === 1 ? "entry is" : "entries are"} hidden by current filters.`
       : "";
     const summary = facts.length
       ? `${facts.join(" and ")} found. Select an editable flagged entry to update its start or end time.${hiddenText}`
-      : `No direct gaps or overlaps found. Check duplicate imports or entries with missing start/end times.${hiddenText}`;
+      : `No entry-level discrepancy was identified. Review the total and local day length below before changing an entry.${hiddenText}`;
     const issueRows = audit.issueEntries.slice(0, DAY_TOTAL_AUDIT_ENTRY_LIMIT).map((item) => {
       const reason = item.reasons.map((itemReason) => `${itemReason.reason} (${formatDuration(itemReason.ms)})`).join("; ") || "Check start and stop times";
       const hiddenByFilter = hasVisibleKeys && !visibleKeys.has(item.key);
@@ -10754,9 +10757,10 @@
         : `<p class="day-total-audit-empty">No entries cover this day. Add a missing entry or check adjacent day timers.</p>`;
     return `
       <div class="day-total-audit-header">
-        <p class="day-total-audit-title">Day is ${direction} 24h by ${escapeHtml(formatDuration(Math.abs(audit.deltaMs)))}</p>
+        <p class="day-total-audit-title">Day is ${direction} ${escapeHtml(formatDuration(audit.expectedMs))} by ${escapeHtml(formatDuration(Math.abs(audit.deltaMs)))}</p>
         <p class="day-total-audit-summary">${escapeHtml(summary)}</p>
       </div>
+      <p class="day-total-audit-summary">Tracked: ${escapeHtml(formatDuration(audit.totalMs))} · Expected local day: ${escapeHtml(formatDuration(audit.expectedMs))}</p>
       ${issueRows ? `<ul class="day-total-audit-list">${issueRows}</ul>` : emptyText}
       ${extraText}
     `;
@@ -10847,7 +10851,7 @@
     const direction = dayTotalIssueDirection(audit);
     const badgeText = dayTotalIssueText(audit);
     return `
-      <td title="${escapeHtml(`Day is ${direction} 24h by ${formatDuration(Math.abs(audit.deltaMs))}`)}">
+      <td title="${escapeHtml(`Day is ${direction} ${formatDuration(audit.expectedMs)} by ${formatDuration(Math.abs(audit.deltaMs))}`)}">
         <span class="day-total-date-mark">
           <span>${escapeHtml(dateValue)}</span>
           <span class="day-total-date-badge ${direction}">${escapeHtml(badgeText)}</span>
@@ -10923,7 +10927,7 @@
         ? `${filtered.length.toLocaleString()} matches across native and imported entries. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`
         : `${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} deduped entries shown. Newest tasks first. Friendly names only; technical IDs stay internal.${dateContext}`;
       if (dayAudit) {
-        detailsDayTotal.textContent = `Total: ${formatDuration(dayAudit.totalMs)}`;
+        detailsDayTotal.textContent = `Total: ${formatDuration(dayAudit.totalMs)} / ${formatDuration(dayAudit.expectedMs)} expected${dayAudit.expectedMs !== 24 * 60 * 60 * 1000 ? " (daylight saving time change)" : ""}`;
         detailsDayTotal.classList.toggle("issue", !dayAudit.isComplete);
         detailsDayTotal.hidden = false;
         dayTotalAudit.innerHTML = dayAudit.isComplete ? "" : dayTotalAuditHtml(dayAudit, visibleKeys);
@@ -10973,7 +10977,7 @@
         const rowCells = [
           detailDateCellHtml(values[0], dayIssueMap),
           ...values.slice(1, 3)
-            .map((value) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}</td>`)
+            .map((value, index) => `<td${value ? "" : ' class="empty-cell"'}>${value ? escapeHtml(value) : "-"}${index === 1 && auditIssue ? `<div class="day-total-audit-reason">${escapeHtml(auditIssue.reasons.map((item) => `${item.reason} (${formatDuration(item.ms)})`).join("; "))}</div>` : ""}</td>`)
         ].join("");
         const trailingCells = values
           .slice(3)
