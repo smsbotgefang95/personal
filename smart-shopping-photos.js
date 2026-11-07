@@ -1124,8 +1124,9 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "Green onion 小葱",
-    "file": "4cfcfc5bad414e5197f90a765f3b56f5.jpg",
-    "source": "https://photos.anylist.com/4cfcfc5bad414e5197f90a765f3b56f5.jpg"
+    "file": "green-onion-transparent.png",
+    "credit": "Shopping photo cutout prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
   },
   {
     "name": "无根香菜",
