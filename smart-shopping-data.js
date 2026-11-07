@@ -4,3 +4,6 @@ window.SMART_LIST_META = {"买菜":{"icon":"🛒","count":20,"accent":"coral"},"
 // 推车 is a storage cart, not a shopping trolley.
 window.SMART_LIST_META["推车"].icon = "🧺";
 window.SMART_LIST_MERGES = [{"target":"冰柜_肉和其他🥩","sources":["冰柜_肉和其他🥩","冰柜_加工食品🥟"]},{"target":"橱柜_食物🍫","sources":["橱柜_食物🍫","橱柜_烹饪用品👩🏻‍🍳"]}];
+
+// Product and price supplied by the shopper for the Costco club pack.
+window.SMART_LIST_IMPORT["买菜"] += "\n主食\nOrganic Good Seed Thin-Sliced Bread by Dave's Killer Bread 有机薄切谷物面包\n\n💵 $9.99 / 2 loaves\n⚖️ 48 oz\n🏷️ $3.33 / lb\nCostco\n";

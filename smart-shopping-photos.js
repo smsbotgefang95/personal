@@ -1,6 +1,11 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "Organic Good Seed Thin-Sliced Bread by Dave's Killer Bread 有机薄切谷物面包",
+    "file": "costco-daves-good-seed-thin-sliced.png",
+    "credit": "Shopper photo with a transparent background prepared using ImageGen"
+  },
+  {
     "name": "Beef chuck roast",
     "file": "costco-beef-chuck-roast-transparent.png",
     "source": "https://www.instacart.com/assets/domains/product-image/file/large_8135f33f-2c25-4811-a96a-f5ada0d58a59.jpg",
