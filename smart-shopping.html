@@ -8,7 +8,7 @@
 <script src="smart-shopping-data.js?v=20261107-good-seed"></script>
 <script src="smart-shopping-store-listings.js?v=20260905-egg-alternatives"></script>
 <script src="smart-shopping-photos.js?v=20261107-green-onion"></script>
-<script src="smart-shopping-nutrition.js?v=20260809-chosen-foods"></script>
+<script src="smart-shopping-nutrition.js?v=20261107-good-seed"></script>
 <script src="smart-shopping-product-details.js?v=20260913-lawrys-walmart"></script>
 <script src="smart-shopping-glycemic-index.js?v=20260809-gi"></script>
 <script src="assets/site-nav.js?v=20260817-remove-day-one" defer></script>
@@ -1805,12 +1805,12 @@
       const record = nutritionRecord(item);
       if (!record) return "";
       const labelNeeded = record.confidence === "manual label needed";
-      const basis = labelNeeded ? "Package label needed" : record.basis === "per 100 g" ? "USDA estimate · per 100 g" : "Package label · per serving";
+      const basis = labelNeeded ? "Package label needed" : record.basis === "per 100 g" ? "USDA estimate · per 100 g" : record.basis === "Package front · per serving" ? record.basis : "Package label · per serving";
       if (labelNeeded) {
         return `<div class="nutrition-facts is-label-needed" aria-label="Nutrition facts"><div class="nutrition-facts-heading"><strong>Nutrition facts</strong><span>${escapeHtml(basis)}</span></div><p class="nutrition-facts-note">Use the current package label for this product or variant.</p></div>`;
       }
       const fields = [["Calories", nutritionValue(record.calories, " kcal")], ["Protein", nutritionValue(record.protein_g, " g")], ["Carbs", nutritionValue(record.carbs_g, " g")], ["Fat", nutritionValue(record.fat_g, " g")], ["Sodium", nutritionValue(record.sodium_mg, " mg")]];
-      const secondary = [["Fiber", record.fiber_g], ["Sugar", record.sugars_g], ["Added sugar", record.added_sugars_g]].filter(([, value]) => value !== "" && value !== null && typeof value !== "undefined").map(([label, value]) => `${label} ${nutritionValue(value, " g")}`).join(" · ");
+      const secondary = [["Fiber", record.fiber_g], ["Sugar", record.sugars_g], ["Added sugar", record.added_sugars_g], ["ALA omega-3", record.ala_omega_3_mg, " mg"], ["Whole grains", record.whole_grains_g]].filter(([, value]) => value !== "" && value !== null && typeof value !== "undefined").map(([label, value, unit = " g"]) => `${label} ${nutritionValue(value, unit)}`).join(" · ");
       return `<div class="nutrition-facts" aria-label="Nutrition facts"><div class="nutrition-facts-heading"><strong>Nutrition facts</strong><span>${escapeHtml(basis)}</span></div><div class="nutrition-facts-grid">${fields.map(([label, value]) => `<span class="nutrition-fact"><span class="nutrition-fact-label">${label}</span><span class="nutrition-fact-value">${escapeHtml(value)}</span></span>`).join("")}</div>${secondary ? `<p class="nutrition-facts-note">${escapeHtml(secondary)}</p>` : ""}</div>`;
     }
     function glycemicIndexRecord(item) {
