@@ -1,6 +1,31 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "冬笋",
+    "file": "winter-bamboo-shoots-transparent.png",
+    "credit": "Generated with OpenAI ImageGen"
+  },
+  {
+    "name": "蛏子",
+    "file": "razor-clams-transparent.png",
+    "credit": "Generated with OpenAI ImageGen"
+  },
+  {
+    "name": "姜",
+    "file": "ginger-transparent.png",
+    "credit": "Generated with OpenAI ImageGen"
+  },
+  {
+    "name": "彩椒",
+    "file": "bell-peppers-transparent.png",
+    "credit": "Generated with OpenAI ImageGen"
+  },
+  {
+    "name": "西兰花",
+    "file": "broccoli-transparent.png",
+    "credit": "Generated with OpenAI ImageGen"
+  },
+  {
     "name": "Organic Good Seed Thin-Sliced Bread by Dave's Killer Bread 有机薄切谷物面包",
     "file": "costco-daves-good-seed-thin-sliced.png",
     "credit": "Shopper photo with a transparent background prepared using ImageGen"
