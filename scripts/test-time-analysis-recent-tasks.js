@@ -696,6 +696,10 @@ assert.strictEqual(
 console.log("Daily due-date catch-up checks passed.");
 
 const deletionSandbox = {
+  taskCatalogEntries: [
+    { id: "deleted-import", sourceType: "task-catalog" },
+    { id: "visible-catalog", sourceType: "task-catalog" }
+  ],
   timePayload: {
     deletedEntryKeys: ["id:deleted-import"]
   },
@@ -734,7 +738,8 @@ vm.runInContext([
   extractFunction(html, "deletedEntryKeySet"),
   extractFunction(html, "filterDeletedDetailEntries"),
   extractFunction(html, "detailEntrySourceRank"),
-  extractFunction(html, "composedAnalysisEntries")
+  extractFunction(html, "composedAnalysisEntries"),
+  extractFunction(html, "detailEntriesFor")
 ].join("\n\n"), deletionSandbox);
 
 assert.deepStrictEqual(
@@ -777,6 +782,15 @@ assert.deepStrictEqual(
 assert.ok(
   html.includes("data-delete-detail-entry"),
   "detail table should render delete controls for editable detail entries"
+);
+
+assert.deepStrictEqual(
+  Array.from(deletionSandbox.detailEntriesFor([
+    ...composedEntries,
+    { id: "deleted-import", sourceType: "clickup" }
+  ]), (entry) => entry.id),
+  ["visible-import", "native-entry", "visible-catalog"],
+  "Entries should exclude deleted rows from both cached data and the task catalog"
 );
 
 assert.ok(

@@ -10391,13 +10391,11 @@
       ...(timePayload.deletedEntryKeys || []),
       detailEntryDedupKey(entry)
     ]);
-    timePayload = cleanClientPayload({
+    await saveTimePayload({
       ...timePayload,
       entries: (timePayload.entries || []).filter((item) => cleanLabel(item?.id, "") !== entryId),
-      deletedEntryKeys,
-      updatedAt: isoNow()
+      deletedEntryKeys
     });
-    await saveTimePayload(timePayload);
   }
 
   function detailEntryKey(entry) {
@@ -10554,12 +10552,12 @@
   }
 
   function detailEntriesFor(entries) {
-    const baseEntries = Array.isArray(entries) ? entries : [];
+    const baseEntries = filterDeletedDetailEntries(Array.isArray(entries) ? entries : []);
     if (!baseEntries.some((entry) => entry.sourceType === "native") || !taskCatalogEntries.length) {
       return baseEntries;
     }
     const seen = new Set(baseEntries.map(detailEntryDedupKey));
-    const importedEntries = entriesWithTaskOverrides(taskCatalogEntries)
+    const importedEntries = entriesWithTaskOverrides(filterDeletedDetailEntries(taskCatalogEntries))
       .filter((entry) => !seen.has(detailEntryDedupKey(entry)));
     return [...baseEntries, ...importedEntries];
   }
@@ -11025,7 +11023,9 @@
       document.querySelectorAll("[data-delete-detail-entry]").forEach((button) => {
         button.addEventListener("click", () => {
           const entry = filtered.find((item) => detailEntryKey(item) === button.dataset.deleteDetailEntry);
-          if (entry) deleteDetailEntry(entry);
+          if (entry) deleteDetailEntry(entry).catch((error) => {
+            detailsNote.textContent = error.message || "The entry could not be deleted. Try again.";
+          });
         });
       });
     };
