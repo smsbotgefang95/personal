@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "芹菜",
+    "file": "dole-celery-transparent.png",
+    "credit": "Shopper screenshot edited with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "白玉菇",
     "file": "china-green-white-beech-mushrooms-transparent.png",
     "credit": "Shopper screenshot edited with OpenAI ImageGen",
