@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "白玉菇",
+    "file": "china-green-white-beech-mushrooms-transparent.png",
+    "credit": "Shopper screenshot edited with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "和牛灌汤包",
     "file": "synear-wagyu-soup-dumplings-transparent.png",
     "sourcePage": "https://www.costco.com/p/-/1873722",
