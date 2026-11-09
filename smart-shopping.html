@@ -1829,7 +1829,9 @@
       if (!nutrition && !glycemic) return "";
       const record = glycemicIndexRecord(item);
       const summary = record.value === null ? record.label : `${record.value} · ${record.label}`;
-      const ingredients = foodPhoto(item)?.file === "kirkland-master-carve-ham-original-transparent.png"
+      const isKirklandHam = normalizeFoodName(itemNames(item).chineseName) === "火腿"
+        && normalizeFoodName(itemBrand(item)) === "kirkland signature";
+      const ingredients = isKirklandHam
         ? `<div class="nutrition-facts" aria-label="Ingredients">
             <div class="nutrition-facts-heading"><strong>Ingredients</strong><span>Costco item #46655</span></div>
             <p class="nutrition-facts-note">Pork, water, dextrose, potassium lactate, salt, sodium phosphate, sodium diacetate, sodium erythorbate, sodium nitrite.</p>
