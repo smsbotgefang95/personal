@@ -7,6 +7,18 @@ window.SMART_LIST_PHOTOS = [
     "overrideCustomPhoto": true
   },
   {
+    "name": "鱼泉榨菜",
+    "file": "yuquan-mustard-stem-original-transparent.png",
+    "credit": "Original shopper photo with background removed",
+    "overrideCustomPhoto": true
+  },
+  {
+    "name": "萝卜干",
+    "file": "dried-radish-original-transparent.png",
+    "credit": "Original shopper photo with background removed",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "腐竹",
     "file": "dried-bean-curd-original-transparent.png",
     "credit": "Original shopper photo with background removed",
