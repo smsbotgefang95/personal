@@ -475,7 +475,7 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "五香厚大干",
-    "file": "spiced-large-dry-tofu-bag-transparent-v2.png",
+    "file": "spiced-jumbo-thick-dry-tofu-original-transparent.png",
     "credit": "Original shopper photo with background removed",
     "overrideCustomPhoto": true
   },
