@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "腐竹",
+    "file": "dried-bean-curd-bag-transparent.png",
+    "credit": "Shopper photo reference recreated with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "冬笋",
     "file": "winter-bamboo-shoots-transparent.png",
     "credit": "Generated with OpenAI ImageGen"
@@ -463,8 +469,15 @@ window.SMART_LIST_PHOTOS = [
   },
   {
     "name": "五香大干",
-    "file": "98062a1d805c40c481e40578edc205d0.jpg",
-    "source": "https://photos.anylist.com/98062a1d805c40c481e40578edc205d0.jpg"
+    "file": "spiced-large-dry-tofu-bag-transparent.png",
+    "credit": "Original shopper photo with background removed",
+    "overrideCustomPhoto": true
+  },
+  {
+    "name": "五香厚大干",
+    "file": "spiced-large-dry-tofu-bag-transparent.png",
+    "credit": "Original shopper photo with background removed",
+    "overrideCustomPhoto": true
   },
   {
     "name": "五香小干",
