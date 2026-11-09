@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "和牛灌汤包",
+    "file": "synear-wagyu-soup-dumplings-transparent.png",
+    "sourcePage": "https://www.costco.com/p/-/1873722",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "金钱腱",
     "file": "beef-shank-transparent.png",
     "credit": "Shopper photo edited with OpenAI ImageGen",
