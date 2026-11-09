@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "火腿",
+    "file": "kirkland-master-carve-ham-original-transparent.png",
+    "credit": "Original shopper photo from screenshot with background removed",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "腐竹",
     "file": "dried-bean-curd-original-transparent.png",
     "credit": "Original shopper photo with background removed",
