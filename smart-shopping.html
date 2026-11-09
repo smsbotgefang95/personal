@@ -202,7 +202,7 @@
   .shopping-details-summary { margin-left: auto; color: var(--muted); font-size: 0.62rem; font-weight: 750; text-align: right; }
   .shopping-details-content { padding: 0 11px 10px; }
   .shopping-details-content .nutrition-facts, .shopping-details-content .glycemic-index-facts { margin-top: 0; }
-  .shopping-details-content .nutrition-facts + .glycemic-index-facts { margin-top: 9px; }
+  .shopping-details-content .nutrition-facts + .glycemic-index-facts, .shopping-details-content .glycemic-index-facts + .nutrition-facts { margin-top: 9px; }
   .price-line { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin: 13px 0 8px; }
   .price-line strong { font-size: 1.05rem; letter-spacing: -0.03em; }
   .price-line span { color: var(--green); font-size: 0.71rem; font-weight: 800; text-align: right; }
@@ -1829,7 +1829,14 @@
       if (!nutrition && !glycemic) return "";
       const record = glycemicIndexRecord(item);
       const summary = record.value === null ? record.label : `${record.value} · ${record.label}`;
-      return `<details class="shopping-details"><summary><span>Nutrition &amp; health details</span><span class="shopping-details-summary">${escapeHtml(summary)}</span></summary><div class="shopping-details-content">${nutrition}${glycemic}</div></details>`;
+      const ingredients = foodPhoto(item)?.file === "kirkland-master-carve-ham-original-transparent.png"
+        ? `<div class="nutrition-facts" aria-label="Ingredients">
+            <div class="nutrition-facts-heading"><strong>Ingredients</strong><span>Costco item #46655</span></div>
+            <p class="nutrition-facts-note">Pork, water, dextrose, potassium lactate, salt, sodium phosphate, sodium diacetate, sodium erythorbate, sodium nitrite.</p>
+            <p class="nutrition-facts-note">Source: <a href="https://www.alisonspantry.com/kirkland-applewood-smoked-master-carve-half-ham--4-lb" target="_blank" rel="noopener noreferrer">Alison’s Pantry</a></p>
+          </div>`
+        : "";
+      return `<details class="shopping-details"><summary><span>Nutrition &amp; health details</span><span class="shopping-details-summary">${escapeHtml(summary)}</span></summary><div class="shopping-details-content">${nutrition}${glycemic}${ingredients}</div></details>`;
     }
     function matchesGlycemicIndex(item) {
       return state.glycemicIndex === "all" || glycemicIndexRecord(item).status === state.glycemicIndex;
