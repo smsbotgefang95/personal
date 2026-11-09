@@ -1,6 +1,12 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "金钱腱",
+    "file": "beef-shank-transparent.png",
+    "credit": "Shopper photo edited with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "牛腩",
     "file": "beef-brisket-transparent.png",
     "credit": "Shopper photo edited with OpenAI ImageGen",
