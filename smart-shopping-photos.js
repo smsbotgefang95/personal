@@ -2,8 +2,8 @@
 window.SMART_LIST_PHOTOS = [
   {
     "name": "腐竹",
-    "file": "dried-bean-curd-bag-transparent.png",
-    "credit": "Shopper photo reference recreated with OpenAI ImageGen",
+    "file": "dried-bean-curd-original-transparent.png",
+    "credit": "Original shopper photo with background removed",
     "overrideCustomPhoto": true
   },
   {
