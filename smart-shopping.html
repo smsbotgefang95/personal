@@ -2325,8 +2325,6 @@
 
     function deleteItem(item) {
       const targetList = itemTargetList(item.sourceList, item.key);
-      const confirmed = window.confirm(`Delete “${displayItemName(item)}” from ${displayListName(targetList)}? This only changes this browser’s shopping view.`);
-      if (!confirmed) return;
       const storageKey = editStorageKey(item.sourceList, item.key);
       itemRemovals[storageKey] = true;
       saveItemRemovals();
