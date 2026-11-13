@@ -3363,6 +3363,7 @@
           </div>
           <div class="timer-display">
             <div class="timer-label" id="timerStateLabel">Ready</div>
+            <div class="timer-value" id="timerValue">00:00:00</div>
             <div class="timer-task" id="timerTask">No timer running</div>
           </div>
         </nav>
@@ -6056,6 +6057,7 @@
     const timeCell = row?.querySelector(".track-time");
     if (timeCell) timeCell.textContent = "00:00:00";
     document.getElementById("timerStateLabel").textContent = "Running";
+    document.getElementById("timerValue").textContent = "00:00:00";
     document.getElementById("timerTask").textContent = `${entry.taskName} · ${entry.listName}`;
   }
 
@@ -6495,6 +6497,7 @@
     const deskSessionDurationMs = active ? activeDeskSessionDurationMs() : 0;
     if (active) timeAnalysisAudioMuted = active.alarmMuted !== false;
     document.getElementById("timerStateLabel").textContent = active ? "Running" : "Ready";
+    document.getElementById("timerValue").textContent = formatClock(durationMs);
     document.getElementById("timerTask").textContent = active ? `${active.taskName} · ${active.listName}` : "No timer running";
     document.getElementById("startTimerBtn").disabled = false;
     document.getElementById("stopTimerBtn").disabled = !active;
