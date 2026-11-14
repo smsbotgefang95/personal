@@ -160,10 +160,26 @@
       "title": "Pick up",
       "updatedAt": "2026-11-14T21:44:17.315Z",
       "week": 45
+    },
+    {
+      "content": "I and Steve out eat Chinese restaurant in Tuesday.\nSteve and I ate out at a Chinese restaurant on Tuesday at noon. \n\nI don’t take a walk with Jackie on Tuesday at noon. \nI didn’t take a walk with Jackie on Tuesday at noon. \n\nI like her. \nWho do you like?\n\nMy name is Jason. \nWhat’s your name?\n\nMy favorite food is 红烧肉.\nWhat’s your favorite food?",
+      "date": "2026-11-11",
+      "id": "b047c53b-65eb-4692-ae25-693388d8567f",
+      "title": "Steve and I",
+      "updatedAt": "2026-11-14T21:45:21.461Z",
+      "week": 46
+    },
+    {
+      "content": "Dishes\nDo dishes\nDishwasher\nWashing machine\nWe need to fix our dishwasher.\nHow much?\n$40.\nHow much is a new dishwasher?\n$1,190 before tax.",
+      "date": "2026-09-08",
+      "id": "caef33e2-0841-49e5-9b74-3f267c08c25e",
+      "title": "Dishwasher",
+      "updatedAt": "2026-11-14T22:10:42.463Z",
+      "week": 37
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:44:17Z",
+  "updatedAt": "2026-11-14T22:10:42Z",
   "vocabulary": []
 }
