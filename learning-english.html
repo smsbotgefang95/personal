@@ -9951,9 +9951,30 @@ pass=通过；传递
       });
     };
     try {
+      const storedKeyNames = [
+        LEARNING_ENGLISH_ADMIN_KEY,
+        "personal-life-events-admin-key-v1",
+        "personal.timeTracking.adminKey.v1",
+        "citizenship-prep-vocab-admin-key-v1",
+        "smart-shopping-admin-key-v1"
+      ];
+      const storedKeys = [];
+      try {
+        storedKeyNames.forEach((keyName) => {
+          const key = localStorage.getItem(keyName) || "";
+          if (key && !storedKeys.includes(key)) storedKeys.push(key);
+        });
+      } catch (error) {}
       let adminKey = "";
-      try { adminKey = localStorage.getItem(LEARNING_ENGLISH_ADMIN_KEY) || ""; } catch (error) {}
-      let response = await postPayload(adminKey);
+      let response = null;
+      for (const savedKey of storedKeys) {
+        response = await postPayload(savedKey);
+        if (response.status !== 401) {
+          adminKey = savedKey;
+          break;
+        }
+      }
+      if (!response || response.status === 401) response = await postPayload("");
       if (response.status === 401) {
         const entered = window.prompt("Enter the Learning English admin key to save notes to the shared website:");
         if (!entered) {
@@ -9967,6 +9988,9 @@ pass=通过；传递
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const result = await response.json();
       if (!result.ok) throw new Error("Save failed");
+      if (adminKey) {
+        try { localStorage.setItem(LEARNING_ENGLISH_ADMIN_KEY, adminKey); } catch (error) {}
+      }
       learningEnglishCustomPayload = result.payload || learningEnglishCustomPayload;
       dailyClassNotes = Array.isArray(learningEnglishCustomPayload.dailyNotes) ? learningEnglishCustomPayload.dailyNotes : dailyClassNotes;
       cacheDailyNotesLocally();
