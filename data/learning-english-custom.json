@@ -320,10 +320,18 @@
       "title": "Per",
       "updatedAt": "2026-11-14T23:31:34.221Z",
       "week": 23
+    },
+    {
+      "content": "hundred\ndriver\ndress\ndrink\ndrop off\ndry",
+      "date": "2026-06-05",
+      "id": "932dda0e-53d2-47c4-824b-8d37567357ec",
+      "title": "dr的发音",
+      "updatedAt": "2026-11-14T23:32:17.262Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:31:34Z",
+  "updatedAt": "2026-11-14T23:32:17Z",
   "vocabulary": []
 }
