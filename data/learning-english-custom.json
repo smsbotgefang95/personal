@@ -296,10 +296,18 @@
       "title": "特殊疑问句",
       "updatedAt": "2026-11-14T23:28:21.494Z",
       "week": 24
+    },
+    {
+      "content": "I live in a good neighborhood. \nThere are a lot of parks in my neighborhood. \nI know everyone in the neighborhood. \nThere are a lot of trees in the neighborhood. \nThere are a lot of dogs in the neighborhood.",
+      "date": "2026-06-11",
+      "id": "05e39ce1-15ea-41f7-95a5-cce1839b4b15",
+      "title": "Neighborhood",
+      "updatedAt": "2026-11-14T23:29:51.812Z",
+      "week": 24
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:28:21Z",
+  "updatedAt": "2026-11-14T23:29:51Z",
   "vocabulary": []
 }
