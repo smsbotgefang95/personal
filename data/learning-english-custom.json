@@ -176,10 +176,18 @@
       "title": "Dishwasher",
       "updatedAt": "2026-11-14T22:10:42.463Z",
       "week": 37
+    },
+    {
+      "content": "How many U.S. Senators are there?\nThere are 5 people in my family. \nThere are two bedrooms in my house. \nI am Jason. \nWho are you?\nHow many people are there in your family?",
+      "date": "2026-08-31",
+      "id": "833eec8e-df40-415b-8b16-77f652bb083b",
+      "title": "Are there问句",
+      "updatedAt": "2026-11-14T22:12:25.383Z",
+      "week": 36
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:10:42Z",
+  "updatedAt": "2026-11-14T22:12:25Z",
   "vocabulary": []
 }
