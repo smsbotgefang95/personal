@@ -288,10 +288,18 @@
       "title": "What a ...",
       "updatedAt": "2026-11-14T23:24:56.064Z",
       "week": 25
+    },
+    {
+      "content": "What do you do?\nWhat does he do?\nWhat \nWhen\nWho\nHow\nWhy does the flag have 50 stars?\nWhen do you get up every day?\nHow much does he make every year?\nHow many Chinese people do you know?\nHow many rooms do you have in your house?\nHow many bedrooms are there in your house?",
+      "date": "2026-06-10",
+      "id": "d09c7abe-d113-41a9-a019-e38c55ebbacb",
+      "title": "特殊疑问句",
+      "updatedAt": "2026-11-14T23:28:21.494Z",
+      "week": 24
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:26:06Z",
+  "updatedAt": "2026-11-14T23:28:21Z",
   "vocabulary": []
 }
