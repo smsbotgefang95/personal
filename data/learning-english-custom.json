@@ -344,10 +344,18 @@
       "title": "Border",
       "updatedAt": "2026-11-14T23:34:33.008Z",
       "week": 23
+    },
+    {
+      "content": "first\nT-shirt\ngirl\nbirth",
+      "date": "2026-06-02",
+      "id": "b5ba0689-2cd7-45e4-8cb6-595dc249adfb",
+      "title": "ir的发音",
+      "updatedAt": "2026-11-14T23:35:13.034Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:34:33Z",
+  "updatedAt": "2026-11-14T23:35:13Z",
   "vocabulary": []
 }
