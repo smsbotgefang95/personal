@@ -1787,7 +1787,8 @@
           <input id="dailyNoteDate" name="date" type="date" required />
         </label>
         <label for="dailyNoteWeek">Course week
-          <input id="dailyNoteWeek" name="week" type="number" min="1" max="999" placeholder="e.g. 7" required />
+          <input id="dailyNoteWeek" name="week" type="number" min="1" max="53" placeholder="Auto" required readonly aria-describedby="dailyNoteWeekHint" />
+          <span class="daily-note-save-status" id="dailyNoteWeekHint">Automatically calculated from the selected date.</span>
         </label>
         <label for="dailyNoteTitle">Topic or title
           <input id="dailyNoteTitle" name="title" type="text" maxlength="160" placeholder="e.g. Asking for directions" required />
@@ -9906,6 +9907,23 @@ pass=通过；传递
     return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
   }
 
+  function calendarWeekFromDate(dateValue) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateValue || "");
+    if (!match) return "";
+    const [, year, month, day] = match;
+    const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+    if (date.getUTCFullYear() !== Number(year) || date.getUTCMonth() !== Number(month) - 1 || date.getUTCDate() !== Number(day)) return "";
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const firstDayOfYear = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return String(Math.ceil((((date - firstDayOfYear) / 86400000) + 1) / 7));
+  }
+
+  function updateDailyNoteWeek() {
+    const dateField = document.getElementById("dailyNoteDate");
+    const weekField = document.getElementById("dailyNoteWeek");
+    if (dateField && weekField) weekField.value = calendarWeekFromDate(dateField.value);
+  }
+
   function setDailyNoteStatus(message) {
     const status = document.getElementById("dailyNoteSaveStatus");
     if (status) status.textContent = message;
@@ -9924,6 +9942,7 @@ pass=通过；传递
   async function loadDailyNotes() {
     const dateField = document.getElementById("dailyNoteDate");
     if (dateField && !dateField.value) dateField.value = todayAsLocalDate();
+    updateDailyNoteWeek();
     try {
       const response = await fetch(LEARNING_ENGLISH_CUSTOM_API, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -10043,6 +10062,7 @@ pass=通过；传递
     const form = document.getElementById("dailyNoteForm");
     form.reset();
     document.getElementById("dailyNoteDate").value = todayAsLocalDate();
+    updateDailyNoteWeek();
     document.getElementById("dailyNoteSaveButton").textContent = "Save daily note";
     document.getElementById("dailyNoteCancelButton").hidden = true;
     editingDailyNoteId = "";
@@ -10071,6 +10091,8 @@ pass=通过；传递
   });
 
   document.getElementById("dailyNoteCancelButton").addEventListener("click", resetDailyNoteForm);
+  document.getElementById("dailyNoteDate").addEventListener("input", updateDailyNoteWeek);
+  document.getElementById("dailyNoteDate").addEventListener("change", updateDailyNoteWeek);
   document.getElementById("dailyNoteSyncButton").addEventListener("click", async () => {
     setDailyNoteStatus("Syncing saved notes…");
     await saveDailyNotesToServer();
@@ -10083,7 +10105,7 @@ pass=通过；传递
     if (button.dataset.dailyNoteAction === "edit") {
       editingDailyNoteId = note.id;
       document.getElementById("dailyNoteDate").value = note.date;
-      document.getElementById("dailyNoteWeek").value = note.week;
+      updateDailyNoteWeek();
       document.getElementById("dailyNoteTitle").value = note.title;
       document.getElementById("dailyNoteContent").value = note.content;
       document.getElementById("dailyNoteSaveButton").textContent = "Update daily note";
