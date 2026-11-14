@@ -112,10 +112,18 @@
       "title": "Happy to help",
       "updatedAt": "2026-11-14T21:38:25.397Z",
       "week": 40
+    },
+    {
+      "content": "First Lady\nLady’s room\nFirst Family\nFirst Daughter\nFirst Son\nFirst Dog",
+      "date": "2026-10-07",
+      "id": "fb1ab5fc-89b0-4aad-8b86-4be2f02af720",
+      "title": "First搭配的词组",
+      "updatedAt": "2026-11-14T21:39:29.073Z",
+      "week": 41
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:38:25Z",
+  "updatedAt": "2026-11-14T21:39:29Z",
   "vocabulary": []
 }
