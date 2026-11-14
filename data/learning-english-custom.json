@@ -256,10 +256,18 @@
       "title": "Make",
       "updatedAt": "2026-11-14T23:17:27.569Z",
       "week": 26
+    },
+    {
+      "content": "We vote for President in November. \nIn what month do we vote for President. \nWhat do you do?\nI want to vote for my friend. \nWe voted for Fiana. \nWho did you vote for?",
+      "date": "2026-06-19",
+      "id": "81e60221-3be1-4c41-8943-5036014716b8",
+      "title": "Vote",
+      "updatedAt": "2026-11-14T23:19:19.859Z",
+      "week": 25
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:17:28Z",
+  "updatedAt": "2026-11-14T23:19:19Z",
   "vocabulary": []
 }
