@@ -304,10 +304,18 @@
       "title": "Neighborhood",
       "updatedAt": "2026-11-14T23:29:51.812Z",
       "week": 24
+    },
+    {
+      "content": "Have a good one!\nHave a great weekend!",
+      "date": "2026-06-05",
+      "id": "3467f1a8-62a4-4f0f-bc30-847db49cff02",
+      "title": "Have a good one",
+      "updatedAt": "2026-11-14T23:30:52.395Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:29:51Z",
+  "updatedAt": "2026-11-14T23:30:52Z",
   "vocabulary": []
 }
