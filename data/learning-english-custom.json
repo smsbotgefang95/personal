@@ -104,10 +104,18 @@
       "title": "Never",
       "updatedAt": "2026-11-14T21:37:54.071Z",
       "week": 39
+    },
+    {
+      "content": "went是go的过去式\nwant是想要\n\nCome\nCame\n\nIt is nothing. \nI am happy to help.",
+      "date": "2026-10-01",
+      "id": "f41c1e14-17df-478c-af12-02e78ee7f048",
+      "title": "Happy to help",
+      "updatedAt": "2026-11-14T21:38:25.397Z",
+      "week": 40
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:37:54Z",
+  "updatedAt": "2026-11-14T21:38:25Z",
   "vocabulary": []
 }
