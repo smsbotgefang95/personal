@@ -232,10 +232,18 @@
       "title": "ay结尾的单词",
       "updatedAt": "2026-11-14T23:13:38.414Z",
       "week": 26
+    },
+    {
+      "content": "He works for the Federal government. \nWhat did you do?\nI worked for the Chinese government for 20 years.",
+      "date": "2026-06-26",
+      "id": "cdfb196b-a3eb-4d6a-92d5-1ce6951754b5",
+      "title": "Federal",
+      "updatedAt": "2026-11-14T23:14:38.854Z",
+      "week": 26
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:13:38Z",
+  "updatedAt": "2026-11-14T23:14:38Z",
   "vocabulary": []
 }
