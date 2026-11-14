@@ -312,10 +312,18 @@
       "title": "Have a good one",
       "updatedAt": "2026-11-14T23:30:52.395Z",
       "week": 23
+    },
+    {
+      "content": "60 MPH\n$30 per person\n$50 per day",
+      "date": "2026-06-05",
+      "id": "6939ac39-39a2-4f76-939d-ba990e880127",
+      "title": "Per",
+      "updatedAt": "2026-11-14T23:31:34.221Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:30:52Z",
+  "updatedAt": "2026-11-14T23:31:34Z",
   "vocabulary": []
 }
