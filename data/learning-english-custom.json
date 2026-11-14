@@ -352,10 +352,18 @@
       "title": "ir的发音",
       "updatedAt": "2026-11-14T23:35:13.034Z",
       "week": 23
+    },
+    {
+      "content": "date of birth\nplace of birth",
+      "date": "2026-06-02",
+      "id": "9c62cd30-08a9-455c-9d0c-d4924ab6a62d",
+      "title": "birth",
+      "updatedAt": "2026-11-14T23:35:35.025Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:35:13Z",
+  "updatedAt": "2026-11-14T23:35:35Z",
   "vocabulary": []
 }
