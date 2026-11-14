@@ -32,10 +32,18 @@
       "title": "Get hungry",
       "updatedAt": "2026-11-14T21:20:12.464Z",
       "week": 38
+    },
+    {
+      "content": "I go back to China every two years. \nI am back. \nCome back. \nKathy will come back this Saturday.",
+      "date": "2026-09-17",
+      "id": "89df0ca0-04cf-4924-89d5-e2dda6bfe485",
+      "title": "Go/come back",
+      "updatedAt": "2026-11-14T21:21:03.100Z",
+      "week": 38
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:20:12Z",
+  "updatedAt": "2026-11-14T21:21:03Z",
   "vocabulary": []
 }
