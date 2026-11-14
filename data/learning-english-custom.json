@@ -72,10 +72,18 @@
       "title": "Elect",
       "updatedAt": "2026-11-14T21:34:26.593Z",
       "week": 38
+    },
+    {
+      "content": "I go back to China every two years. \nI am back. \nCome back. \nKathy will come back this Saturday.",
+      "date": "2026-09-17",
+      "id": "83f30d53-8867-4d65-a667-cab42d5a5c74",
+      "title": "Back",
+      "updatedAt": "2026-11-14T21:36:11.423Z",
+      "week": 38
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:34:26Z",
+  "updatedAt": "2026-11-14T21:36:11Z",
   "vocabulary": []
 }
