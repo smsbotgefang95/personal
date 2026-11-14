@@ -192,10 +192,18 @@
       "title": "Speaker",
       "updatedAt": "2026-11-14T22:33:02.476Z",
       "week": 32
+    },
+    {
+      "content": "The party at the clubhouse is on August 13th. \nCCP = Chinese Communist Party\nThe party is in two weeks.",
+      "date": "2026-07-30",
+      "id": "02e7d995-267c-4a5b-81b3-916e53e8282f",
+      "title": "Party",
+      "updatedAt": "2026-11-14T22:46:56.742Z",
+      "week": 31
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:33:02Z",
+  "updatedAt": "2026-11-14T22:46:56Z",
   "vocabulary": []
 }
