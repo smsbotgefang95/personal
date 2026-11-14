@@ -707,6 +707,83 @@
   .weekly-notes-list {
     display: grid;
     gap: 18px;
+    min-width: 0;
+  }
+
+  .weekly-notes-layout {
+    align-items: start;
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .weekly-notes-nav {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    position: sticky;
+    top: 16px;
+  }
+
+  .weekly-notes-nav[hidden] {
+    display: none;
+  }
+
+  .weekly-notes-nav-title {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+  }
+
+  .weekly-notes-nav-list {
+    display: grid;
+    gap: 4px;
+  }
+
+  .weekly-notes-nav a {
+    border-radius: 6px;
+    color: var(--accent);
+    display: block;
+    font-weight: 750;
+    padding: 7px 8px;
+    text-decoration: none;
+  }
+
+  .weekly-notes-nav a:hover,
+  .weekly-notes-nav a:focus-visible {
+    background: #d8eee8;
+    outline: none;
+  }
+
+  .daily-note-week,
+  .weekly-note-card {
+    scroll-margin-top: 18px;
+  }
+
+  @media (max-width: 720px) {
+    .weekly-notes-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .weekly-notes-nav {
+      padding: 10px;
+      position: static;
+    }
+
+    .weekly-notes-nav-list {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .weekly-notes-nav a {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
   }
 
   .daily-note-search-tools {
@@ -1827,7 +1904,13 @@
       </div>
       <p class="daily-note-save-status" id="dailyNoteSaveStatus" role="status" aria-live="polite">Loading saved notes…</p>
     </form>
-    <div class="weekly-notes-list" id="weeklyNotesList" aria-label="Daily class notes grouped by week"></div>
+    <div class="weekly-notes-layout">
+      <nav class="weekly-notes-nav" id="weeklyNotesNav" aria-label="Quick access by week" hidden>
+        <h3 class="weekly-notes-nav-title">Jump to week</h3>
+        <div class="weekly-notes-nav-list" id="weeklyNotesNavList"></div>
+      </nav>
+      <div class="weekly-notes-list" id="weeklyNotesList" aria-label="Daily class notes grouped by week"></div>
+    </div>
   </section>
 
 </main>
@@ -9903,6 +9986,14 @@ pass=通过；传递
         `).join("")}
       </section>
     `).join("");
+    const weekNav = document.getElementById("weeklyNotesNav");
+    const weekNavList = document.getElementById("weeklyNotesNavList");
+    if (weekNav && weekNavList) {
+      weekNav.hidden = grouped.size === 0;
+      weekNavList.innerHTML = [...grouped.keys()].map((week) => `
+        <a href="#daily-note-week-${escapeHtml(week)}">Week ${escapeHtml(week)}</a>
+      `).join("");
+    }
     const archiveHtml = WEEKLY_NOTES.map((note) => `
       <article class="weekly-note-card" id="${escapeHtml(note.id)}">
         <div class="weekly-note-header">
