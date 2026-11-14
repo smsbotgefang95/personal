@@ -240,10 +240,18 @@
       "title": "Federal",
       "updatedAt": "2026-11-14T23:14:38.854Z",
       "week": 26
+    },
+    {
+      "content": "taxi\nbag\nbad\ndad\nback\nman\nland\nhand\nfamily\nblack\ncan\nam\nglass\nhappy\ncat\ncash\nJack\ncapital\nthank\nlamp\njacket",
+      "date": "2026-06-25",
+      "id": "0c349546-c48b-428e-b2fc-c9f8ea3066d4",
+      "title": "a的发音",
+      "updatedAt": "2026-11-14T23:15:50.605Z",
+      "week": 26
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:14:38Z",
+  "updatedAt": "2026-11-14T23:15:50Z",
   "vocabulary": []
 }
