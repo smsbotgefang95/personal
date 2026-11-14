@@ -170,48 +170,16 @@
       "week": 46
     },
     {
-      "content": "Dishes\nDo dishes\nDishwasher\nWashing machine\nWe need to fix our dishwasher.\nHow much?\n$40.\nHow much is a new dishwasher?\n$1,190 before tax.",
-      "date": "2026-09-08",
-      "id": "caef33e2-0841-49e5-9b74-3f267c08c25e",
-      "title": "Dishwasher",
-      "updatedAt": "2026-11-14T22:10:42.463Z",
-      "week": 37
-    },
-    {
-      "content": "How many U.S. Senators are there?\nThere are 5 people in my family. \nThere are two bedrooms in my house. \nI am Jason. \nWho are you?\nHow many people are there in your family?",
-      "date": "2026-08-31",
-      "id": "833eec8e-df40-415b-8b16-77f652bb083b",
-      "title": "Are there问句",
-      "updatedAt": "2026-11-14T22:12:25.383Z",
-      "week": 36
-    },
-    {
-      "content": "I speak a little English. \nTalk to someone\nWhat did you say?\nI talked to Matt's brother for 30 minutes. \nThey gave me four bottles of beer. \nLight beer\nWe drink some beer together.",
-      "date": "2026-08-17",
-      "id": "388830c2-3e72-4f45-972b-8b6caa666e28",
-      "title": "说的各种说法",
-      "updatedAt": "2026-11-14T22:14:39.396Z",
-      "week": 34
-    },
-    {
-      "content": "We have (had) a party last Thursday in the clubhouse. \nI ate two burgers. \nI meet Jenny in (at) the party. \nI meet Steve's wife and Luise. \nI talked to Hong Qi and other Chinese neighbors.",
-      "date": "2026-08-17",
-      "id": "6965d1d6-57c3-40c3-a722-92ef347b02a8",
-      "title": "练习句子",
-      "updatedAt": "2026-11-14T22:17:42.456Z",
-      "week": 34
-    },
-    {
-      "content": "We will have a party with our neighbors in (at) the clubhouse 4PM tomorrow afternoon. \nMore than 160 people will be there. \nWe talked to Mina more than one hour. \nHow can I help?\nWhat can I do for you?",
+      "content": "Give me one second.",
       "date": "2026-08-12",
-      "id": "ef6c5831-4629-447b-85ca-4f22b8b12f8f",
-      "title": "练习句子",
-      "updatedAt": "2026-11-14T22:22:00.342Z",
+      "id": "084e8cd1-69ff-431b-a019-aad3e451f577",
+      "title": "One second",
+      "updatedAt": "2026-11-14T22:29:52.692Z",
       "week": 33
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:22:00Z",
+  "updatedAt": "2026-11-14T22:29:52Z",
   "vocabulary": []
 }
