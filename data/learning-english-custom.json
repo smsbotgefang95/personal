@@ -264,10 +264,18 @@
       "title": "Vote",
       "updatedAt": "2026-11-14T23:19:19.859Z",
       "week": 25
+    },
+    {
+      "content": "In what month did the World Cup start this year?\nIn what month did you come to America?\nIn what month did you go to China last year?\nIn what month did you buy the TV this year?\nIn what month is Thanksgiving?",
+      "date": "2026-06-19",
+      "id": "109e80f6-5b05-41ac-9308-edf76533c79a",
+      "title": "In what month...",
+      "updatedAt": "2026-11-14T23:20:44.928Z",
+      "week": 25
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:19:19Z",
+  "updatedAt": "2026-11-14T23:20:45Z",
   "vocabulary": []
 }
