@@ -336,10 +336,18 @@
       "title": "-ish",
       "updatedAt": "2026-11-14T23:33:24.116Z",
       "week": 23
+    },
+    {
+      "content": "China has a long border. \nMaryland borders Virginia.",
+      "date": "2026-06-03",
+      "id": "3ab3f525-7a01-4213-90ef-1344a064940c",
+      "title": "Border",
+      "updatedAt": "2026-11-14T23:34:33.008Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:33:24Z",
+  "updatedAt": "2026-11-14T23:34:33Z",
   "vocabulary": []
 }
