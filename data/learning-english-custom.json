@@ -144,10 +144,18 @@
       "title": "Check in/out",
       "updatedAt": "2026-11-14T21:43:10.525Z",
       "week": 43
+    },
+    {
+      "content": "Let me know when you are back. \nLet Jackie know when we finish lunch. \nLet Matt know when we are at the airport.",
+      "date": "2026-11-05",
+      "id": "1873b27b-e151-4c25-92f9-34f300a2e706",
+      "title": "When当...的时候",
+      "updatedAt": "2026-11-14T21:43:53.407Z",
+      "week": 45
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:43:10Z",
+  "updatedAt": "2026-11-14T21:43:53Z",
   "vocabulary": []
 }
