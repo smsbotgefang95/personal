@@ -208,10 +208,18 @@
       "title": "One of ...",
       "updatedAt": "2026-11-14T22:49:49.625Z",
       "week": 31
+    },
+    {
+      "content": "There are two senators per state.",
+      "date": "2026-07-21",
+      "id": "37b9e881-5381-439b-b7d4-fe2da47216b9",
+      "title": "Senator",
+      "updatedAt": "2026-11-14T22:50:43.664Z",
+      "week": 30
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:49:49Z",
+  "updatedAt": "2026-11-14T22:50:43Z",
   "vocabulary": []
 }
