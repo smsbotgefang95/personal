@@ -1,8 +1,25 @@
 {
   "chunks": [],
+  "dailyNotes": [
+    {
+      "content": "What did you say?\nHow are you?\nHow are you doing?\nWhat’s your name?\nWhere are you from?\nWhere do you live?\nWhere does he live?\nWhen did you come to America?\nHow much money do you have?\nWho does he like?\nWhere will you go tomorrow?\nWhat did you say?为抓手\nWhen did you eat out with Steve?\nWhen will you play Pingpong with Steve?\nWhen will you go back to China?\nWhere does he live?\nHow did you come to America?\nWho does a U.S. Senator represent?",
+      "date": "2026-11-12",
+      "id": "e973daa4-eb11-4058-9bce-84b7a2a9e06b",
+      "title": "特殊疑问句",
+      "updatedAt": "2026-11-14T20:53:01.718Z",
+      "week": 46
+    },
+    {
+      "content": "What did you say?\nHow are you?\nHow are you doing?\nWhat’s your name?\nWhere are you from?\nWhere do you live?\nWhere does he live?\nWhen did you come to America?\nHow much money do you have?\nWho does he like?\nWhere will you go tomorrow?\nWhat did you say?为抓手\nWhen did you eat out with Steve?\nWhen will you play Pingpong with Steve?\nWhen will you go back to China?\nWhere does he live?\nHow did you come to America?\nWho does a U.S. Senator represent?",
+      "date": "2026-11-12",
+      "id": "dcb57094-c135-467c-8111-234aea585d43",
+      "title": "特殊疑问句",
+      "updatedAt": "2026-11-14T20:57:57.931Z",
+      "week": 46
+    }
+  ],
   "dialogues": [],
-  "dailyNotes": [],
   "sentences": [],
-  "updatedAt": null,
+  "updatedAt": "2026-11-14T20:57:58Z",
   "vocabulary": []
 }
