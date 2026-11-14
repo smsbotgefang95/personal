@@ -272,10 +272,18 @@
       "title": "In what month...",
       "updatedAt": "2026-11-14T23:20:44.928Z",
       "week": 25
+    },
+    {
+      "content": "Pass\nGood pass\nGreat pass\nBeautiful pass\nNice play\nYellow card\nRed card\nPlayer \nNo way.\nCome on. \nWho is your favorite player?\nWhere is Messi from?\nHe passed the ball. \nPass the ball\nteam\nteammate\nHe passed the ball to his teammate. \nTeam USA\nthe U.S. national team\nFIFA",
+      "date": "2026-06-18",
+      "id": "2e2a2ba8-7445-439d-98bf-92896c6627b1",
+      "title": "World Cup",
+      "updatedAt": "2026-11-14T23:23:58.431Z",
+      "week": 25
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:20:45Z",
+  "updatedAt": "2026-11-14T23:23:58Z",
   "vocabulary": []
 }
