@@ -184,10 +184,18 @@
       "title": "Ticket",
       "updatedAt": "2026-11-14T22:31:46.856Z",
       "week": 32
+    },
+    {
+      "content": "Speak\nSpeaker\nSpeaker of the House of Representatives\nEnglish speaker\n\nSp发音\nSpeaker\nSport\nSpain\nSpice",
+      "date": "2026-08-04",
+      "id": "083cdb66-a5ff-433f-a360-daccde819ee0",
+      "title": "Speaker",
+      "updatedAt": "2026-11-14T22:33:02.476Z",
+      "week": 32
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:31:46Z",
+  "updatedAt": "2026-11-14T22:33:02Z",
   "vocabulary": []
 }
