@@ -210,16 +210,16 @@
       "week": 31
     },
     {
-      "content": "There are two senators per state.",
+      "content": "There are two senators per state.\nWho is one of your state's senators?\nArgentina is one of the best teams in the World Cup.",
       "date": "2026-07-21",
       "id": "37b9e881-5381-439b-b7d4-fe2da47216b9",
       "title": "Senator",
-      "updatedAt": "2026-11-14T22:50:43.664Z",
+      "updatedAt": "2026-11-14T23:10:10.658Z",
       "week": 30
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:50:43Z",
+  "updatedAt": "2026-11-14T23:10:10Z",
   "vocabulary": []
 }
