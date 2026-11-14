@@ -216,10 +216,18 @@
       "title": "Senator",
       "updatedAt": "2026-11-14T23:10:10.658Z",
       "week": 30
+    },
+    {
+      "content": "More than a year\nMore than two years\nI live here for more than two years.\nI live in Maryland for more than two years.\nI lived in China for more than 70 years. \nI worked for Chinese government for more than 20 years. \nI make more than 2,000 dollars per month. \nWong Yong has more than two houses. \nI know more than ten American neighhours.",
+      "date": "2026-06-29",
+      "id": "a009323e-880f-4709-9b08-c53acb0fc984",
+      "title": "More than",
+      "updatedAt": "2026-11-14T23:12:55.980Z",
+      "week": 27
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:10:10Z",
+  "updatedAt": "2026-11-14T23:12:56Z",
   "vocabulary": []
 }
