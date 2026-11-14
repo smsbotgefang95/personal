@@ -10012,7 +10012,18 @@ pass=通过；传递
         if (!yearWeeks.has(week)) yearWeeks.set(week, []);
         yearWeeks.get(week).push(note);
       });
-    const dailyHtml = [...grouped.entries()].map(([year, weeks]) => `
+    const allWeekGroups = [...grouped.entries()];
+    const selectedWeekId = decodeURIComponent(window.location.hash.slice(1));
+    const selectedWeekGroup = allWeekGroups.flatMap(([year, weeks]) => [...weeks.entries()].map(([week, notes]) => ({
+      year,
+      week,
+      notes,
+      id: `daily-note-week-${year}-${week}`
+    }))).find((group) => group.id === selectedWeekId);
+    const visibleWeekGroups = selectedWeekGroup
+      ? [[selectedWeekGroup.year, new Map([[selectedWeekGroup.week, selectedWeekGroup.notes]])]]
+      : allWeekGroups;
+    const dailyHtml = visibleWeekGroups.map(([year, weeks]) => `
       <section class="daily-note-year" aria-labelledby="daily-note-year-${escapeHtml(year)}">
         <h2 class="daily-note-year-title" id="daily-note-year-${escapeHtml(year)}">${highlightDailyNoteSearchMatch(year === "Undated" ? year : `Year ${year}`, query)}</h2>
         ${[...weeks.entries()].map(([week, notes]) => `
@@ -10041,12 +10052,12 @@ pass=通过；传递
     const weekNavList = document.getElementById("weeklyNotesNavList");
     if (weekNav && weekNavList) {
       weekNav.hidden = grouped.size === 0;
-      weekNavList.innerHTML = [...grouped.entries()].map(([year, weeks]) => `
+      weekNavList.innerHTML = `${selectedWeekGroup ? '<button class="daily-note-action" type="button" data-daily-note-show-all>Show all weeks</button>' : ""}${allWeekGroups.map(([year, weeks]) => `
         <div class="weekly-notes-nav-year">${escapeHtml(year === "Undated" ? year : `Year ${year}`)}</div>
         ${[...weeks.keys()].map((week) => `
-          <a href="#daily-note-week-${escapeHtml(year)}-${escapeHtml(week)}">Week ${escapeHtml(week)}</a>
+          <a href="#daily-note-week-${escapeHtml(year)}-${escapeHtml(week)}"${selectedWeekGroup?.id === `daily-note-week-${year}-${week}` ? ' aria-current="page"' : ""}>Week ${escapeHtml(week)}</a>
         `).join("")}
-      `).join("");
+      `).join("")}`;
     }
     const archiveHtml = WEEKLY_NOTES.map((note) => `
       <article class="weekly-note-card" id="${escapeHtml(note.id)}">
@@ -10306,6 +10317,12 @@ pass=通过；传递
     setDailyNoteStatus("Saving note removal…");
     await saveDailyNotesToServer();
   });
+  document.getElementById("weeklyNotesNavList").addEventListener("click", (event) => {
+    if (!event.target.closest("[data-daily-note-show-all]")) return;
+    history.pushState(null, "", `${window.location.pathname}${window.location.search}`);
+    renderWeeklyNotes();
+  });
+  window.addEventListener("hashchange", renderWeeklyNotes);
 
   function getLearningThemeLabel(themeId) {
     const theme = DICTIONARY_THEME_TOPICS.find((item) => item.id === themeId);
