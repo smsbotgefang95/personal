@@ -709,6 +709,24 @@
     gap: 18px;
   }
 
+  .daily-note-search-tools {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .daily-note-search-input {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font: inherit;
+    min-height: 40px;
+    min-width: min(290px, 70vw);
+    padding: 8px 11px;
+  }
+
   .daily-note-editor {
     background: var(--surface-2);
     border: 1px solid var(--border);
@@ -1779,6 +1797,10 @@
       <div>
         <h2>Daily Class Notes / 每日课堂笔记</h2>
         <p>Add one entry for each class day. Entries are grouped by course week.</p>
+      </div>
+      <div class="daily-note-search-tools">
+        <button class="daily-note-button secondary" id="dailyNoteSearchToggle" type="button" aria-expanded="false" aria-controls="dailyNoteSearch">搜索笔记</button>
+        <input class="daily-note-search-input" id="dailyNoteSearch" type="search" placeholder="Search date, week, topic, or notes" aria-label="Search daily notes" hidden />
       </div>
     </div>
     <div class="notes-visibility-note">Notes saved here are visible to anyone who can access this public website.</div>
@@ -9849,8 +9871,12 @@ pass=通过；传递
   function renderWeeklyNotes() {
     const list = document.getElementById("weeklyNotesList");
     if (!list) return;
+    const query = (document.getElementById("dailyNoteSearch")?.value || "").trim().toLocaleLowerCase();
+    const visibleNotes = query
+      ? dailyClassNotes.filter((note) => [note.date, note.week, note.title, note.content].some((value) => String(value || "").toLocaleLowerCase().includes(query)))
+      : dailyClassNotes;
     const grouped = new Map();
-    [...dailyClassNotes]
+    [...visibleNotes]
       .sort((a, b) => Number(b.week) - Number(a.week) || b.date.localeCompare(a.date) || a.title.localeCompare(b.title))
       .forEach((note) => {
         const key = String(note.week);
@@ -9896,10 +9922,12 @@ pass=通过；传递
         </div>
       </article>
     `).join("");
-    const emptyHtml = dailyClassNotes.length || WEEKLY_NOTES.length
-      ? ""
-      : '<div class="daily-note-empty">No notes yet. Add the first class day above.</div>';
-    list.innerHTML = `${dailyHtml}${archiveHtml}${emptyHtml}`;
+    const emptyHtml = query && !visibleNotes.length
+      ? '<div class="daily-note-empty" role="status">No daily notes match your search.</div>'
+      : !dailyClassNotes.length && !WEEKLY_NOTES.length
+        ? '<div class="daily-note-empty">No notes yet. Add the first class day above.</div>'
+        : "";
+    list.innerHTML = `${emptyHtml}${dailyHtml}${archiveHtml}`;
   }
 
   function todayAsLocalDate() {
@@ -10098,6 +10126,19 @@ pass=通过；传递
     setDailyNoteStatus("Syncing saved notes…");
     await saveDailyNotesToServer();
   });
+  document.getElementById("dailyNoteSearchToggle").addEventListener("click", (event) => {
+    const input = document.getElementById("dailyNoteSearch");
+    const isOpen = !input.hidden;
+    input.hidden = isOpen;
+    event.currentTarget.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    if (isOpen) {
+      input.value = "";
+      renderWeeklyNotes();
+    } else {
+      input.focus();
+    }
+  });
+  document.getElementById("dailyNoteSearch").addEventListener("input", renderWeeklyNotes);
   document.getElementById("weeklyNotesList").addEventListener("click", async (event) => {
     const button = event.target.closest("[data-daily-note-action]");
     if (!button) return;
