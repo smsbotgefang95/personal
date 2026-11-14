@@ -930,6 +930,13 @@
     white-space: pre-wrap;
   }
 
+  .daily-note-search-match {
+    background: #ffe17a;
+    border-radius: 2px;
+    color: #332600;
+    padding: 0 1px;
+  }
+
   .daily-note-empty {
     background: var(--surface-2);
     border-radius: 7px;
@@ -9951,6 +9958,21 @@ pass=通过；传递
     });
   }
 
+  function highlightDailyNoteSearchMatch(value, query) {
+    const text = String(value ?? "");
+    if (!query) return escapeHtml(text);
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const matcher = new RegExp(escapedQuery, "giu");
+    let result = "";
+    let cursor = 0;
+    for (const match of text.matchAll(matcher)) {
+      result += escapeHtml(text.slice(cursor, match.index));
+      result += `<mark class="daily-note-search-match">${escapeHtml(match[0])}</mark>`;
+      cursor = match.index + match[0].length;
+    }
+    return result + escapeHtml(text.slice(cursor));
+  }
+
   function renderWeeklyNotes() {
     const list = document.getElementById("weeklyNotesList");
     if (!list) return;
@@ -9968,20 +9990,20 @@ pass=通过；传递
       });
     const dailyHtml = [...grouped.entries()].map(([week, notes]) => `
       <section class="daily-note-week" aria-labelledby="daily-note-week-${escapeHtml(week)}">
-        <h3 class="daily-note-week-title" id="daily-note-week-${escapeHtml(week)}">Week ${escapeHtml(week)}</h3>
+        <h3 class="daily-note-week-title" id="daily-note-week-${escapeHtml(week)}">${highlightDailyNoteSearchMatch(`Week ${week}`, query)}</h3>
         ${notes.map((note) => `
           <article class="daily-note-entry">
             <div class="daily-note-entry-header">
               <div>
-                <span class="daily-note-date">${escapeHtml(note.date)}</span>
-                <h4>${escapeHtml(note.title)}</h4>
+                <span class="daily-note-date">${highlightDailyNoteSearchMatch(note.date, query)}</span>
+                <h4>${highlightDailyNoteSearchMatch(note.title, query)}</h4>
               </div>
               <div class="daily-note-card-actions">
                 <button class="daily-note-action" type="button" data-daily-note-action="edit" data-note-id="${escapeHtml(note.id)}">Edit</button>
                 <button class="daily-note-action delete" type="button" data-daily-note-action="delete" data-note-id="${escapeHtml(note.id)}">Delete</button>
               </div>
             </div>
-            <div class="daily-note-content">${escapeHtml(note.content)}</div>
+            <div class="daily-note-content">${highlightDailyNoteSearchMatch(note.content, query)}</div>
           </article>
         `).join("")}
       </section>
