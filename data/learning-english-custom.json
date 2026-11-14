@@ -8,10 +8,18 @@
       "title": "特殊疑问句",
       "updatedAt": "2026-11-14T20:53:01.718Z",
       "week": 46
+    },
+    {
+      "content": "World\nWorld news\nWorld map\nThe world is big. \nThe world is beautiful. \nThere are many counties in the world. \nOur team is number one in the world. \nAmerica is the greatest county in the world.",
+      "date": "2026-09-16",
+      "id": "2d48ef74-1738-4f74-93f3-17a2eef6abdb",
+      "title": "World",
+      "updatedAt": "2026-11-14T21:17:20.885Z",
+      "week": 38
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T20:58:07Z",
+  "updatedAt": "2026-11-14T21:17:20Z",
   "vocabulary": []
 }
