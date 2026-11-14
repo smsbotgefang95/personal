@@ -898,6 +898,26 @@
     margin: 0;
   }
 
+  .daily-note-year {
+    display: grid;
+    gap: 12px;
+  }
+
+  .daily-note-year-title {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin: 4px 0 0;
+  }
+
+  .weekly-notes-nav-year {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 8px 8px 2px;
+    text-transform: uppercase;
+  }
+
   .daily-note-entry {
     border-top: 1px solid var(--border);
     display: grid;
@@ -9982,16 +10002,22 @@ pass=通过；传递
       : dailyClassNotes;
     const grouped = new Map();
     [...visibleNotes]
-      .sort((a, b) => Number(b.week) - Number(a.week) || b.date.localeCompare(a.date) || a.title.localeCompare(b.title))
+      .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title))
       .forEach((note) => {
-        const key = String(note.week);
-        if (!grouped.has(key)) grouped.set(key, []);
-        grouped.get(key).push(note);
+        const year = /^\d{4}-/.test(note.date || "") ? note.date.slice(0, 4) : "Undated";
+        if (!grouped.has(year)) grouped.set(year, new Map());
+        const yearWeeks = grouped.get(year);
+        const week = String(note.week);
+        if (!yearWeeks.has(week)) yearWeeks.set(week, []);
+        yearWeeks.get(week).push(note);
       });
-    const dailyHtml = [...grouped.entries()].map(([week, notes]) => `
-      <section class="daily-note-week" aria-labelledby="daily-note-week-${escapeHtml(week)}">
-        <h3 class="daily-note-week-title" id="daily-note-week-${escapeHtml(week)}">${highlightDailyNoteSearchMatch(`Week ${week}`, query)}</h3>
-        ${notes.map((note) => `
+    const dailyHtml = [...grouped.entries()].map(([year, weeks]) => `
+      <section class="daily-note-year" aria-labelledby="daily-note-year-${escapeHtml(year)}">
+        <h2 class="daily-note-year-title" id="daily-note-year-${escapeHtml(year)}">${highlightDailyNoteSearchMatch(year === "Undated" ? year : `Year ${year}`, query)}</h2>
+        ${[...weeks.entries()].map(([week, notes]) => `
+          <section class="daily-note-week" aria-labelledby="daily-note-week-${escapeHtml(year)}-${escapeHtml(week)}">
+            <h3 class="daily-note-week-title" id="daily-note-week-${escapeHtml(year)}-${escapeHtml(week)}">${highlightDailyNoteSearchMatch(`Week ${week}`, query)}</h3>
+            ${notes.map((note) => `
           <article class="daily-note-entry">
             <div class="daily-note-entry-header">
               <div>
@@ -10006,14 +10032,19 @@ pass=通过；传递
             <div class="daily-note-content">${highlightDailyNoteSearchMatch(note.content, query)}</div>
           </article>
         `).join("")}
+          </section>
+        `).join("")}
       </section>
     `).join("");
     const weekNav = document.getElementById("weeklyNotesNav");
     const weekNavList = document.getElementById("weeklyNotesNavList");
     if (weekNav && weekNavList) {
       weekNav.hidden = grouped.size === 0;
-      weekNavList.innerHTML = [...grouped.keys()].map((week) => `
-        <a href="#daily-note-week-${escapeHtml(week)}">Week ${escapeHtml(week)}</a>
+      weekNavList.innerHTML = [...grouped.entries()].map(([year, weeks]) => `
+        <div class="weekly-notes-nav-year">${escapeHtml(year === "Undated" ? year : `Year ${year}`)}</div>
+        ${[...weeks.keys()].map((week) => `
+          <a href="#daily-note-week-${escapeHtml(year)}-${escapeHtml(week)}">Week ${escapeHtml(week)}</a>
+        `).join("")}
       `).join("");
     }
     const archiveHtml = WEEKLY_NOTES.map((note) => `
