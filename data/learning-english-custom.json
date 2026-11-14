@@ -280,10 +280,18 @@
       "title": "World Cup",
       "updatedAt": "2026-11-14T23:23:58.431Z",
       "week": 25
+    },
+    {
+      "content": "What a beautiful day!\nWhat a pass!\nWhat a nice house!\nWhat a good idea!\nWhat a game!\nWhat a player!\nWhat a neighbor!\nWhat a restaurant!",
+      "date": "2026-06-18",
+      "id": "6f6b06e0-5cc0-4d34-b336-0da048b25172",
+      "title": "What a ...",
+      "updatedAt": "2026-11-14T23:24:56.064Z",
+      "week": 25
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:23:58Z",
+  "updatedAt": "2026-11-14T23:24:56Z",
   "vocabulary": []
 }
