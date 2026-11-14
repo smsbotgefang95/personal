@@ -1799,6 +1799,7 @@
       <div class="daily-note-actions">
         <button class="daily-note-button" id="dailyNoteSaveButton" type="submit">Save daily note</button>
         <button class="daily-note-button secondary" id="dailyNoteCancelButton" type="button" hidden>Cancel edit</button>
+        <button class="daily-note-button secondary" id="dailyNoteSyncButton" type="button" hidden>Sync saved notes</button>
       </div>
       <p class="daily-note-save-status" id="dailyNoteSaveStatus" role="status" aria-live="polite">Loading saved notes…</p>
     </form>
@@ -1839,6 +1840,7 @@
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
   const WEEKLY_NOTES = Array.isArray(window.LEARNING_WEEKLY_NOTES) ? window.LEARNING_WEEKLY_NOTES : [];
   const DAILY_NOTES_LOCAL_KEY = "learningEnglishDailyClassNotes";
+  const DAILY_NOTES_PENDING_KEY = "learningEnglishDailyClassNotesPending";
   const LEARNING_ENGLISH_ADMIN_KEY = "learning-english-custom-admin-key-v1";
   const LEARNING_ENGLISH_CUSTOM_API = "/api/learning-english/custom";
   let dailyClassNotes = [];
@@ -9909,8 +9911,14 @@ pass=通过；传递
     if (status) status.textContent = message;
   }
 
-  function cacheDailyNotesLocally() {
-    try { localStorage.setItem(DAILY_NOTES_LOCAL_KEY, JSON.stringify(dailyClassNotes)); } catch (error) {}
+  function cacheDailyNotesLocally({ pending = null } = {}) {
+    try {
+      localStorage.setItem(DAILY_NOTES_LOCAL_KEY, JSON.stringify(dailyClassNotes));
+      if (pending === true) localStorage.setItem(DAILY_NOTES_PENDING_KEY, JSON.stringify(dailyClassNotes));
+      if (pending === false) localStorage.removeItem(DAILY_NOTES_PENDING_KEY);
+    } catch (error) {}
+    const syncButton = document.getElementById("dailyNoteSyncButton");
+    if (syncButton && pending !== null) syncButton.hidden = pending !== true;
   }
 
   async function loadDailyNotes() {
@@ -9920,16 +9928,40 @@ pass=通过；传递
       const response = await fetch(LEARNING_ENGLISH_CUSTOM_API, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       learningEnglishCustomPayload = await response.json();
-      dailyClassNotes = Array.isArray(learningEnglishCustomPayload.dailyNotes) ? learningEnglishCustomPayload.dailyNotes : [];
+      const serverNotes = Array.isArray(learningEnglishCustomPayload.dailyNotes) ? learningEnglishCustomPayload.dailyNotes : [];
+      let pendingNotes = null;
+      try {
+        const pendingValue = JSON.parse(localStorage.getItem(DAILY_NOTES_PENDING_KEY) || "null");
+        const cachedValue = JSON.parse(localStorage.getItem(DAILY_NOTES_LOCAL_KEY) || "null");
+        if (Array.isArray(pendingValue)) {
+          pendingNotes = pendingValue;
+        } else if (Array.isArray(cachedValue) && cachedValue.some((note) => !serverNotes.some((serverNote) => serverNote.id === note.id))) {
+          const merged = new Map(serverNotes.map((note) => [note.id, note]));
+          cachedValue.forEach((note) => merged.set(note.id, note));
+          pendingNotes = [...merged.values()];
+          try { localStorage.setItem(DAILY_NOTES_PENDING_KEY, JSON.stringify(pendingNotes)); } catch (error) {}
+        }
+      } catch (error) {}
+      dailyClassNotes = pendingNotes || serverNotes;
       cacheDailyNotesLocally();
-      setDailyNoteStatus(dailyClassNotes.length ? `${dailyClassNotes.length} saved ${dailyClassNotes.length === 1 ? "entry" : "entries"} loaded.` : "Ready for your first daily note.");
+      if (pendingNotes) {
+        document.getElementById("dailyNoteSyncButton").hidden = false;
+        setDailyNoteStatus(`${pendingNotes.length} note ${pendingNotes.length === 1 ? "entry is" : "entries are"} waiting to sync. Use “Sync saved notes” when ready.`);
+      } else {
+        setDailyNoteStatus(dailyClassNotes.length ? `${dailyClassNotes.length} saved ${dailyClassNotes.length === 1 ? "entry" : "entries"} loaded.` : "Ready for your first daily note.");
+      }
     } catch (error) {
       try {
-        dailyClassNotes = JSON.parse(localStorage.getItem(DAILY_NOTES_LOCAL_KEY) || "[]");
+        const pendingNotes = JSON.parse(localStorage.getItem(DAILY_NOTES_PENDING_KEY) || "null");
+        dailyClassNotes = Array.isArray(pendingNotes) ? pendingNotes : JSON.parse(localStorage.getItem(DAILY_NOTES_LOCAL_KEY) || "[]");
         if (!Array.isArray(dailyClassNotes)) dailyClassNotes = [];
       } catch (storageError) {
         dailyClassNotes = [];
       }
+      try {
+        if (localStorage.getItem(DAILY_NOTES_PENDING_KEY)) document.getElementById("dailyNoteSyncButton").hidden = false;
+      } catch (error) {}
+      if (dailyClassNotes.length) document.getElementById("dailyNoteSyncButton").hidden = false;
       setDailyNoteStatus(dailyClassNotes.length
         ? "Loaded notes saved in this browser. Connect to the site to sync across devices."
         : "Ready. Notes save in this browser until the shared site is available.");
@@ -9940,7 +9972,7 @@ pass=通过；传递
   async function saveDailyNotesToServer() {
     learningEnglishCustomPayload.dailyNotes = dailyClassNotes;
     learningEnglishCustomPayload.updatedAt = new Date().toISOString();
-    cacheDailyNotesLocally();
+    cacheDailyNotesLocally({ pending: true });
     const postPayload = async (adminKey) => {
       const headers = { "Content-Type": "application/json" };
       if (adminKey) headers["X-Learning-English-Admin-Key"] = adminKey;
@@ -9993,7 +10025,7 @@ pass=通过；传递
       }
       learningEnglishCustomPayload = result.payload || learningEnglishCustomPayload;
       dailyClassNotes = Array.isArray(learningEnglishCustomPayload.dailyNotes) ? learningEnglishCustomPayload.dailyNotes : dailyClassNotes;
-      cacheDailyNotesLocally();
+      cacheDailyNotesLocally({ pending: false });
       const gitStatus = result.git && result.git.status;
       setDailyNoteStatus(gitStatus === "failed"
         ? "Saved to the website server. Site data sync is pending."
@@ -10039,6 +10071,10 @@ pass=通过；传递
   });
 
   document.getElementById("dailyNoteCancelButton").addEventListener("click", resetDailyNoteForm);
+  document.getElementById("dailyNoteSyncButton").addEventListener("click", async () => {
+    setDailyNoteStatus("Syncing saved notes…");
+    await saveDailyNotesToServer();
+  });
   document.getElementById("weeklyNotesList").addEventListener("click", async (event) => {
     const button = event.target.closest("[data-daily-note-action]");
     if (!button) return;
