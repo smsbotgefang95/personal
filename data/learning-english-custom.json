@@ -184,10 +184,18 @@
       "title": "Are there问句",
       "updatedAt": "2026-11-14T22:12:25.383Z",
       "week": 36
+    },
+    {
+      "content": "I speak a little English. \nTalk to someone\nWhat did you say?\nI talked to Matt's brother for 30 minutes. \nThey gave me four bottles of beer. \nLight beer\nWe drink some beer together.",
+      "date": "2026-08-17",
+      "id": "388830c2-3e72-4f45-972b-8b6caa666e28",
+      "title": "说的各种说法",
+      "updatedAt": "2026-11-14T22:14:39.396Z",
+      "week": 34
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:12:25Z",
+  "updatedAt": "2026-11-14T22:14:39Z",
   "vocabulary": []
 }
