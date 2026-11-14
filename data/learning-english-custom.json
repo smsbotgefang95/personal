@@ -176,10 +176,18 @@
       "title": "One second",
       "updatedAt": "2026-11-14T22:29:52.692Z",
       "week": 33
+    },
+    {
+      "content": "How much is it?\nHow much is the ticket?\n$18 per person. \nHow much in total?\n$36. \nBus ticket\nTrain ticket\nMetro ticket\nReturn ticket\nParking ticket\nSpeeding ticket\nMovie ticket\nConcert ticket\nTicket number\nTicket price\nBuy a ticket",
+      "date": "2026-08-06",
+      "id": "abc2ae52-8786-48a0-9801-ec7f54abd9d1",
+      "title": "Ticket",
+      "updatedAt": "2026-11-14T22:31:46.856Z",
+      "week": 32
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T22:29:52Z",
+  "updatedAt": "2026-11-14T22:31:46Z",
   "vocabulary": []
 }
