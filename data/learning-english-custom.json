@@ -64,10 +64,18 @@
       "title": "Tax",
       "updatedAt": "2026-11-14T21:33:56.440Z",
       "week": 38
+    },
+    {
+      "content": "Who did you elect?\nWe elect a new president every 4 years.",
+      "date": "2026-09-15",
+      "id": "fe454b8f-ca1c-40f6-9b4d-d5b6e8d94347",
+      "title": "Elect",
+      "updatedAt": "2026-11-14T21:34:26.593Z",
+      "week": 38
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:33:56Z",
+  "updatedAt": "2026-11-14T21:34:26Z",
   "vocabulary": []
 }
