@@ -136,10 +136,18 @@
       "title": "All",
       "updatedAt": "2026-11-14T21:42:08.047Z",
       "week": 41
+    },
+    {
+      "content": "Check in\nCheck out\nID card\nDriver’s License",
+      "date": "2026-10-21",
+      "id": "29ce5071-934a-43ec-a378-e9dcc3ca5bec",
+      "title": "Check in/out",
+      "updatedAt": "2026-11-14T21:43:10.525Z",
+      "week": 43
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T21:42:08Z",
+  "updatedAt": "2026-11-14T21:43:10Z",
   "vocabulary": []
 }
