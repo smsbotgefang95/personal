@@ -709,6 +709,142 @@
     gap: 18px;
   }
 
+  .daily-note-editor {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 16px;
+  }
+
+  .daily-note-fields {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .daily-note-editor label {
+    color: var(--text);
+    display: grid;
+    font-size: 0.9rem;
+    font-weight: 750;
+    gap: 6px;
+  }
+
+  .daily-note-editor input,
+  .daily-note-editor textarea {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font: inherit;
+    padding: 10px 11px;
+    width: 100%;
+  }
+
+  .daily-note-editor textarea {
+    min-height: 170px;
+    resize: vertical;
+  }
+
+  .daily-note-actions,
+  .daily-note-card-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .daily-note-button,
+  .daily-note-action {
+    background: #103f3a;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    min-height: 40px;
+    padding: 8px 13px;
+  }
+
+  .daily-note-button.secondary,
+  .daily-note-action {
+    background: #e7efeb;
+    color: #24423a;
+  }
+
+  .daily-note-action.delete {
+    background: #fff0ed;
+    color: #9c3021;
+  }
+
+  .daily-note-save-status {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .daily-note-week {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .daily-note-week-title {
+    color: var(--accent);
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .daily-note-entry {
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 8px;
+    padding-top: 12px;
+  }
+
+  .daily-note-entry-header {
+    align-items: start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    justify-content: space-between;
+  }
+
+  .daily-note-entry h4 {
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .daily-note-date {
+    color: var(--muted);
+    font-size: 0.86rem;
+    font-weight: 700;
+  }
+
+  .daily-note-content {
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .daily-note-empty {
+    background: var(--surface-2);
+    border-radius: 7px;
+    color: var(--muted);
+    padding: 16px;
+  }
+
+  @media (max-width: 720px) {
+    .daily-note-fields { grid-template-columns: 1fr; }
+  }
+
   .weekly-note-card {
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -1428,7 +1564,7 @@
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-phrase" data-view="phrase">语块</button>
     <button class="learning-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-practice" data-view="practice">句子</button>
     <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-dialogue" data-view="dialogue">对话</button>
-    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-notes" data-view="notes">每周笔记</button>
+    <button class="learning-tab" type="button" role="tab" aria-selected="false" aria-controls="view-notes" data-view="notes">每日笔记</button>
   </div>
 
   <section class="vocabulary-panel view-panel" id="view-themes" role="tabpanel" aria-label="Picture dictionary themes">
@@ -1637,15 +1773,36 @@
     <div class="dialogue-list" id="dialogueList"></div>
   </section>
 
-  <section class="notes-panel view-panel" id="view-notes" role="tabpanel" aria-label="Weekly handwritten notes">
+  <section class="notes-panel view-panel" id="view-notes" role="tabpanel" aria-label="Daily class notes grouped by week">
     <div class="panel-header">
       <div>
-        <h2>Weekly Notes / 每周笔记</h2>
-        <p>Keep the original handwritten lesson pages together by week.</p>
+        <h2>Daily Class Notes / 每日课堂笔记</h2>
+        <p>Add one entry for each class day. Entries are grouped by course week.</p>
       </div>
     </div>
-    <div class="notes-visibility-note">These handwritten notes are visible to anyone who can access this public website.</div>
-    <div class="weekly-notes-list" id="weeklyNotesList" aria-label="Weekly handwritten note archive"></div>
+    <div class="notes-visibility-note">Notes saved here are visible to anyone who can access this public website.</div>
+    <form class="daily-note-editor" id="dailyNoteForm">
+      <div class="daily-note-fields">
+        <label for="dailyNoteDate">Class date
+          <input id="dailyNoteDate" name="date" type="date" required />
+        </label>
+        <label for="dailyNoteWeek">Course week
+          <input id="dailyNoteWeek" name="week" type="number" min="1" max="999" placeholder="e.g. 7" required />
+        </label>
+        <label for="dailyNoteTitle">Topic or title
+          <input id="dailyNoteTitle" name="title" type="text" maxlength="160" placeholder="e.g. Asking for directions" required />
+        </label>
+      </div>
+      <label for="dailyNoteContent">Class notes
+          <textarea id="dailyNoteContent" name="content" maxlength="10000" placeholder="Write vocabulary, examples, questions, and anything you want to remember…" required></textarea>
+      </label>
+      <div class="daily-note-actions">
+        <button class="daily-note-button" id="dailyNoteSaveButton" type="submit">Save daily note</button>
+        <button class="daily-note-button secondary" id="dailyNoteCancelButton" type="button" hidden>Cancel edit</button>
+      </div>
+      <p class="daily-note-save-status" id="dailyNoteSaveStatus" role="status" aria-live="polite">Loading saved notes…</p>
+    </form>
+    <div class="weekly-notes-list" id="weeklyNotesList" aria-label="Daily class notes grouped by week"></div>
   </section>
 
 </main>
@@ -1681,6 +1838,12 @@
   const STORAGE_DIALOGUE_THEME_FILTER_KEY = "learningEnglishDialogueThemeFilter";
   const SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 11 5L7 9H4a1 1 0 0 0-1 1zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
   const WEEKLY_NOTES = Array.isArray(window.LEARNING_WEEKLY_NOTES) ? window.LEARNING_WEEKLY_NOTES : [];
+  const DAILY_NOTES_LOCAL_KEY = "learningEnglishDailyClassNotes";
+  const LEARNING_ENGLISH_ADMIN_KEY = "learning-english-custom-admin-key-v1";
+  const LEARNING_ENGLISH_CUSTOM_API = "/api/learning-english/custom";
+  let dailyClassNotes = [];
+  let learningEnglishCustomPayload = { vocabulary: [], sentences: [], chunks: [], dialogues: [], dailyNotes: [], updatedAt: null };
+  let editingDailyNoteId = "";
 
   const SCENARIOS = [
     { id: "greetings", label: "Greetings", zh: "打招呼" },
@@ -9682,7 +9845,35 @@ pass=通过；传递
   function renderWeeklyNotes() {
     const list = document.getElementById("weeklyNotesList");
     if (!list) return;
-    list.innerHTML = WEEKLY_NOTES.map((note) => `
+    const grouped = new Map();
+    [...dailyClassNotes]
+      .sort((a, b) => Number(b.week) - Number(a.week) || b.date.localeCompare(a.date) || a.title.localeCompare(b.title))
+      .forEach((note) => {
+        const key = String(note.week);
+        if (!grouped.has(key)) grouped.set(key, []);
+        grouped.get(key).push(note);
+      });
+    const dailyHtml = [...grouped.entries()].map(([week, notes]) => `
+      <section class="daily-note-week" aria-labelledby="daily-note-week-${escapeHtml(week)}">
+        <h3 class="daily-note-week-title" id="daily-note-week-${escapeHtml(week)}">Week ${escapeHtml(week)}</h3>
+        ${notes.map((note) => `
+          <article class="daily-note-entry">
+            <div class="daily-note-entry-header">
+              <div>
+                <span class="daily-note-date">${escapeHtml(note.date)}</span>
+                <h4>${escapeHtml(note.title)}</h4>
+              </div>
+              <div class="daily-note-card-actions">
+                <button class="daily-note-action" type="button" data-daily-note-action="edit" data-note-id="${escapeHtml(note.id)}">Edit</button>
+                <button class="daily-note-action delete" type="button" data-daily-note-action="delete" data-note-id="${escapeHtml(note.id)}">Delete</button>
+              </div>
+            </div>
+            <div class="daily-note-content">${escapeHtml(note.content)}</div>
+          </article>
+        `).join("")}
+      </section>
+    `).join("");
+    const archiveHtml = WEEKLY_NOTES.map((note) => `
       <article class="weekly-note-card" id="${escapeHtml(note.id)}">
         <div class="weekly-note-header">
           <div>
@@ -9701,7 +9892,151 @@ pass=通过；传递
         </div>
       </article>
     `).join("");
+    const emptyHtml = dailyClassNotes.length || WEEKLY_NOTES.length
+      ? ""
+      : '<div class="daily-note-empty">No notes yet. Add the first class day above.</div>';
+    list.innerHTML = `${dailyHtml}${archiveHtml}${emptyHtml}`;
   }
+
+  function todayAsLocalDate() {
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, "0");
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  }
+
+  function setDailyNoteStatus(message) {
+    const status = document.getElementById("dailyNoteSaveStatus");
+    if (status) status.textContent = message;
+  }
+
+  function cacheDailyNotesLocally() {
+    try { localStorage.setItem(DAILY_NOTES_LOCAL_KEY, JSON.stringify(dailyClassNotes)); } catch (error) {}
+  }
+
+  async function loadDailyNotes() {
+    const dateField = document.getElementById("dailyNoteDate");
+    if (dateField && !dateField.value) dateField.value = todayAsLocalDate();
+    try {
+      const response = await fetch(LEARNING_ENGLISH_CUSTOM_API, { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      learningEnglishCustomPayload = await response.json();
+      dailyClassNotes = Array.isArray(learningEnglishCustomPayload.dailyNotes) ? learningEnglishCustomPayload.dailyNotes : [];
+      cacheDailyNotesLocally();
+      setDailyNoteStatus(dailyClassNotes.length ? `${dailyClassNotes.length} saved ${dailyClassNotes.length === 1 ? "entry" : "entries"} loaded.` : "Ready for your first daily note.");
+    } catch (error) {
+      try {
+        dailyClassNotes = JSON.parse(localStorage.getItem(DAILY_NOTES_LOCAL_KEY) || "[]");
+        if (!Array.isArray(dailyClassNotes)) dailyClassNotes = [];
+      } catch (storageError) {
+        dailyClassNotes = [];
+      }
+      setDailyNoteStatus(dailyClassNotes.length
+        ? "Loaded notes saved in this browser. Connect to the site to sync across devices."
+        : "Ready. Notes save in this browser until the shared site is available.");
+    }
+    renderWeeklyNotes();
+  }
+
+  async function saveDailyNotesToServer() {
+    learningEnglishCustomPayload.dailyNotes = dailyClassNotes;
+    learningEnglishCustomPayload.updatedAt = new Date().toISOString();
+    cacheDailyNotesLocally();
+    const postPayload = async (adminKey) => {
+      const headers = { "Content-Type": "application/json" };
+      if (adminKey) headers["X-Learning-English-Admin-Key"] = adminKey;
+      return fetch(LEARNING_ENGLISH_CUSTOM_API, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(learningEnglishCustomPayload)
+      });
+    };
+    try {
+      let adminKey = "";
+      try { adminKey = localStorage.getItem(LEARNING_ENGLISH_ADMIN_KEY) || ""; } catch (error) {}
+      let response = await postPayload(adminKey);
+      if (response.status === 401) {
+        const entered = window.prompt("Enter the Learning English admin key to save notes to the shared website:");
+        if (!entered) {
+          setDailyNoteStatus("Saved in this browser only. Enter the admin key when you are ready to sync to the shared site.");
+          return false;
+        }
+        adminKey = entered.trim();
+        try { localStorage.setItem(LEARNING_ENGLISH_ADMIN_KEY, adminKey); } catch (error) {}
+        response = await postPayload(adminKey);
+      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const result = await response.json();
+      if (!result.ok) throw new Error("Save failed");
+      learningEnglishCustomPayload = result.payload || learningEnglishCustomPayload;
+      dailyClassNotes = Array.isArray(learningEnglishCustomPayload.dailyNotes) ? learningEnglishCustomPayload.dailyNotes : dailyClassNotes;
+      cacheDailyNotesLocally();
+      const gitStatus = result.git && result.git.status;
+      setDailyNoteStatus(gitStatus === "failed"
+        ? "Saved to the website server. Site data sync is pending."
+        : gitStatus === "pushed"
+          ? "Saved and synced to the shared website."
+          : "Saved to the shared website.");
+      return true;
+    } catch (error) {
+      setDailyNoteStatus("Saved in this browser only. The shared-site save failed; try again when connected.");
+      return false;
+    }
+  }
+
+  function resetDailyNoteForm() {
+    const form = document.getElementById("dailyNoteForm");
+    form.reset();
+    document.getElementById("dailyNoteDate").value = todayAsLocalDate();
+    document.getElementById("dailyNoteSaveButton").textContent = "Save daily note";
+    document.getElementById("dailyNoteCancelButton").hidden = true;
+    editingDailyNoteId = "";
+  }
+
+  document.getElementById("dailyNoteForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const existing = dailyClassNotes.find((note) => note.id === editingDailyNoteId);
+    const note = {
+      id: existing?.id || (window.crypto?.randomUUID ? window.crypto.randomUUID() : `daily-note-${Date.now()}`),
+      date: String(data.get("date") || ""),
+      week: Number(data.get("week")),
+      title: String(data.get("title") || "").trim(),
+      content: String(data.get("content") || "").trim(),
+      updatedAt: new Date().toISOString()
+    };
+    if (!note.date || !Number.isInteger(note.week) || note.week < 1 || !note.title || !note.content) return;
+    if (existing) dailyClassNotes = dailyClassNotes.map((item) => item.id === existing.id ? note : item);
+    else dailyClassNotes = [...dailyClassNotes, note];
+    renderWeeklyNotes();
+    resetDailyNoteForm();
+    setDailyNoteStatus("Saving note…");
+    await saveDailyNotesToServer();
+  });
+
+  document.getElementById("dailyNoteCancelButton").addEventListener("click", resetDailyNoteForm);
+  document.getElementById("weeklyNotesList").addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-daily-note-action]");
+    if (!button) return;
+    const note = dailyClassNotes.find((item) => item.id === button.dataset.noteId);
+    if (!note) return;
+    if (button.dataset.dailyNoteAction === "edit") {
+      editingDailyNoteId = note.id;
+      document.getElementById("dailyNoteDate").value = note.date;
+      document.getElementById("dailyNoteWeek").value = note.week;
+      document.getElementById("dailyNoteTitle").value = note.title;
+      document.getElementById("dailyNoteContent").value = note.content;
+      document.getElementById("dailyNoteSaveButton").textContent = "Update daily note";
+      document.getElementById("dailyNoteCancelButton").hidden = false;
+      document.getElementById("dailyNoteDate").focus();
+      return;
+    }
+    if (!window.confirm(`Delete the class notes for ${note.date}?`)) return;
+    dailyClassNotes = dailyClassNotes.filter((item) => item.id !== note.id);
+    renderWeeklyNotes();
+    setDailyNoteStatus("Saving note removal…");
+    await saveDailyNotesToServer();
+  });
 
   function getLearningThemeLabel(themeId) {
     const theme = DICTIONARY_THEME_TOPICS.find((item) => item.id === themeId);
@@ -12033,6 +12368,7 @@ pass=通过；传递
   });
 
   render();
+  loadDailyNotes();
 </script>
 </body>
 </html>

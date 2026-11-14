@@ -25,7 +25,7 @@ DEFAULT_TIME_ENTRIES_PAYLOAD = {"entries": [], "activeEntry": None, "taskOverrid
 DEFAULT_URINE_LOG_PAYLOAD = {"entries": [], "updatedAt": None}
 DEFAULT_WATER_LOG_PAYLOAD = {"entries": [], "updatedAt": None}
 DEFAULT_SMART_SHOPPING_PAYLOAD = {"itemEdits": {}, "itemAdds": {}, "customBrandOptions": [], "itemPurchases": {}, "itemRemovals": {}, "itemRestorations": {}, "itemMoves": {}, "priceHistory": {}, "updatedAt": None}
-DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "updatedAt": None}
+DEFAULT_LEARNING_ENGLISH_CUSTOM_PAYLOAD = {"vocabulary": [], "sentences": [], "chunks": [], "dialogues": [], "dailyNotes": [], "updatedAt": None}
 TIME_ENTRIES_MAX_BODY_BYTES = 16 * 1024 * 1024
 DEFAULT_QUESTION_PROGRESS = {
     "1": "review",
@@ -289,6 +289,36 @@ def clean_custom_dialogue(value, idx=0):
     }
 
 
+def clean_daily_note(value, idx=0):
+    if not isinstance(value, dict):
+        return None
+    note_id = clean_learning_id(value.get("id"), f"daily-note-{idx + 1}")
+    date_value = clean_vocab_text(value.get("date"), 10)
+    try:
+        datetime.strptime(date_value, "%Y-%m-%d")
+    except ValueError:
+        return None
+    try:
+        week = int(value.get("week"))
+    except (TypeError, ValueError):
+        return None
+    if not 1 <= week <= 999:
+        return None
+    title = clean_vocab_text(value.get("title"), 160) or "Class notes"
+    content = value.get("content", "")
+    if not isinstance(content, str):
+        content = str(content or "")
+    content = content.replace("\r\n", "\n").replace("\r", "\n").strip()[:10000]
+    return {
+        "id": note_id,
+        "date": date_value,
+        "week": week,
+        "title": title,
+        "content": content,
+        "updatedAt": clean_vocab_text(value.get("updatedAt"), 40),
+    }
+
+
 def clean_learning_english_custom_payload(value):
     if not isinstance(value, dict):
         value = {}
@@ -328,11 +358,20 @@ def clean_learning_english_custom_payload(value):
         if key and key not in seen_dialogues:
             seen_dialogues.add(key)
             dialogues.append(cleaned)
+    daily_notes = []
+    seen_note_ids = set()
+    for idx, item in enumerate(value.get("dailyNotes", []) if isinstance(value.get("dailyNotes"), list) else []):
+        cleaned = clean_daily_note(item, idx)
+        key = cleaned["id"] if cleaned else ""
+        if key and key not in seen_note_ids:
+            seen_note_ids.add(key)
+            daily_notes.append(cleaned)
     return {
         "vocabulary": vocabulary,
         "sentences": sentences,
         "chunks": chunks,
         "dialogues": dialogues,
+        "dailyNotes": daily_notes[:150],
         "updatedAt": value.get("updatedAt"),
     }
 
@@ -1927,7 +1966,7 @@ class Handler(BaseHTTPRequestHandler):
                 return
             try:
                 length = int(self.headers.get("Content-Length", "0"))
-                raw = self.rfile.read(min(length, 1024 * 512))
+                raw = self.rfile.read(min(length, 1024 * 1024 * 8))
                 incoming = json.loads(raw.decode("utf-8")) if raw else {}
             except (ValueError, json.JSONDecodeError):
                 self.send_json(400, {"ok": False, "error": "invalid_json"})
