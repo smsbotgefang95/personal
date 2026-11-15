@@ -704,10 +704,18 @@
       "title": "After",
       "updatedAt": "2026-11-15T19:54:34.560Z",
       "week": 44
+    },
+    {
+      "content": "apple\nbad\nback\ndad\nbathroom\nhat\ncan\nbag\ncat\nfat\ngas\nham\nlamp\nmap\nland\nnap\nsad\nhappy\nKathy",
+      "date": "2025-10-30",
+      "id": "33a2f32f-407f-4a5f-b1b2-55485363b586",
+      "title": "a的发音",
+      "updatedAt": "2026-11-15T19:56:06.655Z",
+      "week": 44
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T19:54:34Z",
+  "updatedAt": "2026-11-15T19:56:07Z",
   "vocabulary": []
 }
