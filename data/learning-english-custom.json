@@ -696,10 +696,18 @@
       "title": "Idea",
       "updatedAt": "2026-11-15T12:07:30.471Z",
       "week": 8
+    },
+    {
+      "content": "We learn English together every morning after breakfast. \nI sleep every day after lunch. \nI take a nap after lunch every day.",
+      "date": "2025-10-30",
+      "id": "3350c63c-04cd-4d36-973b-84f3127f5014",
+      "title": "After",
+      "updatedAt": "2026-11-15T19:54:34.560Z",
+      "week": 44
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T12:07:31Z",
+  "updatedAt": "2026-11-15T19:54:34Z",
   "vocabulary": []
 }
