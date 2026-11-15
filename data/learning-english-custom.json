@@ -672,10 +672,18 @@
       "title": "ment结尾的单词",
       "updatedAt": "2026-11-15T11:58:00.902Z",
       "week": 13
+    },
+    {
+      "content": "Trump governs the country. \nXi Jinping governs China. \nThe government makes laws. \nWe don't like the Chinese government. \n\ngovernor\nThe governor governs the state. \nThe governor works for the government to govern the state. \nThe government of the people, by the people and for the people.",
+      "date": "2026-03-25",
+      "id": "e060947b-23f3-4b5e-a4ba-4623501ccdd4",
+      "title": "Govern",
+      "updatedAt": "2026-11-15T11:59:48.894Z",
+      "week": 13
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:58:00Z",
+  "updatedAt": "2026-11-15T11:59:48Z",
   "vocabulary": []
 }
