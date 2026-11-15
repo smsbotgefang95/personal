@@ -424,10 +424,18 @@
       "title": "right",
       "updatedAt": "2026-11-15T11:16:59.998Z",
       "week": 21
+    },
+    {
+      "content": "Set up the government\nSet up a school\nSet up a company\n\nSet\nSet a timer for 30 minutes",
+      "date": "2026-05-21",
+      "id": "078e9f28-9fa1-4326-a912-97058e5efb24",
+      "title": "set up",
+      "updatedAt": "2026-11-15T11:18:02.691Z",
+      "week": 21
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:17:00Z",
+  "updatedAt": "2026-11-15T11:18:03Z",
   "vocabulary": []
 }
