@@ -504,10 +504,18 @@
       "title": "练习句子",
       "updatedAt": "2026-11-15T11:27:50.656Z",
       "week": 16
+    },
+    {
+      "content": "Where are you from?\nI'm from China. \n\nWhere is he from?",
+      "date": "2026-04-16",
+      "id": "887da06e-16b4-4d3d-b1af-fb404ec2ab6d",
+      "title": "I'm from ...",
+      "updatedAt": "2026-11-15T11:28:37.293Z",
+      "week": 16
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:27:51Z",
+  "updatedAt": "2026-11-15T11:28:37Z",
   "vocabulary": []
 }
