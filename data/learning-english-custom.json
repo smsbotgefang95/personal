@@ -1184,10 +1184,18 @@
       "title": "Size",
       "updatedAt": "2026-11-15T21:30:09.522Z",
       "week": 3
+    },
+    {
+      "content": "lb \noz\ninch\nfoot\nyard = 3 feet",
+      "date": "2026-01-12",
+      "id": "8a5d0c0c-6546-44b7-b895-bd4991a4dbd3",
+      "title": "长度单位",
+      "updatedAt": "2026-11-15T21:33:55.615Z",
+      "week": 3
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:31:35Z",
+  "updatedAt": "2026-11-15T21:33:55Z",
   "vocabulary": []
 }
