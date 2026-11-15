@@ -800,10 +800,18 @@
       "title": "From",
       "updatedAt": "2026-11-15T20:15:22.673Z",
       "week": 50
+    },
+    {
+      "content": "fast food\nfast train\nfast lane\n\nslow lane\nslow cooker\nslow day\nslow life",
+      "date": "2025-12-05",
+      "id": "9d430353-048e-4ee8-bef4-f5728f6422a9",
+      "title": "Fast & slow",
+      "updatedAt": "2026-11-15T20:16:43.111Z",
+      "week": 49
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:15:23Z",
+  "updatedAt": "2026-11-15T20:16:43Z",
   "vocabulary": []
 }
