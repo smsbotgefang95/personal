@@ -984,10 +984,18 @@
       "title": "练习句子",
       "updatedAt": "2026-11-15T20:50:57.624Z",
       "week": 7
+    },
+    {
+      "content": "date 日期\nday 星期几\n\nWhat day is today?\nWhat date is today?",
+      "date": "2026-02-13",
+      "id": "b854e23a-0189-455e-8d28-f3225d50eef7",
+      "title": "Day & date",
+      "updatedAt": "2026-11-15T20:52:14.270Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:50:57Z",
+  "updatedAt": "2026-11-15T20:52:14Z",
   "vocabulary": []
 }
