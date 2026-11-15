@@ -816,10 +816,18 @@
       "title": "Before",
       "updatedAt": "2026-11-15T20:17:59.912Z",
       "week": 49
+    },
+    {
+      "content": "lamp\ntable lamp\nfloor lamp\ndesk lamp\nbedside lamp\n\nlight\nstreet light\npatio light\nyard light\nsunlight\nmoonlight\ntraffic light\nnight light",
+      "date": "2025-12-03",
+      "id": "78e10b01-1eff-41f8-a7f9-7fb41fde3b47",
+      "title": "Light vs lamp",
+      "updatedAt": "2026-11-15T20:19:55.288Z",
+      "week": 49
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:18:00Z",
+  "updatedAt": "2026-11-15T20:19:55Z",
   "vocabulary": []
 }
