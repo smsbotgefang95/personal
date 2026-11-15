@@ -712,10 +712,18 @@
       "title": "a的发音",
       "updatedAt": "2026-11-15T19:56:06.655Z",
       "week": 44
+    },
+    {
+      "content": "I want to eat hot pot this week. \nI will cook chicken soup today. \nTamir will build our patio and fence tomorrow. \nThe American President went to Japan the day before yesterday. \nWhat did you do last night?\nI played Mahjong with Annie and Peter last night. \nSee you next week.",
+      "date": "2025-10-30",
+      "id": "9e36049e-f030-4168-b4a5-eed1f1b8685d",
+      "title": "练习句子",
+      "updatedAt": "2026-11-15T19:59:14.809Z",
+      "week": 44
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T19:56:07Z",
+  "updatedAt": "2026-11-15T19:59:14Z",
   "vocabulary": []
 }
