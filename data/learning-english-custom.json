@@ -576,10 +576,18 @@
       "title": "Per",
       "updatedAt": "2026-11-15T11:41:29.052Z",
       "week": 14
+    },
+    {
+      "content": "Kathy is my favorite neighbor. \n红烧肉 is my favorite dish. \nWhich one is your favorite?\nMy favorite color is blue. \nShe is my favorite teacher. \nThis is my favorite movie.",
+      "date": "2026-04-02",
+      "id": "b33b3d76-1fae-4ce4-b9c0-f2d4c03c0756",
+      "title": "Favorite",
+      "updatedAt": "2026-11-15T11:42:57.989Z",
+      "week": 14
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:41:29Z",
+  "updatedAt": "2026-11-15T11:42:58Z",
   "vocabulary": []
 }
