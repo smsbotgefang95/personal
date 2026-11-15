@@ -776,10 +776,18 @@
       "title": "hood结尾的单词",
       "updatedAt": "2026-11-15T20:11:08.908Z",
       "week": 49
+    },
+    {
+      "content": "Our neighborhood is very safe. \nSafeway\nI feel safe here. \nDrive safe. \nThe water is safe to drink. \nThe milk is safe to eat.",
+      "date": "2025-12-02",
+      "id": "8afe5c89-1ad6-44d7-a423-2f54bd04335b",
+      "title": "Safe",
+      "updatedAt": "2026-11-15T20:12:16.349Z",
+      "week": 49
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:11:09Z",
+  "updatedAt": "2026-11-15T20:12:16Z",
   "vocabulary": []
 }
