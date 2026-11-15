@@ -720,10 +720,18 @@
       "title": "练习句子",
       "updatedAt": "2026-11-15T19:59:14.809Z",
       "week": 44
+    },
+    {
+      "content": "The chicken soup looks good. \nThe chicken soup smells good. \nThe chicken soup tastes good. \nSounds good. \nYou look great!",
+      "date": "2025-10-27",
+      "id": "2a876036-ae84-4b39-a798-d85f1829dafc",
+      "title": "Five senses",
+      "updatedAt": "2026-11-15T20:00:13.625Z",
+      "week": 44
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T19:59:14Z",
+  "updatedAt": "2026-11-15T20:00:13Z",
   "vocabulary": []
 }
