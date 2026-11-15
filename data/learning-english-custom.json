@@ -1064,10 +1064,18 @@
       "title": "Free",
       "updatedAt": "2026-11-15T21:06:05.000Z",
       "week": 7
+    },
+    {
+      "content": "Thank you for cooking. \nThank you for coming!\nThank you for playing Pingpong with me. \nThank you for helping me. \nThank you for cleaning my pants. \nThank you for washing your hands.",
+      "date": "2026-02-09",
+      "id": "fdd01a26-2224-4921-9cbf-170f312c6e26",
+      "title": "Thank you for ...",
+      "updatedAt": "2026-11-15T21:07:13.656Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:06:05Z",
+  "updatedAt": "2026-11-15T21:07:13Z",
   "vocabulary": []
 }
