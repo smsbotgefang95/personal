@@ -1160,10 +1160,18 @@
       "title": "尺寸",
       "updatedAt": "2026-11-15T21:26:38.862Z",
       "week": 3
+    },
+    {
+      "content": "reuse\nredo\nretry\nrestart\nrecycle\nreopen\nrebuild\nrethink",
+      "date": "2026-01-13",
+      "id": "d9cdffe3-136c-4aa0-bc9b-c8b835cc187d",
+      "title": "Re打头的单词",
+      "updatedAt": "2026-11-15T21:27:32.965Z",
+      "week": 3
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:26:38Z",
+  "updatedAt": "2026-11-15T21:27:33Z",
   "vocabulary": []
 }
