@@ -1120,10 +1120,18 @@
       "title": "Many vs much",
       "updatedAt": "2026-11-15T21:17:56.494Z",
       "week": 5
+    },
+    {
+      "content": "parent\nsibling\ncousin\nPeijun is my cousin. \n五叔 is my sibling. \n五叔 is not my cousin. \nI have five siblings. \nMy daughter doesn't have siblings. \nMatt has 5 siblings.",
+      "date": "2026-01-22",
+      "id": "c76fa609-d9be-4326-baf4-cf98d08aa81a",
+      "title": "家人",
+      "updatedAt": "2026-11-15T21:20:00.476Z",
+      "week": 4
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:17:56Z",
+  "updatedAt": "2026-11-15T21:20:00Z",
   "vocabulary": []
 }
