@@ -936,10 +936,18 @@
       "title": "Straight",
       "updatedAt": "2026-11-15T20:37:14.206Z",
       "week": 52
+    },
+    {
+      "content": "Are you in line?\nIs it the line?",
+      "date": "2025-12-22",
+      "id": "530edd6e-e47e-4b04-adc5-fb6c948893e5",
+      "title": "Line",
+      "updatedAt": "2026-11-15T20:37:49.550Z",
+      "week": 52
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:37:14Z",
+  "updatedAt": "2026-11-15T20:37:49Z",
   "vocabulary": []
 }
