@@ -864,10 +864,18 @@
       "title": "Live",
       "updatedAt": "2026-11-15T20:26:20.849Z",
       "week": 50
+    },
+    {
+      "content": "town \ndown\nDowntown",
+      "date": "2025-12-11",
+      "id": "e6bc7330-6c5a-4b94-b678-eadf4b0652ab",
+      "title": "Downtown",
+      "updatedAt": "2026-11-15T20:27:02.491Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:26:21Z",
+  "updatedAt": "2026-11-15T20:27:02Z",
   "vocabulary": []
 }
