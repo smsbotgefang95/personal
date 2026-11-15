@@ -1000,10 +1000,18 @@
       "title": "Worry",
       "updatedAt": "2026-11-15T20:53:13.037Z",
       "week": 7
+    },
+    {
+      "content": "think about\nworry about\ntalk about",
+      "date": "2026-02-13",
+      "id": "f1141590-9124-437e-9131-747154f14b67",
+      "title": "含有About的动词词组",
+      "updatedAt": "2026-11-15T20:53:54.403Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:53:13Z",
+  "updatedAt": "2026-11-15T20:53:54Z",
   "vocabulary": []
 }
