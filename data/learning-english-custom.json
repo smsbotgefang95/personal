@@ -848,10 +848,18 @@
       "title": "打招呼",
       "updatedAt": "2026-11-15T20:24:23.515Z",
       "week": 51
+    },
+    {
+      "content": "Have to 必须\nWang Hongyu has to go back to China before December.",
+      "date": "2025-11-11",
+      "id": "e7a916d7-9d0c-4687-a727-df442132de3b",
+      "title": "Have to",
+      "updatedAt": "2026-11-15T20:25:13.206Z",
+      "week": 46
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:24:23Z",
+  "updatedAt": "2026-11-15T20:25:13Z",
   "vocabulary": []
 }
