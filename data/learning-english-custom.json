@@ -784,10 +784,18 @@
       "title": "Safe",
       "updatedAt": "2026-11-15T20:13:04.367Z",
       "week": 49
+    },
+    {
+      "content": "We ordered the same fish. \nWe live in the same neighborhood. \nYour bag and my bag are the same color. \nWe have the same friends. \nWe eat the same food. \nI love Japanese food. \nSame here.",
+      "date": "2025-11-20",
+      "id": "c19e7a58-8b7b-4e3d-9bc9-6c93e13c2a71",
+      "title": "Same",
+      "updatedAt": "2026-11-15T20:14:27.860Z",
+      "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:13:04Z",
+  "updatedAt": "2026-11-15T20:14:28Z",
   "vocabulary": []
 }
