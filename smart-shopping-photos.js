@@ -1,6 +1,36 @@
 /* Food photos migrated from the signed-in AnyList food lists. */
 window.SMART_LIST_PHOTOS = [
   {
+    "name": "石榴",
+    "file": "pomegranates-pom-wonderful-transparent.png",
+    "credit": "Shopper photo cutout prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
+    "name": "Pomegranate",
+    "file": "pomegranates-pom-wonderful-transparent.png",
+    "credit": "Shopper photo cutout prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
+    "name": "黄豆酱",
+    "file": "lee-kum-kee-yellow-soybean-paste-pouch-transparent.png",
+    "credit": "Shopper photo cutout prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
+    "name": "Yellow soybean paste",
+    "file": "lee-kum-kee-yellow-soybean-paste-jar-transparent.png",
+    "credit": "Shopper photo cutout prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
+    "name": "蚝油",
+    "file": "haday-golden-label-oyster-sauce-transparent.png",
+    "credit": "Shopper photo cutout prepared with OpenAI ImageGen",
+    "overrideCustomPhoto": true
+  },
+  {
     "name": "芹菜",
     "file": "dole-celery-transparent.png",
     "credit": "Shopper screenshot edited with OpenAI ImageGen",
