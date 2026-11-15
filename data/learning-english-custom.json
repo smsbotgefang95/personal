@@ -608,10 +608,18 @@
       "title": "J打头的单词",
       "updatedAt": "2026-11-15T11:46:33.735Z",
       "week": 14
+    },
+    {
+      "content": "Enjoy your walk!\nEnjoy your food!\nEnjoy your meal!\nEnjoy your day!",
+      "date": "2026-03-31",
+      "id": "0d936fbc-d473-4537-a89c-40dcb27d2dc2",
+      "title": "Enjoy",
+      "updatedAt": "2026-11-15T11:47:42.822Z",
+      "week": 14
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:46:33Z",
+  "updatedAt": "2026-11-15T11:47:43Z",
   "vocabulary": []
 }
