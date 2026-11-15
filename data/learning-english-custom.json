@@ -1112,10 +1112,18 @@
       "title": "Problem",
       "updatedAt": "2026-11-15T21:15:12.468Z",
       "week": 9
+    },
+    {
+      "content": "Much\nHow much?\nHow much milk do you need?\nI don't have much time today. \n\nMany\nChina has many people. \nI have many friends. \nI have many nice neighbors. \nHe has many houses. \nI have many books.",
+      "date": "2026-01-28",
+      "id": "54681a5d-f718-41e8-8115-0bf8e716309c",
+      "title": "Many vs much",
+      "updatedAt": "2026-11-15T21:17:56.494Z",
+      "week": 5
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:15:12Z",
+  "updatedAt": "2026-11-15T21:17:56Z",
   "vocabulary": []
 }
