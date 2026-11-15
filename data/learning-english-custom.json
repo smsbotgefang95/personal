@@ -952,10 +952,18 @@
       "title": "ar的发音",
       "updatedAt": "2026-11-15T20:39:36.967Z",
       "week": 3
+    },
+    {
+      "content": "Take your time.",
+      "date": "2026-01-07",
+      "id": "dc21e57e-d711-43b8-bc88-14302fea62db",
+      "title": "Take your time",
+      "updatedAt": "2026-11-15T20:40:28.139Z",
+      "week": 2
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:39:37Z",
+  "updatedAt": "2026-11-15T20:40:28Z",
   "vocabulary": []
 }
