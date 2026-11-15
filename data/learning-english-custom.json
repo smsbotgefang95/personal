@@ -456,10 +456,18 @@
       "title": "tion构成的单词",
       "updatedAt": "2026-11-15T11:21:22.603Z",
       "week": 18
+    },
+    {
+      "content": "I'm into music. \nI'm into Pingpong. \nI'm not into spicy food. \nI'm not into parties. \nI'm not into cooking Chinese food.",
+      "date": "2026-04-24",
+      "id": "b66bccb0-15ab-4f00-b487-a7da811aef0d",
+      "title": "into",
+      "updatedAt": "2026-11-15T11:22:16.274Z",
+      "week": 17
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:21:22Z",
+  "updatedAt": "2026-11-15T11:22:16Z",
   "vocabulary": []
 }
