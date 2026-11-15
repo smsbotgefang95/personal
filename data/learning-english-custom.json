@@ -992,10 +992,18 @@
       "title": "Day & date",
       "updatedAt": "2026-11-15T20:52:14.270Z",
       "week": 7
+    },
+    {
+      "content": "I worry about Matt. \nI worry about my income. \nDon't worry.",
+      "date": "2026-02-13",
+      "id": "45ca1530-1771-4bd4-aa4f-d11486e06846",
+      "title": "Worry",
+      "updatedAt": "2026-11-15T20:53:13.037Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:52:14Z",
+  "updatedAt": "2026-11-15T20:53:13Z",
   "vocabulary": []
 }
