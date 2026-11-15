@@ -872,10 +872,18 @@
       "title": "Downtown",
       "updatedAt": "2026-11-15T20:27:02.491Z",
       "week": 50
+    },
+    {
+      "content": "lamb leg\nchicken breast \npork\nbeef\nfish",
+      "date": "2025-12-09",
+      "id": "01fd5475-75c4-413b-a105-42b6ddfb7775",
+      "title": "肉的种类",
+      "updatedAt": "2026-11-15T20:27:46.292Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:27:02Z",
+  "updatedAt": "2026-11-15T20:27:46Z",
   "vocabulary": []
 }
