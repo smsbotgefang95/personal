@@ -896,10 +896,18 @@
       "title": "Up & down",
       "updatedAt": "2026-11-15T20:29:31.015Z",
       "week": 50
+    },
+    {
+      "content": "eye\near\nhand\nface\nleg\nhair\nhead\narm\nfoot/feet",
+      "date": "2025-12-09",
+      "id": "4704dd83-ccb0-4743-a2ee-ad38fe7fe8fa",
+      "title": "身体部位",
+      "updatedAt": "2026-11-15T20:30:11.671Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:29:31Z",
+  "updatedAt": "2026-11-15T20:30:12Z",
   "vocabulary": []
 }
