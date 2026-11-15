@@ -360,10 +360,18 @@
       "title": "birth",
       "updatedAt": "2026-11-14T23:35:35.025Z",
       "week": 23
+    },
+    {
+      "content": "think\nthank\nthing\nthird\nNorth\nSouth\nThursday\nthirteen\nthirty\nbirthday\n\nthe\nthis\nthat\nthere\nthem\ntheir\nmother\nfather\nbrother",
+      "date": "2026-06-02",
+      "id": "71ea8914-8802-4433-ab5c-7e71862ae408",
+      "title": "th的发音",
+      "updatedAt": "2026-11-15T11:06:21.078Z",
+      "week": 23
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-14T23:35:35Z",
+  "updatedAt": "2026-11-15T11:06:21Z",
   "vocabulary": []
 }
