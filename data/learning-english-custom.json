@@ -472,10 +472,18 @@
       "title": "national构成的单词",
       "updatedAt": "2026-11-15T11:23:19.577Z",
       "week": 17
+    },
+    {
+      "content": "July 4th\nfirst\nsecond\nthird\nfourth\nfifth\nsixth\nHappy the 4th!",
+      "date": "2026-04-23",
+      "id": "37eeec99-7389-4926-b422-5ce9faa26548",
+      "title": "序数词",
+      "updatedAt": "2026-11-15T11:24:09.217Z",
+      "week": 17
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:23:19Z",
+  "updatedAt": "2026-11-15T11:24:09Z",
   "vocabulary": []
 }
