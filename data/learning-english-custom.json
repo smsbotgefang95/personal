@@ -792,10 +792,18 @@
       "title": "Same",
       "updatedAt": "2026-11-15T20:14:27.860Z",
       "week": 47
+    },
+    {
+      "content": "I am from Beijing. \nWhere are you from?\nWhere is he from?\nWhere are they from?",
+      "date": "2025-12-08",
+      "id": "4041af22-e487-4d9e-b72a-ea947c4e867a",
+      "title": "From",
+      "updatedAt": "2026-11-15T20:15:22.673Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:14:28Z",
+  "updatedAt": "2026-11-15T20:15:23Z",
   "vocabulary": []
 }
