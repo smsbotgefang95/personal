@@ -464,10 +464,18 @@
       "title": "into",
       "updatedAt": "2026-11-15T11:22:16.274Z",
       "week": 17
+    },
+    {
+      "content": "national\nUnited Nations (UN)\ninternational",
+      "date": "2026-04-24",
+      "id": "d11ef264-f702-48fa-ae6c-f862e220146e",
+      "title": "national构成的单词",
+      "updatedAt": "2026-11-15T11:23:19.577Z",
+      "week": 17
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:22:16Z",
+  "updatedAt": "2026-11-15T11:23:19Z",
   "vocabulary": []
 }
