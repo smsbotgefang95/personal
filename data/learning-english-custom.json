@@ -960,10 +960,18 @@
       "title": "Take your time",
       "updatedAt": "2026-11-15T20:40:28.139Z",
       "week": 2
+    },
+    {
+      "content": "I was sick yesterday.",
+      "date": "2026-02-09",
+      "id": "ba6045c7-cce6-44cc-a570-cff1a481f9ec",
+      "title": "Sick",
+      "updatedAt": "2026-11-15T20:48:25.169Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:40:28Z",
+  "updatedAt": "2026-11-15T20:48:25Z",
   "vocabulary": []
 }
