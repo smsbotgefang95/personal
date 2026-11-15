@@ -840,10 +840,18 @@
       "title": "Christmas构成的词组",
       "updatedAt": "2026-11-15T20:23:22.193Z",
       "week": 49
+    },
+    {
+      "content": "What's up?\nWhat's new?\nHow are you doing?\nHow's everything?",
+      "date": "2025-12-18",
+      "id": "8da45442-b3b1-4b85-8f87-3f02d7ca5412",
+      "title": "打招呼",
+      "updatedAt": "2026-11-15T20:24:23.515Z",
+      "week": 51
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:23:22Z",
+  "updatedAt": "2026-11-15T20:24:23Z",
   "vocabulary": []
 }
