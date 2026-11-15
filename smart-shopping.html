@@ -1143,6 +1143,7 @@
         return;
       }
       shoppingSyncInProgress = true;
+      let syncSucceeded = false;
       const headers = { "X-Smart-Shopping-Admin-Key": key };
       try {
         const response = await fetchShoppingSync({ headers, cache: "no-store" });
@@ -1198,6 +1199,7 @@
             Object.assign(pendingPriceHistory, remainingHistory);
           } catch (error) { /* Retain the durable outbox for retry. */ }
         }
+        syncSucceeded = true;
         document.getElementById("sync-detail").textContent = "Synced across devices";
         if (rerender) render();
       } catch (error) {
@@ -1213,6 +1215,7 @@
       } finally {
         shoppingSyncInProgress = false;
       }
+      return syncSucceeded;
     }
     function queueShoppingSync() {
       if (!shoppingSyncKey) return;
@@ -2825,10 +2828,39 @@
           itemEdits[itemKey] = editedItem;
           pendingEdits[itemKey] = editedItem;
         } catch (error) {
-          const message = error?.name === "QuotaExceededError"
-            ? "Browser storage is full. Your changes are still in this editor. Try a smaller photo, or free space after backing up your shopping data. Do not clear site data or reload before saving."
-            : "This browser could not store your changes. Keep this editor open, check browser storage permissions, and try again.";
-          return reportItemSaveError(message);
+          if (error?.name === "QuotaExceededError") {
+            const priorEdit = itemEdits[itemKey];
+            const priorPending = pendingEdits[itemKey];
+            const controls = [...els.editForm.querySelectorAll("input, select, textarea, button")];
+            const previousDisabled = controls.map((control) => control.disabled);
+            controls.forEach((control) => { control.disabled = true; });
+            document.getElementById("edit-save-status").textContent = "Browser storage is full. Trying to save your changes to synced shopping data…";
+            itemEdits[itemKey] = editedItem;
+            pendingEdits[itemKey] = editedItem;
+            (async () => {
+              while (shoppingSyncInProgress) await new Promise((resolve) => window.setTimeout(resolve, 100));
+              return syncShoppingDevices({ upload: true, rerender: false });
+            })().then((saved) => {
+              if (saved) {
+                editDirty = false;
+                closeItemEditor();
+                render();
+                showToast(`${name} saved and synced. Browser storage is still full.`);
+                return;
+              }
+              if (priorEdit) itemEdits[itemKey] = priorEdit; else delete itemEdits[itemKey];
+              if (priorPending) pendingEdits[itemKey] = priorPending; else delete pendingEdits[itemKey];
+              reportItemSaveError("Browser storage is full and the sync server could not save your changes. Keep this editor open and try again when connected.");
+            }).catch(() => {
+              if (priorEdit) itemEdits[itemKey] = priorEdit; else delete itemEdits[itemKey];
+              if (priorPending) pendingEdits[itemKey] = priorPending; else delete pendingEdits[itemKey];
+              reportItemSaveError("Browser storage is full and the sync server could not save your changes. Keep this editor open and try again when connected.");
+            }).finally(() => {
+              controls.forEach((control, index) => { control.disabled = previousDisabled[index]; });
+            });
+            return false;
+          }
+          return reportItemSaveError("This browser could not store your changes. Keep this editor open, check browser storage permissions, and try again.");
         }
         queueShoppingSync();
       }
