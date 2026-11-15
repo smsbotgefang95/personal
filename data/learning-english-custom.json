@@ -400,10 +400,18 @@
       "title": "c的发音",
       "updatedAt": "2026-11-15T11:13:38.071Z",
       "week": 22
+    },
+    {
+      "content": "unite\nunited\nThe students unite to help their teacher.",
+      "date": "2026-05-25",
+      "id": "03ff57e4-8abd-4d0a-8df8-f38e23802001",
+      "title": "unite",
+      "updatedAt": "2026-11-15T11:14:41.328Z",
+      "week": 22
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:13:38Z",
+  "updatedAt": "2026-11-15T11:14:41Z",
   "vocabulary": []
 }
