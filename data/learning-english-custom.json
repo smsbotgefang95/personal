@@ -544,10 +544,18 @@
       "title": "练习句子",
       "updatedAt": "2026-11-15T11:36:57.063Z",
       "week": 15
+    },
+    {
+      "content": "Thank you for coming!\nThank you for helping me.",
+      "date": "2026-04-10",
+      "id": "751dbeb7-dda7-428b-8f03-8a5ee972b0c8",
+      "title": "Thank you for ...",
+      "updatedAt": "2026-11-15T11:37:33.793Z",
+      "week": 15
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:36:57Z",
+  "updatedAt": "2026-11-15T11:37:33Z",
   "vocabulary": []
 }
