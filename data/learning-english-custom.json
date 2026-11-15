@@ -1096,10 +1096,18 @@
       "title": "问候",
       "updatedAt": "2026-11-15T21:10:55.761Z",
       "week": 5
+    },
+    {
+      "content": "及物动词\nI like her/Chinese food/my dog. \n\n不及物动词\nSleep",
+      "date": "2026-01-29",
+      "id": "512d2f44-2580-4057-83c9-68dc96002ce9",
+      "title": "及物和不及物动词",
+      "updatedAt": "2026-11-15T21:14:36.869Z",
+      "week": 5
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:12:32Z",
+  "updatedAt": "2026-11-15T21:14:37Z",
   "vocabulary": []
 }
