@@ -920,10 +920,18 @@
       "title": "Near",
       "updatedAt": "2026-11-15T20:34:19.754Z",
       "week": 51
+    },
+    {
+      "content": "This is for you.\nDo you like it?\nThank you for cooking!\nYou look great!\nYour mother looks great. \nThis is a Japanese cake. \nThe cake is made in Japan. \nThe dumpling is good. \nTry it. \nHappy Holiday. \nIt's good to see you.",
+      "date": "2025-12-23",
+      "id": "c5f93bc7-8925-40da-b5ca-2fd35484aa00",
+      "title": "练习句子",
+      "updatedAt": "2026-11-15T20:35:55.642Z",
+      "week": 52
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:34:19Z",
+  "updatedAt": "2026-11-15T20:35:55Z",
   "vocabulary": []
 }
