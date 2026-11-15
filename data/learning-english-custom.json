@@ -1152,10 +1152,18 @@
       "title": "Think vs thing",
       "updatedAt": "2026-11-15T21:25:38.720Z",
       "week": 5
+    },
+    {
+      "content": "XS\nS small\nM median\nL large\nXL\nXXL",
+      "date": "2026-01-12",
+      "id": "02658c8f-fea7-4a00-aab7-272d3e209d94",
+      "title": "尺寸",
+      "updatedAt": "2026-11-15T21:26:38.862Z",
+      "week": 3
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:25:39Z",
+  "updatedAt": "2026-11-15T21:26:38Z",
   "vocabulary": []
 }
