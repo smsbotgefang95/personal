@@ -648,10 +648,18 @@
       "title": "er结尾的单词",
       "updatedAt": "2026-11-15T11:52:45.956Z",
       "week": 13
+    },
+    {
+      "content": "govern - governor \nvisit - visitor",
+      "date": "2026-03-25",
+      "id": "d159489e-da94-449c-b3c4-8f99a4ede859",
+      "title": "or结尾的单词",
+      "updatedAt": "2026-11-15T11:53:06.629Z",
+      "week": 13
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:52:46Z",
+  "updatedAt": "2026-11-15T11:53:06Z",
   "vocabulary": []
 }
