@@ -1136,10 +1136,18 @@
       "title": "不客气",
       "updatedAt": "2026-11-15T21:21:01.999Z",
       "week": 5
+    },
+    {
+      "content": "very cold\nvery hot\nvery nice\nvery good\nvery happy\nvery sad\nvery hungry\nvery bad\nvery much",
+      "date": "2026-01-27",
+      "id": "4a07452d-9151-43f7-8325-29f2e3481d92",
+      "title": "Very",
+      "updatedAt": "2026-11-15T21:22:25.064Z",
+      "week": 5
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:21:02Z",
+  "updatedAt": "2026-11-15T21:22:25Z",
   "vocabulary": []
 }
