@@ -928,10 +928,18 @@
       "title": "练习句子",
       "updatedAt": "2026-11-15T20:35:55.642Z",
       "week": 52
+    },
+    {
+      "content": "straight hair\nstraight line\ngo straight",
+      "date": "2025-12-22",
+      "id": "6d360471-b3b5-48a6-944e-effc78ea1afd",
+      "title": "Straight",
+      "updatedAt": "2026-11-15T20:37:14.206Z",
+      "week": 52
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:35:55Z",
+  "updatedAt": "2026-11-15T20:37:14Z",
   "vocabulary": []
 }
