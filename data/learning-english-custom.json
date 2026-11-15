@@ -392,10 +392,18 @@
       "title": "capital",
       "updatedAt": "2026-11-15T11:12:47.609Z",
       "week": 22
+    },
+    {
+      "content": "cake\ncapital\ncash\ncan\ncar\ncall\nAmerica\ncare\nCanada\ncat",
+      "date": "2026-05-26",
+      "id": "c9d857fc-cb33-49b3-9555-c74bdc15c5e8",
+      "title": "c的发音",
+      "updatedAt": "2026-11-15T11:13:38.071Z",
+      "week": 22
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:12:47Z",
+  "updatedAt": "2026-11-15T11:13:38Z",
   "vocabulary": []
 }
