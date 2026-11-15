@@ -760,10 +760,18 @@
       "title": "说的各种说法",
       "updatedAt": "2026-11-15T20:08:41.628Z",
       "week": 46
+    },
+    {
+      "content": "I like him/her/them. \nLet us go.",
+      "date": "2025-11-10",
+      "id": "2044ccaf-3c59-4ced-9e44-9b2fa0202b2b",
+      "title": "宾格",
+      "updatedAt": "2026-11-15T20:09:45.563Z",
+      "week": 46
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:08:41Z",
+  "updatedAt": "2026-11-15T20:09:45Z",
   "vocabulary": []
 }
