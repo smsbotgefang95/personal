@@ -1080,10 +1080,18 @@
       "title": "Gotta",
       "updatedAt": "2026-11-15T21:08:06.721Z",
       "week": 6
+    },
+    {
+      "content": "Why not try again?\nWhy not drink some coffee?\nWhy not call him now?\nWhy not try some new food?",
+      "date": "2026-01-27",
+      "id": "577d9084-fd40-49a7-a330-2a9c9855309c",
+      "title": "Why not ...",
+      "updatedAt": "2026-11-15T21:09:18.799Z",
+      "week": 5
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:08:06Z",
+  "updatedAt": "2026-11-15T21:09:18Z",
   "vocabulary": []
 }
