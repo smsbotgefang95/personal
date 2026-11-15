@@ -1002,11 +1002,11 @@
       "week": 7
     },
     {
-      "content": "think about\nworry about\ntalk about",
+      "content": "think about\nworry about\ntalk about\n\nI am thinking about the problem. \nI need some time to think about it. \n\nLet's talk about your weekend. \nShe wants to talk about the movie she watched yesterday. \nI don't want to talk about it right now. \nI don't want to think about it. \nI need to think about it. \nLet me think about it.",
       "date": "2026-02-13",
       "id": "f1141590-9124-437e-9131-747154f14b67",
       "title": "含有About的动词词组",
-      "updatedAt": "2026-11-15T20:53:54.403Z",
+      "updatedAt": "2026-11-15T21:12:32.286Z",
       "week": 7
     },
     {
@@ -1100,6 +1100,6 @@
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:10:56Z",
+  "updatedAt": "2026-11-15T21:12:32Z",
   "vocabulary": []
 }
