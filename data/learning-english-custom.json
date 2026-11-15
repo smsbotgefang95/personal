@@ -824,10 +824,18 @@
       "title": "Light vs lamp",
       "updatedAt": "2026-11-15T20:19:55.288Z",
       "week": 49
+    },
+    {
+      "content": "How old are you?\nHow big is your house?\nHow tall are you?\nHow far is Peijun's home from our home?\nHow long is the table?\nHow long is your trip to West Point?\nHow fast is the car?\nHow deep is the water?\nHow wide is the table?",
+      "date": "2025-12-03",
+      "id": "3d004d0a-e7f2-431d-940c-40d50304510c",
+      "title": "How",
+      "updatedAt": "2026-11-15T20:21:26.476Z",
+      "week": 49
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:19:55Z",
+  "updatedAt": "2026-11-15T20:21:26Z",
   "vocabulary": []
 }
