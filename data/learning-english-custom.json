@@ -1016,10 +1016,18 @@
       "title": "闭音节",
       "updatedAt": "2026-11-15T20:58:49.476Z",
       "week": 7
+    },
+    {
+      "content": "It's so cold. \nI think so. \nSay so. \nBelieve so. \nFeel so. \nHope so.",
+      "date": "2026-02-03",
+      "id": "05f8cbb8-2a0f-4c7d-b7d1-a5ef5184e447",
+      "title": "So",
+      "updatedAt": "2026-11-15T20:59:38.250Z",
+      "week": 6
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:58:49Z",
+  "updatedAt": "2026-11-15T20:59:38Z",
   "vocabulary": []
 }
