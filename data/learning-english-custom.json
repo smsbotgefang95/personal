@@ -1176,10 +1176,18 @@
       "title": "ill结尾的单词",
       "updatedAt": "2026-11-15T21:28:44.688Z",
       "week": 3
+    },
+    {
+      "content": "My shoe size is 8. \nWhat is your shoe size?\nDo you know your size?\nWhat size do you need?\nThis shirt is my size. \nThis T-shirt is not my size. \nThey don't have my size. \nI need a bigger size.",
+      "date": "2026-01-15",
+      "id": "567a37f9-b4e3-402f-84aa-8bb2183eed40",
+      "title": "Size",
+      "updatedAt": "2026-11-15T21:30:09.522Z",
+      "week": 3
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:28:44Z",
+  "updatedAt": "2026-11-15T21:30:10Z",
   "vocabulary": []
 }
