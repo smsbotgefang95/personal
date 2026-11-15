@@ -880,10 +880,18 @@
       "title": "肉的种类",
       "updatedAt": "2026-11-15T20:27:46.292Z",
       "week": 50
+    },
+    {
+      "content": "ear\nyear\nhear\nnear\ndear",
+      "date": "2025-12-09",
+      "id": "4c833dee-23a4-4a17-940a-6353d62bd04d",
+      "title": "ear结尾的单词",
+      "updatedAt": "2026-11-15T20:28:24.110Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:27:46Z",
+  "updatedAt": "2026-11-15T20:28:24Z",
   "vocabulary": []
 }
