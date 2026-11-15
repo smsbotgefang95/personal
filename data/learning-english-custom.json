@@ -512,10 +512,18 @@
       "title": "I'm from ...",
       "updatedAt": "2026-11-15T11:28:37.293Z",
       "week": 16
+    },
+    {
+      "content": "HOA: Home Owner Association\nown\nowner \n\nYou own a house. \nI own a car.",
+      "date": "2026-04-16",
+      "id": "b78b9752-cb74-4ff8-af5d-587dcad9902b",
+      "title": "own",
+      "updatedAt": "2026-11-15T11:30:40.143Z",
+      "week": 16
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:29:32Z",
+  "updatedAt": "2026-11-15T11:30:40Z",
   "vocabulary": []
 }
