@@ -904,10 +904,18 @@
       "title": "身体部位",
       "updatedAt": "2026-11-15T20:30:11.671Z",
       "week": 50
+    },
+    {
+      "content": "everything\nanything\nsomething\nnothing\n\nEverything is ready. \nDo you need anything?\nThat's a good thing. \nWe will buy eight things. \nAnything else?\nHow's everything?\nI have nothing.\nI don't have anything. \nThe store has everything I need.",
+      "date": "2025-12-09",
+      "id": "bb488fa7-b730-4dc2-8a5f-4d4a85e4404a",
+      "title": "Thing构成的单词",
+      "updatedAt": "2026-11-15T20:33:09.040Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:30:12Z",
+  "updatedAt": "2026-11-15T20:33:09Z",
   "vocabulary": []
 }
