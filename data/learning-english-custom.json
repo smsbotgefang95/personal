@@ -1056,10 +1056,18 @@
       "title": "Want",
       "updatedAt": "2026-11-15T21:04:29.522Z",
       "week": 6
+    },
+    {
+      "content": "Buy one get one free. \nBOGO\nThe house is free. \nThe car is free. \nFree shipping. \nBottles are free. \nAmerica is a free country. \nChina isn't a free country. \nUS and USA are free countries. \nRussia and China are not free countries. \nI am free now. \nHe is free now. \nThey are free now.",
+      "date": "2026-02-09",
+      "id": "872e97b3-7612-46d5-af5f-fc6d018e4e62",
+      "title": "Free",
+      "updatedAt": "2026-11-15T21:06:05.000Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:04:29Z",
+  "updatedAt": "2026-11-15T21:06:05Z",
   "vocabulary": []
 }
