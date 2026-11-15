@@ -520,10 +520,18 @@
       "title": "own",
       "updatedAt": "2026-11-15T11:30:40.143Z",
       "week": 16
+    },
+    {
+      "content": "vice\nrice\nice",
+      "date": "2026-04-14",
+      "id": "6e17b3a2-1b10-41ac-af50-be6968895e2b",
+      "title": "ce的发音",
+      "updatedAt": "2026-11-15T11:31:22.641Z",
+      "week": 16
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:30:40Z",
+  "updatedAt": "2026-11-15T11:31:22Z",
   "vocabulary": []
 }
