@@ -968,10 +968,18 @@
       "title": "Sick",
       "updatedAt": "2026-11-15T20:48:25.169Z",
       "week": 7
+    },
+    {
+      "content": "place of birth\ndate of birth\nMy place of birth is Shanghai. \nWhere is your place of birth?\nThe birth of a new country. \ngive birth to\nMina's daughter gave birth to a baby.",
+      "date": "2026-02-09",
+      "id": "5fc3ec67-69c5-4c01-8c3b-062ac3bc17d7",
+      "title": "Birth",
+      "updatedAt": "2026-11-15T20:49:43.664Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:48:25Z",
+  "updatedAt": "2026-11-15T20:49:43Z",
   "vocabulary": []
 }
