@@ -1040,10 +1040,18 @@
       "title": "Feel & feeling",
       "updatedAt": "2026-11-15T21:01:46.983Z",
       "week": 6
+    },
+    {
+      "content": "I have a real friend. \nI really like Chinese food. \nI really like this movie. \nIt's really hot today. \nI am really hungry. \nI make $1m. \nReally?\nI really like playing Pingpong. \nIt is really cold this week.",
+      "date": "2026-02-06",
+      "id": "e4e3d28f-aed7-4866-9d44-1ce126dd4c99",
+      "title": "Real & really",
+      "updatedAt": "2026-11-15T21:03:28.898Z",
+      "week": 6
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:01:47Z",
+  "updatedAt": "2026-11-15T21:03:29Z",
   "vocabulary": []
 }
