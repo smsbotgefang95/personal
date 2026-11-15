@@ -442,11 +442,11 @@
       "week": 18
     },
     {
-      "content": "sit up/down\nget up\nwake up\ngo up/down\nfix up",
+      "content": "sit up/down\nget up\nwake up\ngo up/down\nfix up\nstand up\nclean up\nfill up\nturn up\nmeet up\npick up",
       "date": "2026-04-29",
       "id": "f3934b87-a6b4-4c7d-8a88-b2a7ed524512",
       "title": "up构成的词组",
-      "updatedAt": "2026-11-15T11:20:28.459Z",
+      "updatedAt": "2026-11-15T21:31:35.347Z",
       "week": 18
     },
     {
@@ -1188,6 +1188,6 @@
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:30:10Z",
+  "updatedAt": "2026-11-15T21:31:35Z",
   "vocabulary": []
 }
