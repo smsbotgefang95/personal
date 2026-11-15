@@ -1088,10 +1088,18 @@
       "title": "Why not ...",
       "updatedAt": "2026-11-15T21:09:18.799Z",
       "week": 5
+    },
+    {
+      "content": "How are you?\nHow are you doing?\nI am doing well, thank you! How about you?\nDoing good/great!\nNot bad. \nGood! You?\nYourself?",
+      "date": "2026-01-29",
+      "id": "252cf432-4d1f-4bf2-9857-9164d73b32d2",
+      "title": "问候",
+      "updatedAt": "2026-11-15T21:10:55.761Z",
+      "week": 5
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:09:18Z",
+  "updatedAt": "2026-11-15T21:10:56Z",
   "vocabulary": []
 }
