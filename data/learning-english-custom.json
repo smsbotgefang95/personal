@@ -432,10 +432,18 @@
       "title": "set up",
       "updatedAt": "2026-11-15T11:18:02.691Z",
       "week": 21
+    },
+    {
+      "content": "back yard\nback seat\nback door\nback wall\n\nfront yard\nfront seat\nfront door",
+      "date": "2026-04-30",
+      "id": "1cf3fe91-08e6-4713-9572-b731a9c23649",
+      "title": "front/back构成的组合词",
+      "updatedAt": "2026-11-15T11:19:20.056Z",
+      "week": 18
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:18:03Z",
+  "updatedAt": "2026-11-15T11:19:20Z",
   "vocabulary": []
 }
