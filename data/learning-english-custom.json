@@ -1032,10 +1032,18 @@
       "title": "MAGA",
       "updatedAt": "2026-11-15T21:00:06.311Z",
       "week": 6
+    },
+    {
+      "content": "I feel happy. \nI feel sad. \nI feel sleepy. \nI feel cold. \nI feel tired. \nI feel hungry. \nI feel full. \nI feel sick. \n\nLet's talk about your feelings. \nI have a good/bad feeling about tomorrow.",
+      "date": "2026-02-06",
+      "id": "8163d7f5-95e6-4e80-9e2d-88288c5476e5",
+      "title": "Feel & feeling",
+      "updatedAt": "2026-11-15T21:01:46.983Z",
+      "week": 6
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:00:06Z",
+  "updatedAt": "2026-11-15T21:01:47Z",
   "vocabulary": []
 }
