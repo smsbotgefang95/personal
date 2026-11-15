@@ -568,10 +568,18 @@
       "title": "Name",
       "updatedAt": "2026-11-15T11:40:01.561Z",
       "week": 15
+    },
+    {
+      "content": "MPH: mile per hour\nHe makes 80k per year. \nHow much do you make per year?\nI play Pingpong two times per week. \nThe price is $20 per person.",
+      "date": "2026-04-02",
+      "id": "8261471a-979b-45b0-af9d-b7c033cbdc96",
+      "title": "Per",
+      "updatedAt": "2026-11-15T11:41:29.052Z",
+      "week": 14
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:40:01Z",
+  "updatedAt": "2026-11-15T11:41:29Z",
   "vocabulary": []
 }
