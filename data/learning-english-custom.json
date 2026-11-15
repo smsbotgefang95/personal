@@ -976,10 +976,18 @@
       "title": "Birth",
       "updatedAt": "2026-11-15T20:49:43.664Z",
       "week": 7
+    },
+    {
+      "content": "We went to a Vietnamese restaurant yesterday. \nI didn't like the pho. \nI couldn't finish the pho in the restaurant.",
+      "date": "2026-02-09",
+      "id": "07bbcb72-a7d6-4e2f-a9b4-89d204aa33d4",
+      "title": "练习句子",
+      "updatedAt": "2026-11-15T20:50:57.624Z",
+      "week": 7
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:49:43Z",
+  "updatedAt": "2026-11-15T20:50:57Z",
   "vocabulary": []
 }
