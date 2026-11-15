@@ -888,10 +888,18 @@
       "title": "ear结尾的单词",
       "updatedAt": "2026-11-15T20:28:24.110Z",
       "week": 50
+    },
+    {
+      "content": "go upstairs \ngo downstairs\ngo up/down\nThe price of gas goes up again last week. \nSales go up.",
+      "date": "2025-12-09",
+      "id": "2466dc83-cc4b-49c9-ada5-6846e8a03e58",
+      "title": "Up & down",
+      "updatedAt": "2026-11-15T20:29:31.015Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:28:24Z",
+  "updatedAt": "2026-11-15T20:29:31Z",
   "vocabulary": []
 }
