@@ -856,10 +856,18 @@
       "title": "Have to",
       "updatedAt": "2026-11-15T20:25:13.206Z",
       "week": 46
+    },
+    {
+      "content": "I live on Petrel Street. \nI live in apartment B2.",
+      "date": "2025-12-11",
+      "id": "89c185a2-725f-41a6-9070-2a1629a8cdf1",
+      "title": "Live",
+      "updatedAt": "2026-11-15T20:26:20.849Z",
+      "week": 50
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:25:13Z",
+  "updatedAt": "2026-11-15T20:26:21Z",
   "vocabulary": []
 }
