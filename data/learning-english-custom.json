@@ -480,10 +480,18 @@
       "title": "序数词",
       "updatedAt": "2026-11-15T11:24:09.217Z",
       "week": 17
+    },
+    {
+      "content": "Mother's Day\nFather's Day\nNew Year's Day\nPresident's Day\nThanksgiving Day\nChristmas Day",
+      "date": "2026-04-21",
+      "id": "56a949f1-5610-467d-8834-a40195202d90",
+      "title": "节日",
+      "updatedAt": "2026-11-15T11:25:00.109Z",
+      "week": 17
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:24:09Z",
+  "updatedAt": "2026-11-15T11:25:00Z",
   "vocabulary": []
 }
