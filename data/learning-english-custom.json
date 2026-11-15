@@ -1024,10 +1024,18 @@
       "title": "So",
       "updatedAt": "2026-11-15T20:59:38.250Z",
       "week": 6
+    },
+    {
+      "content": "Make America Great Again",
+      "date": "2026-02-05",
+      "id": "e0f29dc4-b825-49cd-b629-bdc8216da81c",
+      "title": "MAGA",
+      "updatedAt": "2026-11-15T21:00:06.311Z",
+      "week": 6
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:59:38Z",
+  "updatedAt": "2026-11-15T21:00:06Z",
   "vocabulary": []
 }
