@@ -912,10 +912,18 @@
       "title": "Thing构成的单词",
       "updatedAt": "2026-11-15T20:33:09.040Z",
       "week": 50
+    },
+    {
+      "content": "I live near the gas station. \nThere is a supermarket near my home. \nThere is a Chinese restaurant near my home.",
+      "date": "2025-12-18",
+      "id": "8fcc81f9-1ab6-430a-9197-f85943e2fb1e",
+      "title": "Near",
+      "updatedAt": "2026-11-15T20:34:19.754Z",
+      "week": 51
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:33:09Z",
+  "updatedAt": "2026-11-15T20:34:19Z",
   "vocabulary": []
 }
