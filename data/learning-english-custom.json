@@ -1128,10 +1128,18 @@
       "title": "家人",
       "updatedAt": "2026-11-15T21:20:00.476Z",
       "week": 4
+    },
+    {
+      "content": "Any time!\nYou are welcome!\nNo problem. \nSure thing. \nOf course. \nHappy to help. \nMy pleasure!",
+      "date": "2026-01-26",
+      "id": "19b71174-f97a-40b9-bea6-fd56350bf048",
+      "title": "不客气",
+      "updatedAt": "2026-11-15T21:21:01.999Z",
+      "week": 5
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:20:00Z",
+  "updatedAt": "2026-11-15T21:21:02Z",
   "vocabulary": []
 }
