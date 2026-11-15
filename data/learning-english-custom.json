@@ -1072,10 +1072,18 @@
       "title": "Thank you for ...",
       "updatedAt": "2026-11-15T21:07:13.656Z",
       "week": 7
+    },
+    {
+      "content": "I gotta go.",
+      "date": "2026-02-03",
+      "id": "924e897b-b9ca-4b58-ad91-4f7c8b71849f",
+      "title": "Gotta",
+      "updatedAt": "2026-11-15T21:08:06.721Z",
+      "week": 6
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:07:13Z",
+  "updatedAt": "2026-11-15T21:08:06Z",
   "vocabulary": []
 }
