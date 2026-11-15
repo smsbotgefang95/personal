@@ -640,10 +640,18 @@
       "title": "tr打头的单词",
       "updatedAt": "2026-11-15T11:51:24.908Z",
       "week": 14
+    },
+    {
+      "content": "teach - teacher\nwork - worker\ndrive - driver \nwrite - writer \nspeak - speaker\nlead - leader \nwash - washer\nbuild - builder\nbuy - buyer\nsell - seller\nplay - player",
+      "date": "2026-03-25",
+      "id": "a79a514e-cc56-474b-b174-3d660fd747d0",
+      "title": "er结尾的单词",
+      "updatedAt": "2026-11-15T11:52:45.956Z",
+      "week": 13
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:51:25Z",
+  "updatedAt": "2026-11-15T11:52:46Z",
   "vocabulary": []
 }
