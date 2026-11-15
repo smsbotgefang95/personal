@@ -488,10 +488,18 @@
       "title": "节日",
       "updatedAt": "2026-11-15T11:25:00.109Z",
       "week": 17
+    },
+    {
+      "content": "I'm here to visit.\nI'm here to learn English from you. \nI'm here to know more/new friends. \nWhy is he here?\nWhy are you here?",
+      "date": "2026-04-16",
+      "id": "1042643a-5a07-4b03-9055-59ab53628b00",
+      "title": "I'm here to ...",
+      "updatedAt": "2026-11-15T11:26:48.787Z",
+      "week": 16
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:25:00Z",
+  "updatedAt": "2026-11-15T11:26:49Z",
   "vocabulary": []
 }
