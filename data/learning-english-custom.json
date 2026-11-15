@@ -688,10 +688,18 @@
       "title": "疑问句",
       "updatedAt": "2026-11-15T12:06:03.999Z",
       "week": 8
+    },
+    {
+      "content": "I have a good idea. \nThat's a good idea. \nbad idea\nI have no idea.",
+      "date": "2026-02-18",
+      "id": "ef4b6107-ed02-4bbe-a09f-a7230a58c3cd",
+      "title": "Idea",
+      "updatedAt": "2026-11-15T12:07:30.471Z",
+      "week": 8
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T12:06:04Z",
+  "updatedAt": "2026-11-15T12:07:31Z",
   "vocabulary": []
 }
