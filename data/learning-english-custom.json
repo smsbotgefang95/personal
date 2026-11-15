@@ -592,10 +592,18 @@
       "title": "A lot of/a lot",
       "updatedAt": "2026-11-15T11:45:15.295Z",
       "week": 14
+    },
+    {
+      "content": "Can you help me?\nSure!\nThank you!\nAre you sure?",
+      "date": "2026-03-31",
+      "id": "d566c547-68bb-4118-85df-3ed27b48c9b5",
+      "title": "Sure",
+      "updatedAt": "2026-11-15T11:45:49.644Z",
+      "week": 14
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T11:45:15Z",
+  "updatedAt": "2026-11-15T11:45:49Z",
   "vocabulary": []
 }
