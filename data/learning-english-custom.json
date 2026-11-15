@@ -1192,10 +1192,18 @@
       "title": "长度单位",
       "updatedAt": "2026-11-15T21:33:55.615Z",
       "week": 3
+    },
+    {
+      "content": "net weight\nnet income\nnet sales\nnet pay",
+      "date": "2026-01-09",
+      "id": "470956b9-76ea-4ee4-ab49-7e92ca402e2b",
+      "title": "net构成的词组",
+      "updatedAt": "2026-11-15T21:34:32.099Z",
+      "week": 2
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T21:33:55Z",
+  "updatedAt": "2026-11-15T21:34:32Z",
   "vocabulary": []
 }
