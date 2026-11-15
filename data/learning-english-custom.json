@@ -768,10 +768,18 @@
       "title": "宾格",
       "updatedAt": "2026-11-15T20:09:45.563Z",
       "week": 46
+    },
+    {
+      "content": "neighborhood\nchildhood\n\nI had a happy childhood. \nOur neighborhood is very safe.",
+      "date": "2025-12-02",
+      "id": "12558471-eaaa-4e20-82df-6412b9fa5fa3",
+      "title": "hood结尾的单词",
+      "updatedAt": "2026-11-15T20:11:08.908Z",
+      "week": 49
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T20:09:45Z",
+  "updatedAt": "2026-11-15T20:11:09Z",
   "vocabulary": []
 }
