@@ -154,11 +154,11 @@
       "week": 45
     },
     {
-      "content": "Matt pick up us from the airport. \nMatt picked us up from the airport.",
+      "content": "Matt pick<SPAN class=\"note-color-red\">ed</SPAN> <SPAN class=\"note-color-red\">us</SPAN> up <strike>us</strike> from the airport. <br>",
       "date": "2026-11-05",
       "id": "718f3c30-e692-4256-b78a-13a9fc460deb",
       "title": "Pick up",
-      "updatedAt": "2026-11-14T21:44:17.315Z",
+      "updatedAt": "2026-11-16T21:23:03.568Z",
       "week": 45
     },
     {
@@ -1212,6 +1212,6 @@
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-16T21:22:30Z",
+  "updatedAt": "2026-11-16T21:23:03Z",
   "vocabulary": []
 }
