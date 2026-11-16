@@ -835,8 +835,19 @@
     gap: 6px;
   }
 
+  .sr-only {
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
   .daily-note-editor input,
-  .daily-note-editor textarea {
+  .daily-note-editor textarea,
+  .daily-note-rich-editor {
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -846,10 +857,70 @@
     width: 100%;
   }
 
-  .daily-note-editor textarea {
+  .daily-note-rich-editor {
     min-height: 170px;
     font-weight: 400;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
     resize: vertical;
+    white-space: pre-wrap;
+  }
+
+  .daily-note-rich-editor:focus {
+    border-color: #0b63ce;
+    box-shadow: 0 0 0 3px rgb(11 99 206 / 14%);
+    outline: none;
+  }
+
+  .daily-note-rich-editor:empty::before {
+    color: #7b8581;
+    content: attr(data-placeholder);
+    pointer-events: none;
+  }
+
+  .daily-note-toolbar {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 2px 0 -6px;
+  }
+
+  .daily-note-format-button {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    justify-content: center;
+    min-height: 36px;
+    min-width: 38px;
+    padding: 5px 9px;
+  }
+
+  .daily-note-format-button:hover,
+  .daily-note-format-button:focus-visible {
+    border-color: #0b63ce;
+    outline: 2px solid rgb(11 99 206 / 18%);
+  }
+
+  .daily-note-format-button[data-note-color="red"] { color: #c62828; }
+  .daily-note-format-button[data-note-color="blue"] { color: #1565c0; }
+  .daily-note-format-button[data-note-color="green"] { color: #2e7d32; }
+  .daily-note-format-button[data-note-color="purple"] { color: #7b1fa2; }
+
+  .daily-note-content .note-color-red { color: #c62828; }
+  .daily-note-content .note-color-blue { color: #1565c0; }
+  .daily-note-content .note-color-green { color: #2e7d32; }
+  .daily-note-content .note-color-purple { color: #7b1fa2; }
+
+  .daily-note-editor .daily-note-rich-editor {
+    min-height: 170px;
   }
 
   .daily-note-actions,
@@ -1928,9 +1999,21 @@
           <input id="dailyNoteTitle" name="title" type="text" maxlength="160" placeholder="e.g. Asking for directions" />
         </label>
       </div>
-      <label for="dailyNoteContent">Class notes
-          <textarea id="dailyNoteContent" name="content" maxlength="10000" placeholder="Write vocabulary, examples, questions, and anything you want to remember…" required></textarea>
-      </label>
+      <div class="daily-note-content-field">
+        <label for="dailyNoteContent">Class notes</label>
+        <div class="daily-note-toolbar" role="toolbar" aria-label="Format class notes">
+          <button class="daily-note-format-button" type="button" data-note-command="bold" aria-label="Bold" title="Bold"><strong>B</strong></button>
+          <button class="daily-note-format-button" type="button" data-note-command="strikeThrough" aria-label="Strikethrough" title="Strikethrough"><s>S</s></button>
+          <span class="daily-note-save-status">Text color:</span>
+          <button class="daily-note-format-button" type="button" data-note-color="red" aria-label="Red text" title="Red text">A</button>
+          <button class="daily-note-format-button" type="button" data-note-color="blue" aria-label="Blue text" title="Blue text">A</button>
+          <button class="daily-note-format-button" type="button" data-note-color="green" aria-label="Green text" title="Green text">A</button>
+          <button class="daily-note-format-button" type="button" data-note-color="purple" aria-label="Purple text" title="Purple text">A</button>
+          <button class="daily-note-format-button" type="button" data-note-command="removeFormat" aria-label="Clear formatting" title="Clear formatting">Clear</button>
+        </div>
+        <div id="dailyNoteContent" class="daily-note-rich-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="dailyNoteContentLabel" data-placeholder="Write vocabulary, examples, questions, and anything you want to remember…"></div>
+        <span id="dailyNoteContentLabel" class="sr-only">Class notes</span>
+      </div>
       <div class="daily-note-actions">
         <button class="daily-note-button" id="dailyNoteSaveButton" type="submit">Save daily note</button>
         <button class="daily-note-button secondary" id="dailyNoteCancelButton" type="button" hidden>Cancel edit</button>
@@ -10000,12 +10083,85 @@ pass=通过；传递
     return result + escapeHtml(text.slice(cursor));
   }
 
+  const DAILY_NOTE_COLORS = {
+    "#c62828": "red",
+    "rgb(198, 40, 40)": "red",
+    "#1565c0": "blue",
+    "rgb(21, 101, 192)": "blue",
+    "#2e7d32": "green",
+    "rgb(46, 125, 50)": "green",
+    "#7b1fa2": "purple",
+    "rgb(123, 31, 162)": "purple"
+  };
+
+  function sanitizeDailyNoteContent(value) {
+    const source = String(value ?? "");
+    const parsed = new DOMParser().parseFromString(source, "text/html");
+    const allowedTags = new Set(["B", "STRONG", "S", "STRIKE", "DEL", "I", "EM", "BR", "DIV", "P", "SPAN", "FONT"]);
+    const cleanNode = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) return escapeHtml(node.nodeValue || "");
+      if (node.nodeType !== Node.ELEMENT_NODE) return "";
+      const tag = node.tagName;
+      const children = [...node.childNodes].map(cleanNode).join("");
+      if (!allowedTags.has(tag)) return children;
+      if (tag === "BR") return "<br>";
+      let color = "";
+      const rawColor = (node.getAttribute("style") || "").match(/(?:^|;)\s*color\s*:\s*([^;]+)/i)?.[1]?.trim().toLowerCase();
+      const fontColor = (node.getAttribute("color") || "").trim().toLowerCase();
+      const requestedColor = rawColor || fontColor;
+      if (requestedColor) color = DAILY_NOTE_COLORS[requestedColor] || "";
+      if (!color) {
+        const existingClass = [...node.classList].find((className) => /^note-color-(red|blue|green|purple)$/.test(className));
+        if (existingClass) color = existingClass.slice("note-color-".length);
+      }
+      const normalizedTag = tag === "FONT" ? "SPAN" : tag.toLowerCase();
+      const attributes = color ? ` class="note-color-${color}"` : "";
+      return `<${normalizedTag}${attributes}>${children}</${normalizedTag}>`;
+    };
+    return [...parsed.body.childNodes].map(cleanNode).join("");
+  }
+
+  function dailyNotePlainText(value) {
+    const parsed = new DOMParser().parseFromString(sanitizeDailyNoteContent(value), "text/html");
+    return parsed.body.textContent || "";
+  }
+
+  function renderDailyNoteContent(value, query) {
+    const safeHtml = sanitizeDailyNoteContent(value);
+    if (!query) return safeHtml;
+    const parsed = new DOMParser().parseFromString(safeHtml, "text/html");
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const matcher = new RegExp(escapedQuery, "giu");
+    const walker = parsed.createTreeWalker(parsed.body, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach((textNode) => {
+      const text = textNode.nodeValue || "";
+      matcher.lastIndex = 0;
+      if (!matcher.test(text)) return;
+      matcher.lastIndex = 0;
+      const fragment = parsed.createDocumentFragment();
+      let cursor = 0;
+      for (const match of text.matchAll(matcher)) {
+        fragment.append(parsed.createTextNode(text.slice(cursor, match.index)));
+        const mark = parsed.createElement("mark");
+        mark.className = "daily-note-search-match";
+        mark.textContent = match[0];
+        fragment.append(mark);
+        cursor = match.index + match[0].length;
+      }
+      fragment.append(parsed.createTextNode(text.slice(cursor)));
+      textNode.replaceWith(fragment);
+    });
+    return parsed.body.innerHTML;
+  }
+
   function renderWeeklyNotes() {
     const list = document.getElementById("weeklyNotesList");
     if (!list) return;
     const query = (document.getElementById("dailyNoteSearch")?.value || "").trim().toLocaleLowerCase();
     const visibleNotes = query
-      ? dailyClassNotes.filter((note) => [note.date, note.week, note.title, note.content].some((value) => String(value || "").toLocaleLowerCase().includes(query)))
+      ? dailyClassNotes.filter((note) => [note.date, note.week, note.title, dailyNotePlainText(note.content)].some((value) => String(value || "").toLocaleLowerCase().includes(query)))
       : dailyClassNotes;
     const grouped = new Map();
     [...visibleNotes]
@@ -10047,7 +10203,7 @@ pass=通过；传递
                 <button class="daily-note-action delete" type="button" data-daily-note-action="delete" data-note-id="${escapeHtml(note.id)}">Delete</button>
               </div>
             </div>
-            <div class="daily-note-content">${highlightDailyNoteSearchMatch(note.content, query)}</div>
+            <div class="daily-note-content">${renderDailyNoteContent(note.content, query)}</div>
           </article>
         `).join("")}
           </section>
@@ -10252,6 +10408,7 @@ pass=通过；传递
   function resetDailyNoteForm() {
     const form = document.getElementById("dailyNoteForm");
     form.reset();
+    document.getElementById("dailyNoteContent").innerHTML = "";
     document.getElementById("dailyNoteDate").value = todayAsLocalDate();
     updateDailyNoteWeek();
     document.getElementById("dailyNoteSaveButton").textContent = "Save daily note";
@@ -10264,15 +10421,27 @@ pass=通过；传递
     const form = event.currentTarget;
     const data = new FormData(form);
     const existing = dailyClassNotes.find((note) => note.id === editingDailyNoteId);
+    const contentEditor = document.getElementById("dailyNoteContent");
+    const content = sanitizeDailyNoteContent(contentEditor.innerHTML).trim();
+    const contentText = dailyNotePlainText(content).trim();
+    if (!contentText) {
+      contentEditor.focus();
+      return;
+    }
+    if (contentText.length > 10000) {
+      setDailyNoteStatus("Class notes must be 10,000 characters or fewer.");
+      contentEditor.focus();
+      return;
+    }
     const note = {
       id: existing?.id || (window.crypto?.randomUUID ? window.crypto.randomUUID() : `daily-note-${Date.now()}`),
       date: String(data.get("date") || ""),
       week: Number(data.get("week")),
       title: String(data.get("title") || "").trim() || "Class notes",
-      content: String(data.get("content") || "").trim(),
+      content,
       updatedAt: new Date().toISOString()
     };
-    if (!note.date || !Number.isInteger(note.week) || note.week < 1 || !note.content) return;
+    if (!note.date || !Number.isInteger(note.week) || note.week < 1 || !contentText) return;
     if (existing) dailyClassNotes = dailyClassNotes.map((item) => item.id === existing.id ? note : item);
     else dailyClassNotes = [...dailyClassNotes, note];
     renderWeeklyNotes();
@@ -10282,6 +10451,24 @@ pass=通过；传递
   });
 
   document.getElementById("dailyNoteCancelButton").addEventListener("click", resetDailyNoteForm);
+  document.querySelectorAll(".daily-note-format-button").forEach((button) => {
+    button.addEventListener("mousedown", (event) => event.preventDefault());
+    button.addEventListener("click", () => {
+      const editor = document.getElementById("dailyNoteContent");
+      editor.focus();
+      if (button.dataset.noteColor) {
+        const color = {
+          red: "#c62828",
+          blue: "#1565c0",
+          green: "#2e7d32",
+          purple: "#7b1fa2"
+        }[button.dataset.noteColor];
+        document.execCommand("foreColor", false, color);
+      } else {
+        document.execCommand(button.dataset.noteCommand, false, null);
+      }
+    });
+  });
   document.getElementById("dailyNoteDate").addEventListener("input", updateDailyNoteWeek);
   document.getElementById("dailyNoteDate").addEventListener("change", updateDailyNoteWeek);
   document.getElementById("dailyNoteSyncButton").addEventListener("click", async () => {
@@ -10311,7 +10498,7 @@ pass=通过；传递
       document.getElementById("dailyNoteDate").value = note.date;
       updateDailyNoteWeek();
       document.getElementById("dailyNoteTitle").value = note.title;
-      document.getElementById("dailyNoteContent").value = note.content;
+      document.getElementById("dailyNoteContent").innerHTML = sanitizeDailyNoteContent(note.content);
       document.getElementById("dailyNoteSaveButton").textContent = "Update daily note";
       document.getElementById("dailyNoteCancelButton").hidden = false;
       document.getElementById("dailyNoteDate").focus();
