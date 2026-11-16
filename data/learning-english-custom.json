@@ -162,11 +162,11 @@
       "week": 45
     },
     {
-      "content": "I and Steve out eat Chinese restaurant in Tuesday.\nSteve and I ate out at a Chinese restaurant on Tuesday at noon. \n\nI don’t take a walk with Jackie on Tuesday at noon. \nI didn’t take a walk with Jackie on Tuesday at noon. \n\nI like her. \nWho do you like?\n\nMy name is Jason. \nWhat’s your name?\n\nMy favorite food is 红烧肉.\nWhat’s your favorite food?",
+      "content": "<strike>I and Steve</strike> <SPAN class=\"note-color-red\">Steve and I </SPAN><strike>out eat</strike> <SPAN class=\"note-color-red\">ate out at a </SPAN>Chinese restaurant <strike>in</strike> <SPAN class=\"note-color-red\">on</SPAN> Tuesday <SPAN class=\"note-color-red\">at noon</SPAN>.<div>\nI <strike>don’t</strike> <SPAN class=\"note-color-red\">didn&#039;t</SPAN> take a walk with Jackie on Tuesday at noon. </div><div>\nI like her. \nWho do you like?\n\nMy name is Jason. \nWhat’s your name?\n\nMy favorite food is 红烧肉.\nWhat’s your favorite food?</div>",
       "date": "2026-11-11",
       "id": "b047c53b-65eb-4692-ae25-693388d8567f",
       "title": "Steve and I",
-      "updatedAt": "2026-11-14T21:45:21.461Z",
+      "updatedAt": "2026-11-16T21:22:30.221Z",
       "week": 46
     },
     {
@@ -1212,6 +1212,6 @@
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-16T21:21:01Z",
+  "updatedAt": "2026-11-16T21:22:30Z",
   "vocabulary": []
 }
