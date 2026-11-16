@@ -1202,16 +1202,16 @@
       "week": 2
     },
     {
-      "content": "A little more than 30 minutes\nI have more than ten thousand dollars.  \nI have less than ten thousand dollars.\nLi Liu and <strike>shes</strike> <SPAN class=\"note-color-red\">her</SPAN> husband <strike>coming</strike> <SPAN class=\"note-color-red\">came to</SPAN> my home yesterday.",
+      "content": "A little more than 30 minutes\nI have <SPAN class=\"note-color-blue\">more than </SPAN>ten thousand dollars.  \nI have <SPAN class=\"note-color-blue\">less than</SPAN> ten thousand dollars.\nLi Liu and <strike>shes</strike> <span class=\"note-color-red\">her</span> husband <strike>coming</strike> <span class=\"note-color-red\">came to</span> my home yesterday.",
       "date": "2026-11-16",
       "id": "e05a0dc2-9a57-417e-a23e-ba925ee0f12a",
       "title": "练习句子",
-      "updatedAt": "2026-11-16T21:21:00.860Z",
+      "updatedAt": "2026-11-16T21:37:27.546Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-16T21:23:03Z",
+  "updatedAt": "2026-11-16T21:37:28Z",
   "vocabulary": []
 }
