@@ -1924,8 +1924,8 @@
           <input id="dailyNoteWeek" name="week" type="number" min="1" max="53" placeholder="Auto" required readonly aria-describedby="dailyNoteWeekHint" />
           <span class="daily-note-save-status" id="dailyNoteWeekHint">Automatically calculated from the selected date.</span>
         </label>
-        <label for="dailyNoteTitle">Topic or title
-          <input id="dailyNoteTitle" name="title" type="text" maxlength="160" placeholder="e.g. Asking for directions" required />
+        <label for="dailyNoteTitle">Topic or title (optional)
+          <input id="dailyNoteTitle" name="title" type="text" maxlength="160" placeholder="e.g. Asking for directions" />
         </label>
       </div>
       <label for="dailyNoteContent">Class notes
@@ -10268,11 +10268,11 @@ pass=通过；传递
       id: existing?.id || (window.crypto?.randomUUID ? window.crypto.randomUUID() : `daily-note-${Date.now()}`),
       date: String(data.get("date") || ""),
       week: Number(data.get("week")),
-      title: String(data.get("title") || "").trim(),
+      title: String(data.get("title") || "").trim() || "Class notes",
       content: String(data.get("content") || "").trim(),
       updatedAt: new Date().toISOString()
     };
-    if (!note.date || !Number.isInteger(note.week) || note.week < 1 || !note.title || !note.content) return;
+    if (!note.date || !Number.isInteger(note.week) || note.week < 1 || !note.content) return;
     if (existing) dailyClassNotes = dailyClassNotes.map((item) => item.id === existing.id ? note : item);
     else dailyClassNotes = [...dailyClassNotes, note];
     renderWeeklyNotes();

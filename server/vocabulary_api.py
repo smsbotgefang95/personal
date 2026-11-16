@@ -371,7 +371,10 @@ def clean_learning_english_custom_payload(value):
         "sentences": sentences,
         "chunks": chunks,
         "dialogues": dialogues,
-        "dailyNotes": daily_notes[:150],
+        # The request body is already bounded in do_POST. Keep every valid
+        # note in that bounded payload so new entries do not disappear when
+        # the collection grows beyond an arbitrary count.
+        "dailyNotes": daily_notes,
         "updatedAt": value.get("updatedAt"),
     }
 
