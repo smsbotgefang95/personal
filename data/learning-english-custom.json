@@ -442,11 +442,11 @@
       "week": 18
     },
     {
-      "content": "sit up/down\nget up\nwake up\ngo up/down\nfix up",
+      "content": "sit up/down\nget up\nwake up\ngo up/down\nfix up\nstand up\nclean up\nfill up\nturn up\nmeet up\npick up",
       "date": "2026-04-29",
       "id": "f3934b87-a6b4-4c7d-8a88-b2a7ed524512",
       "title": "up构成的词组",
-      "updatedAt": "2026-11-15T11:20:28.459Z",
+      "updatedAt": "2026-11-15T21:31:35.347Z",
       "week": 18
     },
     {
@@ -696,10 +696,514 @@
       "title": "Idea",
       "updatedAt": "2026-11-15T12:07:30.471Z",
       "week": 8
+    },
+    {
+      "content": "We learn English together every morning after breakfast. \nI sleep every day after lunch. \nI take a nap after lunch every day.",
+      "date": "2025-10-30",
+      "id": "3350c63c-04cd-4d36-973b-84f3127f5014",
+      "title": "After",
+      "updatedAt": "2026-11-15T19:54:34.560Z",
+      "week": 44
+    },
+    {
+      "content": "apple\nbad\nback\ndad\nbathroom\nhat\ncan\nbag\ncat\nfat\ngas\nham\nlamp\nmap\nland\nnap\nsad\nhappy\nKathy",
+      "date": "2025-10-30",
+      "id": "33a2f32f-407f-4a5f-b1b2-55485363b586",
+      "title": "a的发音",
+      "updatedAt": "2026-11-15T19:56:06.655Z",
+      "week": 44
+    },
+    {
+      "content": "I want to eat hot pot this week. \nI will cook chicken soup today. \nTamir will build our patio and fence tomorrow. \nThe American President went to Japan the day before yesterday. \nWhat did you do last night?\nI played Mahjong with Annie and Peter last night. \nSee you next week.",
+      "date": "2025-10-30",
+      "id": "9e36049e-f030-4168-b4a5-eed1f1b8685d",
+      "title": "练习句子",
+      "updatedAt": "2026-11-15T19:59:14.809Z",
+      "week": 44
+    },
+    {
+      "content": "The chicken soup looks good. \nThe chicken soup smells good. \nThe chicken soup tastes good. \nSounds good. \nYou look great!",
+      "date": "2025-10-27",
+      "id": "2a876036-ae84-4b39-a798-d85f1829dafc",
+      "title": "Five senses",
+      "updatedAt": "2026-11-15T20:00:13.625Z",
+      "week": 44
+    },
+    {
+      "content": "teach - teacher\nwalk - walker\nlearn - learner \nrun - runner \neat - eater \nread - reader\nwork - worker \nplay - player \nhelp - helper\nswim - swimmer\nshop - shopper \nmake - maker \nuse - user",
+      "date": "2025-11-10",
+      "id": "9aefec2b-ade3-4b69-b8f3-b58ce59fb24f",
+      "title": "er结尾的单词",
+      "updatedAt": "2026-11-15T20:02:21.078Z",
+      "week": 46
+    },
+    {
+      "content": "happy - happiness \nsad - sadness\nfit - fitness\nMoney cannot buy happiness.",
+      "date": "2025-11-10",
+      "id": "17e63e20-0f22-4144-b0b4-d7827128b4bd",
+      "title": "ness结尾的单词",
+      "updatedAt": "2026-11-15T20:03:55.445Z",
+      "week": 46
+    },
+    {
+      "content": "接形容词\nI am happy. \nHe is hungry. \nShe is full. \n\nWe are hot. \nThey are cold. \n\n接名词\nI am a teacher. \nI am her student. \nI am the President of USA.\n\n接时间\nIt's 8:15AM. \n\n接地点\nThe party is in the clubhouse.",
+      "date": "2025-11-03",
+      "id": "f11ded81-187e-4c9a-bff6-123f84ede064",
+      "title": "be动词",
+      "updatedAt": "2026-11-15T20:05:45.072Z",
+      "week": 45
+    },
+    {
+      "content": "say 说的内容\nspeak 说某种语言\ntalk \ntell 告诉\n\nI said let's learn English this morning. \nI talked with Kathy yesterday afternoon. \nI speak English and Chinese. \nI don't speak Russian. \nI tell him ...",
+      "date": "2025-11-10",
+      "id": "498ed732-be24-4038-9ff0-d92c12fe0d3e",
+      "title": "说的各种说法",
+      "updatedAt": "2026-11-15T20:08:41.628Z",
+      "week": 46
+    },
+    {
+      "content": "I like him/her/them. \nLet us go.",
+      "date": "2025-11-10",
+      "id": "2044ccaf-3c59-4ced-9e44-9b2fa0202b2b",
+      "title": "宾格",
+      "updatedAt": "2026-11-15T20:09:45.563Z",
+      "week": 46
+    },
+    {
+      "content": "neighborhood\nchildhood\n\nI had a happy childhood. \nOur neighborhood is very safe.",
+      "date": "2025-12-02",
+      "id": "12558471-eaaa-4e20-82df-6412b9fa5fa3",
+      "title": "hood结尾的单词",
+      "updatedAt": "2026-11-15T20:11:08.908Z",
+      "week": 49
+    },
+    {
+      "content": "Our neighborhood is very safe. \nSafeway\nI feel safe here. \nDrive safe. \nThe water is safe to drink. \nThe milk is safe to eat.\nSave money, live better.",
+      "date": "2025-12-02",
+      "id": "8afe5c89-1ad6-44d7-a423-2f54bd04335b",
+      "title": "Safe",
+      "updatedAt": "2026-11-15T20:13:04.367Z",
+      "week": 49
+    },
+    {
+      "content": "We ordered the same fish. \nWe live in the same neighborhood. \nYour bag and my bag are the same color. \nWe have the same friends. \nWe eat the same food. \nI love Japanese food. \nSame here.",
+      "date": "2025-11-20",
+      "id": "c19e7a58-8b7b-4e3d-9bc9-6c93e13c2a71",
+      "title": "Same",
+      "updatedAt": "2026-11-15T20:14:27.860Z",
+      "week": 47
+    },
+    {
+      "content": "I am from Beijing. \nWhere are you from?\nWhere is he from?\nWhere are they from?",
+      "date": "2025-12-08",
+      "id": "4041af22-e487-4d9e-b72a-ea947c4e867a",
+      "title": "From",
+      "updatedAt": "2026-11-15T20:15:22.673Z",
+      "week": 50
+    },
+    {
+      "content": "fast food\nfast train\nfast lane\n\nslow lane\nslow cooker\nslow day\nslow life",
+      "date": "2025-12-05",
+      "id": "9d430353-048e-4ee8-bef4-f5728f6422a9",
+      "title": "Fast & slow",
+      "updatedAt": "2026-11-15T20:16:43.111Z",
+      "week": 49
+    },
+    {
+      "content": "Call me before 6 o'clock. \nWash your hands before lunch. \nI sleep before 9PM every day.",
+      "date": "2025-12-05",
+      "id": "9b134712-2780-45ff-a0d7-c2290112820f",
+      "title": "Before",
+      "updatedAt": "2026-11-15T20:17:59.912Z",
+      "week": 49
+    },
+    {
+      "content": "lamp\ntable lamp\nfloor lamp\ndesk lamp\nbedside lamp\n\nlight\nstreet light\npatio light\nyard light\nsunlight\nmoonlight\ntraffic light\nnight light",
+      "date": "2025-12-03",
+      "id": "78e10b01-1eff-41f8-a7f9-7fb41fde3b47",
+      "title": "Light vs lamp",
+      "updatedAt": "2026-11-15T20:19:55.288Z",
+      "week": 49
+    },
+    {
+      "content": "How old are you?\nHow big is your house?\nHow tall are you?\nHow far is Peijun's home from our home?\nHow long is the table?\nHow long is your trip to West Point?\nHow fast is the car?\nHow deep is the water?\nHow wide is the table?",
+      "date": "2025-12-03",
+      "id": "3d004d0a-e7f2-431d-940c-40d50304510c",
+      "title": "How",
+      "updatedAt": "2026-11-15T20:21:26.476Z",
+      "week": 49
+    },
+    {
+      "content": "Merry Christmas\nChristmas tree\nChristmas Eve\nChristmas dinner\nChristmas card\nChristmas lights\nChristmas market \nChristmas holiday",
+      "date": "2025-12-02",
+      "id": "dab5ce93-9146-40c1-b81f-f1163c2998a9",
+      "title": "Christmas构成的词组",
+      "updatedAt": "2026-11-15T20:23:22.193Z",
+      "week": 49
+    },
+    {
+      "content": "What's up?\nWhat's new?\nHow are you doing?\nHow's everything?",
+      "date": "2025-12-18",
+      "id": "8da45442-b3b1-4b85-8f87-3f02d7ca5412",
+      "title": "打招呼",
+      "updatedAt": "2026-11-15T20:24:23.515Z",
+      "week": 51
+    },
+    {
+      "content": "Have to 必须\nWang Hongyu has to go back to China before December.",
+      "date": "2025-11-11",
+      "id": "e7a916d7-9d0c-4687-a727-df442132de3b",
+      "title": "Have to",
+      "updatedAt": "2026-11-15T20:25:13.206Z",
+      "week": 46
+    },
+    {
+      "content": "I live on Petrel Street. \nI live in apartment B2.",
+      "date": "2025-12-11",
+      "id": "89c185a2-725f-41a6-9070-2a1629a8cdf1",
+      "title": "Live",
+      "updatedAt": "2026-11-15T20:26:20.849Z",
+      "week": 50
+    },
+    {
+      "content": "town \ndown\nDowntown",
+      "date": "2025-12-11",
+      "id": "e6bc7330-6c5a-4b94-b678-eadf4b0652ab",
+      "title": "Downtown",
+      "updatedAt": "2026-11-15T20:27:02.491Z",
+      "week": 50
+    },
+    {
+      "content": "lamb leg\nchicken breast \npork\nbeef\nfish",
+      "date": "2025-12-09",
+      "id": "01fd5475-75c4-413b-a105-42b6ddfb7775",
+      "title": "肉的种类",
+      "updatedAt": "2026-11-15T20:27:46.292Z",
+      "week": 50
+    },
+    {
+      "content": "ear\nyear\nhear\nnear\ndear",
+      "date": "2025-12-09",
+      "id": "4c833dee-23a4-4a17-940a-6353d62bd04d",
+      "title": "ear结尾的单词",
+      "updatedAt": "2026-11-15T20:28:24.110Z",
+      "week": 50
+    },
+    {
+      "content": "go upstairs \ngo downstairs\ngo up/down\nThe price of gas goes up again last week. \nSales go up.",
+      "date": "2025-12-09",
+      "id": "2466dc83-cc4b-49c9-ada5-6846e8a03e58",
+      "title": "Up & down",
+      "updatedAt": "2026-11-15T20:29:31.015Z",
+      "week": 50
+    },
+    {
+      "content": "eye\near\nhand\nface\nleg\nhair\nhead\narm\nfoot/feet",
+      "date": "2025-12-09",
+      "id": "4704dd83-ccb0-4743-a2ee-ad38fe7fe8fa",
+      "title": "身体部位",
+      "updatedAt": "2026-11-15T20:30:11.671Z",
+      "week": 50
+    },
+    {
+      "content": "everything\nanything\nsomething\nnothing\n\nEverything is ready. \nDo you need anything?\nThat's a good thing. \nWe will buy eight things. \nAnything else?\nHow's everything?\nI have nothing.\nI don't have anything. \nThe store has everything I need.",
+      "date": "2025-12-09",
+      "id": "bb488fa7-b730-4dc2-8a5f-4d4a85e4404a",
+      "title": "Thing构成的单词",
+      "updatedAt": "2026-11-15T20:33:09.040Z",
+      "week": 50
+    },
+    {
+      "content": "I live near the gas station. \nThere is a supermarket near my home. \nThere is a Chinese restaurant near my home.",
+      "date": "2025-12-18",
+      "id": "8fcc81f9-1ab6-430a-9197-f85943e2fb1e",
+      "title": "Near",
+      "updatedAt": "2026-11-15T20:34:19.754Z",
+      "week": 51
+    },
+    {
+      "content": "This is for you.\nDo you like it?\nThank you for cooking!\nYou look great!\nYour mother looks great. \nThis is a Japanese cake. \nThe cake is made in Japan. \nThe dumpling is good. \nTry it. \nHappy Holiday. \nIt's good to see you.",
+      "date": "2025-12-23",
+      "id": "c5f93bc7-8925-40da-b5ca-2fd35484aa00",
+      "title": "练习句子",
+      "updatedAt": "2026-11-15T20:35:55.642Z",
+      "week": 52
+    },
+    {
+      "content": "straight hair\nstraight line\ngo straight",
+      "date": "2025-12-22",
+      "id": "6d360471-b3b5-48a6-944e-effc78ea1afd",
+      "title": "Straight",
+      "updatedAt": "2026-11-15T20:37:14.206Z",
+      "week": 52
+    },
+    {
+      "content": "Are you in line?\nIs it the line?",
+      "date": "2025-12-22",
+      "id": "530edd6e-e47e-4b04-adc5-fb6c948893e5",
+      "title": "Line",
+      "updatedAt": "2026-11-15T20:37:49.550Z",
+      "week": 52
+    },
+    {
+      "content": "car\ncard\ncart\nfar\nyard\nbar\npark\nfarm\nstart\nstar\nmarket\nfarmer's market\narm\nmark\nsmart\npart\nart\nlarge",
+      "date": "2026-01-12",
+      "id": "389fcb0f-8ca3-40c6-b779-53652df9daab",
+      "title": "ar的发音",
+      "updatedAt": "2026-11-15T20:39:36.967Z",
+      "week": 3
+    },
+    {
+      "content": "Take your time.",
+      "date": "2026-01-07",
+      "id": "dc21e57e-d711-43b8-bc88-14302fea62db",
+      "title": "Take your time",
+      "updatedAt": "2026-11-15T20:40:28.139Z",
+      "week": 2
+    },
+    {
+      "content": "I was sick yesterday.",
+      "date": "2026-02-09",
+      "id": "ba6045c7-cce6-44cc-a570-cff1a481f9ec",
+      "title": "Sick",
+      "updatedAt": "2026-11-15T20:48:25.169Z",
+      "week": 7
+    },
+    {
+      "content": "place of birth\ndate of birth\nMy place of birth is Shanghai. \nWhere is your place of birth?\nThe birth of a new country. \ngive birth to\nMina's daughter gave birth to a baby.",
+      "date": "2026-02-09",
+      "id": "5fc3ec67-69c5-4c01-8c3b-062ac3bc17d7",
+      "title": "Birth",
+      "updatedAt": "2026-11-15T20:49:43.664Z",
+      "week": 7
+    },
+    {
+      "content": "We went to a Vietnamese restaurant yesterday. \nI didn't like the pho. \nI couldn't finish the pho in the restaurant.",
+      "date": "2026-02-09",
+      "id": "07bbcb72-a7d6-4e2f-a9b4-89d204aa33d4",
+      "title": "练习句子",
+      "updatedAt": "2026-11-15T20:50:57.624Z",
+      "week": 7
+    },
+    {
+      "content": "date 日期\nday 星期几\n\nWhat day is today?\nWhat date is today?",
+      "date": "2026-02-13",
+      "id": "b854e23a-0189-455e-8d28-f3225d50eef7",
+      "title": "Day & date",
+      "updatedAt": "2026-11-15T20:52:14.270Z",
+      "week": 7
+    },
+    {
+      "content": "I worry about Matt. \nI worry about my income. \nDon't worry.",
+      "date": "2026-02-13",
+      "id": "45ca1530-1771-4bd4-aa4f-d11486e06846",
+      "title": "Worry",
+      "updatedAt": "2026-11-15T20:53:13.037Z",
+      "week": 7
+    },
+    {
+      "content": "think about\nworry about\ntalk about\n\nI am thinking about the problem. \nI need some time to think about it. \n\nLet's talk about your weekend. \nShe wants to talk about the movie she watched yesterday. \nI don't want to talk about it right now. \nI don't want to think about it. \nI need to think about it. \nLet me think about it.",
+      "date": "2026-02-13",
+      "id": "f1141590-9124-437e-9131-747154f14b67",
+      "title": "含有About的动词词组",
+      "updatedAt": "2026-11-15T21:12:32.286Z",
+      "week": 7
+    },
+    {
+      "content": "a, e, i, o, u. bag, bed, big, box, bus\n\nhox\nbox\nbog\n\nfuss\nfuck\n\nfox\n\nsix\nfix\nfish\nmix\nhill\nchill\nfinish\ndish\n\nsad\nfad\ndad\nchat\nchapter\nglad\nhappy\nhave\nmad\nMatt\nnap\niPad\nrat\nbad\ncat\ndad\nfat\ngas\nhat\nJack\nlad\nmad\nnap\npad\nrat\nsad\nvax\n\nvex\njet\nkettle\nlet\nmesh\nnext\npet\nrest\nset\ntest\nvet\nwest\nsex\nyes",
+      "date": "2026-02-12",
+      "id": "0b59898c-e404-41c2-a5b9-b475ec5043a7",
+      "title": "闭音节",
+      "updatedAt": "2026-11-15T20:58:49.476Z",
+      "week": 7
+    },
+    {
+      "content": "It's so cold. \nI think so. \nSay so. \nBelieve so. \nFeel so. \nHope so.",
+      "date": "2026-02-03",
+      "id": "05f8cbb8-2a0f-4c7d-b7d1-a5ef5184e447",
+      "title": "So",
+      "updatedAt": "2026-11-15T20:59:38.250Z",
+      "week": 6
+    },
+    {
+      "content": "Make America Great Again",
+      "date": "2026-02-05",
+      "id": "e0f29dc4-b825-49cd-b629-bdc8216da81c",
+      "title": "MAGA",
+      "updatedAt": "2026-11-15T21:00:06.311Z",
+      "week": 6
+    },
+    {
+      "content": "I feel happy. \nI feel sad. \nI feel sleepy. \nI feel cold. \nI feel tired. \nI feel hungry. \nI feel full. \nI feel sick. \n\nLet's talk about your feelings. \nI have a good/bad feeling about tomorrow.",
+      "date": "2026-02-06",
+      "id": "8163d7f5-95e6-4e80-9e2d-88288c5476e5",
+      "title": "Feel & feeling",
+      "updatedAt": "2026-11-15T21:01:46.983Z",
+      "week": 6
+    },
+    {
+      "content": "I have a real friend. \nI really like Chinese food. \nI really like this movie. \nIt's really hot today. \nI am really hungry. \nI make $1m. \nReally?\nI really like playing Pingpong. \nIt is really cold this week.",
+      "date": "2026-02-06",
+      "id": "e4e3d28f-aed7-4866-9d44-1ce126dd4c99",
+      "title": "Real & really",
+      "updatedAt": "2026-11-15T21:03:28.898Z",
+      "week": 6
+    },
+    {
+      "content": "I want a new iPhone. \nI want a cup of coffee. \nI don't want ...\nI want to play Pingpong.",
+      "date": "2026-02-06",
+      "id": "33d914f4-8606-4ce4-9c3b-53f98dec7d00",
+      "title": "Want",
+      "updatedAt": "2026-11-15T21:04:29.522Z",
+      "week": 6
+    },
+    {
+      "content": "Buy one get one free. \nBOGO\nThe house is free. \nThe car is free. \nFree shipping. \nBottles are free. \nAmerica is a free country. \nChina isn't a free country. \nUS and USA are free countries. \nRussia and China are not free countries. \nI am free now. \nHe is free now. \nThey are free now.",
+      "date": "2026-02-09",
+      "id": "872e97b3-7612-46d5-af5f-fc6d018e4e62",
+      "title": "Free",
+      "updatedAt": "2026-11-15T21:06:05.000Z",
+      "week": 7
+    },
+    {
+      "content": "Thank you for cooking. \nThank you for coming!\nThank you for playing Pingpong with me. \nThank you for helping me. \nThank you for cleaning my pants. \nThank you for washing your hands.",
+      "date": "2026-02-09",
+      "id": "fdd01a26-2224-4921-9cbf-170f312c6e26",
+      "title": "Thank you for ...",
+      "updatedAt": "2026-11-15T21:07:13.656Z",
+      "week": 7
+    },
+    {
+      "content": "I gotta go.",
+      "date": "2026-02-03",
+      "id": "924e897b-b9ca-4b58-ad91-4f7c8b71849f",
+      "title": "Gotta",
+      "updatedAt": "2026-11-15T21:08:06.721Z",
+      "week": 6
+    },
+    {
+      "content": "Why not try again?\nWhy not drink some coffee?\nWhy not call him now?\nWhy not try some new food?",
+      "date": "2026-01-27",
+      "id": "577d9084-fd40-49a7-a330-2a9c9855309c",
+      "title": "Why not ...",
+      "updatedAt": "2026-11-15T21:09:18.799Z",
+      "week": 5
+    },
+    {
+      "content": "How are you?\nHow are you doing?\nI am doing well, thank you! How about you?\nDoing good/great!\nNot bad. \nGood! You?\nYourself?",
+      "date": "2026-01-29",
+      "id": "252cf432-4d1f-4bf2-9857-9164d73b32d2",
+      "title": "问候",
+      "updatedAt": "2026-11-15T21:10:55.761Z",
+      "week": 5
+    },
+    {
+      "content": "及物动词\nI like her/Chinese food/my dog. \n\n不及物动词\nSleep",
+      "date": "2026-01-29",
+      "id": "512d2f44-2580-4057-83c9-68dc96002ce9",
+      "title": "及物和不及物动词",
+      "updatedAt": "2026-11-15T21:14:36.869Z",
+      "week": 5
+    },
+    {
+      "content": "No problem. \nI have a problem.",
+      "date": "2026-03-01",
+      "id": "4d2e703e-0529-4edd-aaa9-c6ab34e14d28",
+      "title": "Problem",
+      "updatedAt": "2026-11-15T21:15:12.468Z",
+      "week": 9
+    },
+    {
+      "content": "Much\nHow much?\nHow much milk do you need?\nI don't have much time today. \n\nMany\nChina has many people. \nI have many friends. \nI have many nice neighbors. \nHe has many houses. \nI have many books.",
+      "date": "2026-01-28",
+      "id": "54681a5d-f718-41e8-8115-0bf8e716309c",
+      "title": "Many vs much",
+      "updatedAt": "2026-11-15T21:17:56.494Z",
+      "week": 5
+    },
+    {
+      "content": "parent\nsibling\ncousin\nPeijun is my cousin. \n五叔 is my sibling. \n五叔 is not my cousin. \nI have five siblings. \nMy daughter doesn't have siblings. \nMatt has 5 siblings.",
+      "date": "2026-01-22",
+      "id": "c76fa609-d9be-4326-baf4-cf98d08aa81a",
+      "title": "家人",
+      "updatedAt": "2026-11-15T21:20:00.476Z",
+      "week": 4
+    },
+    {
+      "content": "Any time!\nYou are welcome!\nNo problem. \nSure thing. \nOf course. \nHappy to help. \nMy pleasure!",
+      "date": "2026-01-26",
+      "id": "19b71174-f97a-40b9-bea6-fd56350bf048",
+      "title": "不客气",
+      "updatedAt": "2026-11-15T21:21:01.999Z",
+      "week": 5
+    },
+    {
+      "content": "very cold\nvery hot\nvery nice\nvery good\nvery happy\nvery sad\nvery hungry\nvery bad\nvery much",
+      "date": "2026-01-27",
+      "id": "4a07452d-9151-43f7-8325-29f2e3481d92",
+      "title": "Very",
+      "updatedAt": "2026-11-15T21:22:25.064Z",
+      "week": 5
+    },
+    {
+      "content": "I think so. \nI don't think so. \nWhat do you think?\nWhat does he think?\nI think she is right. \n\nThat is a good thing. \nDo one thing for me. \nGive me that thing. \nI need this thing. \nWhat's that thing?\nThis thing is good. \nThis thing is new. \nThat thing is mine. \nOne thing at a time. \nThat's the best thing. \nThe first thing I do in the morning is drink water. \nThe last thing I do at night is drink water. \nFirst things first. \nI have a lot of things. \nI have many things.",
+      "date": "2026-01-28",
+      "id": "703cb91e-2e1d-4f14-8f66-51d3ab5d1ef3",
+      "title": "Think vs thing",
+      "updatedAt": "2026-11-15T21:25:38.720Z",
+      "week": 5
+    },
+    {
+      "content": "XS\nS small\nM median\nL large\nXL\nXXL",
+      "date": "2026-01-12",
+      "id": "02658c8f-fea7-4a00-aab7-272d3e209d94",
+      "title": "尺寸",
+      "updatedAt": "2026-11-15T21:26:38.862Z",
+      "week": 3
+    },
+    {
+      "content": "reuse\nredo\nretry\nrestart\nrecycle\nreopen\nrebuild\nrethink",
+      "date": "2026-01-13",
+      "id": "d9cdffe3-136c-4aa0-bc9b-c8b835cc187d",
+      "title": "Re打头的单词",
+      "updatedAt": "2026-11-15T21:27:32.965Z",
+      "week": 3
+    },
+    {
+      "content": "hill\nBlack Hill\nwill\nbill\nfill\nkill\nfill\ntill\ndrill\nskill\nmill\nthrill\npill\nsill",
+      "date": "2026-01-15",
+      "id": "d6ae11a6-7cbf-4570-ba95-a445c5009ed5",
+      "title": "ill结尾的单词",
+      "updatedAt": "2026-11-15T21:28:44.688Z",
+      "week": 3
+    },
+    {
+      "content": "My shoe size is 8. \nWhat is your shoe size?\nDo you know your size?\nWhat size do you need?\nThis shirt is my size. \nThis T-shirt is not my size. \nThey don't have my size. \nI need a bigger size.",
+      "date": "2026-01-15",
+      "id": "567a37f9-b4e3-402f-84aa-8bb2183eed40",
+      "title": "Size",
+      "updatedAt": "2026-11-15T21:30:09.522Z",
+      "week": 3
+    },
+    {
+      "content": "lb \noz\ninch\nfoot\nyard = 3 feet",
+      "date": "2026-01-12",
+      "id": "8a5d0c0c-6546-44b7-b895-bd4991a4dbd3",
+      "title": "长度单位",
+      "updatedAt": "2026-11-15T21:33:55.615Z",
+      "week": 3
+    },
+    {
+      "content": "net weight\nnet income\nnet sales\nnet pay",
+      "date": "2026-01-09",
+      "id": "470956b9-76ea-4ee4-ab49-7e92ca402e2b",
+      "title": "net构成的词组",
+      "updatedAt": "2026-11-15T21:34:32.099Z",
+      "week": 2
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-15T12:07:31Z",
+  "updatedAt": "2026-11-16T21:09:23Z",
   "vocabulary": []
 }
