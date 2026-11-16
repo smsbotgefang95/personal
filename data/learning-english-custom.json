@@ -1200,10 +1200,18 @@
       "title": "net构成的词组",
       "updatedAt": "2026-11-15T21:34:32.099Z",
       "week": 2
+    },
+    {
+      "content": "A little more than 30 minutes\nI have more than ten thousand dollars.  \nI have less than ten thousand dollars.",
+      "date": "2026-11-16",
+      "id": "e05a0dc2-9a57-417e-a23e-ba925ee0f12a",
+      "title": "练习句子",
+      "updatedAt": "2026-11-16T21:12:43.544Z",
+      "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-16T21:09:23Z",
+  "updatedAt": "2026-11-16T21:12:43Z",
   "vocabulary": []
 }
