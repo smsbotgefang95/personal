@@ -1202,16 +1202,16 @@
       "week": 2
     },
     {
-      "content": "A little more than 30 minutes\nI have more than ten thousand dollars.  \nI have less than ten thousand dollars.\nLi Liu and shes (her) husband coming (came to) my home yesterday.",
+      "content": "A little more than 30 minutes\nI have more than ten thousand dollars.  \nI have less than ten thousand dollars.\nLi Liu and <strike>shes</strike> <SPAN class=\"note-color-red\">her</SPAN> husband <strike>coming</strike> <SPAN class=\"note-color-red\">came to</SPAN> my home yesterday.",
       "date": "2026-11-16",
       "id": "e05a0dc2-9a57-417e-a23e-ba925ee0f12a",
       "title": "练习句子",
-      "updatedAt": "2026-11-16T21:13:24.168Z",
+      "updatedAt": "2026-11-16T21:21:00.860Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-16T21:13:24Z",
+  "updatedAt": "2026-11-16T21:21:01Z",
   "vocabulary": []
 }
