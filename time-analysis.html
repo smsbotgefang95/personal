@@ -4740,6 +4740,21 @@
     return "";
   }
 
+  function nextRecurringDueDateOnOrAfterToday(entry, dueDate) {
+    const recurrence = entry?.recurrence || inferRecurrence(entry);
+    const today = businessDateKey(new Date());
+    const currentDueDate = dateInputValue(dueDate);
+    if (!today || !currentDueDate || recurrence === "none" || currentDueDate >= today) return currentDueDate;
+    if (recurrence === "daily") return today;
+    let nextDueDate = currentDueDate;
+    for (let attempt = 0; attempt < 5000 && nextDueDate < today; attempt += 1) {
+      const followingDate = nextRecurringDueDate({ ...entry, dueDate: nextDueDate, dueDateText: "" });
+      if (!followingDate || followingDate <= nextDueDate) return currentDueDate;
+      nextDueDate = followingDate;
+    }
+    return nextDueDate >= today ? nextDueDate : currentDueDate;
+  }
+
   function inferRecurrence(entry) {
     const text = cleanLabel(entry.recurringText, "").toLowerCase();
     if (/every\s+day|daily/.test(text)) return "daily";
@@ -4942,7 +4957,17 @@
 
   function taskOverrideFor(entry) {
     const overrides = timePayload.taskOverrides || {};
-    return taskOverrideAliases(entry).map((key) => overrides[key]).find(Boolean) || null;
+    return taskOverrideAliases(entry)
+      .map((key, index) => ({ override: overrides[key], index }))
+      .filter(({ override }) => Boolean(override))
+      .sort((left, right) => {
+        const leftUpdatedAt = timestampMs(left.override.updatedAt);
+        const rightUpdatedAt = timestampMs(right.override.updatedAt);
+        if (leftUpdatedAt !== rightUpdatedAt) return rightUpdatedAt - leftUpdatedAt;
+        const leftDateEditedAt = timestampMs(left.override.dueDateEditedAt);
+        const rightDateEditedAt = timestampMs(right.override.dueDateEditedAt);
+        return rightDateEditedAt - leftDateEditedAt || left.index - right.index;
+      })[0]?.override || null;
   }
 
   function normalizedTaskStatus(value) {
@@ -5038,6 +5063,10 @@
       : dateInputValue(entry.dueDate || entry.dueDateText);
     const status = hasOverride ? (override.status === "done" ? "done" : "todo") : normalizedTaskStatus(entry.status);
     const manualStatus = normalizeManualDoneStateForToday({ ...entry, recurrence }, override, { dueDate, status });
+    const dueDateManualHold = override ? dateInputValue(override.dueDateManualHold) : "";
+    const effectiveDueDate = manualStatus.status === "done" || dueDateManualHold
+      ? manualStatus.dueDate
+      : nextRecurringDueDateOnOrAfterToday({ ...entry, recurrence, recurringText }, manualStatus.dueDate);
     const dueTime = override ? timeInputValue(override.dueTime) : timeInputValue(entry.dueTime);
     const listId = Object.prototype.hasOwnProperty.call(override || {}, "listId") ? cleanLabel(override.listId, entry.listId) : entry.listId;
     return {
@@ -5051,8 +5080,8 @@
       taskCategory: Object.prototype.hasOwnProperty.call(override || {}, "taskCategory") ? normalizeTaskCategory(override.taskCategory) : normalizeTaskCategory(entry.taskCategory),
       taskType: Object.prototype.hasOwnProperty.call(override || {}, "taskType") ? cleanLabel(override.taskType, "") : entry.taskType,
       notes: Object.prototype.hasOwnProperty.call(override || {}, "notes") ? cleanLabel(override.notes, "") : cleanLabel(entry.notes, ""),
-      dueDate: manualStatus.dueDate,
-      dueDateText: manualStatus.dueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
+      dueDate: effectiveDueDate,
+      dueDateText: effectiveDueDate || (override ? "" : cleanLabel(entry.dueDateText, "")),
       dueTime,
       dueDateEditedAt: override ? cleanLabel(override.dueDateEditedAt, "") : "",
       dueDateManualHold: override ? dateInputValue(override.dueDateManualHold) : "",
