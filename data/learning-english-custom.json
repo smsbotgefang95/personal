@@ -1216,10 +1216,18 @@
       "title": "特殊疑问句",
       "updatedAt": "2026-11-19T20:55:05.293Z",
       "week": 47
+    },
+    {
+      "content": "good, better, best<div><br></div><div>big, big<SPAN class=\"note-color-red\">g</SPAN>er, bi<SPAN class=\"note-color-red\">gg</SPAN>est</div><div><div>hot, ho<SPAN class=\"note-color-red\">tt</SPAN>er, ho<SPAN class=\"note-color-red\">tt</SPAN>est</div></div><div>great, great<SPAN class=\"note-color-red\">er</SPAN>, great<SPAN class=\"note-color-red\">est</SPAN></div><div>small, smaller, smallest</div><div>cold, colder, coldest</div><div><br></div><div><br></div>",
+      "date": "2026-11-19",
+      "id": "111bbaa6-2e58-4d81-99df-0a7f7e313059",
+      "title": "比较级",
+      "updatedAt": "2026-11-19T21:01:20.512Z",
+      "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-19T20:55:05Z",
+  "updatedAt": "2026-11-19T21:01:20Z",
   "vocabulary": []
 }
