@@ -1210,16 +1210,16 @@
       "week": 47
     },
     {
-      "content": "现在时\nWhere do you live?<div>What food do you like?</div><div>What food does he like?</div><div>What meat does he like?\n\n</div><div>过去时\nWhere did you go?</div><div>When did you go back to China?</div><div>When did you talk to Mina?</div><div>\n将来时\nWhen will you go to school?</div><div>When will you go to work?\n</div>",
+      "content": "现在时\nWhere do you live?<div>What food do you like?</div><div>What food does he like?</div><div>What meat does he like?\n\n</div><div>过去时\nWhere did you go?</div><div>When did you go back to China?</div><div>When did you talk to Mina?</div><div>Who did you help <SPAN class=\"note-color-red\">last time</SPAN>?</div><div>\n将来时\nWhen will you go to school?</div><div>When will you go to work?\n</div>",
       "date": "2026-11-19",
       "id": "77604933-888f-41ba-afc7-5cb795dc97d8",
       "title": "特殊疑问句",
-      "updatedAt": "2026-11-19T20:53:20.159Z",
+      "updatedAt": "2026-11-19T20:54:33.455Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-19T20:53:20Z",
+  "updatedAt": "2026-11-19T20:54:33Z",
   "vocabulary": []
 }
