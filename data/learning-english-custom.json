@@ -1208,10 +1208,18 @@
       "title": "练习句子",
       "updatedAt": "2026-11-16T21:37:27.546Z",
       "week": 47
+    },
+    {
+      "content": "Where do you live?<div>What food do you like?</div><div>Where did you go?</div><div>When did you go back to China?</div>",
+      "date": "2026-11-19",
+      "id": "77604933-888f-41ba-afc7-5cb795dc97d8",
+      "title": "特殊疑问句",
+      "updatedAt": "2026-11-19T20:48:56.183Z",
+      "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-16T21:37:28Z",
+  "updatedAt": "2026-11-19T20:48:56Z",
   "vocabulary": []
 }
