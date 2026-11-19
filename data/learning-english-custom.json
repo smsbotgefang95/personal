@@ -1218,16 +1218,16 @@
       "week": 47
     },
     {
-      "content": "good, better, best<div><br></div><div>big, big<SPAN class=\"note-color-red\">g</SPAN>er, bi<SPAN class=\"note-color-red\">gg</SPAN>est</div><div><div>hot, ho<SPAN class=\"note-color-red\">tt</SPAN>er, ho<SPAN class=\"note-color-red\">tt</SPAN>est</div></div><div>great, great<SPAN class=\"note-color-red\">er</SPAN>, great<SPAN class=\"note-color-red\">est</SPAN></div><div>small, smaller, smallest</div><div>cold, colder, coldest</div><div><br></div><div><br></div>",
+      "content": "good, better, best<div><br></div><div><SPAN class=\"note-color-blue\">双写最后一个辅音字母</SPAN></div><div>big, big<span class=\"note-color-red\">g</span>er, bi<span class=\"note-color-red\">gg</span>est</div><div><div>hot, ho<span class=\"note-color-red\">tt</span>er, ho<span class=\"note-color-red\">tt</span>est</div></div><div><br></div><div>great, great<span class=\"note-color-red\">er</span>, great<span class=\"note-color-red\">est</span></div><div>small, smaller, smallest</div><div>cold, colder, coldest</div><div><br></div><div><br></div>",
       "date": "2026-11-19",
       "id": "111bbaa6-2e58-4d81-99df-0a7f7e313059",
       "title": "比较级",
-      "updatedAt": "2026-11-19T21:01:20.512Z",
+      "updatedAt": "2026-11-19T21:04:25.412Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-19T21:01:20Z",
+  "updatedAt": "2026-11-19T21:04:25Z",
   "vocabulary": []
 }
