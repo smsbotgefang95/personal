@@ -1218,16 +1218,16 @@
       "week": 47
     },
     {
-      "content": "<SPAN class=\"note-color-blue\">特殊变化\n</SPAN>good, better, best<div><br></div><div><span class=\"note-color-blue\"><SPAN class=\"note-color-blue\">双写最后一个辅音字母</SPAN></span></div><div>big, big<span class=\"note-color-red\">g</span>er, bi<span class=\"note-color-red\">gg</span>est</div><div><div>hot, ho<span class=\"note-color-red\">tt</span>er, ho<span class=\"note-color-red\">tt</span>est</div></div><div><br></div><div><SPAN class=\"note-color-blue\">规则变化</SPAN></div><div>great, great<span class=\"note-color-red\">er</span>, great<span class=\"note-color-red\">est</span></div><div>small, smaller, smallest</div><div>cold, colder, coldest</div><div><br></div><div><br></div>",
+      "content": "<span class=\"note-color-blue\">特殊变化\n</span>good, better, best<div><br></div><div><span class=\"note-color-blue\"><span class=\"note-color-blue\">双写最后一个辅音字母</span></span></div><div>big, big<span class=\"note-color-red\">g</span>er, bi<span class=\"note-color-red\">gg</span>est</div><div><div>hot, ho<span class=\"note-color-red\">tt</span>er, ho<span class=\"note-color-red\">tt</span>est</div></div><div><br></div><div><span class=\"note-color-blue\">规则变化</span></div><div>great, great<span class=\"note-color-red\">er</span>, great<span class=\"note-color-red\">est</span></div><div>small, smaller, smallest</div><div>cold, colder, coldest</div>",
       "date": "2026-11-19",
       "id": "111bbaa6-2e58-4d81-99df-0a7f7e313059",
       "title": "比较级",
-      "updatedAt": "2026-11-19T21:04:53.543Z",
+      "updatedAt": "2026-11-19T21:07:43.109Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-19T21:04:53Z",
+  "updatedAt": "2026-11-19T21:07:43Z",
   "vocabulary": []
 }
