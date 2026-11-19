@@ -1202,11 +1202,11 @@
       "week": 2
     },
     {
-      "content": "A little more than 30 minutes\nI have <SPAN class=\"note-color-blue\">more than </SPAN>ten thousand dollars.  \nI have <SPAN class=\"note-color-blue\">less than</SPAN> ten thousand dollars.\nLi Liu and <strike>shes</strike> <span class=\"note-color-red\">her</span> husband <strike>coming</strike> <span class=\"note-color-red\">came to</span> my home yesterday.",
+      "content": "A little <SPAN class=\"note-color-blue\">more</SPAN> than 30 minutes\nI have <span class=\"note-color-blue\"><SPAN class=\"note-color-blue\">more</SPAN> than </span>ten thousand dollars.  \nI have <span class=\"note-color-blue\"><SPAN class=\"note-color-blue\">less</SPAN> than</span> ten thousand dollars.\nLi Liu and <strike>shes</strike> <span class=\"note-color-red\">her</span> husband <strike>coming</strike> <span class=\"note-color-red\">came to</span> my home yesterday.<div>Today is <SPAN class=\"note-color-blue\">colder</SPAN> than yesterday.</div>",
       "date": "2026-11-16",
       "id": "e05a0dc2-9a57-417e-a23e-ba925ee0f12a",
       "title": "练习句子",
-      "updatedAt": "2026-11-16T21:37:27.546Z",
+      "updatedAt": "2026-11-19T21:09:49.668Z",
       "week": 47
     },
     {
@@ -1228,6 +1228,6 @@
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-19T21:07:43Z",
+  "updatedAt": "2026-11-19T21:09:49Z",
   "vocabulary": []
 }
