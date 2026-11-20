@@ -1226,16 +1226,16 @@
       "week": 47
     },
     {
-      "content": "My house <span class=\"note-color-red\"><span class=\"note-color-red\"><span class=\"note-color-red\">is</span></span></span> bigger than your house.<div>Your house is smaller <span class=\"note-color-red\">than</span> my house. </div><div><br></div><div>America <span class=\"note-color-red\">is</span> bigger than China.</div><div>China is smaller than America.</div><div><br></div><div>I have more than 10 thousand dollar<span class=\"note-color-red\">s</span>. </div><div>I have less than ten American friends/neighbors. </div><div><br></div><div>Today <span class=\"note-color-red\">is</span> cold<span class=\"note-color-red\">er</span> than yesterday. </div><div>Yesterday <SPAN class=\"note-color-red\">is</SPAN> hotter than today. </div>",
+      "content": "My house <span class=\"note-color-red\"><span class=\"note-color-red\"><span class=\"note-color-red\">is</span></span></span> bigger than your house.<div>Your house is smaller <span class=\"note-color-red\">than</span> my house. </div><div><br></div><div>America <span class=\"note-color-red\">is</span> bigger than China.</div><div>China is smaller than America.</div><div><br></div><div>I have more than 10 thousand dollar<span class=\"note-color-red\">s</span>. </div><div>I have less than ten American friends/neighbors. </div><div><br></div><div>Today <span class=\"note-color-red\">is</span> cold<span class=\"note-color-red\">er</span> than yesterday. </div><div>Yesterday <SPAN class=\"note-color-red\">wa<span class=\"note-color-red\">s</span></SPAN> hotter than today. </div>",
       "date": "2026-11-20",
       "id": "e7659b98-1ac1-451b-b216-dd203b69b32c",
       "title": "比较级",
-      "updatedAt": "2026-11-20T21:33:24.887Z",
+      "updatedAt": "2026-11-20T21:33:47.658Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-20T21:33:24Z",
+  "updatedAt": "2026-11-20T21:33:47Z",
   "vocabulary": []
 }
