@@ -1226,16 +1226,16 @@
       "week": 47
     },
     {
-      "content": "My house <SPAN class=\"note-color-red\">is</SPAN> bigger than your house.",
+      "content": "My house <span class=\"note-color-red\"><SPAN class=\"note-color-red\">is</SPAN></span> bigger than your house.<div>Your house is smaller <SPAN class=\"note-color-red\">than</SPAN> my house. </div>",
       "date": "2026-11-20",
       "id": "e7659b98-1ac1-451b-b216-dd203b69b32c",
       "title": "比较级",
-      "updatedAt": "2026-11-20T21:25:04.755Z",
+      "updatedAt": "2026-11-20T21:25:47.496Z",
       "week": 47
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-20T21:25:05Z",
+  "updatedAt": "2026-11-20T21:25:47Z",
   "vocabulary": []
 }
