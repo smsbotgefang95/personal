@@ -1234,16 +1234,16 @@
       "week": 47
     },
     {
-      "content": "<div><span>When did you eat out with Steve </span><span class=\"note-color-red\">last time</span><span>?</span></div><div>When did Lao Liu go back to China?</div><div><br></div><div><span class=\"note-color-red\">Where</span> do you live?</div><div>What meat does he like?</div><div>What <span class=\"note-color-red\">Chinese food </span>do you like?</div><div>How many people <SPAN class=\"note-color-red\">does</SPAN> China have?</div><div><br></div><div>When will we eat out <span class=\"note-color-red\">with</span> Jackie tomorrow?</div>",
+      "content": "<div><span>When did you eat out with Steve </span><span class=\"note-color-red\">last time</span><span>?</span></div><div>When did Lao Liu go back to China?</div><div><br></div><div><span class=\"note-color-red\">Where</span> do you live?</div><div>What meat does he like?</div><div>What <span class=\"note-color-red\">Chinese food </span>do you like?</div><div>How many people <span class=\"note-color-red\">does</span> China have?</div><div>How much money does he have?</div><div><br></div><div>When will we eat out <span class=\"note-color-red\">with</span> Jackie tomorrow?</div>",
       "date": "2026-11-24",
       "id": "6bdb6799-acdb-4724-8c24-dfd9ea7f8e9b",
       "title": "特殊疑问句",
-      "updatedAt": "2026-11-24T21:26:54.674Z",
+      "updatedAt": "2026-11-24T21:28:46.896Z",
       "week": 48
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-24T21:26:54Z",
+  "updatedAt": "2026-11-24T21:28:47Z",
   "vocabulary": []
 }
