@@ -1232,10 +1232,18 @@
       "title": "比较级",
       "updatedAt": "2026-11-20T21:33:47.658Z",
       "week": 47
+    },
+    {
+      "content": "When will we eat out with Jackie tomorrow?",
+      "date": "2026-11-24",
+      "id": "6bdb6799-acdb-4724-8c24-dfd9ea7f8e9b",
+      "title": "特殊疑问句",
+      "updatedAt": "2026-11-24T21:19:32.501Z",
+      "week": 48
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-20T21:33:47Z",
+  "updatedAt": "2026-11-24T21:19:32Z",
   "vocabulary": []
 }
