@@ -1234,16 +1234,16 @@
       "week": 47
     },
     {
-      "content": "When will we eat out <SPAN class=\"note-color-red\">with</SPAN> Jackie tomorrow?",
+      "content": "When will we eat out <span class=\"note-color-red\">with</span> Jackie tomorrow?<div>When did you eat out with Steve last time?</div>",
       "date": "2026-11-24",
       "id": "6bdb6799-acdb-4724-8c24-dfd9ea7f8e9b",
       "title": "特殊疑问句",
-      "updatedAt": "2026-11-24T21:19:51.239Z",
+      "updatedAt": "2026-11-24T21:20:29.584Z",
       "week": 48
     }
   ],
   "dialogues": [],
   "sentences": [],
-  "updatedAt": "2026-11-24T21:19:51Z",
+  "updatedAt": "2026-11-24T21:20:29Z",
   "vocabulary": []
 }
